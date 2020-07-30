@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AttrColor" representedClassName="CIColor" parentEntity="Attribute" syncable="YES">
+        <attribute name="a" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="b" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="g" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="r" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="AttrData" representedClassName="NSData" parentEntity="Attribute" syncable="YES"/>
+    <entity name="Attribute" representedClassName="Attribute" isAbstract="YES" syncable="YES">
+        <attribute name="ciAttributeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ciAttributeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ciClass" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value1" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value2" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value3" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value4" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="valueData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="valueObject" optional="YES" attributeType="Binary" syncable="YES"/>
+    </entity>
+    <entity name="AttrImage" representedClassName="CIImage" parentEntity="Attribute" syncable="YES">
+        <attribute name="localIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sourceFilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Filter" syncable="YES"/>
+    </entity>
+    <entity name="AttrNumber" representedClassName="NSNumber" parentEntity="Attribute" syncable="YES">
+        <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="AttrObject" representedClassName="NSObject" parentEntity="Attribute" syncable="YES"/>
+    <entity name="AttrString" representedClassName="NSString" parentEntity="Attribute" syncable="YES">
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="AttrValue" representedClassName="NSValue" parentEntity="Attribute" syncable="YES"/>
+    <entity name="AttrVector" representedClassName="CIVector" parentEntity="Attribute" syncable="YES">
+        <attribute name="h" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="w" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="x" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="y" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Filter" representedClassName="PGLSourceFilter" syncable="YES">
+        <attribute name="ciCategory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ciName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="parms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Attribute" syncable="YES"/>
+    </entity>
+    <entity name="FilterStack" representedClassName="FilterStack" syncable="YES">
+        <relationship name="filters" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Filter" syncable="YES"/>
+    </entity>
+    <entity name="GlanceSet" representedClassName="PGLGlanceSet" syncable="YES" codeGenerationType="class">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="creatorName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modifiedDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="setName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="stack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FilterStack" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AttrColor" positionX="-180.734375" positionY="321.8203125" width="128" height="103"/>
+        <element name="AttrData" positionX="-593.0546875" positionY="325.02734375" width="128" height="43"/>
+        <element name="Attribute" positionX="-620.640625" positionY="61.5625" width="128" height="193"/>
+        <element name="AttrImage" positionX="-364.94140625" positionY="93.53125" width="128" height="73"/>
+        <element name="AttrNumber" positionX="222.25" positionY="323.8671875" width="128" height="58"/>
+        <element name="AttrObject" positionX="-314.21484375" positionY="322.80078125" width="128" height="43"/>
+        <element name="AttrString" positionX="92.1953125" positionY="319.44921875" width="128" height="58"/>
+        <element name="AttrValue" positionX="-454.8359375" positionY="325.7109375" width="128" height="43"/>
+        <element name="AttrVector" positionX="-41.76953125" positionY="322.3515625" width="128" height="103"/>
+        <element name="Filter" positionX="-265.42578125" positionY="-53.41015625" width="128" height="88"/>
+        <element name="FilterStack" positionX="-437.92578125" positionY="-60.875" width="128" height="58"/>
+        <element name="GlanceSet" positionX="-483.4375" positionY="-250.46875" width="128" height="133"/>
+    </elements>
+</model>

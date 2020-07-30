@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/willloew/Developer/Surreality/Surreality/PGLImageController.swift">
+   </FileRef>
+   <FileRef
       location = "self:Surreality.xcodeproj">
    </FileRef>
 </Workspace>

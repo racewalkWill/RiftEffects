@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Filter" representedClassName="Filter" syncable="YES" codeGenerationType="class">
+        <attribute name="ciCategory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ciName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="attributes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterAttribute" syncable="YES"/>
+    </entity>
+    <entity name="FilterAttribute" representedClassName="FilterAttribute" syncable="YES" codeGenerationType="class">
+        <attribute name="ciAttributeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ciClass" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ciType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="valueData" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" syncable="YES"/>
+        <relationship name="inputFilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Filter" syncable="YES"/>
+        <relationship name="photoAssets" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="PhotoAsset" syncable="YES"/>
+    </entity>
+    <entity name="FilterStack" representedClassName="FilterStack" syncable="YES" codeGenerationType="class">
+        <attribute name="stackName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="filters" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Filter" syncable="YES"/>
+        <relationship name="parentStack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FilterStack" inverseName="parentStack" inverseEntity="FilterStack" syncable="YES"/>
+    </entity>
+    <entity name="GlanceSet" representedClassName="GlanceSet" syncable="YES" codeGenerationType="class">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="creatorName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modifiedDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="setName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="stack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FilterStack" syncable="YES"/>
+    </entity>
+    <entity name="PhotoAsset" representedClassName="PHAsset" syncable="YES">
+        <attribute name="localIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Filter" positionX="-17.77734375" positionY="125.3046875" width="128" height="88"/>
+        <element name="FilterAttribute" positionX="166.49609375" positionY="86.9375" width="128" height="133"/>
+        <element name="FilterStack" positionX="12.50390625" positionY="-11.8671875" width="128" height="88"/>
+        <element name="GlanceSet" positionX="-175.48046875" positionY="-70.41796875" width="128" height="133"/>
+        <element name="PhotoAsset" positionX="333.9921875" positionY="296.04296875" width="128" height="58"/>
+    </elements>
+</model>
