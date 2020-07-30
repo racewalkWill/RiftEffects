@@ -168,28 +168,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         }
 
 
-        func addAlbum(exportAlbumName: String) {
-            // check if the album exists..
-            // assumes that  appDefault for exportAlbum and exportAlbumId are in sync
-            if let existingAlbumId = AppUserDefaults.string(forKey: ExportAlbumId) {
-                if let existingExportName  = AppUserDefaults.string(forKey:ExportAlbum) {
-
-                if exportAlbumName == existingExportName {
-                     let fetch = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [existingAlbumId], options: nil)
-                        if fetch.count > 0 {
-                             return // no need for new album
-                        }
-                    }
-
-                }
-            }
-            AppUserDefaults.set(exportAlbumName, forKey: ExportAlbum) // save new name for next time
-           PHPhotoLibrary.shared().performChanges({
-            let request = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: exportAlbumName)
-            let albumId = request.placeholderForCreatedAssetCollection
-            AppUserDefaults.set(albumId.localIdentifier, forKey: ExportAlbumId)
-           }, completionHandler: nil )
-        }
 
 
 
@@ -215,6 +193,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             if targetStack.storedStack != nil {
                  defaultName = targetStack.storedStack?.title ?? ""
                 defaultType = targetStack.storedStack?.type ?? ""
+                defaultAlbumName = targetStack.exportAlbumName ?? "ExportAlbum"
             }
         }
         alertController.addTextField { textField in
