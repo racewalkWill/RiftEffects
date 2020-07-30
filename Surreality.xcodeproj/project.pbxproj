@@ -1,0 +1,616 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A3BF500D24D3298F00CD5114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF500C24D3298F00CD5114 /* AppDelegate.swift */; };
+		A3BF500F24D3298F00CD5114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF500E24D3298F00CD5114 /* SceneDelegate.swift */; };
+		A3BF501224D3298F00CD5114 /* Surreality.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3BF501024D3298F00CD5114 /* Surreality.xcdatamodeld */; };
+		A3BF501424D3298F00CD5114 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF501324D3298F00CD5114 /* ContentView.swift */; };
+		A3BF501624D3299100CD5114 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3BF501524D3299100CD5114 /* Assets.xcassets */; };
+		A3BF501924D3299100CD5114 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3BF501824D3299100CD5114 /* Preview Assets.xcassets */; };
+		A3BF501C24D3299100CD5114 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BF501A24D3299100CD5114 /* LaunchScreen.storyboard */; };
+		A3BF502724D3299100CD5114 /* SurrealityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF502624D3299100CD5114 /* SurrealityTests.swift */; };
+		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A3BF502324D3299100CD5114 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3BF500124D3298F00CD5114 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3BF500824D3298F00CD5114;
+			remoteInfo = Surreality;
+		};
+		A3BF502E24D3299100CD5114 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3BF500124D3298F00CD5114 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3BF500824D3298F00CD5114;
+			remoteInfo = Surreality;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF500C24D3298F00CD5114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A3BF500E24D3298F00CD5114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A3BF501124D3298F00CD5114 /* Surreality.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Surreality.xcdatamodel; sourceTree = "<group>"; };
+		A3BF501324D3298F00CD5114 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A3BF501524D3299100CD5114 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A3BF501824D3299100CD5114 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A3BF501B24D3299100CD5114 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A3BF501D24D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3BF502224D3299100CD5114 /* SurrealityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF502624D3299100CD5114 /* SurrealityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurrealityTests.swift; sourceTree = "<group>"; };
+		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3BF502D24D3299100CD5114 /* SurrealityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF503124D3299100CD5114 /* SurrealityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurrealityUITests.swift; sourceTree = "<group>"; };
+		A3BF503324D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A3BF500624D3298F00CD5114 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3BF501F24D3299100CD5114 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3BF502A24D3299100CD5114 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A3BF500024D3298F00CD5114 = {
+			isa = PBXGroup;
+			children = (
+				A3BF500B24D3298F00CD5114 /* Surreality */,
+				A3BF502524D3299100CD5114 /* SurrealityTests */,
+				A3BF503024D3299100CD5114 /* SurrealityUITests */,
+				A3BF500A24D3298F00CD5114 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A3BF500A24D3298F00CD5114 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A3BF500924D3298F00CD5114 /* Surreality.app */,
+				A3BF502224D3299100CD5114 /* SurrealityTests.xctest */,
+				A3BF502D24D3299100CD5114 /* SurrealityUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A3BF500B24D3298F00CD5114 /* Surreality */ = {
+			isa = PBXGroup;
+			children = (
+				A3BF500C24D3298F00CD5114 /* AppDelegate.swift */,
+				A3BF500E24D3298F00CD5114 /* SceneDelegate.swift */,
+				A3BF501324D3298F00CD5114 /* ContentView.swift */,
+				A3BF501524D3299100CD5114 /* Assets.xcassets */,
+				A3BF501A24D3299100CD5114 /* LaunchScreen.storyboard */,
+				A3BF501D24D3299100CD5114 /* Info.plist */,
+				A3BF501024D3298F00CD5114 /* Surreality.xcdatamodeld */,
+				A3BF501724D3299100CD5114 /* Preview Content */,
+			);
+			path = Surreality;
+			sourceTree = "<group>";
+		};
+		A3BF501724D3299100CD5114 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A3BF501824D3299100CD5114 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A3BF502524D3299100CD5114 /* SurrealityTests */ = {
+			isa = PBXGroup;
+			children = (
+				A3BF502624D3299100CD5114 /* SurrealityTests.swift */,
+				A3BF502824D3299100CD5114 /* Info.plist */,
+			);
+			path = SurrealityTests;
+			sourceTree = "<group>";
+		};
+		A3BF503024D3299100CD5114 /* SurrealityUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A3BF503124D3299100CD5114 /* SurrealityUITests.swift */,
+				A3BF503324D3299100CD5114 /* Info.plist */,
+			);
+			path = SurrealityUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A3BF500824D3298F00CD5114 /* Surreality */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "Surreality" */;
+			buildPhases = (
+				A3BF500524D3298F00CD5114 /* Sources */,
+				A3BF500624D3298F00CD5114 /* Frameworks */,
+				A3BF500724D3298F00CD5114 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Surreality;
+			productName = Surreality;
+			productReference = A3BF500924D3298F00CD5114 /* Surreality.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A3BF502124D3299100CD5114 /* SurrealityTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityTests" */;
+			buildPhases = (
+				A3BF501E24D3299100CD5114 /* Sources */,
+				A3BF501F24D3299100CD5114 /* Frameworks */,
+				A3BF502024D3299100CD5114 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3BF502424D3299100CD5114 /* PBXTargetDependency */,
+			);
+			name = SurrealityTests;
+			productName = SurrealityTests;
+			productReference = A3BF502224D3299100CD5114 /* SurrealityTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A3BF502C24D3299100CD5114 /* SurrealityUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityUITests" */;
+			buildPhases = (
+				A3BF502924D3299100CD5114 /* Sources */,
+				A3BF502A24D3299100CD5114 /* Frameworks */,
+				A3BF502B24D3299100CD5114 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3BF502F24D3299100CD5114 /* PBXTargetDependency */,
+			);
+			name = SurrealityUITests;
+			productName = SurrealityUITests;
+			productReference = A3BF502D24D3299100CD5114 /* SurrealityUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A3BF500124D3298F00CD5114 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1160;
+				LastUpgradeCheck = 1160;
+				ORGANIZATIONNAME = "Will Loew-Blosser";
+				TargetAttributes = {
+					A3BF500824D3298F00CD5114 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					A3BF502124D3299100CD5114 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = A3BF500824D3298F00CD5114;
+					};
+					A3BF502C24D3299100CD5114 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = A3BF500824D3298F00CD5114;
+					};
+				};
+			};
+			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "Surreality" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A3BF500024D3298F00CD5114;
+			productRefGroup = A3BF500A24D3298F00CD5114 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A3BF500824D3298F00CD5114 /* Surreality */,
+				A3BF502124D3299100CD5114 /* SurrealityTests */,
+				A3BF502C24D3299100CD5114 /* SurrealityUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A3BF500724D3298F00CD5114 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3BF501C24D3299100CD5114 /* LaunchScreen.storyboard in Resources */,
+				A3BF501924D3299100CD5114 /* Preview Assets.xcassets in Resources */,
+				A3BF501624D3299100CD5114 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3BF502024D3299100CD5114 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3BF502B24D3299100CD5114 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A3BF500524D3298F00CD5114 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3BF500D24D3298F00CD5114 /* AppDelegate.swift in Sources */,
+				A3BF500F24D3298F00CD5114 /* SceneDelegate.swift in Sources */,
+				A3BF501424D3298F00CD5114 /* ContentView.swift in Sources */,
+				A3BF501224D3298F00CD5114 /* Surreality.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3BF501E24D3299100CD5114 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3BF502724D3299100CD5114 /* SurrealityTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3BF502924D3299100CD5114 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A3BF502424D3299100CD5114 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3BF500824D3298F00CD5114 /* Surreality */;
+			targetProxy = A3BF502324D3299100CD5114 /* PBXContainerItemProxy */;
+		};
+		A3BF502F24D3299100CD5114 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3BF500824D3298F00CD5114 /* Surreality */;
+			targetProxy = A3BF502E24D3299100CD5114 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A3BF501A24D3299100CD5114 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3BF501B24D3299100CD5114 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A3BF503424D3299100CD5114 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A3BF503524D3299100CD5114 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A3BF503724D3299100CD5114 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Surreality/Preview Content\"";
+				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Surreality/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Surreality";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A3BF503824D3299100CD5114 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Surreality/Preview Content\"";
+				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Surreality/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Surreality";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A3BF503A24D3299100CD5114 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
+				INFOPLIST_FILE = SurrealityTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.SurrealityTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Surreality.app/Surreality";
+			};
+			name = Debug;
+		};
+		A3BF503B24D3299100CD5114 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
+				INFOPLIST_FILE = SurrealityTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.SurrealityTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Surreality.app/Surreality";
+			};
+			name = Release;
+		};
+		A3BF503D24D3299100CD5114 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
+				INFOPLIST_FILE = SurrealityUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.SurrealityUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Surreality;
+			};
+			name = Debug;
+		};
+		A3BF503E24D3299100CD5114 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
+				INFOPLIST_FILE = SurrealityUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.SurrealityUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Surreality;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "Surreality" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3BF503424D3299100CD5114 /* Debug */,
+				A3BF503524D3299100CD5114 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "Surreality" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3BF503724D3299100CD5114 /* Debug */,
+				A3BF503824D3299100CD5114 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3BF503A24D3299100CD5114 /* Debug */,
+				A3BF503B24D3299100CD5114 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3BF503D24D3299100CD5114 /* Debug */,
+				A3BF503E24D3299100CD5114 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A3BF501024D3298F00CD5114 /* Surreality.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A3BF501124D3298F00CD5114 /* Surreality.xcdatamodel */,
+			);
+			currentVersion = A3BF501124D3298F00CD5114 /* Surreality.xcdatamodel */;
+			path = Surreality.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = A3BF500124D3298F00CD5114 /* Project object */;
+}
