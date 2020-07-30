@@ -8,7 +8,7 @@
 
 import XCTest
 import Photos
-@testable import Glance
+@testable import Surreality
 
 
 

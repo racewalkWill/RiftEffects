@@ -11,7 +11,7 @@ import CoreData
 import CoreImage
 import Photos
 
-@testable import Glance
+@testable import Surreality
 
 
 enum PhotoId: String {

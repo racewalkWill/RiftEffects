@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Glance
+@testable import Surreality
 
 class PGLFilterDescriptorTests: XCTestCase {
      let standardFilterName = "CIDiscBlur"

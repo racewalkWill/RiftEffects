@@ -113,7 +113,7 @@ class PGLFilterAttribute {
     }
 
 
-    var aSourceFilter: PGLSourceFilter
+     unowned var aSourceFilter: PGLSourceFilter
     // 4/7/2019  this is a duplicate var for localFilter.. why was it added?
 
     //    var keyPathString = \PGLFilterAttribute.myFilter.inputSaturation

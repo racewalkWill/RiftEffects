@@ -37,6 +37,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        return true
         }
 
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        NSLog("AppDelegate applicationDidReceiveMemoryWarning")
+        // run a memory graph.. who and how many objects have the memory?
+        // see the Swift Programming Lang  book on strong referencs and reference cycles
+        // chap "Automatic Reference Counting"
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
