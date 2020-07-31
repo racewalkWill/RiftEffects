@@ -102,13 +102,22 @@ extension PGLFilterStack {
 
 
             storedStack?.thumbnail = stackThumbnail()  // data format of small png image
+
+//         filters were added to the cdStack at add/remove time
+
             for aFilter in activeFilters {
-                storedStack?.filterNames?.append(aFilter.filterName)
+//                storedStack?.filterNames?.append(aFilter.filterName)
+                // remove filterNames from the datamodel... it's not used..
+                // the filters relationship is used
+                
                 NSLog("PGLFilterStack #writeCDStack filter = \(aFilter.filterName)")
                 let theFilterStoredObject = aFilter.cdFilterObject()
+                // does not need to add if the filter exists in the relation already
 
+                    // a new filter added
+                    NSLog("PGLFilterStack #writeCDStack NEW FILTER \(aFilter.filterName)")
+                // isn't the filter already in the relation to the storedStack?
                 storedStack?.addToFilters(theFilterStoredObject)
-
 
             }
 
@@ -169,6 +178,7 @@ extension PGLSourceFilter {
         let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
         let moContext = myAppDelegate.persistentContainer.viewContext
         if storedFilter == nil {
+            NSLog("PGLSourceFilter #cdFilterObject storedFilter nil insertNewObject")
             storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
             storedFilter!.ciFilter = self.localFilter
             storedFilter!.ciFilterName = self.filterName

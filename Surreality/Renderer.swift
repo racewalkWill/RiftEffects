@@ -99,7 +99,8 @@ class Renderer: NSObject {
             let currentSize = filterStack()!.cropRect
             guard let currentOutputImage = ciContext.createCGImage(ciOutput, from: currentSize) else { return nil }
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
-        } else { return nil}
+        } else {
+            return nil}
 
     }
 }
