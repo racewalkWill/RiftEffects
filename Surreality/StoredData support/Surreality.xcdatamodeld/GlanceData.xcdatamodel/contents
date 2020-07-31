@@ -4,7 +4,6 @@
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="exportAlbumIdentifier" optional="YES" attributeType="String"/>
         <attribute name="exportAlbumName" optional="YES" attributeType="String"/>
-        <attribute name="filterNames" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="modified" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" valueTransformerName="" customClassName="UIImage"/>
         <attribute name="title" attributeType="String" defaultValueString="Glance"/>
@@ -33,7 +32,7 @@
         <relationship name="stack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack" inverseName="filters" inverseEntity="CDFilterStack"/>
     </entity>
     <elements>
-        <element name="CDFilterStack" positionX="-3947.26171875" positionY="-29.34765625" width="128" height="193"/>
+        <element name="CDFilterStack" positionX="-3947.26171875" positionY="-29.34765625" width="128" height="178"/>
         <element name="CDImageList" positionX="-4319.14453125" positionY="273.2890625" width="159.109375" height="103"/>
         <element name="CDParmImage" positionX="-4096.78125" positionY="223.5859375" width="128" height="103"/>
         <element name="CDStoredFilter" positionX="-4290.27734375" positionY="39.40234375" width="128" height="133"/>

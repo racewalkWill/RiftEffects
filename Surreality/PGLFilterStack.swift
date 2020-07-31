@@ -205,8 +205,6 @@ class PGLFilterStack  {
 
           updateFilterList()
 
-          storedStack?.addToFilters(newFilter.cdFilterObject())
-                  // if storedStack is nil then no action needed
     }
 
     func addFilterBefore(newFilter: PGLSourceFilter) {
@@ -239,8 +237,6 @@ class PGLFilterStack  {
         }
           updateFilterList()
 
-          storedStack?.addToFilters(newFilter.cdFilterObject())
-                  // if storedStack is nil then no action needed
     }
 
 
