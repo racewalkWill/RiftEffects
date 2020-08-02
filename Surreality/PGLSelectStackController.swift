@@ -27,7 +27,7 @@ class PGLSelectStackController: UIViewController,  NSFetchedResultsControllerDel
     lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = setFetchController()
         //  model object
 
-    lazy var moContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    lazy var moContext: NSManagedObjectContext = PersistentContainer.viewContext
 
       var simpleCollectionView: UICollectionView! = nil
       var dataSource: UICollectionViewDiffableDataSource<Int, CDFilterStack>! = nil

@@ -11,6 +11,33 @@ import CoreData
 import UIKit
 import CoreImage
 
+var PersistentContainer: NSPersistentContainer = {
+       /*
+        The persistent container for the application. This implementation
+        creates and returns a container, having loaded the store for the
+        application to it. This property is optional since there are legitimate
+        error conditions that could cause the creation of the store to fail.
+       */
+       let container = NSPersistentContainer(name: "Surreality")
+       container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+           if let error = error as NSError? {
+               // Replace this implementation with code to handle the error appropriately.
+               // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+
+               /*
+                Typical reasons for an error here include:
+                * The parent directory does not exist, cannot be created, or disallows writing.
+                * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                * The device is out of space.
+                * The store could not be migrated to the current model version.
+                Check the error message to determine what the actual problem was.
+                */
+               fatalError("Unresolved error \(error), \(error.userInfo)")
+           }
+       })
+       return container
+   }()
+
 struct PGLStackType {
    var name: String
 }
@@ -32,8 +59,8 @@ extension PGLFilterStack {
 
     func readCDStack(titled: String){
 
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        let moContext = myAppDelegate.persistentContainer.viewContext
+
+        let moContext = PersistentContainer.viewContext
         let request =  NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
         // assume we are reading by title
         request.predicate = NSPredicate(format: "title == %@", titled)
@@ -88,8 +115,8 @@ extension PGLFilterStack {
 
     func writeCDStack() -> CDFilterStack {
         NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        let moContext = myAppDelegate.persistentContainer.viewContext
+
+        let moContext = PersistentContainer.viewContext
 
             if (storedStack == nil ) { // new stack needed
                 storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
@@ -115,8 +142,8 @@ extension PGLFilterStack {
 
     func delete() {
         // delete this stack from the data store
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        let moContext = myAppDelegate.persistentContainer.viewContext
+
+        let moContext = PersistentContainer.viewContext
         if storedStack != nil {
             moContext.delete(storedStack!)
         }
@@ -160,8 +187,8 @@ extension PGLSourceFilter {
     func cdFilterObject() -> CDStoredFilter {
         // create or update to the coreData store
 
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        let moContext = myAppDelegate.persistentContainer.viewContext
+
+        let moContext = PersistentContainer.viewContext
         if storedFilter == nil {
             NSLog("PGLSourceFilter #cdFilterObject storedFilter nil insertNewObject")
             storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
@@ -198,8 +225,8 @@ extension PGLSourceFilter {
 
     func createNewCDImageParm(attribute: PGLFilterAttribute) -> CDParmImage {
         // 4EntityModel
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        let moContext = myAppDelegate.persistentContainer.viewContext
+
+        let moContext = PersistentContainer.viewContext
 
 
         guard let newCDImageParm =  NSEntityDescription.insertNewObject(forEntityName: "CDParmImage", into: moContext) as? CDParmImage
@@ -343,8 +370,8 @@ extension PGLAppStack {
         // store starting from the top level
         // each stack will write in turn as it is referenced
         // do not need to iterate the collection
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        let moContext = myAppDelegate.persistentContainer.viewContext
+
+        let moContext = PersistentContainer.viewContext
 
         if let initialStack = firstStack() {
           initialStack.writeCDStack()

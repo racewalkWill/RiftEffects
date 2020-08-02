@@ -22,7 +22,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     private static let nibName = "StackCell"
 
     lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = setFetchController()
-    lazy var moContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    lazy var moContext: NSManagedObjectContext = PersistentContainer.viewContext
 
     lazy var fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 as! CDFilterStack ) })
 
@@ -228,7 +228,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     class DataSource: UITableViewDiffableDataSource<Int, CDFilterStack> {
 
-        lazy var sourceMoContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        lazy var sourceMoContext: NSManagedObjectContext = PersistentContainer.viewContext
 
         // MARK: editing support
 

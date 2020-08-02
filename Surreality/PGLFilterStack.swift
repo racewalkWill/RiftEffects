@@ -35,9 +35,8 @@ class PGLFilterStack  {
     var activeFilters = [PGLSourceFilter]()  // make private?
    
     var cropRect: CGRect { get
-        {guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { return CGRect.zero}
-        return myAppDelegate.cropRect
+    {   return CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height)
+
         }
     }
 

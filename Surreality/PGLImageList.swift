@@ -37,11 +37,8 @@ class PGLImageList {
     var position = 0
     let options: PHImageRequestOptions
     var targetSize: CGSize { get {
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-        else { return CGSize(width: 1040, height: 768)}
-        return CGSize(width: myAppDelegate.cropRect.width, height: myAppDelegate.cropRect.height)
+        return TargetSize
         }
-
     }
 
     // storable var

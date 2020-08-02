@@ -37,6 +37,7 @@
  */
 
 import MetalKit
+var TargetSize = CGSize(width: 1040, height: 768)
 
 class Renderer: NSObject {
 
@@ -94,6 +95,7 @@ class Renderer: NSObject {
     func captureImage() -> UIImage? {
         // capture the current image in the context
         // provide a UIImage for save to photoLibrary
+        // uses existing ciContext in a background process..
 
         if let ciOutput = filterStack()?.stackOutputImage(false) {
             let currentSize = filterStack()!.cropRect
@@ -103,17 +105,41 @@ class Renderer: NSObject {
             return nil}
 
     }
+
+    func getOffScreenHEIF() -> Data? {
+        // create second context for off screen rendering of UIImage
+//        CIContext * context = [CIContext contextWithOptions:nil];
+//        CGImageRef outputCGImage = [context createCGImage:outputCIImage fromRect:[outputCIImage extent]];
+//        UIImage * outputImage = [UIImage imageWithCGImage:outputCGImage];
+//        CGImageRelease(outputCGImage);
+//
+//        return outputImage;
+
+        let offScreenContext = CIContext.init(options: nil)
+
+        if let ciOutput = filterStack()?.stackOutputImage(false) {
+            let outputRect = (ciOutput.extent)
+//            let clampedOutput = ciOutput.clamped(to: outputRect)
+            NSLog("Renderer getOffScreenHEIF outputRect = \(outputRect)")
+            let rgbSpace = CGColorSpaceCreateDeviceRGB()
+            let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
+            let heifData =  offScreenContext.heifRepresentation(of: ciOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
+
+            return heifData
+        } else {
+             
+            NSLog("Renderer getOffScreenUIImage FAILS on ciOutput = nil")
+            return nil
+        }
+
+    }
 }
 
 extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
 //        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
          mtkViewSize = size
-
-        let newDrawRect = CGRect(origin: CGPoint.zero, size: mtkViewSize)
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { return }
-         myAppDelegate.cropRect = newDrawRect
+        TargetSize = size
     }
 
     func draw(in view: MTKView) {

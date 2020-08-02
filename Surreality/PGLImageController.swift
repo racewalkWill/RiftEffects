@@ -105,10 +105,41 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         NSLog("PGLImageCollectionMasterController #getAlbums count = \(answer.count)")
         return answer
     }
+
+    func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) {
+        if let heifImageData = metalController?.metalRender.getOffScreenHEIF() {
+        PHPhotoLibrary.shared().performChanges({
+            let creationRequest = PHAssetCreationRequest.forAsset()
+            creationRequest.addResource(with: .fullSizePhoto, data: heifImageData, options: nil)
+
+            if exportCollection == nil {
+                // new collection
+                let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
+
+
+                assetCollectionRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+                stack.exportAlbumIdentifier = assetCollectionRequest.placeholderForCreatedAssetCollection.localIdentifier
+
+            } else {
+                // asset collection exists
+                let addAssetRequest = PHAssetCollectionChangeRequest(for: exportCollection!)
+                addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+            }
+
+
+            }, completionHandler: {success, error in
+                  if !success { print("Error creating the asset: \(String(describing: error))") }
+              })
+        }
+
+    }
+
+
         func saveToPhotosLibrary( stack: PGLFilterStack) {
                    // check if the album exists..) {
             // save the output of this stack to the photos library
                             // Create a new album with the entered title.
+            let doExportHEIF = false
             var assetCollection: PHAssetCollection?
 
             NSLog("readCDStack saveToPhotosLibrary = \(stack.exportAlbumIdentifier)")
@@ -134,7 +165,11 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 }
             }
 
+            if doExportHEIF {
 
+                    self.saveHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack)
+
+            } else  {
             // get the metal context -
             guard let uiImageOutput = metalController?.metalRender.captureImage()
 
@@ -164,6 +199,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                    }, completionHandler: {success, error in
                        if !success { print("Error creating the asset: \(String(describing: error))") }
                    })
+            }
 
         }
 
@@ -245,10 +281,13 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
                                }
                                NSLog("saveAction calls saveToPhotosLibrary")
+                            let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
+                            serialQueue.async {
                                self.saveToPhotosLibrary(stack: targetStack)
                                    // call first so the albumIdentifier can be stored
                                NSLog("saveAction calls writeCDStacks")
                                self.appStack.writeCDStacks()
+                            }
 
 
                                }

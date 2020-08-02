@@ -135,7 +135,7 @@ class PGLDataStoreTests: XCTestCase {
         let myCycleStack = PGLDataStoreTests.imageListTestObject()
 
         XCTAssert(myCycleStack.imageAssets.count == 6)
-        let image1 = myCycleStack.first()
+        _ = myCycleStack.first()
         XCTAssertNotNil(myCycleStack.firstImage)
 
     }
