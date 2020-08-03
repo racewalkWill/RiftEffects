@@ -228,9 +228,10 @@ class PGLImageList {
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                guard let theImage = image else { return  }
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
-                   let theOrientation = CGImagePropertyOrientation(rawValue: UInt32(theImage.imageOrientation.rawValue))
+                let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+                NSLog("PGLImageList #imageFrom theOrientation = \(String(reflecting: theOrientation))")
 
-                   pickedCIImage = convertedImage.oriented(theOrientation!)
+                pickedCIImage = convertedImage.oriented(theOrientation)
 
                }
            })

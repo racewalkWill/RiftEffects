@@ -1181,6 +1181,24 @@ extension CGImagePropertyOrientation {
         default: self = .up
         }
     }
+
+
+}
+
+extension CGImagePropertyOrientation: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self {
+               case .up: return ".up"
+               case .upMirrored: return "upMirrored"
+               case .down: return ".down"
+               case .downMirrored: return ".downMirrored"
+               case .left: return ".left"
+               case .leftMirrored: return ".leftMirrored"
+               case .right: return "right"
+               case .rightMirrored: return ".rightMirrored"
+               default: return "default .up"
+               }
+    }
 }
 extension UIImage.Orientation {
     init(_ cgOrientation: UIImage.Orientation) {
@@ -1195,6 +1213,22 @@ extension UIImage.Orientation {
         case .rightMirrored: self = .rightMirrored
         default: self = .up
         }
+    }
+}
+
+extension UIImage.Orientation: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self {
+               case .up: return ".up"
+               case .upMirrored: return "upMirrored"
+               case .down: return ".down"
+               case .downMirrored: return ".downMirrored"
+               case .left: return ".left"
+               case .leftMirrored: return ".leftMirrored"
+               case .right: return "right"
+               case .rightMirrored: return ".rightMirrored"
+               default: return "default .up"
+               }
     }
 }
 

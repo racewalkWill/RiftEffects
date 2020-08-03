@@ -99,8 +99,13 @@ class Renderer: NSObject {
 
         if let ciOutput = filterStack()?.stackOutputImage(false) {
             let currentSize = filterStack()!.cropRect
+
             guard let currentOutputImage = ciContext.createCGImage(ciOutput, from: currentSize) else { return nil }
+
+//            NSLog("Renderer #captureImage ciOutput orientation = \(ciOutput)")
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
+            // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
+
         } else {
             return nil}
 

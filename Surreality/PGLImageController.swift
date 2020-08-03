@@ -39,12 +39,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     // controller in detail view - shows the image as filtered - knows the current filter
 
 // MARK: Property vars
-//    var ciSourceImage: CIImage?
-    var outputImage: CIImage = CIImage.empty() {
-        didSet {
-//            NSLog("PGLImageController outputImage set = \(outputImage)")
-        }
-    }
+
 
     var filterValuesHaveChanged = false
 
@@ -582,19 +577,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     func viewDidDisappear(animated: Bool) {
         appStack.isImageControllerOpen = false // selection of new image or image list is started
         super.viewDidDisappear(animated)
-//        if (EAGLContext.current() == self.context!) {
-//            EAGLContext.setCurrent(nil)
-//        }
-//        self.context = nil
+
          NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
          NotificationCenter.default.removeObserver(self, name: PGLOutputImageChange, object: self)
          NotificationCenter.default.removeObserver(self, name: PGLImageCollectionOpen, object: self)
          NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange,  object: self)
         NotificationCenter.default.removeObserver(self, name:  PGLAttributeAnimationChange,  object: self)
 
-//        displayLink?.remove(from: RunLoop.current, forMode: .common)
-//        displayLink?.invalidate()
-//        displayLink = nil
+
     }
 
 
@@ -629,11 +619,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
  
 // MARK: - GLKViewDelegate and GLKViewController delegate methods
-    func filterUpdate() {
-        // notify the detail view to update filter changes
-        // the DetailGLKController will request the new image for drawing
-        metalController?.view.setNeedsDisplay()  // causes the view to ask for the changed data
-    }
+
 
 
     // MARK: parmUI
@@ -805,26 +791,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         return fromRect.insetBy(dx: inset, dy: inset)
     }
 
-    func addButtonControl(attribute: PGLFilterAttribute) {
-        // not used??
-        let newButton = UIButton(type: UIButton.ButtonType.custom)
-        view.addSubview(newButton)
-        newButton.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
-        let positionVector = attribute.getVectorValue()
-        let newOrigin = CGPoint(x: (positionVector?.x)!, y: (positionVector?.y)!)
-        newButton.frame.origin = newOrigin
-        newButton.addTarget(self, action: #selector(buttonWasPressed), for: .touchUpInside)
-        newButton.setImage(PGLControlRenderer.starImage(withSize: CGSize(width: 20.0, height: 20.0)), for: UIControl.State.normal)
-
-        newButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: newButton, attribute: .centerX, relatedBy: .equal,
-                                              toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: newButton, attribute: .centerY, relatedBy: .equal,
-                                              toItem: view, attribute: .centerY, multiplier: 1, constant: 0))
-        newButton.tag = parmControls.count + 1  // new button
-//        parmControls[attribute.attributeName!] = newButton
-//        NSLog("PGLImageController addButtonControl button = \(String(describing: newButton))")
-    }
 
     func addSliderControl(attribute: PGLFilterAttribute)  {
         hideSliders() // start with all hidden
