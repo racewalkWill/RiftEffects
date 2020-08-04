@@ -98,11 +98,15 @@ class Renderer: NSObject {
         // uses existing ciContext in a background process..
 
         if let ciOutput = filterStack()?.stackOutputImage(false) {
-            let currentSize = filterStack()!.cropRect
+            let currentRect = filterStack()!.cropRect
+            NSLog("Renderer #captureImage currentRect = \(currentRect)")
+            let croppedOutput = ciOutput.cropped(to: currentRect)
+            guard let currentOutputImage = ciContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
 
-            guard let currentOutputImage = ciContext.createCGImage(ciOutput, from: currentSize) else { return nil }
+           
 
-//            NSLog("Renderer #captureImage ciOutput orientation = \(ciOutput)")
+            NSLog("Renderer #captureImage croppedOutput.extent = \(croppedOutput.extent)")
+
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
             // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
 
@@ -165,6 +169,11 @@ extension Renderer: MTKViewDelegate {
                  sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
             else
                 { sizedciOutputImage = ciOutputImage }
+
+            if sizedciOutputImage.extent.isInfinite {
+//                           NSLog("Renderer  #draw has output image infinite extent")
+                       }
+
 
         if let currentDrawable = view.currentDrawable {
             

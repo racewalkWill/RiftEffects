@@ -457,11 +457,17 @@ class PGLFilterStack  {
             filter = activeFilters[index]
             if thisImage != nil {
                 thisImage?.clampedToExtent()  // can this be moved into the render setup?
+                if thisImage!.extent.isInfinite {
+                    NSLog("PGLFilterStack imageUpdate thisImage has input of infinite extent")
+                }
                 filter.setInput(image: thisImage, source: nil)
             }
                 // else just use the already set input image
 
             if let newOutputImage = filter.outputImage() {
+                if newOutputImage.extent.isInfinite {
+//                    NSLog("PGLFilterStack imageUpdate newOutputImage has input of infinite extent")
+                }
                 thisImage = filter.scaleOutput(ciOutput: newOutputImage, stackCropRect: cropRect)
                     // most filters do not implement scaleOutput
                     // crop in the PGLRectangleFilter scales the crop to fill the extent
