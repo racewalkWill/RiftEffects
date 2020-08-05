@@ -591,13 +591,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             target.uiIndexTag = Int(sender.tag)
                 // multiple controls for attribute distinguished by tag
                 // color red,green,blue for single setColor usage
-            // smooth step in the min to max range
-            let min = target.sliderMinValue ?? 0.0
-            let max = target.sliderMaxValue ?? 100.0
-
-            let smoothedValue = simd_smoothstep(min,max, sender.value)
-//            NSLog("PGLSelectParmController #sliderValueDidChange smoothedValue = \(smoothedValue)")
-            target.set(smoothedValue)
+         
+            target.set(sender.value)
         } else { fatalError("tappedAttribute is nil, value can not be changed") }
 
 

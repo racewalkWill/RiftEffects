@@ -527,17 +527,17 @@ class PGLFilterAttribute {
 
 //        NSLog("PGLFilterAttribute #setTimerDt rate = \(rate)")
 
-        let reasonableRate = max(rate,timeRateMininium)   // value of zero is no change...
-       NSLog("PGLFilterAttribute #setTimerDt rate = \(rate)")
-        NSLog("PGLFilterAttribute #setTimerDt self = \(self)")
-        NSLog("PGLFilterAttribute #setTimerDt aFilter = \(self.aSourceFilter.filterName)")
-        NSLog("PGLFilterAttribute #setTimerDt wrapper = \(aSourceFilter.wrapper)")
+//        let reasonableRate = max(rate,timeRateMininium)   // value of zero is no change...
+//       NSLog("PGLFilterAttribute #setTimerDt rate = \(rate)")
+//        NSLog("PGLFilterAttribute #setTimerDt self = \(self)")
+//        NSLog("PGLFilterAttribute #setTimerDt aFilter = \(self.aSourceFilter.filterName)")
+//        NSLog("PGLFilterAttribute #setTimerDt wrapper = \(aSourceFilter.wrapper)")
         if attributeDt == nil {
             // usually nil.. timer of the filter will control rate of change
 //            aSourceFilter.dt = reasonableRate
             aSourceFilter.dt = rate
         } else {
-         NSLog("PGLFilterAttribute #setTimerDt sets attributeDt rate = \(rate)")
+//         NSLog("PGLFilterAttribute #setTimerDt sets attributeDt rate = \(rate)")
 //                attributeDt = reasonableRate
              attributeDt = rate
         }

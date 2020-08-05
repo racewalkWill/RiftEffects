@@ -70,8 +70,13 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
     }
 
     override func set(_ value: Any) {
-        let newRate = (value as! NSNumber).doubleValue
-        setTimerDt(rate: newRate / timeDivisor )
+        let newRate = (value as! NSNumber).floatValue
+        let min = sliderMinValue ?? 0.0
+        let max = sliderMaxValue ?? 100.0
+
+        let smoothedValue = simd_smoothstep(min,max, newRate)
+        let floatSmoothedValue = (smoothedValue as! NSNumber).doubleValue
+        setTimerDt(rate: floatSmoothedValue / timeDivisor )
     }
 
     override func valueString() -> String {
