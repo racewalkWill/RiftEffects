@@ -59,13 +59,13 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
 }
 class PGLFilterAttributeTime: PGLFilterAttribute {
 
-    let timeDivisor:Double = 100.0
+    let timeDivisor:Double = 25.0
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
         sliderMaxValue = 10 // seconds per image
         sliderMinValue = 0.001 // seconds per image - this is 100 images/second
-        defaultValue = 0.005
+        defaultValue = 0.1
 
     }
 

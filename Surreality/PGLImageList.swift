@@ -229,7 +229,7 @@ class PGLImageList {
                guard let theImage = image else { return  }
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
                 let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-                NSLog("PGLImageList #imageFrom theOrientation = \(String(reflecting: theOrientation))")
+//                NSLog("PGLImageList #imageFrom theOrientation = \(String(reflecting: theOrientation))")
 
                 pickedCIImage = convertedImage.oriented(theOrientation)
 

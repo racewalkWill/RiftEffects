@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import simd
 
 enum ImageParm: Int {
     case photo = 0
@@ -552,6 +553,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func parmSliderChange(_ sender: UISlider) {
         // later move the logic of sliderValueDidChange to here..
 //        sliderValueDidChange(sender)
+        // slider in the parmController tableView cell
         if let target = tappedAttribute {
            NSLog("PGLSelectParmController #parmSliderChange target = \(target) value = \(sender.value)")
             target.uiIndexTag = Int(sender.tag)
@@ -583,14 +585,19 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func sliderValueDidChange(_ sender: UISlider) {
-
+        // slider in the imageController on the image view
         if let target = tappedAttribute {
 //          NSLog("PGLSelectParmController #sliderValueDidChange target = \(target) value = \(sender.value)")
             target.uiIndexTag = Int(sender.tag)
                 // multiple controls for attribute distinguished by tag
                 // color red,green,blue for single setColor usage
+            // smooth step in the min to max range
+            let min = target.sliderMinValue ?? 0.0
+            let max = target.sliderMaxValue ?? 100.0
 
-            target.set(sender.value) 
+            let smoothedValue = simd_smoothstep(min,max, sender.value)
+//            NSLog("PGLSelectParmController #sliderValueDidChange smoothedValue = \(smoothedValue)")
+            target.set(smoothedValue)
         } else { fatalError("tappedAttribute is nil, value can not be changed") }
 
 
