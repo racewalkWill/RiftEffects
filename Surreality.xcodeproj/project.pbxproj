@@ -102,6 +102,7 @@
 		A3BF515424D32D3400CD5114 /* GlanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF514E24D32D3400CD5114 /* GlanceTests.swift */; };
 		A3BF515924D32D7400CD5114 /* GlanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515724D32D7400CD5114 /* GlanceUITests.swift */; };
 		A3BF515C24D3618300CD5114 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515B24D3618300CD5114 /* PGLImageController.swift */; };
+		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +226,7 @@
 		A3BF514E24D32D3400CD5114 /* GlanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceTests.swift; sourceTree = "<group>"; };
 		A3BF515724D32D7400CD5114 /* GlanceUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceUITests.swift; sourceTree = "<group>"; };
 		A3BF515B24D3618300CD5114 /* PGLImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLImageController.swift; path = /Users/willloew/Developer/Surreality/Surreality/PGLImageController.swift; sourceTree = "<absolute>"; };
+		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				A3BF514A24D32D3400CD5114 /* PGLSourceFilterTests.swift */,
+				A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */,
 				A3BF514B24D32D3400CD5114 /* PGLFilterDescriptorTests.swift */,
 				A3BF514C24D32D3400CD5114 /* PGLFilterStackTests.swift */,
 				A3BF514D24D32D3400CD5114 /* PGLDataStoreTests.swift */,
@@ -665,6 +668,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3BF515024D32D3400CD5114 /* PGLSourceFilterTests.swift in Sources */,
+				A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */,
 				A3BF515324D32D3400CD5114 /* PGLDataStoreTests.swift in Sources */,
 				A3BF515224D32D3400CD5114 /* PGLFilterStackTests.swift in Sources */,
 				A3BF515124D32D3400CD5114 /* PGLFilterDescriptorTests.swift in Sources */,

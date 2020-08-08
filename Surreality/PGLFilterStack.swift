@@ -9,6 +9,9 @@
 import Foundation
 import CoreImage
 import UIKit
+import Photos
+import PhotosUI
+
 // let defaultFilterName = "DistortionDemo"
 // let defaultFilterName = "CIDepthOfField"
 //let defaultFilterName = "CISourceInCompositing"

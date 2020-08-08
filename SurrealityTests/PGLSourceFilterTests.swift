@@ -556,7 +556,7 @@ class PGLSourceFilterTests: XCTestCase {
     func testColorEffectFilters() {
             // test Color  filters
             // test that image shows is displayed
-        let theCategory = PGLFilterCategory("CICategoryColorAdjustment")!
+        let theCategory = PGLFilterCategory("CICategoryColorEffect")!
         var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
         let context = CIContext()
         let favoritesAlbumList = fetchFavoritesList()
