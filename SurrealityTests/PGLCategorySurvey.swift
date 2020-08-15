@@ -88,6 +88,12 @@ class PGLCategorySurvey: XCTestCase {
     static var TileFilters = PGLFilterCategory("CICategoryTileEffect")!.filterDescriptors
     static var GeneratorFilters = PGLFilterCategory("CICategoryGenerator")!.filterDescriptors
 
+
+    static var SingleFilterGroups = [BlurFilters,ColorAdjFilters, ColorEffectFilters,StylizeFilters, DistortFilters,
+                               GeometryFilters,SharpenFilters, HalfToneFilters, TileFilters]
+    static var GeneratorGroups = [GeneratorFilters, GradientFilters]
+    static var CompositeGroups = [CompositeFilters, TransistionFilters]
+
 // MARK: tests
 
     func testSingleInputFilters() {
@@ -96,45 +102,43 @@ class PGLCategorySurvey: XCTestCase {
         var category1Filter: PGLSourceFilter
         var category2Filter: PGLSourceFilter
 
+        for i in stride(from: 0, to: (PGLCategorySurvey.SingleFilterGroups.count - 1), by: 2)  {
+        let group1 = PGLCategorySurvey.SingleFilterGroups[i]
+        let group2 = PGLCategorySurvey.SingleFilterGroups[i + 1]
+        category2Index = 0
+        while category1Index < group1.count {
 
-
-
-        while category1Index < PGLCategorySurvey.BlurFilters.count {
-             var testFilterStack = PGLFilterStack()
+            let testFilterStack = PGLFilterStack()
                 // should use the appStack to supply the filterStack
             testFilterStack.removeDefaultFilter()
-            category1Filter = PGLCategorySurvey.BlurFilters[category1Index].pglSourceFilter()!
+            category1Filter = group1[category1Index].pglSourceFilter()!
             testFilterStack.append(category1Filter)
            let input = category1Filter.attribute(nameKey: "inputImage")
             input!.setImageCollectionInput(cycleStack: favoritesAlbumList! )
 
-            if category1Index < PGLCategorySurvey.ColorAdjFilters.count {
-                category2Index = category1Index
-                category2Filter = PGLCategorySurvey.ColorAdjFilters[category2Index].pglSourceFilter()!
+            if category2Index < (group2.count - 1) {
+                category2Index += 1
+            } else {
+                category2Index = 0
+            }
+                 category2Filter = group2[category2Index].pglSourceFilter()!
                 testFilterStack.append(category2Filter)
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                 XCTAssertNotNil(stackResultImage)
-
+                XCTAssert(testFilterStack.activeFilters.count == 2, "stack does not have two filters as expected" )
                 testFilterStack.stackName = category1Filter.filterName + "+" + category2Filter.filterName
                 testFilterStack.stackType = "testSingleInputFilters"
                 testFilterStack.exportAlbumName = "testSingleInputFilters"
                 // set the stack with the title, type, exportAlbum for save
-                
-                testFilterStack.saveStackImage()
+                NSLog("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
+                let photoSaveResult =  testFilterStack.saveStackImage()
+                XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
 
-                // save this output PGLImageController saveToPhotosLibrary
-                //  appStack.writeCDStacks()
-
-                // need the metalRender for the metalContext
-
-//                if let offScreenRender = Renderer(metalView:) {
-//                    appStack.saveStack(metalRender: )
-//                }
-            }
             category1Index += 1
             testFilterStack.removeAllFilters()
 
-            // next continue with remaining category2 filters if there are more
+
+        }
         }
     }
 

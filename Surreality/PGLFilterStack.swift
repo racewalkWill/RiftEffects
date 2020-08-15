@@ -632,17 +632,18 @@ class PGLFilterStack  {
 
        }
 
-    func saveStackImage() {
+    func saveStackImage() -> Bool {
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
-           self.saveToPhotosLibrary(stack: self)
+           let photoSaveSuccess = self.saveToPhotosLibrary(stack: self)
                // call first so the albumIdentifier can be stored
            NSLog("saveAction calls writeCDStacks")
             self.writeCDStacks()
+            return photoSaveSuccess
 //        }
     }
 
-    func saveToPhotosLibrary( stack: PGLFilterStack ) {
+    func saveToPhotosLibrary( stack: PGLFilterStack )   -> Bool {
                       // check if the album exists..) {
                // save the output of this stack to the photos library
                                // Create a new album with the entered title.
@@ -672,15 +673,15 @@ class PGLFilterStack  {
                    }
                }
 
-                self.saveHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack)
+               return self.saveHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack)
 
 
     }
 
-    func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) {
+    func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) -> Bool {
 //        if let heifImageData = PGLOffScreenRender().getOffScreenHEIF(filterStack: stack) {
-        guard let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack)
-            else { fatalError("getOffScreenHEIF fails in PGLFilterStack #saveHEIFToPhotosLibrary")}
+        if let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack) {
+
         PHPhotoLibrary.shared().performChanges({
          // heif form   let creationRequest = PHAssetCreationRequest.forAsset()
 
@@ -705,8 +706,14 @@ class PGLFilterStack  {
 
             }, completionHandler: {success, error in
                   if !success { print("Error creating the asset: \(String(describing: error))") }
+
               })
+            return true
         }
+         else { NSLog("getOffScreenHEIF fails in PGLFilterStack #saveHEIFToPhotosLibrary")
+                return false
+        }
+}
 
 
 
