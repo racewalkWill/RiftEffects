@@ -402,7 +402,7 @@ extension PGLAppStack {
                       // check if the album exists..) {
                // save the output of this stack to the photos library
                                // Create a new album with the entered title.
-               let doExportHEIF = false
+              
                var assetCollection: PHAssetCollection?
 
                NSLog("readCDStack saveToPhotosLibrary = \(stack.exportAlbumIdentifier)")
@@ -418,8 +418,8 @@ extension PGLAppStack {
 
                  // fatalError( "PHAssetCollection needs to search for a matching album title #saveToPhotosLibrary")
                    // how to do this???
-                  let albums = getAlbums()
-                    let matching = filterAlbums(source: albums, titleString: aAlbumExportName)
+                let albums = stack.getAlbums()
+                let matching = stack.filterAlbums(source: albums, titleString: aAlbumExportName)
                    if matching.count > 0 {
                        assetCollection = matching.last!.assetCollection
                    }
@@ -428,11 +428,7 @@ extension PGLAppStack {
                    }
                }
 
-               if doExportHEIF {
 
-                self.saveHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack, metalRender: metalRender)
-
-               } else  {
                // get the metal context -
                guard let uiImageOutput = metalRender.captureImage()
 
@@ -462,55 +458,13 @@ extension PGLAppStack {
                       }, completionHandler: {success, error in
                           if !success { print("Error creating the asset: \(String(describing: error))") }
                       })
-               }
+
 
            }
 
-    func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack, metalRender: Renderer) {
-        if let heifImageData = metalRender.getOffScreenHEIF() {
-        PHPhotoLibrary.shared().performChanges({
-            let creationRequest = PHAssetCreationRequest.forAsset()
-            creationRequest.addResource(with: .fullSizePhoto, data: heifImageData, options: nil)
-
-            if exportCollection == nil {
-                // new collection
-                let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
 
 
-                assetCollectionRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-                stack.exportAlbumIdentifier = assetCollectionRequest.placeholderForCreatedAssetCollection.localIdentifier
 
-            } else {
-                // asset collection exists
-                let addAssetRequest = PHAssetCollectionChangeRequest(for: exportCollection!)
-                addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-            }
-
-
-            }, completionHandler: {success, error in
-                  if !success { print("Error creating the asset: \(String(describing: error))") }
-              })
-        }
-
-    }
-
-    // MARK: photos Output
-      func filterAlbums(source: [PGLUUIDAssetCollection], titleString: String?) -> [PGLUUIDAssetCollection] {
-             if titleString == nil { return source }
-             else { return source.filter { $0.contains(titleString)} }
-         }
-
-      func getAlbums() -> [PGLUUIDAssetCollection] {
-          // make this generic with types parm?
-          var answer = [PGLUUIDAssetCollection]()
-          let albums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular , options: nil)
-          for index in 0 ..< (albums.count ) {
-                  answer.append( PGLUUIDAssetCollection( albums.object(at: index))!)
-
-          }
-          NSLog("PGLImageCollectionMasterController #getAlbums count = \(answer.count)")
-          return answer
-      }
 
 
 }

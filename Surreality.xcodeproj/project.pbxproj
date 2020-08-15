@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -103,6 +103,7 @@
 		A3BF515924D32D7400CD5114 /* GlanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515724D32D7400CD5114 /* GlanceUITests.swift */; };
 		A3BF515C24D3618300CD5114 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515B24D3618300CD5114 /* PGLImageController.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
+		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,6 +228,7 @@
 		A3BF515724D32D7400CD5114 /* GlanceUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceUITests.swift; sourceTree = "<group>"; };
 		A3BF515B24D3618300CD5114 /* PGLImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLImageController.swift; path = /Users/willloew/Developer/Surreality/Surreality/PGLImageController.swift; sourceTree = "<absolute>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
+		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +354,7 @@
 				A3BF50A724D32A3400CD5114 /* PGLFilterAttribute.swift */,
 				A3BF50A824D32A3400CD5114 /* PGLView.swift */,
 				A3BF50A924D32A3400CD5114 /* Renderer.swift */,
+				A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */,
 				A3BF50C924D32A3400CD5114 /* PGLFilterCIAbstract.swift */,
 				A3BF50CA24D32A3400CD5114 /* PGLTabsController.swift */,
 			);
@@ -524,7 +527,7 @@
 				};
 			};
 			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "Surreality" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.4";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -642,6 +645,7 @@
 				A3BF512A24D32A3400CD5114 /* PGLTransitionFilter.swift in Sources */,
 				A3BF50D924D32A3400CD5114 /* PixellateTransition.m in Sources */,
 				A3BF50E324D32A3400CD5114 /* PGLStackController.swift in Sources */,
+				A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */,
 				A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */,
 				A3BF50D824D32A3400CD5114 /* PixellatedPeople.m in Sources */,
 				A3BF50D624D32A3400CD5114 /* TiltShift.m in Sources */,

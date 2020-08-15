@@ -119,14 +119,17 @@ class PGLCategorySurvey: XCTestCase {
                 testFilterStack.stackType = "testSingleInputFilters"
                 testFilterStack.exportAlbumName = "testSingleInputFilters"
                 // set the stack with the title, type, exportAlbum for save
+                
+                testFilterStack.saveStackImage()
+
                 // save this output PGLImageController saveToPhotosLibrary
                 //  appStack.writeCDStacks()
 
                 // need the metalRender for the metalContext
 
-                if let offScreenRender = Renderer(metalView:) {
-                    appStack.saveStack(metalRender: )
-                }
+//                if let offScreenRender = Renderer(metalView:) {
+//                    appStack.saveStack(metalRender: )
+//                }
             }
             category1Index += 1
             testFilterStack.removeAllFilters()
