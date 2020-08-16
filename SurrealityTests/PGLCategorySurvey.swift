@@ -12,9 +12,9 @@ import Photos
 
 class PGLCategorySurvey: XCTestCase {
     let context = CIContext()
-    var favoritesAlbumList: PGLImageList?
+    var favoritesAlbumList: PGLAlbumSource?
     var appStack: PGLAppStack!
-
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         favoritesAlbumList = fetchFavoritesList()
@@ -26,8 +26,8 @@ class PGLCategorySurvey: XCTestCase {
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-               myAppDelegate.saveContext() // checks if context has changes
+//        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+//               myAppDelegate.saveContext() // checks if context has changes
                super.tearDown()
     }
 
@@ -45,27 +45,40 @@ class PGLCategorySurvey: XCTestCase {
 
     // MARK: common support func
 
-    func fetchFavoritesList() -> PGLImageList {
-        // only need several or one image.. omit the whole favorites?
+    func fetchFavoritesList() ->  PGLAlbumSource? {
 
-        var favIDs = [String]()
-        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
-        if let theFavoriteAlbum = userFavorites.firstObject {
-             let assets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
-                assets.enumerateObjects{(asset,index,stop) in
-                    favIDs.append(asset.localIdentifier)
-                }
-            let albumIDs = Array(repeating: theFavoriteAlbum.localIdentifier, count: favIDs.count)
+            let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
 
-            let theFavorites =  PGLImageList(localAssetIDs: favIDs, albumIds: albumIDs)
-            // this init assumes two matching arrays of same size localId and albumid
 
-            //        theFavorites.isAssetList = true
-            return theFavorites
+            if let theFavoriteAlbum = userFavorites.firstObject {
+                 let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
+                let theInfo =  PGLAlbumSource(theFavoriteAlbum,fetchResultAssets)
+    //                                          init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ))
+                                // init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? )
+                return theInfo
+
+            }
+            return nil
 
         }
-        return PGLImageList()
 
+    func setInputTo(imageParm: PGLFilterAttribute) {
+        guard let favoriteAlbumSource = fetchFavoritesList() else
+                   { fatalError("favoritesAlbum contents not returned") }
+        favoriteAlbumSource.filterParm = imageParm
+        let favoriteAssets = favoriteAlbumSource.assets() // converts to PGLAsset
+        // take the first ones for testing...
+
+        guard let selectedAssets = favoriteAssets?.prefix(6)
+            else { fatalError ("Favorite Album does not have 6 images") }
+
+        let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
+        for anAsset in selectedAssets {
+            userSelectionInfo.addSourceToSelection(asset: anAsset)
+        }
+
+         //use first 6 images of the favorites
+        userSelectionInfo.setUserPick()
     }
 
     // create class vars to hold each of the categories of filters
@@ -98,44 +111,52 @@ class PGLCategorySurvey: XCTestCase {
 
     func testSingleInputFilters() {
         var category1Index = 0
-        var category2Index = 0
+        var category2Index = -1
         var category1Filter: PGLSourceFilter
         var category2Filter: PGLSourceFilter
+
 
         for i in stride(from: 0, to: (PGLCategorySurvey.SingleFilterGroups.count - 1), by: 2)  {
         let group1 = PGLCategorySurvey.SingleFilterGroups[i]
         let group2 = PGLCategorySurvey.SingleFilterGroups[i + 1]
-        category2Index = 0
+        category2Index = -1
         while category1Index < group1.count {
 
-            let testFilterStack = PGLFilterStack()
+            let testFilterStack = appStack.viewerStack
                 // should use the appStack to supply the filterStack
-            testFilterStack.removeDefaultFilter()
+           testFilterStack.removeAllFilters()
+                // restores  setStartupDefault() as first filter
+
+            let firstFilter = testFilterStack.currentFilter()
+            guard let firstFilterInput = firstFilter.attribute(nameKey: "inputImage") else { return XCTFail() }
+             setInputTo(imageParm: firstFilterInput) // sets 6 images from favorites album
+
             category1Filter = group1[category1Index].pglSourceFilter()!
+            category1Filter.setDefaults()
             testFilterStack.append(category1Filter)
-           let input = category1Filter.attribute(nameKey: "inputImage")
-            input!.setImageCollectionInput(cycleStack: favoritesAlbumList! )
 
             if category2Index < (group2.count - 1) {
                 category2Index += 1
             } else {
                 category2Index = 0
             }
-                 category2Filter = group2[category2Index].pglSourceFilter()!
-                testFilterStack.append(category2Filter)
-                let stackResultImage = testFilterStack.stackOutputImage(false)
-                XCTAssertNotNil(stackResultImage)
-                XCTAssert(testFilterStack.activeFilters.count == 2, "stack does not have two filters as expected" )
-                testFilterStack.stackName = category1Filter.filterName + "+" + category2Filter.filterName
-                testFilterStack.stackType = "testSingleInputFilters"
-                testFilterStack.exportAlbumName = "testSingleInputFilters"
-                // set the stack with the title, type, exportAlbum for save
-                NSLog("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
-                let photoSaveResult =  testFilterStack.saveStackImage()
-                XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
+            category2Filter = group2[category2Index].pglSourceFilter()!
+            category2Filter.setDefaults()
+            testFilterStack.append(category2Filter)
+
+            let stackResultImage = testFilterStack.stackOutputImage(false)
+            XCTAssertNotNil(stackResultImage)
+            XCTAssert(testFilterStack.activeFilters.count == 3, "stack does not have three filters as expected" )
+            testFilterStack.stackName = category1Filter.filterName + "+" + category2Filter.filterName
+            testFilterStack.stackType = "testSingleInputFilters"
+            testFilterStack.exportAlbumName = "testSingleInputFilters"
+            // set the stack with the title, type, exportAlbum for save
+            NSLog("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
+            let photoSaveResult =  testFilterStack.saveStackImage()
+            XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
 
             category1Index += 1
-            testFilterStack.removeAllFilters()
+
 
 
         }

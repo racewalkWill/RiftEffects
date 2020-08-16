@@ -25,7 +25,7 @@ class PGLVisionDetector: PGLDetection {
       // detector and features vars also used in CIFilterAbstract for the Bump and Face CI filter subclasses
     var inputImage: CIImage?
     var oldInputImage: CIImage?
-    var viewCIContext: CIContext?
+    lazy var viewCIContext = (UIApplication.shared.delegate as? AppDelegate)?.appStack.getViewerStack().imageCIContext
     var filterAttribute: PGLFilterAttribute?
     var targetInputAttribute: PGLFilterAttributeImage?
     var targetInputTargetAttribute: PGLFilterAttributeImage?
@@ -93,7 +93,7 @@ class PGLVisionDetector: PGLDetection {
            try requestHandler.perform(requests)
        } catch let error as NSError {
            print("Failed to perform image request: \(error)")
-           self.presentAlert("Image Request Failed", error: error)
+//           self.presentAlert("Image Request Failed", error: error)
            return
        }
 
