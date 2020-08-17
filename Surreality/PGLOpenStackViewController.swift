@@ -53,7 +53,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
         dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        dateFormatter.timeStyle = .medium
         dateFormatter.locale = Locale.current
 
 
@@ -112,7 +112,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     }
 
     @IBAction func sortDateCreated(_ sender: UIBarButtonItem) {
-        sortData(by: SortStacks.CreatedDate)
+        sortData(by: SortStacks.ModifiedDate)
+            // uses the created date if modified date not defined
     }
 
     // MARK: - Table view data source
@@ -163,10 +164,10 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     func detailTextString(ofObject: CDFilterStack) -> String {
         var dateString: String
-       if let createdDate =  ofObject.created {
-            dateString = dateFormatter.string(from: createdDate)
+       if let modifiedDate =  ofObject.modified {
+            dateString = dateFormatter.string(from: modifiedDate)
        }
-       else { dateString = String()}
+       else { dateString =  dateFormatter.string(from: ofObject.created!)}
        let detailText = ofObject.type! + " " + dateString
         return detailText
     }
@@ -416,7 +417,7 @@ extension PGLOpenStackViewController {
                         }
                     case .ModifiedDate:
                         newSortItems = items.sorted {
-                                                   $0.modified! > $1.modified!
+                            ($0.modified ?? $0.created!) > ($1.modified ?? $1.created!)
                                                }
                     case .CreatedDate:
                         newSortItems = items.sorted {

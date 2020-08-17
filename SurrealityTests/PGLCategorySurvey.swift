@@ -121,17 +121,27 @@ class PGLCategorySurvey: XCTestCase {
         let group2 = PGLCategorySurvey.SingleFilterGroups[i + 1]
         category2Index = -1
         while category1Index < group1.count {
-
+            let newStack = PGLFilterStack()
+            newStack.setStartupDefault() // not sent in the init.. need a starting point
+            self.appStack.resetToTopStack(newStack: newStack)
+            
             let testFilterStack = appStack.viewerStack
                 // should use the appStack to supply the filterStack
-           testFilterStack.removeAllFilters()
-                // restores  setStartupDefault() as first filter
+
 
             let firstFilter = testFilterStack.currentFilter()
             guard let firstFilterInput = firstFilter.attribute(nameKey: "inputImage") else { return XCTFail() }
              setInputTo(imageParm: firstFilterInput) // sets 6 images from favorites album
 
             category1Filter = group1[category1Index].pglSourceFilter()!
+
+            // check if this is really a single image input filter - the blend with mask filters in stylize take three
+             let imageAttributesNames = category1Filter.imageInputAttributeKeys
+            if imageAttributesNames.count > 1 {
+                category1Index += 1
+                continue
+                // exit this loop iteration and go to the next category1Index value
+            }
             category1Filter.setDefaults()
             testFilterStack.append(category1Filter)
 
@@ -141,6 +151,12 @@ class PGLCategorySurvey: XCTestCase {
                 category2Index = 0
             }
             category2Filter = group2[category2Index].pglSourceFilter()!
+            let imageAttributesCategory2 = category2Filter.imageInputAttributeKeys
+                      if imageAttributesCategory2.count > 1 {
+                          // category2Filter is incremented on the next loop
+                          continue
+                          // exit this loop iteration and go to the next category1Index value
+                      }
             category2Filter.setDefaults()
             testFilterStack.append(category2Filter)
 
