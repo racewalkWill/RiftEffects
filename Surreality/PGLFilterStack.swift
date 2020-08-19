@@ -378,7 +378,8 @@ class PGLFilterStack  {
             // now outputs of prior filter go to the new activeOne inputs
             let newFilter = activeFilters[activeFilterIndex]
             moveInputsFrom(oldFilter, newFilter)
-            storedStack?.removeFromFilters(oldFilter.storedFilter!)
+            if oldFilter.storedFilter != nil {
+                storedStack?.removeFromFilters(oldFilter.storedFilter!)}
             return oldFilter
         }
 
@@ -459,9 +460,15 @@ class PGLFilterStack  {
         for index in 0...imagePosition { // only show up to the current filter in the stack
             filter = activeFilters[index]
             if thisImage != nil {
-                thisImage?.clampedToExtent()  // can this be moved into the render setup?
+
                 if thisImage!.extent.isInfinite {
-                    NSLog("PGLFilterStack imageUpdate thisImage has input of infinite extent")
+                    // issue CIColorDodgeBlendMode -> CIZoomBlur -> CIToneCurve
+                    // -> CIColorInvert -> CIHexagonalPixellate -> CICircleSplashDistortion)
+                    // clamp and crop if infinite extent
+//                  NSLog("PGLFilterStack imageUpdate thisImage has input of infinite extent")
+                    let clampedImage = thisImage?.clampedToExtent()
+                    thisImage = clampedImage?.cropped(to: cropRect)
+//                    NSLog("PGLFilterStack imageUpdate clamped and cropped to  \(String(describing: thisImage?.extent))")
                 }
                 filter.setInput(image: thisImage, source: nil)
             }
