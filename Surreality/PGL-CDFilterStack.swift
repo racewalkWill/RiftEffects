@@ -192,7 +192,7 @@ extension PGLSourceFilter {
 
         let moContext = PersistentContainer.viewContext
         if storedFilter == nil {
-            NSLog("PGLSourceFilter #cdFilterObject storedFilter nil insertNewObject")
+            NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(filterName)")
             storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
             storedFilter!.ciFilter = self.localFilter
             storedFilter!.ciFilterName = self.filterName

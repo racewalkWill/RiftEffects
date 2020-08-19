@@ -67,10 +67,14 @@ class PGLCategorySurvey: XCTestCase {
                    { fatalError("favoritesAlbum contents not returned") }
         favoriteAlbumSource.filterParm = imageParm
         let favoriteAssets = favoriteAlbumSource.assets() // converts to PGLAsset
-        // take the first ones for testing...
+       // mix it up with photos
 
-        guard let selectedAssets = favoriteAssets?.prefix(6)
-            else { fatalError ("Favorite Album does not have 6 images") }
+        var selectedAssets = [PGLAsset]()
+        let maxIndex = favoriteAssets!.count
+        while selectedAssets.count <= 6 {
+            let randomIndex = Int.random(in: 0 ..< maxIndex)
+            selectedAssets.append(favoriteAssets![randomIndex])
+        }
 
         let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
         for anAsset in selectedAssets {
@@ -178,5 +182,82 @@ class PGLCategorySurvey: XCTestCase {
         }
         }
     }
+
+    func testMultipleInputTransitionFilters() {
+        var category1Index = 0
+
+        var category1Filter: PGLSourceFilter
+
+
+
+        for i in 0 ..< PGLCategorySurvey.CompositeGroups.count {
+
+            let group1 = PGLCategorySurvey.CompositeGroups[i]
+
+            while category1Index < group1.count {
+                let newStack = PGLFilterStack()
+                newStack.setStartupDefault() // not sent in the init.. need a starting point
+                self.appStack.resetToTopStack(newStack: newStack)
+
+                let testFilterStack = appStack.viewerStack
+                    // should use the appStack to supply the filterStack
+
+
+                testFilterStack.removeLastFilter() // only one at start
+
+                category1Filter = group1[category1Index].pglSourceFilter()!
+                category1Filter.setDefaults()
+
+                NSLog("testMultipleInputTransitionFilters group1 filter = \(category1Filter.localizedName())")
+                let imageAttributesNames = category1Filter.imageInputAttributeKeys
+                for anImageAttributeName in imageAttributesNames {
+                    guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
+                    setInputTo(imageParm: thisAttribute) // the six images from favorites
+                }
+
+                testFilterStack.append(category1Filter)
+
+                addFiltersTo(stack: testFilterStack)
+
+                let stackResultImage = testFilterStack.stackOutputImage(false)
+                XCTAssertNotNil(stackResultImage)
+
+                testFilterStack.stackName = category1Filter.filterName + "+ various filters"
+                testFilterStack.stackType = "testMultipleInputTransitionFilters"
+                testFilterStack.exportAlbumName = "testMultipleInputTransitionFilters"
+                // set the stack with the title, type, exportAlbum for save
+                NSLog("PGLCategorySurvey #testMultipleInputTransitionFilters at groups \(i)  \(testFilterStack.stackName)")
+                let photoSaveResult =  testFilterStack.saveStackImage()
+                XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
+
+                category1Index += 1
+
+
+
+            }
+        }
+    }
+
+    func addFiltersTo(stack: PGLFilterStack) {
+        // put 9 random filters on the stack
+        for aGroup in PGLCategorySurvey.SingleFilterGroups {
+                let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
+                let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
+                thisFilter?.setDefaults()
+            NSLog("addFiltersTo added filter \(thisFilter!.localizedName())")
+            let imageAttributesNames = thisFilter!.imageInputAttributeKeys
+                for anImageAttributeName in imageAttributesNames {
+                    if anImageAttributeName == kCIInputImageKey { continue
+                        // skip the default.. adding to the stack will set the input
+                    }
+                    guard let thisAttribute = thisFilter!.attribute(nameKey: anImageAttributeName) else { continue }
+                   setInputTo(imageParm: thisAttribute) // the six images from favorites
+               }
+            stack.append(thisFilter!)
+
+        }
+
+    }
+
 
 }
