@@ -148,6 +148,33 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
+        if defaultValue == nil {
+
+            var cornerPoint: CGPoint?
+            NSLog("PGLFilterAttributeVector does not have default")
+            let insetRect = CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height).insetBy(dx: 100.0, dy: 100.0)
+            // assuming LLO here... 
+            switch attributeName {
+                case "inputTopLeft":
+                    cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY)
+
+                case "inputTopRight" :
+                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY)
+
+                case "inputBottomLeft":
+                     cornerPoint = insetRect.origin
+
+                case "inputBottomRight":
+                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y)
+
+                default:
+                    break
+            }
+            if cornerPoint != nil {
+
+                aSourceFilter.setVectorValue(newValue: CIVector(cgPoint: cornerPoint!), keyName: attributeName!)
+            }
+        }
 
 
     }

@@ -62,6 +62,27 @@ class PGLCategorySurvey: XCTestCase {
 
         }
 
+    func add9FiltersTo(stack: PGLFilterStack) {
+        // put 9 random filters on the stack
+        for aGroup in PGLCategorySurvey.SingleFilterGroups {
+                let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
+                let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
+                thisFilter?.setDefaults()
+            NSLog("addFiltersTo added filter \(thisFilter!.localizedName())")
+            let imageAttributesNames = thisFilter!.imageInputAttributeKeys
+                for anImageAttributeName in imageAttributesNames {
+                    if anImageAttributeName == kCIInputImageKey { continue
+                        // skip the default.. adding to the stack will set the input
+                    }
+                    guard let thisAttribute = thisFilter!.attribute(nameKey: anImageAttributeName) else { continue }
+                   setInputTo(imageParm: thisAttribute) // the six images from favorites
+               }
+            stack.append(thisFilter!)
+
+        }
+
+    }
+
     func setInputTo(imageParm: PGLFilterAttribute) {
         guard let favoriteAlbumSource = fetchFavoritesList() else
                    { fatalError("favoritesAlbum contents not returned") }
@@ -217,7 +238,7 @@ class PGLCategorySurvey: XCTestCase {
 
                 testFilterStack.append(category1Filter)
 
-                addFiltersTo(stack: testFilterStack)
+                add9FiltersTo(stack: testFilterStack)
 
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                 XCTAssertNotNil(stackResultImage)
@@ -238,26 +259,74 @@ class PGLCategorySurvey: XCTestCase {
         }
     }
 
-    func addFiltersTo(stack: PGLFilterStack) {
-        // put 9 random filters on the stack
-        for aGroup in PGLCategorySurvey.SingleFilterGroups {
-                let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
-                let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
-                thisFilter?.setDefaults()
-            NSLog("addFiltersTo added filter \(thisFilter!.localizedName())")
-            let imageAttributesNames = thisFilter!.imageInputAttributeKeys
-                for anImageAttributeName in imageAttributesNames {
-                    if anImageAttributeName == kCIInputImageKey { continue
-                        // skip the default.. adding to the stack will set the input
-                    }
-                    guard let thisAttribute = thisFilter!.attribute(nameKey: anImageAttributeName) else { continue }
-                   setInputTo(imageParm: thisAttribute) // the six images from favorites
-               }
-            stack.append(thisFilter!)
+    func testiOS13Filters() {
+          /*   CIDocumentEnhancer
+               CIGaborGradients
+               CIKeystoneCorrectionCombined
+               CIKeystoneCorrectionHorizontal
+               CIKeystoneCorrectionVertical
+               CIKMeans
+               CIMorphologyRectangleMaximum
+               CIMorphologyRectangleMinimum
+               CIPaletteCentroid
+               CIPalettize
+               CIPerspectiveRotate
+        */
+        var newFilter: PGLSourceFilter
 
+        let iOS13FilterNames = [
+            "CIDocumentEnhancer",
+            "CIGaborGradients",
+             "CIKeystoneCorrectionCombined",
+             "CIKeystoneCorrectionHorizontal",
+             "CIKeystoneCorrectionVertical",
+             "CIKMeans",
+             "CIMorphologyRectangleMaximum",
+             "CIMorphologyRectangleMinimum",
+             "CIPaletteCentroid",
+             "CIPalettize",
+             "CIPerspectiveRotate"
+        ]
+
+        let iOS13Category = PGLFilterCategory("ios13Filters")!
+        let descriptors = iOS13Category.buildCategoryFilterDescriptors(filterNames: iOS13FilterNames)
+
+        for ios13FilterDescriptor in descriptors {
+            let newStack = PGLFilterStack()
+              newStack.setStartupDefault() // not sent in the init.. need a starting point
+              self.appStack.resetToTopStack(newStack: newStack)
+              let testFilterStack = appStack.viewerStack
+                  // should use the appStack to supply the filterStack
+              testFilterStack.removeLastFilter() // only one at start
+
+            newFilter = ios13FilterDescriptor.pglSourceFilter()!
+            newFilter.setDefaults()
+
+            XCTAssertNotNil(newFilter)
+            let imageAttributesNames = newFilter.imageInputAttributeKeys
+            for anImageAttributeName in imageAttributesNames {
+                guard let thisAttribute = newFilter.attribute(nameKey: anImageAttributeName) else { continue }
+                setInputTo(imageParm: thisAttribute) // the six images from favorites
+            }
+            testFilterStack.append(newFilter)
+
+            let stackResultImage = testFilterStack.stackOutputImage(false)
+               XCTAssertNotNil(stackResultImage)
+
+               testFilterStack.stackName = newFilter.filterName
+               testFilterStack.stackType = "testiOS13Filters"
+               testFilterStack.exportAlbumName = "exportTestiOS13Filters"
+               // set the stack with the title, type, exportAlbum for save
+               NSLog("PGLCategorySurvey #testiOS13Filters  \(testFilterStack.stackName)")
+               let photoSaveResult =  testFilterStack.saveStackImage()
+               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
         }
 
-    }
+       }
+
+
+
+
 
 
 }

@@ -30,6 +30,7 @@ extension CIFilter {
     // the filter is constructed with
             //    let wrapperDesc = PGLFilterDescriptor("CIDissolveTransition", PGLDissolveWrapperFilter.self)!
             //        let wrapperFilter = wrapperDesc.pglSourceFilter() as! PGLDissolveWrapperFilter
+    
         let answerDict: [String: [PGLSourceFilter.Type]] =   [
           "CICrop": [PGLRectangleFilter.self] ,
           kPFaceFilter : [PGLDetectorFilter.self],

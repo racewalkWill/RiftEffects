@@ -163,7 +163,7 @@ class PGLFilterCategory {
     var filterDescriptors = [PGLFilterDescriptor]()
 
 
-    fileprivate func buildCategoryFilterDescriptors(_ thisCategoryString: String, filterNames: [String]) -> [PGLFilterDescriptor] {
+     func buildCategoryFilterDescriptors( filterNames: [String]) -> [PGLFilterDescriptor] {
         var builtDescriptors = [PGLFilterDescriptor]()
 
         for aFilterName in filterNames {
@@ -194,7 +194,7 @@ class PGLFilterCategory {
 
              categoryConstant = thisCategoryString
             categoryName = CIFilter.localizedName(forCategory: thisCategoryString)
-            filterDescriptors = buildCategoryFilterDescriptors(thisCategoryString, filterNames: CIFilter.filterNames(inCategory: thisCategoryString) )
+            filterDescriptors = buildCategoryFilterDescriptors( filterNames: CIFilter.filterNames(inCategory: thisCategoryString) )
         // removed the setup of the customCategory 8/27/18 version has custom category code
 
 
@@ -203,7 +203,7 @@ class PGLFilterCategory {
     init(specialCategory: String, filterNames: [String]) {
         categoryConstant = specialCategory
         categoryName = specialCategory
-        filterDescriptors = buildCategoryFilterDescriptors(specialCategory, filterNames: filterNames )
+        filterDescriptors = buildCategoryFilterDescriptors( filterNames: filterNames )
     }
 
     func filterDescriptor(atIndex: Int) -> PGLFilterDescriptor? {
