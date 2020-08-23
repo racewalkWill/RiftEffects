@@ -464,9 +464,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        parm.moveTo(startPoint: startPoint, newPoint: endingPoint, inView: (myimageController?.view)!)
             // PGLFilterAttributeRectangle should have empty implementation of moveTo
             // it moves on the OK action not the pan ended
-        if let viewHeight = imageController?.view.bounds.height {
+
+        if let viewHeight = imageController?.view.bounds.height  {
             let flippedVertical = viewHeight - endingPoint.y
-            parm.set(CIVector(x: endingPoint.x * scaleFactor , y: flippedVertical * scaleFactor ))
+            let newVector = parm.mapPoint2Vector(point: endingPoint, viewHeight: viewHeight, scale: scaleFactor)
+            parm.set(newVector)
+            // or parm.set(oldVector)
             }
         attributeValueChanged()
 //        startPoint = CGPoint.zero // reset
@@ -512,7 +515,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
 
-    func glkParmControls() -> [String : UIImageView] {
+    func imageViewParmControls() -> [String : UIImageView] {
         // answers dictionary indexed index by attributeName
         return imageController?.parmControls ?? [String : UIImageView]()
     }
@@ -537,7 +540,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
     func highlight(viewNamed: String) {
-        for aParmControlTuple in glkParmControls() {
+        for aParmControlTuple in imageViewParmControls() {
             if aParmControlTuple.key == viewNamed {
               aParmControlTuple.value.isHidden = false
                  aParmControlTuple.value.isHighlighted = true

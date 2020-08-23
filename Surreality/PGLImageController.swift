@@ -565,9 +565,16 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             
             let inViewHeight = view.bounds.height
             yPoint = inViewHeight - yPoint  // flip around the midpoint of the view
-            let newOrigin = CGPoint(x: (positionVector.x), y: yPoint)
 
-            let controlFrame = CGRect(origin: newOrigin, size: newSize)
+
+//              NSLog("PGLImageController #addPositionContorl positionVector = \(positionVector)")
+            let mappedOrigin = attribute.mapVector2Point(vector: positionVector, viewHeight: inViewHeight, scale: myScaleFactor)
+
+
+
+            let controlFrame = CGRect(origin: mappedOrigin, size: newSize)
+            // newOrigin should be the center of the controlFrame
+
 
 //            let normalImage = PGLControlRenderer.starImage(withSize: newSize)
 //            let highlight = PGLControlRenderer.starImageHighLight(withSize: newSize)
@@ -575,6 +582,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //
             let newView = UIImageView(image: crossPoint)
             newView.frame =  controlFrame
+            newView.center = mappedOrigin
 
             newView.isOpaque = true
             newView.alpha = 0.6
@@ -587,6 +595,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             parmControls[attribute.attributeName!] = newView
             newView.isHidden = true
         }
+        else {
+            NSLog("PGLImageController #addPositionControl fails on no vector value in \(attribute)")}
     }
 
 

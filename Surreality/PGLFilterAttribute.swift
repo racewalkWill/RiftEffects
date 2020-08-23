@@ -493,6 +493,26 @@ class PGLFilterAttribute {
         return (attributeType == kCIAttributeTypeTime)
     }
 
+    func mapPoint2Vector(point: CGPoint, viewHeight: CGFloat, scale: CGFloat) -> CIVector {
+        // Upper Left Origin coord ULO point
+        // vector in Lower Left coord  LLO
+
+        let flippedVertical = viewHeight - point.y
+            // is this the inverse func for vector2Point??
+        let newVector = CIVector(x: point.x * scale , y: flippedVertical * scale )
+        return newVector
+    }
+
+    func mapVector2Point(vector: CIVector, viewHeight: CGFloat, scale: CGFloat) -> CGPoint {
+        // Upper Left Origin coord ULO point
+        // vector in Lower Left coord  LLO
+        let yPoint = ((vector.y / scale) - viewHeight) * -1.0
+        // UNDO the flip from ULO to LLO
+        let newPoint = CGPoint(x: (vector.x/scale) , y: yPoint)
+//        let newPoint = CGPoint(x: vector.x , y: yPoint)
+        return newPoint
+    }
+
     func okActionToSetValue() -> Bool {
         // subclass override to true if set value is deferred to the OK action of the parm cell
         return false

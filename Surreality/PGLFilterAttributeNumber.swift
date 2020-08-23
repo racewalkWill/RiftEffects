@@ -153,19 +153,24 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
             var cornerPoint: CGPoint?
             NSLog("PGLFilterAttributeVector does not have default")
             let insetRect = CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height).insetBy(dx: 100.0, dy: 100.0)
-            // assuming LLO here... 
+            // assuming LLO here...
+            // now trying ULO
             switch attributeName {
                 case "inputTopLeft":
-                    cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY)
+                    cornerPoint = insetRect.origin  // ULO
+                   //LLO cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY)
 
                 case "inputTopRight" :
-                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY)
+                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y) // ULO
+                   //LLO  cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY)
 
                 case "inputBottomLeft":
-                     cornerPoint = insetRect.origin
+                    cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY) // ULO
+                    //LLO  cornerPoint = insetRect.origin
 
                 case "inputBottomRight":
-                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y)
+                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY) //ULO
+                    //LLO cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y)
 
                 default:
                     break
@@ -173,11 +178,16 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
             if cornerPoint != nil {
 
                 aSourceFilter.setVectorValue(newValue: CIVector(cgPoint: cornerPoint!), keyName: attributeName!)
+                let newValue = getVectorValue()
+                NSLog("PGLFilterAttributeVector set default of \(self) \(attributeName) to \(newValue)")
+                
             }
         }
 
 
     }
+
+
 
     func setVectorEndPoint() {
         if startPoint != nil

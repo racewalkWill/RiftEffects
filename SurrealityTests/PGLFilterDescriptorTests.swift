@@ -144,6 +144,7 @@ class PGLFilterDescriptorTests: XCTestCase {
         var attributeClassCounts = [String:Int]() // key is class name , value is number of occurences in all the filters
         var countedFilter: CIFilter?
         var oldCount = 0
+        var filtersUsingVectors = [String]()
 
 
         let allCategories = PGLFilterCategory.allFilterCategories()
@@ -170,6 +171,9 @@ class PGLFilterDescriptorTests: XCTestCase {
                             let attributeClass = thisAttributeDict[kCIAttributeClass] as! String
                             oldCount = attributeClassCounts[attributeClass] ?? 0
                             attributeClassCounts[attributeClass] = oldCount + 1
+                                if attributeClass == "CIVector" {
+                                    filtersUsingVectors.append(aFilterName)
+                                }
                             if let attibuteType = thisAttributeDict[kCIAttributeType] as? String {
                                     oldCount = attributeTypeCounts[attibuteType] ?? 0
                                     attributeTypeCounts[attibuteType] = oldCount + 1
@@ -191,6 +195,7 @@ class PGLFilterDescriptorTests: XCTestCase {
         NSLog("testFilterAttibuteCounter PARMS (parmsSize: filterCount) \(attributeCounts)")
         NSLog("testFilterAttibuteCounter CLASS (class: count) \(attributeClassCounts)")
         NSLog("testFilterAttibuteCounter TYPE (type: count) \(attributeTypeCounts)")
+        NSLog("filters with Vectors \(filtersUsingVectors)")
 
     }
 
