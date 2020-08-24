@@ -152,25 +152,25 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
             var cornerPoint: CGPoint?
             NSLog("PGLFilterAttributeVector does not have default")
-            let insetRect = CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height).insetBy(dx: 100.0, dy: 100.0)
+            let insetRect = CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height).insetBy(dx: 200.0, dy: 200.0)
             // assuming LLO here...
             // now trying ULO
             switch attributeName {
                 case "inputTopLeft":
-                    cornerPoint = insetRect.origin  // ULO
-                   //LLO cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY)
+                   // cornerPoint = insetRect.origin  // ULO
+                  cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY)  //LLO
 
                 case "inputTopRight" :
-                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y) // ULO
-                   //LLO  cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY)
+//                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y) // ULO
+                   cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY)  //LLO
 
                 case "inputBottomLeft":
-                    cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY) // ULO
-                    //LLO  cornerPoint = insetRect.origin
+//                    cornerPoint = CGPoint(x: insetRect.origin.x, y: insetRect.maxY) // ULO
+                    cornerPoint = insetRect.origin //LLO
 
                 case "inputBottomRight":
-                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY) //ULO
-                    //LLO cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y)
+//                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.maxY) //ULO
+                    cornerPoint = CGPoint(x: insetRect.maxX, y: insetRect.origin.y) //LLO 
 
                 default:
                     break

@@ -63,7 +63,8 @@ class PGLFilterCategory {
 
     static var failingFilters = ["CIBarcodeDescriptor", "CIBarcodeGenerator", "CIMeshGenerator","CICoreMLModelFilter",
         "CICameraCalibrationLensCorrection" , "CIEdgePreserveUpsampleFilter",
-        "CIColorCubeWithColorSpace", "CIColorCubesMixedWithMask", "CIColorCube"]
+        "CIColorCubeWithColorSpace", "CIColorCubesMixedWithMask", "CIColorCube",
+        "CIKMeans", "CIPaletteCentroid" , "CIPalettize" ]
     static var skipFailingFilters = true  // change to false to include all filters
         // a test case could set this to false to test for CIFilter changes in iOS releases
 
