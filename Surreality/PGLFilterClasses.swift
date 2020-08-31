@@ -211,10 +211,17 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         var addingArray = [String]()
         for key in localFilter.inputKeys {
             if let attrDict = localFilter.attributes[key]  {
-                var thisDict = attrDict as! [String : Any]
-                let attributeType = thisDict[kCIAttributeType] as? String
+                let thisDict = attrDict as! [String : Any]
+                if let attributeType = thisDict[kCIAttributeType] as? String {
                 if attributeType == kCIAttributeTypeImage {
                     addingArray.append(key)
+                    } }
+                else { if let attributeClass = thisDict[kCIAttributeClass] as? String {
+                    if attributeClass == "CIImage" {
+                        addingArray.append(key)
+                    }
+                    }
+
                 }
             }
         }

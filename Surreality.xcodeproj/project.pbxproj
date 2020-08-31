@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A318F31F24FC0D8B00569349 /* PGLFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
 		A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504124D32A3400CD5114 /* PGLResultsController.swift */; };
 		A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504324D32A3400CD5114 /* Sobel.m */; };
@@ -124,6 +125,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterGroup.swift; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* SurrealityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */,
 				A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */,
 				A3BF50A024D32A3400CD5114 /* PGLFilterStack.swift */,
+				A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */,
 				A3BF50A124D32A3400CD5114 /* PGLSourceMetalFilter.swift */,
 				A3BF50A224D32A3400CD5114 /* PGLTransitionFilter.swift */,
 				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,
@@ -637,6 +640,7 @@
 				A3BF50EA24D32A3400CD5114 /* PGLFilterChange.swift in Sources */,
 				A3BF511224D32A3400CD5114 /* PGLFeatureTransitionFilter.swift in Sources */,
 				A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */,
+				A318F31F24FC0D8B00569349 /* PGLFilterGroup.swift in Sources */,
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,
 				A3BF513624D32A3400CD5114 /* PGLAssetCollection.swift in Sources */,
 				A3BF514824D32A3400CD5114 /* PGLTabsController.swift in Sources */,

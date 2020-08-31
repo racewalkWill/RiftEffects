@@ -62,12 +62,21 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         configureNavigationItem()
         let snapshot = initialSnapShot()
         dataSource.apply(snapshot, animatingDifferences: false)
+         NSLog("PGLOpenStackViewControler viewDidLoad completed")
 
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
+          NSLog("PGLOpenStackViewControler viewDidDisappear set dataSource to nil")
         dataSource = nil
 
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        if dataSource == nil {
+             NSLog("PGLOpenStackViewControler viewWillAppear dataSource = nil ")
+            configureDataSource()
+        }
     }
 
     func setFetchController() -> NSFetchedResultsController<NSFetchRequestResult> {
@@ -98,20 +107,23 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     @IBAction func typeFilterBtn(_ sender: UIBarButtonItem) {
         // open picker view for stack type filter choices
 //        let userStackTypes = AppUserDefaults.array(forKey: StackTypeKey)
-
+        NSLog("PGLOpenStackViewController typeFilterBtn action")
         sortData(by: SortStacks.StackType)
 
     }
 
     @IBAction func sortAscendngBtn(_ sender: UIBarButtonItem) {
+        NSLog("PGLOpenStackViewController sortAscendngBtn action")
         sortData(by: SortStacks.AscendingTitle)
     }
 
     @IBAction func sortDescendingBtn(_ sender: UIBarButtonItem) {
+         NSLog("PGLOpenStackViewController sortDescendingBtn action")
         sortData(by: SortStacks.DescendingTitle)
     }
 
     @IBAction func sortDateCreated(_ sender: UIBarButtonItem) {
+        NSLog("PGLOpenStackViewController sortDateCreated action")
         sortData(by: SortStacks.ModifiedDate)
             // uses the created date if modified date not defined
     }
@@ -325,7 +337,7 @@ extension PGLOpenStackViewController {
             if cell == nil {
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "stackCell")
             }
-           NSLog("DataSource cdFilterStack =  \(cdFilterStack)")
+//           NSLog("DataSource cdFilterStack =  \(cdFilterStack)")
             if let cell = cell {
                 cell.textLabel?.text  = cdFilterStack.title
                 cell.detailTextLabel?.text = self.detailTextString(ofObject: cdFilterStack)
@@ -348,7 +360,8 @@ extension PGLOpenStackViewController {
         snapshot.appendSections([0])
 
         if let stacks = fetchedStacks
-          { snapshot.appendItems(stacks) }
+          { NSLog("PGLOpenStackViewController #initialSnapShot count = \(stacks.count)")
+            snapshot.appendItems(stacks) }
         else { snapshot.appendItems([CDFilterStack]())
              // show empty snapshot
              }
@@ -398,9 +411,11 @@ extension PGLOpenStackViewController {
 
         func sortData(by: SortStacks) {
             var newSortItems =  [CDFilterStack]()
+            NSLog("PGLOpenStackViewControler #sortData start")
             var updatedSnapshot = dataSource.snapshot()
             updatedSnapshot.sectionIdentifiers.forEach {
                 let section = $0
+                NSLog("PGLOpenStackViewControler #sortData section = \(section)")
                 let items = updatedSnapshot.itemIdentifiers(inSection: section)
                 switch by {
                     case .AscendingTitle:
@@ -423,6 +438,8 @@ extension PGLOpenStackViewController {
                         newSortItems = items.sorted {
                             $0.created! > $1.created!
                         }
+
+
 
                 }
                 updatedSnapshot.deleteItems(items)

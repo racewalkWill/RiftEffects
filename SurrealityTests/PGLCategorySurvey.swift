@@ -280,11 +280,11 @@ class PGLCategorySurvey: XCTestCase {
              "CIKeystoneCorrectionCombined",
              "CIKeystoneCorrectionHorizontal",
              "CIKeystoneCorrectionVertical",
-             "CIKMeans",
+ //           PGLFilterCategory.failingFilter             "CIKMeans",
              "CIMorphologyRectangleMaximum",
              "CIMorphologyRectangleMinimum",
-             "CIPaletteCentroid",
-             "CIPalettize",
+//           PGLFilterCategory.failingFilter  "CIPaletteCentroid",
+//           PGLFilterCategory.failingFilter              "CIPalettize",
              "CIPerspectiveRotate"
         ]
 
@@ -324,8 +324,131 @@ class PGLCategorySurvey: XCTestCase {
 
        }
 
+    func testGeneratorChildStack() {
+        // put a generator on a child stack
+        var category1Index = 0
+
+        var category1Filter: PGLSourceFilter
+
+        let maxIterations = 2
+//        for i in 0 ..< PGLCategorySurvey.CompositeGroups.count {
+        NSLog("testGeneratorChildStack PGLCategorySurvey.CompositeGroups.count = \(PGLCategorySurvey.CompositeGroups.count)")
+        for i in 0 ..< maxIterations {
+               let group1 = PGLCategorySurvey.CompositeGroups[i]
+
+            while category1Index < maxIterations {
+//               while category1Index < group1.count {
+                   let newStack = PGLFilterStack()
+                   newStack.setStartupDefault() // not sent in the init.. need a starting point
+                   self.appStack.resetToTopStack(newStack: newStack)
+
+                   let testFilterStack = appStack.viewerStack
+                       // should use the appStack to supply the filterStack
 
 
+                   testFilterStack.removeLastFilter() // only one at start
+
+                   category1Filter = group1[category1Index].pglSourceFilter()!
+                   category1Filter.setDefaults()
+
+                   NSLog("testGeneratorChildStack group1 filter = \(category1Filter.localizedName())")
+                   let imageAttributesNames = category1Filter.imageInputAttributeKeys
+                   for anImageAttributeName in imageAttributesNames {
+                       guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
+                       setInputTo(imageParm: thisAttribute) // the six images from favorites
+                    }
+
+                   testFilterStack.append(category1Filter)
+
+                    // Create a child stack and append to one of the image inputs
+                if imageAttributesNames.count > 1 {
+                    guard let stackInputAttribute = category1Filter.attribute(nameKey: imageAttributesNames[1]) else { continue }
+                    appStack.addChildStackTo(parm: stackInputAttribute)
+                    let childStack = appStack.viewerStack // the new childStack
+                    childStack.removeLastFilter()
+                    let aFilterIndex = Int.random(in: 0 ..< PGLCategorySurvey.DistortFilters.count)
+                    let childFilter1 = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()
+
+                    // set the image inputs of childFilter1
+                    let imageAttributesNames = childFilter1!.imageInputAttributeKeys
+                        for anImageAttributeName in imageAttributesNames {
+
+                            guard let thisAttribute = childFilter1!.attribute(nameKey: anImageAttributeName) else { continue }
+                           setInputTo(imageParm: thisAttribute) // the six images from favorites
+                       }
+                    childStack.append(childFilter1!)
+
+
+                }
+
+                let stackResultImage = testFilterStack.stackOutputImage(false)
+               XCTAssertNotNil(stackResultImage)
+
+               testFilterStack.stackName = category1Filter.filterName + "+ child filters"
+               testFilterStack.stackType = "testGeneratorChildStack"
+               testFilterStack.exportAlbumName = "testGeneratorChildStack"
+               // set the stack with the title, type, exportAlbum for save
+               NSLog("PGLCategorySurvey #testGeneratorChildStack at groups \(i)  \(testFilterStack.stackName)")
+               let photoSaveResult =  testFilterStack.saveStackImage()
+               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
+
+                category1Index += category1Index
+            }
+        }
+    }
+
+    func testSelectedFilters() {
+
+            var newFilter: PGLSourceFilter
+            // from a failing testMultipleInput run
+            let filterNames = [
+//                "CIDivideBlendMode",
+                "CIDepthBlurEffect"
+//                 "CIColorMatrix",
+//                 "CIColorMonochrome",
+//                 "CIConvolution9Vertical",
+//                 "CIDroste",
+//                 "CIPerspectiveTransform",
+//                 "CISharpenLuminance",
+//                 "CICMYKHalftone",
+//                 "CIClamp"
+            ]
+
+            let constructedCategory = PGLFilterCategory("constructedCategory")!
+            let descriptors = constructedCategory.buildCategoryFilterDescriptors(filterNames: filterNames)
+
+            for aFilterDescriptor in descriptors {
+                let newStack = PGLFilterStack()
+                  newStack.setStartupDefault() // not sent in the init.. need a starting point
+                  self.appStack.resetToTopStack(newStack: newStack)
+                  let testFilterStack = appStack.viewerStack
+                      // should use the appStack to supply the filterStack
+                  testFilterStack.removeLastFilter() // only one at start
+
+                newFilter = aFilterDescriptor.pglSourceFilter()!
+                newFilter.setDefaults()
+
+                XCTAssertNotNil(newFilter)
+                let imageAttributesNames = newFilter.imageInputAttributeKeys
+                for anImageAttributeName in imageAttributesNames {
+                    guard let thisAttribute = newFilter.attribute(nameKey: anImageAttributeName) else { continue }
+                    setInputTo(imageParm: thisAttribute) // the six images from favorites
+                }
+                testFilterStack.append(newFilter)
+
+                let stackResultImage = testFilterStack.stackOutputImage(false)
+                   XCTAssertNotNil(stackResultImage)
+
+                   testFilterStack.stackName = newFilter.filterName
+                   testFilterStack.stackType = "CIDivideBlendMode"
+                   testFilterStack.exportAlbumName = "exportCIDivideBlendModeTest"
+                   // set the stack with the title, type, exportAlbum for save
+                   NSLog("PGLCategorySurvey #testSelectedFilters  \(testFilterStack.stackName)")
+                   let photoSaveResult =  testFilterStack.saveStackImage()
+                   XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
+            }
+
+           }
 
 
 

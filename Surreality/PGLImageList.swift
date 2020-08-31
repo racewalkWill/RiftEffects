@@ -227,6 +227,11 @@ class PGLImageList {
            var pickedCIImage: CIImage?
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                guard let theImage = image else { return  }
+//              let auxDataType = kCGImageAuxiliaryDataTypeDisparity
+//               let auxDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(theImage, 0, auxDataType)
+//            if auxDataInfo == nil {
+//                NSLog("PGLImageList #imageFrom \(asset) does not have disparity data")
+//            }
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
                 let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
 //                NSLog("PGLImageList #imageFrom theOrientation = \(String(reflecting: theOrientation))")
