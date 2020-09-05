@@ -44,9 +44,6 @@ class PGLOffScreenRender {
           NSLog("PGLOffScreenRender #captureUIImage currentRect = \(currentRect)")
           let croppedOutput = ciOutput.cropped(to: currentRect)
           guard let currentOutputImage = offScreenContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
-
-
-
           NSLog("PGLOffScreenRender #captureImage croppedOutput.extent = \(croppedOutput.extent)")
 
           return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
@@ -54,6 +51,20 @@ class PGLOffScreenRender {
 
 
     }
+
+    func renderCGImage(source: CIImage) -> CGImage? {
+
+        let currentRect = CGRect(origin: CGPoint.zero, size: TargetSize)
+          NSLog("PGLOffScreenRender #captureUIImage currentRect = \(currentRect)")
+        let croppedOutput = source.cropped(to: currentRect)
+          guard let currentOutputImage = offScreenContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
+          NSLog("PGLOffScreenRender #captureImage croppedOutput.extent = \(croppedOutput.extent)")
+
+          return currentOutputImage
+
+
+    }
+
 
 
 }

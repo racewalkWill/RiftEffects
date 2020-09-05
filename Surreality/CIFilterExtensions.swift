@@ -50,7 +50,8 @@ extension CIFilter {
             "CIPageCurlWithShadowTransition" : [PGLTransitionFilter.self ],
             "CIRippleTransition" : [PGLTransitionFilter.self],
             "CISwipeTransition": [PGLTransitionFilter.self] ,
-            "CIQRCodeGenerator": [PGLQRCodeGenerator.self ]
+            "CIQRCodeGenerator": [PGLQRCodeGenerator.self ],
+            "CIDepthBlurEffect" : [PGLDisparityFilter.self]
         ]
         return answerDict
     }

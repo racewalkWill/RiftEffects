@@ -65,7 +65,7 @@ class PGLFilterCategory {
         "CICameraCalibrationLensCorrection" , "CIEdgePreserveUpsampleFilter",
         "CIColorCubeWithColorSpace", "CIColorCubesMixedWithMask", "CIColorCube",
         "CIKMeans", "CIPaletteCentroid" , "CIPalettize", "CIColorCurves"]
-    static var skipFailingFilters = true  // change to false to include all filters
+    static var skipFailingFilters = false  // change to false to include all filters
         // a test case could set this to false to test for CIFilter changes in iOS releases
 
     static let Bookmark = "Bookmark"  // also described as "Frequent" "Bookmark" in code

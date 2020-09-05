@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Photos
 import CoreImage
+import Accelerate
 
 enum NextElement {
     case even
@@ -221,7 +222,14 @@ class PGLImageList {
           return answerImage
        }
 
-       fileprivate func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
+    func currentDisparityMap() -> CIImage? {
+         let targetAsset = imageAssets[position]
+         let answerImage = image(atIndex: position)
+         let disparityImage = requestDisparityMap(asset: targetAsset.asset, image: answerImage!)
+        return disparityImage
+    }
+
+    fileprivate func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
            // READS the CIImage
 
            var pickedCIImage: CIImage?
@@ -242,6 +250,117 @@ class PGLImageList {
            })
            return pickedCIImage
        }
+
+
+
+    func requestDisparityMap(asset: PHAsset, image: CIImage) -> CIImage? {
+        // may not have depthData in many cases
+        // process timing.. run in background for callback.
+        // suggested to downSample the image to improve performance
+        // should end with disparity and image matching...
+        var auxImage: CIImage?
+        var scaledDisparityImage: CIImage?
+        var disparityImage: CIImage?
+        var normalizedDisparity: CIImage?
+        let options = PHContentEditingInputRequestOptions()
+
+
+        asset.requestContentEditingInput(with: options, completionHandler: { input, info in
+            guard let input = input
+                else { NSLog ("contentEditingInput not loaded")
+                     return
+                }
+            // what does info have for the real completion?
+            if !info.isEmpty {
+                // is PHContentEditingInputErrorKey in the info
+                NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
+            }
+         auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])
+         NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(auxImage)")
+
+        if auxImage != nil {
+        var depthData = auxImage?.depthData
+        if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat16 {
+            // convert to half-float
+            depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
+
+        disparityImage = auxImage?.applyingFilter("CIDepthToDisparity")
+        scaledDisparityImage = disparityImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
+            parameters: ["inputImage": image ,"inputSmallImage": auxImage])
+
+        // now compute min/max and normalize?
+        // see sample app "Finding the Sharpest Image in a Sequence of Captured Images" app named "AccelerateBlurDetection"
+        // for vDSP_normalize usage
+//           let minMaxPixels = scaledDisparityImage?.applyingFilter("CIAreaMinMax", parameters: [ "inputExtent" : scaledDisparityImage?.extent, "inputImage" : scaledDisparityImage])
+
+//          normalizedDisparity = self.normalize3(scaledCIDisparity: scaledDisparityImage)
+
+//           let newMinMaxPixels = normalizedDisparity?.applyingFilter("CIAreaMinMax", parameters: [ "inputExtent" : scaledDisparityImage?.extent, "inputImage" : scaledDisparityImage])
+//         NSLog("PGLImageList #requestDisparityMap before minMax = \(minMaxPixels), after = \(newMinMaxPixels)")
+
+        }
+
+        } )
+
+        return scaledDisparityImage
+    }
+
+    func normalize3(scaledCIDisparity: CIImage?) -> CIImage? {
+        // based upon option 3 answer in
+        // https://stackoverflow.com/questions/55433107/how-to-normalize-pixel-values-of-an-uiimage-in-swift/55434232#55434232
+        // uses Accelerate func vImageContrastStretch_ARGB8888
+
+        if scaledCIDisparity == nil {
+            return scaledCIDisparity
+        }
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+
+        guard let cgImage = PGLOffScreenRender().renderCGImage(source: scaledCIDisparity!) else { return nil }
+
+        var format = vImage_CGImageFormat(bitsPerComponent: UInt32(cgImage.bitsPerComponent),
+                                          bitsPerPixel: UInt32(cgImage.bitsPerPixel),
+                                          colorSpace: Unmanaged.passRetained(colorSpace),
+                                          bitmapInfo: cgImage.bitmapInfo,
+                                          version: 0,
+                                          decode: nil,
+                                          renderingIntent: cgImage.renderingIntent)
+
+        var source = vImage_Buffer()
+        var result = vImageBuffer_InitWithCGImage(
+            &source,
+            &format,
+            nil,
+            cgImage,
+            vImage_Flags(kvImageNoFlags))
+
+      
+
+        guard result == kvImageNoError else { return nil }
+
+        defer { free(source.data) }
+
+        var destination = vImage_Buffer()
+        result = vImageBuffer_Init(
+            &destination,
+            vImagePixelCount(cgImage.height),
+            vImagePixelCount(cgImage.width),
+            32,
+            vImage_Flags(kvImageNoFlags))
+
+        guard result == kvImageNoError else { return nil }
+
+        result = vImageContrastStretch_ARGB8888(&source, &destination, vImage_Flags(kvImageNoFlags))
+        guard result == kvImageNoError else { return nil }
+
+        defer { free(destination.data) }
+
+        let scaledCGImage =  vImageCreateCGImageFromBuffer(&destination, &format, nil, nil, vImage_Flags(kvImageNoFlags), nil)
+
+//        guard let thisCGoutput = scaledCGImage as? CGImage else { return CIImage.empty() }
+        let returnImage = scaledCGImage?.takeRetainedValue() //Gets the value of this unmanaged reference as a managed reference and consumes an unbalanced retain of it.
+        return CIImage(cgImage: returnImage! as! CGImage)
+
+    }
 
         func firstImageIndex() -> Int {
             switch nextType {

@@ -922,6 +922,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         else { return nil }
     }
 
+    func disparityMap() -> CIImage? {
+        // only a portrait mode photo from iPhone 7 or greater has the depth/disparity images
+         return inputCollection?.currentDisparityMap()
+    }
 
 }
 
