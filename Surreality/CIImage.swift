@@ -9,9 +9,8 @@
 import Foundation
 import CoreImage
 
-extension CIImage {
-    func runFilter() {
-            // add some filter names parms
-    }
-
-}
+//extension CIImage {
+//    var hasDepthData = false
+//
+//
+//}

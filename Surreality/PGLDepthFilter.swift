@@ -17,30 +17,32 @@ class PGLDisparityFilter: PGLSourceFilter {
     // some of the filters may have disparity in different attributes..
     // initial user is CI
 
+    var localFilterIsSpecialConstruction = false
+        // let the usual pglattribute construction
+        // change the local filter to a context created filter when the input is set
+        // set
 
-
-   override  func setImageValue(newValue: CIImage, keyName: String) {
+override func setImageValue(newValue: CIImage, keyName: String) {
     //        NSLog("PGLFilterClasses #setImageValue key = \(keyName)")
     //        newValue.clampedToExtent()
             // test changing all inputs to the same extent
 
             // get the disparity parm inputDisparityImage from the attribute imageList
-
-
+    if keyName == "inputDisparityImage" {return}
+    // the inputDisparityImage is set at the same time as inputImage by the disparityMap methods
+    
     if keyName == kCIInputImageKey {
         if let imageAttribute = attribute(nameKey: keyName) as? PGLFilterAttributeImage {
-            if let disparityValue = imageAttribute.disparityMap() {
-                NSLog("PGLDisparityFilter #setImageValue has disparityValue set both attributes")
-                localFilter.setValue( newValue, forKey: keyName)
-                localFilter.setValue(disparityValue, forKey: "inputDisparityImage")
-                postImageChange()
-            } else {
-                NSLog("PGLDisparityFilter #setImageValue no disparity - set imageValue normally")
-                super.setImageValue(newValue: newValue, keyName: keyName)}
+            // does newValue have a disparity in the auxImage data?
+
+                imageAttribute.disparityMap()
+
         }
-    } else {NSLog("PGLDisparityFilter #setImageValue NOT inputImageAttribut - set imageValue normally")
+        else {
+            NSLog("PGLDisparityFilter #setImageValue NOT inputImageAttribut - set imageValue normally")
             super.setImageValue(newValue: newValue, keyName: keyName)}
 
     }
+  }
 
 }

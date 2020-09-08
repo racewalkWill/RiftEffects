@@ -222,11 +222,13 @@ class PGLImageList {
           return answerImage
        }
 
-    func currentDisparityMap() -> CIImage? {
+    func currentDisparityMap(target: PGLFilterAttributeImage)  {
          let targetAsset = imageAssets[position]
-         let answerImage = image(atIndex: position)
-         let disparityImage = requestDisparityMap(asset: targetAsset.asset, image: answerImage!)
-        return disparityImage
+        if targetAsset.hasDepthData {
+            let answerImage = image(atIndex: position)
+            target.requestDisparityMap(asset: targetAsset.asset, image: answerImage!)
+        }
+
     }
 
     fileprivate func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
@@ -235,14 +237,12 @@ class PGLImageList {
            var pickedCIImage: CIImage?
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                guard let theImage = image else { return  }
-//              let auxDataType = kCGImageAuxiliaryDataTypeDisparity
-//               let auxDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(theImage, 0, auxDataType)
-//            if auxDataInfo == nil {
-//                NSLog("PGLImageList #imageFrom \(asset) does not have disparity data")
-//            }
+//            let auxDataType = kCGImageAuxiliaryDataTypeDisparity
+//            let auxDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(theImage as! CGImageSource, 0, auxDataType)
+                selectedAsset.hasDepthData = true //  get this set later.. (auxDataInfo != nil)
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
                 let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-//                NSLog("PGLImageList #imageFrom theOrientation = \(String(reflecting: theOrientation))")
+
 
                 pickedCIImage = convertedImage.oriented(theOrientation)
 
@@ -253,57 +253,6 @@ class PGLImageList {
 
 
 
-    func requestDisparityMap(asset: PHAsset, image: CIImage) -> CIImage? {
-        // may not have depthData in many cases
-        // process timing.. run in background for callback.
-        // suggested to downSample the image to improve performance
-        // should end with disparity and image matching...
-        var auxImage: CIImage?
-        var scaledDisparityImage: CIImage?
-        var disparityImage: CIImage?
-        var normalizedDisparity: CIImage?
-        let options = PHContentEditingInputRequestOptions()
-
-
-        asset.requestContentEditingInput(with: options, completionHandler: { input, info in
-            guard let input = input
-                else { NSLog ("contentEditingInput not loaded")
-                     return
-                }
-            // what does info have for the real completion?
-            if !info.isEmpty {
-                // is PHContentEditingInputErrorKey in the info
-                NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
-            }
-         auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])
-         NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(auxImage)")
-
-        if auxImage != nil {
-        var depthData = auxImage?.depthData
-        if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat16 {
-            // convert to half-float
-            depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
-
-        disparityImage = auxImage?.applyingFilter("CIDepthToDisparity")
-        scaledDisparityImage = disparityImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
-            parameters: ["inputImage": image ,"inputSmallImage": auxImage])
-
-        // now compute min/max and normalize?
-        // see sample app "Finding the Sharpest Image in a Sequence of Captured Images" app named "AccelerateBlurDetection"
-        // for vDSP_normalize usage
-//           let minMaxPixels = scaledDisparityImage?.applyingFilter("CIAreaMinMax", parameters: [ "inputExtent" : scaledDisparityImage?.extent, "inputImage" : scaledDisparityImage])
-
-//          normalizedDisparity = self.normalize3(scaledCIDisparity: scaledDisparityImage)
-
-//           let newMinMaxPixels = normalizedDisparity?.applyingFilter("CIAreaMinMax", parameters: [ "inputExtent" : scaledDisparityImage?.extent, "inputImage" : scaledDisparityImage])
-//         NSLog("PGLImageList #requestDisparityMap before minMax = \(minMaxPixels), after = \(newMinMaxPixels)")
-
-        }
-
-        } )
-
-        return scaledDisparityImage
-    }
 
     func normalize3(scaledCIDisparity: CIImage?) -> CIImage? {
         // based upon option 3 answer in

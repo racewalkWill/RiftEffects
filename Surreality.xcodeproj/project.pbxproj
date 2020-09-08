@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A318F31F24FC0D8B00569349 /* PGLFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */; };
+		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDepthFilter.swift */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
 		A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504124D32A3400CD5114 /* PGLResultsController.swift */; };
@@ -127,6 +128,7 @@
 
 /* Begin PBXFileReference section */
 		A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterGroup.swift; sourceTree = "<group>"; };
+		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* SurrealityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -321,6 +323,7 @@
 				A3BF507B24D32A3400CD5114 /* PGLQRCodeGenerator.swift */,
 				A3BF507C24D32A3400CD5114 /* PGLFilterClasses.swift */,
 				A39632D7250049F000F02CEC /* PGLDepthFilter.swift */,
+				A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */,
 				A3BF507D24D32A3400CD5114 /* CIImage.swift */,
 				A3BF507E24D32A3400CD5114 /* MetalFilters - Unused */,
 				A3BF508424D32A3400CD5114 /* PGLImageCIFilter.swift */,
@@ -630,6 +633,7 @@
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3BF513224D32A3400CD5114 /* PGLDataSource.swift in Sources */,
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
+				A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */,
 				A3BF513824D32A3400CD5114 /* PGLAssetGridController.swift in Sources */,
 				A3BF513924D32A3400CD5114 /* PGLUserAssetSelection.swift in Sources */,
 				A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */,

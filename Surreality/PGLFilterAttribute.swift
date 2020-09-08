@@ -849,6 +849,9 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     // || (attributeType == kCIAttributeTypeImage)?
 
 
+    var specialFilterIsAssigned = false
+    // indicates that myFilter was assigned by a special constructor method
+    // prevents the special specialConstructor from being assigned on every frame
 
     override func uiCellIdentifier() -> String {
         return  "Image"
@@ -922,12 +925,90 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         else { return nil }
     }
 
-    func disparityMap() -> CIImage? {
+    // MARK: Depth/Disparity PGLFilterAttributeImage
+
+    func disparityMap()  {
         // only a portrait mode photo from iPhone 7 or greater has the depth/disparity images
-         return inputCollection?.currentDisparityMap()
+          inputCollection?.currentDisparityMap(target: self)
     }
 
+    func requestDisparityMap(asset: PHAsset, image: CIImage) {
+            // may not have depthData in many cases
+            // process timing.. run in background for callback.
+            // suggested to downSample the image to improve performance
+            // should end with disparity and image matching...
+            var auxImage: CIImage?
+            var scaledDisparityImage: CIImage?
+
+            let options = PHContentEditingInputRequestOptions()
+
+
+            asset.requestContentEditingInput(with: options, completionHandler: { input, info in
+                guard let input = input
+                    else { NSLog ("contentEditingInput not loaded")
+                         return
+                    }
+             // the completion handler can run after the requestDisparityMap function returns
+            //  the completion handler has to assign a value not return a value
+
+                if !info.isEmpty {
+                    // is PHContentEditingInputErrorKey in the info
+                    NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
+                }
+             auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
+             NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(auxImage)")
+
+            if auxImage != nil {
+                var depthData = auxImage!.depthData
+            if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat32 {
+                // convert to half-float16
+                depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
+
+                depthData?.depthDataMap.normalize()
+
+            scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
+                parameters: ["inputImage": image ,"inputSmallImage": auxImage])
+
+                if !self.specialFilterIsAssigned {
+                    self.myFilter = self.specialConstructor(inputImage: image, disparityImage: scaledDisparityImage!)
+                    self.specialFilterIsAssigned = true
+                } else {
+                    // assign directly
+                    self.myFilter.setValue(image, forKey: kCIInputImageKey)
+                    self.myFilter.setValue(scaledDisparityImage, forKey: "inputDisparityImage")
+                    
+                }
+                self.postImageChange()
+                }
+            } )
+
+
+
+
+        }
+
+func specialConstructor(inputImage: CIImage, disparityImage: CIImage) -> CIFilter {
+    let ciContext = Renderer.ciContext // global context
+
+    let filter = ciContext!.depthBlurEffectFilter(for: inputImage,
+                                                 disparityImage: disparityImage,
+                                                 portraitEffectsMatte: nil,
+                                                 // the orientation of you input image
+                                                 orientation: CGImagePropertyOrientation.up,
+                                                 options: nil)!
+    filter.setValue(0.1, forKey: "inputAperture")
+    filter.setValue(0.1, forKey: "inputScaleFactor")
+    filter.setValue(CIVector(x: 0, y: 100, z: 100, w: 100), forKey: "inputFocusRect")
+    return filter
+
 }
+
+func postImageChange() {
+           let outputImageUpdate = Notification(name:PGLOutputImageChange)
+           NotificationCenter.default.post(outputImageUpdate)
+       }
+} // end PGLFilterAttributeImage
+
 
 class PGLFilterAttributeAngle: PGLFilterAttribute {
     // attributeType = CIAttributeTypeAngle
