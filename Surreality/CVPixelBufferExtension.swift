@@ -57,13 +57,29 @@ extension CVPixelBuffer {
     }
     
     let range = maxPixel - minPixel
+    NSLog("CVPixelBuffer #normalize start maxPixel = \(maxPixel), min = \(minPixel) range = \(range)")
     for y in stride(from: 0, to: height, by: 1) {
       for x in stride(from: 0, to: width, by: 1) {
         let pixel = floatBuffer[y * width + x]
         floatBuffer[y * width + x] = (pixel - minPixel) / range
       }
     }
-    
+
+ // check for new values
+     minPixel = 1.0
+     maxPixel = 0.0
+    for y in stride(from: 0, to: height, by: 1) {
+      for x in stride(from: 0, to: width, by: 1) {
+        let pixel = floatBuffer[y * width + x]
+        minPixel = min(pixel, minPixel)
+        maxPixel = max(pixel, maxPixel)
+      }
+    }
+    let newRange = maxPixel - minPixel
+     NSLog("CVPixelBuffer #normalize finish maxPixel = \(maxPixel), min = \(minPixel) range = \(newRange)")
+
+
     CVPixelBufferUnlockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
+
   }
 }

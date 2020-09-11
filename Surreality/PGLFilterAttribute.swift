@@ -71,7 +71,11 @@ class PGLFilterAttribute {
 
 
 
-    @objc var myFilter: CIFilter
+    @objc var myFilter: CIFilter {
+        didSet {
+             self.aSourceFilter.localFilter = myFilter // keep the two refs to the filter aligned
+        }
+    }
     var attributeName: String?
     var attributeDisplayName: String?
     var attributeType: String?
@@ -114,7 +118,8 @@ class PGLFilterAttribute {
 
 
      unowned var aSourceFilter: PGLSourceFilter
-    // 4/7/2019  this is a duplicate var for localFilter.. why was it added?
+    // This holds the real ciFilter in via the var PGLSourceFilter.localFilter
+    // but attribute also holds the real ciFilter in myFilter var
 
     //    var keyPathString = \PGLFilterAttribute.myFilter.inputSaturation
     //    ReferenceWritableKeyPath<PGLFilterAttribute, Any>
@@ -956,6 +961,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                     NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
                 }
              auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
+//                auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])
              NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(auxImage)")
 
             if auxImage != nil {
@@ -965,12 +971,17 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
                 depthData?.depthDataMap.normalize()
+                // should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
 
+                
+//                let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
             scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
                 parameters: ["inputImage": image ,"inputSmallImage": auxImage])
 
                 if !self.specialFilterIsAssigned {
                     self.myFilter = self.specialConstructor(inputImage: image, disparityImage: scaledDisparityImage!)
+
+                    
                     self.specialFilterIsAssigned = true
                 } else {
                     // assign directly
@@ -996,9 +1007,9 @@ func specialConstructor(inputImage: CIImage, disparityImage: CIImage) -> CIFilte
                                                  // the orientation of you input image
                                                  orientation: CGImagePropertyOrientation.up,
                                                  options: nil)!
-    filter.setValue(0.1, forKey: "inputAperture")
-    filter.setValue(0.1, forKey: "inputScaleFactor")
-    filter.setValue(CIVector(x: 0, y: 100, z: 100, w: 100), forKey: "inputFocusRect")
+//    filter.setValue(4, forKey: "inputAperture")
+//    filter.setValue(0.5, forKey: "inputScaleFactor")
+//    filter.setValue(CIVector(x: 0, y: 100, z: 100, w: 100), forKey: "inputFocusRect")
     return filter
 
 }
