@@ -12,7 +12,7 @@ import CoreImage
 import simd
 import UIKit
 
-class PGLDisparityFilter: PGLSourceFilter {
+class PGLDisparityFilter: PGLRectangleFilter {
     // filters that use depth or disparity
     // some of the filters may have disparity in different attributes..
     // initial user is CI
