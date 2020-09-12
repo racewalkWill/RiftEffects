@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Photos
 import CoreImage
+import Accelerate
 
 enum AttrClass: String {
     case Color = "CIColor"
@@ -970,8 +971,9 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 // convert to half-float16 but the normalize seems to expect float32..
                 depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
-                depthData?.depthDataMap.normalize()
-                // should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
+//                depthData?.depthDataMap.normalize()
+                //should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
+//                depthDataByReplacingDepthDataMapWithPixelBuffer
 
                 
                 let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])

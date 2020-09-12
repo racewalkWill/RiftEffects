@@ -225,6 +225,7 @@ class PGLImageList {
     func currentDisparityMap(target: PGLFilterAttributeImage)  {
          let targetAsset = imageAssets[position]
         if targetAsset.hasDepthData {
+            NSLog("PGLImageList #currentDisparityMap hasDepthData target")
             let answerImage = image(atIndex: position)
             target.requestDisparityMap(asset: targetAsset.asset, image: answerImage!)
         }

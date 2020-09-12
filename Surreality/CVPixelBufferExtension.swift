@@ -28,6 +28,7 @@
 
 import AVFoundation
 import UIKit
+import Accelerate
 
 extension CVPixelBuffer {
   func normalize() {
@@ -36,8 +37,9 @@ extension CVPixelBuffer {
     
     CVPixelBufferLockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
     let floatBuffer = unsafeBitCast(CVPixelBufferGetBaseAddress(self), to: UnsafeMutablePointer<Float>.self)
-    
-    var minPixel: Float = 1.0
+
+    // MARK: TO_DO
+    var minPixel: Float = 1.0  // change to Float16 in Swift 5.3 (Xcode 12, currently in beta 2020-09-12)
     var maxPixel: Float = 0.0
     
     /// You might be wondering why the for loops below use `stride(from:to:step:)`
@@ -82,4 +84,42 @@ extension CVPixelBuffer {
     CVPixelBufferUnlockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
 
   }
+
+    func normalizeDSP() {
+        // use the Accelerate vDSP_normalize demo in the
+        // Accelerate Blur Detection sample app
+        // change Float to Float16 in Swift 5.3 (Xcode 12, currently in beta 2020-09-12)
+        let width = CVPixelBufferGetWidth(self)
+        let height = CVPixelBufferGetHeight(self)
+        let count = width * height
+
+      CVPixelBufferLockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
+      let floatBuffer = unsafeBitCast(CVPixelBufferGetBaseAddress(self), to: UnsafeMutablePointer<Float>.self)
+
+        // from sample app AccelerateBlurDetection func processImage(data: ..)
+//        floatPixels = [Float](unsafeUninitializedCapacity: count) {
+//            buffer, initializedCount in
+//
+//            var floatBuffer = vImage_Buffer(data: buffer.baseAddress,
+//                                            height: sourceBuffer.height,
+//                                            width: sourceBuffer.width,
+//                                            rowBytes: width * MemoryLayout<Float>.size)
+//
+//            vImageConvert_Planar8toPlanarF(&sourceBuffer,
+//                                           &floatBuffer,
+//                                           0, 255,
+//                                           vImage_Flags(kvImageNoFlags))
+//
+//            initializedCount = count
+//        }
+
+        // Calculate standard deviation.
+//               var mean = Float.nan
+//               var stdDev = Float.nan
+//
+//               vDSP_normalize(floatPixels, 1,
+//                              nil, 1,
+//                              &mean, &stdDev,
+//                              vDSP_Length(count))
+    }
 }
