@@ -967,25 +967,25 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
             if auxImage != nil {
                 var depthData = auxImage!.depthData
             if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat32 {
-                // convert to half-float16
+                // convert to half-float16 but the normalize seems to expect float32..
                 depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
                 depthData?.depthDataMap.normalize()
                 // should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
 
                 
-//                let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
+                let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
             scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
-                parameters: ["inputImage": image ,"inputSmallImage": auxImage])
+                parameters: ["inputImage": scaledDownInput ,"inputSmallImage": auxImage])
 
                 if !self.specialFilterIsAssigned {
-                    self.myFilter = self.specialConstructor(inputImage: image, disparityImage: scaledDisparityImage!)
+                    self.myFilter = self.specialConstructor(inputImage: scaledDownInput, disparityImage: scaledDisparityImage!)
 
                     
                     self.specialFilterIsAssigned = true
                 } else {
                     // assign directly
-                    self.myFilter.setValue(image, forKey: kCIInputImageKey)
+                    self.myFilter.setValue(scaledDownInput, forKey: kCIInputImageKey)
                     self.myFilter.setValue(scaledDisparityImage, forKey: "inputDisparityImage")
                     
                 }
@@ -1008,7 +1008,7 @@ func specialConstructor(inputImage: CIImage, disparityImage: CIImage) -> CIFilte
                                                  orientation: CGImagePropertyOrientation.up,
                                                  options: nil)!
 //    filter.setValue(4, forKey: "inputAperture")
-//    filter.setValue(0.5, forKey: "inputScaleFactor")
+    filter.setValue(0.5, forKey: "inputScaleFactor")
 //    filter.setValue(CIVector(x: 0, y: 100, z: 100, w: 100), forKey: "inputFocusRect")
     return filter
 
