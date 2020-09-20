@@ -34,7 +34,7 @@ class PGLStackController: UITableViewController {
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            NSLog("PGLSelectFilterController  notificationBlock")
+            NSLog("PGLSelectFilterController  notificationBlock PGLCurrentFilterChange")
             self.updateDisplay()
 
         }

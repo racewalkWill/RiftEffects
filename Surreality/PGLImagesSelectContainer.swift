@@ -115,7 +115,7 @@ class PGLImagesSelectContainer: UIViewController {
                    myUpdate in
                    guard let self = self else { return } // a released object sometimes receives the notification
                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-                   NSLog("PGLSelectFilterController  notificationBlock")
+                   NSLog("PGLImagesSelectContainer  notificationBlock PGLReplaceFilterEvent")
                    // pull out the changed filterAttribute and assign to the userAssetSelection object
 
                 let currentFilter = self.appStack.outputStack.currentFilter()

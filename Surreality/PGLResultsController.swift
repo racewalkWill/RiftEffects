@@ -10,7 +10,9 @@ import UIKit
 
 class PGLResultsController: PGLFilterTableController {
 
+    var segueToParmController: UIStoryboardSegue!
     override func viewDidLoad() {
+
         super .viewDidLoad()
         mode = .Flat
     }
@@ -32,7 +34,9 @@ class PGLResultsController: PGLFilterTableController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PGLFilterTableController.tableViewCellIdentifier, for: indexPath)
         let thisFilter = matchFilters[indexPath.row]
+//        cell.accessoryType = .detailDisclosureButton or add detail disclosure in the TableCell.xib file
         configureCell(cell, descriptor: thisFilter)
+//        cell.forwardingTarget(for: <#T##Selector!#>)
 
         return cell
     }
@@ -44,5 +48,11 @@ class PGLResultsController: PGLFilterTableController {
         }
         return shouldHighlight
     }
+
+    
+
+
+
+
    
 }

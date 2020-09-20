@@ -10,7 +10,7 @@ import Foundation
 import CoreImage
 
 class PGLFilterManager {
-
+// not used.. delete
     //    NSArray* filterNames = @[ @"CIHoleDistortion",
     //                              @"CIBumpDistortion",
     //                              @"CIVortexDistortion",
