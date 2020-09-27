@@ -308,7 +308,7 @@ class PGLImageList {
 
 //        guard let thisCGoutput = scaledCGImage as? CGImage else { return CIImage.empty() }
         let returnImage = scaledCGImage?.takeRetainedValue() //Gets the value of this unmanaged reference as a managed reference and consumes an unbalanced retain of it.
-        return CIImage(cgImage: returnImage! as! CGImage)
+        return CIImage(cgImage: returnImage! )
 
     }
 

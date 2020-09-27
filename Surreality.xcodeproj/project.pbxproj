@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A308939E251E977400F244D6 /* Launch Screen.storyboard */; };
 		A318F31F24FC0D8B00569349 /* PGLFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDepthFilter.swift */; };
@@ -22,8 +23,6 @@
 		A3BF50DA24D32A3400CD5114 /* PGLFilterTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */; };
 		A3BF50DB24D32A3400CD5114 /* PGL-CDFilterStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */; };
 		A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */; };
-		A3BF50DE24D32A3400CD5114 /* PGLControlVisual.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504E24D32A3400CD5114 /* PGLControlVisual.swift */; };
-		A3BF50DF24D32A3400CD5114 /* SmoothThreshold.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504F24D32A3400CD5114 /* SmoothThreshold.swift */; };
 		A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505024D32A3400CD5114 /* TiltShift.swift */; };
 		A3BF50E124D32A3400CD5114 /* PGLOpenStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */; };
 		A3BF50E224D32A3400CD5114 /* PGLRectangleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */; };
@@ -127,6 +126,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A308939E251E977400F244D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterGroup.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
@@ -147,8 +147,6 @@
 		A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterTableController.swift; sourceTree = "<group>"; };
 		A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PGL-CDFilterStack.swift"; sourceTree = "<group>"; };
 		A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLBumpBlend.swift; sourceTree = "<group>"; };
-		A3BF504E24D32A3400CD5114 /* PGLControlVisual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLControlVisual.swift; sourceTree = "<group>"; };
-		A3BF504F24D32A3400CD5114 /* SmoothThreshold.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmoothThreshold.swift; sourceTree = "<group>"; };
 		A3BF505024D32A3400CD5114 /* TiltShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiltShift.swift; sourceTree = "<group>"; };
 		A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLOpenStackViewController.swift; sourceTree = "<group>"; };
 		A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLRectangleController.swift; sourceTree = "<group>"; };
@@ -290,8 +288,6 @@
 				A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */,
 				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
 				A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */,
-				A3BF504E24D32A3400CD5114 /* PGLControlVisual.swift */,
-				A3BF504F24D32A3400CD5114 /* SmoothThreshold.swift */,
 				A3BF505024D32A3400CD5114 /* TiltShift.swift */,
 				A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */,
 				A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */,
@@ -336,6 +332,7 @@
 				A3BF509724D32A3400CD5114 /* PGLMaster.swift */,
 				A3BF509824D32A3400CD5114 /* CoreImageKernels.metal */,
 				A3BF509924D32A3400CD5114 /* AppDelegate.swift */,
+				A308939E251E977400F244D6 /* Launch Screen.storyboard */,
 				A3BF509B24D32A3400CD5114 /* PGLCarnivalMirror.swift */,
 				A3BF509C24D32A3400CD5114 /* PGLImageList.swift */,
 				A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */,
@@ -519,7 +516,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Will Loew-Blosser";
 				TargetAttributes = {
 					A3BF500824D3298F00CD5114 = {
@@ -560,6 +557,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */,
 				A3BF512C24D32A3400CD5114 /* StackCell.xib in Resources */,
 				A3BF510224D32A3400CD5114 /* Main.storyboard in Resources */,
 				A3BF50F024D32A3400CD5114 /* TableCell.xib in Resources */,
@@ -595,7 +593,6 @@
 				A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */,
 				A3BF513424D32A3400CD5114 /* PGLPhotoLists.swift in Sources */,
 				A3BF50F624D32A3400CD5114 /* PinnedSectionHeaderFooterViewController.swift in Sources */,
-				A3BF50DE24D32A3400CD5114 /* PGLControlVisual.swift in Sources */,
 				A3BF510A24D32A3400CD5114 /* MetalFilter.swift in Sources */,
 				A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */,
 				A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */,
@@ -661,7 +658,6 @@
 				A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */,
 				A3BF50D824D32A3400CD5114 /* PixellatedPeople.m in Sources */,
 				A3BF50D624D32A3400CD5114 /* TiltShift.m in Sources */,
-				A3BF50DF24D32A3400CD5114 /* SmoothThreshold.swift in Sources */,
 				A3BF50E524D32A3400CD5114 /* PGLFilterCategoryIndex.swift in Sources */,
 				A3BF511124D32A3400CD5114 /* PGLFaceCIFilter.swift in Sources */,
 				A3BF50EE24D32A3400CD5114 /* PGLFilterDescriptor.swift in Sources */,
@@ -754,6 +750,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -761,6 +758,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -778,13 +776,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -814,6 +813,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -821,6 +821,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -832,12 +833,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -850,7 +852,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = Surreality/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -873,7 +875,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = Surreality/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

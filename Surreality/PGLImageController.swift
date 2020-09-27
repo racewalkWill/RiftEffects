@@ -575,11 +575,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             let controlFrame = CGRect(origin: mappedOrigin, size: newSize)
             // newOrigin should be the center of the controlFrame
 
-
-//            let normalImage = PGLControlRenderer.starImage(withSize: newSize)
-//            let highlight = PGLControlRenderer.starImageHighLight(withSize: newSize)
-//            let newView = UIImageView(image: normalImage, highlightedImage: highlight)
-//
             let newView = UIImageView(image: crossPoint)
             newView.frame =  controlFrame
             newView.center = mappedOrigin

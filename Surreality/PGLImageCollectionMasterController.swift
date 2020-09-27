@@ -91,7 +91,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
     // MARK: Properties
     var dataSource: PGLDataSource! = nil
 
-    var tableView: UITableView! = nil
+    var albumTableView: UITableView! = nil
         // assigned in configureHierarchy of viewDidLoad
     let searchBar = UISearchBar(frame: .zero)
 
@@ -200,7 +200,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                     // get the indexPath
                     if let matchingItem = currentItems.first(where: {$0.albumIdentifier() == userAlbumId}) {
                     let albumPath = dataSource.indexPath(for: matchingItem)
-                    tableView.selectRow(at: albumPath, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+                    albumTableView.selectRow(at: albumPath, animated: true, scrollPosition: UITableView.ScrollPosition.none)
                         //  don't scroll for each album
                     lastItemIndexPath = albumPath!
                     } else {
@@ -218,7 +218,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                     appendToDataSource(albums: unloadedAlbums, section: Section.album.rawValue)
                     // should select the unloadedAlbum rows...??
                 }
-                tableView.scrollToRow(at: lastItemIndexPath, at: .none, animated: true)
+                albumTableView.scrollToRow(at: lastItemIndexPath, at: .none, animated: true)
                 // scroll to last album.
             }
 
@@ -404,19 +404,19 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
 
 
     func configureHierarchy() {
-        tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        albumTableView = UITableView(frame: .zero, style: .insetGrouped)
+        albumTableView.translatesAutoresizingMaskIntoConstraints = false
 
          searchBar.translatesAutoresizingMaskIntoConstraints = false
 
-        tableView.backgroundColor = .systemBackground
-        tableView.register(OutlineItemCell.self, forCellReuseIdentifier: OutlineItemCell.reuseIdentifer)
-        tableView.allowsMultipleSelection = true
-        view.addSubview(tableView)
+        albumTableView.backgroundColor = .systemBackground
+        albumTableView.register(OutlineItemCell.self, forCellReuseIdentifier: OutlineItemCell.reuseIdentifer)
+        albumTableView.allowsMultipleSelection = true
+        view.addSubview(albumTableView)
 
          view.addSubview(searchBar)
 
-        let views = ["cv": tableView, "searchBar": searchBar] as [String : UIView]
+        let views = ["cv": albumTableView as Any, "searchBar": searchBar] as [String : Any] //as! [String : UIView]
           var constraints = [NSLayoutConstraint]()
           constraints.append(contentsOf: NSLayoutConstraint.constraints(
               withVisualFormat: "H:|[cv]|", options: [], metrics: nil, views: views))
@@ -429,14 +429,14 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
           NSLayoutConstraint.activate(constraints)
 
 
-        tableView.delegate = self
+        albumTableView.delegate = self
         searchBar.delegate = self
     }
 
     func configureDataSource() {
         let reuseIdentifier = OutlineItemCell.reuseIdentifer
 
-        dataSource = PGLDataSource(tableView: tableView) { (tableView, indexPath, assetCollection) -> OutlineItemCell? in
+        dataSource = PGLDataSource(tableView: albumTableView) { (tableView, indexPath, assetCollection) -> OutlineItemCell? in
             var cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? OutlineItemCell
 
             if let cell = cell  {
@@ -550,13 +550,13 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
 
     func configureNavigationItem() {
            navigationItem.title = "Collections"
-           let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+           let editingItem = UIBarButtonItem(title: albumTableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
            navigationItem.rightBarButtonItems = [editingItem]
        }
  
        @objc
        func toggleEditing() {
-           tableView.setEditing(!tableView.isEditing, animated: true)
+           albumTableView.setEditing(!albumTableView.isEditing, animated: true)
            configureNavigationItem()
        }
 }
