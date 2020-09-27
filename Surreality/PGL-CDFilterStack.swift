@@ -54,7 +54,7 @@ extension PGLFilterStack {
         self.init()
         stackName = readName
         let removedFilter = removeDefaultFilter() // remove existing filters from the init()
-        NSLog("PGLFilterStack init has removed defaultFilter = \(removedFilter)")
+        NSLog("PGLFilterStack init has removed defaultFilter = \(String(describing: removedFilter))")
         readCDStack(titled: readName)
     }
 
@@ -90,7 +90,7 @@ extension PGLFilterStack {
 
 
                 if let myCDFilter = aCDFilter as? CDStoredFilter {
-                    NSLog("PGL-CDFilter readCDStack filter = \(myCDFilter.ciFilterName)" )
+                    NSLog("PGL-CDFilter readCDStack filter = \(String(describing: myCDFilter.ciFilterName))" )
                     if let filterBuilder = PGLFilterCategory.getFilterDescriptor(aFilterName: myCDFilter.ciFilterName!, cdFilterClass: myCDFilter.pglSourceFilterClass!)
                     {  if let newSource = filterBuilder.pglSourceFilter()
                         {
@@ -106,9 +106,9 @@ extension PGLFilterStack {
 
                             append(newSource)
                         }
-                        else {NSLog("PGL-CDFilter readCDStack FAILS pglSourceFilter  filter = \(myCDFilter.ciFilterName)") }
+                    else {NSLog("PGL-CDFilter readCDStack FAILS pglSourceFilter  filter = \(String(describing: myCDFilter.ciFilterName))") }
 
-                } else {NSLog("PGL-CDFilter readCDStack FAILS filterBuilder for filter = \(myCDFilter.ciFilterName)") }
+                    } else {NSLog("PGL-CDFilter readCDStack FAILS filterBuilder for filter = \(String(describing: myCDFilter.ciFilterName))") }
             }
         }
         }
@@ -192,7 +192,7 @@ extension PGLSourceFilter {
 
         let moContext = PersistentContainer.viewContext
         if storedFilter == nil {
-            NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(filterName)")
+            NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(String(describing: filterName))")
             storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
             storedFilter!.ciFilter = self.localFilter
             storedFilter!.ciFilterName = self.filterName
@@ -405,11 +405,11 @@ extension PGLAppStack {
               
                var assetCollection: PHAssetCollection?
 
-               NSLog("readCDStack saveToPhotosLibrary = \(stack.exportAlbumIdentifier)")
+        NSLog("readCDStack saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
               if let existingAlbumId = stack.exportAlbumIdentifier {
                    let fetchResult  = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [existingAlbumId], options: nil)
                    assetCollection = fetchResult.firstObject
-                   NSLog("PGLImageController #saveToPhotosLibrary append to existing assetCollection \(assetCollection)")
+                NSLog("PGLImageController #saveToPhotosLibrary append to existing assetCollection \(String(describing: assetCollection))")
               } else {
                    // check for existing albumName
                if let aAlbumExportName = stack.exportAlbumName {

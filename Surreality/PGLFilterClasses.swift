@@ -47,7 +47,7 @@ class PGLSourceFilter :  PGLAnimation  {
     }
     var filterName: String! {
         didSet {
-            NSLog("PGLSourceFilter filterName set to \(filterName)")
+            NSLog("PGLSourceFilter filterName set to String(describing:filterName)")
         }
     }
     var descriptorDisplayName: String? // not the same as the ciFilter name
@@ -472,7 +472,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     }
     func sourceDescription(attributeKey:String) -> String  {
-         if let sourceAttribute = attribute(nameKey: attributeKey)
+        if attribute(nameKey: attributeKey) != nil
             { return self.localizedName() + "-" + filterName }  // + "-" + sourceAttribute.inputSourceDescription 
         else { return "blank" }
 
@@ -880,7 +880,7 @@ class PGLRectangleFilter : PGLSourceFilter {
     var cropAttribute: PGLAttributeRectangle? {
         didSet{
 //            if cropAttribute == nil { fatalError("PGLRectangleFilter cropAttribute set to nil ")}
-            NSLog("PGLRectangleFilter didSet var cropAttribute = \(cropAttribute)")
+//            NSLog("PGLRectangleFilter didSet var cropAttribute = \(cropAttribute)")
         }
     }
 
@@ -978,8 +978,8 @@ class PGLFilterConstructor: CIFilterConstructor {
                     return PGLImageCIFilter()
 
 
-            case kPCarnivalMirror:
-                return PGLCarnivalMirror()
+//            case kPCarnivalMirror:
+//                return PGLCarnivalMirror()
             case kPTiltShift :
                 return PGLTiltShift()
 

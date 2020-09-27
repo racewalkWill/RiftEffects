@@ -130,7 +130,7 @@ class PGLUserAssetSelection {
             }
         }
         newbie?.myTargetFilterAttribute = toParm
-        NSLog("PGLUserAssetSelection #cloneEven returns newbie = \(newbie)")
+
         return newbie
     }
 
@@ -141,7 +141,7 @@ class PGLUserAssetSelection {
 //        NSLog("PGLUserAssetSelection append count now =  \(selectedAssets.count)")
 
         let newAlbumId = userAsset.albumId
-        let sourceAlbumTitle = userAsset.collectionTitle
+//        let sourceAlbumTitle = userAsset.collectionTitle
 
         if sections[newAlbumId] == nil {
                                  // add the album and the fetchResult

@@ -15,7 +15,7 @@ class PGLFilterCIAbstract: CIFilter {
     // subclasses(of: PGLFilterCIAbstract.self)
     static let FilterCISubclasses  = [ PGLBumpBlendCI.self,
         PGLBumpFaceCIFilter.self,
-        PGLCarnivalMirror.self,
+//        PGLCarnivalMirror.self,
         PGLFaceCIFilter.self,
         PGLImageCIFilter.self,
         PGLTiltShift.self

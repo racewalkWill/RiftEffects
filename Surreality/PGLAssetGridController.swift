@@ -70,7 +70,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
         NSLog("PGLAssetGridController #viewDidLoad FINISH")
         NSLog("PGLAssetGridController #viewDidLoad controller = \(self)")
-        NSLog("PGLAssetGridController #viewDidLoad dataSource = \(dataSource)")
+
 
     }
 
@@ -245,7 +245,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
         // album must not be included in the userSelection..
         // if any image assets are selected then do not remove
 
-        if let removedAlbum = userAssetSelection.removeAlbum(albumId: albumId) {
+        if userAssetSelection.removeAlbum(albumId: albumId) != nil {
             applyDataSource()
         }
     }
@@ -464,7 +464,7 @@ extension PGLAssetGridController {
 //        userAssetSelection.setCurrentAlbum(forIndexPath: indexPath)
         if let selectedAsset = dataSource.itemIdentifier(for: indexPath) {
 
-            if let selectedCell = collectionView.cellForItem(at: indexPath){
+            if collectionView.cellForItem(at: indexPath) != nil{
                 // REMOVE - selectedCell not needed with identifiers?
 
                 if userAssetSelection.contains(localIdentifier: (selectedAsset.localIdentifier)  )

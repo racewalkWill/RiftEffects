@@ -17,7 +17,7 @@ enum Coordinate  {
 class PGLTestImage {
     // provides UIImage for testing
 
- class func gridImage(withSize size: CGSize, axisInterval: CGFloat = 50.0 * 2 , origin: Coordinate = Coordinate.LLO, fillColor: UIColor = UIColor.groupTableViewBackground  ) -> CIImage {
+ class func gridImage(withSize size: CGSize, axisInterval: CGFloat = 50.0 * 2 , origin: Coordinate = Coordinate.LLO, fillColor: UIColor = UIColor.systemGroupedBackground ) -> CIImage {
     var point1 = CGPoint.zero
     var point2 = CGPoint.zero
     var gridPoint = CGPoint.zero

@@ -439,13 +439,13 @@ class MetalFilter: CIFilter, MetalRenderable
             if let bufferIndex = (attributes[inputKey] as! [String:AnyObject])[kCIAttributeIdentity] as? Int,
                 let bufferValue = value(forKey: inputKey) as? CIColor
             {
-                var color = float4(Float(bufferValue.red),
+                var color = SIMD4(Float(bufferValue.red),
                     Float(bufferValue.green),
                     Float(bufferValue.blue),
                     Float(bufferValue.alpha))
                 
                 let buffer = device.makeBuffer(bytes: &color,
-                                               length: MemoryLayout<float4>.size.self,
+                                               length: MemoryLayout<SIMD4<Float>>.size.self,
                     options: MTLResourceOptions(rawValue: UInt(MTLCPUCacheMode.defaultCache.rawValue)))
                 
                 commandEncoder?.setBuffer(buffer, offset: 0, index: bufferIndex)

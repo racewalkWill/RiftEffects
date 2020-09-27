@@ -325,7 +325,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     override func viewLayoutMarginsDidChange() {
 //        NSLog("PGLImageController # viewLayoutMarginsDidChange")
         if  (splitViewController?.isCollapsed)! {
-            splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.allVisible
+            splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
         }
 
 //        hideParmControls()

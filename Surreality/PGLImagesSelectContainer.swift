@@ -22,7 +22,7 @@ class PGLImagesSelectContainer: UIViewController {
 
     var userAssetSelection: PGLUserAssetSelection! {
         didSet{
-            NSLog("PGLImagesSelectContainer set var userAssetSelection= \(userAssetSelection)")
+            NSLog("PGLImagesSelectContainer set var userAssetSelection= \(String(describing: userAssetSelection))")
         }
     }
     var appStack: PGLAppStack!

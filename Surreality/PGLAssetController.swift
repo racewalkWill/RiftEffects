@@ -78,7 +78,7 @@ class PGLAssetController: UIViewController {
                       // the guard is based upon the apple sample app 'Conference-Diffable'
         if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
             let userSelectionInfo = PGLUserAssetSelection(assetSources: assetInfo)
-            if let newSource = self.userAssetSelection.merge(newAssetSource: userSelectionInfo) {
+            if self.userAssetSelection.merge(newAssetSource: userSelectionInfo) != nil {
                 self.selectedAlbumId = assetInfo.identifier
                 self.assetIndex = 0
                 self.asset = self.userAssetSelection.asset(position: self.assetIndex,albumId: self.selectedAlbumId)
@@ -96,7 +96,7 @@ class PGLAssetController: UIViewController {
             // PGLImageCollectionMasterController in the master section is navigating back.
             // navigate back here too
             NSLog("PGLAssetController received notification PGLImageNavigationBack ")
-            NSLog("PGLAssetController navigationController.viewControllers = \(self.navigationController?.viewControllers)")
+//            NSLog("PGLAssetController navigationController.viewControllers = \(self.navigationController?.viewControllers)")
             if let imageController = self.navigationController?.viewControllers.first {
 
                 self.navigationController?.popToViewController(imageController, animated: true)
@@ -129,7 +129,7 @@ class PGLAssetController: UIViewController {
     // MARK: UI Actions
 
     func postSelectionChange(){
-        let notification = Notification(name:PGLImageSelectUpdate)
+        _ = Notification(name:PGLImageSelectUpdate)
          NSLog("PGLAssetController  posts notification PGLImageSelectUpdate")
 //        NotificationCenter.default.post(notification)
     }
@@ -243,7 +243,7 @@ class PGLAssetController: UIViewController {
 
                         }
                     } else {
-                        print("can't set favorite: \(error)")
+                        print("can't set favorite: \(String(describing: error))")
                     }
                 })
         }
@@ -394,7 +394,7 @@ class PGLAssetController: UIViewController {
             let request = PHAssetChangeRequest(for: self.asset.asset)
             request.revertAssetContentToOriginal()
         }, completionHandler: { success, error in
-            if !success { print("can't revert asset: \(error)") }
+            if !success { print("can't revert asset: \(String(describing: error))") }
         })
     }
 

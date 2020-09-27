@@ -148,11 +148,11 @@ class PGLSourceFilterTests: XCTestCase {
                 // so two parms are set with values
             if let allImageParms = timerFilter.imageParms() {
                 if allImageParms.count > 2 {
-                        NSLog("\(timerFilter.filterName) has more than 2 image inputs")
+                    NSLog("\(String(describing: timerFilter.filterName)) has more than 2 image inputs")
 
                     favoritesAlbumList.position = 2
                     for nextImageParm in allImageParms.suffix(from: 2) {
-                        nextImageParm.set(favoritesAlbumList.increment())
+                        nextImageParm.set(favoritesAlbumList.increment() as Any)
                     }
                 }
             }
@@ -172,7 +172,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
 
             } else {
-               XCTFail("no output image filter \(transitionCategory.categoryName) \(timerFilter.filterName) ")
+                XCTFail("no output image filter \(transitionCategory.categoryName) \(String(describing: timerFilter.filterName)) ")
             }
         }
     }

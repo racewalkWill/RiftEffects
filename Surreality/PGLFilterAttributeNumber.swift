@@ -75,7 +75,7 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
         let max = sliderMaxValue ?? 100.0
 
         let smoothedValue = simd_smoothstep(min,max, newRate)
-        let floatSmoothedValue = (smoothedValue as! NSNumber).doubleValue
+        let floatSmoothedValue = (smoothedValue as NSNumber).doubleValue
         setTimerDt(rate: floatSmoothedValue / timeDivisor )
     }
 
@@ -178,8 +178,8 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
             if cornerPoint != nil {
 
                 aSourceFilter.setVectorValue(newValue: CIVector(cgPoint: cornerPoint!), keyName: attributeName!)
-                let newValue = getVectorValue()
-                NSLog("PGLFilterAttributeVector set default of \(self) \(attributeName) to \(newValue)")
+//                let newValue = getVectorValue()
+//                NSLog("PGLFilterAttributeVector set default of \(self) \(attributeName) to \(newValue)")
                 
             }
         }

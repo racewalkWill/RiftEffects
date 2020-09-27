@@ -154,10 +154,10 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
             longPressGesture = UILongPressGestureRecognizer(target: self , action: #selector(PGLAssetSequenceController.longPressAction(_:)))
               if longPressGesture != nil {
 
-                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
+//                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
                   collectionView.addGestureRecognizer(longPressGesture!)
                   longPressGesture!.isEnabled = true
-                  NSLog("PGLAssetSequenceController setLongPressGesture \(longPressGesture)")
+                NSLog("PGLAssetSequenceController setLongPressGesture \(String(describing: longPressGesture))")
               }
           }
 
@@ -189,7 +189,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
             }
             longPressStart = longPressIndexPath // assign to var
            let isS = collectionView.beginInteractiveMovementForItem(at: longPressIndexPath)
-            NSLog("PGLAssetSequenceController #longPressAction begins \(isS) path \(longPressStart)")
+            NSLog("PGLAssetSequenceController #longPressAction begins \(isS) path \(String(describing: longPressStart))")
 
         case .changed:
             collectionView.updateInteractiveMovementTargetPosition(point)
@@ -204,7 +204,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 //            dataSource.collectionView(collectionView, moveItemAt: longPressStart!, to: endIndex)
 
             applyDataSource()
-            NSLog("PGLAssetSequenceController longPressAction move from \(longPressStart) to \(endIndex)")
+            NSLog("PGLAssetSequenceController longPressAction move from \(String(describing: longPressStart)) to \(endIndex)")
         default:
             collectionView.cancelInteractiveMovement()
              NSLog("PGLAssetSequenceController longPressAction cancelled")

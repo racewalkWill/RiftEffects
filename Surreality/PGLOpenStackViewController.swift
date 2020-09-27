@@ -269,7 +269,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             // start with saved stack... later have it insert on the selected parm as new input
             NSLog("DataSource didSelectRowAt \(indexPath)")
-            if let object = itemIdentifier(for: indexPath) as? CDFilterStack {
+            if let object = itemIdentifier(for: indexPath) {
 
                 if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
 

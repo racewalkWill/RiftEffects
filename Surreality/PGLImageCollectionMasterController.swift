@@ -280,12 +280,12 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 
 
 //        if let rowAssets = getCellAssets(indexPath) {
-       let nextLabel = assetCollection.localizedTitle ?? "Untitled"
+    
 
         if let anAssetCollection = assetCollection as? PHAssetCollection {
          let collectionFetch =   PHAsset.fetchAssets(in: anAssetCollection, options: nil)
 
-            var theInfo = PGLAlbumSource(anAssetCollection, collectionFetch)
+            let theInfo = PGLAlbumSource(anAssetCollection, collectionFetch)
             theInfo.filterParm = inputFilterAttribute
             // show the content images of the selected collection for user pick
 
@@ -318,7 +318,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard var collectionSelected = dataSource.itemIdentifier(for: indexPath)
+        guard let collectionSelected = dataSource.itemIdentifier(for: indexPath)
                   else { return }
 
         collectionSelected.isSelected = false
@@ -437,7 +437,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
         let reuseIdentifier = OutlineItemCell.reuseIdentifer
 
         dataSource = PGLDataSource(tableView: albumTableView) { (tableView, indexPath, assetCollection) -> OutlineItemCell? in
-            var cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? OutlineItemCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? OutlineItemCell
 
             if let cell = cell  {
                 cell.textLabel?.text = assetCollection.getCollection().localizedTitle

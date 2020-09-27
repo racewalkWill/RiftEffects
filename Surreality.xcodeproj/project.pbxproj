@@ -70,7 +70,6 @@
 		A3BF511F24D32A3400CD5114 /* PGLMaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509724D32A3400CD5114 /* PGLMaster.swift */; };
 		A3BF512024D32A3400CD5114 /* CoreImageKernels.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509824D32A3400CD5114 /* CoreImageKernels.metal */; };
 		A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509924D32A3400CD5114 /* AppDelegate.swift */; };
-		A3BF512324D32A3400CD5114 /* PGLCarnivalMirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509B24D32A3400CD5114 /* PGLCarnivalMirror.swift */; };
 		A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509C24D32A3400CD5114 /* PGLImageList.swift */; };
 		A3BF512524D32A3400CD5114 /* PGLTestImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */; };
 		A3BF512724D32A3400CD5114 /* PGLFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */; };
@@ -196,7 +195,6 @@
 		A3BF509724D32A3400CD5114 /* PGLMaster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLMaster.swift; sourceTree = "<group>"; };
 		A3BF509824D32A3400CD5114 /* CoreImageKernels.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = CoreImageKernels.metal; sourceTree = "<group>"; };
 		A3BF509924D32A3400CD5114 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A3BF509B24D32A3400CD5114 /* PGLCarnivalMirror.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLCarnivalMirror.swift; sourceTree = "<group>"; };
 		A3BF509C24D32A3400CD5114 /* PGLImageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageList.swift; sourceTree = "<group>"; };
 		A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLTestImage.swift; sourceTree = "<group>"; };
 		A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterManager.swift; sourceTree = "<group>"; };
@@ -333,7 +331,6 @@
 				A3BF509824D32A3400CD5114 /* CoreImageKernels.metal */,
 				A3BF509924D32A3400CD5114 /* AppDelegate.swift */,
 				A308939E251E977400F244D6 /* Launch Screen.storyboard */,
-				A3BF509B24D32A3400CD5114 /* PGLCarnivalMirror.swift */,
 				A3BF509C24D32A3400CD5114 /* PGLImageList.swift */,
 				A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */,
 				A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */,
@@ -597,7 +594,6 @@
 				A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */,
 				A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */,
 				A3BF50D724D32A3400CD5114 /* DistortionsDemo.m in Sources */,
-				A3BF512324D32A3400CD5114 /* PGLCarnivalMirror.swift in Sources */,
 				A3BF50D424D32A3400CD5114 /* ChromaKey.m in Sources */,
 				A3BF50EB24D32A3400CD5114 /* PGLVisionDetection.swift in Sources */,
 				A3BF511324D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift in Sources */,
@@ -898,7 +894,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = SurrealityTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -907,7 +903,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.SurrealityTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Surreality.app/Surreality";
 			};
 			name = Debug;
@@ -920,7 +916,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = SurrealityTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -929,7 +925,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.SurrealityTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Surreality.app/Surreality";
 			};
 			name = Release;

@@ -152,7 +152,7 @@ class PGLFramedView: UIImageView {
 
 
     }
-    func rectImage(imageRect: CGRect, fillColor: UIColor = UIColor.groupTableViewBackground) -> UIImage {
+    func rectImage(imageRect: CGRect, fillColor: UIColor = UIColor.systemGroupedBackground) -> UIImage {
 
         let renderer = UIGraphicsImageRenderer(size: imageRect.size)
 
@@ -164,7 +164,7 @@ class PGLFramedView: UIImageView {
         return image
     }
 
-    func rectHighLight(imageRect: CGRect, fillColor: UIColor = UIColor.groupTableViewBackground) -> UIImage {
+    func rectHighLight(imageRect: CGRect, fillColor: UIColor = UIColor.systemGroupedBackground) -> UIImage {
 
         NSLog("PGLFramedView #rectHighLight")
 

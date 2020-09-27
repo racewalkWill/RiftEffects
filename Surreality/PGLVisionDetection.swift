@@ -87,7 +87,7 @@ class PGLVisionDetector: PGLDetection {
         }
       let requests = [faceDetectionRequest] // other requests can be added to the array
 
-        let requestHandler = VNImageRequestHandler(ciImage: inputImage!, orientation: .up , options: [VNImageOption.ciContext: viewCIContext ])
+        let requestHandler = VNImageRequestHandler(ciImage: inputImage!, orientation: .up , options: [VNImageOption.ciContext: viewCIContext as Any ])
 
        do {
            try requestHandler.perform(requests)

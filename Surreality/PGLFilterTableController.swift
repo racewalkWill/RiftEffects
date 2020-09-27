@@ -80,10 +80,10 @@ override func viewDidDisappear(_ animated: Bool) {
 
 // MARK: SplitView
 func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewController.DisplayMode {
-    if svc.displayMode == UISplitViewController.DisplayMode.primaryHidden {
+    if svc.displayMode == UISplitViewController.DisplayMode.secondaryOnly {
         // don't let parms list overlay the picture...
         NSLog("PGLSelectFilterController #targetDisplayModeForAction answers allVisible ")
-        return UISplitViewController.DisplayMode.allVisible }
+        return UISplitViewController.DisplayMode.oneBesideSecondary }
     else { NSLog("PGLSelectFilterController #targetDisplayModeForAction answers automatic ")
         return UISplitViewController.DisplayMode.automatic}
 }

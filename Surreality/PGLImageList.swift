@@ -147,7 +147,7 @@ class PGLImageList {
 //        self.collectionTitle = "Even-" + self.collectionTitle  // E for Even
 
         let oddUserSelection = self.userSelection?.cloneOdd(toParm: toParm)
-        NSLog("PGLImageList #cloneEven oddUserSelection =  \(oddUserSelection)")
+       
         newList.userSelection = oddUserSelection
         return newList
     }

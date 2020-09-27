@@ -585,7 +585,7 @@ class PGLFilterAttribute {
 
     func hasUserAssetSelection() -> Bool {
         if !hasInputCollection() { return false}
-        if let aUserSelection = inputCollection?.userSelection {
+        if (inputCollection?.userSelection) != nil {
             return true
         }
         else {return false}
@@ -963,7 +963,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 }
              auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
 //                auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])
-             NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(auxImage)")
+                NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = String(describing: auxImage)")
 
             if auxImage != nil {
                 var depthData = auxImage!.depthData
@@ -978,7 +978,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 
                 let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
             scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
-                parameters: ["inputImage": scaledDownInput ,"inputSmallImage": auxImage])
+                parameters: ["inputImage": scaledDownInput ,"inputSmallImage":  auxImage as Any])
 
                 if !self.specialFilterIsAssigned {
                     self.myFilter = self.specialConstructor(inputImage: scaledDownInput, disparityImage: scaledDisparityImage!)

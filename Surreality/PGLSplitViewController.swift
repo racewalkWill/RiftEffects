@@ -16,7 +16,7 @@ class PGLSplitViewController: UISplitViewController {
 
         super.viewDidLoad()
  //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
-       preferredDisplayMode = UISplitViewController.DisplayMode.allVisible
+       preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
        presentsWithGesture = true
         // register all of the CIFilter subclasses
 

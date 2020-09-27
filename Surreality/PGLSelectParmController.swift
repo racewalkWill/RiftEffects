@@ -466,7 +466,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             // it moves on the OK action not the pan ended
 
         if let viewHeight = imageController?.view.bounds.height  {
-            let flippedVertical = viewHeight - endingPoint.y
+//            let flippedVertical = viewHeight - endingPoint.y
             let newVector = parm.mapPoint2Vector(point: endingPoint, viewHeight: viewHeight, scale: scaleFactor)
             parm.set(newVector)
             // or parm.set(oldVector)
@@ -737,7 +737,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
          panner?.isEnabled = false // only enable pan gesture on certain cases
 
-        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
+//        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
         if tappedAttribute == nil { return }
 //        if tappedAttribute!.inputParmType() == ImageParm.filter  {
 //            // confirm that user wants to break the connection to an input
@@ -1084,12 +1084,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        NSLog("segue from \(segue.identifier)")
+//        NSLog("segue from \(segue.identifier)")
 
         if segue.identifier == "goToImageCollection" {
             
             if let imageCollectionController = segue.destination as? PGLImageCollectionMasterController {
-                imageCollectionController.inputFilterAttribute = tappedAttribute as! PGLFilterAttributeImage // model object
+                imageCollectionController.inputFilterAttribute = (tappedAttribute as! PGLFilterAttributeImage) // model object
                 imageCollectionController.fetchTopLevel()
                 if(!(tappedAttribute?.inputCollection?.isEmpty() ?? false) ?? false ) {
                     // if the inputCollection has images then
