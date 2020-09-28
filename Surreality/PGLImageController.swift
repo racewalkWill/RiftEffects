@@ -186,14 +186,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
     @IBAction func openStackActionBtn(_ sender: UIBarButtonItem) {
-        let showOpenStackView = true  // change for old or new openDialog
-        if showOpenStackView {
+//        let showOpenStackView = true  // change for old or new openDialog
+//        if showOpenStackView {
             let saveVC = storyboard!.instantiateViewController(
                 withIdentifier: "openStackController")
             let navController = UINavigationController(rootViewController: saveVC)
                                      present(navController, animated: true)
 
-            // goes to PGLOpenStackViewController
+            // goes to PGLOpenStackViewControllerPGLSelectStackController
 
 //            // Use the popover presentation style for your view controller.
 //            saveVC.modalPresentationStyle = .popover
@@ -206,10 +206,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //            self.present(saveVC, animated: true) {
 //                // The popover is visible.
 //        }
-        } else {
-            let navController = UINavigationController(rootViewController: PGLSelectStackController.init())
-                           present(navController, animated: true)
-            }
+//        } else {
+//            let navController = UINavigationController(rootViewController: PGLSelectStackController.init())
+//                           present(navController, animated: true)
+//            }
 
         }
 
@@ -690,7 +690,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                     view.bringSubviewToFront(aSlider)
             }
 
-            case let angleAttribute as PGLFilterAttributeAngle:
+            case _ as PGLFilterAttributeAngle:
                 if let numberValue = attribute.getNumberValue() as? Float {
                     parmSlider.maximumValue = attribute.sliderMaxValue! // init to 2pi Radians
                     parmSlider.minimumValue = attribute.sliderMinValue!  // init to 0.0
@@ -700,7 +700,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                  view.bringSubviewToFront(parmSlider)
 //            case let rectAttribute as PGLFilterAttributeRectangle:
 //                NSLog("Should not hit this case where addSlider control called for a rectangle attribute")
-            case let affineAttribute as PGLFilterAttributeAffine:
+            case _ as PGLFilterAttributeAffine:
                 parmSlider.maximumValue = 2 *  Float.pi  // this is the rotation part of the Affine
                 parmSlider.minimumValue = 0.0
                 parmSlider.isHidden = false

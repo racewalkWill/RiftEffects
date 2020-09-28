@@ -321,7 +321,7 @@ extension PGLSourceFilter {
         // create new CDImageList for every parm
         if let myImageParms = imageParms() {
             for anImageParm in myImageParms {
-                getCDParmImage(attribute: anImageParm) // creates where relationship does not exist
+               _ = getCDParmImage(attribute: anImageParm) // creates where relationship does not exist
             }
         }
 
@@ -376,7 +376,7 @@ extension PGLAppStack {
         let moContext = PersistentContainer.viewContext
 
         if let initialStack = firstStack() {
-          initialStack.writeCDStack()
+         _ = initialStack.writeCDStack()
         }
 
     if moContext.hasChanges {

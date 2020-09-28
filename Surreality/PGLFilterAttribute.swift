@@ -1317,7 +1317,7 @@ class PGLAttributeRectangle: PGLFilterAttribute {
     override func movingChange(startPoint: CGPoint, newPoint: CGPoint, inView: UIView) {
         // pan move in progress.. update as needed
         // does not change the filter just changes the rect of the parm
-        let logMovingChange = false
+//        let logMovingChange = false
 
         let actualStartPoint: CGPoint
 
@@ -1327,9 +1327,9 @@ class PGLAttributeRectangle: PGLFilterAttribute {
         switch attributeClass! {
         case AttrClass.Vector.rawValue :
 
-            if logMovingChange {   NSLog("PGLFilterAttributeRectangle #movingChange startPoint = \(startPoint) newPoint = \(newPoint)")
+//            if logMovingChange {   NSLog("PGLFilterAttributeRectangle #movingChange startPoint = \(startPoint) newPoint = \(newPoint)")
 
-                NSLog("PGLFilterAttributeRectangle #movingChange in view.frame = \(inView.frame)") }
+//                NSLog("PGLFilterAttributeRectangle #movingChange in view.frame = \(inView.frame)") }
             // this is the view.frame of PGLParmTableViewController.
 
 
@@ -1339,10 +1339,10 @@ class PGLAttributeRectangle: PGLFilterAttribute {
 
             let newOriginX = filterRect.origin.x + deltaX
             let newOriginY = filterRect.origin.y + deltaY
-            if logMovingChange {           NSLog("PGLFilterAttributeRectangle #movingChange filterRect = \(filterRect)") }
+//            if logMovingChange {           NSLog("PGLFilterAttributeRectangle #movingChange filterRect = \(filterRect)") }
 //            if newOriginX == 0 { fatalError(" going to zero origin in filterRect.origin" )}
             filterRect.origin = CGPoint(x:newOriginX, y: newOriginY)
-            if logMovingChange { NSLog("PGLFilterAttributeRectangle #movingChange orgin moved filterRect = \(filterRect)")}
+//            if logMovingChange { NSLog("PGLFilterAttributeRectangle #movingChange orgin moved filterRect = \(filterRect)")}
 
 
         case AttrClass.Color.rawValue: break

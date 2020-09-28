@@ -90,7 +90,6 @@
 		A3BF513724D32A3400CD5114 /* PGLDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B424D32A3400CD5114 /* PGLDiffableDataSource.swift */; };
 		A3BF513824D32A3400CD5114 /* PGLAssetGridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B524D32A3400CD5114 /* PGLAssetGridController.swift */; };
 		A3BF513924D32A3400CD5114 /* PGLUserAssetSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B624D32A3400CD5114 /* PGLUserAssetSelection.swift */; };
-		A3BF513A24D32A3400CD5114 /* PhotosAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B724D32A3400CD5114 /* PhotosAppDelegate.swift */; };
 		A3BF513B24D32A3400CD5114 /* GridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B824D32A3400CD5114 /* GridViewCell.swift */; };
 		A3BF513C24D32A3400CD5114 /* PGLAssetSequenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B924D32A3400CD5114 /* PGLAssetSequenceController.swift */; };
 		A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50BA24D32A3400CD5114 /* PGLImageCollectionMasterController.swift */; };
@@ -216,7 +215,6 @@
 		A3BF50B424D32A3400CD5114 /* PGLDiffableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLDiffableDataSource.swift; sourceTree = "<group>"; };
 		A3BF50B524D32A3400CD5114 /* PGLAssetGridController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLAssetGridController.swift; sourceTree = "<group>"; };
 		A3BF50B624D32A3400CD5114 /* PGLUserAssetSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLUserAssetSelection.swift; sourceTree = "<group>"; };
-		A3BF50B724D32A3400CD5114 /* PhotosAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosAppDelegate.swift; sourceTree = "<group>"; };
 		A3BF50B824D32A3400CD5114 /* GridViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewCell.swift; sourceTree = "<group>"; };
 		A3BF50B924D32A3400CD5114 /* PGLAssetSequenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLAssetSequenceController.swift; sourceTree = "<group>"; };
 		A3BF50BA24D32A3400CD5114 /* PGLImageCollectionMasterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageCollectionMasterController.swift; sourceTree = "<group>"; };
@@ -347,7 +345,6 @@
 				A3BF50B424D32A3400CD5114 /* PGLDiffableDataSource.swift */,
 				A3BF50B524D32A3400CD5114 /* PGLAssetGridController.swift */,
 				A3BF50B624D32A3400CD5114 /* PGLUserAssetSelection.swift */,
-				A3BF50B724D32A3400CD5114 /* PhotosAppDelegate.swift */,
 				A3BF50B824D32A3400CD5114 /* GridViewCell.swift */,
 				A3BF50B924D32A3400CD5114 /* PGLAssetSequenceController.swift */,
 				A3BF50BA24D32A3400CD5114 /* PGLImageCollectionMasterController.swift */,
@@ -610,7 +607,6 @@
 				A3BF50E724D32A3400CD5114 /* PGLMetalController.swift in Sources */,
 				A3BF50FD24D32A3400CD5114 /* PGLFilterCategory.swift in Sources */,
 				A3BF514724D32A3400CD5114 /* PGLFilterCIAbstract.swift in Sources */,
-				A3BF513A24D32A3400CD5114 /* PhotosAppDelegate.swift in Sources */,
 				A3BF50FC24D32A3400CD5114 /* PGLSelectStackController.swift in Sources */,
 				A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */,
 				A3BF512724D32A3400CD5114 /* PGLFilterManager.swift in Sources */,
@@ -853,7 +849,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MTLLINKER_FLAGS = "-cikernel";
+				MTLLINKER_FLAGS = "-fcikernel";
 				MTL_COMPILER_FLAGS = "-fcikernel";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Surreality";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -876,7 +872,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MTLLINKER_FLAGS = "-cikernel";
+				MTLLINKER_FLAGS = "-fcikernel";
 				MTL_COMPILER_FLAGS = "-fcikernel";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Surreality";
 				PRODUCT_NAME = "$(TARGET_NAME)";

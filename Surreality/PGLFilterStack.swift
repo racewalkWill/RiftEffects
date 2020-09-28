@@ -629,7 +629,7 @@ class PGLFilterStack  {
 
            let moContext = PersistentContainer.viewContext
 
-        self.writeCDStack()
+       _ = self.writeCDStack()
 
        if moContext.hasChanges {
        do { try moContext.save()

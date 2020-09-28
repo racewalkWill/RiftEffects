@@ -210,7 +210,7 @@ class PGLStackController: UITableViewController {
         let thisStack = appStack.getViewerStack()
         thisStack.activeFilterIndex = indexPath.row
 
-       thisStack.removeFilter(position: indexPath.row)
+      _ = thisStack.removeFilter(position: indexPath.row)
        self.updateDisplay()
         // other updates in PGLImageController
     //            updateNavigationBar()

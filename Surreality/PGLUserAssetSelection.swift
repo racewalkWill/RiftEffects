@@ -162,7 +162,7 @@ class PGLUserAssetSelection {
 //        guard let newAlbumId = userAsset.albumId , let sourceAlbumTitle = userAsset.collectionTitle
 //            else { return }
         let newAlbumId = userAsset.albumId
-        let sourceAlbumTitle = userAsset.collectionTitle
+
 
         // add to the album, sections, sectionTitles if the album is
         // not in the object yet
@@ -175,7 +175,7 @@ class PGLUserAssetSelection {
             } else
             {   let aEmptySourceFetch = PGLAlbumSource(userAsset.sourceInfo!, nil)
                 self.sections[newAlbumId] = aEmptySourceFetch }
-//            self.sectionTitle.append((title: sourceAlbumTitle, albumId: newAlbumId))
+//            self.sectionTitle.append((title: (userAsset.collectionTitle), albumId: newAlbumId))
             }
 
     }

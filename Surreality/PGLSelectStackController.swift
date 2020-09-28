@@ -129,12 +129,12 @@ class PGLSelectStackController: UIViewController,  NSFetchedResultsControllerDel
      func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, CDFilterStack>(collectionView: simpleCollectionView) { [weak self]
                       (collectionView: UICollectionView, indexPath: IndexPath, identifier: CDFilterStack) -> UICollectionViewCell? in
-                          guard let self = self
-                                else { return  nil}
+            guard self != nil
+                else { return  nil}
                       // Get a cell of the desired kind.
-                      guard let cell = collectionView.dequeueReusableCell(
-                          withReuseIdentifier: StackDataCell.reuseIdentifier,
-                          for: indexPath) as? StackDataCell else { fatalError("Cannot create new cell") }
+            guard let cell = collectionView.dequeueReusableCell(
+                      withReuseIdentifier: StackDataCell.reuseIdentifier,
+                      for: indexPath) as? StackDataCell else { fatalError("Cannot create new cell") }
 
             cell.titleLabel.text = identifier.title ?? "untitled"
 

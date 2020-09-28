@@ -32,7 +32,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     var currentFilter: PGLSourceFilter?  {
         didSet {
-           let allAttributes = ((currentFilter?.attributes) as! [PGLFilterAttribute])
+            let allAttributes = ((currentFilter?.attributes)!)
             filterLabel.text = appStack.getViewerStack().filterNumLabel(maxLen: nil) // don't truncate
 
             filterParms[sectionImages] = allAttributes.filter{ $0.isImageUI() }  //isImageInput
@@ -1091,7 +1091,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             if let imageCollectionController = segue.destination as? PGLImageCollectionMasterController {
                 imageCollectionController.inputFilterAttribute = (tappedAttribute as! PGLFilterAttributeImage) // model object
                 imageCollectionController.fetchTopLevel()
-                if(!(tappedAttribute?.inputCollection?.isEmpty() ?? false) ?? false ) {
+                if(!(tappedAttribute?.inputCollection?.isEmpty() ?? false) ) {
                     // if the inputCollection has images then
                     // imageCollectionController should select them
                     // inputCollection may have multiple albums as input.. highlight all
@@ -1101,7 +1101,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
         if segue.identifier == "goToFilterViewBranchStack" {
 //            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
-           if let nextFilterController = segue.destination as? PGLFilterTableController
+            if segue.destination is PGLFilterTableController
                 {
                 if tappedAttribute == nil { NSLog ("tappedAttribute is NIL")}
                 else{
@@ -1119,11 +1119,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
 
         if segue.identifier == "goToParentParmStack" {
-            if let nextParmController = segue.destination as? PGLSelectParmController { appStack.popToParentStack() }
+            if segue.destination is PGLSelectParmController { appStack.popToParentStack() }
         }
 
         if segue.identifier == "goToParentFilterStack" {
-            if let nextFilterController = segue.destination as? PGLFilterTableController { appStack.popToParentStack() }
+            if segue.destination is PGLFilterTableController { appStack.popToParentStack() }
 
         }
         postCurrentFilterChange()

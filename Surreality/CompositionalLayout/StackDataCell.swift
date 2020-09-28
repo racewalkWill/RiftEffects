@@ -33,10 +33,10 @@ class StackDataCell: UICollectionViewCell {
 }
 
 extension StackDataCell {
-     func addChevron() {
+//     func addChevron() {
 
 
-        let arrowImage = UIImage(systemName: "arrow.right.arrow.left")
+//        let arrowImage = UIImage(systemName: "arrow.right.arrow.left")
 //        accessoryImageView.image =  arrowImage // chevronImage
         // access the old constraint and change it or update with a new one
 //        chevronSpaceConstraint?.constant = 10 // adds trailing space for the accessoryImageView
@@ -45,7 +45,7 @@ extension StackDataCell {
 //        accessoryImageView.isHidden = false
 
 
-    }
+//    }
 
     override func prepareForReuse() {
         titleLabel.text = String()
