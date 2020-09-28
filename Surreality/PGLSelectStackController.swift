@@ -50,7 +50,7 @@ class PGLSelectStackController: UIViewController,  NSFetchedResultsControllerDel
     func setFetchController() -> NSFetchedResultsController<NSFetchRequestResult> {
                 let myMOContext = moContext
                 let stackRequest = NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
-                stackRequest.predicate = NSPredicate(format: "inputToFilter = null")
+                stackRequest.predicate = NSPredicate(format: "outputToParm = null")
 
                     // only CDFilterStacks with outputToParm = null.. ie it is not a child stack)
                 var sortArray = [NSSortDescriptor]()

@@ -237,13 +237,6 @@ extension PGLSourceFilter {
         newCDImageParm.filter = storedFilter  // stores the relationship
         newCDImageParm.inputStack = attribute.inputStack?.writeCDStack()  // stores the relationship
 
-        // start 7/6/20 new datamodel relationships
-         if attribute.inputStack != nil {
-                    // there is an input stack to this parm
-            storedFilter?.parentOfStack =  attribute.inputStack!.storedStack
-        }
-        // end 7/6/20 new datamodel relationships
-
         // create related CDImageList
         if attribute.inputCollection != nil {
             guard let storedImageList =  NSEntityDescription.insertNewObject(forEntityName: "CDImageList", into: moContext) as? CDImageList
@@ -304,7 +297,7 @@ extension PGLSourceFilter {
                         }
                     if let anInputStack = cdImageParm.inputStack // one to one
                     { let newChildStack = PGLFilterStack(readName: anInputStack.title!)
-                        newChildStack.parentStack = parentStack
+
                         newChildStack.parentAttribute = pglImageParm
                         pglImageParm.inputStack = newChildStack
 

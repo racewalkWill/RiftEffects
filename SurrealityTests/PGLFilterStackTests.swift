@@ -95,7 +95,7 @@ class PGLFilterStackTests: XCTestCase {
         // shows that the suite setup has an output image
         // and save the output image
         filterStack.stackName = "testStackSetup" + " \(Date())"
-        filterStack.writeCDStack()
+        _ = filterStack.writeCDStack()
         XCTAssertNotNil(filterStack.storedStack)
         
 
@@ -110,7 +110,7 @@ class PGLFilterStackTests: XCTestCase {
         let defaultTitle = "testWriteStack" + "\(Date())"
         filterStack.stackName = defaultTitle
         NSLog("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
-        filterStack.writeCDStack()
+        _ = filterStack.writeCDStack()
         let newStack = PGLFilterStack(readName: defaultTitle)
 
         let countMatch = newStack.activeFilters.count == activeFilterCount
@@ -142,11 +142,11 @@ class PGLFilterStackTests: XCTestCase {
         let writtenStack = filterStack.writeCDStack()
         NSLog("PGLFilterStackTests #testAddDeleteFilters wroteCDStack \(writtenStack)")
         let newStack = PGLFilterStack(readName: defaultTitle)
-        filterStack.removeLastFilter()
+        _ = filterStack.removeLastFilter()
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
         XCTAssert(filterStack.activeFilters.count < newStack.activeFilters.count)
 
-        filterStack.writeCDStack() // should update with delete
+        _ = filterStack.writeCDStack() // should update with delete
         let newStack2 = PGLFilterStack(readName: defaultTitle)
         XCTAssert(filterStack.activeFilters.count == newStack2.activeFilters.count)
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
@@ -156,11 +156,11 @@ class PGLFilterStackTests: XCTestCase {
         XCTAssert(newStack.storedStack === newStack2.storedStack)
 
         for aFilter in filterStack.activeFilters {
-            NSLog("filterStack filter = \(aFilter.filterName)")
+            NSLog("filterStack filter = \(String(describing: aFilter.filterName))")
         }
 
         for aFilter in newStack2.activeFilters {
-            NSLog("newStack2 filter = \(aFilter.filterName)")
+            NSLog("newStack2 filter = \(String(describing: aFilter.filterName))")
         }
 
         
@@ -182,7 +182,7 @@ class PGLFilterStackTests: XCTestCase {
            
         }
 
-        filterStack.writeCDStack()
+        _ = filterStack.writeCDStack()
             // stack, filters, imageList should all be stored
 
         let savedStack = PGLFilterStack(readName: stackName)
@@ -217,8 +217,8 @@ class PGLFilterStackTests: XCTestCase {
             filterStack.moveActiveBack()
             if let aParm = filterStack.currentFilter().imageParms()?.first {
                 NSLog("PGLFilterStackTests #testInputFilterSave to  \(filterStack.stackName)")
-                NSLog("PGLFilterStackTests #testInputFilterSave to \(filterStack.currentFilter().filterName)")
-                NSLog("PGLFilterStackTests #testInputFilterSave to \(aParm.attributeName)")
+                NSLog("PGLFilterStackTests #testInputFilterSave to \(String(describing: filterStack.currentFilter().filterName))")
+                NSLog("PGLFilterStackTests #testInputFilterSave to \(String(describing: aParm.attributeName))")
 
                 testAppStack.addChildStackTo(parm: aParm)
                 let newMasterStack = testAppStack.viewerStack
@@ -251,14 +251,14 @@ class PGLFilterStackTests: XCTestCase {
                 testAppStack.writeCDStacks()
 
                 let newStack = PGLFilterStack(readName: stackName)  // not picking up the right stack. could be reading the child stack
-                XCTAssertNil(newStack.parentStack)
+
                 newStack.activeFilterIndex = inputFilterPosition
                 let topAttributes = newStack.currentFilter().attributes
                 let newInputStackAttribute = (topAttributes.filter( {$0.inputStack != nil} )).first
-//                XCTAssertNotNil(newInputStackAttribute)
-//                XCTAssert(newInputStackAttribute?.attributeName == inputStackAttribute?.attributeName)
-//                XCTAssertNotNil(newInputStackAttribute?.inputStack)
-//                XCTAssert(testInputStack!.stackName == newInputStackAttribute?.inputStack?.stackName)
+                XCTAssertNotNil(newInputStackAttribute)
+                XCTAssert(newInputStackAttribute?.attributeName == inputStackAttribute?.attributeName)
+                XCTAssertNotNil(newInputStackAttribute?.inputStack)
+                XCTAssert(testInputStack!.stackName == newInputStackAttribute?.inputStack?.stackName)
 
                 // compare all components of the stacks
 //                let runFilters = testAppStack.outputFilterStack().activeFilters

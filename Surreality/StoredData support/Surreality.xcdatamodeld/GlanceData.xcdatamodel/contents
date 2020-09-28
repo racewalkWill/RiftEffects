@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CDFilterStack" representedClassName="CDFilterStack" syncable="YES" codeGenerationType="class">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="exportAlbumIdentifier" optional="YES" attributeType="String"/>
@@ -9,7 +9,7 @@
         <attribute name="title" attributeType="String" defaultValueString="Glance"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <relationship name="filters" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="CDStoredFilter" inverseName="stack" inverseEntity="CDStoredFilter"/>
-        <relationship name="inputToFilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDStoredFilter" inverseName="parentOfStack" inverseEntity="CDStoredFilter"/>
+        <relationship name="outputToParm" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDParmImage" inverseName="inputStack" inverseEntity="CDParmImage"/>
     </entity>
     <entity name="CDImageList" representedClassName="CDImageList" syncable="YES" codeGenerationType="class">
         <attribute name="albumIds" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
@@ -21,20 +21,19 @@
         <attribute name="parmName" optional="YES" attributeType="String"/>
         <relationship name="filter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDStoredFilter" inverseName="input" inverseEntity="CDStoredFilter"/>
         <relationship name="inputAssets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDImageList" inverseName="parm" inverseEntity="CDImageList"/>
-        <relationship name="inputStack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack"/>
+        <relationship name="inputStack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack" inverseName="outputToParm" inverseEntity="CDFilterStack"/>
     </entity>
     <entity name="CDStoredFilter" representedClassName="CDStoredFilter" syncable="YES" codeGenerationType="class">
         <attribute name="ciFilter" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="CoreImage.CIFilter"/>
         <attribute name="ciFilterName" optional="YES" attributeType="String"/>
         <attribute name="pglSourceFilterClass" attributeType="String" defaultValueString="PGLSourceFilter"/>
         <relationship name="input" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDParmImage" inverseName="filter" inverseEntity="CDParmImage"/>
-        <relationship name="parentOfStack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack" inverseName="inputToFilter" inverseEntity="CDFilterStack"/>
         <relationship name="stack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack" inverseName="filters" inverseEntity="CDFilterStack"/>
     </entity>
     <elements>
         <element name="CDFilterStack" positionX="-3947.26171875" positionY="-29.34765625" width="128" height="178"/>
         <element name="CDImageList" positionX="-4319.14453125" positionY="273.2890625" width="159.109375" height="103"/>
         <element name="CDParmImage" positionX="-4096.78125" positionY="223.5859375" width="128" height="103"/>
-        <element name="CDStoredFilter" positionX="-4290.27734375" positionY="39.40234375" width="128" height="133"/>
+        <element name="CDStoredFilter" positionX="-4290.27734375" positionY="39.40234375" width="128" height="118"/>
     </elements>
 </model>

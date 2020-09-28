@@ -49,7 +49,7 @@ class PGLFilterStack  {
     var stackName:String = "S1"  // Date().description(with: Locale.current)
     var parentAttribute: PGLFilterAttribute?
 
-    var parentStack: PGLFilterStack?
+//    var parentStack: PGLFilterStack?
     lazy var imageCIContext: CIContext = {return Renderer.ciContext}()
 
     var frameValueDeltas = PGLFilterChange()

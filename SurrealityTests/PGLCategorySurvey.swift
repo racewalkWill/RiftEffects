@@ -224,7 +224,7 @@ class PGLCategorySurvey: XCTestCase {
                     // should use the appStack to supply the filterStack
 
 
-                testFilterStack.removeLastFilter() // only one at start
+                _ = testFilterStack.removeLastFilter() // only one at start
 
                 category1Filter = group1[category1Index].pglSourceFilter()!
                 category1Filter.setDefaults()
@@ -297,7 +297,7 @@ class PGLCategorySurvey: XCTestCase {
               self.appStack.resetToTopStack(newStack: newStack)
               let testFilterStack = appStack.viewerStack
                   // should use the appStack to supply the filterStack
-              testFilterStack.removeLastFilter() // only one at start
+            _ = testFilterStack.removeLastFilter() // only one at start
 
             newFilter = ios13FilterDescriptor.pglSourceFilter()!
             newFilter.setDefaults()
@@ -346,7 +346,7 @@ class PGLCategorySurvey: XCTestCase {
                        // should use the appStack to supply the filterStack
 
 
-                   testFilterStack.removeLastFilter() // only one at start
+                _ = testFilterStack.removeLastFilter() // only one at start
 
                    category1Filter = group1[category1Index].pglSourceFilter()!
                    category1Filter.setDefaults()
@@ -365,7 +365,7 @@ class PGLCategorySurvey: XCTestCase {
                     guard let stackInputAttribute = category1Filter.attribute(nameKey: imageAttributesNames[1]) else { continue }
                     appStack.addChildStackTo(parm: stackInputAttribute)
                     let childStack = appStack.viewerStack // the new childStack
-                    childStack.removeLastFilter()
+                    _ = childStack.removeLastFilter()
                     let aFilterIndex = Int.random(in: 0 ..< PGLCategorySurvey.DistortFilters.count)
                     let childFilter1 = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()
 
@@ -423,7 +423,7 @@ class PGLCategorySurvey: XCTestCase {
                   self.appStack.resetToTopStack(newStack: newStack)
                   let testFilterStack = appStack.viewerStack
                       // should use the appStack to supply the filterStack
-                  testFilterStack.removeLastFilter() // only one at start
+                _ = testFilterStack.removeLastFilter() // only one at start
 
                 newFilter = aFilterDescriptor.pglSourceFilter()!
                 newFilter.setDefaults()

@@ -32,7 +32,7 @@ class PGLImageList {
             }
         }
     }
-    var inputStack: PGLFilterStack?
+    var inputStack: PGLFilterStack? // remove this var? imageParms will have an inputStack.. not the imageList
     var firstImage: CIImage? // caches the first image as the most common case
 
     var position = 0

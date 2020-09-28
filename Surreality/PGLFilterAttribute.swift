@@ -138,7 +138,7 @@ class PGLFilterAttribute {
                 // this is a problem...
 
             inputSourceDescription = inputStack?.stackName ?? "filterStack"
-            inputCollection?.inputStack = inputStack  // for writing to coreData
+
         }
     }
         // typically an image output from a stack is the input to the attribute

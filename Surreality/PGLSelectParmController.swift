@@ -93,7 +93,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
-    @IBOutlet weak var openParentStack: UIBarButtonItem!
 
     var notifications = [Any]() // an opaque type is returned from addObservor
 

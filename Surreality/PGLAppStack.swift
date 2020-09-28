@@ -81,7 +81,7 @@ class PGLAppStack {
         newStack.stackName = viewerStack.nextStackName()
 //        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")
         newStack.parentAttribute = parm
-        newStack.parentStack = viewerStack
+//        newStack.parentStack = viewerStack
         pushChildStack(newStack)  // make newStack as the current masterDataStack
 
         parm.inputStack = newStack
