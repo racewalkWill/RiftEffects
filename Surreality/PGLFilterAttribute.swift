@@ -967,18 +967,25 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
             if auxImage != nil {
                 var depthData = auxImage!.depthData
-            if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat32 {
-                // convert to half-float16 but the normalize seems to expect float32..
-                depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
+//                depthData?.depthDataMap.setUpNormalize()
+
+                // depthData?.depthDataMap.normalizeDSP() // normalize before conversion to half float16
+            if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat16 {
+                // convert to half-float16 but the normalize seems to expect float32..
+                depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
+
+                depthData?.depthDataMap.setUpNormalize()
 //                depthData?.depthDataMap.normalize()
+                // or
+
                 //should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
-//                depthDataByReplacingDepthDataMapWithPixelBuffer
+                //this is creating a derivative depth map reflecting whatever edits you make to the corresponding image
 
                 
                 let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
-            scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
-                parameters: ["inputImage": scaledDownInput ,"inputSmallImage":  auxImage as Any])
+                scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
+                                                    parameters: ["inputImage": scaledDownInput ,"inputSmallImage":  auxImage as Any])
 
                 if !self.specialFilterIsAssigned {
                     self.myFilter = self.specialConstructor(inputImage: scaledDownInput, disparityImage: scaledDisparityImage!)

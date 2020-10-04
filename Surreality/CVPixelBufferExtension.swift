@@ -29,6 +29,11 @@
 import AVFoundation
 import UIKit
 import Accelerate
+// review the Accelerate docuementation
+// this is a CG (Core Graphics) oriented set of vector functions to operate
+// on image formats
+// mostly it operates from a source buffer to a target buffer of bytes that then
+// are output as a CGImage. See workFlow documentation in Accelerate/vImage
 
 extension CVPixelBuffer {
   func normalize() {
@@ -36,7 +41,7 @@ extension CVPixelBuffer {
     let height = CVPixelBufferGetHeight(self)
     
     CVPixelBufferLockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
-    let floatBuffer = unsafeBitCast(CVPixelBufferGetBaseAddress(self), to: UnsafeMutablePointer<Float>.self)
+    let pixelBuffer = unsafeBitCast(CVPixelBufferGetBaseAddress(self), to: UnsafeMutablePointer<Float>.self)
 
     // MARK: TO_DO
     var minPixel: Float = 1.0  // change to Float16 in Swift 5.3 (Xcode 12, currently in beta 2020-09-12)
@@ -52,7 +57,7 @@ extension CVPixelBuffer {
     
     for y in stride(from: 0, to: height, by: 1) {
       for x in stride(from: 0, to: width, by: 1) {
-        let pixel = floatBuffer[y * width + x]
+        let pixel = pixelBuffer[y * width + x]
         minPixel = min(pixel, minPixel)
         maxPixel = max(pixel, maxPixel)
       }
@@ -62,8 +67,8 @@ extension CVPixelBuffer {
     NSLog("CVPixelBuffer #normalize start maxPixel = \(maxPixel), min = \(minPixel) range = \(range)")
     for y in stride(from: 0, to: height, by: 1) {
       for x in stride(from: 0, to: width, by: 1) {
-        let pixel = floatBuffer[y * width + x]
-        floatBuffer[y * width + x] = (pixel - minPixel) / range
+        let pixel = pixelBuffer[y * width + x]
+        pixelBuffer[y * width + x] = (pixel - minPixel) / range
       }
     }
 
@@ -72,7 +77,7 @@ extension CVPixelBuffer {
      maxPixel = 0.0
     for y in stride(from: 0, to: height, by: 1) {
       for x in stride(from: 0, to: width, by: 1) {
-        let pixel = floatBuffer[y * width + x]
+        let pixel = pixelBuffer[y * width + x]
         minPixel = min(pixel, minPixel)
         maxPixel = max(pixel, maxPixel)
       }
@@ -85,41 +90,89 @@ extension CVPixelBuffer {
 
   }
 
-    func normalizeDSP() {
-        // use the Accelerate vDSP_normalize demo in the
-        // Accelerate Blur Detection sample app
-        // change Float to Float16 in Swift 5.3 (Xcode 12, currently in beta 2020-09-12)
-        let width = CVPixelBufferGetWidth(self)
-        let height = CVPixelBufferGetHeight(self)
+    func setUpNormalize() {
+        // grayscale buffer float16
+        let pixelBuffer = self
+        CVPixelBufferLockBaseAddress(pixelBuffer,
+                                     CVPixelBufferLockFlags.readOnly)
+        let width = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0)
+        let height = CVPixelBufferGetHeightOfPlane(pixelBuffer, 0)
         let count = width * height
 
-      CVPixelBufferLockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
-      let floatBuffer = unsafeBitCast(CVPixelBufferGetBaseAddress(self), to: UnsafeMutablePointer<Float>.self)
+        let lumaBaseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0)
+        let lumaRowBytes = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0)
 
-        // from sample app AccelerateBlurDetection func processImage(data: ..)
-//        floatPixels = [Float](unsafeUninitializedCapacity: count) {
-//            buffer, initializedCount in
-//
-//            var floatBuffer = vImage_Buffer(data: buffer.baseAddress,
-//                                            height: sourceBuffer.height,
-//                                            width: sourceBuffer.width,
-//                                            rowBytes: width * MemoryLayout<Float>.size)
-//
-//            vImageConvert_Planar8toPlanarF(&sourceBuffer,
-//                                           &floatBuffer,
-//                                           0, 255,
-//                                           vImage_Flags(kvImageNoFlags))
-//
-//            initializedCount = count
+        let lumaCopy = UnsafeMutableRawPointer.allocate(byteCount: count,
+                                                        alignment: MemoryLayout<Pixel_16U>.alignment)
+        lumaCopy.copyMemory(from: lumaBaseAddress!,
+                            byteCount: count)
+
+
+        CVPixelBufferUnlockBaseAddress(pixelBuffer,
+                                       CVPixelBufferLockFlags.readOnly)
+//        DispatchQueue.global(qos: .utility).async {
+            self.processImage(data: lumaCopy,
+                              rowBytes: lumaRowBytes,
+                              width: width,
+                              height: height )
+
+            lumaCopy.deallocate()
+//        } queue .async block
+
+    }
+
+func processImage(data: UnsafeMutableRawPointer,
+                      rowBytes: Int,
+                      width: Int, height: Int) {
+        // use the Accelerate vDSP_normalize demo in the
+        // Accelerate Blur Detection sample app
+        // need to combine and simply the photoOutput function and the processImage function
+        // below is mixed.. redo.
+        //
+
+
+        var sourceBuffer = vImage_Buffer(data: data,
+                                         height: vImagePixelCount(height),
+                                         width: vImagePixelCount(width),
+                                         rowBytes: rowBytes)
+        var floatPixels: [Float]
+        let count = width * height
+//        if sourceBuffer.rowBytes == width * MemoryLayout<Pixel_16U>.stride {
+//            let start = sourceBuffer.data.assumingMemoryBound(to: Pixel_16U.self)
+//            floatPixels = vDSP.integerToFloatingPoint(
+//                UnsafeMutableBufferPointer(start: start,
+//                                           count: count),
+//                floatingPointType: Float.self)
+//        } else {
+            floatPixels = [Float](unsafeUninitializedCapacity: count) {
+                buffer, initializedCount in
+
+                var floatBuffer = vImage_Buffer(data: buffer.baseAddress,
+                                                height: sourceBuffer.height,
+                                                width: sourceBuffer.width,
+                                                rowBytes: width * MemoryLayout<Float16>.size)
+                // need to copy memory from the data into the floatPixels
+//              vImageConvert_Planar8toPlanarF(&sourceBuffer,  &floatBuffer ,0, 1, vImage_Flags(kvImageNoFlags))
+                let floatBaseAddress = floatBuffer.data
+                floatBaseAddress!.copyMemory(from: &sourceBuffer,
+                                    byteCount: count)
+                initializedCount = count
+            }
 //        }
 
-        // Calculate standard deviation.
-//               var mean = Float.nan
-//               var stdDev = Float.nan
-//
-//               vDSP_normalize(floatPixels, 1,
-//                              nil, 1,
-//                              &mean, &stdDev,
-//                              vDSP_Length(count))
+
+//         Calculate standard deviation.
+               var mean = Float.nan
+               var stdDev = Float.nan
+        // modify self: CVPixelBuffer
+        CVPixelBufferLockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelBufferBase  = unsafeBitCast(CVPixelBufferGetBaseAddress(self), to: UnsafeMutablePointer<Float>.self)
+    // normalize to a 0..1 range in self (cvPixelBuffer).
+        vDSP_normalize(floatPixels, 1,
+                       pixelBufferBase, 1,
+                       &mean, &stdDev,
+                       vDSP_Length(count))
+
+    CVPixelBufferUnlockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
     }
 }

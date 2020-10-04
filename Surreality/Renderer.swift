@@ -74,7 +74,7 @@ class Renderer: NSObject {
 
         metalView.device = device
         metalView.framebufferOnly = false  // false
-        ciContext = CIContext(mtlDevice: device, options: [CIContextOption.workingFormat: CIFormat.RGBAh] )
+        ciContext = CIContext(mtlDevice: device, options: [CIContextOption.workingFormat: CIFormat.RGBAh, .cacheIntermediates : false ] )
         // set to half float intermediates for CIDepthBlurEffect as suggested in WWDC 2017
          // Editing with Depth 508
         //          https://developer.apple.com/videos/play/wwdc2017/508
