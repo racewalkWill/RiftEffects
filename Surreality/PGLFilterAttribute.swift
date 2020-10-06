@@ -975,28 +975,40 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 // convert to half-float16 but the normalize seems to expect float32..
                 depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
 
-                depthData?.depthDataMap.setUpNormalize()
+                depthData?.depthDataMap.setUpNormalize()  // vector processing method in Accelerate framework
 //                depthData?.depthDataMap.normalize()
                 // or
 
                 //should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
                 //this is creating a derivative depth map reflecting whatever edits you make to the corresponding image
 
-                
-                let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
-                scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
-                                                    parameters: ["inputImage": scaledDownInput ,"inputSmallImage":  auxImage as Any])
 
-                if !self.specialFilterIsAssigned {
-                    self.myFilter = self.specialConstructor(inputImage: scaledDownInput, disparityImage: scaledDisparityImage!)
+                // depthData needs to scale too...
+                let doScaleDown = false
 
-                    
-                    self.specialFilterIsAssigned = true
-                } else {
-                    // assign directly
-                    self.myFilter.setValue(scaledDownInput, forKey: kCIInputImageKey)
-                    self.myFilter.setValue(scaledDisparityImage, forKey: "inputDisparityImage")
-                    
+                if doScaleDown {
+                    let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
+                    scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
+                                                        parameters: ["inputImage": scaledDownInput ,"inputSmallImage":  auxImage as Any])
+                    if !self.specialFilterIsAssigned {
+                        self.myFilter = self.specialConstructor(inputImage: scaledDownInput, disparityImage: scaledDisparityImage!)
+                        self.specialFilterIsAssigned = true
+                    } else {
+                        // assign directly
+                        self.myFilter.setValue(scaledDownInput, forKey: kCIInputImageKey)
+                        self.myFilter.setValue(scaledDisparityImage, forKey: "inputDisparityImage")
+                    }
+                }
+                else {
+                    // not scaling down
+                    if !self.specialFilterIsAssigned {
+                        self.myFilter = self.specialConstructor(inputImage: image, disparityImage: auxImage!)
+                        self.specialFilterIsAssigned = true
+                    } else {
+                        // assign directly
+                        self.myFilter.setValue(image, forKey: kCIInputImageKey)
+                        self.myFilter.setValue(auxImage, forKey: "inputDisparityImage")
+                    }
                 }
                 self.postImageChange()
                 }
