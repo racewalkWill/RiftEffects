@@ -971,18 +971,20 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 //                depthData?.depthDataMap.setUpNormalize()
 
                 // depthData?.depthDataMap.normalizeDSP() // normalize before conversion to half float16
-            if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat16 {
+            if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat32 {
                 // convert to half-float16 but the normalize seems to expect float32..
-                depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
+                depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
-                depthData?.depthDataMap.setUpNormalize()  // vector processing method in Accelerate framework
+               _ = depthData?.depthDataMap.setUpNormalize()  // vector processing method in Accelerate framework
 //                depthData?.depthDataMap.normalize()
                 // or
 
                 //should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
                 //this is creating a derivative depth map reflecting whatever edits you make to the corresponding image
 
-
+                if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat16 {
+                    // convert to half-float16
+                    depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
                 // depthData needs to scale too...
                 let doScaleDown = false
 
