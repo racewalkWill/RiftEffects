@@ -15,7 +15,7 @@ import UIKit
 class PGLDisparityFilter: PGLRectangleFilter {
     // filters that use depth or disparity
     // some of the filters may have disparity in different attributes..
-    // initial user is CI
+    // initial user is CIDepthBlurEffect
 
     var localFilterIsSpecialConstruction = false
         // let the usual pglattribute construction

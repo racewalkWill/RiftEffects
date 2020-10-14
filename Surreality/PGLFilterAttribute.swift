@@ -975,7 +975,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 // convert to half-float16 but the normalize seems to expect float32..
                 depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
-               _ = depthData?.depthDataMap.setUpNormalize()  // vector processing method in Accelerate framework
+                _ = depthData?.depthDataMap.normalizeDisparity(pixelFormat:depthData!.depthDataType)  // vector processing method in Accelerate framework
 //                depthData?.depthDataMap.normalize()
                 // or
 
