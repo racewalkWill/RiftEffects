@@ -73,14 +73,22 @@ class Renderer: NSObject {
         _ = device.makeDefaultLibrary()
 
         metalView.device = device
-        metalView.framebufferOnly = false  // false
-        ciContext = CIContext(mtlDevice: device, options: [CIContextOption.workingFormat: CIFormat.RGBAh, .cacheIntermediates : false ] )
+
+        
+        ciContext = CIContext(mtlDevice: device,
+                                options: [CIContextOption.workingFormat: CIFormat.RGBAh,
+                                          .cacheIntermediates : true,
+                                          .name : "metalView"] )
+            //.cacheIntermediates : should be false if showing video per WWDC "Optimize the Core Image pipeline"
+            // but this app is NOT video !! and  value = false causes memory growth
+            // therefore use .cacheIntermediates : true 2020-10-16
+
         // set to half float intermediates for CIDepthBlurEffect as suggested in WWDC 2017
          // Editing with Depth 508
         //          https://developer.apple.com/videos/play/wwdc2017/508
-            // in iOS 14 add to use options: [.cacheIntermediates : false ]
-        Renderer.ciContext = ciContext
 
+        Renderer.ciContext = ciContext
+        
         metalView.autoResizeDrawable = true
 
 
@@ -130,7 +138,7 @@ extension Renderer: MTKViewDelegate {
 
     func draw(in view: MTKView) {
         var sizedciOutputImage: CIImage
-
+        
         guard let descriptor = view.currentRenderPassDescriptor,
             let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
@@ -167,6 +175,14 @@ extension Renderer: MTKViewDelegate {
 
             commandBuffer.present(currentDrawable)
             commandBuffer.commit()
+
+            // possible metal refs that are not released
+            // compare to the allocations listing
+//            NSLog("draw descriptor \(descriptor)")
+//            NSLog("draw commandBuffer \(commandBuffer)")
+//            NSLog("draw renderEncoder \(renderEncoder)")
+//            NSLog("draw currentDrawable \(currentDrawable)")
+
                 }
                 else { fatalError("Render did not get the current currentRenderPassDescriptor - draw(in: view")}
             }

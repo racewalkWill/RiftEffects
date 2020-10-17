@@ -56,8 +56,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     var scaleFactor: CGFloat = 2.0
 
-    let arrowRightCirclFill = UIImage(systemName: "arrow.right.circle.fill")
-    let shiftBtnDown = UIImage(systemName: "arrow.right.circle")
+//    let arrowRightCirclFill = UIImage(systemName: "arrow.right.circle.fill")
+//    let shiftBtnDown = UIImage(systemName: "arrow.right.circle")
 
     @IBOutlet weak var parmsTableView: UITableView! {
         didSet{
