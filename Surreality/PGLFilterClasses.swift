@@ -234,6 +234,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return !(localFilter.name == "CIColorCube")
 
     }
+    var imageInputCache: [String :CIImage?] = [:]
 
      func otherImageInputKeys() -> [String] {
             // answers other image inputs
@@ -356,6 +357,10 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         
         localFilter.setValue( newValue, forKey: keyName)
         postImageChange()
+    }
+
+    func removeImageValue(keyName: String) {
+        localFilter.setValue(nil, forKey: keyName)
     }
 
     func setBackgroundInput(image: CIImage?) {

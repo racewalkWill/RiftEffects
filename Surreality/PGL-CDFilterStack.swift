@@ -134,8 +134,11 @@ extension PGLFilterStack {
             for aFilter in activeFilters {
 
                 let theFilterStoredObject = aFilter.cdFilterObject()
+                // moves images to cache to reduce storage
                 // does not need to add if the filter exists in the relation already
+                
                 storedStack?.addToFilters(theFilterStoredObject)
+                aFilter.restoreImageInputsFromCache()
             }
             return storedStack!  // force error if not set
     }
@@ -186,11 +189,16 @@ extension PGLSourceFilter {
     // core data methods
     // MARK: CoreData
 
+
     func cdFilterObject() -> CDStoredFilter {
         // create or update to the coreData store
+        // do not store filter image inputs in the CoreData..
+        // saves storage memory - the localId will be saved and used to restore inputs
+        // pglImageParms will handle the localId
 
-
+        // get dictionary of attribute name and the current value in the filter
         let moContext = PersistentContainer.viewContext
+        imageInputCache = moveImageInputsToCache()
         if storedFilter == nil {
             NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(String(describing: filterName))")
             storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
@@ -208,7 +216,30 @@ extension PGLSourceFilter {
         // moContext save at the stack save
     }
 
+    func moveImageInputsToCache() -> [String :CIImage?] {
+        var localCache = [String : CIImage?]()
+        NSLog("PGLSourceFilter #moveImageInputsToCache filter \(String(describing: filterName))")
 
+
+        for aImageKey in imageInputAttributeKeys {
+            NSLog("PGLSourceFilter #moveImageInputsToCache on \(aImageKey)")
+            localCache[aImageKey] = valueFor(keyName: aImageKey) as? CIImage
+            self.removeImageValue(keyName: aImageKey)
+        }
+
+        return localCache
+    }
+
+    func restoreImageInputsFromCache() {
+        // from the filter var imageInputCache
+        for (attributeName, image ) in imageInputCache {
+            if let aCIImage = image {
+                setImageValue(newValue: aCIImage, keyName: attributeName)
+            }
+
+        }
+        imageInputCache = [String :CIImage?]() // clear the cache
+    }
 
     func getCDParmImage(attribute: PGLFilterAttribute) -> CDParmImage? {
         // 4EntityModel
@@ -366,6 +397,9 @@ extension PGLAppStack {
         // each stack will write in turn as it is referenced
         // do not need to iterate the collection
 
+        // stop the display timer while writing the stacks to core data
+        // filter image inputs are nil for core data then restored on completion
+        
         let moContext = PersistentContainer.viewContext
 
         if let initialStack = firstStack() {
@@ -377,6 +411,11 @@ extension PGLAppStack {
         NSLog("PGLAppStack #writeCDStacks save called")
         } catch { fatalError(error.localizedDescription) }
             }
+        // now restore the filter's image inputs after the save
+        // start the display timer again
+
+      // now restore all the cached input images
+        // can this come from the imageList?
 
     }
 
