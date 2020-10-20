@@ -138,12 +138,18 @@ extension PGLFilterStack {
                 // does not need to add if the filter exists in the relation already
                 
                 storedStack?.addToFilters(theFilterStoredObject)
-                aFilter.restoreImageInputsFromCache()
+
             }
             return storedStack!  // force error if not set
     }
 
-    
+    func restoreCDstackImageCache() {
+        // drill to all the filters and restoreImageCache after the moContext.save()
+        for aFilter in activeFilters {
+            aFilter.restoreImageInputsFromCache()
+        }
+
+    }
 
     func delete() {
         // delete this stack from the data store
@@ -235,6 +241,13 @@ extension PGLSourceFilter {
         for (attributeName, image ) in imageInputCache {
             if let aCIImage = image {
                 setImageValue(newValue: aCIImage, keyName: attributeName)
+            }
+            if let parm = attribute(nameKey: attributeName){
+                if parm.hasFilterStackInput() {
+                    // drill down to restore child stack filters too
+                    let childStack = parm.inputStack
+                    childStack?.restoreCDstackImageCache()
+                }
             }
 
         }
@@ -404,6 +417,7 @@ extension PGLAppStack {
 
         if let initialStack = firstStack() {
          _ = initialStack.writeCDStack()
+            // filter images are moved to a cache before the save
         }
 
     if moContext.hasChanges {
@@ -415,7 +429,11 @@ extension PGLAppStack {
         // start the display timer again
 
       // now restore all the cached input images
-        // can this come from the imageList?
+        if let initialStack = firstStack() {
+         initialStack.restoreCDstackImageCache()
+            // bring back the image cache to filter inputs after save runs
+        }
+
 
     }
 
