@@ -38,6 +38,7 @@
 
 import MetalKit
 var TargetSize = CGSize(width: 1040, height: 768)
+var DoNotDrawWhileSave = false
 
 class Renderer: NSObject {
 
@@ -138,7 +139,7 @@ extension Renderer: MTKViewDelegate {
 
     func draw(in view: MTKView) {
         var sizedciOutputImage: CIImage
-        
+        if DoNotDrawWhileSave { return }
         guard let descriptor = view.currentRenderPassDescriptor,
             let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {

@@ -103,7 +103,7 @@ class PGLStackController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "filterRowCell", for: indexPath)
         let aFilterIndent = appStack.filterAt(indexPath: indexPath)
-          cell.imageView?.image = aFilterIndent.filter.getThumbnail()
+//          cell.imageView?.image = aFilterIndent.filter.getThumbnail()
 
         cell.textLabel?.text = aFilterIndent.descriptorDisplayName  // same text as the filterController cell
         cell.indentationLevel = aFilterIndent.level

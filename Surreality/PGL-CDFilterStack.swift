@@ -238,6 +238,7 @@ extension PGLSourceFilter {
 
     func restoreImageInputsFromCache() {
         // from the filter var imageInputCache
+       NSLog("PGLSourceFilter #restoreImageInputsFromCache filter \(String(describing: filterName))")
         for (attributeName, image ) in imageInputCache {
             if let aCIImage = image {
                 setImageValue(newValue: aCIImage, keyName: attributeName)
@@ -416,6 +417,7 @@ extension PGLAppStack {
         let moContext = PersistentContainer.viewContext
 
         if let initialStack = firstStack() {
+            DoNotDrawWhileSave = true
          _ = initialStack.writeCDStack()
             // filter images are moved to a cache before the save
         }
@@ -432,6 +434,7 @@ extension PGLAppStack {
         if let initialStack = firstStack() {
          initialStack.restoreCDstackImageCache()
             // bring back the image cache to filter inputs after save runs
+            DoNotDrawWhileSave = false
         }
 
 
