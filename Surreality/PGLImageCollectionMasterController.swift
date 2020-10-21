@@ -134,6 +134,15 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         // if the tappedAttribute has an input then highlight and show it
         NSLog("PGLImageCollectionMasterController viewDidLoad")
 //        PHPhotoLibrary.shared().register(self)
+//        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+        // in theory register as observor for permission changes then update an existing query
+        // see PhotoKit 'Requesting Authorization to View Photos'
+        // Use the registerChangeObserver: method to observe photo library changes before fetching content.
+        // After the user grants your app access to the photo library,
+        // Photos sends change messages for any empty fetch results you retrieved earlier,
+        // notifying you that library content for those fetches is now available.
+
+
         navigationController?.delegate = self
         // assume that fetchTopLevel has populated the albums,smartAlbums & userCollections
        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate

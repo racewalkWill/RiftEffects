@@ -449,16 +449,18 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func setSourceFilter(sourceLocation: (source: PGLFilterStack, at: Int),attributeKey: String) {
-        if let sourceAttribute = attribute(nameKey: attributeKey)
-        {  sourceAttribute.inputSource = sourceLocation
-            if let imageAttribute = sourceAttribute as? PGLFilterAttributeImage {
-                if ( sourceLocation.at > 0 ) {
-                // first zero position filter can not have input from a previous filter
-                imageAttribute.hasFilterInput = true  // flag for parm description
-                
-                }
-            }
-        }
+        // checking memory circular ref between aSourceFilter and inputSource vars
+        // 2020-10-20 comment out below
+//        if let sourceAttribute = attribute(nameKey: attributeKey)
+//        {  sourceAttribute.inputSource = sourceLocation
+//            if let imageAttribute = sourceAttribute as? PGLFilterAttributeImage {
+//                if ( sourceLocation.at > 0 ) {
+//                // first zero position filter can not have input from a previous filter
+//                imageAttribute.hasFilterInput = true  // flag for parm description
+//
+//                }
+//            }
+//        }
     }
 
     func getSourceFilterLocation(attributeKey: String) -> (source: PGLFilterStack, at: Int)? {
