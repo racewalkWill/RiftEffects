@@ -53,11 +53,7 @@ class PGLSourceFilter :  PGLAnimation  {
     var descriptorDisplayName: String? // not the same as the ciFilter name
 
 
-    var localFilter: CIFilter {
-        didSet {
-            NSLog("PGLSourceFilter #localFilter set")
-        }
-    }
+    var localFilter: CIFilter 
     var attributes = [PGLFilterAttribute]() // may have subclasses
     var filterCategories = [String]()
     var uiPosition: PGLFilterCategoryIndex

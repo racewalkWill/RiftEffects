@@ -67,7 +67,7 @@ class PGLFilterCategory {
         "CIKMeans", "CIPaletteCentroid" , "CIPalettize", "CIColorCurves",
         // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
         "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",
-        "CICrystallize", "CICMYKHalftone","CIGaborGradients"]
+        "CICrystallize", "CICMYKHalftone","CIGaborGradients", "CISpotColor", "CIEdgeWork"]
     
     static var skipFailingFilters = true  // change to false to include all filters
         // a test case could set this to false to test for CIFilter changes in iOS releases

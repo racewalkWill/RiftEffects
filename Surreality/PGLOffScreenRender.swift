@@ -43,7 +43,10 @@ class PGLOffScreenRender {
           let currentRect = filterStack.cropRect
           NSLog("PGLOffScreenRender #captureUIImage currentRect = \(currentRect)")
           let croppedOutput = ciOutput.cropped(to: currentRect)
-          guard let currentOutputImage = offScreenContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
+          guard let currentOutputImage = offScreenContext.createCGImage(croppedOutput, from: croppedOutput.extent)
+            else {
+            // [api] -[CIContext(CIRenderDestination) _startTaskToRender:toDestination:forPrepareRender:forClear:error:] No need to render
+            return UIImage(ciImage: ciOutput, scale: UIScreen.main.scale, orientation: .up) }
           NSLog("PGLOffScreenRender #captureImage croppedOutput.extent = \(croppedOutput.extent)")
 
           return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)

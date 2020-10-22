@@ -634,7 +634,8 @@ class PGLFilterStack  {
        if moContext.hasChanges {
        do { try moContext.save()
            NSLog("PGLAppStack #writeCDStacks save called")
-           } catch { fatalError(error.localizedDescription) }
+           } catch {
+            fatalError(error.localizedDescription) }
                }
 
        }
@@ -645,7 +646,7 @@ class PGLFilterStack  {
            let photoSaveSuccess = self.saveToPhotosLibrary(stack: self)
                // call first so the albumIdentifier can be stored
            NSLog("saveAction calls writeCDStacks")
-            self.writeCDStacks()
+            self.writeCDStacks()   // this writesCDStacks even on saveToPhotosLibrary failure
             return photoSaveSuccess
 //        }
     }
@@ -712,12 +713,14 @@ class PGLFilterStack  {
 
 
             }, completionHandler: {success, error in
-                  if !success { print("Error creating the asset: \(String(describing: error))") }
+                  if !success {
+                    NSLog("PGLFilterStack saveHEIFToPhotosLibrary - Error creating the asset: \(String(describing: error))") }
 
               })
             return true
         }
-         else { NSLog("getOffScreenHEIF fails in PGLFilterStack #saveHEIFToPhotosLibrary")
+         else {
+            NSLog("getOffScreenHEIF fails in PGLFilterStack #saveHEIFToPhotosLibrary")
                 return false
         }
 }

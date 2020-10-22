@@ -151,7 +151,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         if defaultValue == nil {
 
             var cornerPoint: CGPoint?
-            NSLog("PGLFilterAttributeVector does not have default")
+//            NSLog("PGLFilterAttributeVector does not have default")
             let insetRect = CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height).insetBy(dx: 200.0, dy: 200.0)
             // assuming LLO here...
             // now trying ULO

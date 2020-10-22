@@ -68,7 +68,7 @@ class PGLCategorySurvey: XCTestCase {
                 let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
                 let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
                 thisFilter?.setDefaults()
-            NSLog("addFiltersTo added filter \(thisFilter!.localizedName())")
+            NSLog("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
             let imageAttributesNames = thisFilter!.imageInputAttributeKeys
                 for anImageAttributeName in imageAttributesNames {
                     if anImageAttributeName == kCIInputImageKey { continue
@@ -403,7 +403,7 @@ class PGLCategorySurvey: XCTestCase {
             // from a failing testMultipleInput run
             let filterNames = [
 //                "CIDivideBlendMode",
-                "CIDepthBlurEffect"
+//                "CIDepthBlurEffect" ,
 //                 "CIColorMatrix",
 //                 "CIColorMonochrome",
 //                 "CIConvolution9Vertical",
@@ -411,7 +411,14 @@ class PGLCategorySurvey: XCTestCase {
 //                 "CIPerspectiveTransform",
 //                 "CISharpenLuminance",
 //                 "CICMYKHalftone",
-//                 "CIClamp"
+//                 "CIClamp",
+                // 2020-10-20 failing filters
+//                "CIHeightFieldFromMask"
+//               "CIEdges",
+//                "CICrystallize",
+//                "CICMYKHalftone",
+                "CIGaborGradients"
+
             ]
 
             let constructedCategory = PGLFilterCategory("constructedCategory")!
