@@ -23,8 +23,8 @@
         <relationship name="inputAssets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDImageList" inverseName="parm" inverseEntity="CDImageList"/>
         <relationship name="inputStack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack" inverseName="outputToParm" inverseEntity="CDFilterStack"/>
     </entity>
-    <entity name="CDStoredFilter" representedClassName="CDStoredFilter" syncable="YES" codeGenerationType="class">
-        <attribute name="ciFilter" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="CoreImage.CIFilter"/>
+    <entity name="CDStoredFilter" representedClassName="CDStoredFilter" syncable="YES">
+        <attribute name="ciFilter" optional="YES" attributeType="Transformable" valueTransformerName="PGLFilterCDDataTransformer" customClassName="CIFilter"/>
         <attribute name="ciFilterName" optional="YES" attributeType="String"/>
         <attribute name="pglSourceFilterClass" attributeType="String" defaultValueString="PGLSourceFilter"/>
         <relationship name="input" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDParmImage" inverseName="filter" inverseEntity="CDParmImage"/>

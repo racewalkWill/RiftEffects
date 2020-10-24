@@ -11,6 +11,7 @@ import UIKit
 
 class PGLImageCIFilter: PGLFilterCIAbstract {
     // just return an image.. NO EFFECTS.. Starts the filter chain..
+
     override class func register() {
         //       let attr: [String: AnyObject] = [:]
         NSLog("PGLImageCIFilter #register()")
