@@ -32,6 +32,11 @@ class PGLTiltShift: PGLFilterCIAbstract {
         CIFilter.registerName(kPTiltShift, constructor: PGLFilterConstructor(), classAttributes: PGLTiltShift.customAttributes())
     }
 
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
 
     @objc override class func customAttributes() -> [String: Any] {
 

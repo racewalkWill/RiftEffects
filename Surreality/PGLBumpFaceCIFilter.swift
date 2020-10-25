@@ -16,7 +16,11 @@ class PGLBumpFaceCIFilter: PGLFilterCIAbstract {
         CIFilter.registerName(kPBumpFace, constructor: PGLFilterConstructor(), classAttributes: PGLBumpFaceCIFilter.customAttributes())
     }
 
-
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
 
     @objc override class func customAttributes() -> [String: Any] {
         let customDict:[String: Any] = [

@@ -31,7 +31,7 @@ class PGLFilterCDDataTransformer: NSSecureUnarchiveFromDataTransformer {
     }
 
     override class var allowedTopLevelClasses: [AnyClass] {
-        return [CIFilter.self] // add  PGLFilterCIAbstract.self?
+        return [CIFilter.self ] 
     }
 
     override func transformedValue(_ value: Any?) -> Any? {
