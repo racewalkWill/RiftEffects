@@ -32,6 +32,12 @@ class WarpItMetalFilter: CIFilter {
                               classAttributes: WarpItMetalFilter.customAttributes() )
     }
 
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
+
     @objc    class func customAttributes() -> [String: Any] {
         let customDict:[String: Any] = [
             kCIAttributeFilterDisplayName : "WarpItMetal",

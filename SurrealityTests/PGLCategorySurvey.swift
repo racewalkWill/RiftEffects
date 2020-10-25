@@ -229,7 +229,7 @@ class PGLCategorySurvey: XCTestCase {
                 category1Filter = group1[category1Index].pglSourceFilter()!
                 category1Filter.setDefaults()
 
-                NSLog("testMultipleInputTransitionFilters group1 filter = \(category1Filter.localizedName())")
+                NSLog("testMultipleInputTransitionFilters group1 filter = \(category1Filter.localizedName()) \(String(describing: thisFilter!.filterName))")
                 let imageAttributesNames = category1Filter.imageInputAttributeKeys
                 for anImageAttributeName in imageAttributesNames {
                     guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
@@ -417,7 +417,17 @@ class PGLCategorySurvey: XCTestCase {
 //               "CIEdges",
 //                "CICrystallize",
 //                "CICMYKHalftone",
-                "CIGaborGradients"
+//                "CIGaborGradients"
+                "CIAdditionCompositing",
+//                "CIDepthBlurEffect",
+                "CIExposureAdjust",
+                "CIPhotoEffectMono",
+                "CIHexagonalPixellate",
+                "CIBumpDistortionLinear",
+                "CIKeystoneCorrectionVertical",
+                "CIUnsharpMask",
+                "CILineScreen",
+                "CITriangleTile"
 
             ]
 

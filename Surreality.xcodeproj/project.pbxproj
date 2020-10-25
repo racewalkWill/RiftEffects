@@ -131,8 +131,8 @@
 		A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterGroup.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
-		A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
-		A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataClass.swift"; path = "../../CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "../../CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* SurrealityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -265,8 +265,6 @@
 		A3BF500024D3298F00CD5114 = {
 			isa = PBXGroup;
 			children = (
-				A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */,
-				A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF500B24D3298F00CD5114 /* Surreality */,
 				A3BF502524D3299100CD5114 /* SurrealityTests */,
 				A3BF503024D3299100CD5114 /* SurrealityUITests */,
@@ -290,8 +288,6 @@
 				A3BF504124D32A3400CD5114 /* PGLResultsController.swift */,
 				A3BF504224D32A3400CD5114 /* Filters */,
 				A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */,
-				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
-				A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */,
 				A3BF508B24D32A3400CD5114 /* StoredData support */,
 				A3BF505024D32A3400CD5114 /* TiltShift.swift */,
 				A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */,
@@ -437,6 +433,10 @@
 		A3BF508B24D32A3400CD5114 /* StoredData support */ = {
 			isa = PBXGroup;
 			children = (
+				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
+				A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */,
+				A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */,
+				A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */,
 				A3BF509024D32A3400CD5114 /* Surreality.xcdatamodeld */,
 			);
 			path = "StoredData support";
