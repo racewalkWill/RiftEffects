@@ -19,9 +19,12 @@ class PGLSourceFilterTests: XCTestCase {
     var jobIndex = UInt64(0)
     var depthFilter: PGLSourceFilter?
     var inputCollection: PGLImageList?
+    var appStack: PGLAppStack!
 
     override func setUp() {
         depthFilter = PGLSourceFilter(filter: "CIDepthOfField" )
+        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+        appStack = myAppDelegate.appStack
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -32,6 +35,10 @@ class PGLSourceFilterTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
         myAppDelegate.saveContext() // checks if context has changes
+        let newStack = PGLFilterStack()
+        newStack.setStartupDefault() // not sent in the init.. need a starting point
+        self.appStack.resetToTopStack(newStack: newStack)
+
         super.tearDown()
     }
 
@@ -565,7 +572,7 @@ class PGLSourceFilterTests: XCTestCase {
 
         for aFilter in theCategory.filterDescriptors {
 
-              NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+            NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
             let pglFilter = aFilter.pglSourceFilter()!
 
             XCTAssertNotNil(pglFilter)
@@ -580,7 +587,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             if let  result = pglFilter.outputImage(){
                 guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
-                    else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
+                    else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                         continue // to the next filter in the iteration
                 }
                 let image1 = UIImage(cgImage: cgImage1)
@@ -592,7 +599,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
 
             } else {
-                XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName)")
+                XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName) \(String(describing: aFilter.filterName))")
             }
         }
     }
@@ -609,7 +616,7 @@ class PGLSourceFilterTests: XCTestCase {
 
            for aFilter in theCategory.filterDescriptors {
 
-                 NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                 NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                let pglFilter = aFilter.pglSourceFilter()!
 
                XCTAssertNotNil(pglFilter)
@@ -624,7 +631,7 @@ class PGLSourceFilterTests: XCTestCase {
 
                if let  result = pglFilter.outputImage(){
                    guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
-                       else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
+                       else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                            continue // to the next filter in the iteration
                    }
                    let image1 = UIImage(cgImage: cgImage1)
@@ -636,7 +643,7 @@ class PGLSourceFilterTests: XCTestCase {
                    XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
 
                } else {
-                   XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName)")
+                   XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                }
            }
        }
@@ -653,7 +660,7 @@ class PGLSourceFilterTests: XCTestCase {
 
         for aFilter in theCategory.filterDescriptors {
 
-              NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+              NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
             let pglFilter = aFilter.pglSourceFilter()!
 
             XCTAssertNotNil(pglFilter)
@@ -668,7 +675,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             if let  result = pglFilter.outputImage(){
                 guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
-                    else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
+                    else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                         continue // to the next filter in the iteration
                 }
                 let image1 = UIImage(cgImage: cgImage1)
@@ -680,7 +687,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
 
             } else {
-                XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName)")
+                XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName) \(String(describing: aFilter.filterName))")
             }
         }
     }

@@ -21,6 +21,7 @@ class PGLDisparityFilter: PGLRectangleFilter {
         // let the usual pglattribute construction
         // change the local filter to a context created filter when the input is set
         // set
+    var hasDisparity = false
 
 override func setImageValue(newValue: CIImage, keyName: String) {
     //        NSLog("PGLFilterClasses #setImageValue key = \(keyName)")
@@ -28,21 +29,29 @@ override func setImageValue(newValue: CIImage, keyName: String) {
             // test changing all inputs to the same extent
 
             // get the disparity parm inputDisparityImage from the attribute imageList
+    super.setImageValue(newValue: newValue, keyName: keyName)
     if keyName == "inputDisparityImage" {return}
     // the inputDisparityImage is set at the same time as inputImage by the disparityMap methods
     
     if keyName == kCIInputImageKey {
         if let imageAttribute = attribute(nameKey: keyName) as? PGLFilterAttributeImage {
             // does newValue have a disparity in the auxImage data?
-
                 imageAttribute.disparityMap()
-
         }
-        else {
-            NSLog("PGLDisparityFilter #setImageValue NOT inputImageAttribut - set imageValue normally")
-            super.setImageValue(newValue: newValue, keyName: keyName)}
 
     }
   }
+
+//    override func outputImageBasic() -> CIImage? {
+//        // if there is no depth data return the input
+//        if hasDisparity
+//            { return super.outputImageBasic()}
+//        else {
+//            NSLog("PGLDisparityFilter outputImageBasic() does not have disparity data - return inputImage")
+//            //return inputImage()
+//            let plainOutput = inputImage()
+//            return plainOutput
+//        }
+//    }
 
 }

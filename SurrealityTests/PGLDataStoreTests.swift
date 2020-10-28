@@ -33,13 +33,26 @@ class PGLDataStoreTests: XCTestCase {
     let ciTestFilterName = "CIDiscBlur"
     var fdsAppDelegate = UIApplication.shared.delegate as! AppDelegate
     var dataContainer: NSPersistentContainer?
+    var appStack: PGLAppStack!
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+        appStack = myAppDelegate.appStack
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+
+            // Put teardown code here. This method is called after the invocation of each test method in the class.
+    //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+    //               myAppDelegate.saveContext() // checks if context has changes
+
+            let newStack = PGLFilterStack()
+            newStack.setStartupDefault() // not sent in the init.. need a starting point
+            self.appStack.resetToTopStack(newStack: newStack)
+            super.tearDown()
+
+
     }
 
     // MARK: StoredFilter tests

@@ -640,14 +640,12 @@ class PGLFilterStack  {
 
        }
 
-    func saveStackImage() -> Bool {
+    func saveStackImage()  {
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
-           let photoSaveSuccess = self.saveToPhotosLibrary(stack: self)
-               // call first so the albumIdentifier can be stored
-           NSLog("saveAction calls writeCDStacks")
-            self.writeCDStacks()   // this writesCDStacks even on saveToPhotosLibrary failure
-            return photoSaveSuccess
+           _ = self.saveToPhotosLibrary(stack: self)
+
+
 //        }
     }
 
@@ -688,19 +686,19 @@ class PGLFilterStack  {
 
     func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) -> Bool {
 //        if let heifImageData = PGLOffScreenRender().getOffScreenHEIF(filterStack: stack) {
-        if let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack) {
+        guard let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack)
+        else {
+            return false }
 
-        PHPhotoLibrary.shared().performChanges({
-         // heif form   let creationRequest = PHAssetCreationRequest.forAsset()
+//        PHPhotoLibrary.shared().performChanges({
+          if let savedOk =  try? PHPhotoLibrary.shared().performChangesAndWait({
 
-        //  UIImage from.
            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
 //           heif from  creationRequest.addResource(with: .fullSizePhoto, data: heifImageData, options: nil)
 
             if exportCollection == nil {
                 // new collection
                 let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
-
 
                 assetCollectionRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
                 stack.exportAlbumIdentifier = assetCollectionRequest.placeholderForCreatedAssetCollection.localIdentifier
@@ -711,18 +709,12 @@ class PGLFilterStack  {
                 addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
             }
 
+        })
+          {  // savedOk = true
+            self.writeCDStacks()
+            return true }
+        else { return false }
 
-            }, completionHandler: {success, error in
-                  if !success {
-                    NSLog("PGLFilterStack saveHEIFToPhotosLibrary - Error creating the asset: \(String(describing: error))") }
-
-              })
-            return true
-        }
-         else {
-            NSLog("getOffScreenHEIF fails in PGLFilterStack #saveHEIFToPhotosLibrary")
-                return false
-        }
 }
 
 

@@ -69,9 +69,13 @@ class PGLFilterStackTests: XCTestCase {
 
     }
 
-    override class func tearDown() {
+    override  func tearDown() {
         let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
         myAppDelegate.saveContext()
+        let newStack = PGLFilterStack()
+        newStack.setStartupDefault() // not sent in the init.. need a starting point
+        testAppStack.resetToTopStack(newStack: newStack)
+        super.tearDown()
     }
 
     func fetchFavoritesList() -> PGLAlbumSource? {
@@ -106,32 +110,7 @@ class PGLFilterStackTests: XCTestCase {
         XCTAssertNotNil(output)
     }
 
-    func testWriteStack() {
-        let defaultTitle = "testWriteStack" + "\(Date())"
-        filterStack.stackName = defaultTitle
-        NSLog("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
-        _ = filterStack.writeCDStack()
-        let newStack = PGLFilterStack(readName: defaultTitle)
-
-        let countMatch = newStack.activeFilters.count == activeFilterCount
-        XCTAssert(countMatch)
-        XCTAssert(newStack !== filterStack ) // different objects
-
-        XCTAssert(newStack.storedStack === filterStack.storedStack)
-        // read of the same title gets the same managed object
-        
-        XCTAssert(newStack.stackName == filterStack.stackName)
-
-        for i in 0...activeFilterCount - 1 {
-         XCTAssert( newStack.activeFilters[i].filterName == filterStack.activeFilters[i].filterName)
-        }
-        let output1 = filterStack.outputImage()
-        let output2 = newStack.outputImage()
-        XCTAssertNotNil(output1)
-        XCTAssertNotNil(output2)
-//        XCTAssert(output1 == output2) // would this work?  No..
-
-    }
+   
 
     func testAddDeleteFilters() {
         // show removing a filter from a stored stack
@@ -277,9 +256,6 @@ class PGLFilterStackTests: XCTestCase {
 
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+
 
 }

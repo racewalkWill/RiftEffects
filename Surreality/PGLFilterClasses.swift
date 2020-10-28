@@ -338,6 +338,12 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
         return UIImage()
     }
+
+    func fullFilterName() -> String {
+        // both localized name in the interface and the ciFilter name
+        // use in NSLog statements
+        return "\(String(describing:self.localizedName())) \(String(describing: self.filterName)))"
+    }
     
     // MARK: value double dispatch
 

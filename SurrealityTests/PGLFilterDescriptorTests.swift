@@ -12,14 +12,20 @@ import XCTest
 class PGLFilterDescriptorTests: XCTestCase {
      let standardFilterName = "CIDiscBlur"
     let standardClass = PGLSourceFilter.self
+    var appStack: PGLAppStack!
 
     override func setUp() {
+        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+        appStack = myAppDelegate.appStack
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        let newStack = PGLFilterStack()
+        newStack.setStartupDefault() // not sent in the init.. need a starting point
+        self.appStack.resetToTopStack(newStack: newStack)
         super.tearDown()
     }
     func testCategoryDescription() {

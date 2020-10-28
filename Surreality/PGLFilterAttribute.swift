@@ -963,9 +963,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                 }
              auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
 //                auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])
-                NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = String(describing: auxImage)")
+                NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(String(describing: auxImage))")
 
             if auxImage != nil {
+                (self.aSourceFilter as? PGLDisparityFilter)?.hasDisparity = true
                 var depthData = auxImage!.depthData
 
 //                depthData?.depthDataMap.setUpNormalize()
