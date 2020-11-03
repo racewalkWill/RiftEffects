@@ -159,7 +159,7 @@ class PGLSelectStackController: UIViewController,  NSFetchedResultsControllerDel
 
                   if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
 
-                      let storedPGLStack = PGLFilterStack(readName: object.title!)
+                    let storedPGLStack = PGLFilterStack(readName: object.title!, createdDate: object.created!)
                       theAppStack.resetToTopStack(newStack: storedPGLStack)
                       postStackChange()
                   }

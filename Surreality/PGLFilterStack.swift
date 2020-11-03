@@ -322,17 +322,14 @@ class PGLFilterStack  {
     func removeLastFilter() -> PGLSourceFilter? {
         var removedFilter: PGLSourceFilter?
         if !activeFilters.isEmpty {
-           if let myLastFilter = activeFilters.last
-               { storedStack?.removeFromFilters(myLastFilter.cdFilterObject())
-                 removedFilter = activeFilters.removeLast()
-                activeFilterIndex = activeFilters.count - 1 // zero based index
-
-                }
-//             setStartupDefault()
-
+            if let myLastFilter = activeFilters.last {
+               if let storedFilter = myLastFilter.storedFilter  // maybe nil if not saved to core data
+                    { storedStack?.removeFromFilters( storedFilter) }
+            removedFilter = activeFilters.removeLast()
+            activeFilterIndex = activeFilters.count - 1 // zero based index
+            }
         }
-            return removedFilter //may be nil
-
+        return removedFilter //may be nil
     }
 
      func removeDefaultFilter() -> PGLSourceFilter? {
@@ -643,8 +640,9 @@ class PGLFilterStack  {
     func saveStackImage()  {
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
+        DoNotDrawWhileSave = true
            _ = self.saveToPhotosLibrary(stack: self)
-
+        DoNotDrawWhileSave = false
 
 //        }
     }

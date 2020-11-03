@@ -859,6 +859,8 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     // indicates that myFilter was assigned by a special constructor method
     // prevents the special specialConstructor from being assigned on every frame
 
+    var storedParmImage: CDParmImage?
+
     override func uiCellIdentifier() -> String {
         return  "Image"
     }

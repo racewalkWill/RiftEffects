@@ -105,6 +105,7 @@ class PGLCategorySurvey: XCTestCase {
 
         let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
         for anAsset in selectedAssets {
+            NSLog("parm = \(String(describing: imageParm.attributeName)) added local id = \(anAsset.localIdentifier)")
             userSelectionInfo.addSourceToSelection(asset: anAsset)
         }
 
@@ -420,13 +421,13 @@ class PGLCategorySurvey: XCTestCase {
 //                 "CICMYKHalftone",
 //                 "CIClamp",
                 // 2020-10-20 failing filters
-//                "CIHeightFieldFromMask"
+              "CIHeightFieldFromMask"
 //               "CIEdges",
 //                "CICrystallize",
 //                "CICMYKHalftone",
 //                "CIGaborGradients"
 //                "CIAdditionCompositing",
-                "CIDepthBlurEffect",
+//                "CIDepthBlurEffect",
 //                "CIExposureAdjust",
 //                "CIPhotoEffectMono",
 //                "CIHexagonalPixellate",
