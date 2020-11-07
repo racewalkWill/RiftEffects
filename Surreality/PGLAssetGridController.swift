@@ -231,6 +231,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
             guard let albumAssets = albumSource.assets()
                 else { continue }
+           
             snapshot.appendSections([albumSource])
             snapshot.appendItems(albumAssets, toSection: albumSource)
 
@@ -474,6 +475,7 @@ extension PGLAssetGridController {
                     }
 
                 else {
+                    NSLog("PGLAssetGridController didSelecteItem \(selectedAsset.asset.localIdentifier)")
                      userAssetSelection.append(selectedAsset)
                 }
 

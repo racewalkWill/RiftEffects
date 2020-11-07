@@ -80,7 +80,7 @@ extension PGLFilterStack {
 
                     else { return }
                     append(newSource)
-                    newSource.createCDImageList() // reads or creates
+
                 }
             }
         }
@@ -128,7 +128,7 @@ extension PGLFilterStack {
 
             for aFilter in activeFilters {
                 if aFilter.storedFilter == nil {
-                    let theFilterStoredObject = aFilter.createCDFilterObject()
+                     let theFilterStoredObject = aFilter.createCDFilterObject()
                     // moves images to cache to reduce storage
                     // does not need to add if the filter exists in the relation already
                     storedStack?.addToFilters(theFilterStoredObject)
@@ -350,39 +350,7 @@ extension PGLSourceFilter {
         }
     }
 
-    func readCDImageList(parentStack: PGLFilterStack) {
-        // obsolete  stack ?  the imageList should load the stack.
-        // relation : stack output may be
-        // optionally related to parmImage inputStack
-        if let pglImageParms = imageParms() {
-            let myCDParmImages = readCDParmImages()
-
-            for pglImageParm in pglImageParms {
-                if let cdImageParm = myCDParmImages.first(where: {$0.parmName == pglImageParm.attributeName} ) {
-                    // three cases of input  - 1. filter output, 2.  stack output, 3. stored photo image
-                    if cdImageParm.filter != self.storedFilter {
-                        // another filter output is the input to this parm
-                        NSLog("PGLFilterStack readCDImageList case filter not matching")
-                    } else {
-                    if let aCDImageList = cdImageParm.inputAssets // one to one
-                    {   NSLog("readCDImageList assetIds = \(String(describing: aCDImageList.assetIDs))")
-                        let newPGLList = PGLImageList(localAssetIDs: (aCDImageList.assetIDs)!,albumIds: (aCDImageList.albumIds!))
-                         newPGLList.setUserSelection(toAttribute: pglImageParm)
-                          pglImageParm.setImageCollectionInput(cycleStack: newPGLList)
-                        }
-                    if let anInputStack = cdImageParm.inputStack // one to one
-                    { let newChildStack = PGLFilterStack(readName: anInputStack.title!, createdDate: (parentStack.storedStack?.created)!)
-
-                        newChildStack.parentAttribute = pglImageParm
-                        pglImageParm.inputStack = newChildStack
-
-                        }
-                    }
-                }
-
-            }
-        }
-    }
+//    func readCDImageList(parentStack: PGLFilterStack)
     
     func createCDImageList() {
         // 4EntityModel
@@ -418,12 +386,7 @@ extension PGLSourceFilter {
 
     // MARK: PGLSourceFilter support
 
-    func hasStorableRelations(imageAttribute: PGLFilterAttribute) -> Bool {
-        // REMOVE
-        // answer true if there is an inputCollection or a parent stack to be stored
-        // otherwise false - do not create CDParmImage or CDImageList rows
-        return (imageAttribute.inputCollection != nil || imageAttribute.inputStack != nil )
-    }
+
     func imageParms() -> [PGLFilterAttributeImage]? {
          // 4EntityModel
         // all parms that take an image as input

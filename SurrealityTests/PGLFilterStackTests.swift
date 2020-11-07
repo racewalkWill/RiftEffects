@@ -120,13 +120,13 @@ class PGLFilterStackTests: XCTestCase {
         NSLog("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
         let writtenStack = filterStack.writeCDStack()
         NSLog("PGLFilterStackTests #testAddDeleteFilters wroteCDStack \(writtenStack)")
-        let newStack = PGLFilterStack(readName: defaultTitle)
+        let newStack = PGLFilterStack(readName: defaultTitle, createdDate: Date())
         _ = filterStack.removeLastFilter()
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
         XCTAssert(filterStack.activeFilters.count < newStack.activeFilters.count)
 
         _ = filterStack.writeCDStack() // should update with delete
-        let newStack2 = PGLFilterStack(readName: defaultTitle)
+        let newStack2 = PGLFilterStack(readName: defaultTitle,  createdDate: Date())
         XCTAssert(filterStack.activeFilters.count == newStack2.activeFilters.count)
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
 
@@ -164,7 +164,7 @@ class PGLFilterStackTests: XCTestCase {
         _ = filterStack.writeCDStack()
             // stack, filters, imageList should all be stored
 
-        let savedStack = PGLFilterStack(readName: stackName)
+        let savedStack = PGLFilterStack(readName: stackName, createdDate: Date())
         savedStack.activeFilterIndex = currentFilterIndex // put back to saved position
 
         XCTAssert( savedStack.currentFilter().filterName == currentFilterName)
@@ -229,7 +229,7 @@ class PGLFilterStackTests: XCTestCase {
                 let stackName = testAppStack.outputFilterStack().stackName
                 testAppStack.writeCDStacks()
 
-                let newStack = PGLFilterStack(readName: stackName)  // not picking up the right stack. could be reading the child stack
+                let newStack = PGLFilterStack(readName: stackName, createdDate: Date())  // not picking up the right stack. could be reading the child stack
 
                 newStack.activeFilterIndex = inputFilterPosition
                 let topAttributes = newStack.currentFilter().attributes
