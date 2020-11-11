@@ -100,7 +100,8 @@ class PGLImageList {
             let newbie = PGLUserAssetSelection(assetSources: thisAlbumSource)
 
 
-           for nextAsset in imageAssets.suffix(from: 1) {
+     for nextAsset in imageAssets {
+//            for nextAsset in imageAssets.suffix(from: 1) {
                newbie.append(nextAsset)
             }
             userSelection = newbie

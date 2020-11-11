@@ -280,64 +280,7 @@ extension PGLSourceFilter {
         imageInputCache = [String :CIImage?]() // clear the cache
     }
 
-    func getCDParmImage(attribute: PGLFilterAttributeImage) -> CDParmImage? {
-        // 4EntityModel
-        // gets or creates the entity for the parm
-        // attribute should do this not the filter
 
-        if let existingCDParmImage = attribute.storedParmImage  {
-            return existingCDParmImage
-        }
-        else  // create the cdImageParm
-        {
-                let newStoredImageParm =  createNewCDImageParm(attribute: attribute)
-                return newStoredImageParm
-
-        }
-    }
-
-    func createNewCDImageParm(attribute: PGLFilterAttribute) -> CDParmImage {
-        // REMOVE - now in PGLFilterAttributeImage
-        // 4EntityModel
-
-        let moContext = PersistentContainer.viewContext
-
-
-        guard let newCDImageParm =  NSEntityDescription.insertNewObject(forEntityName: "CDParmImage", into: moContext) as? CDParmImage
-            else { fatalError("Failure creating new CDParmImage") }
-        newCDImageParm.parmName = attribute.attributeName
-        newCDImageParm.filter = storedFilter  // stores the relationship
-        newCDImageParm.inputStack = attribute.inputStack?.writeCDStack()  // stores the relationship
-
-        // create related CDImageList
-        if attribute.inputCollection != nil {
-            guard let storedImageList =  NSEntityDescription.insertNewObject(forEntityName: "CDImageList", into: moContext) as? CDImageList
-                else { fatalError("Failure creating new CDImageList") }
-
-            if let collectionPGLAssets = attribute.inputCollection?.imageAssets {
-                storedImageList.assetIDs = collectionPGLAssets.map({$0.localIdentifier})
-                storedImageList.albumIds = collectionPGLAssets.map({$0.albumId})
-                NSLog("createNewCDImageParm localIdentifiers = \(String(describing: storedImageList.assetIDs))")
-                }
-
-
-            storedImageList.attributeName = attribute.attributeName
-            newCDImageParm.inputAssets = storedImageList  // stores the relationship
-            }
-        
-        return newCDImageParm
-    }
-
-    func getImageList(imageParmName: String) -> CDImageList? {
-        // 4EntityModel  but NOT USED  Delete?
-        // returns nil if the list was not created/stored
-        // the relation returns all ImageLists of the filter
-        // return the imageList matching the parm attributeName
-        let myCDParmImages = readCDParmImages()
-        if let cdImageParm = myCDParmImages.first(where: {$0.parmName == imageParmName} ) {
-            return cdImageParm.inputAssets
-        } else { return nil }
-    }
 
     func removeOldImageList(imageParmName: String) {
         // 4EntityModel
