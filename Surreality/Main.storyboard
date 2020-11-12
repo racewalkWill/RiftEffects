@@ -734,9 +734,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="rdd-Ke-TzN" kind="show" identifier="goToImageCollection" id="ycf-MS-Wd8"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageNewFilterInput" textLabel="Tqt-bV-lcY" style="IBUITableViewCellStyleDefault" id="D1Z-6c-nBR">
                                         <rect key="frame" x="0.0" y="202" width="551" height="43.5"/>
@@ -804,6 +801,7 @@
                         <outlet property="shiftBtn" destination="3ph-yx-nVM" id="EtB-y3-a8c"/>
                         <outlet property="toolBarFilterBtn" destination="Wq7-fQ-icb" id="efc-CO-agV"/>
                         <outlet property="upChevron" destination="A6h-K5-gwp" id="gCa-S8-4Fc"/>
+                        <segue destination="rdd-Ke-TzN" kind="show" identifier="goToImageCollection" id="Ya8-ah-jCg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ePr-y9-pb9" userLabel="First Responder" sceneMemberID="firstResponder"/>

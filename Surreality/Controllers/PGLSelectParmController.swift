@@ -791,9 +791,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 selectedSliderCell.sliderControl.isEnabled = true
             }
             imageController?.hideSliders()
-        case AttrUIType.imagePickUI :
+//        case AttrUIType.imagePickUI :
             // did the photo or filter cell get touched?
-            pickImage(tappedAttribute!)
+          //  pickImage(tappedAttribute!)
+            // now called by swipe action "Pick"
 
         default:
             highlight(viewNamed: "")
@@ -808,63 +809,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//
-//        tappedAttribute = getTappedAttribute(indexPath: indexPath)
-//
-//        let action = UITableViewRowAction(style: .normal, title: "OK") { (action, path) in
-//            NSLog("handler for the row action \(String(describing: action.title)) and \(path)")
-//            // all this is too much code.. in the wrong class?
-//
-//            switch self.tappedAttribute {
-//                    case let tappedAttribute as PGLFilterAttributeRectangle:
-//                        // if rectController is set then it knows the move or resize mode and the
-//                        // resize corner.
-//                        // dispatch to rectController
-//                        self.cropAction(rectAttribute: tappedAttribute)
-//                    case let tappedAttribute as PGLFilterAttributeVector:
-//                        tappedAttribute.setVectorEndPoint()
-////            case let tappedAttribute as PGLRotateAffineUI:
-//
-//            default: break
-//                    }
-//
-//        }
-//        let action2 = UITableViewRowAction(style: .normal, title: "Cancel") { (action, path) in
-//            NSLog("handler for the row action \(String(describing: action.title)) and \(path)")
-//            switch self.tappedAttribute {
-//            case let tappedAttribute as PGLFilterAttributeNumber :
-//
-//                self.currentFilter?.attribute(removeAnimationTarget: tappedAttribute)
-//            case let tappedAttribute as PGLFilterAttributeVector:
-//                tappedAttribute.endVectorPan()
-//                self.currentFilter?.attribute(removeAnimationTarget: tappedAttribute)
-//                // if animationTime is already running this stops it
-//            case let tappedAttribute as PGLRotateAffineUI:
-//                self.currentFilter?.attribute(removeAnimationTarget: tappedAttribute)
-//            default: self.tappedAttribute?.restoreOldValue()
-//            }
-//        }
-//        let action3 =  UITableViewRowAction(style: .normal, title: "Vary") { (action, path) in
-//            NSLog("handler for the row action \(String(describing: action.title)) and \(path)")
-//            switch self.tappedAttribute {
-//            case let tappedAttribute as PGLFilterAttributeNumber :
-//                    self.currentFilter?.attribute(animateTarget: tappedAttribute)
-//            case let tappedAttribute as PGLFilterAttributeVector:
-//                tappedAttribute.setVectorStartPoint()
-//                self.currentFilter?.attribute(animateTarget: tappedAttribute)
-//            case let tappedAttribute as PGLFilterAttributeAffine :
-//                self.currentFilter?.attribute(animateTarget: tappedAttribute)
-//            case let tappedAttribute as PGLRotateAffineUI :
-//                self.currentFilter?.attribute(animateTarget: tappedAttribute)
-//            default: break
-//            }
-//            // add indented timer control under this one to control rate of change
-////            self.addTimerRateParm(parent: self.tappedAttribute!, path: path)
-//
-//        }
-//        return [action, action2, action3]
-//    }
+
 
     // MARK: Swipe Actions
 
@@ -980,39 +925,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         return UISwipeActionsConfiguration(actions: contextActions)
     }
 
-//    func addTimerRateParm(parent: PGLFilterAttribute, path: IndexPath) {
-//
-//        timerParm = PGLTimerRateAttributeUI(pglFilter: parent.aSourceFilter, attributeDict: parent.initDict, inputKey: parent.attributeName!)
-//        let newRowPath = IndexPath(row: path.row + 1  , section: path.section)
-//            // this makes timerParm take the place of the row + 1 cell
-//        parmAttributes.insert(timerParm!, at: newRowPath.row)
-//       parmsTableView.beginUpdates()
-//
-//      parmsTableView.insertRows(at: [newRowPath], with: UITableView.RowAnimation.left)
-//       parmsTableView.endUpdates()
-//        parmsTableView.reloadData()
-//
-//
-//    }
-//    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt: IndexPath) -> UISwipeActionsConfiguration? {
-//        let thisAttribute = filterParms[leadingSwipeActionsConfigurationForRowAt.row]
-//        switch thisAttribute.attributeClass {
-//            //        case "CIImage": pickImage(tappedAttribute!) // same case as tested by #isImageUI method
-//
-//        case "NSNumber": let varyAction = UIContextualAction(style: .normal, title: "Vary", handler: { _,_,_ in self.currentFilter?.attribute(animateTarget: self.tappedAttribute!)})
-//        return UISwipeActionsConfiguration(actions: [varyAction])
-//
-//            //            case "CIVector":
-//            //            case "CIColor":
-//            //            case "NSData":
-//            //            case "NSValue":
-//            //            case "NSObject":
-//            //            case "NSString":
-//
-//        default:  return nil
-//        }
-//    }
-
     func cropAction(rectAttribute: PGLAttributeRectangle) {
         if let rectController = self.imageController?.rectController {
             let metalView = imageController!.metalController!.view
@@ -1043,40 +955,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return false
-    }
-    */
+  
 
 
     // MARK: - Segue Navigation
@@ -1087,7 +966,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        NSLog("segue from \(segue.identifier)")
 
         if segue.identifier == "goToImageCollection" {
-            
+            guard let targetImageParm = sender as? PGLFilterAttributeImage
+            else {return}
+            tappedAttribute = targetImageParm
             if let imageCollectionController = segue.destination as? PGLImageCollectionMasterController {
                 imageCollectionController.inputFilterAttribute = (tappedAttribute as! PGLFilterAttributeImage) // model object
                 imageCollectionController.fetchTopLevel()
@@ -1142,6 +1023,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     func pickImage( _ attribute: PGLFilterAttribute) {
         // triggers segue to detail of the collection.
+        // "Show" segue
+        // goToImageCollection
+        NSLog("PGLSelectParmController #pickImage")
+        performSegue(withIdentifier: "goToImageCollection", sender: attribute)
          }
 
 

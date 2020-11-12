@@ -901,19 +901,28 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
  override func cellAction() -> [PGLTableCellAction ] {
         // Image cell does not add subUI cells
         // just provides the contextAction
+        // nil filterInputActionCell will trigger a segue
         var allActions = [PGLTableCellAction]()
+
+        let newPickAction = PGLTableCellAction(action: "Pick", newAttribute: filterInputActionCell(), canPerformAction: true, targetAttribute: self)
+        allActions.append(newPickAction)
+    
         if hasFilterStackInput() {
             let changeAction = PGLTableCellAction(action: "Change", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
             allActions.append(changeAction)
         }
         else {
-            let newAction = PGLTableCellAction(action: "New", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
+            let newAction = PGLTableCellAction(action: "More", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
             allActions.append(newAction) }
-            // nil filterInputActionCell will trigger a segue
-            // image cell uses segue to the new filter stack as new image input
-
 
         return allActions
+    }
+
+    override func performAction(_ controller: PGLSelectParmController?) {
+        controller?.pickImage(self)
+
+
+
     }
 
     override func segueName() -> String? {
