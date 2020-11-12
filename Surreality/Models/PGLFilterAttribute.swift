@@ -360,17 +360,13 @@ class PGLFilterAttribute {
 //        return answerDescription
     }
     func inputParmType() -> ImageParm {
-        // or better
 
-
-        switch hasFilterInput {
-            case nil, false :
-                return ImageParm.photo
-            case true:
-                return ImageParm.filter
-
-            case .some(_):
-                return ImageParm.photo
+        if inputStack != nil {
+            return ImageParm.filter}
+        else
+        { if hasImageInput() {
+                return ImageParm.photo}
+                else { return ImageParm.priorFilter}
         }
 
     }
@@ -608,7 +604,8 @@ class PGLFilterAttribute {
                 // ie no imageInput return false
                 return false
             } else
-                { return true }
+                { return true  // one image input and no inputCollection}
+                }
         }
     }
 
@@ -874,19 +871,25 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     // answer a filter type subUI parm cell
 
   override  func setUICellDescription(_ uiCell: UITableViewCell) {
-    var newDescriptionString = self.attributeName ?? ""
-    if inputParmType() == ImageParm.filter {
-       newDescriptionString = newDescriptionString + "< From Filter"
-        NSLog("PGLFilterAttributeImage #setUICellDescription to FILTER = \(newDescriptionString)")
-    } else {
-        NSLog("PGLFilterAttributeImage #setUICellDescription PHOTO  = \(newDescriptionString)")
-    }
-    uiCell.textLabel!.text = newDescriptionString
-            //    uiCell.textLabel!.text = (self.attributeName ?? "") + " " + getSourceDescription(imageType: inputParmType())
-            //    uiCell.textLabel!.text = self.attributeName
-    uiCell.imageView?.image = getInputThumbnail()
+    var content = uiCell.defaultContentConfiguration()
+    let newDescriptionString = self.attributeName ?? ""
+    content.text = newDescriptionString
+    content.imageProperties.tintColor = .secondaryLabel
 
+    let parmInputType = inputParmType()
+    switch parmInputType {
+        case ImageParm.filter:
+            content.image = UIImage(systemName: "flowchart")
+        case ImageParm.photo:
+            content.image = UIImage(systemName: "photo.on.rectangle")
+        case ImageParm.priorFilter :
+            content.image = UIImage(systemName: "square.and.arrow.down.on.square")
+       
     }
+
+    uiCell.contentConfiguration = content
+
+  }
 
 
     func filterInputActionCell() -> PGLFilterAttribute? {
