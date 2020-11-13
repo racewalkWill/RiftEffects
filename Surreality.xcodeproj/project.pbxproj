@@ -429,6 +429,7 @@
 				A3BF50B024D32A3400CD5114 /* PGLAssetController.swift */,
 				A3BF50B324D32A3400CD5114 /* PGLAssetCollection.swift */,
 				A3BF50B524D32A3400CD5114 /* PGLAssetGridController.swift */,
+				A3BF50B924D32A3400CD5114 /* PGLAssetSequenceController.swift */,
 				A3BF50BA24D32A3400CD5114 /* PGLImageCollectionMasterController.swift */,
 				A3BF50CA24D32A3400CD5114 /* PGLTabsController.swift */,
 			);
@@ -455,7 +456,6 @@
 				A3BF509824D32A3400CD5114 /* CoreImageKernels.metal */,
 				A3BF50A124D32A3400CD5114 /* PGLSourceMetalFilter.swift */,
 				A3BF50A224D32A3400CD5114 /* PGLTransitionFilter.swift */,
-				A3BF50B924D32A3400CD5114 /* PGLAssetSequenceController.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";

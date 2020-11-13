@@ -74,6 +74,10 @@ class PGLUserAssetSelection {
 
     }
 
+    func isTransitionFilter() -> Bool {
+        // answer true if the filter is in the "CICategoryTransition" category
+        return myTargetFilterAttribute?.isTransitionFilter() ?? false
+    }
     // MARK: Changing
     func merge(newAssetSource: PGLUserAssetSelection) -> PGLAlbumSource? {
          // KEEP the current selectedAssets - new source may be added to exising selectedAssets
@@ -136,9 +140,14 @@ class PGLUserAssetSelection {
 
 
     func append(_ userAsset: PGLAsset) {
-//        NSLog("PGLUserAssetSelection count =  \(selectedAssets.count)")
+        if !isTransitionFilter() {
+            // remove the old selected asset before adding the new on
+            // only filters that can transition images can have multiple in the selection
+            if let currentAsset = selectedAssets.first {
+                remove(currentAsset)
+            }
+        }
         selectedAssets.append(userAsset)
-//        NSLog("PGLUserAssetSelection append count now =  \(selectedAssets.count)")
 
         let newAlbumId = userAsset.albumId
 //        let sourceAlbumTitle = userAsset.collectionTitle

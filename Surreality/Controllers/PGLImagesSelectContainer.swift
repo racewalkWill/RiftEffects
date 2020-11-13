@@ -45,7 +45,9 @@ class PGLImagesSelectContainer: UIViewController {
             allBtn.isEnabled = false
             clearBtn.isEnabled = false
         } else {
-            allBtn.isEnabled = true
+            allBtn.isEnabled = userAssetSelection.isTransitionFilter()
+                // only allow allBtn if the filter can use multiple images i.e. transition
+
             clearBtn.isEnabled = true
         }
     }

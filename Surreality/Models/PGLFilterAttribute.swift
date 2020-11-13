@@ -261,6 +261,10 @@ class PGLFilterAttribute {
         NotificationCenter.default.post(uiNotification)
     }
 
+    func isTransitionFilter() -> Bool {
+        // answer true if the filter is in the "CICategoryTransition" category
+        return aSourceFilter.isTransitionFilter()
+    }
     func setUICellDescription(_ uiCell: UITableViewCell) {
         uiCell.textLabel!.text = attributeDisplayName ?? ""
 
