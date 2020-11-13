@@ -1075,6 +1075,17 @@ class PGLFilterAttributeAngle: PGLFilterAttribute {
 
     }
 
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+        content.image = UIImage(systemName: "slider.horizontal.below.rectangle")
+
+      uiCell.contentConfiguration = content
+
+    }
+    
     override func set(_ value: Any) {
         if attributeName != nil {
             aSourceFilter.setNumberValue(newValue: value as! NSNumber, keyName: attributeName!)
@@ -1195,6 +1206,17 @@ class PGLFilterAttributeColor: PGLFilterAttribute {
 
     }
 
+
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+        content.image = UIImage(systemName: "slider.horizontal.3")
+
+      uiCell.contentConfiguration = content
+
+    }
     override func set(_ value: Any) {
             if let aColor = SliderColor(rawValue: uiIndexTag) {
                 if let floatColor = value as? CGFloat {
@@ -1264,6 +1286,17 @@ class PGLAttributeRectangle: PGLFilterAttribute {
         }
         else { // no meaningful value
                 return ""}
+    }
+
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+    content.image = UIImage(systemName: "crop")
+
+      uiCell.contentConfiguration = content
+
     }
     // MARK: change values
 

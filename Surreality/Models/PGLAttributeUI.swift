@@ -518,6 +518,17 @@ class PGLVectorNumeric3UI: PGLFilterAttribute {
 //      return  "parmSliderInputCell"
 //    }
 
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+        content.image = UIImage(systemName: "plus.circle")
+
+      uiCell.contentConfiguration = content
+
+    }
+
     func filterAttribute(parent: PGLFilterAttribute) {
         zValueParent = parent as? PGLFilterAttributeVector3
     }

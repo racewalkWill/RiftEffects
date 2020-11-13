@@ -55,6 +55,16 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
         return String(format: "%.03f", parmNumber)
     }
 
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+        content.image = UIImage(systemName: "slider.horizontal.below.rectangle")
+
+      uiCell.contentConfiguration = content
+
+    }
 
 }
 class PGLFilterAttributeTime: PGLFilterAttribute {
@@ -95,6 +105,16 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
         return "parmNoDisclosureCell"
     }
 
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+        content.image = UIImage(systemName: "slider.horizontal.below.rectangle")
+
+      uiCell.contentConfiguration = content
+
+    }
 
 }
 
@@ -206,6 +226,17 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         if attributeName != nil {
             aSourceFilter.setVectorValue(newValue: value as! CIVector, keyName: attributeName!)
         }
+    }
+
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+        content.image = UIImage(systemName: "plus.circle")
+
+      uiCell.contentConfiguration = content
+
     }
 
     // MARK: Swipe actions Vector
