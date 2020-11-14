@@ -478,16 +478,24 @@
 				A3BF505A24D32A3400CD5114 /* PGLTableCellAction.swift */,
 				A3BF508924D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift */,
 				A3BF507924D32A3400CD5114 /* PGLDynamicDragBehavior.swift */,
-				A3BF50A424D32A3400CD5114 /* StackCell.xib */,
+				A3F1075625604EB1005E86B4 /* cell xib */,
 				A3BF50A824D32A3400CD5114 /* PGLView.swift */,
 				A3BF50AF24D32A3400CD5114 /* PGLDataSource.swift */,
 				A3BF50B424D32A3400CD5114 /* PGLDiffableDataSource.swift */,
 				A3BF50B824D32A3400CD5114 /* GridViewCell.swift */,
-				A3BF506124D32A3400CD5114 /* TableCell.xib */,
 				A3BF50A924D32A3400CD5114 /* Renderer.swift */,
 				A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */,
 			);
 			path = "UI Support";
+			sourceTree = "<group>";
+		};
+		A3F1075625604EB1005E86B4 /* cell xib */ = {
+			isa = PBXGroup;
+			children = (
+				A3BF50A424D32A3400CD5114 /* StackCell.xib */,
+				A3BF506124D32A3400CD5114 /* TableCell.xib */,
+			);
+			path = "cell xib";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

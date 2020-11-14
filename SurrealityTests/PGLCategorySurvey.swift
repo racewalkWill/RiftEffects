@@ -97,8 +97,10 @@ class PGLCategorySurvey: XCTestCase {
        // mix it up with photos
 
         var selectedAssets = [PGLAsset]()
+        var allowedAssetCount = 1
+        if imageParm.isTransitionFilter() { allowedAssetCount = 6 }
         let maxIndex = favoriteAssets!.count
-        while selectedAssets.count <= 6 {
+        while selectedAssets.count <= allowedAssetCount {
             let randomIndex = Int.random(in: 0 ..< maxIndex)
             selectedAssets.append(favoriteAssets![randomIndex])
         }
@@ -109,7 +111,8 @@ class PGLCategorySurvey: XCTestCase {
             userSelectionInfo.addSourceToSelection(asset: anAsset)
         }
 
-         //use first 6 images of the favorites
+         //use first 6 images of the favorites if a transition filter
+        // otherwise just one image
         userSelectionInfo.setUserPick()
     }
 
