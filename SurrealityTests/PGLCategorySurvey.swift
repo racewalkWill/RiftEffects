@@ -14,6 +14,7 @@ class PGLCategorySurvey: XCTestCase {
     let context = CIContext()
     var favoritesAlbumList: PGLAlbumSource?
     var appStack: PGLAppStack!
+    let saveOutputToPhotoLib = false  // change to true as needed
 
     
     override func setUpWithError() throws {
@@ -200,7 +201,9 @@ class PGLCategorySurvey: XCTestCase {
             XCTAssert(testFilterStack.activeFilters.count == 3, "stack does not have three filters as expected" )
             testFilterStack.stackName = category1Filter.filterName + "+" + category2Filter.filterName
             testFilterStack.stackType = "testSingleInputFilters"
-            testFilterStack.exportAlbumName = "testSingleInputFilters"
+            if saveOutputToPhotoLib {
+                testFilterStack.exportAlbumName = "testSingleInputFilters" }
+            else { testFilterStack.exportAlbumName = nil }
             // set the stack with the title, type, exportAlbum for save
             NSLog("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
             testFilterStack.saveStackImage()
@@ -255,7 +258,10 @@ class PGLCategorySurvey: XCTestCase {
 
                 testFilterStack.stackName = category1Filter.filterName + "+ various filters"
                 testFilterStack.stackType = "testMultipleInputTransitionFilters"
-                testFilterStack.exportAlbumName = "testMultipleInputTransitionFilters"
+                if saveOutputToPhotoLib {
+                    testFilterStack.exportAlbumName = "testMultipleInputTransitionFilters" }
+                else { testFilterStack.exportAlbumName = nil }
+
                 // set the stack with the title, type, exportAlbum for save
                 NSLog("PGLCategorySurvey #testMultipleInputTransitionFilters at groups \(i)  \(testFilterStack.stackName)")
                 testFilterStack.saveStackImage()
@@ -325,7 +331,10 @@ class PGLCategorySurvey: XCTestCase {
 
                testFilterStack.stackName = newFilter.filterName
                testFilterStack.stackType = "testiOS13Filters"
-               testFilterStack.exportAlbumName = "exportTestiOS13Filters"
+
+            if saveOutputToPhotoLib {
+                testFilterStack.exportAlbumName = "exportTestiOS13Filters" }
+            else { testFilterStack.exportAlbumName = nil }
                // set the stack with the title, type, exportAlbum for save
                NSLog("PGLCategorySurvey #testiOS13Filters  \(testFilterStack.stackName)")
                 testFilterStack.saveStackImage()
@@ -396,7 +405,11 @@ class PGLCategorySurvey: XCTestCase {
 
                testFilterStack.stackName = category1Filter.filterName + "+ child filters"
                testFilterStack.stackType = "testGeneratorChildStack"
-               testFilterStack.exportAlbumName = "testGeneratorChildStack"
+
+                if saveOutputToPhotoLib {
+                    testFilterStack.exportAlbumName = "testGeneratorChildStack" }
+                else { testFilterStack.exportAlbumName = nil }
+
                // set the stack with the title, type, exportAlbum for save
                NSLog("PGLCategorySurvey #testGeneratorChildStack at groups \(i)  \(testFilterStack.stackName)")
               testFilterStack.saveStackImage()
@@ -469,7 +482,10 @@ class PGLCategorySurvey: XCTestCase {
 
                    testFilterStack.stackName = newFilter.fullFilterName()
                    testFilterStack.stackType = "testSelectedFilters"
-                   testFilterStack.exportAlbumName = "ExportTestSelectedFilters"
+               
+                if saveOutputToPhotoLib {
+                    testFilterStack.exportAlbumName = "ExportTestSelectedFilters" }
+                else { testFilterStack.exportAlbumName = nil }
                    // set the stack with the title, type, exportAlbum for save
                    NSLog("PGLCategorySurvey #testSelectedFilters  \(testFilterStack.stackName)")
                     testFilterStack.saveStackImage()
