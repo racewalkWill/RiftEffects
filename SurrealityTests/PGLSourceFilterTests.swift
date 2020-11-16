@@ -97,9 +97,9 @@ class PGLSourceFilterTests: XCTestCase {
                 initialValue = anAttribute.getValue()!
                 anAttribute.increment()
                  changedValue = anAttribute.getValue()!
-                NSLog("testParmInput anAttribute = \(String(describing: anAttribute.attributeDisplayName))")
-                NSLog("testParmInput initialValue = \(initialValue)")
-                NSLog("testParmInput changedValue = \(changedValue)")
+//                NSLog("testParmInput anAttribute = \(String(describing: anAttribute.attributeDisplayName))")
+//                NSLog("testParmInput initialValue = \(initialValue)")
+//                NSLog("testParmInput changedValue = \(changedValue)")
 //                XCTAssert(changedValue === initialValue,"Filter parm  is NOT changed. Set Value failed")
             }
 

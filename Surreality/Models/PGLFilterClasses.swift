@@ -216,16 +216,18 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             if let attrDict = localFilter.attributes[key]  {
                 let thisDict = attrDict as! [String : Any]
                 if let attributeType = thisDict[kCIAttributeType] as? String {
-                if attributeType == kCIAttributeTypeImage {
-                    addingArray.append(key)
-                    } }
-                else { if let attributeClass = thisDict[kCIAttributeClass] as? String {
-                    if attributeClass == "CIImage" {
+                    if attributeType == kCIAttributeTypeImage {
                         addingArray.append(key)
-                    }
-                    }
+                        }
+                    else {
+                    if let attributeClass = thisDict[kCIAttributeClass] as? String {
+                        if attributeClass == "CIImage" {
+                            addingArray.append(key)
+                        }
+                    } }
 
                 }
+
             }
         }
         return  addingArray

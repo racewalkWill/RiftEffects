@@ -87,9 +87,9 @@ class PGLTransitionFilter: PGLRectangleFilter {
             aParmKey != sourceKey })
             {
                 if let nextImageAttribute = attribute(nameKey: nextImageParmKey) {
-                    NSLog("PGLTransitionFilter setImageListClone(cycleStack: nextImageAttribute = \(nextImageAttribute)")
+//                    NSLog("PGLTransitionFilter setImageListClone(cycleStack: nextImageAttribute = \(nextImageAttribute)")
                     if nextImageAttribute .isSingluar() {
-                        NSLog("PGLTransitionFilter setImageListClone(cycleStack: nextImageAttribute isSingluar - return")
+//                        NSLog("PGLTransitionFilter setImageListClone(cycleStack: nextImageAttribute isSingluar - return")
                         return // don't clone
                     } else {
                         if nextImageAttribute.hasImageInput() {
@@ -100,13 +100,13 @@ class PGLTransitionFilter: PGLRectangleFilter {
                             NSLog("PGLTransitionFilter does not clone a rotation - increments each input #setImageListClone(cycleStack: PGLImageList, sourceKey: String) {")
                             return
                         }
-                        NSLog("PGLTransitionFilter setImageListClone(cycleStack:  else branch on noImageInput")
+//                        NSLog("PGLTransitionFilter setImageListClone(cycleStack:  else branch on noImageInput")
                     }
-                    NSLog("PGLTransitionFilter setImageListClone(cycleStack:  cycleStack.cloneEven")
+//                    NSLog("PGLTransitionFilter setImageListClone(cycleStack:  cycleStack.cloneEven")
                     let evenStack = cycleStack.cloneEven(toParm: nextImageAttribute)
                         // sets this cycleStack to odd numbered increments.
                     nextImageAttribute.setImageCollectionInput(cycleStack: evenStack)
-                     NSLog("PGLTransitionFilter setImageListClone(cycleStack: evenStack set to nextImageAttribute input")
+//                     NSLog("PGLTransitionFilter setImageListClone(cycleStack: evenStack set to nextImageAttribute input")
                 }
         }
         

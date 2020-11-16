@@ -51,7 +51,7 @@ class PGLFeatureTransitionFilter: PGLTransitionFilter {
             detectorFilter?.setInput(image: theImage, source: "blank")
             thisSet = detectorFilter?.outputFeatureImages() ?? [theImage] // should always be at least one image
 //          NSLog("PGLFeatureTransitionFilter #setImageListClone on image = \(theImage)")
-          NSLog("PGLFeatureTransitionFilter #setImageListClone has feature set count = \(thisSet.count)")
+//          NSLog("PGLFeatureTransitionFilter #setImageListClone has feature set count = \(thisSet.count)")
 
             theImages.append(contentsOf: thisSet)
             }

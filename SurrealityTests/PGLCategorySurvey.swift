@@ -437,7 +437,7 @@ class PGLCategorySurvey: XCTestCase {
 //                 "CICMYKHalftone",
 //                 "CIClamp",
                 // 2020-10-20 failing filters
-              "CIHeightFieldFromMask"
+//              "CIHeightFieldFromMask"
 //               "CIEdges",
 //                "CICrystallize",
 //                "CICMYKHalftone",
@@ -452,6 +452,7 @@ class PGLCategorySurvey: XCTestCase {
 //                "CIUnsharpMask",
 //                "CILineScreen",
 //                "CITriangleTile"
+                "CIColorMap"
 
             ]
 

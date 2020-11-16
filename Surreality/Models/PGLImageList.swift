@@ -137,7 +137,7 @@ class PGLImageList {
     func cloneEven(toParm: PGLFilterAttribute) -> PGLImageList {
         // answer copy of self set to increment only even images
         // sets self to increment only odd
-        NSLog("PGLImageList #cloneEven toParm = \(toParm)")
+//        NSLog("PGLImageList #cloneEven toParm = \(toParm)")
         let newList = PGLImageList(localPGLAssets: imageAssets)
         newList.nextType = NextElement.odd
 //        newList.collectionTitle = "Odd-" + self.collectionTitle  // O for Odd
