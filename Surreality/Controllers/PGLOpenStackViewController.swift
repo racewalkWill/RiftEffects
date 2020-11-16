@@ -274,7 +274,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                 if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
                     
                     let userPickedStack = PGLFilterStack.init()
-                    userPickedStack.on(storedStack: object)
+                    userPickedStack.on(cdStack: object)
                     theAppStack.resetToTopStack(newStack: userPickedStack)
 
                     postStackChange()

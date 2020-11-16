@@ -58,20 +58,21 @@ extension PGLFilterStack {
         readCDStack(titled: readName, createdDate: createdDate)
     }
 
-        func on(storedStack: CDFilterStack) {
+        func on(cdStack: CDFilterStack) {
             // change this to a convience init.. caller does not need to create PGLFilterStack first
 
-            stackName = storedStack.title ?? "untitled"
+            storedStack = cdStack
+            stackName = cdStack.title ?? "untitled"
 
-            if let thumbNailPGNImage = storedStack.thumbnail {
+            if let thumbNailPGNImage = cdStack.thumbnail {
                 thumbnail = UIImage(data: thumbNailPGNImage) // thumbnail is png format data aCDStack.thumbnail
             }
 
-           exportAlbumIdentifier = storedStack.exportAlbumIdentifier
-            exportAlbumName = storedStack.exportAlbumName
+           exportAlbumIdentifier = cdStack.exportAlbumIdentifier
+            exportAlbumName = cdStack.exportAlbumName
 
             NSLog("PGL-CDFilter PGLFilterStack init storedStack" )
-            for aCDFilter in storedStack.filters! {
+            for aCDFilter in cdStack.filters! {
                 // load stack to filter relationship
 
                 if let myCDFilter = aCDFilter as? CDStoredFilter {
@@ -104,7 +105,7 @@ extension PGLFilterStack {
         catch { fatalError("CDFilterStack error")}
 
         if let aCDStack = readResults.first {
-            on(storedStack: aCDStack)
+            on(cdStack: aCDStack)
         }
     }
 
@@ -318,7 +319,7 @@ extension PGLSourceFilter {
             for aParmImage in result {
                 if let cdChildStack = aParmImage.inputStack {
                     let pglChildStack = PGLFilterStack()
-                    pglChildStack.on(storedStack: cdChildStack)
+                    pglChildStack.on(cdStack: cdChildStack)
 
                 }
             }
@@ -354,7 +355,7 @@ extension PGLFilterAttributeImage {
         // load relationships to the imageParm either input stack or Image List
         if let childStack = cdImageParm.inputStack  {
             let newPGLChildStack = PGLFilterStack()
-            newPGLChildStack.on(storedStack: childStack)
+            newPGLChildStack.on(cdStack: childStack)
             newPGLChildStack.parentAttribute = self
             self.inputStack = newPGLChildStack
                 // in the UI inputStack is set with the PGLAppStack.addChildStackTo:(parm:)
@@ -491,7 +492,8 @@ extension PGLAppStack {
                 NSLog("PGLImageController #saveToPhotosLibrary append to existing assetCollection \(String(describing: assetCollection))")
               } else {
                    // check for existing albumName
-               if let aAlbumExportName = stack.exportAlbumName {
+               if let aAlbumExportName = stack.exportAlbumName { // maybe nil
+
                    // find it or or create it.
                    // leave assetCollection as nil to create
 
@@ -514,8 +516,9 @@ extension PGLAppStack {
                    else { fatalError("outputImage fails in #saveToPhotosLibrary")}
 
 
-               NSLog("PGLFilterStack #saveToPhotosLibrary uiImageOutput = \(uiImageOutput)")
-               // Add the asset to the photo library.
+        if stack.exportAlbumName != nil {
+               // Add the asset to the photo library if there is an album name
+
                       PHPhotoLibrary.shared().performChanges({
                           let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
                        // either get or create the target album
@@ -537,6 +540,7 @@ extension PGLAppStack {
                       }, completionHandler: {success, error in
                           if !success { print("Error creating the asset: \(String(describing: error))") }
                       })
+            } // exportAlbumName != nil
 
 
            }

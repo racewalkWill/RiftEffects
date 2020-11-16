@@ -99,7 +99,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     func saveStackAlert(_ sender: UIBarButtonItem) {
         var defaultName = String()
         var defaultType = String()
-         var defaultAlbumName = String()
+        var defaultAlbumName: String?
         let alertController = UIAlertController(title: NSLocalizedString("Save", comment: ""),
                        message: nil ,
                        preferredStyle: .alert)
@@ -107,7 +107,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             if targetStack.storedStack != nil {
                  defaultName = targetStack.storedStack?.title ?? ""
                 defaultType = targetStack.storedStack?.type ?? ""
-                defaultAlbumName = targetStack.exportAlbumName ?? "ExportAlbum"
+                defaultAlbumName = targetStack.exportAlbumName // maybe nil
             }
         }
         alertController.addTextField { textField in
@@ -123,18 +123,19 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             if defaultType.count > 0 {
                 textField.text = defaultType
             } else {
-              textField.placeholder = NSLocalizedString("type", comment: "")
+              textField.placeholder = NSLocalizedString("Type", comment: "")
             }
         }
 
              alertController.addTextField { textField in
-             if  defaultAlbumName.count > 0 {
+                if  (defaultAlbumName?.count ?? 0 ) > 0 {
                      textField.text = defaultAlbumName }
 
                  else {
-                     textField.placeholder = NSLocalizedString("ExportAlbum", comment: "")
+                     textField.placeholder = NSLocalizedString("Optional - export to Photo Album", comment: "")
                  }
          }
+
 
 
 
@@ -192,24 +193,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 withIdentifier: "openStackController")
             let navController = UINavigationController(rootViewController: saveVC)
                                      present(navController, animated: true)
-
-            // goes to PGLOpenStackViewControllerPGLSelectStackController
-
-//            // Use the popover presentation style for your view controller.
-//            saveVC.modalPresentationStyle = .popover
-//
-//            // Specify the anchor point for the popover.
-//            saveVC.popoverPresentationController?.barButtonItem =
-//            sender
-//
-//            // Present the view controller (in a popover).
-//            self.present(saveVC, animated: true) {
-//                // The popover is visible.
-//        }
-//        } else {
-//            let navController = UINavigationController(rootViewController: PGLSelectStackController.init())
-//                           present(navController, animated: true)
-//            }
 
         }
 

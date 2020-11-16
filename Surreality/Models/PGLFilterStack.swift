@@ -684,6 +684,11 @@ class PGLFilterStack  {
 
     func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) -> Bool {
 //        if let heifImageData = PGLOffScreenRender().getOffScreenHEIF(filterStack: stack) {
+        if self.exportAlbumName == nil {
+            // don't export to photo lib if no album name
+            self.writeCDStacks()
+            return true
+        }
         guard let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack)
         else {
             return false }

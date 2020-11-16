@@ -96,7 +96,8 @@ class PGLImageList {
 
         if let firstAsset = imageAssets.first {
             NSLog("PGLImageList #setUserSelection first = \(firstAsset)")
-            let thisAlbumSource = firstAsset.asPGLAlbumSource()
+            let thisAlbumSource = firstAsset.asPGLAlbumSource(onAttribute: toAttribute)
+
             let newbie = PGLUserAssetSelection(assetSources: thisAlbumSource)
 
 

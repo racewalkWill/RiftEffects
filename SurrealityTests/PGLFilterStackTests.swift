@@ -120,19 +120,21 @@ class PGLFilterStackTests: XCTestCase {
         NSLog("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
         let writtenStack = filterStack.writeCDStack()
         NSLog("PGLFilterStackTests #testAddDeleteFilters wroteCDStack \(writtenStack)")
-        let newStack = PGLFilterStack(readName: defaultTitle, createdDate: Date())
+
+
         _ = filterStack.removeLastFilter()
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
-        XCTAssert(filterStack.activeFilters.count < newStack.activeFilters.count)
 
-        _ = filterStack.writeCDStack() // should update with delete
-        let newStack2 = PGLFilterStack(readName: defaultTitle,  createdDate: Date())
+
+        let savedStack = filterStack.writeCDStack() // should update with delete
+        let newStack2 = PGLFilterStack()
+        newStack2.on(cdStack: savedStack)
         XCTAssert(filterStack.activeFilters.count == newStack2.activeFilters.count)
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
 
         // the managed object is the same on all three stacks
-        XCTAssert(filterStack.storedStack === newStack.storedStack)
-        XCTAssert(newStack.storedStack === newStack2.storedStack)
+        XCTAssert(filterStack.storedStack === newStack2.storedStack)
+        
 
         for aFilter in filterStack.activeFilters {
             NSLog("filterStack filter = \(String(describing: aFilter.filterName))")
@@ -161,14 +163,15 @@ class PGLFilterStackTests: XCTestCase {
            
         }
 
-        _ = filterStack.writeCDStack()
+        let savedStack = filterStack.writeCDStack()
             // stack, filters, imageList should all be stored
 
-        let savedStack = PGLFilterStack(readName: stackName, createdDate: Date())
-        savedStack.activeFilterIndex = currentFilterIndex // put back to saved position
+        let aNewStack = PGLFilterStack()
+        aNewStack.on(cdStack: savedStack)
+        aNewStack.activeFilterIndex = currentFilterIndex // put back to saved position
 
-        XCTAssert( savedStack.currentFilter().filterName == currentFilterName)
-        let storedImageParm = savedStack.currentFilter().imageParms()?.first
+        XCTAssert( aNewStack.currentFilter().filterName == currentFilterName)
+        let storedImageParm = aNewStack.currentFilter().imageParms()?.first
         let storedImageList = storedImageParm!.inputCollection!
         let storedIDs =  (storedImageList.assetIDs).sorted()
         let listIDs = (aImageList.assetIDs).sorted()
@@ -227,9 +230,11 @@ class PGLFilterStackTests: XCTestCase {
                 NSLog("attribute \(String(describing: inputStackAttribute)) has inputStack \(String(describing: testInputStack))")
 
                 let stackName = testAppStack.outputFilterStack().stackName
-                testAppStack.writeCDStacks()
+                 testAppStack.writeCDStacks()
 
-                let newStack = PGLFilterStack(readName: stackName, createdDate: Date())  // not picking up the right stack. could be reading the child stack
+                let newStack = PGLFilterStack()
+                let newStackStored = testAppStack.firstStack()!.storedStack!
+                newStack.on(cdStack: newStackStored)
 
                 newStack.activeFilterIndex = inputFilterPosition
                 let topAttributes = newStack.currentFilter().attributes

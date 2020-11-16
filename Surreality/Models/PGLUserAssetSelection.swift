@@ -156,7 +156,7 @@ class PGLUserAssetSelection {
                                  // add the album and the fetchResult
                                 // add assetSourceCollection & fetchResult
 
-                self.sections[newAlbumId] = userAsset.asPGLAlbumSource()
+            self.sections[newAlbumId] = userAsset.asPGLAlbumSource(onAttribute:myTargetFilterAttribute!)
 //                self.sectionTitle.append((title: sourceAlbumTitle, albumId: newAlbumId))
                 }
      }

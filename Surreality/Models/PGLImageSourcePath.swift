@@ -77,9 +77,10 @@ class PGLAsset: Hashable, Equatable  {
 
     }
 
-    func asPGLAlbumSource() -> PGLAlbumSource {
+    func asPGLAlbumSource(onAttribute: PGLFilterAttribute) -> PGLAlbumSource {
         let resultFetch = getAssetFetchResult()
         let newbie = PGLAlbumSource(sourceInfo!, resultFetch)
+        newbie.filterParm = onAttribute
         return newbie
     }
 }
