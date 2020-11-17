@@ -348,7 +348,7 @@ class PGLCategorySurvey: XCTestCase {
         var category1Index = 0
 
         var category1Filter: PGLSourceFilter
-
+        var childFilterName: String!
         let maxIterations = 2
 //        for i in 0 ..< PGLCategorySurvey.CompositeGroups.count {
         NSLog("testGeneratorChildStack PGLCategorySurvey.CompositeGroups.count = \(PGLCategorySurvey.CompositeGroups.count)")
@@ -387,8 +387,7 @@ class PGLCategorySurvey: XCTestCase {
                     _ = childStack.removeLastFilter()
                     let aFilterIndex = Int.random(in: 0 ..< PGLCategorySurvey.DistortFilters.count)
                     let childFilter1 = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()
-
-                    // set the image inputs of childFilter1
+                    childFilterName = childFilter1?.filterName                    // set the image inputs of childFilter1
                     let imageAttributesNames = childFilter1!.imageInputAttributeKeys
                         for anImageAttributeName in imageAttributesNames {
 
@@ -403,7 +402,7 @@ class PGLCategorySurvey: XCTestCase {
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                XCTAssertNotNil(stackResultImage)
 
-               testFilterStack.stackName = category1Filter.filterName + "+ child filters"
+               testFilterStack.stackName = category1Filter.filterName + " " + childFilterName
                testFilterStack.stackType = "testGeneratorChildStack"
 
                 if saveOutputToPhotoLib {
@@ -426,33 +425,33 @@ class PGLCategorySurvey: XCTestCase {
             var newFilter: PGLSourceFilter
             // from a failing testMultipleInput run
             let filterNames = [
-//                "CIDivideBlendMode",
-//                "CIDepthBlurEffect" ,
-//                 "CIColorMatrix",
-//                 "CIColorMonochrome",
-//                 "CIConvolution9Vertical",
-//                 "CIDroste",
-//                 "CIPerspectiveTransform",
-//                 "CISharpenLuminance",
-//                 "CICMYKHalftone",
-//                 "CIClamp",
+                "CIDivideBlendMode",
+                "CIDepthBlurEffect" ,
+                 "CIColorMatrix",
+                 "CIColorMonochrome",
+                 "CIConvolution9Vertical",
+                 "CIDroste",
+                 "CIPerspectiveTransform",
+                 "CISharpenLuminance",
+                 "CICMYKHalftone",
+                 "CIClamp",
                 // 2020-10-20 failing filters
-//              "CIHeightFieldFromMask"
-//               "CIEdges",
-//                "CICrystallize",
-//                "CICMYKHalftone",
-//                "CIGaborGradients"
-//                "CIAdditionCompositing",
-//                "CIDepthBlurEffect",
-//                "CIExposureAdjust",
-//                "CIPhotoEffectMono",
-//                "CIHexagonalPixellate",
-//                "CIBumpDistortionLinear",
-//                "CIKeystoneCorrectionVertical",
-//                "CIUnsharpMask",
-//                "CILineScreen",
-//                "CITriangleTile"
-                "CIColorMap"
+              "CIHeightFieldFromMask",
+               "CIEdges",
+                "CICrystallize",
+                "CICMYKHalftone",
+                "CIGaborGradients",
+                "CIAdditionCompositing",
+                "CIDepthBlurEffect",
+                "CIExposureAdjust",
+                "CIPhotoEffectMono",
+                "CIHexagonalPixellate",
+                "CIBumpDistortionLinear",
+                "CIKeystoneCorrectionVertical",
+                "CIUnsharpMask",
+                "CILineScreen",
+                "CITriangleTile"
+
 
             ]
 

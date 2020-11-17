@@ -178,10 +178,13 @@ class PGLStackController: UITableViewController {
                 else { return  }
 
             self.appStack.viewerStack.activeFilterIndex = indexPath.row
+                // not needed? viewerStack may change.. row is not the index (indented issue on child stack)
+
             NSLog("PGLStackController trailingSwipeActionsConfigurationForRowAt Change ")
             // set appStack and stack indexes to the selected filter
             let cellObject = self.appStack.cellFilters[indexPath.row]
-            self.appStack.moveTo(filterIndent: cellObject)
+
+            self.appStack.moveTo(filterIndent: cellObject) // this is also setting the activeFilterIndes..
 
             self.performSegue(withIdentifier: "showFilterController" , sender: nil)
                   // show segue showFilterController opens the PGLFilterTableController
