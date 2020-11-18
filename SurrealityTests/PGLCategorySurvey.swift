@@ -343,20 +343,21 @@ class PGLCategorySurvey: XCTestCase {
 
        }
 
-    func testGeneratorChildStack() {
-        // put a generator on a child stack
-        var category1Index = 0
+    func testCompositeChildStack() {
+        // static var CompositeGroups = [CompositeFilters, TransistionFilters]
+
 
         var category1Filter: PGLSourceFilter
+        var child1Filter: PGLSourceFilter
         var childFilterName: String!
-        let maxIterations = 2
-//        for i in 0 ..< PGLCategorySurvey.CompositeGroups.count {
-        NSLog("testGeneratorChildStack PGLCategorySurvey.CompositeGroups.count = \(PGLCategorySurvey.CompositeGroups.count)")
-        for i in 0 ..< maxIterations {
-               let group1 = PGLCategorySurvey.CompositeGroups[i]
 
-            while category1Index < maxIterations {
-//               while category1Index < group1.count {
+
+
+        let group1 = PGLCategorySurvey.CompositeFilters
+         let testSize =  group1.count // 2
+
+        for filterIndex in (0..<testSize) {
+
                    let newStack = PGLFilterStack()
                    newStack.setStartupDefault() // not sent in the init.. need a starting point
                    self.appStack.resetToTopStack(newStack: newStack)
@@ -365,12 +366,13 @@ class PGLCategorySurvey: XCTestCase {
                        // should use the appStack to supply the filterStack
 
 
-                _ = testFilterStack.removeLastFilter() // only one at start
+                    _ = testFilterStack.removeLastFilter() // only one at start
+                    let aFilterIndex = Int.random(in: 0 ..< PGLCategorySurvey.DistortFilters.count)
 
-                   category1Filter = group1[category1Index].pglSourceFilter()!
+                category1Filter = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()!
                    category1Filter.setDefaults()
 
-                   NSLog("testGeneratorChildStack group1 filter = \(category1Filter.localizedName())")
+                   NSLog("testCompositeChildStack group1 filter = \(category1Filter.localizedName())")
                    let imageAttributesNames = category1Filter.imageInputAttributeKeys
                    for anImageAttributeName in imageAttributesNames {
                        guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
@@ -380,21 +382,22 @@ class PGLCategorySurvey: XCTestCase {
                    testFilterStack.append(category1Filter)
 
                     // Create a child stack and append to one of the image inputs
-                if imageAttributesNames.count > 1 {
-                    guard let stackInputAttribute = category1Filter.attribute(nameKey: imageAttributesNames[1]) else { continue }
+                if imageAttributesNames.count > 0 {
+                    guard let stackInputAttribute = category1Filter.attribute(nameKey: imageAttributesNames[0]) else { continue }
                     appStack.addChildStackTo(parm: stackInputAttribute)
                     let childStack = appStack.viewerStack // the new childStack
                     _ = childStack.removeLastFilter()
-                    let aFilterIndex = Int.random(in: 0 ..< PGLCategorySurvey.DistortFilters.count)
-                    let childFilter1 = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()
-                    childFilterName = childFilter1?.filterName                    // set the image inputs of childFilter1
-                    let imageAttributesNames = childFilter1!.imageInputAttributeKeys
+
+                    child1Filter = group1[filterIndex].pglSourceFilter()!
+                    childFilterName = child1Filter.filterName
+                        // set the image inputs of childFilter1
+                    let imageAttributesNames = child1Filter.imageInputAttributeKeys
                         for anImageAttributeName in imageAttributesNames {
 
-                            guard let thisAttribute = childFilter1!.attribute(nameKey: anImageAttributeName) else { continue }
+                            guard let thisAttribute = child1Filter.attribute(nameKey: anImageAttributeName) else { continue }
                            setInputTo(imageParm: thisAttribute) // the six images from favorites
                        }
-                    childStack.append(childFilter1!)
+                    childStack.append(child1Filter)
 
 
                 }
@@ -403,23 +406,105 @@ class PGLCategorySurvey: XCTestCase {
                XCTAssertNotNil(stackResultImage)
 
                testFilterStack.stackName = category1Filter.filterName + " " + childFilterName
-               testFilterStack.stackType = "testGeneratorChildStack"
+               testFilterStack.stackType = "testCompositeChildStack"
 
                 if saveOutputToPhotoLib {
-                    testFilterStack.exportAlbumName = "testGeneratorChildStack" }
+                    testFilterStack.exportAlbumName = "testCompositeChildStack" }
                 else { testFilterStack.exportAlbumName = nil }
 
                // set the stack with the title, type, exportAlbum for save
-               NSLog("PGLCategorySurvey #testGeneratorChildStack at groups \(i)  \(testFilterStack.stackName)")
+               NSLog("PGLCategorySurvey #testCompositeChildStack  \(testFilterStack.stackName)")
               testFilterStack.saveStackImage()
   // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
 //               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
 
-                category1Index += category1Index
+
             }
-        }
+
     }
 
+    func testTransitionChildStacks() {
+        // put a transition on a child stack
+        // static var CompositeGroups = [CompositeFilters, TransistionFilters]
+
+
+        var category1Filter: PGLSourceFilter
+        var child1Filter: PGLSourceFilter
+        var childFilterName: String!
+
+//        for i in 0 ..< PGLCategorySurvey.CompositeGroups.count {
+
+
+        let group1 = PGLCategorySurvey.TransistionFilters
+         let testSize =  group1.count
+
+//        while category1Index <  testSize {
+        for filterIndex in ( 0..<testSize) {
+
+                   let newStack = PGLFilterStack()
+                   newStack.setStartupDefault() // not sent in the init.. need a starting point
+                   self.appStack.resetToTopStack(newStack: newStack)
+
+                   let testFilterStack = appStack.viewerStack
+                       // should use the appStack to supply the filterStack
+
+
+                    _ = testFilterStack.removeLastFilter() // only one at start
+                    let aFilterIndex = Int.random(in: 0 ..< PGLCategorySurvey.DistortFilters.count)
+
+                category1Filter = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()!
+                   category1Filter.setDefaults()
+
+                   NSLog("testTransitionChildStacks group1 filter = \(category1Filter.localizedName())")
+                   let imageAttributesNames = category1Filter.imageInputAttributeKeys
+                   for anImageAttributeName in imageAttributesNames {
+                       guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
+                       setInputTo(imageParm: thisAttribute) // the six images from favorites
+                    }
+
+                   testFilterStack.append(category1Filter)
+
+                    // Create a child stack and append to one of the image inputs
+                if imageAttributesNames.count > 0 {
+                    guard let stackInputAttribute = category1Filter.attribute(nameKey: imageAttributesNames[0]) else { continue }
+                    appStack.addChildStackTo(parm: stackInputAttribute)
+                    let childStack = appStack.viewerStack // the new childStack
+                    _ = childStack.removeLastFilter()
+
+                    child1Filter = group1[filterIndex].pglSourceFilter()!
+                    childFilterName = child1Filter.filterName
+                        // set the image inputs of childFilter1
+                    let imageAttributesNames = child1Filter.imageInputAttributeKeys
+                        for anImageAttributeName in imageAttributesNames {
+
+                            guard let thisAttribute = child1Filter.attribute(nameKey: anImageAttributeName) else { continue }
+                           setInputTo(imageParm: thisAttribute) // the six images from favorites
+                       }
+                    childStack.append(child1Filter)
+
+
+                }
+
+                let stackResultImage = testFilterStack.stackOutputImage(false)
+               XCTAssertNotNil(stackResultImage)
+
+               testFilterStack.stackName = category1Filter.filterName + " " + childFilterName
+               testFilterStack.stackType = "testTransitionChildStacks"
+
+                if saveOutputToPhotoLib {
+                    testFilterStack.exportAlbumName = "testTransitionChildStacks" }
+                else { testFilterStack.exportAlbumName = nil }
+
+               // set the stack with the title, type, exportAlbum for save
+               NSLog("PGLCategorySurvey #testTransitionChildStacks  \(testFilterStack.stackName)")
+              testFilterStack.saveStackImage()
+  // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
+//               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
+
+
+            }
+
+    }
     func testSelectedFilters() {
 
             var newFilter: PGLSourceFilter
