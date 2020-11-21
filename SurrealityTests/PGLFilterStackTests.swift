@@ -229,7 +229,7 @@ class PGLFilterStackTests: XCTestCase {
                 NSLog("Filter position = \(inputFilterPosition)")
                 NSLog("attribute \(String(describing: inputStackAttribute)) has inputStack \(String(describing: testInputStack))")
 
-                let stackName = testAppStack.outputFilterStack().stackName
+                _ = testAppStack.outputFilterStack().stackName
                  testAppStack.writeCDStacks()
 
                 let newStack = PGLFilterStack()

@@ -381,7 +381,7 @@ class PGLTimerRateAttributeUI: PGLFilterAttribute {
     }
 
     override func set(_ value: Any) {
-//        NSLog("PGLTimerRateAttributeUI #set value = \(value)")
+        NSLog("PGLTimerRateAttributeUI #set value = \(value)")
         if let newRate = (value as? NSNumber)?.doubleValue {
 
             timerParent?.setTimerDt(rate: newRate ) // was newRate / 100

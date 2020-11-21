@@ -258,14 +258,15 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     func outputImage() -> CIImage? {
         // if any inputs are from another filter then they should be updated first
 
-        addStepTime()  // if animation then move time forward
+//        addStepTime()  // if animation then move time forward
         // increments this filter detectors 
         if wrapper != nil {
 
-
+            addStepTime()  // if animation then move time forward
             return wrapper!.outputImageBasic()}
 
-        else { return outputImageBasic()}  // notice that addStepTime is called again inside the outputImageBasic
+        else { return outputImageBasic()}
+            // notice that addStepTime is called  inside the outputImageBasic
 
     }
 

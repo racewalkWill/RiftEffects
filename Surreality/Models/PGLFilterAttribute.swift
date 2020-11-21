@@ -532,17 +532,21 @@ class PGLFilterAttribute {
 
     func addStepTime() {
         // if animationTime is nil then animation is not running
+        // adds the delta value (currentDt) to the parm
         if !hasAnimation() { return }  // animationTime is Float
 
         var currentDt = getTimerDt() // may use the filter dt or the local dt
         // adjust animationTime by the current dt
         if (animationTime! > 1.0) || (animationTime! < -1.0) {
-            NSLog("PGLFilterAttribute addStepTime = \(currentDt)")
+//            NSLog("PGLFilterAttribute addStepTime = \(currentDt)")
             currentDt = currentDt * -1
              NSLog("PGLFilterAttribute addStepTime * -1 = \(currentDt)")
             setTimerDt(rate: currentDt)
         }
         animationTime! += Float(currentDt)
+        // PGLFilterAttributeNumber animationTime didSet is triggered on the change
+        // didSet will set a new value into the parm.
+        //
     }
 
     func setTimerDt(rate: Double){

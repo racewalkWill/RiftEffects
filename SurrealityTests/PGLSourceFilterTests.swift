@@ -82,8 +82,8 @@ class PGLSourceFilterTests: XCTestCase {
     func testParmDepthFilterSetter() {
         // test that parms that are not image input are set
         
-        var initialValue: Any
-        var changedValue: Any
+//        var initialValue: Any
+//        var changedValue: Any
 
 //        let ciFilterQueue = DispatchQueue(label: "glance-ciFilter-processing")
         XCTAssertNotNil(depthFilter)
@@ -94,12 +94,12 @@ class PGLSourceFilterTests: XCTestCase {
 
         for anAttribute in depthFilter?.attributes ?? [PGLFilterAttribute]() {
             if anAttribute.attributeName != "inputImage" {
-                initialValue = anAttribute.getValue()!
+               let initialValue = anAttribute.getValue()!
                 anAttribute.increment()
-                 changedValue = anAttribute.getValue()!
+               let  changedValue = anAttribute.getValue()!
 //                NSLog("testParmInput anAttribute = \(String(describing: anAttribute.attributeDisplayName))")
-//                NSLog("testParmInput initialValue = \(initialValue)")
-//                NSLog("testParmInput changedValue = \(changedValue)")
+                NSLog("testParmInput initialValue = \(initialValue)")
+                NSLog("testParmInput changedValue = \(changedValue)")
 //                XCTAssert(changedValue === initialValue,"Filter parm  is NOT changed. Set Value failed")
             }
 
