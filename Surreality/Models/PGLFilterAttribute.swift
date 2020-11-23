@@ -88,8 +88,8 @@ class PGLFilterAttribute {
     var sliderMaxValue: Float?
     var defaultValue: Float?
     var identityValue: Float?
-    var initialAnimationValue: Float!
-    var animationTime: Float?  { // nil values used in animation stop/start logic
+    var attributeStartValue: Float!
+    var variationStep: Float?  { // nil values used in animation stop/start logic
         didSet {
         //       NSLog("PGLFilterAttribute animationTime now = \(animationTime)")
             postUIChange(attribute: self)
@@ -147,13 +147,13 @@ class PGLFilterAttribute {
 
     var inputSourceDescription = "blank" // prior filter or stack or.... shows on the title of the parm cell
 
-    var attributeDt: Double? // usually nil, when nil parent filter timer controls the rate of change
+    var attributeValueDelta: Double? // usually nil, when nil parent filter timer controls the rate of change
 
     var indentLevel = 0
     var indentWidth: CGFloat = 30.0
 
     // default rate is .005 
-    let timeRateMininium: Double = 0.00001
+//    let timeRateMininium: Double = 0.00001 // not used 2020-11-22  Remove
     var uiIndexTag:Int = 0 // used by color and maybe others?
     var varyState: VaryDissolveState = .Initial
     var hasFilterInput: Bool?
@@ -527,7 +527,7 @@ class PGLFilterAttribute {
     // MARK: animation values
 
     func hasAnimation() -> Bool {
-        return animationTime != nil
+        return variationStep != nil
     }
 
     func addStepTime() {
@@ -537,17 +537,18 @@ class PGLFilterAttribute {
 
         var currentDt = getTimerDt() // may use the filter dt or the local dt
         // adjust animationTime by the current dt
-        if (animationTime! > 1.0) || (animationTime! < -1.0) {
+        if (variationStep! > 1.0) || (variationStep! < -1.0) {
 //            NSLog("PGLFilterAttribute addStepTime = \(currentDt)")
             currentDt = currentDt * -1
              NSLog("PGLFilterAttribute addStepTime * -1 = \(currentDt)")
             setTimerDt(rate: currentDt)
         }
-        animationTime! += Float(currentDt)
+        variationStep! += Float(currentDt)
         // PGLFilterAttributeNumber animationTime didSet is triggered on the change
         // didSet will set a new value into the parm.
         //
     }
+    
 
     func setTimerDt(rate: Double){
         // sets the change rate var dt for a transition time
@@ -562,22 +563,22 @@ class PGLFilterAttribute {
 //        NSLog("PGLFilterAttribute #setTimerDt self = \(self)")
 //        NSLog("PGLFilterAttribute #setTimerDt aFilter = \(self.aSourceFilter.filterName)")
 //        NSLog("PGLFilterAttribute #setTimerDt wrapper = \(aSourceFilter.wrapper)")
-        if attributeDt == nil {
+        if attributeValueDelta == nil {
             // usually nil.. timer of the filter will control rate of change
 //            aSourceFilter.dt = reasonableRate
-            aSourceFilter.dt = rate
+            aSourceFilter.filterValueDelta = rate
         } else {
 //         NSLog("PGLFilterAttribute #setTimerDt sets attributeDt rate = \(rate)")
 //                attributeDt = reasonableRate
-             attributeDt = rate
+             attributeValueDelta = rate
         }
         
     }
     func getTimerDt() -> Double {
-        if attributeDt == nil {
+        if attributeValueDelta == nil {
             // usually nil.. timer of the filter will control rate of change
-            return aSourceFilter.dt
-        } else { return attributeDt!}
+            return aSourceFilter.filterValueDelta
+        } else { return attributeValueDelta!}
     }
     func hasInputCollection() -> Bool {
         // more than one input image exists
@@ -1175,13 +1176,13 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
             setRotation(radians: newValue)
         } else { fatalError("PGLFilterAttributeAffine set value not converted")}
     }
-    override var animationTime: Float?  {
+    override var variationStep: Float?  {
         // animation time range 0.0 to 1.0
         didSet {
             if oldValue == nil {
-                initialAnimationValue = 0.001
+                attributeStartValue = 0.001
             }
-            setRotation(radians: oldRotation + initialAnimationValue )
+            setRotation(radians: oldRotation + attributeStartValue )
             postUIChange(attribute: self)
         }
     }

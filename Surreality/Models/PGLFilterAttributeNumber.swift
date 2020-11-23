@@ -13,17 +13,17 @@ import Photos
 import CoreImage
 
 class PGLFilterAttributeNumber: PGLFilterAttribute {
-    override var animationTime: Float?  {
+    override var variationStep: Float?  {
         didSet {
             if let animatedNumericValue =  self.getNumberValue() as? Float //
             { if oldValue == nil {
-                initialAnimationValue = animatedNumericValue // this assumes NSNumber type attribute
+                attributeStartValue = animatedNumericValue // this assumes NSNumber type attribute
                 }
                 // now increment value
-                if animationTime != nil {
+                if variationStep != nil {
 
-                    let animatedDelta = initialAnimationValue * animationTime! // makes delta a ratio of the initialValue
-                    let newValue = initialAnimationValue + animatedDelta
+                    let animatedDelta = attributeStartValue * variationStep! // makes delta a ratio of the initialValue
+                    let newValue = attributeStartValue + animatedDelta
 //                    newValue = min(sliderMaxValue ?? 500.0, newValue)
 //                    newValue = max(sliderMinValue ?? -500.0, newValue)
 //                             NSLog("animationTime = \(animationTime), initialAnimationValue = \(initialAnimationValue), animatedDelta = \(animatedDelta), newValue = \(newValue)")
@@ -148,12 +148,12 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
 
 
-    override var animationTime: Float?  {
+    override var variationStep: Float?  {
         // animation time range 0.0 to 1.0
         didSet {
-            if (endPoint != nil) && (animationTime != nil) && (startPoint != nil ){
+            if (endPoint != nil) && (variationStep != nil) && (startPoint != nil ){
 
-                let distanceTime = abs(vectorLength * animationTime!)
+                let distanceTime = abs(vectorLength * variationStep!)
                     // for this change the animation time must be 0..1.0 range positive
                     // sender has -1.0...+1.0 range
 
@@ -406,14 +406,14 @@ class PGLFilterAttributeVector3: PGLFilterAttributeVector {
         
     }
 
-    override var animationTime: Float?  {
+    override var variationStep: Float?  {
         // animation time range 0.0 to 1.0
         // must also set with a x,y,z vector
         // z component of the vector is not animated
         didSet {
-            if (endPoint != nil) && (animationTime != nil) && (startPoint != nil ){
+            if (endPoint != nil) && (variationStep != nil) && (startPoint != nil ){
 
-                let distanceTime = vectorLength * animationTime!
+                let distanceTime = vectorLength * variationStep!
 
                 let newX = Float(startPoint!.x) + (xSign * (vectorCos * distanceTime))
                 let newY = Float(startPoint!.y) + (vectorSin * distanceTime)

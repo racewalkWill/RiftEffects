@@ -37,8 +37,8 @@ class PGLRotateAffineUI: PGLFilterAttribute {
         affineParent = parent
     }
 
-    override var animationTime: Float?  {
-        didSet { affineParent?.animationTime = animationTime
+    override var variationStep: Float?  {
+        didSet { affineParent?.variationStep = variationStep
               postUIChange(attribute: self)
         }
     }
@@ -139,8 +139,8 @@ class PGLTranslateAffineUI: PGLFilterAttribute {
         affineParent = parent
     }
 
-    override var animationTime: Float?  {
-        didSet { affineParent?.animationTime = animationTime
+    override var variationStep: Float?  {
+        didSet { affineParent?.variationStep = variationStep
               postUIChange(attribute: self)
         }
     }
@@ -251,8 +251,8 @@ class PGLScaleAffineUI: PGLFilterAttribute {
         affineParent = parent
     }
 
-    override var animationTime: Float?  {
-        didSet { affineParent?.animationTime = animationTime
+    override var variationStep: Float?  {
+        didSet { affineParent?.variationStep = variationStep
               postUIChange(attribute: self)
         }
     }

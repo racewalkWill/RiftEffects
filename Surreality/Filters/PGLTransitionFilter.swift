@@ -41,7 +41,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
         if (stepTime > 1.0)   {
             stepTime = 1.0 // bring it back in range
             doIncrement = true
-            dt = dt * -1 // past end so toggle
+            filterValueDelta = filterValueDelta * -1 // past end so toggle
             // this has animation
             // get the input collection
            nextAttribute = attribute(nameKey: kCIInputImageKey ) //kCIInputTargetImageKey
@@ -51,7 +51,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
         else if (stepTime < 0.0) {
             stepTime = 0.0 // bring it back in range
             doIncrement = true
-            dt = dt * -1 // past end so toggle
+            filterValueDelta = filterValueDelta * -1 // past end so toggle
             nextAttribute = attribute(nameKey: kCIInputTargetImageKey  ) //kCIInputImageKey
         }
         if doIncrement {
@@ -63,7 +63,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
 
         // go back and forth between 0 and 1.0
         // toggle dt either neg or positive
-        stepTime += dt
+        stepTime += filterValueDelta
         let inputTime = simd_smoothstep(0, 1, stepTime)
 
         // dissolve specific
