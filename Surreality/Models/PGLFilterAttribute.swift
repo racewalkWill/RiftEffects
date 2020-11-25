@@ -89,6 +89,9 @@ class PGLFilterAttribute {
     var defaultValue: Float?
     var identityValue: Float?
     var attributeStartValue: Float!
+    var attributeValueDelta: Float? // usually nil, when nil parent filter timer controls the rate of change
+    var attributeFrameDelta: Float = 0.0
+    var debugStepCounter = 0
     var variationStep: Float?  { // nil values used in animation stop/start logic
         didSet {
         //       NSLog("PGLFilterAttribute animationTime now = \(animationTime)")
@@ -147,7 +150,7 @@ class PGLFilterAttribute {
 
     var inputSourceDescription = "blank" // prior filter or stack or.... shows on the title of the parm cell
 
-    var attributeValueDelta: Double? // usually nil, when nil parent filter timer controls the rate of change
+
 
     var indentLevel = 0
     var indentWidth: CGFloat = 30.0
@@ -531,54 +534,94 @@ class PGLFilterAttribute {
     }
 
     func addStepTime() {
+        // called on every frame
         // if animationTime is nil then animation is not running
         // adds the delta value (currentDt) to the parm
+        var switchDirection = false
         if !hasAnimation() { return }  // animationTime is Float
 
         var currentDt = getTimerDt() // may use the filter dt or the local dt
+            // this is attributevalueDelta
         // adjust animationTime by the current dt
-        if (variationStep! > 1.0) || (variationStep! < -1.0) {
-//            NSLog("PGLFilterAttribute addStepTime = \(currentDt)")
-            currentDt = currentDt * -1
-             NSLog("PGLFilterAttribute addStepTime * -1 = \(currentDt)")
-            setTimerDt(rate: currentDt)
+        if (variationStep! > 1.0)  {
+            switchDirection = true
+            variationStep = 1.0 }
+        else {
+            if (variationStep! < 0) {
+                switchDirection = true
+                variationStep = 0.0
+            }
         }
-        variationStep! += Float(currentDt)
+
+        if switchDirection {
+            NSLog("PGLFilterAttribute addStepTime resetting from debugStepCounter = \(debugStepCounter)")
+            debugStepCounter = 0
+            currentDt = currentDt * -1
+            attributeFrameDelta = attributeFrameDelta * -1 
+            if attributeValueDelta != nil
+                { attributeValueDelta = attributeValueDelta! * -1 }
+        }
+        // now add the step
+        // increment the time counter too
+        variationStep = variationStep! + attributeFrameDelta
+            // variationSteo not nil see hasAnimation() guard above
+        incrementValueDelta()
+
         // PGLFilterAttributeNumber animationTime didSet is triggered on the change
         // didSet will set a new value into the parm.
         //
     }
     
 
-    func setTimerDt(rate: Double){
-        // sets the change rate var dt for a transition time
-        // does not directly change the filter inputTime
-        // filter input time is changed by the timer cycle in stack updateImage
+    func setTimerDt(lengthSeconds: Float){
+        // user has moved the rate of change control
+        // value is 0...30
+        // real step timing varies from min to max  from 0 sec to 30 sec
         // see #addStepTime() in #outputImage()
+        // set the variationStep value
+        // set the attributeValueDelta for change in each stop
+        let framesPerSec: Float = 60.0 // later read actual framerate from UI
+        let totalFrames = (framesPerSec * lengthSeconds)
+        let attributeValueRange = (sliderMaxValue ?? 100.0) - (sliderMinValue ?? 0.0)
+            // some filters do not define max or min values..
 
-//        NSLog("PGLFilterAttribute #setTimerDt rate = \(rate)")
+        attributeFrameDelta = lengthSeconds / totalFrames
+            // nan error?
+            // for total frames to increment to value
 
-//        let reasonableRate = max(rate,timeRateMininium)   // value of zero is no change...
-//       NSLog("PGLFilterAttribute #setTimerDt rate = \(rate)")
-//        NSLog("PGLFilterAttribute #setTimerDt self = \(self)")
-//        NSLog("PGLFilterAttribute #setTimerDt aFilter = \(self.aSourceFilter.filterName)")
-//        NSLog("PGLFilterAttribute #setTimerDt wrapper = \(aSourceFilter.wrapper)")
-        if attributeValueDelta == nil {
+        attributeValueDelta = attributeValueRange/totalFrames
+            // too big... now getting only 29 frame changes before changing direction
+
+
+
+
+        // set into the attribute or filter
+        if hasAnimation() {
             // usually nil.. timer of the filter will control rate of change
-//            aSourceFilter.dt = reasonableRate
-            aSourceFilter.filterValueDelta = rate
+            aSourceFilter.variationStep = attributeFrameDelta
+
+            aSourceFilter.stepTime = 0.0
+            aSourceFilter.filterValueDelta = attributeValueDelta!
         } else {
-//         NSLog("PGLFilterAttribute #setTimerDt sets attributeDt rate = \(rate)")
-//                attributeDt = reasonableRate
-             attributeValueDelta = rate
+            if variationStep == nil {
+                variationStep = attributeFrameDelta
+                // starting timer loop at first value above zero
+            }
+
         }
-        
+        NSLog( "#setTimerDT variationStep = \(String(describing: variationStep))")
+        NSLog( "#setTimerDT attributeValueDelta = \(String(describing: attributeValueDelta))")
     }
-    func getTimerDt() -> Double {
+    func getTimerDt() -> Float {
         if attributeValueDelta == nil {
             // usually nil.. timer of the filter will control rate of change
             return aSourceFilter.filterValueDelta
         } else { return attributeValueDelta!}
+    }
+
+    func incrementValueDelta() {
+        // subclasses should override
+        // see PGLFilterAttributeNumber for the numeric vary rate
     }
     func hasInputCollection() -> Bool {
         // more than one input image exists

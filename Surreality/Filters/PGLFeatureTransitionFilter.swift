@@ -161,7 +161,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
            // runs on all animation attributes where self is a wrapper filter
            for anAttribute in animationAttributes {
                anAttribute.variationStep = nil
-               anAttribute.setTimerDt(rate: defaultFilterDelta)
+               anAttribute.setTimerDt(lengthSeconds: defaultFilterDelta)
 
            }
            animationAttributes = [PGLFilterAttribute]()

@@ -65,14 +65,15 @@ class PGLSourceFilter :  PGLAnimation  {
     // animation vars
     var hasAnimation = false
     var animationAttributes = [PGLFilterAttribute]()
-    var stepTime = 0.0 {
-        // range -1.0 to 1.0
+    var stepTime: Float = 0.0 {
+        // range 0.0 to 1.0
         didSet {
 //            NSLog("PGLSourceFilter stepTime now = \(stepTime)")
         }
     }
-    let defaultFilterDelta = 0.005
-    var filterValueDelta = 0.005{
+    let defaultFilterDelta: Float = 0.005
+    var variationStep: Float = 0.0
+    var filterValueDelta: Float = 0.0 {
         didSet{
             wrapper?.filterValueDelta = filterValueDelta
             // wrapper if active needs the rate of change dt
@@ -513,7 +514,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                    // stop the animation
 
                    attributeTarget.variationStep = nil
-                   attributeTarget.setTimerDt(rate: defaultFilterDelta)
+                   attributeTarget.setTimerDt(lengthSeconds: defaultFilterDelta)
                    animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
                        anAttribute.attributeName == attributeTarget.attributeName
                    }
@@ -601,7 +602,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func addStepTime() {
-
+        // called on every frame
         // this does not send the increment message to the inputImage parm.
         // use PGLTransitionFilter for imageList image increment .
         

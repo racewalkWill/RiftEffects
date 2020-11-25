@@ -13,28 +13,8 @@ import Photos
 import CoreImage
 
 class PGLFilterAttributeNumber: PGLFilterAttribute {
-    override var variationStep: Float?  {
-        didSet {
-            if let animatedNumericValue =  self.getNumberValue() as? Float //
-            { if oldValue == nil {
-                attributeStartValue = animatedNumericValue // this assumes NSNumber type attribute
-                }
-                // now increment value
-                if variationStep != nil {
 
-                    let animatedDelta = attributeStartValue * variationStep! // makes delta a ratio of the initialValue
-                    let newValue = attributeStartValue + animatedDelta
-//                    newValue = min(sliderMaxValue ?? 500.0, newValue)
-//                    newValue = max(sliderMinValue ?? -500.0, newValue)
-//                             NSLog("animationTime = \(animationTime), initialAnimationValue = \(initialAnimationValue), animatedDelta = \(animatedDelta), newValue = \(newValue)")
-                   
 
-                    aSourceFilter.setNumberValue(newValue: newValue as NSNumber, keyName: attributeName!)
-                    postUIChange(attribute: self)
-                }
-            }
-        }
-    }
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
@@ -48,6 +28,23 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
         }
     }
 
+    override func incrementValueDelta() {
+        if let curentNumericValue =  self.getNumberValue() as? Float {
+        //
+//        { if oldValue == nil {
+            // attributeStartValue is not currently used  - remove
+//            attributeStartValue = curentNumericValue // this assumes NSNumber type attribute
+//            }
+            // now increment value
+            if (variationStep != nil) && (attributeValueDelta != nil ){
+                let newValue = curentNumericValue + attributeValueDelta!
+                NSLog("PGLFilterAttributeNumber incrementValueDelta didSet to newValue = \(newValue)")
+                debugStepCounter = debugStepCounter + 1
+                aSourceFilter.setNumberValue(newValue: newValue as NSNumber, keyName: attributeName!)
+                postUIChange(attribute: self)
+            }
+        }
+    }
     override func valueString() -> String {
         let parmNumber = getValue() as! Double
         // could use getNumberValue() to avoid a generic..
@@ -69,7 +66,7 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
 }
 class PGLFilterAttributeTime: PGLFilterAttribute {
 
-    let timeDivisor:Double = 25.0
+    let timeDivisor: Float = 25.0
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
@@ -85,8 +82,8 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
         let max = sliderMaxValue ?? 100.0
 
         let smoothedValue = simd_smoothstep(min,max, newRate)
-        let floatSmoothedValue = (smoothedValue as NSNumber).doubleValue
-        setTimerDt(rate: floatSmoothedValue / timeDivisor )
+//        let floatSmoothedValue = (smoothedValue as NSNumber).doubleValue
+        setTimerDt(lengthSeconds: smoothedValue / timeDivisor )
     }
 
     override func valueString() -> String {

@@ -343,7 +343,7 @@ class PGLScaleAffineUI: PGLFilterAttribute {
 }
 
 class PGLTimerRateAttributeUI: PGLFilterAttribute {
-    // provides control for the animation rate of change to parent var dt
+    // provides control for the animation rate of change to parent var delta
     // support Vary, Cancel, OK swipeActions
 
     var timerParent: PGLFilterAttribute?  // maybe the parent should be the varying
@@ -359,9 +359,9 @@ class PGLTimerRateAttributeUI: PGLFilterAttribute {
         // attributeName is index for parm controls must be unique
 
             // Interface Builder slider max attribute controls these setting
-        sliderMaxValue = 10.0
+        sliderMaxValue = 30.0
         sliderMinValue = 0.0
-        defaultValue = 0.1
+        defaultValue = 2.0
         identityValue = 0.0
         indentLevel = 1
     }
@@ -382,9 +382,9 @@ class PGLTimerRateAttributeUI: PGLFilterAttribute {
 
     override func set(_ value: Any) {
         NSLog("PGLTimerRateAttributeUI #set value = \(value)")
-        if let newRate = (value as? NSNumber)?.doubleValue {
+        if let newRate = value as? Float {
 
-            timerParent?.setTimerDt(rate: newRate ) // was newRate / 100
+            timerParent?.setTimerDt(lengthSeconds: newRate ) // was newRate / 100
         }
     }
     

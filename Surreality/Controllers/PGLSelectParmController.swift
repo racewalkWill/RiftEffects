@@ -562,7 +562,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             target.uiIndexTag = Int(sender.tag)
                 // multiple controls for attribute distinguished by tag
                 // color red,green,blue for single setColor usage
-            let adjustedRate = sender.value / 1000
+            let adjustedRate = sender.value //  / 1000
             target.set(adjustedRate)
         } else { fatalError("tappedAttribute is nil, value can not be changed") }
 
