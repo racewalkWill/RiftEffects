@@ -71,15 +71,15 @@ class PGLSourceFilter :  PGLAnimation  {
 //            NSLog("PGLSourceFilter stepTime now = \(stepTime)")
         }
     }
-    let defaultFilterDelta: Float = 0.005
-    var variationStep: Float = 0.0
-    var filterValueDelta: Float = 0.0 {
-        didSet{
-            wrapper?.filterValueDelta = filterValueDelta
-            // wrapper if active needs the rate of change dt
-        }
-    // rate of change for animation & increment timers
-    }
+    let defaultFilterDelta: Float = 0.01
+
+//        didSet{
+//            wrapper?.filterValueDelta = filterValueDelta
+//            // wrapper if active needs the rate of change dt
+//        }
+//    // rate of change for animation & increment timers
+//    }
+    
     var detectors = [PGLDetection]()
     lazy var thumbNail = getThumbnail() // only set when referenced need to reset on changes..
     var wrapper: PGLDissolveWrapperFilter?
@@ -510,11 +510,11 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 // MARK: Filter Animation frame changes
     func stopAnimation(attributeTarget: PGLFilterAttribute) {
         
-        if attributeTarget.variationStep != nil {
+        if attributeTarget.attributeValueDelta != nil {
                    // stop the animation
 
-                   attributeTarget.variationStep = nil
-                   attributeTarget.setTimerDt(lengthSeconds: defaultFilterDelta)
+                   attributeTarget.attributeValueDelta = nil
+
                    animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
                        anAttribute.attributeName == attributeTarget.attributeName
                    }
@@ -523,11 +523,11 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func startAnimation(attributeTarget: PGLFilterAttribute) {
-    if attributeTarget.variationStep == nil {
+    if attributeTarget.attributeValueDelta == nil {
         // start the animation
         hasAnimation = true
 
-        attributeTarget.variationStep = 0.0 // start animation logic
+        attributeTarget.varyTotalFrames = 600 // start animation logic at 10 sec * 60 fps
         animationAttributes.append(attributeTarget)
 
         attributeTarget.attributeValueDelta = defaultFilterDelta // default rate of change from the filter
@@ -595,7 +595,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         // remove the attribute from the receiver array for addStepTime and increment messages
         // a duplicate of the remove logic in animateTarget..
         // delete this method??
-        removeAnimationTarget.variationStep = nil // stop animation logic
+        removeAnimationTarget.attributeValueDelta = nil // stop animation logic
         animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
             anAttribute.attributeName == removeAnimationTarget.attributeName
         }
@@ -609,32 +609,32 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 //        wrapper?.addStepTime() // usually nil so not sent
 
         if hasAnimation {
-            if (stepTime > 1.0) || (stepTime < -1.0) {
-                filterValueDelta = filterValueDelta * -1
-                    // maybe just set to -1.0 or 1.0.. multiply may be slightly over the 1 value.
-                
-                for aDetector in detectors {
-                    aDetector.increment()  // advances to the next feature
-                }
-            }
+            // redo plan for dectectors
+            // implement their own addStepTime and setTimerDt(lengthSeconds)
+            // addStepTime will trigger the detector.increment()
+//            if (stepTime > 1.0) || (stepTime < -1.0) {
+//                filterValueDelta = filterValueDelta * -1
+//                    // maybe just set to -1.0 or 1.0.. multiply may be slightly over the 1 value.
+//
+//                for aDetector in detectors {
+//                    aDetector.increment()  // advances to the next feature
+//                }
+//            }
             // go back and forth between -1.0 and 1.0
             // toggle dt either neg or positive
-            stepTime += filterValueDelta
+//            stepTime += filterValueDelta
                 /*! @abstract Interpolates smoothly between 0 at edge0 and 1 at edge1
                  *  @discussion You can use a scalar value for edge0 and edge1 if you want
                  *  to clamp all lanes at the same points.
                              let inputTime = simd_smoothstep(-1.0, 1, stepTime)
                  */
-            let inputTime = stepTime
-            for aDetector in detectors {
-                aDetector.setInputTime(time: Double(inputTime)) 
-            }
+//            let inputTime = stepTime
+//            for aDetector in detectors {
+//                aDetector.setInputTime(time: Double(inputTime)) 
+//            }
             for parm in animationAttributes {
-//                parm.animationTime = Float(inputTime)
                 parm.addStepTime()
-//                NSLog("PGLSourceFilter #addStepTime parm = \(parm.attributeName) sourceFilter = \(filterName)")
-            }
-//        NSLog("PGLDissolveFilter inputTime now = \(inputTime)" )
+
         }
     }
 
@@ -651,7 +651,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     }
 
-
+    }
 }
 
 //extension PGLSourceFilter : Equatable {

@@ -30,16 +30,12 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
 
     override func incrementValueDelta() {
         if let curentNumericValue =  self.getNumberValue() as? Float {
-        //
-//        { if oldValue == nil {
-            // attributeStartValue is not currently used  - remove
-//            attributeStartValue = curentNumericValue // this assumes NSNumber type attribute
-//            }
+
             // now increment value
-            if (variationStep != nil) && (attributeValueDelta != nil ){
+            if  (attributeValueDelta != nil ){
                 let newValue = curentNumericValue + attributeValueDelta!
                 NSLog("PGLFilterAttributeNumber incrementValueDelta didSet to newValue = \(newValue)")
-                debugStepCounter = debugStepCounter + 1
+               
                 aSourceFilter.setNumberValue(newValue: newValue as NSNumber, keyName: attributeName!)
                 postUIChange(attribute: self)
             }
@@ -87,6 +83,7 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
     }
 
     override func valueString() -> String {
+        // remove obsolete?
         let parmNumber = getTimerDt() * timeDivisor
 
         return String(format: "%.03f", parmNumber)
@@ -145,22 +142,22 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
 
 
-    override var variationStep: Float?  {
+    override func incrementValueDelta() {
         // animation time range 0.0 to 1.0
-        didSet {
-            if (endPoint != nil) && (variationStep != nil) && (startPoint != nil ){
+        if !hasAnimation() {return }
 
-                let distanceTime = abs(vectorLength * variationStep!)
-                    // for this change the animation time must be 0..1.0 range positive
-                    // sender has -1.0...+1.0 range
+        if (endPoint != nil)  && (startPoint != nil ){
 
-                let newX = Float(startPoint!.x) + (xSign * (vectorCos * distanceTime))
-                let newY = Float(startPoint!.y) + (vectorSin * distanceTime)
-                let newVector = CIVector(x: CGFloat(newX), y: CGFloat(newY))
-                aSourceFilter.setVectorValue(newValue: newVector, keyName: attributeName!)
-                postUIChange(attribute: self)
-            }
+            let distanceTime = abs(vectorLength * attributeValueDelta!)
+               // attributeValueDelta is the proportate amount to change the value by
+
+            let newX = Float(startPoint!.x) + (xSign * (vectorCos * distanceTime))
+            let newY = Float(startPoint!.y) + (vectorSin * distanceTime)
+            let newVector = CIVector(x: CGFloat(newX), y: CGFloat(newY))
+            aSourceFilter.setVectorValue(newValue: newVector, keyName: attributeName!)
+            postUIChange(attribute: self)
         }
+
     }
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {

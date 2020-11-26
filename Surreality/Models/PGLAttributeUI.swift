@@ -396,6 +396,7 @@ class PGLTimerRateAttributeUI: PGLFilterAttribute {
     
 
     override  func getValue() -> Any? {
+        // remove obsolete?
         return timerParent?.getTimerDt() ?? defaultDt
     }
 
