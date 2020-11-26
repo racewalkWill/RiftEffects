@@ -34,7 +34,7 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
             // now increment value
             if  (attributeValueDelta != nil ){
                 let newValue = curentNumericValue + attributeValueDelta!
-                NSLog("PGLFilterAttributeNumber incrementValueDelta didSet to newValue = \(newValue)")
+//                NSLog("PGLFilterAttributeNumber incrementValueDelta didSet to newValue = \(newValue)")
                
                 aSourceFilter.setNumberValue(newValue: newValue as NSNumber, keyName: attributeName!)
                 postUIChange(attribute: self)
@@ -400,14 +400,14 @@ class PGLFilterAttributeVector3: PGLFilterAttributeVector {
         
     }
 
-    override var variationStep: Float?  {
+    override func incrementValueDelta()  {
         // animation time range 0.0 to 1.0
         // must also set with a x,y,z vector
         // z component of the vector is not animated
-        didSet {
-            if (endPoint != nil) && (variationStep != nil) && (startPoint != nil ){
 
-                let distanceTime = vectorLength * variationStep!
+            if (endPoint != nil)  && (startPoint != nil ){
+
+                let distanceTime = vectorLength * attributeValueDelta!
 
                 let newX = Float(startPoint!.x) + (xSign * (vectorCos * distanceTime))
                 let newY = Float(startPoint!.y) + (vectorSin * distanceTime)
@@ -416,7 +416,7 @@ class PGLFilterAttributeVector3: PGLFilterAttributeVector {
                 postUIChange(attribute: self)
             }
         }
-    }
+
 
 
 

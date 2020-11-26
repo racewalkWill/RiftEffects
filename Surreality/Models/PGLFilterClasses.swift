@@ -65,21 +65,20 @@ class PGLSourceFilter :  PGLAnimation  {
     // animation vars
     var hasAnimation = false
     var animationAttributes = [PGLFilterAttribute]()
-    var stepTime: Float = 0.0 {
-        // range 0.0 to 1.0
+    var stepTime = 0.0 {
+        // range -1.0 to 1.0
         didSet {
 //            NSLog("PGLSourceFilter stepTime now = \(stepTime)")
         }
     }
-    let defaultFilterDelta: Float = 0.01
-
-//        didSet{
-//            wrapper?.filterValueDelta = filterValueDelta
-//            // wrapper if active needs the rate of change dt
-//        }
-//    // rate of change for animation & increment timers
-//    }
-    
+    let defaultDt = 0.005
+    var dt = 0.005{
+        didSet{
+            wrapper?.dt = dt
+            // wrapper if active needs the rate of change dt
+        }
+    // rate of change for animation & increment timers
+    }
     var detectors = [PGLDetection]()
     lazy var thumbNail = getThumbnail() // only set when referenced need to reset on changes..
     var wrapper: PGLDissolveWrapperFilter?
@@ -514,7 +513,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                    // stop the animation
 
                    attributeTarget.attributeValueDelta = nil
-
+                // MARK: Fix set the filter level dt here
                    animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
                        anAttribute.attributeName == attributeTarget.attributeName
                    }
@@ -530,7 +529,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         attributeTarget.varyTotalFrames = 600 // start animation logic at 10 sec * 60 fps
         animationAttributes.append(attributeTarget)
 
-        attributeTarget.attributeValueDelta = defaultFilterDelta // default rate of change from the filter
+        attributeTarget.attributeValueDelta = Float(dt ) // default rate of change from the filter
         }
     }
 
@@ -609,33 +608,31 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 //        wrapper?.addStepTime() // usually nil so not sent
 
         if hasAnimation {
-            // redo plan for dectectors
-            // implement their own addStepTime and setTimerDt(lengthSeconds)
-            // addStepTime will trigger the detector.increment()
-//            if (stepTime > 1.0) || (stepTime < -1.0) {
-//                filterValueDelta = filterValueDelta * -1
-//                    // maybe just set to -1.0 or 1.0.. multiply may be slightly over the 1 value.
-//
-//                for aDetector in detectors {
-//                    aDetector.increment()  // advances to the next feature
-//                }
-//            }
+            if (stepTime > 1.0) || (stepTime < -1.0) {
+                dt = dt * -1
+                    // maybe just set to -1.0 or 1.0.. multiply may be slightly over the 1 value.
+                
+                for aDetector in detectors {
+                    aDetector.increment()  // advances to the next feature
+                }
+            }
             // go back and forth between -1.0 and 1.0
             // toggle dt either neg or positive
-//            stepTime += filterValueDelta
+            stepTime += dt
                 /*! @abstract Interpolates smoothly between 0 at edge0 and 1 at edge1
                  *  @discussion You can use a scalar value for edge0 and edge1 if you want
                  *  to clamp all lanes at the same points.
                              let inputTime = simd_smoothstep(-1.0, 1, stepTime)
                  */
-//            let inputTime = stepTime
-//            for aDetector in detectors {
-//                aDetector.setInputTime(time: Double(inputTime)) 
-//            }
+            let inputTime = stepTime
+            for aDetector in detectors {
+                aDetector.setInputTime(time: Double(inputTime)) 
+            }
             for parm in animationAttributes {
                 parm.addStepTime()
 
         }
+    }
     }
 
 
@@ -651,8 +648,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     }
 
-    }
 }
+
 
 //extension PGLSourceFilter : Equatable {
 //    static func == (lhs: PGLSourceFilter, rhs: PGLSourceFilter) {

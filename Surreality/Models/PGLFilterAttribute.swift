@@ -1180,15 +1180,13 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
             setRotation(radians: newValue)
         } else { fatalError("PGLFilterAttributeAffine set value not converted")}
     }
-    override var variationStep: Float?  {
+    override func incrementValueDelta() {
         // animation time range 0.0 to 1.0
-        didSet {
-            if oldValue == nil {
-                attributeStartValue = 0.001
-            }
-            setRotation(radians: oldRotation + attributeStartValue )
+
+
+            setRotation(radians: oldRotation + attributeValueDelta! )
             postUIChange(attribute: self)
-        }
+
     }
 
    override func varyTimerAttribute() -> PGLFilterAttribute? {

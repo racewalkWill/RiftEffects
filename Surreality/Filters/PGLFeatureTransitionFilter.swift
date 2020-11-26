@@ -160,8 +160,8 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
     func stopWrapperAnimation() {
            // runs on all animation attributes where self is a wrapper filter
            for anAttribute in animationAttributes {
-               anAttribute.variationStep = nil
-               anAttribute.setTimerDt(lengthSeconds: defaultFilterDelta)
+//               anAttribute.attributeValueDelta  = nil
+            anAttribute.setTimerDt(lengthSeconds: 0.0 )
 
            }
            animationAttributes = [PGLFilterAttribute]()
@@ -231,7 +231,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
 
             if (stepTime > 1.0)   {
                 stepTime = 1.0 // make it go down
-                filterValueDelta = filterValueDelta * -1 // past end so toggle
+                dt = dt * -1 // past end so toggle
                 // this has animation
                 // get the input collection
                 // update the input.. now showing target
@@ -241,7 +241,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
             }
             else if (stepTime < 0.0) {
                 stepTime = 0.0 // make it go up
-                filterValueDelta = filterValueDelta * -1 // past end so toggle
+                dt = dt * -1 // past end so toggle
                 // update the targetImage now showing the input
                 if let newInput = detectorFilter?.nextImage() {
                      self.setImageValue(newValue: newInput, keyName: kCIInputTargetImageKey )
@@ -249,7 +249,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
             }
             // go back and forth between 0 and 1.0
             // toggle dt either neg or positive
-            stepTime += filterValueDelta
+            stepTime += dt
             let inputTime = simd_smoothstep(0, 1, stepTime)
 
             // dissolve specific localFilter

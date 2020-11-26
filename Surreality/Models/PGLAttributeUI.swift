@@ -37,10 +37,10 @@ class PGLRotateAffineUI: PGLFilterAttribute {
         affineParent = parent
     }
 
-    override var variationStep: Float?  {
-        didSet { affineParent?.variationStep = variationStep
+    override func incrementValueDelta()  {
+         affineParent?.incrementValueDelta()
               postUIChange(attribute: self)
-        }
+
     }
    override func set(_ value: Any) {
         if let rotation = value as? Float {
@@ -139,10 +139,10 @@ class PGLTranslateAffineUI: PGLFilterAttribute {
         affineParent = parent
     }
 
-    override var variationStep: Float?  {
-        didSet { affineParent?.variationStep = variationStep
+    override func incrementValueDelta() {
+        affineParent?.incrementValueDelta()
               postUIChange(attribute: self)
-        }
+
     }
     override func set(_ value: Any) {
         if let newTranslationVector = value as? CIVector {
@@ -251,10 +251,10 @@ class PGLScaleAffineUI: PGLFilterAttribute {
         affineParent = parent
     }
 
-    override var variationStep: Float?  {
-        didSet { affineParent?.variationStep = variationStep
+    override func incrementValueDelta()  {
+         affineParent?.incrementValueDelta()
               postUIChange(attribute: self)
-        }
+
     }
     override func set(_ value: Any) {
         if let newScaleVector = value as? CIVector {
