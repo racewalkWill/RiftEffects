@@ -537,7 +537,7 @@ class PGLFilterAttribute {
 
         // adjust animationTime by the current dt
         if (varyStepCounter > varyTotalFrames)  {
-            NSLog("PGLFilterAttribute addStepTime resetting from debugStepCounter = \(varyStepCounter)")
+//            NSLog("PGLFilterAttribute addStepTime resetting from varyStepCounter = \(varyStepCounter)")
             varyStepCounter = 0
 
             if attributeValueDelta != nil
@@ -567,9 +567,14 @@ class PGLFilterAttribute {
             // some filters do not define max or min values..
 
             // for total frames to increment to value
-
-        attributeValueDelta = attributeValueRange / Float(varyTotalFrames)
+        if (varyTotalFrames > 0 ) // check for zero division nan
+        {
+            attributeValueDelta = attributeValueRange / Float(varyTotalFrames)
             // hasAnimation is now true with value in attributeValueDelta
+        }
+        else { attributeValueDelta = 0.0
+                // keeps animation logic going but no changes in the attribute values
+        }
 
         NSLog( "#setTimerDT attributeValueDelta = \(String(describing: attributeValueDelta))")
     }
