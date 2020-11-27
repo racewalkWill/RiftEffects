@@ -566,7 +566,6 @@ class PGLFilterAttribute {
         let attributeValueRange = (sliderMaxValue ?? 100.0) - (sliderMinValue ?? 0.0)
             // some filters do not define max or min values..
 
-
             // for total frames to increment to value
 
         attributeValueDelta = attributeValueRange / Float(varyTotalFrames)

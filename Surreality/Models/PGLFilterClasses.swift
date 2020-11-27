@@ -635,6 +635,13 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
     }
 
+    func setTimerDt(lengthSeconds: Float) {
+        // empty implementation
+        // see PGLTransitionFilter implementation
+        // attributes have independent timer cycle for the Vary
+        // this is for timerLoops at the filter level (ie. TransitionFilters)
+
+    }
 
     func updateChange(_ frameDelta: PGLFilterChange) {
         // if any attributes in this filter match the key in the frameDelta

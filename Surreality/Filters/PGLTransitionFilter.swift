@@ -34,7 +34,8 @@ class PGLTransitionFilter: PGLRectangleFilter {
         // detectors.. They are incrementing imageList inputs
         // stepTime for transition Filters range is 0 - 1.0
         // does not go below zero
-        
+        // see https://developer.apple.com/documentation/coreimage/customizing_image_transitions
+
 //       NSLog("PGLTransitionFilter #addStepTime ")
         var nextAttribute: PGLFilterAttribute?
         var doIncrement = false
@@ -57,8 +58,6 @@ class PGLTransitionFilter: PGLRectangleFilter {
         if doIncrement {
             nextAttribute?.increment()
                 // advances to the next image in the input imageList
-
-
         }
 
         // go back and forth between 0 and 1.0
@@ -69,6 +68,27 @@ class PGLTransitionFilter: PGLRectangleFilter {
         // dissolve specific
         localFilter.setValue(inputTime, forKey: kCIInputTimeKey)
         //        NSLog("PGLTransitionFilter stepTime now = \(inputTime)" )
+    }
+
+    override func setTimerDt(lengthSeconds: Float) {
+        // Super class does not use this
+        // timer is 0..1 range
+        // dt should be the amount of change to add to the input time
+        // to make the dissolve in lenghtSeconds total. This is also the incrment time
+        // from one image to another.
+
+        // set the dt (deltaTime) for use by addStepTime() on each frame
+
+        let framesPerSec: Float = 60.0 // later read actual framerate from UI
+        let varyTotalFrames = framesPerSec * lengthSeconds
+
+        let attributeValueRange = 1.0 // transition range is 0..1
+        if varyTotalFrames > 0.0 {
+            // division by zero is nan
+            dt = attributeValueRange / Double(varyTotalFrames)
+        }
+
+
     }
 
     override func setImageListClone(cycleStack: PGLImageList, sourceKey: String) {

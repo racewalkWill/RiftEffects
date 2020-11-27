@@ -61,6 +61,10 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
 
 }
 class PGLFilterAttributeTime: PGLFilterAttribute {
+    // this attribute needs to send the slider set message
+    // to the filter addStepTime.. in contrast to the vary logic which
+    // uses the a frameCounter and frames per second to control the change in a
+    // numeric or vector attribute
 
     let timeDivisor: Float = 25.0
 
@@ -73,13 +77,11 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
     }
 
     override func set(_ value: Any) {
-        let newRate = (value as! NSNumber).floatValue
-        let min = sliderMinValue ?? 0.0
-        let max = sliderMaxValue ?? 100.0
+       let newRate = (value as! NSNumber).floatValue
+            //simd_smoothstep is not called here
+            // see addStepTime on the Transition filter
+        aSourceFilter.setTimerDt(lengthSeconds: newRate )
 
-        let smoothedValue = simd_smoothstep(min,max, newRate)
-//        let floatSmoothedValue = (smoothedValue as NSNumber).doubleValue
-        setTimerDt(lengthSeconds: smoothedValue / timeDivisor )
     }
 
     override func valueString() -> String {
