@@ -392,8 +392,11 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                             for: indexPath) as? TitleSupplementaryView else { fatalError("Cannot create new header") }
 
                         // Populate the view with our section's description.
-                    
-                    header.label.text =  self.userAssetSelection.parmInputName() + " >"  //+ "images"
+                        var selectionSuffix = ""
+                        if self.userAssetSelection.isTransitionFilter() {
+                            selectionSuffix = "Multiple ... "
+                        }
+                    header.label.text = selectionSuffix + self.userAssetSelection.parmInputName() + "    >"  //+ "images"
                         header.backgroundColor = .systemBlue// this the selected color badge.. make header the same
                         header.layer.borderColor = UIColor.black.cgColor
                         header.layer.borderWidth = 1.0

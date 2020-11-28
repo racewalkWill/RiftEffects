@@ -410,7 +410,7 @@ extension PGLAssetGridController {
                         NSLog("PGLAssetGridController #configureDataSource supplementaryViewProvider path = \(indexPath)")
                         let thisItem = self.dataSource.itemIdentifier(for: indexPath)
 
-                        header.label.text =  (thisItem?.collectionTitle ?? "untitled") + " >"
+                        header.label.text =  (thisItem?.collectionTitle ?? "untitled") 
                         header.headerAlbumId = thisItem?.albumId
 
                             header.backgroundColor = .lightGray

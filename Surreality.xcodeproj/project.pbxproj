@@ -72,7 +72,6 @@
 		A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509924D32A3400CD5114 /* AppDelegate.swift */; };
 		A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509C24D32A3400CD5114 /* PGLImageList.swift */; };
 		A3BF512524D32A3400CD5114 /* PGLTestImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */; };
-		A3BF512724D32A3400CD5114 /* PGLFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */; };
 		A3BF512824D32A3400CD5114 /* PGLFilterStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50A024D32A3400CD5114 /* PGLFilterStack.swift */; };
 		A3BF512924D32A3400CD5114 /* PGLSourceMetalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50A124D32A3400CD5114 /* PGLSourceMetalFilter.swift */; };
 		A3BF512A24D32A3400CD5114 /* PGLTransitionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50A224D32A3400CD5114 /* PGLTransitionFilter.swift */; };
@@ -197,7 +196,6 @@
 		A3BF509924D32A3400CD5114 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3BF509C24D32A3400CD5114 /* PGLImageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageList.swift; sourceTree = "<group>"; };
 		A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLTestImage.swift; sourceTree = "<group>"; };
-		A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterManager.swift; sourceTree = "<group>"; };
 		A3BF50A024D32A3400CD5114 /* PGLFilterStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterStack.swift; sourceTree = "<group>"; };
 		A3BF50A124D32A3400CD5114 /* PGLSourceMetalFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLSourceMetalFilter.swift; sourceTree = "<group>"; };
 		A3BF50A224D32A3400CD5114 /* PGLTransitionFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLTransitionFilter.swift; sourceTree = "<group>"; };
@@ -466,7 +464,6 @@
 				A3BF507D24D32A3400CD5114 /* CIImage.swift */,
 				A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */,
 				A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */,
-				A3BF509F24D32A3400CD5114 /* PGLFilterManager.swift */,
 			);
 			path = obsolete;
 			sourceTree = "<group>";
@@ -659,7 +656,6 @@
 				A3BF514724D32A3400CD5114 /* PGLFilterCIAbstract.swift in Sources */,
 				A3BF50FC24D32A3400CD5114 /* PGLSelectStackController.swift in Sources */,
 				A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */,
-				A3BF512724D32A3400CD5114 /* PGLFilterManager.swift in Sources */,
 				A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */,
 				A3BF513124D32A3400CD5114 /* Renderer.swift in Sources */,
 				A3BF513324D32A3400CD5114 /* PGLAssetController.swift in Sources */,
