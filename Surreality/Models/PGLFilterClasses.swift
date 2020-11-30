@@ -512,12 +512,14 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         if attributeTarget.attributeValueDelta != nil {
                    // stop the animation
 
-                   attributeTarget.attributeValueDelta = nil
+            attributeTarget.attributeValueDelta = nil
+                // turns off animation at the attribute
+
                 // MARK: Fix set the filter level dt here
-                   animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
-                       anAttribute.attributeName == attributeTarget.attributeName
+               animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
+                   anAttribute.attributeName == attributeTarget.attributeName
                    }
-                    hasAnimation = ( animationAttributes.count > 0 )
+                hasAnimation = ( animationAttributes.count > 0 )
                }
     }
 

@@ -882,7 +882,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                             {
                                 NSLog("PGLSelectParmController #trailingSwipe completion starts #setDissolveWrapper")
                                 self.setDissolveWrapper() }
-                            else {
+                        else {
                                NSLog( "PGLSelectParmController #trailingSwipe completion starts performAction")
                                 cellDataAttribute.performAction(self)  // run the command
 
@@ -910,7 +910,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                             tableView.deleteRows(at: [cancelPath], with: .automatic)
                             }
                          }
-                    cellDataAttribute.performAction(self)  // stop the timer which is running even without the timerSliderRow
+//                    cellDataAttribute.performAction(self)  // stop the timer which is running even without the timerSliderRow
+                        // bad implementation - hidden cancel logic in the vary for Vectors to stop the timers
+
+
+                    cellDataAttribute.performActionOff() // just stop
+
                     self.imageController?.hideSliders()
                     tableView.reloadData()
                 }

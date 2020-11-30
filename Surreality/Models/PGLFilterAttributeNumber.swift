@@ -144,23 +144,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
 
 
-    override func incrementValueDelta() {
-        // animation time range 0.0 to 1.0
-        if !hasAnimation() {return }
 
-        if (endPoint != nil)  && (startPoint != nil ){
-
-            let distanceTime = abs(vectorLength * attributeValueDelta!)
-               // attributeValueDelta is the proportate amount to change the value by
-
-            let newX = Float(startPoint!.x) + (xSign * (vectorCos * distanceTime))
-            let newY = Float(startPoint!.y) + (vectorSin * distanceTime)
-            let newVector = CIVector(x: CGFloat(newX), y: CGFloat(newY))
-            aSourceFilter.setVectorValue(newValue: newVector, keyName: attributeName!)
-            postUIChange(attribute: self)
-        }
-
-    }
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
@@ -224,6 +208,15 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         }
     }
 
+    override func performActionOff() {
+        super.performActionOff()
+        endVectorPan()
+        attributeValueDelta = nil
+            // stops animation
+
+         varyState = .Initial
+    }
+
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
       let newDescriptionString = self.attributeName ?? ""
@@ -243,11 +236,32 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
     }
 
+    override func incrementValueDelta() {
+        // animation time range 0.0 to 1.0
+        if !hasAnimation() {return }
+
+        if (endPoint != nil)  && (startPoint != nil ){
+            let currentPoint = getVectorValue()
+            let distanceTime = abs(vectorLength * attributeValueDelta!)
+               // attributeValueDelta is the proportate amount to change the value by
+
+            let newX = Float(currentPoint!.x) + (xSign * (vectorCos * distanceTime))
+            let newY = Float(currentPoint!.y) + (vectorSin * distanceTime)
+            let newVector = CIVector(x: CGFloat(newX), y: CGFloat(newY))
+            NSLog("PGLFilterAttributeVector #incrementValueDelta currentVector = \(String(describing: getVectorValue()))")
+            NSLog("PGLFilterAttributeVector #incrementValueDelta newVector = \(newVector)")
+            aSourceFilter.setVectorValue(newValue: newVector, keyName: attributeName!)
+            postUIChange(attribute: self)
+        }
+
+    }
+
     override func cellAction() -> [PGLTableCellAction] {
         // Vary needs start point and end point set
         // state1 - Initial - actions are 'From' point 1 or run DissolveWrapper on 'Faces' points
         // state2 - point1 is set - actions are 'To' point 2 & 'Cancel' back to state1
         // state3 - point1 & point2 set - animation is running. action is 'Cancel' back to state1
+        //          rateUI subcell appears and sets initial rate
         // state4 - DissolveWrapper is running - 'Cancel' back to state 1
         var allActions = [PGLTableCellAction]()
         switch varyState {
@@ -260,18 +274,19 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
                         let facesAction = PGLTableCellAction(action: "Faces", newAttribute: newVaryAttribute, canPerformAction: true, targetAttribute: self)
                         facesAction.performDissolveWrapper = true
                         allActions.append(facesAction)
-                        let varyAction = PGLTableCellAction(action: "From", newAttribute: newVaryAttribute, canPerformAction: true, targetAttribute: self)
+                        let varyAction = PGLTableCellAction(action: "From", newAttribute: nil , canPerformAction: true, targetAttribute: self)
                                            allActions.append(varyAction)
                     }
             }
             case .VaryPt1:
-                if hasAnimation() && (endPoint == nil) {
-                    // animation timer is running for start point -
-                    // endPoint is nil
+                if  (endPoint == nil) {
 
-                    let point2Action = PGLTableCellAction(action: "To", newAttribute: nil, canPerformAction: true, targetAttribute: self)
-                    point2Action.performAction2 = true  //  will setVectorEndPoint in the method performAction2
+                    // endPoint is nil
+                    if let newVaryAttribute = varyTimerAttribute(){
+                    let point2Action = PGLTableCellAction(action: "To", newAttribute: newVaryAttribute, canPerformAction: true, targetAttribute: self)
+//                    point2Action.performAction2 = true  //  will setVectorEndPoint in the method performAction2
                     allActions.append(point2Action)
+                    }
                 }
                 addCancelAction(&allActions)
 
@@ -302,22 +317,28 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 //            // sends aSourceFilter.attribute(animateTarget: self)
         switch varyState {
             case .Initial:
-                if !hasAnimation() {
                     setVectorStartPoint()
                     varyState = .VaryPt1
-                    aSourceFilter.startAnimation(attributeTarget: self)
-            }
+//                    aSourceFilter.startAnimation(attributeTarget: self)
+
 
             case .VaryPt1:
-                if hasAnimation() {
-                    endVectorPan()
-                     varyState = .Initial
-                } else {
+                setVectorEndPoint()
+                aSourceFilter.startAnimation(attributeTarget: self)
+                setTimerDt(lengthSeconds: 5.0)
+                varyState = .VaryPt1Pt2 // move to next state for both from and to points set
+//                if hasAnimation() { Makes cancel work if animation is running
+//                    endVectorPan()
+//                    attributeValueDelta = nil
+//                        // stops animation
+//
+//                     varyState = .Initial
+//                } else {
                     // must be starting the vary in sender see performAction2
                    // varyState = .VaryPt1Pt2
                     // or is this setin performAction2?
 
-            }
+//            }
             case .VaryPt1Pt2:
                 aSourceFilter.stopAnimation(attributeTarget: self)
                  varyState = .Initial
@@ -333,18 +354,23 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
     }
 
+    override func performAction2(_ controller: PGLSelectParmController?) {
+
+        // a new subUI cell was not added by the actionCells method
+//        setVectorEndPoint()
+        if varyState == .VaryPt1 {
+            varyState = .VaryPt1Pt2 // move to next state for both from and to points set
+            // set UI vary values
+            setTimerDt(lengthSeconds: 5.0)
+
+        }
+    }
+
     func removeWrapperFilter() {
         aSourceFilter.removeWrapperFilter()
     }
 
-    override func performAction2(_ controller: PGLSelectParmController?) {
 
-        // a new subUI cell was not added by the actionCells method
-        setVectorEndPoint()
-        if varyState == .VaryPt1 {
-            varyState = .VaryPt1Pt2 // move to next state for both from and to points set
-        }
-    }
 }
 
 class PGLFilterAttributeVector3: PGLFilterAttributeVector {
