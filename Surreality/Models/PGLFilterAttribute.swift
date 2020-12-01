@@ -92,7 +92,7 @@ class PGLFilterAttribute {
     var attributeValueDelta: Float? // usually nil, when nil parent filter timer controls the rate of change
 //    var attributeFrameDelta: Float = 0.0
     var varyStepCounter = 0
-    var varyTotalFrames = 0
+    var varyTotalFrames = 600 // 10 secs @ 60 fps
 
 
     var uiIndexPath: IndexPath?

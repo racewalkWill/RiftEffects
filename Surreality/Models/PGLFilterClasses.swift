@@ -524,15 +524,15 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func startAnimation(attributeTarget: PGLFilterAttribute) {
-    if attributeTarget.attributeValueDelta == nil {
+//    if attributeTarget.attributeValueDelta == nil {
         // start the animation
         hasAnimation = true
 
-        attributeTarget.varyTotalFrames = 600 // start animation logic at 10 sec * 60 fps
+//        attributeTarget.varyTotalFrames = 600 // start animation logic at 10 sec * 60 fps
         animationAttributes.append(attributeTarget)
 
-        attributeTarget.attributeValueDelta = Float(dt ) // default rate of change from the filter
-        }
+//        attributeTarget.attributeValueDelta = Float(dt ) // default rate of change from the filter
+//        }
     }
 
 

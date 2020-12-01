@@ -124,11 +124,12 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
     var vectorCos: Float = 0.0
     var xSign: Float = 1.0
     var xDelta: Float = 0.0
+    var incrementDirection = 1 // changes sign on end of variation range 1 or -1
     var startPoint: CIVector?
     var endPoint: CIVector? {
         didSet {  // setting the endpoint implies that startPoint is the current position
             if let newPoint = endPoint {
-//            startPoint = getVectorValue()
+
             let xSqr = pow((newPoint.x - startPoint!.x), 2.0)
             let ySqr = pow ((newPoint.y - startPoint!.y), 2.0)
             vectorLength =  sqrtf( Float(xSqr + ySqr) )
@@ -139,6 +140,15 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
             if xDelta < 0.0 { xSign = -1.0 } // avoid NAN error from sign function if xDelta is zero
             }
             else { startPoint = nil}
+
+            // reset the attributeValueDelta for the vectorLength
+            // other classes use attributeValueDelta based on range of the slider
+            // which does not apply here
+            if (varyTotalFrames > 0 ) // check for zero division nan
+
+            {
+                attributeValueDelta = vectorLength / Float(varyTotalFrames)
+            }
         }
     }
 
@@ -236,25 +246,66 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
     }
 
+    override  func addStepTime() {
+        // called on every frame
+        // if animationTime is nil then animation is not running
+        // adds the delta value (currentDt) to the parm
+
+        if !hasAnimation() { return }  // animationTime is Float
+
+        if (varyStepCounter > varyTotalFrames) || (varyStepCounter < 0) {
+//          NSLog("PGLFilterAttribute addStepTime resetting from varyStepCounter = \(varyStepCounter)")
+            // attributeValueDelta is not used for the vector increment
+            incrementDirection = incrementDirection * -1
+            if attributeValueDelta != nil
+                { attributeValueDelta = attributeValueDelta! * -1 }
+            }
+        // now add the step
+
+        varyStepCounter += incrementDirection
+            // variationSteo not nil see hasAnimation() guard above
+        incrementValueDelta()
+
+
+    }
+
     override func incrementValueDelta() {
         // animation time range 0.0 to 1.0
         if !hasAnimation() {return }
 
         if (endPoint != nil)  && (startPoint != nil ){
-            let currentPoint = getVectorValue()
-            let distanceTime = abs(vectorLength * attributeValueDelta!)
-               // attributeValueDelta is the proportate amount to change the value by
+//            let currentPoint = getVectorValue()
+            // old animationTime is a value moving from -1 to +1
+            let changeRatio: Float = Float(varyStepCounter) / Float(varyTotalFrames)
+            let distanceOfIncrement = vectorLength * changeRatio
 
-            let newX = Float(currentPoint!.x) + (xSign * (vectorCos * distanceTime))
-            let newY = Float(currentPoint!.y) + (vectorSin * distanceTime)
+
+            let newX = Float(startPoint!.x) + (xSign * (vectorCos * distanceOfIncrement))
+            let newY = Float(startPoint!.y) + (vectorSin * distanceOfIncrement)
             let newVector = CIVector(x: CGFloat(newX), y: CGFloat(newY))
-            NSLog("PGLFilterAttributeVector #incrementValueDelta currentVector = \(String(describing: getVectorValue()))")
-            NSLog("PGLFilterAttributeVector #incrementValueDelta newVector = \(newVector)")
+//            NSLog("PGLFilterAttributeVector #incrementValueDelta currentVector = \(String(describing: getVectorValue()))")
+//            NSLog("PGLFilterAttributeVector #incrementValueDelta newVector = \(newVector)")
             aSourceFilter.setVectorValue(newValue: newVector, keyName: attributeName!)
             postUIChange(attribute: self)
         }
 
     }
+    override func setTimerDt(lengthSeconds: Float){
+         // user has moved the rate of change control
+         // value is 0...30
+         // real step timing varies from min to max  from 0 sec to 30 sec
+         // see #addStepTime() in #outputImage()
+         // set the variationStep value
+         // set the attributeValueDelta for change in each stop
+
+         if vectorLength <=  0 { return } // end point for vectorlength must be set first
+
+         let framesPerSec: Float = 60.0 // later read actual framerate from UI
+         varyTotalFrames = Int(framesPerSec * lengthSeconds)
+
+
+     }
+   
 
     override func cellAction() -> [PGLTableCellAction] {
         // Vary needs start point and end point set
@@ -323,9 +374,10 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
 
             case .VaryPt1:
+
                 setVectorEndPoint()
                 aSourceFilter.startAnimation(attributeTarget: self)
-                setTimerDt(lengthSeconds: 5.0)
+
                 varyState = .VaryPt1Pt2 // move to next state for both from and to points set
 //                if hasAnimation() { Makes cancel work if animation is running
 //                    endVectorPan()
