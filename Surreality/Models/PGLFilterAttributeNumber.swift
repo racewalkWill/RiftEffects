@@ -50,7 +50,7 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
 
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
-      let newDescriptionString = self.attributeName ?? ""
+      let newDescriptionString = self.attributeDisplayName ?? ""
       content.text = newDescriptionString
       content.imageProperties.tintColor = .secondaryLabel
         content.image = UIImage(systemName: "slider.horizontal.below.rectangle")
@@ -103,7 +103,7 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
 
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
-      let newDescriptionString = self.attributeName ?? ""
+      let newDescriptionString = self.attributeDisplayName ?? ""
       content.text = newDescriptionString
       content.imageProperties.tintColor = .secondaryLabel
         content.image = UIImage(systemName: "slider.horizontal.below.rectangle")
@@ -229,7 +229,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
-      let newDescriptionString = self.attributeName ?? ""
+      let newDescriptionString = self.attributeDisplayName ?? ""
       content.text = newDescriptionString
       content.imageProperties.tintColor = .secondaryLabel
         content.image = UIImage(systemName: "plus.circle")

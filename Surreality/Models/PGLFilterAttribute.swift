@@ -277,7 +277,7 @@ class PGLFilterAttribute {
     }
 
     func descriptiveNameDetail() -> String {
-        return (attributeName ?? "parm" ) //  + " " + (attributeDescription ?? "")
+        return (attributeDisplayName ?? "parm" ) //  + " " + (attributeDescription ?? "")
     }
 
     // MARK: image Collection input
@@ -889,7 +889,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
   override  func setUICellDescription(_ uiCell: UITableViewCell) {
     var content = uiCell.defaultContentConfiguration()
-    let newDescriptionString = self.attributeName ?? ""
+    let newDescriptionString = self.attributeDisplayName ?? ""
     content.text = newDescriptionString
     content.imageProperties.tintColor = .secondaryLabel
 
@@ -1094,7 +1094,7 @@ class PGLFilterAttributeAngle: PGLFilterAttribute {
 
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
-      let newDescriptionString = self.attributeName ?? ""
+      let newDescriptionString = self.attributeDisplayName ?? ""
       content.text = newDescriptionString
       content.imageProperties.tintColor = .secondaryLabel
         content.image = UIImage(systemName: "slider.horizontal.below.rectangle")
@@ -1224,7 +1224,7 @@ class PGLFilterAttributeColor: PGLFilterAttribute {
 
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
-      let newDescriptionString = self.attributeName ?? ""
+      let newDescriptionString = self.attributeDisplayName ?? ""
       content.text = newDescriptionString
       content.imageProperties.tintColor = .secondaryLabel
         content.image = UIImage(systemName: "slider.horizontal.3")
@@ -1305,7 +1305,7 @@ class PGLAttributeRectangle: PGLFilterAttribute {
 
     override  func setUICellDescription(_ uiCell: UITableViewCell) {
       var content = uiCell.defaultContentConfiguration()
-      let newDescriptionString = self.attributeName ?? ""
+      let newDescriptionString = self.attributeDisplayName ?? ""
       content.text = newDescriptionString
       content.imageProperties.tintColor = .secondaryLabel
     content.image = UIImage(systemName: "crop")
