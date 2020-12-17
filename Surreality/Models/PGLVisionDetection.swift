@@ -71,7 +71,7 @@ class PGLVisionDetector: PGLDetection {
          // called every imageUpdate by the PGLFilterStack->filter.setInput->detectors#setInput
          if let anInputImage = image {
             inputImage = anInputImage
-            if oldInputImage === inputImage {
+            if oldInputImage == inputImage {
                 NSLog("PGLVisionDetection #setInput(image: is returning without performing ImageRequestHandler")
                 return }
                 // === is test of object identity don't process twice
@@ -83,6 +83,7 @@ class PGLVisionDetector: PGLDetection {
 
             else { features = [PGLFaceBounds]()
                     // new image clear the old features
+                NSLog("PGLVisionDetection #setInput(image: has new image")
             }
         }
       let requests = [faceDetectionRequest] // other requests can be added to the array

@@ -62,7 +62,8 @@ class PGLFilterStack  {
 
 
 
-@IBInspectable  var useOldImageFeedback = false // set to true to use the old image input
+@IBInspectable  var useOldImageFeedback = false
+    // set to true to use the old image input
 
     // MARK: Init default
     init(){
@@ -421,6 +422,8 @@ class PGLFilterStack  {
             // always false - only changes with inspectable var in the debugger
             if let startImage = activeFilters.first?.inputImage() {
                 return imageUpdate(startImage, showCurrentFilterImage)
+                // passing startImage will trigger a new input for any detectors..
+                // but this runs every frame !
             }
             else {
                 return CIImage.empty() }

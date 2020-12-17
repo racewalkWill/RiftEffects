@@ -196,7 +196,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
                 if source != nil {setSource(description: source!, attributeKey: kCIInputImageKey)}
             }
-            setDetectorsInput(image, source) // same condition used in subclass PGLDetectorFilter.setInput
+            // let the addStepTime do this
+           setDetectorsInput(image, source) // same condition used in subclass PGLDetectorFilter.setInput
         }
     }
 
@@ -277,7 +278,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         // assumes addStepTime() is called before this
 
         // wrapper may call this to produce wrapper effects on the basicImage
-//        addStepTime()  // if animation then move time forward
+        addStepTime()  // if animation then move time forward
         for anAttribute in attributes {
                     anAttribute.updateFromInputStack()
                 }
@@ -554,6 +555,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         wrapper = outputFilter
         detector.setOutputAttributes(wrapperFilter: outputFilter)
         detectors.append(detector)
+        let startImage = inputImage()
+        setDetectorsInput(startImage, nil)
         outputFilter.updateInputs(detector: detector)
         // gets 2 images for the dissolve: input and target
         outputFilter.detectorFilter = detector
