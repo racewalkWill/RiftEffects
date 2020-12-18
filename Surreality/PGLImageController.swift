@@ -702,7 +702,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
                 parmSlider.isHidden = false
                 view.bringSubviewToFront(parmSlider)
-//            NSLog("PGLImageController addSliderControl \(attribute.description)")
+            NSLog("PGLImageController addSliderControl \(attribute.description)")
+            NSLog("slider min = \(parmSlider.minimumValue) max = \(parmSlider.maximumValue) value = \(parmSlider.value)")
 
         }
 

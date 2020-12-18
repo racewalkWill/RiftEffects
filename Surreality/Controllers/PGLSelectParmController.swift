@@ -725,10 +725,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        NSLog("PGLSelectParmController tableView didHighlightRowAt: \(indexPath)")
+//        NSLog("PGLSelectParmController tableView didHighlightRowAt: \(indexPath)")
         selectedCellIndexPath = indexPath
         tappedAttribute = getTappedAttribute(indexPath: indexPath)
-        NSLog("PGLSelectParmController didHighlightRowAt tappedAttribute = \(String(describing: tappedAttribute))")
+        NSLog("PGLSelectParmController didHighlightRowAt \(String(describing: tappedAttribute!.attributeName)) \(String(describing: currentFilter!.filterName))")
     }
 
 

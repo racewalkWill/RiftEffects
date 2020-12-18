@@ -212,25 +212,29 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     
     var imageInputAttributeKeys: [String] {
         //computed property
+        var imageKeyFound = false
         var addingArray = [String]()
         for key in localFilter.inputKeys {
+            imageKeyFound = false // reset for each key
             if let attrDict = localFilter.attributes[key]  {
                 let thisDict = attrDict as! [String : Any]
                 if let attributeType = thisDict[kCIAttributeType] as? String {
                     if attributeType == kCIAttributeTypeImage {
                         addingArray.append(key)
+                        imageKeyFound = true
                         }
-                    else {
-                    if let attributeClass = thisDict[kCIAttributeClass] as? String {
-                        if attributeClass == "CIImage" {
-                            addingArray.append(key)
+                }
+                else { // no attributeType entry found
+                     if let attributeClass = thisDict[kCIAttributeClass] as? String {
+                            if !imageKeyFound && (attributeClass == "CIImage") {
+                                // don't add twice if both attributeClass and attributeType are listed
+                                addingArray.append(key)
+                            }
                         }
-                    } }
 
                 }
-
-            }
-        }
+            } // attributes of this key
+        }  // end key for loop
         return  addingArray
     }
 

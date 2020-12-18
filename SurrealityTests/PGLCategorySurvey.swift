@@ -510,6 +510,7 @@ class PGLCategorySurvey: XCTestCase {
             var newFilter: PGLSourceFilter
             // from a failing testMultipleInput run
             let filterNames = [
+
                 "CIDivideBlendMode",
                 "CIDepthBlurEffect" ,
                  "CIColorMatrix",
@@ -535,7 +536,10 @@ class PGLCategorySurvey: XCTestCase {
                 "CIKeystoneCorrectionVertical",
                 "CIUnsharpMask",
                 "CILineScreen",
-                "CITriangleTile"
+                "CITriangleTile",
+
+                // 2020-12-18 failed filter
+                "CIColorAbsoluteDifference"
 
 
             ]
