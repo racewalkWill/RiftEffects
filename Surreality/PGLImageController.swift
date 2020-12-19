@@ -489,43 +489,46 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             removeParmControls()
         }
         for attribute in parms {
-            if (attribute.value.attributeType) != nil {
-                switch attribute.value.attributeType! {
-                    case AttrType.Position.rawValue, AttrType.Position3.rawValue :
-                        addPositionControl(attribute: attribute.value)
-
-                    case AttrType.Rectangle.rawValue:
-                        if let rectAttribute = attribute.value as? PGLAttributeRectangle {
-
-                            if rectController == nil {
-                                addRectControl(attribute: rectAttribute) }
-                            else {
-                                rectController!.view.isHidden = false   // constraints still work?
-                            }
-                        }
-                    default: break
+            // should use the attribute methods isPointUI() or isRectUI()..
+            // testing only on attributeType  misses CIAttributeTypeOffset & CIVector combo in
+            // CINinePartStretched attribute inputGrowAmount
+            /*CINinePartStretched category CICategoryDistortionEffect NOT UI Parm attributeName= Optional("inputGrowAmount") attributeDisplayName= Optional("Grow Amount") attributeType=Optional("CIAttributeTypeOffset") attributeClass= Optional("CIVector")
+             */
+            // also var parms =  [String : PGLFilterAttribute]() // string index by attributeName
+            // attribute is actuallly the value of the tuple in parms
+            let parmAttribute = attribute.value
+                if parmAttribute.isPointUI() {
+                    addPositionControl(attribute: parmAttribute)
                 }
+                if parmAttribute.isRectUI() {
+                    if let rectAttribute = parmAttribute as? PGLAttributeRectangle {
+                        if rectController == nil {
+                            addRectControl(attribute: rectAttribute) }
+                        else {
+                            rectController!.view.isHidden = false   // constraints still work?
+                        }
+                    }
             }
-//            if !(attribute.value.isSliderUI() || attribute.value.isPointUI() || attribute.value.isImageInput() ) {}
         }
     }
 
     func removeParmControls() {
-
+        // should use the attribute methods isPointUI() or isRectUI()..
         for nameAttribute in parms {
-            if (nameAttribute.value.attributeType) != nil {
-                switch nameAttribute.value.attributeType! {
-                case AttrType.Position.rawValue ,AttrType.Position3.rawValue :
+            let parmAttribute = nameAttribute.value
+            if (parmAttribute.attributeType) != nil {
+                if parmAttribute.isPointUI() {
                     let parmView = parmControls[nameAttribute.key]
                     parmView?.removeFromSuperview()
                     parmControls.removeValue(forKey: nameAttribute.key)
+                }
 //                    NSLog("PGLImageController #removeParmControls removed parm \(String(describing: nameAttribute.value.attributeName))" )
 
-                case AttrType.Rectangle.rawValue :
-                    if nameAttribute.value is PGLAttributeRectangle {
+                if parmAttribute.isRectUI() {
+                    if parmAttribute is PGLAttributeRectangle {
                             hideRectControl()
                         }
-                default: continue
+
 //                    NSLog("PGLImageController #removeParmControls is skipping parm \(String(describing: nameAttribute.value.attributeName))" )
                 }
             }

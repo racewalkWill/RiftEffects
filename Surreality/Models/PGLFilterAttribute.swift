@@ -838,15 +838,20 @@ class PGLFilterAttribute {
          let hasSliderValue = ( sliderMinValue != nil ) && (sliderMaxValue != nil)
          let isColorSlider = (attributeClass == AttrClass.Color.rawValue)  // and should be a PGLFilterAttributeColor instance
          let isTransform = (attributeType == AttrType.Transform.rawValue)
-         let answer = ( isNumberScalar || isNumberDistance || isNumberAngle  || hasSliderValue || isColorSlider  || isTransform )
+        let isNumberClass = (attributeClass == AttrClass.Number.rawValue)
+         let answer = ( isNumberScalar || isNumberDistance || isNumberAngle  || hasSliderValue || isColorSlider  || isTransform || isNumberClass )
 //            NSLog("attribute \(attributeName) isSliderUI = \(answer)")
         return answer
     }
 
     func isPointUI() -> Bool {
-        let isVectorPosition = (attributeClass == AttrClass.Vector.rawValue  &&
-            ((attributeType == AttrType.Position.rawValue) || (attributeType == AttrType.Position3.rawValue) ) )
-        return isVectorPosition
+        let isVectorPosition = (attributeClass == AttrClass.Vector.rawValue )
+        if attributeType != nil {
+            // who needs this additional check on attributeType?
+            return ((attributeType == AttrType.Position.rawValue) || (attributeType == AttrType.Position3.rawValue) || (attributeType == AttrType.Offset.rawValue ) )
+        }
+        else { return isVectorPosition }
+            // where attributeType is not defined then use the attributeClass only
     }
 
     func isImageUI() -> Bool {

@@ -122,14 +122,16 @@ class PGLFilterDescriptorTests: XCTestCase {
             let categoryFilterNames = CIFilter.filterNames(inCategory: aCategory.categoryConstant)
 
             for aFilterName in categoryFilterNames {
-
-
+                if (PGLFilterCategory.failingFilters.contains(aFilterName))
+                    && (PGLFilterCategory.skipFailingFilters)
+                    {continue}
                 let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, standardClass)
                 // these filters should already be cached in the categories but checking direct creation here
                 if let myFilter = thisFilterDescriptor?.pglSourceFilter() {
                     let  filterAttributes = (myFilter.attributes)
                     for anAttribute in filterAttributes {
-                        if !(anAttribute.isImageUI() || anAttribute.isPointUI() || anAttribute.isSliderUI()) {
+                        if anAttribute.attributeUIType() == AttrUIType.filterPickUI {
+                            // pointUI, sliderUI, imagePickUI, rectUI are not filterPickUI.. interfaces exist
                             nonUIParmCount += 1
 //                            NSLog("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
                             NSLog("filter \(aFilterName) category \(aCategory.categoryConstant) NOT UI Parm \(anAttribute.description)")
