@@ -23,7 +23,7 @@ enum ParmInput: String {
 let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAnimationChange")
 
 class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableViewDataSource,
-             UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate
+             UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate
 {
     // UITableViewController
 //    var parmStackData: () -> PGLFilterStack?  = { PGLFilterStack() }
@@ -515,12 +515,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
 
-    func imageViewParmControls() -> [String : UIImageView] {
+    func imageViewParmControls() -> [String : UIView] {
         // answers dictionary indexed index by attributeName
-        return imageController?.parmControls ?? [String : UIImageView]()
+        return imageController?.parmControls ?? [String : UIView]()
     }
 
-    func parmControl(named: String) -> UIImageView? {
+    func parmControl(named: String) -> UIView? {
         return imageController?.parmControls[named]
     }
 
@@ -540,16 +540,41 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
     func highlight(viewNamed: String) {
+        // a switch statement might be cleaner
+        // both UIImageView and UIControls need to be hidden or shown
+        NSLog("highlight viewNamed \(viewNamed)")
         for aParmControlTuple in imageViewParmControls() {
             if aParmControlTuple.key == viewNamed {
-              aParmControlTuple.value.isHidden = false
-                 aParmControlTuple.value.isHighlighted = true
+                // show this view
+                NSLog("highlight view isHidden = false, hightlight = true")
+                if let imageControl = (aParmControlTuple.value) as? UIImageView {
+                    imageControl.isHidden = false
+                    imageControl.isHighlighted = true
+                    NSLog("highlight UIImageView isHidden = false, hightlight = true")
+                } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
+                    viewControl.isHidden = false
+                    viewControl.isHighlighted = true
+                    viewControl.becomeFirstResponder()
+                    NSLog("highlight UITextField isHidden = false, hightlight = true")
+                    }
 
-            } else {
-                aParmControlTuple.value.isHighlighted = false
-                aParmControlTuple.value.isHidden = true
+                }
+
+            } else { // hide other views
+
+                if let imageControl = (aParmControlTuple.value) as? UIImageView {
+                    imageControl.isHidden = true
+                    imageControl.isHighlighted = false
+                    NSLog("highlight HIDE UImageView \(aParmControlTuple.key)")
+                } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
+                    viewControl.endEditing(true)
+                    viewControl.resignFirstResponder()
+                    viewControl.isHidden = true
+                    viewControl.isHighlighted = false
+                    NSLog("highlight HIDE UIControl \(aParmControlTuple.key)")
+                    }
+                }
             }
-
         }
     }
 
@@ -583,6 +608,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             if let aColor = SliderColor(rawValue: senderIndex) {
                 let sliderValue = (CGFloat)(sender.value)
                 colorAttribute.setColor(color: aColor , newValue: sliderValue  )
+                attributeValueChanged()
+                imageController?.view.setNeedsDisplay()
             }
         }
     }
@@ -603,7 +630,27 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         imageController?.view.setNeedsDisplay()
     }
 
+// MARK: UITextFieldDelegate
+    // called from the textFields of the ImageController
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        // input text from the imageController
+        if let target = tappedAttribute {
+            if target.isTextInputUI() && reason == .committed {
+            // put the new value into the parm
+            target.set(textField.text as Any)
 
+        }
+        }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // the return button is pressed
+        return true
+    }
+
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
 
     // MARK: - UITableViewDataSource
 
@@ -784,6 +831,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
            highlight(viewNamed: tappedAttribute!.attributeName!)
             // enable the slider
 
+        case AttrUIType.textInputUI :
+//                imageController!.addTextInputControl(attribute:  tappedAttribute!)
+            // added already in updateParmControls
+
+                highlight(viewNamed: tappedAttribute!.attributeName!)
+            
+            imageController?.parmSlider.isHidden = true
+            imageController?.hideSliders()
         case AttrUIType.timerSliderUI:
             // the PGLFilterAttributeNumber has to answer the sliderCell for this to run.. currently commented out 5/16/19
 

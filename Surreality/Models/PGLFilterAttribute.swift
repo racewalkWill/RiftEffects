@@ -52,6 +52,7 @@ enum AttrUIType {
     case filterPickUI
     case integerUI
     case timerSliderUI
+    case textInputUI
 
 }
 
@@ -821,6 +822,7 @@ class PGLFilterAttribute {
         if isSliderUI() {  return AttrUIType.sliderUI}
         if isImageUI() {  return AttrUIType.imagePickUI}
         if isRectUI()  { return AttrUIType.rectUI}
+        if isTextInputUI() {return AttrUIType.textInputUI}
         // else
         return AttrUIType.filterPickUI
     }
@@ -852,6 +854,24 @@ class PGLFilterAttribute {
         }
         else { return isVectorPosition }
             // where attributeType is not defined then use the attributeClass only
+    }
+
+    func isTextInputUI() -> Bool {
+        // CIAttributedTextImageGenerator inputText,
+        // CIAztecCodeGenerator inputMessage
+        // CICode128BarcodeGenerator  inputMessage
+        // CIPDF417BarcodeGenerator  inputMessage
+        // CIQRCodeGenerator  inputMessage inputCorrectionLevel
+        // CITextImageGenerator inputText inputFontName
+
+        if attributeClass == AttrClass.String.rawValue {
+            return true
+        }
+        if (attributeName == "inputText") || (attributeName == "inputMessage")
+            || (attributeName == "inputFontName") || (attributeName == "inputCorrectionLevel"){
+            return true
+        }
+        return false // default value
     }
 
     func isImageUI() -> Bool {

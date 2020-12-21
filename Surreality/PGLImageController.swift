@@ -54,7 +54,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     var parms =  [String : PGLFilterAttribute]() // string index by attributeName
 
-    var parmControls = [String : UIImageView]() // string index by attributeName
+    var parmControls = [String : UIView]() // string index by attributeName
+        // holds point and textfield input controls
+        // var parmTextControls = [String : UITextField]() // string index by attributeName
     var parmController: PGLSelectParmController?
     var metalController: PGLMetalController?
 
@@ -508,6 +510,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                             rectController!.view.isHidden = false   // constraints still work?
                         }
                     }
+                }
+            if parmAttribute.isTextInputUI() {
+                addTextInputControl(attribute: parmAttribute)
             }
         }
     }
@@ -516,9 +521,18 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         // should use the attribute methods isPointUI() or isRectUI()..
         for nameAttribute in parms {
             let parmAttribute = nameAttribute.value
-            if (parmAttribute.attributeType) != nil {
-                if parmAttribute.isPointUI() {
-                    let parmView = parmControls[nameAttribute.key]
+
+            if parmAttribute.isPointUI() || parmAttribute.isTextInputUI() {
+
+                let parmView = parmControls[nameAttribute.key]
+                if parmAttribute.isTextInputUI() {
+                    if let textInputField = parmView as? UITextField {
+
+//                    textInputField.endEditing(true)
+                    // end editing should cause resignFirstResponder and keyboard disappears
+//                   textInputField.resignFirstResponder()
+                    }
+                }
                     parmView?.removeFromSuperview()
                     parmControls.removeValue(forKey: nameAttribute.key)
                 }
@@ -531,7 +545,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 //                    NSLog("PGLImageController #removeParmControls is skipping parm \(String(describing: nameAttribute.value.attributeName))" )
                 }
-            }
+//                if parmAttribute.isTextInputUI() {
+//                    let parmView = parmTextControls[nameAttribute.key]
+//                    parmView?.removeFromSuperview()
+//                    parmTextControls.removeValue(forKey: nameAttribute.key)
+//                }
+
         }
         NSLog("PGLImageController removeParmControls completed")
 
@@ -580,7 +599,32 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             NSLog("PGLImageController #addPositionControl fails on no vector value in \(attribute)")}
     }
 
+    func addTextInputControl(attribute: PGLFilterAttribute) {
+        // similar to addPositionControl adds text input box for
+            // CIAttributedTextImageGenerator inputText,
+            // CIAztecCodeGenerator inputMessage
+            // CICode128BarcodeGenerator  inputMessage
+            // CIPDF417BarcodeGenerator  inputMessage
+            // CIQRCodeGenerator  inputMessage inputCorrectionLevel
+            // CITextImageGenerator inputText inputFontName
+        //
+        let textValue = attribute.getValue() as? String // need to put implementations in the above classes
+        // put in the center of the control
+        let centerPoint = (view.center)
+        let boxSize = CGSize(width: 200, height: 40)
+        let boxFrame = CGRect(origin: centerPoint, size: boxSize)
 
+        let inputView = UITextField(frame: boxFrame)
+        inputView.borderStyle = UITextField.BorderStyle.bezel
+        inputView.placeholder = textValue
+//        inputView.textColor = UIColor.secondaryLabel
+//        inputView.isOpaque = true
+        inputView.delegate = parmController
+        view.addSubview(inputView)
+        parmControls[attribute.attributeName!] = inputView
+        inputView.isHidden = true
+        NSLog("addTextInputControl attributeValue = \(textValue)")
+    }
 
     var rectController: PGLRectangleController?
 
@@ -616,8 +660,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             NSLog("PGLImageController #addRectControl rectController.view.frame now = \(newInsetRectFrame)")
             let rectCropView = rectController!.view!
             view.addSubview(rectCropView)
-            parmControls[attribute.attributeName!] = rectController!.view as? UIImageView
-                //parmControls = [String : UIImageView]() - string index by attributeName
+            parmControls[attribute.attributeName!] = rectController!.view
+                //parmControls = [String : UIView]() - string index by attributeName
             (rectController!.view).isHidden = true
 
 
