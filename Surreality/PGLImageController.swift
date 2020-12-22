@@ -617,7 +617,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         let inputView = UITextField(frame: boxFrame)
         inputView.borderStyle = UITextField.BorderStyle.bezel
         inputView.placeholder = textValue
-//        inputView.textColor = UIColor.secondaryLabel
+        inputView.backgroundColor = UIColor.systemBackground
 //        inputView.isOpaque = true
         inputView.delegate = parmController
         view.addSubview(inputView)
