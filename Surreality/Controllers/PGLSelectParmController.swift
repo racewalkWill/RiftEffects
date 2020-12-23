@@ -139,6 +139,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     
     fileprivate func updateDisplay() {
+        // does not do much... remove  ?
+
         // See currentFilter didSet - didSet then triggers the parm updates and adding controls for the parms to the glkView
         // dependent on current filter.
          NSLog ("PGLSelectParmController #updateDisplay start ")
@@ -567,6 +569,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     imageControl.isHighlighted = false
                     NSLog("highlight HIDE UImageView \(aParmControlTuple.key)")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
+                    NSLog("highlight END TextField editing \(aParmControlTuple.key)")
                     viewControl.endEditing(true)
                     viewControl.resignFirstResponder()
                     viewControl.isHidden = true
@@ -634,6 +637,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // called from the textFields of the ImageController
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         // input text from the imageController
+        NSLog("ParmController textFieldDidEndEditing ")
         if let target = tappedAttribute {
             if target.isTextInputUI() && reason == .committed {
             // put the new value into the parm
@@ -642,6 +646,35 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
         }
     }
+
+    // add listener for notification of text change
+
+    func addTextChangeNotification(textAttributeName: String) {
+        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+        guard let textField = parmControl(named: textAttributeName) as? UITextField else
+            {return }
+        let textNotifier = myCenter.addObserver(forName: UITextField.textDidChangeNotification, object: textField , queue: queue) {[weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+            NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
+            if let target = self.tappedAttribute {
+                if target.isTextInputUI()  {
+                    // shows changes as they are typed.. no commit reason
+                // put the new value into the parm
+                    target.set(textField.text as Any)
+
+            }
+        }
+
+        }
+        notifications.append(textNotifier)
+        // this notification is removed with all the notifications in viewWillDisappear
+
+    }
+
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // the return button is pressed
@@ -836,7 +869,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             // added already in updateParmControls
 
                 highlight(viewNamed: tappedAttribute!.attributeName!)
-            
+            addTextChangeNotification(textAttributeName: tappedAttribute!.attributeName!)
             imageController?.parmSlider.isHidden = true
             imageController?.hideSliders()
         case AttrUIType.timerSliderUI:

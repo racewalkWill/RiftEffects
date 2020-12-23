@@ -527,7 +527,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 let parmView = parmControls[nameAttribute.key]
                 if parmAttribute.isTextInputUI() {
                     if let textInputField = parmView as? UITextField {
-
+                        NSLog("ImageController removeParmControls on textField -- end editing?")
 //                    textInputField.endEditing(true)
                     // end editing should cause resignFirstResponder and keyboard disappears
 //                   textInputField.resignFirstResponder()
@@ -623,7 +623,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         view.addSubview(inputView)
         parmControls[attribute.attributeName!] = inputView
         inputView.isHidden = true
-        NSLog("addTextInputControl attributeValue = \(textValue)")
+//        NSLog("addTextInputControl attributeValue = \(textValue)")
     }
 
     var rectController: PGLRectangleController?
