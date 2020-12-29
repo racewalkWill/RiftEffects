@@ -611,7 +611,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         let textValue = attribute.getValue() as? String // need to put implementations in the above classes
         // put in the center of the control
         let centerPoint = (view.center)
-        let boxSize = CGSize(width: 200, height: 40)
+        let boxSize = CGSize(width: 250, height: 40)
         let boxFrame = CGRect(origin: centerPoint, size: boxSize)
 
         let inputView = UITextField(frame: boxFrame)
@@ -622,6 +622,11 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         inputView.delegate = parmController
         view.addSubview(inputView)
         parmControls[attribute.attributeName!] = inputView
+         NSLayoutConstraint.activate([
+            inputView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            inputView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            inputView.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, multiplier: 0.66, constant: 0)
+                                    ])
         inputView.isHidden = true
 //        NSLog("addTextInputControl attributeValue = \(textValue)")
     }
