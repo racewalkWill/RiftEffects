@@ -56,7 +56,7 @@
 		A3BF510224D32A3400CD5114 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BF507624D32A3400CD5114 /* Main.storyboard */; };
 		A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507924D32A3400CD5114 /* PGLDynamicDragBehavior.swift */; };
 		A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507A24D32A3400CD5114 /* PGLSplitViewController.swift */; };
-		A3BF510724D32A3400CD5114 /* PGLQRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507B24D32A3400CD5114 /* PGLQRCodeGenerator.swift */; };
+		A3BF510724D32A3400CD5114 /* PGLTextFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507B24D32A3400CD5114 /* PGLTextFilter.swift */; };
 		A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507C24D32A3400CD5114 /* PGLFilterClasses.swift */; };
 		A3BF510924D32A3400CD5114 /* CIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507D24D32A3400CD5114 /* CIImage.swift */; };
 		A3BF510A24D32A3400CD5114 /* MetalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF507F24D32A3400CD5114 /* MetalFilter.swift */; };
@@ -180,7 +180,7 @@
 		A3BF507624D32A3400CD5114 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		A3BF507924D32A3400CD5114 /* PGLDynamicDragBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLDynamicDragBehavior.swift; sourceTree = "<group>"; };
 		A3BF507A24D32A3400CD5114 /* PGLSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLSplitViewController.swift; sourceTree = "<group>"; };
-		A3BF507B24D32A3400CD5114 /* PGLQRCodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLQRCodeGenerator.swift; sourceTree = "<group>"; };
+		A3BF507B24D32A3400CD5114 /* PGLTextFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLTextFilter.swift; sourceTree = "<group>"; };
 		A3BF507C24D32A3400CD5114 /* PGLFilterClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterClasses.swift; sourceTree = "<group>"; };
 		A3BF507D24D32A3400CD5114 /* CIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CIImage.swift; sourceTree = "<group>"; };
 		A3BF507F24D32A3400CD5114 /* MetalFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalFilter.swift; sourceTree = "<group>"; };
@@ -441,7 +441,7 @@
 				A3BF50C924D32A3400CD5114 /* PGLFilterCIAbstract.swift */,
 				A3BF505024D32A3400CD5114 /* TiltShift.swift */,
 				A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */,
-				A3BF507B24D32A3400CD5114 /* PGLQRCodeGenerator.swift */,
+				A3BF507B24D32A3400CD5114 /* PGLTextFilter.swift */,
 				A3BF505B24D32A3400CD5114 /* PGLFilterChange.swift */,
 				A3BF505E24D32A3400CD5114 /* MetalFilters.swift */,
 				A3BF506C24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift */,
@@ -679,7 +679,7 @@
 				A3BF512924D32A3400CD5114 /* PGLSourceMetalFilter.swift in Sources */,
 				A3BF510C24D32A3400CD5114 /* MetalCIFilters.swift in Sources */,
 				A3BF513C24D32A3400CD5114 /* PGLAssetSequenceController.swift in Sources */,
-				A3BF510724D32A3400CD5114 /* PGLQRCodeGenerator.swift in Sources */,
+				A3BF510724D32A3400CD5114 /* PGLTextFilter.swift in Sources */,
 				A3BF50EA24D32A3400CD5114 /* PGLFilterChange.swift in Sources */,
 				A3BF511224D32A3400CD5114 /* PGLFeatureTransitionFilter.swift in Sources */,
 				A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */,

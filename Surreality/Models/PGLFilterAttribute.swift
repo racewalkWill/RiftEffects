@@ -1259,9 +1259,9 @@ class PGLFilterAttributeColor: PGLFilterAttribute {
     }
     override func set(_ value: Any) {
             if let aColor = SliderColor(rawValue: uiIndexTag) {
-                if let floatColor = value as? CGFloat {
-                    setColor(color: aColor , newValue: floatColor )
-                }
+                 let floatColor = CGFloat((value as? Float ?? 0.0))       //value as? CGFloat {
+                setColor(color: aColor , newValue: floatColor )
+
             }
 
     }
