@@ -51,7 +51,8 @@ extension CIFilter {
             "CIRippleTransition" : [PGLTransitionFilter.self],
             "CISwipeTransition": [PGLTransitionFilter.self] ,
             "CIQRCodeGenerator": [PGLQRCodeGenerator.self ],
-            "CIDepthBlurEffect" : [PGLDisparityFilter.self]
+            "CIDepthBlurEffect" : [PGLDisparityFilter.self],
+            "CITextImageGenerator" : [PGLTextImageGenerator.self]
         ]
         return answerDict
     }

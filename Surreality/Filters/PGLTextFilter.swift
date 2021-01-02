@@ -35,3 +35,17 @@ class PGLQRCodeGenerator: PGLTextFilter {
            hasAnimation = false }
 
 }
+
+class PGLTextImageGenerator: PGLTextFilter {
+    // overide defaults for Font Size and Scale Factor
+
+    let defaultFontSize: NSNumber = 30 // init value of defaultValue= Optional(12.0) is too small to see
+    let defaultScaleFactor: NSNumber = 2 // these init values too small
+        //sliderMinValue= Optional(1.0) sliderMaxValue= Optional(4.0) defaultValue= Optional(1.0)
+
+    required init?(filter: String, position: PGLFilterCategoryIndex) {
+        super.init(filter: filter, position: position)
+        setNumberValue(newValue: defaultFontSize, keyName: "inputFontSize")
+        setNumberValue(newValue: defaultScaleFactor, keyName: "inputScaleFactor")
+    }
+}
