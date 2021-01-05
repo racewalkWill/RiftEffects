@@ -1019,6 +1019,8 @@ class PGLFilterConstructor: CIFilterConstructor {
             case kPWarpItMetal :
                 return WarpItMetalFilter()
 
+            case kTextImageGenerator:
+                return PGLTextImageGenerator.internalCIFilter()
         
 
             default:

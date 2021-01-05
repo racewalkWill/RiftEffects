@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreGraphics
+import UIKit
 
 class PGLTextFilter: PGLSourceFilter {
     // super class for the text filters which have a
@@ -38,14 +40,72 @@ class PGLQRCodeGenerator: PGLTextFilter {
 
 class PGLTextImageGenerator: PGLTextFilter {
     // overide defaults for Font Size and Scale Factor
+    // adds a rect parm for the text positioning
+    // uses CITextImageGenerator and positions into inputTextPosition rectangle
 
-    let defaultFontSize: NSNumber = 30 // init value of defaultValue= Optional(12.0) is too small to see
-    let defaultScaleFactor: NSNumber = 2 // these init values too small
+
         //sliderMinValue= Optional(1.0) sliderMaxValue= Optional(4.0) defaultValue= Optional(1.0)
 
-    required init?(filter: String, position: PGLFilterCategoryIndex) {
-        super.init(filter: filter, position: position)
-        setNumberValue(newValue: defaultFontSize, keyName: "inputFontSize")
-        setNumberValue(newValue: defaultScaleFactor, keyName: "inputScaleFactor")
+//    var textImageGenerator =  CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])
+    class func internalCIFilter() -> CIFilter {
+       return CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])!
     }
+    @objc dynamic var inputTextPositionRect: CGRect = CGRect(x: 50, y: 50 , width: 250, height: 40)
+
+
+
+    @objc  class func customAttributes() -> [String: Any] {
+        let customDict:[String: Any] = [
+                        "inputTextPositionRect" : [
+                            kCIAttributeClass      : "CIVector",
+                            kCIAttributeDisplayName : "Text Area",
+                            kCIAttributeType : kCIAttributeTypeRectangle,
+                            kCIAttributeDescription: "Position Rectangle for the Text",
+                            kCIAttributeDefault: [50, 50, 250, 40]
+
+                        ]
+        ]
+//      return combineCustomAttributes(otherAttributes: customDict)
+       return customDict
+    }
+
+     class func standardAttributes() -> [String:Any] {
+        var textAttributes: [String:Any] = [
+            kCIAttributeFilterDisplayName : "Image Text",
+
+            kCIAttributeFilterCategories :
+                [kCICategoryGenerator],
+        ]
+        if let aTextImageGenerator = CIFilter(name: "CITextImageGenerator") {
+
+            for (key, value) in aTextImageGenerator.attributes {
+                textAttributes.updateValue(value, forKey: key)
+
+            }
+            for (key, value) in customAttributes() {
+                textAttributes.updateValue(value, forKey: key)
+            }
+        }
+        return textAttributes
+
+    }
+
+//    class override var supportsSecureCoding: Bool { get {
+//        // subclasses must  implement this
+//        // Core Data requires secureCoding to store the filter
+//        return true
+//    }}
+
+    class func register() {
+ //       let attr: [String: AnyObject] = [:]
+        NSLog("PGLTextImageGenerator #register()")
+        CIFilter.registerName(kTextImageGenerator, constructor: PGLFilterConstructor(), classAttributes: PGLTextImageGenerator.standardAttributes())
+    }
+
+//    override var outputImage: CIImage? {
+//        get {
+//            return textImageGenerator?.outputImage
+//        }
+//    }
+
 }

@@ -18,7 +18,8 @@ class PGLFilterCIAbstract: CIFilter {
 //        PGLCarnivalMirror.self,
         PGLFaceCIFilter.self,
         PGLImageCIFilter.self,
-        PGLTiltShift.self
+        PGLTiltShift.self,
+        
         ]
 
 

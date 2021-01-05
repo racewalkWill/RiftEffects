@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        PGLFilterCategory.allFilterCategories()
         PGLFilterCIAbstract.register()
         WarpItMetalFilter.register()
+        PGLTextImageGenerator.register()
        appStack = PGLAppStack()
 
        return true
