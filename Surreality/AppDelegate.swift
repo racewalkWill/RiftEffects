@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLFilterCIAbstract.register()
         WarpItMetalFilter.register()
         PGLTextImageGenerator.register()
+        CompositeTextImage.register()
        appStack = PGLAppStack()
 
        return true

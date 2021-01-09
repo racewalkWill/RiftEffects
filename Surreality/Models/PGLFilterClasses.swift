@@ -1020,9 +1020,12 @@ class PGLFilterConstructor: CIFilterConstructor {
                 return WarpItMetalFilter()
 
             case kTextImageGenerator:
-                return PGLTextImageGenerator.internalCIFilter()
-        
+//                return PGLTextImageGenerator.internalCIFilter()
+                return CompositeTextImage()
 
+        
+            case "CompositeTextImage":
+                 return CompositeTextImage()
             default:
                 return CIFilter(name: withName)!
         }

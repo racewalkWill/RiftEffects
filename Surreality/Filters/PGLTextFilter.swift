@@ -109,3 +109,113 @@ class PGLTextImageGenerator: PGLTextFilter {
 //    }
 
 }
+
+class CompositeTextImage: CIFilter {
+    let backgroundComposite: CIFilter
+    let textImageFilter: CIFilter
+
+    @objc var inputImage : CIImage?
+    @objc var inputScaleFactor: NSNumber = 2
+    @objc var inputFontName: NSString = "HelveticaNeue"
+    @objc var inputFontSize: NSNumber = 24
+    @objc var inputText: NSString = "Text"
+    @objc var inputTextPositionRect: CIVector = CIVector(x: 50.0, y: 50.0, z: 250.0, w: 40.0)
+
+    override init() {
+        backgroundComposite = CompositeOverBlackFilter()
+        textImageFilter = CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])!
+        super.init()
+    }
+
+    required init?(coder aDecoder: NSCoder)
+    {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override var outputImage: CIImage!
+    {
+//        guard let inputImage = inputImage else
+//        {
+//            return nil
+//        }
+        textImageFilter.setValuesForKeys(
+            ["inputScaleFactor":  inputScaleFactor,
+             "inputFontName" : inputFontName,
+             "inputFontSize" : inputFontSize,
+             "inputText" : inputText
+
+            ]
+        )  //
+        let textOutput = textImageFilter.outputImage
+        backgroundComposite.setValue(textOutput, forKey: kCIInputImageKey)
+
+        return backgroundComposite.outputImage
+    }
+
+    override var attributes: [String : Any]
+    {
+        let textAttributes: [String:Any] = [
+            kCIAttributeFilterCategories :
+                                  [kCICategoryGenerator ,
+                                   kCICategoryStillImage,
+                                  kCICategoryVideo],
+
+            kCIAttributeFilterDisplayName : "Image Text",
+
+            // now list the full set..
+            "inputImage": [kCIAttributeIdentity: 0,
+                kCIAttributeClass: "CIImage",
+                kCIAttributeDisplayName: "Image",
+                kCIAttributeType: kCIAttributeTypeImage],
+
+            "inputFontSize": [kCIAttributeIdentity: 0,
+                kCIAttributeClass: "NSNumber",
+                kCIAttributeDefault: 24,
+                kCIAttributeDisplayName: "Font Size",
+                kCIAttributeMin: 9,
+                kCIAttributeSliderMin: 9,
+                kCIAttributeSliderMax: 128,
+                kCIAttributeType: kCIAttributeTypeScalar],
+
+            "inputScaleFactor": [kCIAttributeIdentity: 1,
+                kCIAttributeClass: "NSNumber",
+                kCIAttributeDefault: 24,
+                kCIAttributeDisplayName: "Scale Factor",
+                kCIAttributeMin: 0,
+                kCIAttributeSliderMin: 1,
+                kCIAttributeSliderMax: 4,
+                kCIAttributeType: kCIAttributeTypeScalar],
+
+            "inputFontName": [kCIAttributeDefault: "HelveticaNeue",
+                              kCIAttributeDisplayName: "Font Name",
+                              kCIAttributeClass: "NSString" ],
+
+            "inputText" : [kCIAttributeDisplayName: "Text",
+                           kCIAttributeClass: "NSString"
+
+            ],
+
+            "inputTextPositionRect" : [ kCIAttributeClass: "CIVector",
+                                        kCIAttributeType: "CIAttributeTypeRectangle",
+                                        kCIAttributeDefault: CIVector(x: 50.0, y: 50.0, z: 250.0, w: 40.0),
+                                        kCIAttributeDisplayName: "Text Area",
+                                        kCIAttributeDescription: "Position Rectangle for the Text"
+                                        ]
+            ]
+
+        return textAttributes
+    }
+
+
+
+
+    class func register()   {
+ //       let attr: [String: AnyObject] = [:]
+        NSLog("CompositeTextImage #register()")
+        CIFilter.registerName("CompositeTextImage", constructor: PGLFilterConstructor(), classAttributes: [ kCIAttributeFilterCategories :
+                              [kCICategoryGenerator ,
+                               kCICategoryStillImage]
+                              ])
+    }
+
+}
