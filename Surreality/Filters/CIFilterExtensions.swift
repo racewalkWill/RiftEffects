@@ -22,6 +22,7 @@ let kPCarnivalMirror = "CarnivalMirror"
 let kPTiltShift = "TiltShift"
 let kPWarpItMetal  = "WarpItMetal"
 let kTextImageGenerator = "ImageText"
+let kCompositeTextRectFilter = "CompositeTextRectFilter"
 
 extension CIFilter {
    class func pglClassMap() -> [String: [PGLSourceFilter.Type]] {
@@ -53,7 +54,8 @@ extension CIFilter {
             "CISwipeTransition": [PGLTransitionFilter.self] ,
             "CIQRCodeGenerator": [PGLQRCodeGenerator.self ],
             "CIDepthBlurEffect" : [PGLDisparityFilter.self],
-            kTextImageGenerator : [PGLTextImageGenerator.self]
+            kTextImageGenerator : [PGLTextImageGenerator.self],
+            kCompositeTextRectFilter: [PGLTextImageGenerator.self]
             
         ]
         return answerDict

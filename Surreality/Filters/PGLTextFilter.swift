@@ -38,69 +38,64 @@ class PGLQRCodeGenerator: PGLTextFilter {
 
 }
 
-class PGLTextImageGenerator: PGLTextFilter {
+class PGLTextImageGenerator: PGLRectangleFilter {
     // overide defaults for Font Size and Scale Factor
     // adds a rect parm for the text positioning
     // uses CITextImageGenerator and positions into inputTextPosition rectangle
 
 
-        //sliderMinValue= Optional(1.0) sliderMaxValue= Optional(4.0) defaultValue= Optional(1.0)
 
-//    var textImageGenerator =  CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])
-    class func internalCIFilter() -> CIFilter {
-       return CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])!
-    }
-    @objc dynamic var inputTextPositionRect: CGRect = CGRect(x: 50, y: 50 , width: 250, height: 40)
-
-
-
-    @objc  class func customAttributes() -> [String: Any] {
-        let customDict:[String: Any] = [
-                        "inputTextPositionRect" : [
-                            kCIAttributeClass      : "CIVector",
-                            kCIAttributeDisplayName : "Text Area",
-                            kCIAttributeType : kCIAttributeTypeRectangle,
-                            kCIAttributeDescription: "Position Rectangle for the Text",
-                            kCIAttributeDefault: [50, 50, 250, 40]
-
-                        ]
-        ]
-//      return combineCustomAttributes(otherAttributes: customDict)
-       return customDict
-    }
-
-     class func standardAttributes() -> [String:Any] {
-        var textAttributes: [String:Any] = [
-            kCIAttributeFilterDisplayName : "Image Text",
-
-            kCIAttributeFilterCategories :
-                [kCICategoryGenerator],
-        ]
-        if let aTextImageGenerator = CIFilter(name: "CITextImageGenerator") {
-
-            for (key, value) in aTextImageGenerator.attributes {
-                textAttributes.updateValue(value, forKey: key)
-
-            }
-            for (key, value) in customAttributes() {
-                textAttributes.updateValue(value, forKey: key)
-            }
-        }
-        return textAttributes
-
-    }
-
-//    class override var supportsSecureCoding: Bool { get {
-//        // subclasses must  implement this
-//        // Core Data requires secureCoding to store the filter
-//        return true
-//    }}
-
-    class func register() {
- //       let attr: [String: AnyObject] = [:]
-        NSLog("PGLTextImageGenerator #register()")
-        CIFilter.registerName(kTextImageGenerator, constructor: PGLFilterConstructor(), classAttributes: PGLTextImageGenerator.standardAttributes())
-    }
+//    @objc dynamic var inputTextPositionRect: CGRect = CGRect(x: 50, y: 50 , width: 250, height: 40)
+//
+//
+//
+//    @objc  class func customAttributes() -> [String: Any] {
+//        let customDict:[String: Any] = [
+//                        "inputTextPositionRect" : [
+//                            kCIAttributeClass      : "CIVector",
+//                            kCIAttributeDisplayName : "Text Area",
+//                            kCIAttributeType : kCIAttributeTypeRectangle,
+//                            kCIAttributeDescription: "Position Rectangle for the Text",
+//                            kCIAttributeDefault: [50, 50, 250, 40]
+//
+//                        ]
+//        ]
+////      return combineCustomAttributes(otherAttributes: customDict)
+//       return customDict
+//    }
+//
+//     class func standardAttributes() -> [String:Any] {
+//        var textAttributes: [String:Any] = [
+//            kCIAttributeFilterDisplayName : "Image Text",
+//
+//            kCIAttributeFilterCategories :
+//                [kCICategoryGenerator],
+//        ]
+//        if let aTextImageGenerator = CIFilter(name: "CITextImageGenerator") {
+//
+//            for (key, value) in aTextImageGenerator.attributes {
+//                textAttributes.updateValue(value, forKey: key)
+//
+//            }
+//            for (key, value) in customAttributes() {
+//                textAttributes.updateValue(value, forKey: key)
+//            }
+//        }
+//        return textAttributes
+//
+//    }
+//
+////    class override var supportsSecureCoding: Bool { get {
+////        // subclasses must  implement this
+////        // Core Data requires secureCoding to store the filter
+////        return true
+////    }}
+//
+//    class func register() {
+// //       let attr: [String: AnyObject] = [:]
+//        NSLog("PGLTextImageGenerator #register()")
+//        CIFilter.registerName(kTextImageGenerator, constructor: PGLFilterConstructor(), classAttributes: PGLTextImageGenerator.standardAttributes())
+//    }
 
 //    override var outputImage: CIImage? {
 //        get {
@@ -110,8 +105,8 @@ class PGLTextImageGenerator: PGLTextFilter {
 
 }
 
-class CompositeTextImage: CIFilter {
-    let backgroundComposite: CIFilter
+class CompositeTextRectFilter: CIFilter {
+    let blendFilter: CIFilter
     let textImageFilter: CIFilter
 
     @objc var inputImage : CIImage?
@@ -122,7 +117,7 @@ class CompositeTextImage: CIFilter {
     @objc var inputTextPositionRect: CIVector = CIVector(x: 50.0, y: 50.0, z: 250.0, w: 40.0)
 
     override init() {
-        backgroundComposite = CompositeOverBlackFilter()
+        blendFilter = CIFilter(name: "CIDivideBlendMode")!
         textImageFilter = CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])!
         super.init()
     }
@@ -132,6 +127,18 @@ class CompositeTextImage: CIFilter {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func positionText(textCIImage: CIImage) -> CIImage {
+        // similar to the filter method  PGLRectangleFilter.scaleOutput
+        // this is internal to filter for chaining from textImageFilter to
+        // the blendFilter
+//        let positionRect = CGRect(x: inputTextPositionRect.x, y: inputTextPositionRect.y, width: inputTextPositionRect.z, height: inputTextPositionRect.w)
+        let widthScale = inputTextPositionRect.z / textCIImage.extent.width
+        let heightScale = inputTextPositionRect.w / textCIImage.extent.width
+        let scaleTransform = CGAffineTransform(scaleX: widthScale, y: heightScale)
+
+//        let translate = scaleTransform.translatedBy(x: -textCIImage.extent.minX, y: -textCIImage.extent.minY)
+        return textCIImage.transformed(by: scaleTransform)
+    }
     override var outputImage: CIImage!
     {
 //        guard let inputImage = inputImage else
@@ -146,10 +153,15 @@ class CompositeTextImage: CIFilter {
 
             ]
         )  //
-        let textOutput = textImageFilter.outputImage
-        backgroundComposite.setValue(textOutput, forKey: kCIInputImageKey)
+        guard let textOutput = textImageFilter.outputImage else {
+            return inputImage
+        }
+        // scale & position textOutput to the inputTextPositionRect
+        let scaledText = positionText(textCIImage: textOutput)
+        blendFilter.setValue(scaledText, forKey: kCIInputBackgroundImageKey)
+        blendFilter.setValue(inputImage, forKey: kCIInputImageKey)
 
-        return backgroundComposite.outputImage
+        return blendFilter.outputImage
     }
 
     override var attributes: [String : Any]
@@ -211,8 +223,8 @@ class CompositeTextImage: CIFilter {
 
     class func register()   {
  //       let attr: [String: AnyObject] = [:]
-        NSLog("CompositeTextImage #register()")
-        CIFilter.registerName("CompositeTextImage", constructor: PGLFilterConstructor(), classAttributes: [ kCIAttributeFilterCategories :
+        NSLog("CompositeTextRectFilter #register()")
+        CIFilter.registerName(kCompositeTextRectFilter, constructor: PGLFilterConstructor(), classAttributes: [ kCIAttributeFilterCategories :
                               [kCICategoryGenerator ,
                                kCICategoryStillImage]
                               ])
