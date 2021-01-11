@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLFilterCIAbstract.register()
         WarpItMetalFilter.register()
 
-        CompositeTextRectFilter.register()
+        CompositeTextPositionFilter.register()
        appStack = PGLAppStack()
 
        return true
