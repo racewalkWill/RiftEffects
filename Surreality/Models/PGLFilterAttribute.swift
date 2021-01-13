@@ -264,7 +264,7 @@ class PGLFilterAttribute {
         return aSourceFilter.isTransitionFilter()
     }
     func setUICellDescription(_ uiCell: UITableViewCell) {
-        uiCell.textLabel!.text = attributeDisplayName ?? ""
+        uiCell.textLabel?.text = attributeDisplayName ?? ""
 
         if let cellSlider = uiCell as?  PGLTableCellSlider {
             cellSlider.showTextValueInCell()

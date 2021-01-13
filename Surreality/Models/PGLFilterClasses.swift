@@ -1023,9 +1023,6 @@ class PGLFilterConstructor: CIFilterConstructor {
 //                return PGLTextImageGenerator.internalCIFilter()
                 return CompositeTextPositionFilter()
 
-        
-            case "CompositeTextImage":
-                 return CompositeTextPositionFilter()
             default:
                 return CIFilter(name: withName)!
         }

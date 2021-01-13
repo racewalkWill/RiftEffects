@@ -43,7 +43,9 @@ class PGLTextImageGenerator: PGLTextFilter {
     // adds a position parm for text positioning
     // uses CompositeTextPositionFilter and positions origin of the text 
 
-
+    override class func displayName() -> String? {
+        return "Blend Text"
+    }
 
 
 
@@ -113,7 +115,7 @@ class CompositeTextPositionFilter: CIFilter {
                                    kCICategoryStillImage,
                                   kCICategoryVideo],
 
-            kCIAttributeFilterDisplayName : "Image Text",
+            kCIAttributeFilterDisplayName : "Blend Text",
 
             // now list the full set..
             "inputImage": [kCIAttributeIdentity: 0,
@@ -152,7 +154,7 @@ class CompositeTextPositionFilter: CIFilter {
                                         kCIAttributeType: "CIAttributeTypePosition",
                                         kCIAttributeDefault: CIVector(x: 50.0, y: 50.0),
                                         kCIAttributeDisplayName: "Text Position",
-                                        kCIAttributeDescription: "Position  for the Text"
+                                        kCIAttributeDescription: "Position Text"
                                         ]
             ]
 
@@ -165,10 +167,12 @@ class CompositeTextPositionFilter: CIFilter {
     class func register()   {
  //       let attr: [String: AnyObject] = [:]
         NSLog("CompositeTextPositionFilter #register()")
-        CIFilter.registerName(kCompositeTextPositionFilter, constructor: PGLFilterConstructor(), classAttributes: [ kCIAttributeFilterCategories :
-                              [kCICategoryGenerator ,
-                               kCICategoryStillImage]
-                              ])
+        CIFilter.registerName(kCompositeTextPositionFilter, constructor: PGLFilterConstructor(), classAttributes: [
+            kCIAttributeFilterCategories :    [kCICategoryGenerator ,
+                                               kCICategoryStillImage,
+                                               kCICategoryVideo],
+            kCIAttributeFilterDisplayName : "Blend Text"
+            ])
     }
 
 }

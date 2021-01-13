@@ -21,7 +21,7 @@ let kPImages = "Images"
 let kPCarnivalMirror = "CarnivalMirror"
 let kPTiltShift = "TiltShift"
 let kPWarpItMetal  = "WarpItMetal"
-let kTextImageGenerator = "ImageText"
+
 let kCompositeTextPositionFilter = "CompositeTextPositionFilter"
 
 extension CIFilter {
@@ -54,7 +54,7 @@ extension CIFilter {
             "CISwipeTransition": [PGLTransitionFilter.self] ,
             "CIQRCodeGenerator": [PGLQRCodeGenerator.self ],
             "CIDepthBlurEffect" : [PGLDisparityFilter.self],
-            kTextImageGenerator : [PGLTextImageGenerator.self],
+
             kCompositeTextPositionFilter: [PGLTextImageGenerator.self]
             
         ]
