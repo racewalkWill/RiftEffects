@@ -78,7 +78,8 @@ class CompositeTextPositionFilter: CIFilter {
         // this is internal to filter for chaining from textImageFilter to
         // the blendFilter
 
-        let translate = CGAffineTransform(translationX: inputTextPosition.x, y: inputTextPosition.y)
+        let midPointY = textCIImage.extent.midY
+        let translate = CGAffineTransform(translationX: inputTextPosition.x, y: (inputTextPosition.y - midPointY))
 
         return textCIImage.transformed(by: translate)
     }
