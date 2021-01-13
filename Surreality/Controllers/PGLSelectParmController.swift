@@ -23,7 +23,8 @@ enum ParmInput: String {
 let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAnimationChange")
 
 class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableViewDataSource,
-             UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate
+             UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate,
+                UIFontPickerViewControllerDelegate
 {
     // UITableViewController
 //    var parmStackData: () -> PGLFilterStack?  = { PGLFilterStack() }
@@ -632,6 +633,24 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         attributeValueChanged()
         imageController?.view.setNeedsDisplay()
     }
+    // MARK:  UIFontPickerViewControllerDelegate
+        func showFontPicker(_ sender: Any) {
+                let fontConfig = UIFontPickerViewController.Configuration()
+                fontConfig.includeFaces = true
+                let fontPicker = UIFontPickerViewController(configuration: fontConfig)
+                fontPicker.delegate = self
+                self.present(fontPicker, animated: true, completion: nil)
+            }
+
+    func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
+        if let target = tappedAttribute {
+            if target.isFontUI() {
+                let theFont = viewController.selectedFontDescriptor
+                target.set(theFont?.postscriptName as Any)
+            }
+
+        }
+    }
 
 // MARK: UITextFieldDelegate
     // called from the textFields of the ImageController
@@ -646,6 +665,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
         }
     }
+
+
 
     // add listener for notification of text change
 
@@ -872,6 +893,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             addTextChangeNotification(textAttributeName: tappedAttribute!.attributeName!)
             imageController?.parmSlider.isHidden = true
             imageController?.hideSliders()
+
+        case AttrUIType.fontUI :
+            imageController?.parmSlider.isHidden = true
+            imageController?.hideSliders()
+            showFontPicker(self)
+
         case AttrUIType.timerSliderUI:
             // the PGLFilterAttributeNumber has to answer the sliderCell for this to run.. currently commented out 5/16/19
 

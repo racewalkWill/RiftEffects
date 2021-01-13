@@ -53,6 +53,7 @@ enum AttrUIType {
     case integerUI
     case timerSliderUI
     case textInputUI
+    case fontUI
 
 }
 
@@ -823,6 +824,7 @@ class PGLFilterAttribute {
         if isImageUI() {  return AttrUIType.imagePickUI}
         if isRectUI()  { return AttrUIType.rectUI}
         if isTextInputUI() {return AttrUIType.textInputUI}
+        if isFontUI() { return  AttrUIType.fontUI}
         // else
         return AttrUIType.filterPickUI
     }
@@ -864,14 +866,20 @@ class PGLFilterAttribute {
         // CIQRCodeGenerator  inputMessage inputCorrectionLevel
         // CITextImageGenerator inputText inputFontName
 
+        if attributeName == "inputFontName" {
+            return false}
         if attributeClass == AttrClass.String.rawValue {
             return true
         }
         if (attributeName == "inputText") || (attributeName == "inputMessage")
-            || (attributeName == "inputFontName") || (attributeName == "inputCorrectionLevel"){
+             || (attributeName == "inputCorrectionLevel"){
             return true
         }
         return false // default value
+    }
+    func isFontUI() -> Bool {
+        // attribute will use UIFontPickerViewController
+        return (attributeName == "inputFontName")
     }
 
     func isImageUI() -> Bool {
