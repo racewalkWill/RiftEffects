@@ -17,6 +17,8 @@ class PGLFilterAttributeAttributedString: PGLFilterAttribute {
     // see also Core Foundation counterpart, CFAttributedStringRef
     //object that combines a CFString object with a collection of attributes that specify how the characters in the string should be displayed. CFAttributedString is an opaque type
 
+    // the filter CIAttributedTextImageGenerator  is not very useful.. this keeps it from blowing up
+    // the Blend Text filter is better for use - has text position, font & size parms.
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
            super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
             // init to default value of "inputText"
@@ -27,7 +29,12 @@ class PGLFilterAttributeAttributedString: PGLFilterAttribute {
 
     override func set(_ value: Any) {
         if attributeName != nil {
-                aSourceFilter.setAttributeStringValue(newValue: value as! NSAttributedString, keyName: attributeName!)
+            // see
+            //https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/AttributedStrings/Tasks/CreatingAttributedStrings.html
+             // need font and size
+            // create dict of font  then init attributedString with the string and the dict.
+              let attributedString = NSAttributedString(string: (value as! String))
+                aSourceFilter.setAttributeStringValue(newValue: attributedString, keyName: attributeName!)
             }
         }
 
@@ -56,7 +63,18 @@ class PGLFilterAttributeString: PGLFilterAttribute {
 }
 
 class PGLFilterAttributeData: PGLFilterAttribute {
-
+    // The documentation for the string generator classes which have message as NSData
+    // include this
+    //  NSData object using the NSISOLatin1StringEncoding string encoding
+    //  or  NSASCIIStringEncoding
+    // not clear how this affects the NSData conversion..
+    // affected classes
+//    CIQRCodeGenerator convert it to an NSData object using the NSISOLatin1StringEncoding string encoding
+//    CIPDF417BarcodeGenerator   NSISOLatin1StringEncoding string encoding.
+//    CICode128BarcodeGenerator  NSASCIIStringEncoding string encoding.
+//    CIAztecCodeGenerator  NSISOLatin1StringEncoding string encoding
+// see https://developer.apple.com/documentation/foundation/nsstringencoding
+// and https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFStrings/introCFStrings.html#//apple_ref/doc/uid/10000131i
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
            super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
@@ -69,9 +87,12 @@ class PGLFilterAttributeData: PGLFilterAttribute {
 
     override func set(_ value: Any) {
         if attributeName != nil {
-                aSourceFilter.setAttributeStringValue(newValue: value as! NSAttributedString, keyName: attributeName!)
-            }
+        var stringValue = value as? String
+            if stringValue == nil { return }
+        let valueData =  NSData(bytes: &stringValue, length: stringValue?.count ?? 0 )
+        aSourceFilter.setDataValue(newValue: valueData, keyName: attributeName!)
         }
+    }
 
     // do not need to override valueString() implementation of superclass PGLFilterAttribute
 

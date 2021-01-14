@@ -17,8 +17,8 @@ class PGLTextFilter: PGLSourceFilter {
         // CIAztecCodeGenerator inputMessage
         // CICode128BarcodeGenerator  inputMessage
         // CIPDF417BarcodeGenerator  inputMessage
-        // CIQRCodeGenerator  inputMessage inputCorrectionLevel
-        // CITextImageGenerator inputText inputFontName
+        // CIQRCodeGenerator  inputMessage 
+        // CITextImageGenerator inputText
 
     // see the PGLSelectParmController methods for UITextFieldDelegate
 
@@ -32,11 +32,51 @@ class PGLQRCodeGenerator: PGLTextFilter {
 
     required init?(filter: String, position: PGLFilterCategoryIndex) {
            super.init(filter: filter, position: position)
-        let defaultCorrectionLevel = (PGLQRCodeGenerator.inputCorrectionLevelSettings.first)!
+        let defaultCorrectionLevel = (PGLQRCodeGenerator.inputCorrectionLevelSettings[2])
+        // default is "Q" 25% additional encoding size for error correction
         setStringValue(newValue: defaultCorrectionLevel, keyName: "inputCorrectionLevel")
-           hasAnimation = false }
+           hasAnimation = false
 
+    }
+
+    override func setStringValue(newValue: NSString, keyName: String) {
+        // convert to matching inputCorrectionLevel
+        if keyName == "inputCorrectionLevel" {
+            if PGLQRCodeGenerator.inputCorrectionLevelSettings.contains(newValue) {
+                super.setStringValue(newValue: newValue, keyName: keyName)
+            }
+        }
+    }
 }
+
+class PGLCIAztecCodeGenerator: PGLTextFilter {
+    // filter attributes to match CIAztecCodeGenerator requirements
+
+    override func setNumberValue(newValue: NSNumber, keyName: String) {
+        switch keyName {
+//          case "inputCorrectionLevel":
+//                default case
+            case "inputLayers" :
+                if (newValue.floatValue <= 32.00) {
+                    super.setNumberValue(newValue: newValue, keyName: keyName)
+                } else {
+                    super.setNumberValue(newValue: 0.0, keyName: keyName)
+                }
+            case "inputCompactStyle" :
+                if (newValue.boolValue) {
+                    // true case
+                    super.setNumberValue(newValue: 1.0, keyName: keyName)
+                } else {
+                    // false case
+                    super.setNumberValue(newValue: 0.0, keyName: keyName)
+                }
+            default:
+                super.setNumberValue(newValue: newValue, keyName: keyName)
+        }
+    }
+}
+
+
 
 class PGLTextImageGenerator: PGLTextFilter {
     // overide defaults for Font Size and Scale Factor

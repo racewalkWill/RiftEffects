@@ -869,12 +869,10 @@ class PGLFilterAttribute {
         if attributeName == "inputFontName" {
             return false}
         if attributeClass == AttrClass.String.rawValue {
-            return true
-        }
+            return true }
         if (attributeName == "inputText") || (attributeName == "inputMessage")
-             || (attributeName == "inputCorrectionLevel"){
-            return true
-        }
+            { return true }
+
         return false // default value
     }
     func isFontUI() -> Bool {

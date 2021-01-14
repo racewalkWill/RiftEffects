@@ -53,6 +53,7 @@ extension CIFilter {
             "CIRippleTransition" : [PGLTransitionFilter.self],
             "CISwipeTransition": [PGLTransitionFilter.self] ,
             "CIQRCodeGenerator": [PGLQRCodeGenerator.self ],
+            "CIAztecCodeGenerator" : [PGLCIAztecCodeGenerator.self],
             "CIDepthBlurEffect" : [PGLDisparityFilter.self],
 
             kCompositeTextPositionFilter: [PGLTextImageGenerator.self]

@@ -605,7 +605,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             // CIAztecCodeGenerator inputMessage
             // CICode128BarcodeGenerator  inputMessage
             // CIPDF417BarcodeGenerator  inputMessage
-            // CIQRCodeGenerator  inputMessage inputCorrectionLevel
+            // CIQRCodeGenerator  inputMessage
             // CITextImageGenerator inputText inputFontName
         //
         let textValue = attribute.getValue() as? String // need to put implementations in the above classes
@@ -629,6 +629,30 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                                     ])
         inputView.isHidden = true
 //        NSLog("addTextInputControl attributeValue = \(textValue)")
+    }
+
+    func addBooleanInputSwitch(attribute: PGLFilterAttribute){
+        // similar to addPositionControl adds boolean slider input input Control for
+        //        CIPDF417BarcodeGenerator  inputCompactStyle, inputAlwaysSpecifyCompaction
+        //      CIAztecCodeGenerator inputCompactStyle,
+
+        //
+//        let attributeValue = attribute.getValue() as? Bool // need to put implementations in the above classes
+//        // put in the center of the control
+//        let centerPoint = (view.center)
+//        let boxSize = CGSize(width: 80, height: 40)
+//        let boxFrame = CGRect(origin: centerPoint, size: boxSize)
+//
+//        let inputView = UISwitch(frame: boxFrame)
+        // frame A rectangle defining the frame of the UISwitch object. The size components of this rectangle are ignored.
+//        inputView.addTarget(attribute, action: <#T##Selector#>, for: UIControl.Event.valueChanged)
+        //#selector(PGLSelectParmController.panAction(_:))
+//        view.addSubview(inputView)
+//        parmControls[attribute.attributeName!] = inputView
+//
+//        inputView.isHidden = true
+//        NSLog("PGLImageController #addBooleanInputSwitch ")
+
     }
 
     var rectController: PGLRectangleController?
