@@ -122,8 +122,8 @@ class PGLFilterDescriptorTests: XCTestCase {
             let categoryFilterNames = CIFilter.filterNames(inCategory: aCategory.categoryConstant)
 
             for aFilterName in categoryFilterNames {
-                if (PGLFilterCategory.failingFilters.contains(aFilterName))
-                    && (PGLFilterCategory.skipFailingFilters)
+                if (PGLExcludeFilters.list.contains(aFilterName))
+                    && (PGLExcludeFilters.skipFailingFilters)
                     {continue}
                 let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, standardClass)
                 // these filters should already be cached in the categories but checking direct creation here

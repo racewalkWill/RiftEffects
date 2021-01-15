@@ -61,17 +61,6 @@ class PGLFilterCategory {
 //     , kCICategoryFilterGenerator // NS_AVAILABLE(10_5, 9_0),
     ]
 
-    static var failingFilters = ["CIBarcodeDescriptor", "CIBarcodeGenerator", "CIMeshGenerator","CICoreMLModelFilter",
-        "CICameraCalibrationLensCorrection" , "CIEdgePreserveUpsampleFilter",
-        "CIColorCubeWithColorSpace", "CIColorCubesMixedWithMask", "CIColorCube",
-        "CIKMeans", "CIPaletteCentroid" , "CIPalettize", "CIColorCurves",
-        // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
-//        "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",
-//        "CICrystallize", "CICMYKHalftone","CIGaborGradients", "CISpotColor", "CIEdgeWork"
-        ]
-    
-    static var skipFailingFilters = true  // change to false to include all filters
-        // a test case could set this to false to test for CIFilter changes in iOS releases
 
     static let Bookmark = "Bookmark"  // also described as "Frequent" "Bookmark" in code
     static var filterDescriptors = allFilterDescriptors()
@@ -173,8 +162,8 @@ class PGLFilterCategory {
         var builtDescriptors = [PGLFilterDescriptor]()
 
         for aFilterName in filterNames {
-            if (PGLFilterCategory.failingFilters.contains(aFilterName))
-                && (PGLFilterCategory.skipFailingFilters)
+            if (PGLExcludeFilters.list.contains(aFilterName))
+                && (PGLExcludeFilters.skipFailingFilters)
                 {continue}
             if let myPGLClassMaps = CIFilter.pglClassMap()[aFilterName] {
                 for aPGLSourceClass in myPGLClassMaps {

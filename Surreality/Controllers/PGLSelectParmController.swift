@@ -636,7 +636,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // MARK:  UIFontPickerViewControllerDelegate
         func showFontPicker(_ sender: Any) {
                 let fontConfig = UIFontPickerViewController.Configuration()
-                fontConfig.includeFaces = true
+                fontConfig.includeFaces = false
                 let fontPicker = UIFontPickerViewController(configuration: fontConfig)
                 fontPicker.delegate = self
                 self.present(fontPicker, animated: true, completion: nil)
