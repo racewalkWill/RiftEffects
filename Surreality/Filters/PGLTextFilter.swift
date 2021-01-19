@@ -153,6 +153,7 @@ class CompositeTextPositionFilter: CIFilter {
         let textAttributes: [String:Any] = [
             kCIAttributeFilterCategories :
                                   [kCICategoryGenerator ,
+                                   kCICategoryCompositeOperation,
                                    kCICategoryStillImage,
                                   kCICategoryVideo],
 

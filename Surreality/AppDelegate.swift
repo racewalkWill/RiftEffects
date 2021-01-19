@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         WarpItMetalFilter.register()
 
         CompositeTextPositionFilter.register()
+        PGLSaliencyBlurFilter.register()
        appStack = PGLAppStack()
 
        return true

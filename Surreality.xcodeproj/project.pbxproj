@@ -12,6 +12,7 @@
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDepthFilter.swift */; };
+		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
 		A3B23A0D2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */; };
 		A3B23A0E2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
@@ -130,6 +131,7 @@
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
+		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
 		A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataClass.swift"; path = "../../CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "../../CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -448,6 +450,7 @@
 				A3BF505E24D32A3400CD5114 /* MetalFilters.swift */,
 				A3BF506C24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift */,
 				A3BF507524D32A3400CD5114 /* PGLFaceTiltShift.swift */,
+				A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */,
 				A39632D7250049F000F02CEC /* PGLDepthFilter.swift */,
 				A3BF508424D32A3400CD5114 /* PGLImageCIFilter.swift */,
 				A3BF508724D32A3400CD5114 /* PGLFaceCIFilter.swift */,
@@ -685,6 +688,7 @@
 				A3BF510724D32A3400CD5114 /* PGLTextFilter.swift in Sources */,
 				A3BF50EA24D32A3400CD5114 /* PGLFilterChange.swift in Sources */,
 				A3BF511224D32A3400CD5114 /* PGLFeatureTransitionFilter.swift in Sources */,
+				A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */,
 				A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */,
 				A318F31F24FC0D8B00569349 /* PGLFilterGroup.swift in Sources */,
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,

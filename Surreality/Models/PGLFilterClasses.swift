@@ -1023,6 +1023,9 @@ class PGLFilterConstructor: CIFilterConstructor {
 //                return PGLTextImageGenerator.internalCIFilter()
                 return CompositeTextPositionFilter()
 
+            case kSaliencyBlurFilter:
+                return PGLSaliencyBlurFilter()
+
             default:
                 return CIFilter(name: withName)!
         }

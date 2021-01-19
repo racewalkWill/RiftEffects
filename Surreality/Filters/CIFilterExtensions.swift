@@ -23,6 +23,7 @@ let kPTiltShift = "TiltShift"
 let kPWarpItMetal  = "WarpItMetal"
 
 let kCompositeTextPositionFilter = "CompositeTextPositionFilter"
+let kSaliencyBlurFilter = "Saliency Blur"
 
 extension CIFilter {
    class func pglClassMap() -> [String: [PGLSourceFilter.Type]] {
