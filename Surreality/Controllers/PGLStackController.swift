@@ -254,13 +254,14 @@ class PGLStackController: UITableViewController {
         let endingPoint = destinationIndexPath.row
 
         if let startingPointFilter = viewerStack.removeFilter(position: startingPoint) {
-            viewerStack.activeFilterIndex = endingPoint
+
             if startingPoint < endingPoint {
                 viewerStack.addFilterAfter(newFilter: startingPointFilter)
             } else {
                 viewerStack.addFilterBefore(newFilter: startingPointFilter)
             }
         }
+
 
        
 
