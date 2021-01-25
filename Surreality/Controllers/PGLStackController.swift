@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PGLStackController: UITableViewController {
+class PGLStackController: UITableViewController, UINavigationControllerDelegate {
     // tableview of the filters in the stack
     // opens on cell select the masterFilterController to pick new filter
     // on swipe cell "Parms" opens parmController to change filter parms
@@ -129,8 +129,7 @@ class PGLStackController: UITableViewController {
 
     
     }
-
-
+// MARK: Bar Buttons
     @IBAction func addFilter(_ sender: UIBarButtonItem) {
         // hideParmControls()
 
@@ -142,6 +141,17 @@ class PGLStackController: UITableViewController {
             // chooses new filter
     }
 
+    @IBAction func addRandom(_ sender: UIBarButtonItem) {
+        NSLog("PGLStackController addRandom button click")
+        let demoGenerator = PGLDemo()
+        demoGenerator.appStack = appStack // pass on the stacks
+        demoGenerator.multipleInputTransitionFilters()
+
+        self.updateDisplay()
+       
+    }
+
+// MARK: Navigation
     fileprivate func postFilterNavigationChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
         NotificationCenter.default.post(updateFilterNotification)

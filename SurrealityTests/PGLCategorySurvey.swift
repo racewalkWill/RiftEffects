@@ -53,7 +53,7 @@ class PGLCategorySurvey: XCTestCase {
     // MARK: common support func
 
     func fetchFavoritesList() ->  PGLAlbumSource? {
-
+        //MARK: Move to PGLDemo
             let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
 
 
@@ -71,6 +71,8 @@ class PGLCategorySurvey: XCTestCase {
 
     func add9FiltersTo(stack: PGLFilterStack) {
         // put 9 random filters on the stack
+        //MARK: Move to PGLDemo
+
         for aGroup in PGLCategorySurvey.SingleFilterGroups {
                 let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
                 let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
@@ -91,6 +93,7 @@ class PGLCategorySurvey: XCTestCase {
     }
 
     func setInputTo(imageParm: PGLFilterAttribute) {
+        //MARK: Move to PGLDemo
         guard let favoriteAlbumSource = fetchFavoritesList() else
                    { fatalError("favoritesAlbum contents not returned") }
         favoriteAlbumSource.filterParm = imageParm
@@ -123,6 +126,7 @@ class PGLCategorySurvey: XCTestCase {
     // cover all
 
     // MARK: Class var category filterDescriptors
+    // MARK: move to PGLDemo
     static var TransistionFilters =  PGLFilterCategory("CICategoryTransition")!.filterDescriptors
     static var StylizeFilters =  PGLFilterCategory("CICategoryStylize")!.filterDescriptors
     static var DistortFilters = PGLFilterCategory("CICategoryDistortionEffect")!.filterDescriptors
@@ -218,6 +222,7 @@ class PGLCategorySurvey: XCTestCase {
     }
 
     func testMultipleInputTransitionFilters() {
+        //MARK: Move to PGLDemo
         var category1Index = 0
 
         var category1Filter: PGLSourceFilter

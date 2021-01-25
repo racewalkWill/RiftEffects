@@ -83,7 +83,7 @@ class PGLVisionDetector: PGLDetection {
 
             else { features = [PGLFaceBounds]()
                     // new image clear the old features
-                NSLog("PGLVisionDetection #setInput(image: has new image")
+//                NSLog("PGLVisionDetection #setInput(image: has new image")
             }
         }
       let requests = [faceDetectionRequest] // other requests can be added to the array
