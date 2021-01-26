@@ -192,12 +192,12 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="xsN-wc-6kV">
                         <rightBarButtonItems>
-                            <barButtonItem title="save" image="rectangle.and.pencil.and.ellipsis" catalog="system" id="tZ1-Mv-wLR">
+                            <barButtonItem title="save" image="folder.badge.plus" catalog="system" id="tZ1-Mv-wLR">
                                 <connections>
                                     <action selector="saveStackActionBtn:" destination="Cot-0o-SSg" id="OPI-C3-4gT"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Open" image="folder.badge.plus" catalog="system" id="2yx-FU-YMc">
+                            <barButtonItem title="Open" image="folder" catalog="system" id="2yx-FU-YMc">
                                 <connections>
                                     <action selector="openStackActionBtn:" destination="Cot-0o-SSg" id="Rki-E4-LFm"/>
                                 </connections>
@@ -919,10 +919,10 @@
         <image name="arrow.right.circle.fill" catalog="system" width="128" height="121"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.up" catalog="system" width="128" height="72"/>
+        <image name="folder" catalog="system" width="128" height="97"/>
         <image name="folder.badge.plus" catalog="system" width="128" height="91"/>
         <image name="minus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="rectangle.and.pencil.and.ellipsis" catalog="system" width="128" height="81"/>
         <image name="square.and.arrow.down.on.square" catalog="system" width="122" height="128"/>
         <image name="square.and.arrow.up.on.square" catalog="system" width="117" height="128"/>
         <image name="trash" catalog="system" width="121" height="128"/>
