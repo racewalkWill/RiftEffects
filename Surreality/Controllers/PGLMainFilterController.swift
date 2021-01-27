@@ -84,6 +84,7 @@ class PGLMainFilterController: PGLFilterTableController {
         let frequentCategory = categories[0]
         if !frequentCategory.isEmpty() {
             tableView.selectRow(at: frequentCategoryPath, animated: true, scrollPosition: UITableView.ScrollPosition.top)
+            setBookmarksGroupMode(indexSection: frequentCategoryPath.section)
         }
 
 
@@ -201,18 +202,38 @@ class PGLMainFilterController: PGLFilterTableController {
         case .Grouped:
             thePath.section = currentFilter?.uiPosition.categoryIndex ?? 0
             thePath.row = currentFilter?.uiPosition.filterIndex ?? 0
+            setBookmarksGroupMode(indexSection: thePath.section)
             NSLog("PGLMainFilterController \(#function) mode = Grouped")
         case .Flat:
             if let filterRow = filters.firstIndex(where: {$0.filterName == currentFilter?.filterName}) {
                 thePath.row = filterRow
             }
             NSLog("PGLMainFilterController \(#function) mode = Flat")
+           setBookmarksFlatMode()
         }
 
         tableView.selectRow(at: thePath, animated: false, scrollPosition: .middle)
         NSLog("PGLMainFilterController selects row at \(thePath)")
+
+
+
     }
 
+   func setBookmarksGroupMode(indexSection: Int) {
+        if indexSection == 0 {
+            // frequent bookmarks section is section 0
+            bookmarkRemove.isEnabled = true
+            addToFrequentBtn.isEnabled = false
+        } else {
+            bookmarkRemove.isEnabled = false
+            addToFrequentBtn.isEnabled = true
+        }
+    }
+
+    func setBookmarksFlatMode() {
+        bookmarkRemove.isEnabled = false
+        addToFrequentBtn.isEnabled = true
+    }
 
     // MARK: - Table view data source
 
@@ -226,11 +247,18 @@ class PGLMainFilterController: PGLFilterTableController {
             switch mode {
             case .Grouped:
                 descriptor = resultsTableController.categories[indexPath.section].filterDescriptors[indexPath.row]
-                NSLog("resultsTableController \(#function) mode = Grouped")
+//                NSLog("resultsTableController \(#function) mode = Grouped")
             case .Flat:
                 descriptor = resultsTableController.matchFilters[indexPath.row]
-                NSLog("resultsTableController \(#function) mode = Flat")
+//                NSLog("resultsTableController \(#function) mode = Flat")
+
             }
+        }
+        switch mode {
+            case .Grouped:
+                setBookmarksGroupMode(indexSection: indexPath.section)
+            case .Flat :
+                setBookmarksFlatMode()
         }
          performFilterPick(descriptor: descriptor)
 

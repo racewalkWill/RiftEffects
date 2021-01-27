@@ -68,7 +68,7 @@
                                 <action selector="addToFrequentAction:" destination="VNd-gL-KQM" id="oXP-fm-G8w"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem systemItem="stop" id="FwN-ML-XEE">
+                        <barButtonItem enabled="NO" systemItem="stop" id="FwN-ML-XEE">
                             <color key="tintColor" systemColor="labelColor"/>
                             <connections>
                                 <action selector="bookmarkRemoveAction:" destination="VNd-gL-KQM" id="nB3-Uf-9cB"/>
@@ -621,6 +621,8 @@
                                             <action selector="shiftBtnAction:" destination="VjG-Q1-3mN" id="DCI-zf-akv"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Only" width="350" id="Wq7-fQ-icb"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="9kO-c4-rac"/>
                                     <barButtonItem title="upChevron" image="chevron.up" catalog="system" id="A6h-K5-gwp">
                                         <connections>
                                             <action selector="upChevronAction:" destination="VjG-Q1-3mN" id="VfL-sr-0rU"/>
@@ -631,8 +633,6 @@
                                             <action selector="downChevronAction:" destination="VjG-Q1-3mN" id="YMv-Ub-Fte"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="9kO-c4-rac"/>
-                                    <barButtonItem title="Only" width="350" id="Wq7-fQ-icb"/>
                                 </items>
                             </toolbar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Filter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEW-y3-MfP">
