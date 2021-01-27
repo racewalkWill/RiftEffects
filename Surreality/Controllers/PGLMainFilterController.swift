@@ -39,7 +39,8 @@ class PGLMainFilterController: PGLFilterTableController {
 
     /// Search controller to help us with filtering.
     private var searchController: UISearchController!
-
+//    var filterGroupSymbol = UIImage(systemName: "chart.bar.doc.horizontal")
+//    var filterFlatSymbol = UIImage(systemName: "crectangle.grid.1x2")
     /// Secondary search results table view.
     private var resultsTableController: PGLResultsController!
 
@@ -60,11 +61,16 @@ class PGLMainFilterController: PGLFilterTableController {
 
     @IBAction func groupModeAction(_ sender: UIBarButtonItem) {
         // set mode to group and show index group tabs
-        mode = .Grouped
-       navigationItem.hidesSearchBarWhenScrolling = true
-        searchController.isActive = false
+        if mode == .Flat {
+            mode = .Grouped
+           navigationItem.hidesSearchBarWhenScrolling = true
+            searchController.isActive = false
+            didDismissSearchController( searchController)
+        } else {
+            // mode is Grouped so change
+            mode = .Flat // change mode
 
-        didDismissSearchController( searchController)
+        }
 
     }
 
@@ -145,7 +151,8 @@ class PGLMainFilterController: PGLFilterTableController {
            searchController.searchResultsUpdater = self
            searchController.searchBar.autocapitalizationType = .none
 
-           searchController.searchBar.showsCancelButton = false
+//           searchController.searchBar.showsCancelButton = false
+            searchController.automaticallyShowsCancelButton = true
 
            navigationItem.searchController = searchController
            navigationItem.hidesSearchBarWhenScrolling = (mode == .Grouped) // flat mode searches
