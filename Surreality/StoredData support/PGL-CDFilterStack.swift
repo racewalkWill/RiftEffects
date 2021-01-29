@@ -127,12 +127,24 @@ extension PGLFilterStack {
 
             storedStack?.thumbnail = stackThumbnail()  // data format of small png image
 
-            for aFilter in activeFilters {
+    //        for aFilter in activeFilters {
+            for filterIndex in 0..<activeFilters.count {
+                let aFilter = activeFilters[filterIndex]
                 if aFilter.storedFilter == nil {
                      let theFilterStoredObject = aFilter.createCDFilterObject()
                     // moves images to cache to reduce storage
                     // does not need to add if the filter exists in the relation already
-                    storedStack?.addToFilters(theFilterStoredObject)
+                    // storedStack?.addToFilters(theFilterStoredObject)
+                    // add at the correct position !
+                    storedStack?.insertIntoFilters(theFilterStoredObject, at: filterIndex)
+
+                } else {
+                    // further check on the relationship
+                    if aFilter.storedFilter?.stack == nil {
+                        // make sure we have the order correct
+                        // appends cdStoredfilter to the stack relationship
+                        storedStack?.addToFilters(aFilter.storedFilter!)
+                    }
                 }
                 aFilter.writeFilter() // handles imageparms move to cache etc..
 
@@ -243,6 +255,7 @@ extension PGLSourceFilter {
         // prepare image cache
         // create imageList
         // assumes createCDFilterObject has created the storedFilter if needed
+//        NSLog("PGLSourceFilter #writeFilter filter \(String(describing: filterName))")
         imageInputCache = moveImageInputsToCache()
         createCDImageList() // creates for all the input parms
 
@@ -371,7 +384,7 @@ extension PGLFilterAttributeImage {
 
     func createNewCDImageParm() {
         // 4EntityModel
-
+//        NSLog("PGLFilterAttributeImage #createNewCDImageParm filter \(String(describing: attributeName ))")
         let moContext = PersistentContainer.viewContext
 
         if self.storedParmImage == nil {

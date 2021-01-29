@@ -205,6 +205,11 @@ class PGLFilterStack  {
             followingFilter.setSourceFilter(sourceLocation: (source: self, at: nextFilterIndex ), attributeKey: kCIInputImageKey)
             activeFilterIndex = followingIndex
         }
+        if newFilter.storedFilter != nil {
+            // if nil it will be created as save time
+            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+            // the case of firstFilterIsActive() has set activeFilterIndex to zero
+        }
 
           updateFilterList()
 
@@ -223,6 +228,8 @@ class PGLFilterStack  {
             oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: 0) )
             oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: 0), attributeKey: kCIInputImageKey)
             activeFilters.insert(newFilter, at: 0)
+
+
             activeFilterIndex = 0
         } else {
             // set input of newFilter as the  old inputs of old ActiveFilter
@@ -232,11 +239,17 @@ class PGLFilterStack  {
             moveInputsFrom(oldActiveFilter, newFilter)
 
             activeFilters.insert(newFilter, at: activeFilterIndex )
+            
                        // pushes old active forward one..
            oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: activeFilterIndex) )
            oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
 
 
+        }
+        if newFilter.storedFilter != nil {
+            // if nil it will be created as save time
+            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+            // the case of firstFilterIsActive() has set activeFilterIndex to zero
         }
           updateFilterList()
 
