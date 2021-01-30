@@ -39,6 +39,26 @@ class PGLDataStoreTests: XCTestCase {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
         appStack = myAppDelegate.appStack
+
+        // init schema on CloudKit
+        // see https://developer.apple.com/documentation/coredata/mirroring_a_core_data_store_with_cloudkit/creating_a_core_data_model_for_cloudkit#3191035
+        // BUT error in the documentation 1/30/2021
+        // https://stackoverflow.com/questions/58218874/nspersistentcloudkitcontainer-in-production
+        //https://developer.apple.com/forums/thread/120453
+
+//
+//        let container = fdsAppDelegate.persistentContainer
+//        guard let description = container.persistentStoreDescriptions.first else {
+//            fatalError("Could not retrieve a persistent store description.")
+//        }
+        // initialize the CloudKit schema
+
+//        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
+//        options.shouldInitializeSchema = true // toggle to false when done
+//        description.cloudKitContainerOptions = options
+
+
+
     }
 
     override func tearDown() {

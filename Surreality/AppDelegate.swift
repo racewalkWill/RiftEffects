@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-
+let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.Surreality"
 var mainViewImageResize = true
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn
 // should be a user setting
@@ -85,7 +85,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentCloudKitContainer(name: "Surreality")
+//        let container = NSPersistentCloudKitContainer(name: "Surreality")
+        // issue with relationship CDFilterStack filters - ordered relationship not supported on iCloud
+        let container = NSPersistentContainer(name: "Surreality")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

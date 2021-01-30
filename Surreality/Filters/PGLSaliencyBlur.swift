@@ -102,7 +102,7 @@ class PGLSaliencyBlurFilter: CIFilter {
 
     class func register()   {
  //       let attr: [String: AnyObject] = [:]
-        NSLog("CompositeTextPositionFilter #register()")
+        NSLog("Saliency Blur #register()")
         CIFilter.registerName(kSaliencyBlurFilter, constructor: PGLFilterConstructor(), classAttributes: [
             kCIAttributeFilterCategories :    [
                 kCICategoryBlur, kCICategoryInterlaced, kCICategoryNonSquarePixels, kCICategoryStillImage
