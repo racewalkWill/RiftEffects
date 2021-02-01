@@ -17,7 +17,10 @@ class PGLAppStack {
     lazy var cellFilters = self.flattenFilters()
         // flat array of filters in the stack trees
 
-    @IBInspectable   var showFilterImage = false
+    var showFilterImage = false
+    var showSingleFilterOutput = false
+    var useSingleStackInput = false
+
     // controls displaying the current intermediate viewer data stack image or the final output
 
     init(){

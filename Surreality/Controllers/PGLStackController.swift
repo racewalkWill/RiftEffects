@@ -176,6 +176,16 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     }
 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier   == "showParmSettings" {
+            if appStack!.showSingleFilterOutput {
+                return false}
+            else {return true }
+        } else {
+            return true}
+        
+    }
+
     // MARK: Swipe Actions
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
