@@ -15,6 +15,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     // edit order by drag or delete a filter in the edit mode
 
     var appStack: PGLAppStack!
+    var filterShiftBtn: UIBarButtonItem!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
@@ -48,8 +50,25 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             self.updateDisplay()
         }
 
-          configureNavigationItem()
+        myCenter.addObserver(forName: PGLSelectActiveStackRow, object: nil , queue: queue) { [weak self]
+            myUpdate in
+                        NSLog("PGLImageController  notificationBlock PGLSelectActiveStackRow")
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+            self.selectActiveFilterRow()
+        }
 
+          configureNavigationItem()
+        navigationController?.isToolbarHidden = false
+
+        filterShiftBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
+        filterShiftBtn.image = UIImage(systemName: "chart.bar.doc.horizontal")
+        setToolbarItems([filterShiftBtn], animated: true)
+
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        appStack.postSelectActiveStackRow()
     }
 
     // MARK: appear/disappear
@@ -59,6 +78,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
         NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange, object: self)
         NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
+        NotificationCenter.default.removeObserver(self, name: PGLSelectActiveStackRow, object: self)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -79,6 +99,12 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
 
 
+    }
+
+    func selectActiveFilterRow() {
+        let activeRow = appStack.activeFilterCellRow()
+        let rowPath = IndexPath(row: activeRow, section: 0)
+        tableView.selectRow(at: rowPath, animated: true, scrollPosition: .middle)
     }
 
     // MARK: - Table view delegate
@@ -151,6 +177,25 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
        
     }
 
+    @objc func singleFilterOutput() {
+        appStack.toggleShowFilterImage()
+        setShiftBtnState()
+        if appStack.showFilterImage { appStack.postSelectActiveStackRow() }
+
+        //updateDisplay()
+    }
+
+    func setShiftBtnState() {
+        filterShiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+                if (appStack.showFilterImage) {
+        //            shiftBtn.image = arrowRightCirclFill
+                    filterShiftBtn.tintColor = .systemBlue
+                } else {
+        //              shiftBtn.image = arrowRightCirclFill
+                    filterShiftBtn.tintColor =  .systemGray4
+                }
+    }
+
 // MARK: Navigation
     fileprivate func postFilterNavigationChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
@@ -174,16 +219,6 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
         }
 
-    }
-
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier   == "showParmSettings" {
-            if appStack!.showSingleFilterOutput {
-                return false}
-            else {return true }
-        } else {
-            return true}
-        
     }
 
     // MARK: Swipe Actions
@@ -292,6 +327,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 //        navigationItem.title = "UITableView: Editing"
         let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
         navigationItem.rightBarButtonItems = [editingItem]
+
+        navigationController?.isToolbarHidden = false
+
+
     }
 
     @objc

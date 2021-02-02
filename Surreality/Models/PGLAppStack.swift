@@ -9,6 +9,8 @@
 import Foundation
 
 let  PGLStackChange = NSNotification.Name(rawValue: "PGLStackChange")
+let PGLSelectActiveStackRow = NSNotification.Name(rawValue: "PGLSelectActiveStackRow")
+ // 2021/02/02 PGLSelectActiveStackRow may not be used.. remove?
 
 class PGLAppStack {
     var outputStack: PGLFilterStack
@@ -18,8 +20,8 @@ class PGLAppStack {
         // flat array of filters in the stack trees
 
     var showFilterImage = false
-    var showSingleFilterOutput = false
-    var useSingleStackInput = false
+
+   
 
     // controls displaying the current intermediate viewer data stack image or the final output
 
@@ -45,6 +47,12 @@ class PGLAppStack {
         
         let stackNotification = Notification(name:PGLStackChange)
         NotificationCenter.default.post(stackNotification)
+
+    }
+
+    func postSelectActiveStackRow() {
+        let rowChange = Notification(name: PGLSelectActiveStackRow)
+        NotificationCenter.default.post(rowChange)
     }
 
     func resetToTopStack(newStack: PGLFilterStack) {
@@ -80,6 +88,7 @@ class PGLAppStack {
         // the parm takes the output of a set of filters in a filterStack
         // as the visual input
         let  newStack = PGLFilterStack()
+       
         newStack.setStartupDefault() // Images null filter is starting filter
         newStack.stackName = viewerStack.nextStackName()
 //        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")

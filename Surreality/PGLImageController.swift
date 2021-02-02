@@ -86,38 +86,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     @IBOutlet weak var openBtn: UIBarButtonItem!
 
 
-    @IBOutlet weak var singleFilterOutputBtn: UIBarButtonItem!
 
-    @IBOutlet weak var singleStackInput: UIBarButtonItem!
 
     // MARK: navBtn Actions
 
-    @IBAction func singleFilterOutputClick(_ sender: UIBarButtonItem) {
-        // change the stack to show   each filter in the stack in sequence
-        appStack.showSingleFilterOutput = !appStack.showSingleFilterOutput
-        if appStack.showSingleFilterOutput {
-            sender.tintColor = UIColor.systemGray
-        } else {
-            sender.tintColor = UIColor.systemGray4
-        }
-        // change state of sender
-
-        singleStackInput.isEnabled = appStack.showSingleFilterOutput
-            // single stack input only enabled if in showFilterImage mode
-
-    }
-
-    @IBAction func singleStackInputClick(_ sender: UIBarButtonItem) {
-        //  only if in singleFilterOutput mode enable to force single input image to all filters in the stack
-        // change state of the button
-        appStack.useSingleStackInput = !appStack.useSingleStackInput
-        if appStack.useSingleStackInput {
-            sender.tintColor = UIColor.systemGray
-        } else {
-            sender.tintColor = UIColor.systemGray4
-        }
-
-    }
     @IBAction func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
             saveStackAlert(sender)

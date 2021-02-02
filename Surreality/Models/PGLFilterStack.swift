@@ -36,9 +36,7 @@ class PGLFilterStack  {
     let  kFilterOrderKey = "FilterOrder"
 
     var activeFilters = [PGLSourceFilter]()  // make private?
-
-    var systemAppStack = (UIApplication.shared.delegate as! AppDelegate).appStack
-
+   
     var cropRect: CGRect { get
     {   return CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height)
 
@@ -69,7 +67,7 @@ class PGLFilterStack  {
 
     // MARK: Init default
     init(){
-        systemAppStack = (UIApplication.shared.delegate as! AppDelegate).appStack
+
 //        setStartupDefault()
 
     }
@@ -230,8 +228,6 @@ class PGLFilterStack  {
             oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: 0) )
             oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: 0), attributeKey: kCIInputImageKey)
             activeFilters.insert(newFilter, at: 0)
-
-
             activeFilterIndex = 0
         } else {
             // set input of newFilter as the  old inputs of old ActiveFilter
@@ -241,7 +237,6 @@ class PGLFilterStack  {
             moveInputsFrom(oldActiveFilter, newFilter)
 
             activeFilters.insert(newFilter, at: activeFilterIndex )
-            
                        // pushes old active forward one..
            oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: activeFilterIndex) )
            oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
@@ -432,23 +427,6 @@ class PGLFilterStack  {
         //assumes that inputImage has been set
         if activeFilterIndex < 0 {
             return CIImage.empty() }
-
-        if systemAppStack?.showSingleFilterOutput ?? false {
-
-            let currentFilter = activeFilters[activeFilterIndex]
-            // check if the current filter has childStack input?? then drill down??
-            // assumes a timer is moving activeFilterIndex
-            if systemAppStack!.useSingleStackInput {
-                if let firstFilter = activeFilters.first {
-                   if let firstInput =  firstFilter.inputImage() // assumes inputImage is assigned
-                   {
-                    currentFilter.setInput(image: firstInput, source: nil)
-                   }
-                }
-
-            }
-            return currentFilter.outputImage() ?? CIImage.empty()
-        }
 
         if useOldImageFeedback {
             // always false - only changes with inspectable var in the debugger
