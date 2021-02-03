@@ -16,6 +16,11 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     var appStack: PGLAppStack!
     var filterShiftBtn: UIBarButtonItem!
+    var upChevronBtn: UIBarButtonItem!
+    var downChevronBtn: UIBarButtonItem!
+    var toolBarSpacer: UIBarButtonItem!
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,9 +66,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
           configureNavigationItem()
         navigationController?.isToolbarHidden = false
 
-        filterShiftBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
-        filterShiftBtn.image = UIImage(systemName: "chart.bar.doc.horizontal")
-        setToolbarItems([filterShiftBtn], animated: true)
+        addToolBarButtons()
 
     }
 
@@ -96,15 +99,112 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 //        postCurrentFilterChange()
         appStack.resetCellFilters() // updates the flattened cell filter array
         tableView.reloadData()
+        setShiftBtnState()
 
 
 
     }
 
+    // MARK: ToolBar
+    fileprivate func addToolBarButtons() {
+        filterShiftBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
+        filterShiftBtn.image = UIImage(systemName: "chart.bar.doc.horizontal")
+
+        upChevronBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(upChevronAction))
+        upChevronBtn.image = UIImage(systemName:"chevron.up")
+        downChevronBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(downChevronAction))
+        downChevronBtn.image = UIImage(systemName:"chevron.down")
+        toolBarSpacer = UIBarButtonItem.flexibleSpace()
+        setToolbarItems([filterShiftBtn,toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
+        setShiftBtnState()
+        setChevronState()
+    }
+
+    @objc func singleFilterOutput() {
+        appStack.toggleShowFilterImage()
+        setShiftBtnState()
+        if appStack.showFilterImage { appStack.postSelectActiveStackRow() }
+        else { // deselect row
+
+        }
+        setChevronState()
+        //updateDisplay()
+    }
+
+    func setShiftBtnState() {
+        filterShiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+                if (appStack.showFilterImage) {
+        //            shiftBtn.image = arrowRightCirclFill
+                    filterShiftBtn.tintColor = .systemBlue
+                } else {
+        //              shiftBtn.image = arrowRightCirclFill
+                    filterShiftBtn.tintColor =  .systemGray4
+                }
+    }
+
+    @objc func upChevronAction(_ sender: UIBarButtonItem) {
+
+        appStack.outputFilterStack().moveActiveBack()
+        setChevronState()
+        postCurrentFilterChange()
+        if appStack.showFilterImage {appStack.postSelectActiveStackRow()}
+
+    }
+
+    @objc func downChevronAction(_ sender: UIBarButtonItem) {
+
+        appStack.outputFilterStack().moveActiveAhead()
+        setChevronState()
+        postCurrentFilterChange()
+        if appStack.showFilterImage {appStack.postSelectActiveStackRow()}
+
+    }
+
+    func setChevronState() {
+        if !appStack.showFilterImage {
+            upChevronBtn.isEnabled = false
+            downChevronBtn.isEnabled = false
+            return
+        }
+
+       let myOutputStack = appStack.outputFilterStack()
+        if (myOutputStack.activeFilters.count <= 1) {
+            // disable both chevrons
+            upChevronBtn.isEnabled = false
+            downChevronBtn.isEnabled = false
+            return
+        }
+        if myOutputStack.firstFilterIsActive() {
+            // on first.. can't go further
+            upChevronBtn.isEnabled = false
+            downChevronBtn.isEnabled = true
+        } else { // check last
+            if myOutputStack.lastFilterIsActive() {
+                // on last filter can't go further
+                upChevronBtn.isEnabled = true
+                downChevronBtn.isEnabled = false
+            } else {
+                // in the middle enable both
+                upChevronBtn.isEnabled = true
+                downChevronBtn.isEnabled = true
+            }
+        }
+    }
+
+
     func selectActiveFilterRow() {
+
         let activeRow = appStack.activeFilterCellRow()
         let rowPath = IndexPath(row: activeRow, section: 0)
-        tableView.selectRow(at: rowPath, animated: true, scrollPosition: .middle)
+        if appStack.showFilterImage {
+
+            tableView.selectRow(at: rowPath, animated: true, scrollPosition: .middle)
+        } else {
+            // deselect - no rows should be selected
+            tableView.deselectRow(at: rowPath, animated: true)
+            updateDisplay()  // only update to remove row selection !
+        }
+
     }
 
     // MARK: - Table view delegate
@@ -177,30 +277,20 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
        
     }
 
-    @objc func singleFilterOutput() {
-        appStack.toggleShowFilterImage()
-        setShiftBtnState()
-        if appStack.showFilterImage { appStack.postSelectActiveStackRow() }
 
-        //updateDisplay()
-    }
-
-    func setShiftBtnState() {
-        filterShiftBtn.isEnabled = (appStack.stackRowCount() > 1)
-                if (appStack.showFilterImage) {
-        //            shiftBtn.image = arrowRightCirclFill
-                    filterShiftBtn.tintColor = .systemBlue
-                } else {
-        //              shiftBtn.image = arrowRightCirclFill
-                    filterShiftBtn.tintColor =  .systemGray4
-                }
-    }
 
 // MARK: Navigation
     fileprivate func postFilterNavigationChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
         NotificationCenter.default.post(updateFilterNotification)
     }
+
+    fileprivate func postCurrentFilterChange() {
+        let updateFilterNotification = Notification(name: PGLCurrentFilterChange)
+        NotificationCenter.default.post(updateFilterNotification)
+    }
+
+    //PGLSelectActiveStackRow
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // can check  if segue.identifier == "showCollection" and
