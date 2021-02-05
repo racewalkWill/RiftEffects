@@ -96,6 +96,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     }
 
+    @IBAction func helpBtnAction(_ sender: UIBarButtonItem) {
+        let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLHelpPageController") as? PGLHelpPageController
+
+    }
+
+
     var tintViews = [UIView]()
 
     func saveStackAlert(_ sender: UIBarButtonItem) {

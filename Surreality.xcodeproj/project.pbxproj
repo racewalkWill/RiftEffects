@@ -106,6 +106,7 @@
 		A3BF515924D32D7400CD5114 /* GlanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515724D32D7400CD5114 /* GlanceUITests.swift */; };
 		A3BF515C24D3618300CD5114 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515B24D3618300CD5114 /* PGLImageController.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
+		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
 /* End PBXBuildFile section */
@@ -236,6 +237,7 @@
 		A3BF515724D32D7400CD5114 /* GlanceUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceUITests.swift; sourceTree = "<group>"; };
 		A3BF515B24D3618300CD5114 /* PGLImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLImageController.swift; path = /Users/willloew/Developer/Surreality/Surreality/PGLImageController.swift; sourceTree = "<absolute>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
+		A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLHelpPageController.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
 		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -440,6 +442,7 @@
 				A3BF505324D32A3400CD5114 /* PGLStackController.swift */,
 				A3BF505724D32A3400CD5114 /* PGLMetalController.swift */,
 				A3BF515B24D3618300CD5114 /* PGLImageController.swift */,
+				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
 				A3BF506024D32A3400CD5114 /* PGLMainFilterController.swift */,
 				A3BF507A24D32A3400CD5114 /* PGLSplitViewController.swift */,
 				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,
@@ -678,6 +681,7 @@
 				A3BF50E724D32A3400CD5114 /* PGLMetalController.swift in Sources */,
 				A3BF50FD24D32A3400CD5114 /* PGLFilterCategory.swift in Sources */,
 				A3BF514724D32A3400CD5114 /* PGLFilterCIAbstract.swift in Sources */,
+				A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */,
 				A3BF50FC24D32A3400CD5114 /* PGLSelectStackController.swift in Sources */,
 				A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */,
 				A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */,

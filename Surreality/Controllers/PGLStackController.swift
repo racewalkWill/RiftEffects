@@ -133,13 +133,16 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     func setShiftBtnState() {
         filterShiftBtn.isEnabled = (appStack.stackRowCount() > 1)
-                if (appStack.showFilterImage) {
+        setChevronState()
+//                if (appStack.showFilterImage) {
+
         //            shiftBtn.image = arrowRightCirclFill
-                    filterShiftBtn.tintColor = .systemBlue
-                } else {
+//                    filterShiftBtn.tintColor = .systemBlue
+//                } else {
         //              shiftBtn.image = arrowRightCirclFill
-                    filterShiftBtn.tintColor =  .systemGray4
-                }
+//                    filterShiftBtn.tintColor =  .systemGray4
+//                }
+
     }
 
     @objc func upChevronAction(_ sender: UIBarButtonItem) {

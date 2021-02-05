@@ -75,9 +75,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet weak var shiftBtn: UIBarButtonItem!
 
-    @IBOutlet weak var toolBarFilterBtn: UIBarButtonItem!
-
-
 
     @IBOutlet weak var filterLabel: UILabel!
     
@@ -113,6 +110,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
+
+
+
+
+    // MARK: View Lifecycle
     override func viewDidLoad() {
          NSLog ("PGLSelectParmController #viewDidLoad start")
         super.viewDidLoad()
@@ -138,7 +140,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
 
-    
+
     fileprivate func updateDisplay() {
         // does not do much... remove  ?
 
@@ -148,25 +150,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         let viewerStack = appStack.getViewerStack()
         currentFilter = viewerStack.currentFilter()
         navigationItem.title = viewerStack.stackName
-        toolBarFilterBtn.title = viewerStack.filterNumLabel(maxLen: 20)
+
         setShiftBtnState()
             // if only one filter then shift to this filter does not change anything
          NSLog ("PGLSelectParmController #updateDisplay end ")
 
 
     }
-
-    func setShiftBtnState() {
-                shiftBtn.isEnabled = (appStack.stackRowCount() > 1)
-                if (appStack.showFilterImage) {
-        //            shiftBtn.image = arrowRightCirclFill
-                    shiftBtn.tintColor = .systemBlue
-                } else {
-        //              shiftBtn.image = arrowRightCirclFill
-                    shiftBtn.tintColor =  .systemGray4
-                }
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NSLog("PGLSelectParmController#viewWillAppear start ")
@@ -258,7 +248,18 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         
     }
 
+    func setShiftBtnState() {
+        shiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+        setChevronState()
+
+    }
+
     func setChevronState() {
+        if !appStack.showFilterImage {
+            upChevron.isEnabled = false
+            downChevron.isEnabled = false
+            return }
+
        let myOutputStack = appStack.outputFilterStack()
         if (myOutputStack.activeFilters.count <= 1) {
             // disable both chevrons

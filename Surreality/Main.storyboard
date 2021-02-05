@@ -88,6 +88,14 @@
             </objects>
             <point key="canvasLocation" x="-692" y="715"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="BBG-8M-FXL">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="n9h-BV-vuJ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YtR-Yq-uME" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="859" y="-919"/>
+        </scene>
         <!--Image Controller-->
         <scene sceneID="8Cz-fE-dCl">
             <objects>
@@ -192,6 +200,16 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="xsN-wc-6kV">
                         <rightBarButtonItems>
+                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="yZ4-j9-t2a" userLabel="Help">
+                                <connections>
+                                    <action selector="helpBtnAction:" destination="Cot-0o-SSg" id="jiE-mx-89R"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="New" image="trash" catalog="system" id="SFn-i1-DR7">
+                                <connections>
+                                    <action selector="newStackActionBtn:" destination="Cot-0o-SSg" id="5ZK-Is-TWK"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="save" image="folder.badge.plus" catalog="system" id="tZ1-Mv-wLR">
                                 <connections>
                                     <action selector="saveStackActionBtn:" destination="Cot-0o-SSg" id="OPI-C3-4gT"/>
@@ -200,11 +218,6 @@
                             <barButtonItem title="Open" image="folder" catalog="system" id="2yx-FU-YMc">
                                 <connections>
                                     <action selector="openStackActionBtn:" destination="Cot-0o-SSg" id="Rki-E4-LFm"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="New" image="trash" catalog="system" id="SFn-i1-DR7">
-                                <connections>
-                                    <action selector="newStackActionBtn:" destination="Cot-0o-SSg" id="5ZK-Is-TWK"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -616,12 +629,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Shift" image="chart.bar.doc.horizontal" catalog="system" style="plain" id="3ph-yx-nVM">
-                                        <color key="tintColor" systemColor="labelColor"/>
                                         <connections>
                                             <action selector="shiftBtnAction:" destination="VjG-Q1-3mN" id="DCI-zf-akv"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Only" width="350" id="Wq7-fQ-icb"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="9kO-c4-rac"/>
                                     <barButtonItem title="upChevron" image="chevron.up" catalog="system" id="A6h-K5-gwp">
                                         <connections>
@@ -808,7 +819,6 @@
                         <outlet property="filterLabel" destination="sEW-y3-MfP" id="mTz-Ab-b1Y"/>
                         <outlet property="parmsTableView" destination="qzX-VM-dr8" id="J9S-87-VTd"/>
                         <outlet property="shiftBtn" destination="3ph-yx-nVM" id="EtB-y3-a8c"/>
-                        <outlet property="toolBarFilterBtn" destination="Wq7-fQ-icb" id="efc-CO-agV"/>
                         <outlet property="upChevron" destination="A6h-K5-gwp" id="gCa-S8-4Fc"/>
                         <segue destination="rdd-Ke-TzN" kind="show" identifier="goToImageCollection" id="Ya8-ah-jCg"/>
                     </connections>
@@ -821,7 +831,7 @@
         <scene sceneID="dfj-In-sbB">
             <objects>
                 <tableViewController storyboardIdentifier="StackController" id="dDm-tJ-e98" customClass="PGLStackController" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -830,11 +840,11 @@
                                 <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yOX-Yb-noN" id="KAe-B8-bgl">
-                                    <rect key="frame" x="0.0" y="0.0" width="524" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="489.5" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jaH-Rx-fdN">
-                                            <rect key="frame" x="16" y="0.0" width="500" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="466.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -930,6 +940,7 @@
         <image name="folder.badge.plus" catalog="system" width="128" height="91"/>
         <image name="minus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="questionmark.square.dashed" catalog="system" width="128" height="114"/>
         <image name="rectangle.grid.1x2" catalog="system" width="128" height="101"/>
         <image name="square.and.arrow.down.on.square" catalog="system" width="122" height="128"/>
         <image name="square.and.arrow.up.on.square" catalog="system" width="117" height="128"/>
