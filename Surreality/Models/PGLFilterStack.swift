@@ -365,6 +365,14 @@ class PGLFilterStack  {
         setStartupDefault() // need at least one filter
     }
 
+    func isEmptyDefaultStack() -> Bool {
+        // has single filter with no image inputs
+        if (activeFilters.count > 1) {
+            return false
+        }
+        return activeFilters[0].imageInputIsEmpty()
+    }
+
     func removeFilter(position: Int) -> PGLSourceFilter?{
         // returns removedFilter
         switch activeFilterIndex {

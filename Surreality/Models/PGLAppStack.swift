@@ -65,6 +65,12 @@ class PGLAppStack {
         postStackChange()
     }
 
+    func removeDefaultEmptyFilter() {
+        if outputStack.isEmptyDefaultStack() {
+          _ = outputStack.removeDefaultFilter()
+            }
+    }
+
     func resetViewStack() {
         viewerStack = outputStack
         // when showing stacks the user can choose

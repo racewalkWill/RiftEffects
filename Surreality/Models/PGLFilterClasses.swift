@@ -201,7 +201,20 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
     }
 
+    func imageInputIsEmpty() -> Bool {
+        // used for images filter to remove if no input is set
+        if let inputAttribute = attribute(nameKey: kCIInputImageKey )
+        {
+            if let myInputs = inputAttribute.inputCollection {
+                return myInputs.isEmpty()
+            } else {
+                return true // no input collection so this is empty
+            }
+        } else {
+            return false // no image input needed
+        }
 
+    }
 
 
 
@@ -238,12 +251,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return  addingArray
     }
 
-    var isUsableFilter: Bool {
-        //computed property
-        // for now only CIColorCube is not usable
-        return !(localFilter.name == "CIColorCube")
 
-    }
     var imageInputCache: [String :CIImage?] = [:]
 
      func otherImageInputKeys() -> [String] {

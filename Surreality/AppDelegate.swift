@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CompositeTextPositionFilter.register()
         PGLSaliencyBlurFilter.register()
+        PGLImageCIFilter.register()
        appStack = PGLAppStack()
 
        return true

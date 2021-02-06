@@ -98,7 +98,11 @@ class PGLSaliencyBlurFilter: CIFilter {
 
     }
 
-
+        class override var supportsSecureCoding: Bool { get {
+            // subclasses of PGLFilterCIAbstract must  each implement this
+//             Core Data requires secureCoding to store the filter
+            return true
+        }}
 
     class func register()   {
  //       let attr: [String: AnyObject] = [:]

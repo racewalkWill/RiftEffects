@@ -17,7 +17,7 @@ class PGLFilterCIAbstract: CIFilter {
         PGLBumpFaceCIFilter.self,
 //        PGLCarnivalMirror.self,
         PGLFaceCIFilter.self,
-        PGLImageCIFilter.self,
+
         PGLTiltShift.self,
         
         ]

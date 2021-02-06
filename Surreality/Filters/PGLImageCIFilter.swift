@@ -9,10 +9,13 @@
 
 import UIKit
 
-class PGLImageCIFilter: PGLFilterCIAbstract {
+class PGLImageCIFilter: CIFilter {
     // just return an image.. NO EFFECTS.. Starts the filter chain..
 
-    override class func register() {
+    @objc dynamic   var inputImage: CIImage?
+    @objc dynamic   var inputTime: NSNumber = 10.0
+
+    class func register() {
         //       let attr: [String: AnyObject] = [:]
         NSLog("PGLImageCIFilter #register()")
         CIFilter.registerName(kPImages, constructor: PGLFilterConstructor(), classAttributes: PGLImageCIFilter.customAttributes())
@@ -25,12 +28,12 @@ class PGLImageCIFilter: PGLFilterCIAbstract {
     }}
 
 
-    @objc    override class func customAttributes() -> [String: Any] {
+    @objc class func customAttributes() -> [String: Any] {
         let customDict:[String: Any] = [
             kCIAttributeFilterDisplayName : "Images",
 
             kCIAttributeFilterCategories :
-                [kCICategoryTransition],
+                [kCICategoryTransition, kCICategoryStillImage],
             "inputTime" :  [
 
                 kCIAttributeDefault   : 0.00,
@@ -41,8 +44,6 @@ class PGLImageCIFilter: PGLFilterCIAbstract {
         return customDict
     }
 
-//    @objc dynamic  var inputImage: CIImage?
-    @objc dynamic  var inputTime = 0.0
 
     override var outputImage: CIImage? {
         get { return inputImage }

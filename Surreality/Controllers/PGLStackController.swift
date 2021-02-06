@@ -273,6 +273,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     @IBAction func addRandom(_ sender: UIBarButtonItem) {
         NSLog("PGLStackController addRandom button click")
         let demoGenerator = PGLDemo()
+        appStack.removeDefaultEmptyFilter()
         demoGenerator.appStack = appStack // pass on the stacks
         demoGenerator.multipleInputTransitionFilters()
 
@@ -363,6 +364,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
       _ = thisStack.removeFilter(position: indexPath.row)
        self.updateDisplay()
+        if appStack.showFilterImage {appStack.postSelectActiveStackRow()}
         // other updates in PGLImageController
     //            updateNavigationBar()
 //                postCurrentFilterChange()
