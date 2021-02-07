@@ -86,8 +86,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     @IBOutlet weak var openBtn: UIBarButtonItem!
 
 
-
-
+    @IBOutlet weak var helpBtn: UIBarButtonItem!
+    
+ 
     // MARK: navBtn Actions
 
     @IBAction func saveStackActionBtn(_ sender: UIBarButtonItem) {
@@ -97,8 +98,19 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     @IBAction func helpBtnAction(_ sender: UIBarButtonItem) {
-        let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLHelpPageController") as? PGLHelpPageController
-
+        guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLHelpPageController") as? PGLHelpPageController
+        else {
+            return
+        }
+        helpController.modalPresentationStyle = .popover
+        // specify anchor point?
+        guard let popOverPresenter = helpController.popoverPresentationController
+        else { return }
+        popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
+        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+//        popOverPresenter.sourceView = view
+        popOverPresenter.barButtonItem = helpBtn
+        present(helpController, animated: true )
     }
 
 

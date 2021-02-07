@@ -88,13 +88,40 @@
             </objects>
             <point key="canvasLocation" x="-692" y="715"/>
         </scene>
-        <!--Page View Controller-->
+        <!--Help Page Controller-->
         <scene sceneID="BBG-8M-FXL">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="n9h-BV-vuJ" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="PGLHelpPageController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="n9h-BV-vuJ" customClass="PGLHelpPageController" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YtR-Yq-uME" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="859" y="-919"/>
+        </scene>
+        <!--Help View Controller-->
+        <scene sceneID="Omk-uf-URZ">
+            <objects>
+                <viewController storyboardIdentifier="PGLHelpViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mti-YC-37S" customClass="PGLHelpViewController" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bMu-Zr-fIC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Whs-gL-mdt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PdK-IK-SwM">
+                        <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Help is here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wSZ-Tb-zzU">
+                                <rect key="frame" x="230" y="20" width="91" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pwx-e6-foM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1504" y="-917"/>
         </scene>
         <!--Image Controller-->
         <scene sceneID="8Cz-fE-dCl">
@@ -202,7 +229,7 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="yZ4-j9-t2a" userLabel="Help">
                                 <connections>
-                                    <action selector="helpBtnAction:" destination="Cot-0o-SSg" id="jiE-mx-89R"/>
+                                    <action selector="helpBtnAction:" destination="Cot-0o-SSg" id="dXX-ug-hYR"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="New" image="trash" catalog="system" id="SFn-i1-DR7">
@@ -225,6 +252,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="bottomTintView" destination="sNy-RU-13Z" id="nBg-V0-Arz"/>
+                        <outlet property="helpBtn" destination="yZ4-j9-t2a" id="fj8-FE-hnh"/>
                         <outlet property="leftTintView" destination="wa4-VM-jqe" id="Ad7-Kr-gKI"/>
                         <outlet property="openBtn" destination="2yx-FU-YMc" id="2Gl-7b-MXF"/>
                         <outlet property="parmSlider" destination="zCg-lU-rqI" id="iU8-Va-3cX"/>
@@ -831,13 +859,13 @@
         <scene sceneID="dfj-In-sbB">
             <objects>
                 <tableViewController storyboardIdentifier="StackController" id="dDm-tJ-e98" customClass="PGLStackController" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" showsReorderControl="YES" accessoryType="disclosureIndicator" indentationWidth="20" reuseIdentifier="filterRowCell" textLabel="jaH-Rx-fdN" style="IBUITableViewCellStyleDefault" id="yOX-Yb-noN">
-                                <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="834" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yOX-Yb-noN" id="KAe-B8-bgl">
                                     <rect key="frame" x="0.0" y="0.0" width="489.5" height="43.5"/>
