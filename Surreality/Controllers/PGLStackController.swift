@@ -276,7 +276,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         appStack.removeDefaultEmptyFilter()
         demoGenerator.appStack = appStack // pass on the stacks
         demoGenerator.multipleInputTransitionFilters()
-
+        appStack.viewerStack.activeFilterIndex = 0
         self.updateDisplay()
        
     }

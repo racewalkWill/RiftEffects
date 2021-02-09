@@ -40,8 +40,21 @@ import UIKit
 
 class PGLHelpPageController: UIPageViewController {
     // pop up modal 4 pages intro pics with comments
-    var helpPages = ["help1", "help2", "help3", "help4"]
+
+    var helpPages: [(imageName: String, imageText: String )] = [
+            ("TouchSwipePick2",
+                "Touch the filter, then Swipe and Pick an image from your photo library") ,
+            ("PlusButton",
+                "+ button adds a new filter"),
+            ("SurrealityFilter1",
+                "Select a new filter" ),
+            ( "SurrealityFilterParm",
+                "Select a filter parm, and adjust the control")
+
+            ]
+
     var currentIndex: Int!
+    var instructionText: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,15 +69,17 @@ class PGLHelpPageController: UIPageViewController {
 
         dataSource = self
       }
-    func viewPhotoCommentController(_ index: Int) -> PGLHelpViewController? {
+    func viewPhotoCommentController(_ index: Int) -> PGLHelpSinglePage? {
       guard
         let storyboard = storyboard,
-        let page = storyboard.instantiateViewController(withIdentifier: "PGLHelpViewController") as? PGLHelpViewController
+        let page = storyboard.instantiateViewController(withIdentifier: "PGLHelpSinglePage") as? PGLHelpSinglePage
         else {
           return nil
       }
-      page.photoName = helpPages[index]
-      page.photoIndex = index
+        page.photoIndex = index
+        page.photoName = helpPages[index].imageName
+        page.instructionText = helpPages[index].imageText
+
       return page
     }
   }
@@ -72,7 +87,7 @@ class PGLHelpPageController: UIPageViewController {
   extension PGLHelpPageController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-      if let viewController = viewController as? PGLHelpViewController,
+      if let viewController = viewController as? PGLHelpSinglePage,
         let index = viewController.photoIndex,
         index > 0 {
         return viewPhotoCommentController(index - 1)
@@ -83,7 +98,7 @@ class PGLHelpPageController: UIPageViewController {
 
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-      if let viewController = viewController as? PGLHelpViewController,
+      if let viewController = viewController as? PGLHelpSinglePage,
         let index = viewController.photoIndex,
         (index + 1) < helpPages.count {
         return viewPhotoCommentController(index + 1)
