@@ -121,7 +121,8 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 
 
         // Create a PHFetchResult object for each section in the table view.
-
+        // if user has not granted PhotoLibrary permission then a dialog appears
+        
         smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any , options: nil)
         albums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular , options: nil)
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Photos
 
 let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.Surreality"
 var mainViewImageResize = true
@@ -38,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLSaliencyBlurFilter.register()
         PGLImageCIFilter.register()
        appStack = PGLAppStack()
-
+//        checkPhotoLibraryAcccess()
        return true
         }
 
@@ -126,4 +127,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+// MARK: PhotoLibrary Access check
+//      if photo library access is denied then this app has no functionality
+//      it loads and applies filters to photolibrary images
+//func checkPhotoLibraryAcccess() {
+//    let accessLevel: PHAccessLevel = .readWrite
+//    let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+//    var needsPhotoAccessChange = false // default
+//    switch authorizationStatus {
+//        case .authorized, .limited:
+//            needsPhotoAccessChange = false // authorized or limited is fine
+//        case  .denied, .restricted, .notDetermined:
+//            needsPhotoAccessChange = true
+//        default:
+//        //FIXME: Implement handling for all authorizationStatus values
+//        print("Not implemented")
+//    }
+//
+//    if needsPhotoAccessChange {
+//        confirmUserPhotoLibraryUsage()
+//    }
+//}
+//
+//func confirmUserPhotoLibraryUsage() {
+//    let requiredAccessLevel: PHAccessLevel = .readWrite // or .addOnly
+//    PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
+//        switch authorizationStatus {
+//            case .authorized, .limited:
+//               NSLog("User changed Photo Library authorization status") // authorized or limited is fine
+//            case  .denied, .restricted, .notDetermined:
+//                NSLog("User Photo Library authorization status = \(authorizationStatus)") // we asked  but no good.
+//            default:
+//
+//            NSLog("authorizationStatus = \(authorizationStatus) not implemented")
+//        }
+//    }
+
 

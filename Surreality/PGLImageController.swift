@@ -116,10 +116,24 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     var tintViews = [UIView]()
 
+    func isLimitedPhotoLibAccess() -> Bool {
+        let accessLevel: PHAccessLevel = .readWrite // or .addOnly
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+
+        switch authorizationStatus {
+            case .limited :
+            return true
+        default:
+            // all other authorizationStatus values
+           return false
+        }
+    }
     func saveStackAlert(_ sender: UIBarButtonItem) {
         var defaultName = String()
         var defaultType = String()
         var defaultAlbumName: String?
+        let isAlbumCreationAllowed = !isLimitedPhotoLibAccess()
+
         let alertController = UIAlertController(title: NSLocalizedString("Save", comment: ""),
                        message: nil ,
                        preferredStyle: .alert)
@@ -146,7 +160,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
               textField.placeholder = NSLocalizedString("Type", comment: "")
             }
         }
-
+        if isAlbumCreationAllowed {
              alertController.addTextField { textField in
                 if  (defaultAlbumName?.count ?? 0 ) > 0 {
                      textField.text = defaultAlbumName }
@@ -154,6 +168,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                  else {
                      textField.placeholder = NSLocalizedString("Optional - export to Photo Album", comment: "")
                  }
+             }
          }
 
 
@@ -161,32 +176,33 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
         let saveAction = UIAlertAction(title: "Save",
-                                style: .default) { (action) in
-                           if let targetStack = self.appStack.firstStack() {
-                           let titleField = alertController.textFields!.first!
-                           let typeField = alertController.textFields![1]
-                           let exportAlbumField = alertController.textFields![2]
-                           if let title = titleField.text, !title.isEmpty {
-                                  // Respond to user selection of the action
-                                  targetStack.stackName = title
+                        style: .default) { (action) in
+               if let targetStack = self.appStack.firstStack() {
+                   let titleField = alertController.textFields!.first!
+                   let typeField = alertController.textFields![1]
 
-                               if let myType = typeField.text, !myType.isEmpty {
-                                   targetStack.stackType = myType
-                                   AppUserDefaults.set(myType, forKey: StackTypeKey)
-                               }
-                               if let albumName = exportAlbumField.text, !albumName.isEmpty {
+                   if let title = titleField.text, !title.isEmpty {
+                          // Respond to user selection of the action
+                          targetStack.stackName = title
 
-                                   targetStack.exportAlbumName = albumName
+                    if let myType = typeField.text, !myType.isEmpty {
+                           targetStack.stackType = myType
+                           AppUserDefaults.set(myType, forKey: StackTypeKey)
+                       }
+                    if isAlbumCreationAllowed {
+                        if let  albumName = alertController.textFields![2].text {
+                            if !(albumName.isEmpty) {
 
-                               }
-                               NSLog("saveAction calls saveToPhotosLibrary")
-                            self.appStack.saveStack(metalRender: self.metalController!.metalRender)
+                           targetStack.exportAlbumName = albumName
+                        NSLog("saveAction calls saveToPhotosLibrary")
+                            }
+                        }
 
+                       }
+                    self.appStack.saveStack(metalRender: self.metalController!.metalRender)
+              }
 
-                               }
-                      }
-
-
+                }
         }
 
        let cancelAction = UIAlertAction(title: "Cancel",
