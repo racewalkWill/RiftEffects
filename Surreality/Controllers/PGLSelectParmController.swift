@@ -8,6 +8,7 @@
 
 import UIKit
 import simd
+import PhotosUI
 
 enum ImageParm: Int {
     case photo = 0  // input from imageList of one or more images
@@ -24,8 +25,9 @@ let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAn
 
 class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableViewDataSource,
              UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate,
-                UIFontPickerViewControllerDelegate
+                UIFontPickerViewControllerDelegate , PHPickerViewControllerDelegate
 {
+
     // UITableViewController
 //    var parmStackData: () -> PGLFilterStack?  = { PGLFilterStack() }
     // a function is assigned to this var that answers the filterStack
@@ -55,7 +57,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     let sectionOther = 2
 
     var imageController: PGLImageController?
-
+    var usePGLImagePicker = true // false will use the WWDC20 PHPickerViewController image selection
+    // waiting for improvments in PHPickerViewController to use albumId to
+    // show last user selection
+    
     var scaleFactor: CGFloat = 2.0
 
 //    let arrowRightCirclFill = UIImage(systemName: "arrow.right.circle.fill")
@@ -1147,10 +1152,44 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // "Show" segue
         // goToImageCollection
         NSLog("PGLSelectParmController #pickImage")
-        performSegue(withIdentifier: "goToImageCollection", sender: attribute)
-         }
+        if usePGLImagePicker {
+            performSegue(withIdentifier: "goToImageCollection", sender: attribute)
+        }
+        else {
+            // waiting for improvments in PHPickerViewController to use albumId to
+            // show last user selection
+            let photoLibrary = PHPhotoLibrary.shared()
+                   var configuration = PHPickerConfiguration(photoLibrary: photoLibrary)
+                if (currentFilter?.isTransitionFilter() ??  false ) {
+                            configuration.selectionLimit = 0
+                    }
+                   let picker = PHPickerViewController(configuration: configuration)
+                   picker.delegate = self
+                   present(picker, animated: true)
+        }
+    }
 
 
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        // waiting for improvments in PHPickerViewController to use albumId to
+        // show last user selection
+        let identifiers = results.compactMap(\.assetIdentifier)
+//         let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
+        let selectedImageList = PGLImageList(localAssetIDs: identifiers, albumIds: [] )
+        // for identifiers
+        // get PHAssets then
+        
+//        PHAssetCollection class func fetchAssetCollectionsContaining(_ asset: PHAsset,
+//                                              with type: PHAssetCollectionType,
+//                                           options: PHFetchOptions?) -> PHFetchResult<PHAssetCollection>
+
+        // missing albums
+        // See PGLUserAssetSelection.setUserPick()
+
+        tappedAttribute!.setImageCollectionInput(cycleStack: selectedImageList)
+
+    }
 
 
 
