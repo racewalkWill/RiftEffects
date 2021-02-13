@@ -207,7 +207,8 @@ class PGLFilterStack  {
         }
         if newFilter.storedFilter != nil {
             // if nil it will be created as save time
-            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+//            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+            storedStack?.addToFilters(newFilter.storedFilter!)
             // the case of firstFilterIsActive() has set activeFilterIndex to zero
         }
 
@@ -245,7 +246,8 @@ class PGLFilterStack  {
         }
         if newFilter.storedFilter != nil {
             // if nil it will be created as save time
-            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+//            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+            storedStack?.addToFilters(newFilter.storedFilter!)
             // the case of firstFilterIsActive() has set activeFilterIndex to zero
         }
           updateFilterList()
@@ -323,8 +325,10 @@ class PGLFilterStack  {
             activeFilters[at] = newFilter
             updateFilterList()
             // a delete and add of storedFilters
+            if let oldStoredFilter = oldFilter.storedFilter {
+                storedStack?.removeFromFilters(oldStoredFilter)}
             if newFilter.storedFilter != nil {
-                storedStack?.replaceFilters(at: at, with: newFilter.storedFilter!) }
+                storedStack?.addToFilters(newFilter.storedFilter!)  }
 
         }
     }
@@ -356,9 +360,10 @@ class PGLFilterStack  {
     func removeAllFilters() {
         if storedStack != nil {
             // then the filters must have storedFilter objects too
-            let filterRange = NSRange(location: 0, length: (activeFilters.count - 1))
-            let filterIndexSet = NSIndexSet(indexesIn: filterRange )
-            storedStack?.removeFromFilters(at: filterIndexSet)
+//            let filterRange = NSRange(location: 0, length: (activeFilters.count - 1))
+//            let filterIndexSet = NSIndexSet(indexesIn: filterRange )
+            if let cdFiltersToRemove = (storedStack?.filters) {
+                storedStack?.removeFromFilters(cdFiltersToRemove) }
         }
         activeFilters = [PGLSourceFilter]()
         activeFilterIndex = -1 // nothing

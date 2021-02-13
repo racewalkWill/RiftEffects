@@ -15,9 +15,9 @@
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDepthFilter.swift */; };
+		A3AAC54325D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */; };
+		A3AAC54B25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
-		A3B23A0D2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */; };
-		A3B23A0E2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
 		A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504124D32A3400CD5114 /* PGLResultsController.swift */; };
 		A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504324D32A3400CD5114 /* Sobel.m */; };
@@ -133,15 +133,16 @@
 		A308939E251E977400F244D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterGroup.swift; sourceTree = "<group>"; };
 		A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDemo.swift; sourceTree = "<group>"; };
+		A33999F925D6CF7900089560 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A341185E25C3008100587590 /* Surreality.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Surreality.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
+		A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "Surreality/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
-		A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataClass.swift"; path = "../../CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
-		A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "../../CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* SurrealityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -281,6 +282,7 @@
 		A3BF500024D3298F00CD5114 = {
 			isa = PBXGroup;
 			children = (
+				A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF500B24D3298F00CD5114 /* Surreality */,
 				A3BF502524D3299100CD5114 /* SurrealityTests */,
 				A3BF503024D3299100CD5114 /* SurrealityUITests */,
@@ -388,9 +390,9 @@
 			isa = PBXGroup;
 			children = (
 				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
+				A33999F925D6CF7900089560 /* CDStoredFilter+CoreDataProperties.swift */,
+				A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */,
 				A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */,
-				A3B23A0C2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift */,
-				A3B23A0B2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift */,
 				A3BF509024D32A3400CD5114 /* Surreality.xcdatamodeld */,
 			);
 			path = "StoredData support";
@@ -587,7 +589,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Will Loew-Blosser";
 				TargetAttributes = {
 					A3BF500824D3298F00CD5114 = {
@@ -657,6 +659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3AAC54B25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF511924D32A3400CD5114 /* Surreality.xcdatamodeld in Sources */,
 				A3BF510E24D32A3400CD5114 /* PGLImageCIFilter.swift in Sources */,
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
@@ -688,6 +691,7 @@
 				A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */,
 				A3BF50FC24D32A3400CD5114 /* PGLSelectStackController.swift in Sources */,
 				A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */,
+				A3AAC54325D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift in Sources */,
 				A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */,
 				A3BF513124D32A3400CD5114 /* Renderer.swift in Sources */,
 				A3BF513324D32A3400CD5114 /* PGLAssetController.swift in Sources */,
@@ -696,7 +700,6 @@
 				A3BF513B24D32A3400CD5114 /* GridViewCell.swift in Sources */,
 				A3BF50FA24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift in Sources */,
 				A3BF512F24D32A3400CD5114 /* PGLFilterAttribute.swift in Sources */,
-				A3B23A0D2544DE2A00B82203 /* CDStoredFilter+CoreDataClass.swift in Sources */,
 				A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */,
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3BF513224D32A3400CD5114 /* PGLDataSource.swift in Sources */,
@@ -727,7 +730,6 @@
 				A3BF50E324D32A3400CD5114 /* PGLStackController.swift in Sources */,
 				A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */,
 				A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */,
-				A3B23A0E2544DE2A00B82203 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */,
 				A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */,
 				A3BF50D824D32A3400CD5114 /* PixellatedPeople.m in Sources */,
@@ -927,7 +929,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -951,7 +953,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

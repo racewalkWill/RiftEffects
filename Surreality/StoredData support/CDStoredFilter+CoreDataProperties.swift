@@ -1,15 +1,16 @@
 //
 //  CDStoredFilter+CoreDataProperties.swift
-//  Glance
+//  Surreality
 //
-//  Created by Will on 12/10/18.
-//  Copyright © 2018 Will. All rights reserved.
+//  Created by Will on 2/12/21.
+//  Copyright © 2021 Will Loew-Blosser. All rights reserved.
 //
 //
 
 import Foundation
 import CoreData
 import CoreImage
+
 
 extension CDStoredFilter {
 
@@ -19,6 +20,8 @@ extension CDStoredFilter {
 
     @NSManaged public var ciFilter: CIFilter?
     @NSManaged public var ciFilterName: String?
+    @NSManaged public var pglSourceFilterClass: String?
+    @NSManaged public var stackPosition: Int16
     @NSManaged public var input: NSSet?
     @NSManaged public var stack: CDFilterStack?
 
@@ -38,5 +41,9 @@ extension CDStoredFilter {
 
     @objc(removeInput:)
     @NSManaged public func removeFromInput(_ values: NSSet)
+
+}
+
+extension CDStoredFilter : Identifiable {
 
 }

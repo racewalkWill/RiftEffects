@@ -70,13 +70,15 @@ extension PGLFilterStack {
 
            exportAlbumIdentifier = cdStack.exportAlbumIdentifier
             exportAlbumName = cdStack.exportAlbumName
-
+            let sortDescription = NSSortDescriptor(key: "stackPosition", ascending: true)
+            let sortedFilter = cdStack.filters!.sortedArray(using: [sortDescription])
             NSLog("PGL-CDFilter PGLFilterStack init storedStack" )
-            for aCDFilter in cdStack.filters! {
+            for aCDFilter in sortedFilter {
                 // load stack to filter relationship
 
                 if let myCDFilter = aCDFilter as? CDStoredFilter {
                     NSLog("PGLFilterStack init storedStack on filter = \(String(describing: myCDFilter.ciFilterName))" )
+//                    NSLog("PGLFilterStack filters on \(aCDFilter.stackPosition)")
                     guard let newSource = PGLSourceFilter.readPGLFilter(myCDFilter: myCDFilter)
 
                     else { return }
@@ -96,9 +98,10 @@ extension PGLFilterStack {
         // assume we are reading by title
         let titlePredicate = NSPredicate(format: "title == %@", titled)
         let datePredicate = NSPredicate(format: "created == %@", createdDate as CVarArg)
-
+//        let sortFiltersPredicate = NSSortDescriptor(key: #keyPath(CDFilterStack.filters.stackPosition), ascending: true)
         request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
         request.fetchLimit = 1
+//        request.sortDescriptors = [sortFiltersPredicate]
 
         var readResults: [CDFilterStack]!
         do {  readResults = try moContext.fetch(request) }
@@ -131,18 +134,23 @@ extension PGLFilterStack {
             for filterIndex in 0..<activeFilters.count {
                 let aFilter = activeFilters[filterIndex]
                 if aFilter.storedFilter == nil {
-                     let theFilterStoredObject = aFilter.createCDFilterObject()
+                    let theFilterStoredObject = aFilter.createCDFilterObject(stackPosition: Int16(filterIndex))
                     // moves images to cache to reduce storage
                     // does not need to add if the filter exists in the relation already
                     // storedStack?.addToFilters(theFilterStoredObject)
                     // add at the correct position !
-                    storedStack?.insertIntoFilters(theFilterStoredObject, at: filterIndex)
+                    storedStack?.addToFilters(theFilterStoredObject)
+                    //storedStack?.insertIntoFilters(theFilterStoredObject, at: filterIndex)
 
                 } else {
                     // further check on the relationship
+                    aFilter.storedFilter?.stackPosition = Int16(filterIndex)
+                        // always reset this for order changes
+
                     if aFilter.storedFilter?.stack == nil {
                         // make sure we have the order correct
                         // appends cdStoredfilter to the stack relationship
+
                         storedStack?.addToFilters(aFilter.storedFilter!)
                     }
                 }
@@ -226,7 +234,7 @@ extension PGLSourceFilter {
 
     }
 
-    func createCDFilterObject() -> CDStoredFilter {
+    func createCDFilterObject(stackPosition: Int16) -> CDStoredFilter {
         // create cdFilter object
         // do not store filter image inputs in the CoreData..
         // saves storage memory - the localId will be saved and used to restore inputs
@@ -243,6 +251,7 @@ extension PGLSourceFilter {
 
             
         }
+        storedFilter?.stackPosition = stackPosition
         storedFilter!.ciFilter = self.localFilter
         storedFilter!.ciFilterName = self.filterName
         storedFilter!.pglSourceFilterClass = self.classStringName()
