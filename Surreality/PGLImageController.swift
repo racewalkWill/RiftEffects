@@ -62,6 +62,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
    let debugLogDrawing = false
     let crossPoint = UIImage(systemName: "plus.circle.fill")
+//    let reverseCrossPoint = UIImage(systemName: "plus.circle")
 
 
 
@@ -615,11 +616,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             // newOrigin should be the center of the controlFrame
 
             let newView = UIImageView(image: crossPoint)
+//            newView.animationImages?.append(reverseCrossPanimationImagesoint!)
+//            newView.animationDuration = 1.0
+
             newView.frame =  controlFrame
             newView.center = mappedOrigin
 
             newView.isOpaque = true
-            newView.alpha = 0.6
+//            newView.alpha = 0.6 alpha not used when isOpaque == true
 //            newView.tintColor = .systemFill
 //            newView.backgroundColor = .systemBackground
             newView.isUserInteractionEnabled = true
