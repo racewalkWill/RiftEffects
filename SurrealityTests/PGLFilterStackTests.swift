@@ -70,8 +70,8 @@ class PGLFilterStackTests: XCTestCase {
     }
 
     override  func tearDown() {
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        myAppDelegate.saveContext()
+//        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+//        myAppDelegate.saveContext()
         let newStack = PGLFilterStack()
         newStack.setStartupDefault() // not sent in the init.. need a starting point
         testAppStack.resetToTopStack(newStack: newStack)
