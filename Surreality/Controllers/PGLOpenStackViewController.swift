@@ -26,6 +26,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     lazy var fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 as! CDFilterStack ) })
 
+
     let filterOpenTitle = "Open Filter Stack"
      let dateFormatter = DateFormatter()
 
@@ -86,14 +87,14 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
                 // only CDFilterStacks with outputToParm = null.. ie it is not a child stack)
             var sortArray = [NSSortDescriptor]()
-
+            sortArray.append(NSSortDescriptor(key: "type", ascending: true))
             sortArray.append(NSSortDescriptor(key: "title", ascending: true))
-    //        sortArray.append(NSSortDescriptor(key: "type", ascending: true))
+
 
             stackRequest.sortDescriptors = sortArray
 
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: stackRequest, managedObjectContext: myMOContext, sectionNameKeyPath: "title", cacheName: nil ) as! NSFetchedResultsController<NSFetchRequestResult>
-                // or cacheName = "GlanceStackCache"
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: stackRequest, managedObjectContext: myMOContext, sectionNameKeyPath:"type" , cacheName: nil ) as! NSFetchedResultsController<NSFetchRequestResult>
+                // or cacheName = "GlanceStackCache" "StackType"
 
            fetchedResultsController.delegate = self
         // set delegate if change notifications are needed for insert, delete, etc in the manageobjects
@@ -216,6 +217,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         dismiss(animated: true, completion: nil )
     }
 
+
+
      // Override to support editing the table view.
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         dataSource.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
@@ -242,6 +245,14 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     class DataSource: UITableViewDiffableDataSource<Int, CDFilterStack> {
 
         lazy var sourceMoContext: NSManagedObjectContext = PersistentContainer.viewContext
+
+
+        // MARK: Header
+        override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+            let firstSectionItem = itemIdentifier(for: IndexPath(item:0, section: section))
+            let thisSectionTitle =  firstSectionItem?.type ?? ""
+            return thisSectionTitle
+        }
 
         // MARK: editing support
 
@@ -335,6 +346,9 @@ extension PGLOpenStackViewController {
     }
     func configureDataSource() {
         dataSource = DataSource(tableView: tableView) { (tableView, indexPath, cdFilterStack) -> UITableViewCell? in
+
+
+
             var cell = tableView.dequeueReusableCell(withIdentifier: "stackCell")
             if cell == nil {
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "stackCell")
@@ -359,23 +373,27 @@ extension PGLOpenStackViewController {
     func initialSnapShot() -> NSDiffableDataSourceSnapshot<Int, CDFilterStack> {
 
         var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
-        snapshot.appendSections([0])
 
-        if let stacks = fetchedStacks
-          { NSLog("PGLOpenStackViewController #initialSnapShot count = \(stacks.count)")
-            snapshot.appendItems(stacks) }
-        else { snapshot.appendItems([CDFilterStack]())
-             // show empty snapshot
-             }
+
+        if let sections = fetchedResultsController.sections {
+            for index in  0..<sections.count
+              {
+                snapshot.appendSections([index])
+                let thisSection = sections[index]
+                if let sectionStacks = thisSection.objects as? [CDFilterStack]
+                {
+                        snapshot.appendItems(sectionStacks)
+
+                }
+
+                 // show empty snapshot
+                 }
+
+        }
         return snapshot
-//        if let fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 as! CDFilterStack ) })
-//        {
-//            snapshot.appendItems(fetchedStacks)
-//        }
-//
-//        return snapshot
     }
-}
+} // end extension scope
+
 
 
     extension PGLOpenStackViewController: UISearchBarDelegate {
