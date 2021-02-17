@@ -31,7 +31,12 @@ class PGLExcludeFilters {
         "CIPaletteCentroid" ,
         "CIPalettize",
         "CIColorCurves",
-        "CISaliencyMapFilter"  // use PGLSaliencyBlurFilter instead of built in filter
+        "CISaliencyMapFilter", // use PGLSaliencyBlurFilter instead of built in filter
+        "CIConvolution3X3",
+        "CIConvolution5X5",
+        "CIConvolution7X7",
+        "CIConvolution9Horizontal",
+        "CIConvolution9Vertical"
 
         // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
 //        "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",
