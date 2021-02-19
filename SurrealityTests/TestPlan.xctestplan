@@ -1,0 +1,18 @@
+{
+  "configurations" : [
+    {
+      "id" : "CBA3D758-D2AF-4A22-9898-EB41B1832693",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}

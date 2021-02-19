@@ -277,6 +277,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         demoGenerator.appStack = appStack // pass on the stacks
         demoGenerator.multipleInputTransitionFilters()
         appStack.viewerStack.activeFilterIndex = 0
+        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+            // show the new results !
+
         self.updateDisplay()
        
     }

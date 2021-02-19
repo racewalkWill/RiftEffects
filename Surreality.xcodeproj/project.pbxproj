@@ -137,6 +137,7 @@
 		A341185E25C3008100587590 /* Surreality.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Surreality.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
+		A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
@@ -323,6 +324,7 @@
 		A3BF502524D3299100CD5114 /* SurrealityTests */ = {
 			isa = PBXGroup;
 			children = (
+				A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */,
 				A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */,
 				A3BF514A24D32D3400CD5114 /* PGLSourceFilterTests.swift */,
 				A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */,
