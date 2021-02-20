@@ -81,15 +81,15 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     @IBOutlet var sliders: [UISlider]!
 
 
-    @IBOutlet weak var saveBtn: UIBarButtonItem!
-
-
-    @IBOutlet weak var openBtn: UIBarButtonItem!
-
 
     @IBOutlet weak var helpBtn: UIBarButtonItem!
     
- 
+    @IBOutlet weak var moreBtn: UIBarButtonItem!
+
+
+
+
+
     // MARK: navBtn Actions
 
     @IBAction func saveStackActionBtn(_ sender: UIBarButtonItem) {
@@ -464,6 +464,20 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         tintViews.append(contentsOf: [topTintView, bottomTintView, leftTintView, rightTintView])
 
+        let contextMenu = UIMenu(title: "",
+                    children: [
+                        UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {              action in
+                                self.saveStackAlert(self.moreBtn)
+                                    },
+                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil")) {              action in
+                            self.saveStackAlert(self.moreBtn)
+                                    },
+                        UIAction (title: "Open..", image:UIImage(systemName: "folder")) {              action in
+                            self.openStackActionBtn(self.moreBtn)
+                                }
+
+        ])
+            moreBtn.menu = contextMenu
     }
 
     override func viewDidAppear(_ animated: Bool) {

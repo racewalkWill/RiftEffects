@@ -22,11 +22,11 @@
                                 <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bAo-zi-it5" id="LE4-Pc-AYC">
-                                    <rect key="frame" x="0.0" y="0.0" width="802" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="511" height="43"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oxp-d1-8dN">
-                                            <rect key="frame" x="15" y="0.0" width="779" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="487" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
@@ -252,16 +252,7 @@
                                     <action selector="newStackActionBtn:" destination="Cot-0o-SSg" id="5ZK-Is-TWK"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="save" image="folder.badge.plus" catalog="system" id="tZ1-Mv-wLR">
-                                <connections>
-                                    <action selector="saveStackActionBtn:" destination="Cot-0o-SSg" id="OPI-C3-4gT"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Open" image="folder" catalog="system" id="2yx-FU-YMc">
-                                <connections>
-                                    <action selector="openStackActionBtn:" destination="Cot-0o-SSg" id="Rki-E4-LFm"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="EUH-a9-le3"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -269,10 +260,9 @@
                         <outlet property="bottomTintView" destination="sNy-RU-13Z" id="nBg-V0-Arz"/>
                         <outlet property="helpBtn" destination="yZ4-j9-t2a" id="fj8-FE-hnh"/>
                         <outlet property="leftTintView" destination="wa4-VM-jqe" id="Ad7-Kr-gKI"/>
-                        <outlet property="openBtn" destination="2yx-FU-YMc" id="2Gl-7b-MXF"/>
+                        <outlet property="moreBtn" destination="EUH-a9-le3" id="zCC-Ct-vgG"/>
                         <outlet property="parmSlider" destination="zCg-lU-rqI" id="iU8-Va-3cX"/>
                         <outlet property="rightTintView" destination="6Ki-pV-gkl" id="pC4-6T-dRi"/>
-                        <outlet property="saveBtn" destination="tZ1-Mv-wLR" id="52D-M2-Irf"/>
                         <outlet property="topTintView" destination="WIG-ES-l8C" id="4WK-Ii-zR6"/>
                         <outletCollection property="sliders" destination="xpj-gS-MzU" collectionClass="NSMutableArray" id="DVW-U3-NZP"/>
                         <outletCollection property="sliders" destination="a5o-Sr-vCZ" collectionClass="NSMutableArray" id="RjS-RG-r5F"/>
@@ -874,7 +864,7 @@
         <scene sceneID="dfj-In-sbB">
             <objects>
                 <tableViewController storyboardIdentifier="StackController" id="dDm-tJ-e98" customClass="PGLStackController" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -883,11 +873,11 @@
                                 <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yOX-Yb-noN" id="KAe-B8-bgl">
-                                    <rect key="frame" x="0.0" y="0.0" width="772.5" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="524" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jaH-Rx-fdN">
-                                            <rect key="frame" x="15" y="0.0" width="749.5" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="500" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -979,8 +969,7 @@
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.up" catalog="system" width="128" height="72"/>
-        <image name="folder" catalog="system" width="128" height="97"/>
-        <image name="folder.badge.plus" catalog="system" width="128" height="91"/>
+        <image name="ellipsis.circle" catalog="system" width="128" height="121"/>
         <image name="minus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="questionmark.square.dashed" catalog="system" width="128" height="114"/>
