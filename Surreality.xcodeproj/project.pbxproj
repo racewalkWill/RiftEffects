@@ -16,6 +16,7 @@
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDepthFilter.swift */; };
+		A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */; };
 		A3AAC54325D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */; };
 		A3AAC54B25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
@@ -51,7 +52,6 @@
 		A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506524D32A3400CD5114 /* BadgeSupplementrayView.swift */; };
 		A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506624D32A3400CD5114 /* TextCell.swift */; };
 		A3BF50F524D32A3400CD5114 /* OutlineItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */; };
-		A3BF50F624D32A3400CD5114 /* PinnedSectionHeaderFooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506824D32A3400CD5114 /* PinnedSectionHeaderFooterViewController.swift */; };
 		A3BF50F724D32A3400CD5114 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506924D32A3400CD5114 /* TitleSupplementaryView.swift */; };
 		A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506A24D32A3400CD5114 /* StackDataCell.swift */; };
 		A3BF50FA24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF506C24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift */; };
@@ -141,6 +141,7 @@
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
+		A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialogController.swift; sourceTree = "<group>"; };
 		A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "Surreality/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
@@ -181,7 +182,6 @@
 		A3BF506524D32A3400CD5114 /* BadgeSupplementrayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeSupplementrayView.swift; sourceTree = "<group>"; };
 		A3BF506624D32A3400CD5114 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineItemCell.swift; sourceTree = "<group>"; };
-		A3BF506824D32A3400CD5114 /* PinnedSectionHeaderFooterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedSectionHeaderFooterViewController.swift; sourceTree = "<group>"; };
 		A3BF506924D32A3400CD5114 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
 		A3BF506A24D32A3400CD5114 /* StackDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackDataCell.swift; sourceTree = "<group>"; };
 		A3BF506B24D32A3400CD5114 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -369,7 +369,6 @@
 				A3BF506524D32A3400CD5114 /* BadgeSupplementrayView.swift */,
 				A3BF506624D32A3400CD5114 /* TextCell.swift */,
 				A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */,
-				A3BF506824D32A3400CD5114 /* PinnedSectionHeaderFooterViewController.swift */,
 				A3BF506924D32A3400CD5114 /* TitleSupplementaryView.swift */,
 				A3BF506A24D32A3400CD5114 /* StackDataCell.swift */,
 				A3BF506B24D32A3400CD5114 /* LICENSE.txt */,
@@ -445,6 +444,7 @@
 				A3BF505324D32A3400CD5114 /* PGLStackController.swift */,
 				A3BF505724D32A3400CD5114 /* PGLMetalController.swift */,
 				A3BF515B24D3618300CD5114 /* PGLImageController.swift */,
+				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
 				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
 				A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */,
 				A3BF506024D32A3400CD5114 /* PGLMainFilterController.swift */,
@@ -662,9 +662,9 @@
 				A3BF511924D32A3400CD5114 /* Surreality.xcdatamodeld in Sources */,
 				A3BF510E24D32A3400CD5114 /* PGLImageCIFilter.swift in Sources */,
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
+				A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */,
 				A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */,
 				A3BF513424D32A3400CD5114 /* PGLPhotoLists.swift in Sources */,
-				A3BF50F624D32A3400CD5114 /* PinnedSectionHeaderFooterViewController.swift in Sources */,
 				A3BF510A24D32A3400CD5114 /* MetalFilter.swift in Sources */,
 				A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */,
 				A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */,

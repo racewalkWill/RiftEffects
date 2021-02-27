@@ -488,13 +488,15 @@ extension PGLAppStack {
 
     }
 
-    func saveStack(metalRender: Renderer) {
+    func saveStack(metalRender: Renderer, saveToPhotoLibrary: Bool) {
         let targetStack = firstStack()!
         let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
         serialQueue.async {
             DoNotDrawWhileSave = true
-           self.saveToPhotosLibrary(stack: targetStack, metalRender: metalRender)
+            if saveToPhotoLibrary {
+               self.saveToPhotosLibrary(stack: targetStack, metalRender: metalRender)
                // call first so the albumIdentifier can be stored
+            }
            NSLog("saveAction calls writeCDStacks")
             self.writeCDStacks()
             DoNotDrawWhileSave = false
@@ -536,7 +538,11 @@ extension PGLAppStack {
                // get the metal context -
                guard let uiImageOutput = metalRender.captureImage()
 
-                   else { fatalError("outputImage fails in #saveToPhotosLibrary")}
+                   else { return
+//                        fatalError("outputImage fails in #saveToPhotosLibrary")
+
+                        }
+
 
 
         if stack.exportAlbumName != nil {

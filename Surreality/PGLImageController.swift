@@ -94,7 +94,23 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     @IBAction func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
-            saveStackAlert(sender)
+//            saveStackAlert(sender)
+        guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
+        else {
+            return
+        }
+        saveDialogController.parentImageController = self
+        saveDialogController.modalPresentationStyle = .popover
+        saveDialogController.preferredContentSize = CGSize(width: 250.0, height: 300.0)
+        // specify anchor point?
+        guard let popOverPresenter = saveDialogController.popoverPresentationController
+        else { return }
+        popOverPresenter.canOverlapSourceViewRect = false // or barButtonItem
+        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+//        popOverPresenter.sourceView = view
+        popOverPresenter.barButtonItem = moreBtn
+        present(saveDialogController, animated: true )
+            // could also use completion handler here to execute the save action
 
     }
 
@@ -129,6 +145,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
            return false
         }
     }
+
+    func saveStack(saveToPhotoLibrary: Bool, newSaveAs: Bool) {
+        if isLimitedPhotoLibAccess() {
+            self.appStack.firstStack()?.exportAlbumName = nil
+        }
+        self.appStack.saveStack(metalRender: self.metalController!.metalRender, saveToPhotoLibrary: saveToPhotoLibrary)
+    }
+
     func saveStackAlert(_ sender: UIBarButtonItem) {
         var defaultName = String()
         var defaultType = String()
@@ -200,7 +224,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                         }
 
                        }
-                    self.appStack.saveStack(metalRender: self.metalController!.metalRender)
+                    self.appStack.saveStack(metalRender: self.metalController!.metalRender, saveToPhotoLibrary: false)
               }
 
                 }
@@ -467,7 +491,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         let contextMenu = UIMenu(title: "",
                     children: [
                         UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {              action in
-                                self.saveStackAlert(self.moreBtn)
+                                // self.saveStackAlert(self.moreBtn)
+                            self.saveStackActionBtn(self.moreBtn)
                                     },
                         UIAction(title: "Save As..", image:UIImage(systemName: "pencil")) {              action in
                             self.saveStackAlert(self.moreBtn)
