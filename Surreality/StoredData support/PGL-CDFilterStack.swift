@@ -488,12 +488,13 @@ extension PGLAppStack {
 
     }
 
-    func saveStack(metalRender: Renderer, saveToPhotoLibrary: Bool) {
+    func saveStack(metalRender: Renderer) {
         let targetStack = firstStack()!
+
         let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
         serialQueue.async {
             DoNotDrawWhileSave = true
-            if saveToPhotoLibrary {
+            if targetStack.shouldExportToPhotos {
                self.saveToPhotosLibrary(stack: targetStack, metalRender: metalRender)
                // call first so the albumIdentifier can be stored
             }
@@ -504,9 +505,10 @@ extension PGLAppStack {
     }
 
     func saveToPhotosLibrary( stack: PGLFilterStack, metalRender: Renderer ) {
-                      // check if the album exists..) {
+                // NOT called if targetStack.shouldExportToPhotos = false
+                // check if the album exists..)
                // save the output of this stack to the photos library
-                               // Create a new album with the entered title.
+                // Create a new album with the entered title.
               
                var assetCollection: PHAssetCollection?
 
@@ -545,14 +547,15 @@ extension PGLAppStack {
 
 
 
-        if stack.exportAlbumName != nil {
-               // Add the asset to the photo library if there is an album name
+        if stack.shouldExportToPhotos {
+               // Add the asset to the photo library
+                // album name may not be entered or used if limited photo library access
 
                       PHPhotoLibrary.shared().performChanges({
                           let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
                        // either get or create the target album
 
-                       if assetCollection == nil {
+                        if ( assetCollection == nil ) && ( stack.exportAlbumName != nil) {
                            // new collection
                            let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
 
@@ -562,8 +565,10 @@ extension PGLAppStack {
 
                        } else {
                            // asset collection exists
-                       let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection!)
-                              addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+                        if assetCollection != nil {
+                            let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection!)
+                            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+                        }
                        }
 
                       }, completionHandler: {success, error in

@@ -78,7 +78,9 @@ class PGLDemo {
                     guard let thisAttribute = thisFilter!.attribute(nameKey: anImageAttributeName) else { continue }
                    setInputTo(imageParm: thisAttribute) // the six images from favorites
                }
-            stack.append(thisFilter!)
+//            stack.append(thisFilter!)
+            //  this just adds without an input
+            stack.appendFilter(thisFilter!) // this sets the input
 
         }
 

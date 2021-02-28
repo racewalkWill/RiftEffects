@@ -9,6 +9,20 @@
 import Foundation
 import UIKit
 
+let  PGLStackSaveNotification = NSNotification.Name(rawValue: "PGLStackSaveNotification")
+
+struct PGLStackSaveData {
+    // used to pass user entered values to the calling ViewController
+    // in the PGLStackSaveNotification
+
+    var stackName: String!
+    var stackType: String!
+    var albumName: String?
+    var storeToPhoto = false
+    var shouldSaveAs = false
+
+}
+
 class PGLSaveDialogController: UIViewController {
     // 2/22/2021  Change to stackView TableView controller
     // see examples in Filterpedia and UIStackView documentation
@@ -24,7 +38,7 @@ class PGLSaveDialogController: UIViewController {
     var shouldStoreToPhotos: Bool = false
     var doSaveAs: Bool = false
 
-    var parentImageController: PGLImageController!
+//    var parentImageController: PGLImageController!
 
     @IBOutlet weak var stackName: UITextField!
 
@@ -32,7 +46,8 @@ class PGLSaveDialogController: UIViewController {
 
     @IBOutlet weak var albumName: UITextField!
 
-    @IBOutlet weak var storeToPhotoLibrary: UISwitch!
+    @IBOutlet weak var toPhotos: UISwitch!
+    
 
     @IBAction func stackNameEdit(_ sender: UITextField) {
         userEnteredStackName = sender.text
@@ -51,16 +66,15 @@ class PGLSaveDialogController: UIViewController {
 
 
     @IBAction func saveBtnClick(_ sender: UIBarButtonItem) {
+        var saveData = PGLStackSaveData()
+        saveData.stackName = userEnteredStackName
+        saveData.stackType = userEnteredStackType
+        saveData.albumName = userEnteredAlbumName
+        saveData.storeToPhoto = shouldStoreToPhotos
+        saveData.shouldSaveAs = doSaveAs
+        let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
 
-        let targetStack = parentImageController.appStack.outputFilterStack()
-                // copy dialog values to the stack model
-            targetStack.stackName = userEnteredStackName!
-            targetStack.stackType = userEnteredStackType!
-            targetStack.exportAlbumName = userEnteredAlbumName
-                    // maybe nil if full photo access not allowed
-            
-            parentImageController.saveStack(saveToPhotoLibrary: shouldStoreToPhotos, newSaveAs: doSaveAs)
-            
+        NotificationCenter.default.post(stackNotification)
         dismiss(animated: true, completion: nil )
     }
 

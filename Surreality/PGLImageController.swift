@@ -33,7 +33,7 @@ let  PGLOutputImageChange = NSNotification.Name(rawValue: "PGLOutputImageChange"
 let ExportAlbumId = "ExportAlbumId"
 let ExportAlbum = "ExportAlbum"
 
-class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigationBarDelegate {
+class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, UIAdaptivePresentationControllerDelegate, UIPopoverPresentationControllerDelegate {
 
 
     // controller in detail view - shows the image as filtered - knows the current filter
@@ -99,20 +99,23 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         else {
             return
         }
-        saveDialogController.parentImageController = self
+//        saveDialogController.parentImageController = self
         saveDialogController.modalPresentationStyle = .popover
         saveDialogController.preferredContentSize = CGSize(width: 250.0, height: 300.0)
         // specify anchor point?
         guard let popOverPresenter = saveDialogController.popoverPresentationController
         else { return }
         popOverPresenter.canOverlapSourceViewRect = false // or barButtonItem
+        popOverPresenter.delegate = self
         // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
 //        popOverPresenter.sourceView = view
         popOverPresenter.barButtonItem = moreBtn
-        present(saveDialogController, animated: true )
-            // could also use completion handler here to execute the save action
+         present(saveDialogController, animated: true )
+//
 
     }
+
+
 
     @IBAction func helpBtnAction(_ sender: UIBarButtonItem) {
         guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLHelpPageController") as? PGLHelpPageController
@@ -146,104 +149,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         }
     }
 
-    func saveStack(saveToPhotoLibrary: Bool, newSaveAs: Bool) {
+    func saveStack( newSaveAs: Bool) {
         if isLimitedPhotoLibAccess() {
             self.appStack.firstStack()?.exportAlbumName = nil
         }
-        self.appStack.saveStack(metalRender: self.metalController!.metalRender, saveToPhotoLibrary: saveToPhotoLibrary)
+        self.appStack.saveStack(metalRender: self.metalController!.metalRender)
     }
 
-    func saveStackAlert(_ sender: UIBarButtonItem) {
-        var defaultName = String()
-        var defaultType = String()
-        var defaultAlbumName: String?
-        let isAlbumCreationAllowed = !isLimitedPhotoLibAccess()
 
-        let alertController = UIAlertController(title: NSLocalizedString("Save", comment: ""),
-                       message: nil ,
-                       preferredStyle: .alert)
-        if let targetStack = self.appStack.firstStack() {
-            if targetStack.storedStack != nil {
-                 defaultName = targetStack.storedStack?.title ?? ""
-                defaultType = targetStack.storedStack?.type ?? ""
-                defaultAlbumName = targetStack.exportAlbumName // maybe nil
-            }
-        }
-        alertController.addTextField { textField in
-            if defaultName.count > 0 {
-                textField.text = defaultName
-            } else {
-            textField.placeholder = NSLocalizedString("Name", comment: "")
-            }
-
-        }
-
-        alertController.addTextField { textField in
-            if defaultType.count > 0 {
-                textField.text = defaultType
-            } else {
-              textField.placeholder = NSLocalizedString("Type", comment: "")
-            }
-        }
-        if isAlbumCreationAllowed {
-             alertController.addTextField { textField in
-                if  (defaultAlbumName?.count ?? 0 ) > 0 {
-                     textField.text = defaultAlbumName }
-
-                 else {
-                     textField.placeholder = NSLocalizedString("Optional - export to Photo Album", comment: "")
-                 }
-             }
-         }
-
-
-
-
-
-        let saveAction = UIAlertAction(title: "Save",
-                        style: .default) { (action) in
-               if let targetStack = self.appStack.firstStack() {
-                   let titleField = alertController.textFields!.first!
-                   let typeField = alertController.textFields![1]
-
-                   if let title = titleField.text, !title.isEmpty {
-                          // Respond to user selection of the action
-                          targetStack.stackName = title
-
-                    if let myType = typeField.text, !myType.isEmpty {
-                           targetStack.stackType = myType
-                           AppUserDefaults.set(myType, forKey: StackTypeKey)
-                       }
-                    if isAlbumCreationAllowed {
-                        if let  albumName = alertController.textFields![2].text {
-                            if !(albumName.isEmpty) {
-
-                           targetStack.exportAlbumName = albumName
-                        NSLog("saveAction calls saveToPhotosLibrary")
-                            }
-                        }
-
-                       }
-                    self.appStack.saveStack(metalRender: self.metalController!.metalRender, saveToPhotoLibrary: false)
-              }
-
-                }
-        }
-
-       let cancelAction = UIAlertAction(title: "Cancel",
-                 style: .cancel) { (action) in
-                  // do nothing
-
-       }
-       alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-
-       // On iPad, action sheets must be presented from a popover.
-       alertController.popoverPresentationController?.barButtonItem = sender
-       self.present(alertController, animated: true) {
-          // The alert was presented
-       }
-}
 
 
 
@@ -454,6 +367,23 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         }
 
+        myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+            if let userDataDict = myUpdate.userInfo {
+                if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
+                    // put the new names into the stack
+                    let targetStack = self.appStack.outputFilterStack()
+                    targetStack.stackName = userValues.stackName!
+                    targetStack.stackType = userValues.stackType!
+                    targetStack.exportAlbumName = userValues.albumName
+                    targetStack.shouldExportToPhotos = userValues.storeToPhoto
+                    self.saveStack(newSaveAs: userValues.shouldSaveAs)
+                }
+            }
+        }
+
+
        myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
         myUpdate in
         guard let self = self else { return } // a released object sometimes receives the notification
@@ -490,16 +420,17 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let contextMenu = UIMenu(title: "",
                     children: [
+                        UIAction (title: "Open..", image:UIImage(systemName: "folder")) {              action in
+                            self.openStackActionBtn(self.moreBtn)
+                                },
                         UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {              action in
                                 // self.saveStackAlert(self.moreBtn)
                             self.saveStackActionBtn(self.moreBtn)
                                     },
-                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil")) {              action in
-                            self.saveStackAlert(self.moreBtn)
-                                    },
-                        UIAction (title: "Open..", image:UIImage(systemName: "folder")) {              action in
-                            self.openStackActionBtn(self.moreBtn)
-                                }
+//                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil")) {              action in
+//                            self.saveStackAlert(self.moreBtn)
+//                                    },
+
 
         ])
             moreBtn.menu = contextMenu
@@ -519,6 +450,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
          NotificationCenter.default.removeObserver(self, name: PGLImageCollectionOpen, object: self)
          NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange,  object: self)
         NotificationCenter.default.removeObserver(self, name:  PGLAttributeAnimationChange,  object: self)
+        NotificationCenter.default.removeObserver(self, name: PGLStackSaveNotification, object: self)
 
 
     }

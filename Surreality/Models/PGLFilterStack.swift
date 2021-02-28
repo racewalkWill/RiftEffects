@@ -59,6 +59,7 @@ class PGLFilterStack  {
     var stackType = "type"
     var exportAlbumName: String?
     var exportAlbumIdentifier: String?
+    var shouldExportToPhotos = false // default
 
 
 
