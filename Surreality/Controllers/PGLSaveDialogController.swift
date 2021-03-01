@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Photos
 
 let  PGLStackSaveNotification = NSNotification.Name(rawValue: "PGLStackSaveNotification")
 
@@ -37,8 +38,10 @@ class PGLSaveDialogController: UIViewController {
     var userEnteredAlbumName: String?
     var shouldStoreToPhotos: Bool = false
     var doSaveAs: Bool = false
+    var currentTextField: UITextField?
 
 //    var parentImageController: PGLImageController!
+    @IBOutlet weak var saveDialogLabel: UILabel!
 
     @IBOutlet weak var stackName: UITextField!
 
@@ -48,24 +51,30 @@ class PGLSaveDialogController: UIViewController {
 
     @IBOutlet weak var toPhotos: UISwitch!
     
+    @IBOutlet weak var albumLabel: UILabel!
 
-    @IBAction func stackNameEdit(_ sender: UITextField) {
-        userEnteredStackName = sender.text
-    }
-
-    @IBAction func stackTypeEdit(_ sender: UITextField) {
-        userEnteredStackType = sender.text
-    }
-    @IBAction func albumNameEdit(_ sender: UITextField) {
-        userEnteredAlbumName = sender.text
-    }
 
     @IBAction func storeToLibEdit(_ sender: UISwitch) {
         shouldStoreToPhotos = sender.isOn
     }
 
+    @IBAction func stackNameEditChange(_ sender: UITextField) {
+        userEnteredStackName = sender.text
+
+    }
+
+    @IBAction func stackTypeEditChange(_ sender: UITextField) {
+        userEnteredStackType = sender.text
+    }
+
+    @IBAction func albumNameEditChange(_ sender: UITextField) {
+        userEnteredAlbumName = sender.text
+    }
+
+
 
     @IBAction func saveBtnClick(_ sender: UIBarButtonItem) {
+
         var saveData = PGLStackSaveData()
         saveData.stackName = userEnteredStackName
         saveData.stackType = userEnteredStackType
@@ -93,8 +102,28 @@ class PGLSaveDialogController: UIViewController {
          userEnteredStackName = targetStack.stackName
         userEnteredStackType =  targetStack.stackType
         userEnteredAlbumName =  targetStack.exportAlbumName
+        if doSaveAs {saveDialogLabel.text = "Save Stack As.."
+            } else { saveDialogLabel.text = "Save Stack" }
 
+        if isLimitedPhotoLibAccess() {
+            // limited access does not allow album creation or save to album
+            albumName.isHidden = true
+            albumLabel.isHidden = true
+            userEnteredAlbumName = nil
+            }
+
+    }
+
+    func isLimitedPhotoLibAccess() -> Bool {
+        let accessLevel: PHAccessLevel = .readWrite // or .addOnly
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+
+        switch authorizationStatus {
+            case .limited :
+            return true
+        default:
+            // all other authorizationStatus values
+           return false
         }
-
-
+    }
 }

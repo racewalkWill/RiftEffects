@@ -92,17 +92,34 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     // MARK: navBtn Actions
 
-    @IBAction func saveStackActionBtn(_ sender: UIBarButtonItem) {
+    func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
-//            saveStackAlert(sender)
         guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
         else {
             return
         }
-//        saveDialogController.parentImageController = self
+        saveDialogController.doSaveAs = false
+        presentSaveDialog(saveDialogController: saveDialogController)
+
+    }
+
+    func saveStackAsActionBtn(_ sender: UIBarButtonItem) {
+
+        guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
+        else {
+            return
+        }
+        saveDialogController.doSaveAs = true
+        presentSaveDialog(saveDialogController: saveDialogController)
+
+    }
+
+    func presentSaveDialog(saveDialogController: PGLSaveDialogController){
+        // assumes shouldSaveAs mode is correctly set in the controller
+
         saveDialogController.modalPresentationStyle = .popover
-        saveDialogController.preferredContentSize = CGSize(width: 250.0, height: 300.0)
-        // specify anchor point?
+        saveDialogController.preferredContentSize = CGSize(width: 350, height: 300.0)
+        
         guard let popOverPresenter = saveDialogController.popoverPresentationController
         else { return }
         popOverPresenter.canOverlapSourceViewRect = false // or barButtonItem
@@ -111,11 +128,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //        popOverPresenter.sourceView = view
         popOverPresenter.barButtonItem = moreBtn
          present(saveDialogController, animated: true )
-//
-
     }
-
-
 
     @IBAction func helpBtnAction(_ sender: UIBarButtonItem) {
         guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLHelpPageController") as? PGLHelpPageController
@@ -153,6 +166,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         if isLimitedPhotoLibAccess() {
             self.appStack.firstStack()?.exportAlbumName = nil
         }
+        if newSaveAs {self.appStack.setToNewStack()
+            // set the coredata vars to nil
+            }
         self.appStack.saveStack(metalRender: self.metalController!.metalRender)
     }
 
@@ -427,9 +443,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                                 // self.saveStackAlert(self.moreBtn)
                             self.saveStackActionBtn(self.moreBtn)
                                     },
-//                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil")) {              action in
-//                            self.saveStackAlert(self.moreBtn)
-//                                    },
+                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {              action in
+                            self.saveStackAsActionBtn(self.moreBtn)
+                                    },
 
 
         ])

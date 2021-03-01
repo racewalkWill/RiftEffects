@@ -64,7 +64,7 @@ extension PGLFilterStack {
 
             storedStack = cdStack
             stackName = cdStack.title ?? "untitled"
-
+            stackType = cdStack.type ?? "unTyped"
             if let thumbNailPGNImage = cdStack.thumbnail {
                 thumbnail = UIImage(data: thumbNailPGNImage) // thumbnail is png format data aCDStack.thumbnail
             }
@@ -113,7 +113,14 @@ extension PGLFilterStack {
         }
     }
 
-
+    func setToNewStack() {
+        for filterIndex in 0..<activeFilters.count {
+            let aFilter = activeFilters[filterIndex]
+            aFilter.setToNewImageList()
+            aFilter.storedFilter = nil
+        }
+        storedStack = nil
+    }
     func writeCDStack() -> CDFilterStack {
         NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
 
@@ -318,7 +325,19 @@ extension PGLSourceFilter {
     }
 
 //    func readCDImageList(parentStack: PGLFilterStack)
-    
+    func setToNewImageList() {
+        // set all of the core data vars to nil to save as new stack
+        if let myImageParms = imageParms() {
+            for anImageParm in myImageParms {
+                if let childInputStack = anImageParm.inputStack {
+                    childInputStack.setToNewStack() // will clear child filters
+                }
+                anImageParm.storedParmImage?.inputAssets = nil
+                anImageParm.storedParmImage = nil
+            }
+        }
+
+    }
     func createCDImageList() {
         // 4EntityModel
         // create new CDImageList for every parm
@@ -488,6 +507,12 @@ extension PGLAppStack {
 
     }
 
+    func setToNewStack() {
+        // save as.. command..
+        // reset core data vars to nil for save as new records
+        firstStack()?.setToNewStack()
+    }
+
     func saveStack(metalRender: Renderer) {
         let targetStack = firstStack()!
 
@@ -512,7 +537,7 @@ extension PGLAppStack {
               
                var assetCollection: PHAssetCollection?
 
-        NSLog("readCDStack saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
+        NSLog("saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
               if let existingAlbumId = stack.exportAlbumIdentifier {
                    let fetchResult  = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [existingAlbumId], options: nil)
                    assetCollection = fetchResult.firstObject

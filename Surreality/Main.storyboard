@@ -22,11 +22,11 @@
                                 <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bAo-zi-it5" id="LE4-Pc-AYC">
-                                    <rect key="frame" x="0.0" y="0.0" width="511" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="519" height="43"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oxp-d1-8dN">
-                                            <rect key="frame" x="16" y="0.0" width="487" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="496" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
@@ -112,9 +112,9 @@
                                 </items>
                             </toolbar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="czb-Qh-xUv">
-                                <rect key="frame" x="191.5" y="316.5" width="168.5" height="201"/>
+                                <rect key="frame" x="191.5" y="40" width="168.5" height="201"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Stack" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6X-jX-kBi">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Stack" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6X-jX-kBi">
                                         <rect key="frame" x="0.0" y="0.0" width="168.5" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <nil key="textColor"/>
@@ -134,7 +134,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
-                                                    <action selector="stackNameEdit:" destination="YDi-EF-p5k" eventType="editingDidEnd" id="2Kf-C7-Hbc"/>
+                                                    <action selector="stackNameEditChange:" destination="YDi-EF-p5k" eventType="editingChanged" id="cDG-0R-wpb"/>
                                                 </connections>
                                             </textField>
                                         </subviews>
@@ -153,7 +153,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
-                                                    <action selector="stackTypeEdit:" destination="YDi-EF-p5k" eventType="editingDidEnd" id="CoE-ga-7EE"/>
+                                                    <action selector="stackTypeEditChange:" destination="YDi-EF-p5k" eventType="editingChanged" id="dVM-wS-los"/>
                                                 </connections>
                                             </textField>
                                         </subviews>
@@ -172,7 +172,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
-                                                    <action selector="albumNameEdit:" destination="YDi-EF-p5k" eventType="editingDidEnd" id="jTY-j6-FXw"/>
+                                                    <action selector="albumNameEditChange:" destination="YDi-EF-p5k" eventType="editingChanged" id="qUF-k3-avy"/>
                                                 </connections>
                                             </textField>
                                         </subviews>
@@ -203,12 +203,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="czb-Qh-xUv" firstAttribute="top" secondItem="dSV-Fg-Wru" secondAttribute="bottom" constant="40" id="4go-oS-lsu"/>
                             <constraint firstItem="czb-Qh-xUv" firstAttribute="centerX" secondItem="XQ0-Te-ZA5" secondAttribute="centerX" id="Fmr-w7-rUe"/>
-                            <constraint firstItem="czb-Qh-xUv" firstAttribute="centerY" secondItem="XQ0-Te-ZA5" secondAttribute="centerY" id="nl6-Py-alv"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="albumLabel" destination="6kc-yr-k5U" id="oow-ce-YwO"/>
                         <outlet property="albumName" destination="3KB-2l-0gr" id="5qe-S4-ve7"/>
+                        <outlet property="saveDialogLabel" destination="W6X-jX-kBi" id="twa-eK-FG3"/>
                         <outlet property="stackName" destination="AO9-l8-IAb" id="ct6-wm-3In"/>
                         <outlet property="stackType" destination="rxm-hp-Xow" id="xo3-vX-l7I"/>
                         <outlet property="toPhotos" destination="QXP-zu-UEX" id="a7K-uz-uaZ"/>
