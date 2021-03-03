@@ -156,28 +156,18 @@ class PGLImageList {
     }
 
     // MARK:  Accessors
-    func getAssets(localIds: [String]) -> [PGLAsset] {
-        // in this case we do not have the album of the asset
-        // OBSOLETE - remove
-        let idFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIDs, options: nil)
-        let resultIndexSet = IndexSet.init(integersIn: (0..<idFetchResult.count))
-        let assetItems = idFetchResult.objects(at: resultIndexSet)
-        //return assetItems as! [PGLAsset]
-        var pglAssetItems = [PGLAsset]()
-        for anItem in assetItems {
-            
-            pglAssetItems.append(PGLAsset(anItem, collectionId: nil, collectionLocalTitle: nil)) // no albums !! Fix this?
-        }
-        return pglAssetItems
-    }
 
-    func getAssets(localIds: [String],albums: [String]) -> [PGLAsset] {
+
+    func getAssets(localIds: [String],albums: [String])  -> [PGLAsset] {
         // in this case we do  have the album of the asset
        // this assumes two matching arrays of same size localId and albums
 
 
 
         let idFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIDs, options: nil)
+//        if idFetchResult.count == 0 {
+//           // do what??
+//        }
         let resultIndexSet = IndexSet.init(integersIn: (0..<idFetchResult.count))
         let assetItems = idFetchResult.objects(at: resultIndexSet)
         //return assetItems as! [PGLAsset]

@@ -69,8 +69,12 @@ class PGLVisionDetector: PGLDetection {
     func setInput(image: CIImage?, source: String?) {
         // searches for features in the image
          // called every imageUpdate by the PGLFilterStack->filter.setInput->detectors#setInput
+
          if let anInputImage = image {
+            if anInputImage.extent.isEmpty { return }
+
             inputImage = anInputImage
+
             if oldInputImage == inputImage {
                 NSLog("PGLVisionDetection #setInput(image: is returning without performing ImageRequestHandler")
                 return }

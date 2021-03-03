@@ -90,7 +90,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
 
-    // MARK: navBtn Actions
+    // MARK: save btn Actions
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
@@ -195,6 +195,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         }
 
+    // MARK: trash button action
     func confirmReplaceFilterInput(_ sender: UIBarButtonItem)  {
 
         let discardAction = UIAlertAction(title: "Discard",
@@ -436,14 +437,17 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let contextMenu = UIMenu(title: "",
                     children: [
-                        UIAction (title: "Open..", image:UIImage(systemName: "folder")) {              action in
+                        UIAction (title: "Open..", image:UIImage(systemName: "folder")) {
+                            action in
                             self.openStackActionBtn(self.moreBtn)
                                 },
-                        UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {              action in
+                        UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
+                            action in
                                 // self.saveStackAlert(self.moreBtn)
                             self.saveStackActionBtn(self.moreBtn)
                                     },
-                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {              action in
+                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
+                            action in
                             self.saveStackAsActionBtn(self.moreBtn)
                                     },
 

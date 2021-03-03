@@ -535,69 +535,64 @@ extension PGLAppStack {
                // save the output of this stack to the photos library
                 // Create a new album with the entered title.
               
-               var assetCollection: PHAssetCollection?
+        var assetCollection: PHAssetCollection?
 
         NSLog("saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
-              if let existingAlbumId = stack.exportAlbumIdentifier {
-                   let fetchResult  = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [existingAlbumId], options: nil)
-                   assetCollection = fetchResult.firstObject
+          if let existingAlbumId = stack.exportAlbumIdentifier {
+               let fetchResult  = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [existingAlbumId], options: nil)
+               assetCollection = fetchResult.firstObject
                 NSLog("PGLImageController #saveToPhotosLibrary append to existing assetCollection \(String(describing: assetCollection))")
-              } else {
-                   // check for existing albumName
-               if let aAlbumExportName = stack.exportAlbumName { // maybe nil
+          } else {
+               // check for existing albumName
+           if let aAlbumExportName = stack.exportAlbumName { // maybe nil
 
-                   // find it or or create it.
-                   // leave assetCollection as nil to create
+               // find it or or create it.
+               // leave assetCollection as nil to create
 
-                 // fatalError( "PHAssetCollection needs to search for a matching album title #saveToPhotosLibrary")
-                   // how to do this???
-                let albums = stack.getAlbums()
-                let matching = stack.filterAlbums(source: albums, titleString: aAlbumExportName)
-                   if matching.count > 0 {
-                       assetCollection = matching.last!.assetCollection
-                   }
-
-
-                   }
+             // fatalError( "PHAssetCollection needs to search for a matching album title #saveToPhotosLibrary")
+               // how to do this???
+            let albums = stack.getAlbums()
+            let matching = stack.filterAlbums(source: albums, titleString: aAlbumExportName)
+            if matching.count > 0 {
+                   assetCollection = matching.last!.assetCollection
                }
+            }
+           }
 
 
-               // get the metal context -
-               guard let uiImageOutput = metalRender.captureImage()
-
-                   else { return
+           // get the metal context -
+           guard let uiImageOutput = metalRender.captureImage()
+            else { return
 //                        fatalError("outputImage fails in #saveToPhotosLibrary")
-
-                        }
-
-
-
+                    }
         if stack.shouldExportToPhotos {
                // Add the asset to the photo library
                 // album name may not be entered or used if limited photo library access
 
                       PHPhotoLibrary.shared().performChanges({
                           let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
+                            NSLog("PGLAppStack #saveToPhotosLibrary AssetChangeRequest = \(creationRequest)")
                        // either get or create the target album
 
                         if ( assetCollection == nil ) && ( stack.exportAlbumName != nil) {
                            // new collection
                            let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
-
-
                            assetCollectionRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
                            stack.exportAlbumIdentifier = assetCollectionRequest.placeholderForCreatedAssetCollection.localIdentifier
+                            NSLog("PGLAppStack #saveToPhotosLibrary new assetCollectionRequest = \(assetCollectionRequest)")
 
                        } else {
                            // asset collection exists
                         if assetCollection != nil {
                             let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection!)
                             addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+                            NSLog("PGLAppStack #saveToPhotosLibrary existing assetCollection adds = \(String(describing: addAssetRequest))")
                         }
                        }
 
                       }, completionHandler: {success, error in
-                          if !success { print("Error creating the asset: \(String(describing: error))") }
+                        if success { NSLog("PGLAppStack #saveToPhotosLibrary success result") }
+                            else { NSLog("PGLAppStack #saveToPhotosLibrary Error creating the asset: \(String(describing: error))") }
                       })
             } // exportAlbumName != nil
 

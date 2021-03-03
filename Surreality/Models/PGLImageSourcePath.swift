@@ -71,6 +71,7 @@ class PGLAsset: Hashable, Equatable  {
     func getAssetFetchResult() -> PHFetchResult<PHAsset>? {
         if let theCollection = self.sourceInfo {
         let results = PHAsset.fetchAssets(in: theCollection, options: nil)
+            // empty results if limited access
             return results }
 
         else { return nil }
