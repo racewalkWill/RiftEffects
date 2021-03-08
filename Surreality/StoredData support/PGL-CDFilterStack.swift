@@ -515,15 +515,16 @@ extension PGLAppStack {
 
     func saveStack(metalRender: Renderer) {
         let targetStack = firstStack()!
-
+        NSLog("PGLAppStack #saveStack start")
         let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
         serialQueue.async {
+            NSLog("PGLAppStack #saveStack serialQueue execution start")
             DoNotDrawWhileSave = true
             if targetStack.shouldExportToPhotos {
                self.saveToPhotosLibrary(stack: targetStack, metalRender: metalRender)
                // call first so the albumIdentifier can be stored
             }
-           NSLog("saveAction calls writeCDStacks")
+           NSLog("PGLAppStack #saveStack calls writeCDStacks")
             self.writeCDStacks()
             DoNotDrawWhileSave = false
         }

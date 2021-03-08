@@ -395,7 +395,13 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                     targetStack.stackType = userValues.stackType!
                     targetStack.exportAlbumName = userValues.albumName
                     targetStack.shouldExportToPhotos = userValues.storeToPhoto
-                    self.saveStack(newSaveAs: userValues.shouldSaveAs)
+                    DispatchQueue.main.async {
+                        NSLog("PGLImageController notification PGLStackSaveNotification start in main sync ")
+                        self.saveStack(newSaveAs: userValues.shouldSaveAs)
+                        // save stack will create a utility queue to execute.. but should not
+                        // kill the utility queue process when this notification callback process ends.
+                    }
+
                 }
             }
         }

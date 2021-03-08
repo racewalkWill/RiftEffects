@@ -101,6 +101,10 @@ class PGLDemo {
         var allowedAssetCount = 1
         if imageParm.isTransitionFilter() { allowedAssetCount = 6 }
         let maxIndex = favoriteAssets!.count
+        if maxIndex == 0 {
+            // may be limited access to photo lib
+            return
+        }
         while selectedAssets.count <= allowedAssetCount {
             let randomIndex = Int.random(in: 0 ..< maxIndex)
             selectedAssets.append(favoriteAssets![randomIndex])

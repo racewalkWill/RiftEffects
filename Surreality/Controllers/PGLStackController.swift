@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class PGLStackController: UITableViewController, UINavigationControllerDelegate {
     // tableview of the filters in the stack
@@ -259,6 +260,29 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     
     }
 // MARK: Bar Buttons
+
+    func isLimitedPhotoLibAccess() -> Bool {
+        let accessLevel: PHAccessLevel = .readWrite // or .addOnly
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+
+        switch authorizationStatus {
+            case .limited :
+            return true
+        default:
+            // all other authorizationStatus values
+           return false
+        }
+    }
+
+    @IBOutlet weak var randomBtn: UIBarButtonItem! { didSet{
+        if isLimitedPhotoLibAccess() {
+            randomBtn.isEnabled = false
+            // if user changes privacy settings then the view is reloaded
+            // and the button is enabled.. without quitting the app
+        }
+        }
+    }
+
     @IBAction func addFilter(_ sender: UIBarButtonItem) {
         // hideParmControls()
 
