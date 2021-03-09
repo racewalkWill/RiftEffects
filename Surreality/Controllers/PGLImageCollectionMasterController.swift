@@ -124,8 +124,10 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         // if user has not granted PhotoLibrary permission then a dialog appears
         
         smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any , options: nil)
-        albums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular , options: nil)
-        userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
+        if !isLimitedPhotoLibAccess() {
+            albums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular , options: nil)
+            userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
+        }
             // all of these should have drill down to contents
 
     }
@@ -200,6 +202,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
             guard let firstCollection = inputFilterAttribute?.inputCollection?.sourceAssetCollection()
                 else { return  }
 
+
             // mark rows of albums in userAssetSelection as selected
             let currentSnapShot = dataSource.snapshot()
             let currentItems = currentSnapShot.itemIdentifiers
@@ -235,7 +238,16 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 
             openImageCollection(assetCollection: firstCollection)
             }
-       
+        else {
+            // no user input.. esp for limitedAccess mode
+            if isLimitedPhotoLibAccess() {
+                // Recents album is most likely to have the user picked images for access
+                // which is the first index path
+                let recentsRow = IndexPath(item: 0, section: 0)
+                albumTableView.selectRow(at: recentsRow, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+                tableView(albumTableView, didSelectRowAt: recentsRow)
+            }
+        }
 
     }
 
@@ -316,8 +328,13 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 
                 NotificationCenter.default.post(name: changeAlbumNotification.name, object: nil, userInfo: ["assetInfo": theInfo as Any])
             }
+        } else {
+            // limited access mode on Recents
+            let updateFilterNotification = Notification(name:PGLImageCollectionOpen)
+
+            NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: nil)
         }
-        }
+    }
 
 
      func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -371,7 +388,18 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 // MARK: CompositionLayout
 extension PGLImageCollectionMasterController: UITableViewDelegate {
 
+    func isLimitedPhotoLibAccess() -> Bool {
+        let accessLevel: PHAccessLevel = .readWrite // or .addOnly
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
 
+        switch authorizationStatus {
+            case .limited :
+            return true
+        default:
+            // all other authorizationStatus values
+           return false
+        }
+    }
 
     func getSmartAlbums() -> [PGLUUIDAssetCollection] {
         // make this generic with types parm?
@@ -471,6 +499,9 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
 
     func performQuery(with filter: String?) {
 
+        let isFullAccess = !isLimitedPhotoLibAccess()
+            // keep the sections lined up with the items
+
         var currentAlbums = getSmartAlbums()
         let matchSmartAlbums = filterAlbums(source: currentAlbums, titleString: filter)
 
@@ -480,16 +511,19 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
         currentAlbums = getAlbums()
         let matchAlbums = filterAlbums(source: currentAlbums, titleString: filter)
 
+
         var snapshot = NSDiffableDataSourceSnapshot<Int, PGLUUIDAssetCollection>()
 
         snapshot.appendSections([Section.smartAlbum.rawValue])
         snapshot.appendItems(matchSmartAlbums,toSection: Section.smartAlbum.rawValue )
 
-        snapshot.appendSections([Section.userCollections.rawValue])
-         snapshot.appendItems(matchUserAlbums, toSection: Section.userCollections.rawValue)
+        if isFullAccess {
+            snapshot.appendSections([Section.userCollections.rawValue])
+             snapshot.appendItems(matchUserAlbums, toSection: Section.userCollections.rawValue)
 
-         snapshot.appendSections([Section.album.rawValue])
-        snapshot.appendItems(matchAlbums, toSection: Section.album.rawValue)
+             snapshot.appendSections([Section.album.rawValue])
+            snapshot.appendItems(matchAlbums, toSection: Section.album.rawValue)
+        }
 
         dataSource.apply(snapshot, animatingDifferences: true)
 

@@ -1085,6 +1085,18 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 
     // MARK: - Segue Navigation
+    func isLimitedPhotoLibAccess() -> Bool {
+        let accessLevel: PHAccessLevel = .readWrite // or .addOnly
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+
+        switch authorizationStatus {
+            case .limited :
+            return true
+        default:
+            // all other authorizationStatus values
+           return false
+        }
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -1193,10 +1205,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-    }
-
 
 
     func finishAndUpdate() {
@@ -1205,12 +1213,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 
     }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: false, completion: nil)
-    }
-
-
 
 
 }

@@ -159,6 +159,7 @@ class PGLImageList {
 
 
     func getAssets(localIds: [String],albums: [String])  -> [PGLAsset] {
+        // in limitedAccess mode there are no user albums accessible
         // in this case we do  have the album of the asset
        // this assumes two matching arrays of same size localId and albums
 
