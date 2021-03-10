@@ -939,6 +939,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
   }
 
+    func imageInputIsEmpty() -> Bool {
+        if inputCollection == nil { return true }
+        return inputCollection!.isEmpty()
+    }
 
     func filterInputActionCell() -> PGLFilterAttribute? {
         // override to answer nil in some subclasses (image etc)

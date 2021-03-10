@@ -201,20 +201,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
     }
 
-    func imageInputIsEmpty() -> Bool {
-        // used for images filter to remove if no input is set
-        if let inputAttribute = attribute(nameKey: kCIInputImageKey )
-        {
-            if let myInputs = inputAttribute.inputCollection {
-                return myInputs.isEmpty()
-            } else {
-                return true // no input collection so this is empty
-            }
-        } else {
-            return false // no image input needed
-        }
 
-    }
 
 
 
@@ -263,6 +250,19 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             otherKeys.removeAll(where: {$0 == kCIInputImageKey})
             return otherKeys
         }
+
+    func imageInputIsEmpty() -> Bool {
+        // used for images filter to remove if no input is set
+        for imageAttributeKey in imageInputAttributeKeys {
+            if let inputAttribute = attribute(nameKey: imageAttributeKey )
+            {
+                if let aImageAttribute = inputAttribute as? PGLFilterAttributeImage {
+                    return aImageAttribute.imageInputIsEmpty()
+                }
+            }
+        }
+        return false // default return - all inputs are populated or none are image inputs
+    }
 
     func localizedName() -> String {
       return  CIFilter.localizedName(forFilterName: localFilter.name) ?? "unNamed"

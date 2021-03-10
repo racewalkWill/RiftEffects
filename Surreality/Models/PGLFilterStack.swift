@@ -496,6 +496,12 @@ class PGLFilterStack  {
 
         for index in 0...imagePosition { // only show up to the current filter in the stack
             filter = activeFilters[index]
+            if filter.imageInputIsEmpty() {
+                continue
+                // don't render from filter with no input.
+                // see return line below...
+                // image update may return CIImage.empty if all of the filters are in this state..
+            }
             if thisImage != nil {
 
                 if thisImage!.extent.isInfinite {
