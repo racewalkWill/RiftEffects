@@ -26,7 +26,7 @@ class PGLAppStack {
     // controls displaying the current intermediate viewer data stack image or the final output
 
     init(){
-       viewerStack.setStartupDefault()
+//       viewerStack.setStartupDefault()
         // not needed a stack has a default in the init.. does not work well wthout at least one filter & image
         outputStack = viewerStack
 //        let myCenter =  NotificationCenter.default

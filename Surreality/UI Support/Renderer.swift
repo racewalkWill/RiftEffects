@@ -147,7 +147,10 @@ extension Renderer: MTKViewDelegate {
 
         }
         if let currentStack = filterStack()  {
-
+            if currentStack.activeFilters.isEmpty {
+                renderEncoder.endEncoding()
+                return
+            }
             let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
 
             if mainViewImageResize {

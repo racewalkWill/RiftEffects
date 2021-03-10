@@ -68,7 +68,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         navigationController?.isToolbarHidden = false
 
         addToolBarButtons()
-
+        if appStack.outputStack.isEmptyStack() {
+            self.performSegue(withIdentifier: "showFilterController" , sender: nil)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

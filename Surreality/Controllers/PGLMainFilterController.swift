@@ -195,6 +195,7 @@ class PGLMainFilterController: PGLFilterTableController {
 
     fileprivate func selectCurrentFilterRow() {
         // select and show the current initial filter
+        if stackData()!.isEmptyStack() { return }
         let currentFilter = stackData()?.currentFilter()
 
         var thePath = IndexPath(row:0, section: 0)

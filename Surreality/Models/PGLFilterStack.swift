@@ -30,6 +30,8 @@ let defaultFilterPosition = PGLFilterCategoryIndex(category: 11, filter: 13, cat
 class PGLFilterStack  {
     // when the filter is changed - keep the old one until the new filter is applied
     // remove the apply logic.. do not keep the old one until applied.. one less button
+    // March 9, 2021 Modified assumption that there is always at least one filter
+    //  now stack may have no filters. isEmpty
     
    
     let  kFilterSettingsKey = "FilterSettings"
@@ -158,6 +160,10 @@ class PGLFilterStack  {
 
     // MARK: Add/Remove filters
 
+    func isEmptyStack() -> Bool {
+        return activeFilters.isEmpty
+    }
+
     fileprivate func stackFilterName(_ forFilter: PGLSourceFilter, index: Int?) -> (String) {
         // answer filter number , filter name , and arrow point chars
         // "2 Source In ->"
@@ -169,7 +175,11 @@ class PGLFilterStack  {
     }
 
     func addFilterAfter()  {
-
+        if isEmptyStack() {
+            // set default filter
+            setStartupDefault()
+            return
+        }
         let currentFilter = activeFilters[activeFilterIndex]
         let currentFilterClass = type(of: currentFilter) // create the correct subclass of PGLSourceFilter
         if let newInstance = currentFilterClass.init(filter: currentFilter.filterName, position: currentFilter.uiPosition ) {
@@ -318,20 +328,23 @@ class PGLFilterStack  {
         }
     
     func replaceFilter(at: Int, newFilter: PGLSourceFilter) {
+        if isEmptyStack(){
+            append(newFilter)
+        }
         if at < activeFilters.count  {
             // in range
             let oldFilter = activeFilters[at]
             moveInputsFrom(oldFilter, newFilter)
 
             activeFilters[at] = newFilter
-            updateFilterList()
+
             // a delete and add of storedFilters
             if let oldStoredFilter = oldFilter.storedFilter {
                 storedStack?.removeFromFilters(oldStoredFilter)}
             if newFilter.storedFilter != nil {
                 storedStack?.addToFilters(newFilter.storedFilter!)  }
-
         }
+        updateFilterList()
     }
 
     
