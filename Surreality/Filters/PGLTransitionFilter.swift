@@ -112,7 +112,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
 //                        NSLog("PGLTransitionFilter setImageListClone(cycleStack: nextImageAttribute isSingluar - return")
                         return // don't clone
                     } else {
-                        if nextImageAttribute.hasImageInput() {
+                        if nextImageAttribute.hasImageInput()  ?? false {
                         // change the inputCollection.nextType to each state
                         // don't do a clone
                             cycleStack.nextType = NextElement.each

@@ -71,8 +71,10 @@ enum VaryDissolveState {
 
 class PGLFilterAttribute {
 
-
-
+    static let FlowChartSymbol = UIImage(systemName: "flowchart")
+    static let PhotoSymbol = UIImage(systemName: "photo.on.rectangle")
+    static let PriorFilterSymbol = UIImage(systemName: "square.and.arrow.down.on.square")
+    static let MissingPhotoInput = UIImage(systemName: "rectangle") // looks empty...
 
     @objc var myFilter: CIFilter {
         didSet {
@@ -144,7 +146,7 @@ class PGLFilterAttribute {
 
     var inputSource: (source: PGLFilterStack, at: Int)?  // usually the filter that feeds to this input
 
-    var inputSourceDescription = "blank" // prior filter or stack or.... shows on the title of the parm cell
+    var inputSourceDescription: String? // prior filter or stack or.... shows on the title of the parm cell
 
 
 
@@ -160,6 +162,7 @@ class PGLFilterAttribute {
         // nil before any input is set by the UI
         // PGLUserAssetSelection sets to false when images are selected
         // PGLFilterStack sets to true when filter input is set
+
 
   required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         initDict = attributeDict // save for creating valueParms such as PGLRotateAffineUI
@@ -179,7 +182,7 @@ class PGLFilterAttribute {
         if attributeClass != nil {
             classForAttribute = NSClassFromString(("Glance." + attributeClass!)) }
     
-        inputSourceDescription = attributeDisplayName ?? "blank"
+//        inputSourceDescription = attributeDisplayName ?? "blank"
 
 //        keyPathString = \self.class + "." + "myFilter" + "." + attributeName
         }
@@ -349,7 +352,7 @@ class PGLFilterAttribute {
     }
 
     func getSourceDescription(imageType: ImageParm) -> String {
-        return inputSourceDescription
+        return inputSourceDescription ?? ""
 
 //        var answerDescription: String
 //        switch imageType {
@@ -362,15 +365,29 @@ class PGLFilterAttribute {
 //       answerDescription = answerDescription + " " + inputSourceDescription
 //        return answerDescription
     }
+
+    func hasImageInput() -> Bool? {
+        // super class this is not defined
+        // only imageAttribute should answer true/false
+        return nil
+    }
+
     func inputParmType() -> ImageParm {
 
         if inputStack != nil {
             return ImageParm.filter}
-        else
-        { if hasImageInput() {
+
+         if let isImageInputOK =  hasImageInput() {
+                // only imageParms return true or false
+            if isImageInputOK {
                 return ImageParm.photo}
-                else { return ImageParm.priorFilter}
-        }
+         }
+
+        if (inputSourceDescription != nil )  {
+            return ImageParm.priorFilter}
+        else {return ImageParm.missingPhotoInput}
+
+
 
     }
 
@@ -612,21 +629,7 @@ class PGLFilterAttribute {
 
     }
 
-    func hasImageInput() -> Bool {
-        // answer true if there is an inputCollection and it is not empty
-        if hasInputCollection() {
-            return true // more than one image in the inputCollection
-        } else {
-            if inputCollection?.isEmpty() ?? true {
-                // either no inputCollection imageList or
-                // imageList does not have images or imageAssets
-                // ie no imageInput return false
-                return false
-            } else
-                { return true  // one image input and no inputCollection}
-                }
-        }
-    }
+
 
     func isSingluar() -> Bool {
 
@@ -918,6 +921,19 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     }
     // answer a filter type subUI parm cell
 
+  override func hasImageInput() -> Bool? {
+    // answer true if there is an inputCollection and it is not empty
+    if imageInputIsEmpty() {
+        // may have input from the prior stack filter
+        if let aSource = inputSourceDescription {
+            return nil // there is another filter input in the stack
+        }
+        } else {
+            return true
+        }
+        return nil // default undefined
+}
+
   override  func setUICellDescription(_ uiCell: UITableViewCell) {
     var content = uiCell.defaultContentConfiguration()
     let newDescriptionString = self.attributeDisplayName ?? ""
@@ -927,12 +943,13 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     let parmInputType = inputParmType()
     switch parmInputType {
         case ImageParm.filter:
-            content.image = UIImage(systemName: "flowchart")
+            content.image = PGLFilterAttribute.FlowChartSymbol
         case ImageParm.photo:
-            content.image = UIImage(systemName: "photo.on.rectangle")
+            content.image = PGLFilterAttribute.PhotoSymbol
         case ImageParm.priorFilter :
-            content.image = UIImage(systemName: "square.and.arrow.down.on.square")
-       
+            content.image = PGLFilterAttribute.PriorFilterSymbol
+        case ImageParm.missingPhotoInput :
+            content.image = PGLFilterAttribute.MissingPhotoInput
     }
 
     uiCell.contentConfiguration = content

@@ -14,6 +14,7 @@ enum ImageParm: Int {
     case photo = 0  // input from imageList of one or more images
     case filter = 1 // input from a child stack
     case priorFilter = 2  // previous filter in the stack is input
+    case missingPhotoInput = 3
 }
 
 enum ParmInput: String {
