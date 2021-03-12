@@ -162,7 +162,9 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         cell.textLabel?.text = descriptor.displayName
 //        cell.detailTextLabel?.text =
     }
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        NSLog("PGLFilterTableController prepare for segue...")
+    }
     func performFilterPick(descriptor: PGLFilterDescriptor) {
         // called by both subclasses from didSelectRow
         NSLog("PGLFilterTableController \(#function) ")

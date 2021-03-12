@@ -588,14 +588,6 @@ class PGLFilterStack  {
         return filterAt(tabIndex: activeFilterIndex)
     }
 
-    func newFilterTab() {
-        // load new tab for another filter
-        // should modify the stack and sets the input from the prior stack elements
-
-        addFilterAfter()
-    }
-
- 
 
     func filterNumber() -> Int {
         return  activeFilterIndex + 1

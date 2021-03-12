@@ -88,7 +88,7 @@ class PGLFilterCategory {
 //        WarpItMetalFilter.register()
         if AppUserDefaults.stringArray(forKey: Bookmark) == nil
         {
-            let newFrequentFilters = ["Dissolve"]
+            let newFrequentFilters = ["CIDissolveTransition"] // CIFilter name, not the display name
             AppUserDefaults.set(newFrequentFilters, forKey: Bookmark)
         }
        
@@ -159,6 +159,7 @@ class PGLFilterCategory {
 
 
      func buildCategoryFilterDescriptors( filterNames: [String]) -> [PGLFilterDescriptor] {
+        // filterNames are the CIFilter names.. not the display names
         var builtDescriptors = [PGLFilterDescriptor]()
 
         for aFilterName in filterNames {
@@ -213,7 +214,8 @@ class PGLFilterCategory {
 
         //save into userDefaults
         var myDefaults = AppUserDefaults.stringArray(forKey: categoryName) ?? [String]()
-        myDefaults.append(sourceDescriptor.displayName)
+//        myDefaults.append(sourceDescriptor.displayName)
+        myDefaults.append(sourceDescriptor.filterName)
         AppUserDefaults.set(myDefaults, forKey: categoryName)
 
     }
