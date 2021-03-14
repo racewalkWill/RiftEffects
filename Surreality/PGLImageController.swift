@@ -202,7 +202,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                   style: .destructive) { (action) in
                     // Respond to user selection of the action
                     let newStack = PGLFilterStack()
-                    newStack.setStartupDefault() // not sent in the init.. need a starting point
+//                    newStack.setStartupDefault() // not sent in the init.. need a starting point
                     self.appStack.resetToTopStack(newStack: newStack)
         }
 

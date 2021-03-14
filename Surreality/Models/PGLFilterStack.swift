@@ -399,7 +399,7 @@ class PGLFilterStack  {
         }
         activeFilters = [PGLSourceFilter]()
         activeFilterIndex = -1 // nothing
-        setStartupDefault() // need at least one filter
+//        setStartupDefault() // need at least one filter
     }
 
     func isEmptyDefaultStack() -> Bool {
@@ -506,6 +506,8 @@ class PGLFilterStack  {
         var filter: PGLSourceFilter
         var imagePosition: Int
 //       NSLog("PGLFilterStack #imageUpdate inputImage = \(String(describing: inputImage))")
+
+        if isEmptyStack() { return CIImage.empty() }
         if showCurrentFilterImage {
             imagePosition = activeFilterIndex
         } else {

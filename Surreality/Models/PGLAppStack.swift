@@ -95,7 +95,7 @@ class PGLAppStack {
         // as the visual input
         let  newStack = PGLFilterStack()
        
-        newStack.setStartupDefault() // Images null filter is starting filter
+//        newStack.setStartupDefault() // Images null filter is starting filter
         newStack.stackName = viewerStack.nextStackName()
 //        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")
         newStack.parentAttribute = parm

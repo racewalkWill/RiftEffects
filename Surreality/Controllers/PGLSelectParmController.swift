@@ -1118,6 +1118,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
                 }
             }
+
         }
         if segue.identifier == "goToFilterViewBranchStack" {
 //            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
@@ -1136,6 +1137,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
                 }
             }
+        return // new
         }
 
         if segue.identifier == "goToParentParmStack" {
