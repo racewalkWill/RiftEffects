@@ -22,7 +22,6 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     var toolBarSpacer: UIBarButtonItem!
 
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
@@ -287,9 +286,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @IBAction func addFilter(_ sender: UIBarButtonItem) {
         // hideParmControls()
-
-       appStack.outputFilterStack().addFilterAfter()
-        // puts new filter after current stack filter
+        self.appStack.viewerStack.stackMode =  FilterChangeMode.add
 
         postFilterNavigationChange()
         performSegue(withIdentifier: "showFilterController", sender: self)
@@ -363,7 +360,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             let cellObject = self.appStack.cellFilters[indexPath.row]
 
             self.appStack.moveTo(filterIndent: cellObject) // this is also setting the activeFilterIndes..
-
+            self.appStack.viewerStack.stackMode =  FilterChangeMode.replace
+                // this is passed to the filterController
+                // in the segue
             self.performSegue(withIdentifier: "showFilterController" , sender: nil)
                   // show segue showFilterController opens the PGLFilterTableController
                   // set the stack activeFilter

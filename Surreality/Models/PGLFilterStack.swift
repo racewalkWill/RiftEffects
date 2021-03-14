@@ -62,6 +62,8 @@ class PGLFilterStack  {
     var exportAlbumName: String?
     var exportAlbumIdentifier: String?
     var shouldExportToPhotos = false // default
+    var stackMode = FilterChangeMode.add
+        // StackController will change this to .replace if swipe cell command "Change" runs
 
 
 
@@ -177,7 +179,7 @@ class PGLFilterStack  {
     func addFilterAfter()  {
         if isEmptyStack() {
             // set default filter
-            setStartupDefault()
+//            setStartupDefault()
             return
         }
         let currentFilter = activeFilters[activeFilterIndex]
@@ -326,6 +328,22 @@ class PGLFilterStack  {
                     }
             }
         }
+    func performFilterPick(selectedFilter: PGLSourceFilter) {
+        switch stackMode {
+            case .add :
+                appendFilter(selectedFilter)
+                stackMode = .replace // for continued changes
+            case .replace:
+                replace(updatedFilter: selectedFilter)
+
+        }
+    }
+
+    func replace(updatedFilter: PGLSourceFilter) {
+
+        updatedFilter.setCIContext(detectorContext: imageCIContext)
+        replaceFilter(at: activeFilterIndex, newFilter: updatedFilter)
+    }
     
     func replaceFilter(at: Int, newFilter: PGLSourceFilter) {
         if isEmptyStack(){
@@ -648,11 +666,7 @@ class PGLFilterStack  {
         return "-> " + stackName + " " + filterNumLabel(maxLen: 20)
     }
 
-    func replace(updatedFilter: PGLSourceFilter) {
 
-        updatedFilter.setCIContext(detectorContext: imageCIContext)
-        replaceFilter(at: activeFilterIndex, newFilter: updatedFilter)
-    }
 
    
 // MARK: Save Image

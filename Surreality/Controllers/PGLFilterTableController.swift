@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum FilterChangeMode{
+    case replace
+    case add
+}
+
 
 
 class PGLFilterTableController: UITableViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate {
@@ -23,6 +28,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
     var filters = PGLFilterCategory.filterDescriptors
 
     var matchFilters = [PGLFilterDescriptor]()
+
 
     let frequentCategoryPath = IndexPath(row:0,section: 0)
 
@@ -162,14 +168,13 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         cell.textLabel?.text = descriptor.displayName
 //        cell.detailTextLabel?.text =
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        NSLog("PGLFilterTableController prepare for segue...")
-    }
+
     func performFilterPick(descriptor: PGLFilterDescriptor) {
         // called by both subclasses from didSelectRow
         NSLog("PGLFilterTableController \(#function) ")
         if let selectedFilter = descriptor.pglSourceFilter() {
-            stackData()?.replace(updatedFilter: selectedFilter)
+            stackData()?.performFilterPick(selectedFilter: selectedFilter)
+                // depending on mode will replace or add to the stack
 
             NSLog("filter set = \(String(describing: selectedFilter.filterName))")
 
