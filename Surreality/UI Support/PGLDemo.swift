@@ -147,8 +147,11 @@ class PGLDemo {
                     setInputTo(imageParm: thisAttribute) // the six images from favorites
                 }
 
-                targetStack.append(category1Filter)
-
+//                targetStack.append(category1Filter)
+                targetStack.appendFilter(category1Filter)
+                // since this is opposite order to the ui where the filter is picked then the inputs
+                // reset the input source
+                category1Filter.setInputImageParmState(newState: ImageParm.inputPhoto)
                 addFiltersTo(stack: targetStack)
 
 

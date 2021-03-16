@@ -83,7 +83,7 @@ extension PGLFilterStack {
                     guard let newSource = PGLSourceFilter.readPGLFilter(myCDFilter: myCDFilter)
 
                     else { return }
-                    append(newSource)
+                    appendFilter(newSource)
 
                 }
             }

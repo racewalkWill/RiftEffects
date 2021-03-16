@@ -146,8 +146,10 @@ class PGLFilterAttribute {
 
     var inputSource: (source: PGLFilterStack, at: Int)?  // usually the filter that feeds to this input
 
-    var inputSourceDescription: String? // prior filter or stack or.... shows on the title of the parm cell
+    var inputSourceDescription: String? // inputCollection or childStack or.... shows on the title of the parm cell
 
+        // really should only be a var on the subclass PGLFilterAttributeImage..
+        // but assignment methods are in this superclass
 
 
     var indentLevel = 0
@@ -303,6 +305,8 @@ class PGLFilterAttribute {
         aSourceFilter.setImageValue(newValue: (cycleStack.first()!), keyName: attributeName!)
         aSourceFilter.setImageListClone(cycleStack: cycleStack, sourceKey: attributeName!)
                     // Filter implementation is empty..
+        setImageParmState(newState: ImageParm.inputPhoto)
+
         aSourceFilter.postImageChange()
     }
 
@@ -318,6 +322,13 @@ class PGLFilterAttribute {
             self.set( inputStack?.stackOutputImage(false) as Any)
         }
     }
+
+    func setImageParmState(newState: ImageParm) {
+        // empty implementation in the superclass
+        // see PGLFilterAttributeImage
+
+    }
+
 // MARK: flattened Filters
     func stackRowCount() -> Int {
        return inputStack?.stackRowCount() ?? 0
@@ -373,21 +384,10 @@ class PGLFilterAttribute {
     }
 
     func inputParmType() -> ImageParm {
+        // superclass default
+        // see PGLFilterAttributeImage for real implementation
 
-        if inputStack != nil {
-            return ImageParm.filter}
-
-         if let isImageInputOK =  hasImageInput() {
-                // only imageParms return true or false
-            if isImageInputOK {
-                return ImageParm.photo}
-         }
-
-        if (inputSourceDescription != nil )  {
-            return ImageParm.priorFilter}
-        else {return ImageParm.missingPhotoInput}
-
-
+        return ImageParm.notAnImageParm
 
     }
 
@@ -903,6 +903,8 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     // || (attributeType == kCIAttributeTypeImage)?
 
 
+    var imageParmState = ImageParm.missingInput
+
     var specialFilterIsAssigned = false
     // indicates that myFilter was assigned by a special constructor method
     // prevents the special specialConstructor from being assigned on every frame
@@ -922,6 +924,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     // answer a filter type subUI parm cell
 
   override func hasImageInput() -> Bool? {
+    /// Mark: Cleanup obsolete?
     // answer true if there is an inputCollection and it is not empty
     if imageInputIsEmpty() {
         // may have input from the prior stack filter
@@ -933,7 +936,18 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         }
         return nil // default undefined
 }
+    override func setImageParmState(newState: ImageParm) {
 
+        // see PGLFilterAttributeImage
+        imageParmState = newState
+
+    }
+
+    override func inputParmType() -> ImageParm {
+
+        return imageParmState
+    }
+    
   override  func setUICellDescription(_ uiCell: UITableViewCell) {
     var content = uiCell.defaultContentConfiguration()
     let newDescriptionString = self.attributeDisplayName ?? ""
@@ -942,14 +956,16 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     let parmInputType = inputParmType()
     switch parmInputType {
-        case ImageParm.filter:
+        case ImageParm.inputChildStack:
             content.image = PGLFilterAttribute.FlowChartSymbol
-        case ImageParm.photo:
+        case ImageParm.inputPhoto:
             content.image = PGLFilterAttribute.PhotoSymbol
-        case ImageParm.priorFilter :
+        case ImageParm.inputPriorFilter :
             content.image = PGLFilterAttribute.PriorFilterSymbol
-        case ImageParm.missingPhotoInput :
+        case ImageParm.missingInput :
             content.image = PGLFilterAttribute.MissingPhotoInput
+        case ImageParm.notAnImageParm :
+            content.image = nil // other symbols are set???
     }
 
     uiCell.contentConfiguration = content

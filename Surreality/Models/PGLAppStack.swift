@@ -103,6 +103,7 @@ class PGLAppStack {
         pushChildStack(newStack)  // make newStack as the current masterDataStack
 
         parm.inputStack = newStack
+        parm.setImageParmState(newState: ImageParm.inputChildStack)
          // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
 //        resetCellFilters() // the flattened filter list needs update for the new stack
         postStackChange() // causes resetCellFilters too

@@ -237,9 +237,11 @@ class PGLFilterStack  {
             let otherKeys = newFilter.imageInputAttributeKeys
             for anImageKey in otherKeys{
                 newFilter.setImageValue(newValue: CIImage.empty(), keyName: anImageKey)
+                newFilter.setInputImageParmState(newState: ImageParm.missingInput)
                 }
             let oldActiveFilter = activeFilters[activeFilterIndex ]
             oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: 0) )
+            oldActiveFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
             oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: 0), attributeKey: kCIInputImageKey)
             activeFilters.insert(newFilter, at: 0)
             activeFilterIndex = 0
@@ -253,6 +255,7 @@ class PGLFilterStack  {
             activeFilters.insert(newFilter, at: activeFilterIndex )
                        // pushes old active forward one..
            oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: activeFilterIndex) )
+            oldActiveFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
            oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
 
 
@@ -286,6 +289,12 @@ class PGLFilterStack  {
             let currentFilter = activeFilters[activeFilterIndex]
             newFilter.setInput(image: currentFilter.outputImage(),source: stackFilterName(currentFilter, index: activeFilterIndex))
 
+            newFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+
+        } else {
+            // first filter in the stack
+            newFilter.setInputImageParmState(newState: ImageParm.missingInput)
+
         }
         newFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
         append(newFilter)
@@ -307,6 +316,7 @@ class PGLFilterStack  {
                     if let oldInputCollection = inputAttribute?.inputCollection {
                         newAttribute?.inputCollection = oldInputCollection
                         newAttribute?.setTargetAttributeOfUserAssetCollection()
+                        newAttribute?.setImageParmState(newState: ImageParm.inputPhoto)
                         // this setting of inputCollection
                         // does NOT setup clones
                         // therefore it does not call
@@ -325,6 +335,8 @@ class PGLFilterStack  {
             
          else
                  { newFilter.setImageValue(newValue: CIImage.empty(), keyName: anImageKey)
+                    let newAttribute = newFilter.attribute(nameKey: anImageKey)
+                    newAttribute?.setImageParmState(newState: ImageParm.missingInput)
                     }
             }
         }
@@ -487,17 +499,6 @@ class PGLFilterStack  {
         }
     }
 
-    func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
-        // make all the images scale to the same size
-//        NSLog("PGLFilterStack scaleToFrame newSize = \(newSize)")
-//        NSLog("PGLFilterStack scaleToFrame image = \(ciImage.extent)")
-        let sourceExtent = ciImage.extent
-        let xScale = newSize.width / sourceExtent.width
-        let yScale =  newSize.height / sourceExtent.height
-        let scaleTransform = CGAffineTransform.init(scaleX: xScale, y: yScale)
-//        NSLog("PGLFilterStack scaleToFrame transform = \(scaleTransform)")
-        return ciImage.transformed(by: scaleTransform)
-    }
 
     func imageUpdate(_ inputImage: CIImage?, _ showCurrentFilterImage: Bool) -> CIImage {
         // send the inputImage to the activeFilters

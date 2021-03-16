@@ -257,12 +257,18 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             if let inputAttribute = attribute(nameKey: imageAttributeKey )
             {
                 if let aImageAttribute = inputAttribute as? PGLFilterAttributeImage {
-                    if  aImageAttribute.inputParmType() == ImageParm.missingPhotoInput
+                    if  aImageAttribute.inputParmType() == ImageParm.missingInput
                         { return true }
                 }
             }
         }
         return false // default return - all inputs are populated or none are image inputs
+    }
+
+    func setInputImageParmState(newState: ImageParm) {
+        if let inputImageAttribute = attribute(nameKey: kCIInputImageKey ) {
+            inputImageAttribute.setImageParmState(newState: newState)
+        }
     }
 
     func localizedName() -> String {
@@ -314,18 +320,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         // localFilter.setDefaults()
     }
 
-    func hasMultipleImageInputs() -> Bool {
-        // answer true if any attributes have imageList inputs with more than one image
-        var singleInputsOnly = true
 
-        for attr in attributes {
-            if attr.isImageUI()
-                { singleInputsOnly = !attr.isSingluar() }
-            if !singleInputsOnly { break }
-        }
-
-        return singleInputsOnly
-    }
 
 
     
