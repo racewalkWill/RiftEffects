@@ -73,6 +73,7 @@ class PGLFilterAttribute {
 
     static let FlowChartSymbol = UIImage(systemName: "flowchart")
     static let PhotoSymbol = UIImage(systemName: "photo.on.rectangle")
+    static let PhotoSymbolSingle = UIImage(systemName: "photo")
     static let PriorFilterSymbol = UIImage(systemName: "square.and.arrow.down.on.square")
     static let MissingPhotoInput = UIImage(systemName: "rectangle") // looks empty...
 
@@ -634,7 +635,14 @@ class PGLFilterAttribute {
     func isSingluar() -> Bool {
 
         if hasInputCollection()
+            // this answers false if only one image in the collection
             { return inputCollection!.isSingular()}
+        else { return false }
+    }
+
+    func hasOnePhoto() -> Bool {
+        if let myList = inputCollection {
+             return myList.isSingular()}
         else { return false }
     }
 
@@ -957,7 +965,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         case ImageParm.inputChildStack:
             content.image = PGLFilterAttribute.FlowChartSymbol
         case ImageParm.inputPhoto:
-            content.image = PGLFilterAttribute.PhotoSymbol
+            if self.hasOnePhoto() {
+                content.image = PGLFilterAttribute.PhotoSymbolSingle }
+             else {
+                content.image = PGLFilterAttribute.PhotoSymbol }
         case ImageParm.inputPriorFilter :
             content.image = PGLFilterAttribute.PriorFilterSymbol
         case ImageParm.missingInput :
