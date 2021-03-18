@@ -18,10 +18,10 @@ enum ImageParm: Int {
     case missingInput = 3
 }
 
-enum ParmInput: String {
-    case Photo = "Photo"  // implicit raw value of "Photo"
-    case Filter = "Filter"
-}
+//enum ParmInput: String {
+//    case Photo = "Photo"  // implicit raw value of "Photo"
+//    case Filter = "Filter"
+//}
 
 let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAnimationChange")
 

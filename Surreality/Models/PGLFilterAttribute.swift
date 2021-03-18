@@ -615,13 +615,13 @@ class PGLFilterAttribute {
         return false
     }
 
-    func hasUserAssetSelection() -> Bool {
-        if !hasInputCollection() { return false}
-        if (inputCollection?.userSelection) != nil {
-            return true
-        }
-        else {return false}
-    }
+//    func hasUserAssetSelection() -> Bool {
+//        if !hasInputCollection() { return false}
+//        if (inputCollection?.userSelection) != nil {
+//            return true
+//        }
+//        else {return false}
+//    }
 
     func getUserAssetSelection() -> PGLUserAssetSelection? {
 
@@ -924,17 +924,15 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     // answer a filter type subUI parm cell
 
   override func hasImageInput() -> Bool? {
-    /// Mark: Cleanup obsolete?
+    
     // answer true if there is an inputCollection and it is not empty
-    if imageInputIsEmpty() {
-        // may have input from the prior stack filter
-        if let aSource = inputSourceDescription {
-            return nil // there is another filter input in the stack
-        }
-        } else {
-            return true
-        }
-        return nil // default undefined
+
+    switch imageParmState {
+        case ImageParm.inputPhoto :
+            return !imageInputIsEmpty()
+        default:
+            return false
+    }
 }
     override func setImageParmState(newState: ImageParm) {
 
