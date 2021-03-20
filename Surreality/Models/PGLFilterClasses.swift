@@ -264,9 +264,16 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func setInputImageParmState(newState: ImageParm) {
-        if let inputImageAttribute = attribute(nameKey: kCIInputImageKey ) {
+        if let inputImageAttribute = getInputImageAttribute() {
             inputImageAttribute.setImageParmState(newState: newState)
         }
+    }
+
+    func getInputImageAttribute()-> PGLFilterAttributeImage? {
+        if let inputImageAttribute = attribute(nameKey: kCIInputImageKey ) {
+            return inputImageAttribute as? PGLFilterAttributeImage
+        }
+        return nil
     }
 
     func localizedName() -> String {

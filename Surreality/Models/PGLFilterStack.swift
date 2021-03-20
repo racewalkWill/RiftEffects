@@ -98,7 +98,7 @@ class PGLFilterStack  {
                     filterDescriptor: PGLFilterDescriptor ) {
 
         if let filter = filterDescriptor.pglSourceFilter() {
-            let inputAttribute = filter.attribute(nameKey: kCIInputImageKey )
+            let inputAttribute = filter.getInputImageAttribute()
             inputAttribute?.setImageCollectionInput(cycleStack: initialList)
 
             filter.uiPosition = defaultFilterPosition
@@ -143,14 +143,14 @@ class PGLFilterStack  {
         // don't advance past the last one
     }
 
-    func stackNextFilter() {
-        if (activeFilterIndex == activeFilters.count - 1) {
-           addFilterAfter()
-
-        } else {
-            moveActiveAhead()
-        }
-    }
+//    func stackNextFilter() {
+//        if (activeFilterIndex == activeFilters.count - 1) {
+//           addFilterAfter()
+//
+//        } else {
+//            moveActiveAhead()
+//        }
+//    }
 
     func firstFilterIsActive() -> Bool {
         return activeFilterIndex == 0
@@ -176,100 +176,128 @@ class PGLFilterStack  {
         return answer
     }
 
-    func addFilterAfter()  {
-        if isEmptyStack() {
-            // set default filter
-//            setStartupDefault()
-            return
-        }
-        let currentFilter = activeFilters[activeFilterIndex]
-        let currentFilterClass = type(of: currentFilter) // create the correct subclass of PGLSourceFilter
-        if let newInstance = currentFilterClass.init(filter: currentFilter.filterName, position: currentFilter.uiPosition ) {
-            newInstance.setInput(image: currentFilter.inputImage(), source: currentFilter.sourceDescription(attributeKey: kCIInputImageKey))
-            // do subclasses of PGLSourceFilter have other vars to set??
-        addFilterAfter(newFilter: newInstance)
-        }
+//    func addFilterAfter()  {
+//        if isEmptyStack() {
+//            // set default filter
+////            setStartupDefault()
+//            return
+//        }
+//        let currentFilter = activeFilters[activeFilterIndex]
+//        let currentFilterClass = type(of: currentFilter) // create the correct subclass of PGLSourceFilter
+//        if let newInstance = currentFilterClass.init(filter: currentFilter.filterName, position: currentFilter.uiPosition ) {
+//            newInstance.setInput(image: currentFilter.inputImage(), source: currentFilter.sourceDescription(attributeKey: kCIInputImageKey))
+//            // do subclasses of PGLSourceFilter have other vars to set??
+//        addFilterAfter(newFilter: newInstance)
+//        }
+//
+//
+//    }
 
+//    func addFilterAfter(newFilter: PGLSourceFilter) {
+//        // assumes activeFilterIndex is set to the endingPoint
+////        moveActiveAhead()
+////        moveInputsFrom(activeFilters[activeFilterIndex], newFilter)
+//        let nextFilterIndex = activeFilterIndex + 1
+//        if lastFilterIsActive() {
+//            // appending so output of newFilter does not go to input of next filter
+//            // and there are no other image parms to also connect
+//            newFilter.setInput(image: currentFilter().outputImage(), source: stackFilterName(currentFilter(), index: nextFilterIndex) )
+//              // and set output of newClone to the input of the next activeFilter
+//            newFilter.setSourceFilter(sourceLocation: (source: self, at: nextFilterIndex), attributeKey: kCIInputImageKey)
+//            activeFilters.insert(newFilter, at: nextFilterIndex)
+//            activeFilterIndex = nextFilterIndex
+//        } else {
+//             let nextFilter = activeFilters[nextFilterIndex]
+//             moveInputsFrom(nextFilter, newFilter)
+//            // now output of the newFilter goes to next filter
+//            activeFilters.insert(newFilter, at: nextFilterIndex)
+//            let followingIndex = nextFilterIndex + 1 // now on the following filter
+//
+//            let  followingFilter = activeFilters[followingIndex]
+//            followingFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: nextFilterIndex) )
+//            followingFilter.setSourceFilter(sourceLocation: (source: self, at: nextFilterIndex ), attributeKey: kCIInputImageKey)
+//            activeFilterIndex = followingIndex
+//        }
+//        if newFilter.storedFilter != nil {
+//            // if nil it will be created as save time
+////            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+//            storedStack?.addToFilters(newFilter.storedFilter!)
+//            // the case of firstFilterIsActive() has set activeFilterIndex to zero
+//        }
+//
+//          updateFilterList()
+//
+//    }
+//
+//    func addFilterBefore(newFilter: PGLSourceFilter) {
+//        // assumes activeFilterIndex is set to the endingPoint
+//        let oldActiveFilter = activeFilters[activeFilterIndex ]
+//        if firstFilterIsActive() {
+//            // remove inputs of newFilter
+//            // set outputs to oldFirstFilter
+//            let otherKeys = newFilter.imageInputAttributeKeys
+//            for anImageKey in otherKeys{
+//                newFilter.setImageValue(newValue: CIImage.empty(), keyName: anImageKey)
+//                newFilter.setInputImageParmState(newState: ImageParm.missingInput)
+//                }
+//
+//            oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: 0) )
+//            oldActiveFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+//            oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: 0), attributeKey: kCIInputImageKey)
+//            activeFilters.insert(newFilter, at: 0)
+//            activeFilterIndex = 0
+//        } else {
+//            // set input of newFilter as the  old inputs of old ActiveFilter
+//            // set output of newFilter to input of old ActiveFilter
+//
+//
+//            moveInputsFrom(oldActiveFilter, newFilter)
+//                // remove newFilter from it's old position first?
+//
+//            activeFilters.insert(newFilter, at: activeFilterIndex )
+//                       // pushes old active forward one..
+//           oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: activeFilterIndex) )
+//            oldActiveFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+//           oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
+//
+//
+//        }
+//        if newFilter.storedFilter != nil {
+//            // if nil it will be created as save time
+////            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
+//            storedStack?.addToFilters(newFilter.storedFilter!)
+//            // the case of firstFilterIsActive() has set activeFilterIndex to zero
+//        }
+//          updateFilterList()
+//
+//    }
 
-    }
+    func moveFilter(fromSourceRow: Int, destinationRow: Int ) {
+        if activeFilters.count <= 1 {return }
+        // empty or just one element}
+        let sourceFilter = activeFilters.remove(at: fromSourceRow)
+        activeFilters.insert(sourceFilter, at: destinationRow)
 
-    func addFilterAfter(newFilter: PGLSourceFilter) {
-        // assumes activeFilterIndex is set to the endingPoint
-//        moveActiveAhead()
-//        moveInputsFrom(activeFilters[activeFilterIndex], newFilter)
-        let nextFilterIndex = activeFilterIndex + 1
-        if lastFilterIsActive() {
-            // appending so output of newFilter does not go to input of next filter
-            // and there are no other image parms to also connect
-            newFilter.setInput(image: currentFilter().outputImage(), source: stackFilterName(currentFilter(), index: nextFilterIndex) )
-              // and set output of newClone to the input of the next activeFilter
-            newFilter.setSourceFilter(sourceLocation: (source: self, at: nextFilterIndex), attributeKey: kCIInputImageKey)
-            activeFilters.insert(newFilter, at: nextFilterIndex)
-            activeFilterIndex = nextFilterIndex
-        } else {
-             let nextFilter = activeFilters[nextFilterIndex]
-             moveInputsFrom(nextFilter, newFilter)
-            // now output of the newFilter goes to next filter
-            activeFilters.insert(newFilter, at: nextFilterIndex)
-            let followingIndex = nextFilterIndex + 1 // now on the following filter
-
-            let  followingFilter = activeFilters[followingIndex]
-            followingFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: nextFilterIndex) )
-            followingFilter.setSourceFilter(sourceLocation: (source: self, at: nextFilterIndex ), attributeKey: kCIInputImageKey)
-            activeFilterIndex = followingIndex
-        }
-        if newFilter.storedFilter != nil {
-            // if nil it will be created as save time
-//            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
-            storedStack?.addToFilters(newFilter.storedFilter!)
-            // the case of firstFilterIsActive() has set activeFilterIndex to zero
-        }
-
-          updateFilterList()
-
-    }
-
-    func addFilterBefore(newFilter: PGLSourceFilter) {
-        // assumes activeFilterIndex is correct
-        if firstFilterIsActive() {
-            // remove inputs of newFilter
-            // set outputs to oldFirstFilter
-            let otherKeys = newFilter.imageInputAttributeKeys
-            for anImageKey in otherKeys{
-                newFilter.setImageValue(newValue: CIImage.empty(), keyName: anImageKey)
-                newFilter.setInputImageParmState(newState: ImageParm.missingInput)
+        // reset the imageInput chain
+        // does first filter need inputs set? priorFilter is no longer valid
+        // could have inputCollection or a childStack as working input
+        if let inputImageAttribute = activeFilters[0].getInputImageAttribute(){
+                if inputImageAttribute.imageParmState == ImageParm.inputPriorFilter {
+                    inputImageAttribute.setImageParmState(newState: ImageParm.missingInput)
                 }
-            let oldActiveFilter = activeFilters[activeFilterIndex ]
-            oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: 0) )
-            oldActiveFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
-            oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: 0), attributeKey: kCIInputImageKey)
-            activeFilters.insert(newFilter, at: 0)
-            activeFilterIndex = 0
-        } else {
-            // set input of newFilter as the  old inputs of old ActiveFilter
-            // set output of newFilter to input of old ActiveFilter
-
-           let oldActiveFilter = activeFilters[activeFilterIndex ]
-            moveInputsFrom(oldActiveFilter, newFilter)
-
-            activeFilters.insert(newFilter, at: activeFilterIndex )
-                       // pushes old active forward one..
-           oldActiveFilter.setInput(image: newFilter.outputImage(), source: stackFilterName(newFilter, index: activeFilterIndex) )
-            oldActiveFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
-           oldActiveFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
-
 
         }
-        if newFilter.storedFilter != nil {
-            // if nil it will be created as save time
-//            storedStack?.insertIntoFilters(newFilter.storedFilter!, at: activeFilterIndex)
-            storedStack?.addToFilters(newFilter.storedFilter!)
-            // the case of firstFilterIsActive() has set activeFilterIndex to zero
-        }
-          updateFilterList()
+
+        for index in 1 ..< activeFilters.count {
+            let priorFilter = activeFilters[index - 1 ]
+            let aFilter = activeFilters[index]
+            aFilter.setInput(image: priorFilter.outputImage(),source: stackFilterName(priorFilter, index: index))
+
+            aFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+            }
+        updateFilterList()
 
     }
-
 
     
 
@@ -293,7 +321,16 @@ class PGLFilterStack  {
 
         } else {
             // first filter in the stack
-            newFilter.setInputImageParmState(newState: ImageParm.missingInput)
+            if let inputImageAttribute = newFilter.getInputImageAttribute() {
+                if inputImageAttribute.inputStack == nil {
+                    if inputImageAttribute.imageInputIsEmpty() {
+                        newFilter.setInputImageParmState(newState: ImageParm.missingInput)
+                    }
+                } else {
+                    newFilter.setInputImageParmState(newState: ImageParm.inputChildStack)
+                }
+            }
+
 
         }
         newFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
@@ -304,7 +341,8 @@ class PGLFilterStack  {
    
     
     fileprivate func moveInputsFrom(_ oldFilter: PGLSourceFilter, _ newFilter: PGLSourceFilter) {
-
+        // strictly this should only be used when replacing a filter
+        // keep as many inputs as possible.
        let otherKeys = newFilter.imageInputAttributeKeys
         
         for anImageKey in otherKeys{
@@ -594,12 +632,12 @@ class PGLFilterStack  {
     func currentFilter() -> PGLSourceFilter {
          return filterAt(tabIndex: activeFilterIndex)
     }
-    func nextFilter()  -> PGLSourceFilter? {
-        // either add new if currently at last or move to next in the stack
-        stackNextFilter()  // this changes the filter by adding to the stack
-        //        filterUpdate(updatedFilter: currentFilter()!)
-        return filterAt(tabIndex: activeFilterIndex)
-    }
+//    func nextFilter()  -> PGLSourceFilter? {
+//        // either add new if currently at last or move to next in the stack
+//        stackNextFilter()  // this changes the filter by adding to the stack
+//        //        filterUpdate(updatedFilter: currentFilter()!)
+//        return filterAt(tabIndex: activeFilterIndex)
+//    }
 
     func priorFilter() -> PGLSourceFilter? {
         // either move to prior in the stack or just the first if only 1

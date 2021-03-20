@@ -428,21 +428,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         // if moving up the stack then inserts before the existing destination
         // if moving down the stack then inserts after the existing destination
         let viewerStack = appStack.getViewerStack()
-        let startingPoint = sourceIndexPath.row
-        let endingPoint = destinationIndexPath.row
 
-        if let startingPointFilter = viewerStack.removeFilter(position: startingPoint) {
-
-            if startingPoint < endingPoint {
-                viewerStack.addFilterAfter(newFilter: startingPointFilter)
-            } else {
-                viewerStack.addFilterBefore(newFilter: startingPointFilter)
-            }
-        }
-
-
-       
-
+        viewerStack.moveFilter(fromSourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row )
     }
 
 

@@ -402,6 +402,7 @@ extension PGLFilterAttributeImage {
             self.inputStack = newPGLChildStack
                 // in the UI inputStack is set with the PGLAppStack.addChildStackTo:(parm:)
                 // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
+            setImageParmState(newState: ImageParm.inputChildStack)
         } else {
             // load relation inputAssets and attach an ImageList as input
             if let inputImageList = cdImageParm.inputAssets {

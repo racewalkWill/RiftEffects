@@ -45,7 +45,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
             dt = dt * -1 // past end so toggle
             // this has animation
             // get the input collection
-           nextAttribute = attribute(nameKey: kCIInputImageKey ) //kCIInputTargetImageKey
+           nextAttribute = getInputImageAttribute() //kCIInputTargetImageKey
 
 
         }
