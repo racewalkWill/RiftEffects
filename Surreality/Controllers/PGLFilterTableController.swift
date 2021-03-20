@@ -72,6 +72,15 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
 
     tableView.register(UITableViewHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: "HeaderRenderer")
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+       myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+            self.navigationController?.popViewController(animated: true)
+
+        }
  
     }
 
@@ -81,7 +90,7 @@ override func viewDidDisappear(_ animated: Bool) {
     NSLog("PGLFilterTableController #viewDidDisappear removing notification observor")
 
 //    NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange, object: self)
-//    NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
+   NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
 }
 
 // MARK: SplitView
