@@ -493,7 +493,7 @@ class PGLFilterStack  {
                 return removeLastFilter()
             default:
                 // all other cases where stack has multiple filters, take out a mid point
-                let oldFilter = activeFilters[position]
+                let oldFilter = activeFilters.remove(at: position)
                 activeFilterIndex = position
                 // now outputs of prior filter go to the new activeOne inputs
                 let newFilter = activeFilters[activeFilterIndex]

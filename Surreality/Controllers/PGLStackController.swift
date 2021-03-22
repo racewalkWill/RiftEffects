@@ -17,6 +17,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     var appStack: PGLAppStack!
     var filterShiftBtn: UIBarButtonItem!
+    var filterShiftImage: UIBarButtonItem!
     var upChevronBtn: UIBarButtonItem!
     var downChevronBtn: UIBarButtonItem!
     var toolBarSpacer: UIBarButtonItem!
@@ -110,14 +111,18 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     // MARK: ToolBar
     fileprivate func addToolBarButtons() {
         filterShiftBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
-        filterShiftBtn.image = UIImage(systemName: "chart.bar.doc.horizontal")
+        filterShiftImage = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
+        // both use the same selector...
+
+        filterShiftImage.image = UIImage(systemName: "chart.bar.doc.horizontal")
+        filterShiftBtn.possibleTitles = [StackDisplayMode.Single.rawValue, StackDisplayMode.All.rawValue ]
 
         upChevronBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(upChevronAction))
         upChevronBtn.image = UIImage(systemName:"chevron.up")
         downChevronBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(downChevronAction))
         downChevronBtn.image = UIImage(systemName:"chevron.down")
         toolBarSpacer = UIBarButtonItem.flexibleSpace()
-        setToolbarItems([filterShiftBtn,toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
+        setToolbarItems([filterShiftImage, filterShiftBtn,  toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
         setShiftBtnState()
         setChevronState()
     }
@@ -135,15 +140,13 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     func setShiftBtnState() {
         filterShiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+        filterShiftImage.isEnabled = filterShiftBtn.isEnabled
         setChevronState()
-//                if (appStack.showFilterImage) {
-
-        //            shiftBtn.image = arrowRightCirclFill
-//                    filterShiftBtn.tintColor = .systemBlue
-//                } else {
-        //              shiftBtn.image = arrowRightCirclFill
-//                    filterShiftBtn.tintColor =  .systemGray4
-//                }
+        if (appStack.showFilterImage) {
+            filterShiftBtn.title  = StackDisplayMode.Single.rawValue
+        } else {
+            filterShiftBtn.title  = StackDisplayMode.All.rawValue
+        }
 
     }
 

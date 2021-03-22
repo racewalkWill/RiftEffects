@@ -11,6 +11,10 @@ import Foundation
 let  PGLStackChange = NSNotification.Name(rawValue: "PGLStackChange")
 let PGLSelectActiveStackRow = NSNotification.Name(rawValue: "PGLSelectActiveStackRow")
  // 2021/02/02 PGLSelectActiveStackRow may not be used.. remove?
+enum StackDisplayMode: String {
+     case All
+     case Single
+}
 
 class PGLAppStack {
     var outputStack: PGLFilterStack
