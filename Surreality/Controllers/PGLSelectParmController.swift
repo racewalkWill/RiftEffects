@@ -140,7 +140,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         setImageController()
 
         NSLog ("PGLSelectParmController #viewDidLoad completed")
-        navigationController?.isToolbarHidden = false
+        navigationController?.isToolbarHidden = true
 
     }
 
