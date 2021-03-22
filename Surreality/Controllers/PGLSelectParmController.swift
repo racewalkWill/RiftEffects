@@ -18,10 +18,6 @@ enum ImageParm: Int {
     case missingInput = 3
 }
 
-//enum ParmInput: String {
-//    case Photo = "Photo"  // implicit raw value of "Photo"
-//    case Filter = "Filter"
-//}
 
 let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAnimationChange")
 
@@ -82,7 +78,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet weak var shiftBtn: UIBarButtonItem!
 
-
+    @IBOutlet weak var filterShiftLabel: UIBarButtonItem!
+    
     @IBOutlet weak var filterLabel: UILabel!
     
    
@@ -255,6 +252,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         setShiftBtnState()
     }
 
+
+    @IBAction func filterShiftLabelAction(_ sender: UIBarButtonItem) {
+        // dispatch to shiftBtn..
+        shiftBtnAction(sender)
+    }
+
     @IBAction func upChevronAction(_ sender: UIBarButtonItem) {
                 imageController?.hideParmControls()
                appStack.outputFilterStack().moveActiveBack()
@@ -265,6 +268,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     func setShiftBtnState() {
         shiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+        filterShiftLabel.isEnabled = shiftBtn.isEnabled
+        if (appStack.showFilterImage) {
+            filterShiftLabel.title = StackDisplayMode.Single.rawValue
+        } else {
+            filterShiftLabel.title = StackDisplayMode.All.rawValue
+        }
         setChevronState()
 
     }

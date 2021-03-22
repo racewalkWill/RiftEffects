@@ -19,14 +19,14 @@
                         <viewLayoutGuide key="frameLayoutGuide" id="VcR-CT-t99"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="filterBasic" textLabel="Oxp-d1-8dN" style="IBUITableViewCellStyleDefault" id="bAo-zi-it5">
-                                <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="834" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bAo-zi-it5" id="LE4-Pc-AYC">
-                                    <rect key="frame" x="0.0" y="0.0" width="511" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="794" height="43"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oxp-d1-8dN">
-                                            <rect key="frame" x="16" y="0.0" width="487" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="770" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
@@ -798,6 +798,11 @@
                                             <action selector="shiftBtnAction:" destination="VjG-Q1-3mN" id="DCI-zf-akv"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Item" id="c9Y-Ed-ZeW" userLabel="filterShiftLabel">
+                                        <connections>
+                                            <action selector="filterShiftLabelAction:" destination="VjG-Q1-3mN" id="gpE-0t-UX8"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="9kO-c4-rac"/>
                                     <barButtonItem title="upChevron" image="chevron.up" catalog="system" id="A6h-K5-gwp">
                                         <connections>
@@ -982,6 +987,7 @@
                     <connections>
                         <outlet property="downChevron" destination="arH-zW-cxm" id="Pnm-kK-yk2"/>
                         <outlet property="filterLabel" destination="sEW-y3-MfP" id="mTz-Ab-b1Y"/>
+                        <outlet property="filterShiftLabel" destination="c9Y-Ed-ZeW" id="jK5-m2-B5b"/>
                         <outlet property="parmsTableView" destination="qzX-VM-dr8" id="J9S-87-VTd"/>
                         <outlet property="shiftBtn" destination="3ph-yx-nVM" id="EtB-y3-a8c"/>
                         <outlet property="upChevron" destination="A6h-K5-gwp" id="gCa-S8-4Fc"/>
@@ -1098,7 +1104,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Fbq-A6-ZwM"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="8dR-Nq-8eW"/>
+        <segue reference="q90-Vk-s0q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>
