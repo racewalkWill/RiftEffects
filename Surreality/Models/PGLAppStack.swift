@@ -58,6 +58,10 @@ class PGLAppStack {
     func resetToTopStack(newStack: PGLFilterStack) {
         // new stack loaded from the data store
         // replace current data
+        // clear persistentContext of the old context - so that it reloads from data in saved state
+
+       rollbackStack()
+            // removes unsaved changes from the NSManagedObjectContext
 
         viewerStack = newStack
         outputStack = viewerStack // same as init
@@ -65,6 +69,7 @@ class PGLAppStack {
         postStackChange()
     }
 
+    
     func removeDefaultEmptyFilter() {
         if outputStack.isEmptyDefaultStack() {
           _ = outputStack.removeDefaultFilter()

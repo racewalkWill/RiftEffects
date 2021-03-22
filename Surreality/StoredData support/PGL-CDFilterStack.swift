@@ -474,6 +474,13 @@ extension PGLAppStack {
         } else { return pushedStacks.first}
     }
 
+    func rollbackStack() {
+        // removes unsaved changes from the NSManagedObjectContext
+        let moContext = PersistentContainer.viewContext
+        moContext.rollback()
+            // is this overkill.. just rollback the current stack??
+    }
+
     func writeCDStacks(){
         // store starting from the top level
         // each stack will write in turn as it is referenced
