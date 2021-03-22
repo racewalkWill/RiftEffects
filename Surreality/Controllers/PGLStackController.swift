@@ -387,10 +387,23 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     }
 
     func removeFilter(indexPath: IndexPath) {
-        let thisStack = appStack.getViewerStack()
-        thisStack.activeFilterIndex = indexPath.row
 
-      _ = thisStack.removeFilter(position: indexPath.row)
+        let cellIndent = appStack.cellFilters[indexPath.row]
+        appStack.moveTo(filterIndent: cellIndent)
+            // sets the activeFilterIndex of the childStack
+            // makes the childStack the viewerStack
+
+        let thisStack = appStack.getViewerStack()
+
+        _ = thisStack.removeFilter(position: thisStack.activeFilterIndex)
+        // needs work here... the parent of the child stack needs to
+        // set the inputStack to nil and update the inputParmState to
+        // missingInput
+
+        // change back to the mainstck
+        appStack.resetViewStack()
+
+
        self.updateDisplay()
         if appStack.showFilterImage {appStack.postSelectActiveStackRow()}
         // other updates in PGLImageController

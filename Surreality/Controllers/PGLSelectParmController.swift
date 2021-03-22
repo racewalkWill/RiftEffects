@@ -181,7 +181,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 }
         notifications.append(aNotification)
 
-        aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
+        aNotification = myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'

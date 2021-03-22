@@ -460,30 +460,47 @@ class PGLFilterStack  {
         return activeFilters[0].imageInputIsEmpty()
     }
 
+    fileprivate func childStackResetParent() {
+        if parentAttribute != nil {
+            // update the parent state too
+            if let parentImageAttribute = parentAttribute as? PGLFilterAttributeImage {
+                parentImageAttribute.setImageParmState(newState: ImageParm.missingInput)
+                parentImageAttribute.inputStack = nil
+                if let cdImage = parentImageAttribute.storedParmImage {
+                    cdImage.inputStack = nil
+                }
+            }
+        }
+    }
+
     func removeFilter(position: Int) -> PGLSourceFilter?{
         // returns removedFilter
+
+
         switch activeFilterIndex {
-        case -1  :
-            // somehow empty stack is removing a filter
-            removeAllFilters()
-            return nil
-        case _ where ( activeFilters.count == 1) :
-            // removing only filter in the stack
-            removeAllFilters()
-            return nil
-        case _ where (position >= activeFilters.count - 1) :
-            // on last filter
-            return removeLastFilter()
-        default:
-            // all other cases where stack has multiple filters, take out a mid point
-            let oldFilter = activeFilters.remove(at: position)
-            activeFilterIndex = position
-            // now outputs of prior filter go to the new activeOne inputs
-            let newFilter = activeFilters[activeFilterIndex]
-            moveInputsFrom(oldFilter, newFilter)
-            if oldFilter.storedFilter != nil {
-                storedStack?.removeFromFilters(oldFilter.storedFilter!)}
-            return oldFilter
+            case -1  :
+                // somehow empty stack is removing a filter
+                removeAllFilters()
+                childStackResetParent()
+                return nil
+            case _ where ( activeFilters.count == 1) :
+                // removing only filter in the stack
+                removeAllFilters()
+                childStackResetParent()
+                return nil
+            case _ where (position >= activeFilters.count - 1) :
+                // on last filter
+                return removeLastFilter()
+            default:
+                // all other cases where stack has multiple filters, take out a mid point
+                let oldFilter = activeFilters[position]
+                activeFilterIndex = position
+                // now outputs of prior filter go to the new activeOne inputs
+                let newFilter = activeFilters[activeFilterIndex]
+                moveInputsFrom(oldFilter, newFilter)
+                if oldFilter.storedFilter != nil {
+                    storedStack?.removeFromFilters(oldFilter.storedFilter!)}
+                return oldFilter
         }
 
     }

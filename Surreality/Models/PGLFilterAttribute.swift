@@ -133,14 +133,15 @@ class PGLFilterAttribute {
     var inputStack: PGLFilterStack? {
         didSet{
             // assign the output of the child to the input of this attribute
-            self.set( inputStack?.stackOutputImage(false) as Any)
-                // false means use the final image in the child stack... BUT
-                // the child is being created so it is the dynamic output at runtime that is the input
-                // to this attribute.
-                // this is a problem...
+            if inputStack != nil {
+                self.set( inputStack?.stackOutputImage(false) as Any)
+                    // false means use the final image in the child stack... BUT
+                    // the child is being created so it is the dynamic output at runtime that is the input
+                    // to this attribute.
+                    // this is a problem...
 
-            inputSourceDescription = inputStack?.stackName ?? "filterStack"
-
+                inputSourceDescription = inputStack?.stackName ?? "filterStack"
+            }
         }
     }
         // typically an image output from a stack is the input to the attribute
