@@ -224,6 +224,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                        NotificationCenter.default.removeObserver(anObserver)
                    }
         notifications = [Any]() // reset
+        navigationController?.isToolbarHidden = false
 
     }
 
@@ -813,6 +814,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        NSLog("PGLSelectParmController cellForRowAt cell = \(cell)")
         tappedAttribute?.setUICellDescription(cell)
         tappedAttribute?.uiIndexPath = indexPath
+        if tappedAttribute?.inputParmType() == ImageParm.inputPriorFilter {
+            cell.accessoryType = .none
+            // input from prior cell always overrides any other image input
+            // can't change or choose image.. remove the disclosure indicator of the cell
+        }
         return cell
 
     }

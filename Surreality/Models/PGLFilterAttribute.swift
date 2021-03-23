@@ -998,7 +998,11 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         // just provides the contextAction
         // nil filterInputActionCell will trigger a segue
         var allActions = [PGLTableCellAction]()
-
+        if imageParmState == ImageParm.inputPriorFilter {
+            return allActions
+            // empty no actions
+            //can't change input from prior filter so no cell action swipe cells
+        }
         let newPickAction = PGLTableCellAction(action: "Pick", newAttribute: filterInputActionCell(), canPerformAction: true, targetAttribute: self)
         allActions.append(newPickAction)
     
