@@ -139,7 +139,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     }
 
     func setShiftBtnState() {
-        filterShiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+        filterShiftBtn.isEnabled = (appStack.flatRowCount() > 1)
         filterShiftImage.isEnabled = filterShiftBtn.isEnabled
         setChevronState()
         if (appStack.showFilterImage) {
@@ -152,7 +152,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @objc func upChevronAction(_ sender: UIBarButtonItem) {
 
-        appStack.outputFilterStack().moveActiveBack()
+
+            // if on a child stack (indented cell) then outputFilterStack is
+            // not set right... how to handle this?
+        appStack.moveActiveBack()
         setChevronState()
         postCurrentFilterChange()
         if appStack.showFilterImage {appStack.postSelectActiveStackRow()}
@@ -161,7 +164,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @objc func downChevronAction(_ sender: UIBarButtonItem) {
 
-        appStack.outputFilterStack().moveActiveAhead()
+//        appStack.outputFilterStack().moveActiveAhead()
+        appStack.moveActiveAhead() // changes to child if needed
+
         setChevronState()
         postCurrentFilterChange()
         if appStack.showFilterImage {appStack.postSelectActiveStackRow()}
@@ -175,28 +180,29 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             return
         }
 
-       let myOutputStack = appStack.outputFilterStack()
-        if (myOutputStack.activeFilters.count <= 1) {
+        let rowCount = appStack.flatRowCount()
+
+        if (rowCount <= 1) {
             // disable both chevrons
             upChevronBtn.isEnabled = false
             downChevronBtn.isEnabled = false
             return
         }
-        if myOutputStack.firstFilterIsActive() {
-            // on first.. can't go further
-            upChevronBtn.isEnabled = false
-            downChevronBtn.isEnabled = true
-        } else { // check last
-            if myOutputStack.lastFilterIsActive() {
-                // on last filter can't go further
-                upChevronBtn.isEnabled = true
-                downChevronBtn.isEnabled = false
-            } else {
-                // in the middle enable both
-                upChevronBtn.isEnabled = true
-                downChevronBtn.isEnabled = true
+        let theSelectedRow = appStack.activeFilterCellRow()
+            switch theSelectedRow {
+                case 0 :
+                    // on first.. can't go further
+                    upChevronBtn.isEnabled = false
+                    downChevronBtn.isEnabled = true
+                case rowCount - 1 :
+                    // on last filter can't go further
+                    upChevronBtn.isEnabled = true
+                    downChevronBtn.isEnabled = false
+                default:
+                    // in the middle enable both
+                    upChevronBtn.isEnabled = true
+                    downChevronBtn.isEnabled = true
             }
-        }
     }
 
 
@@ -229,7 +235,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //  return the number of rows
-        let rowCount = appStack.stackRowCount()
+        let rowCount = appStack.flatRowCount()
         return rowCount
     }
 

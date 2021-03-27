@@ -251,6 +251,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func shiftBtnAction(_ sender: UIBarButtonItem) {
         appStack.toggleShowFilterImage()
         setShiftBtnState()
+        // setChevronState called in setShiftBtnState()
+
     }
 
 
@@ -261,14 +263,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBAction func upChevronAction(_ sender: UIBarButtonItem) {
                 imageController?.hideParmControls()
-               appStack.outputFilterStack().moveActiveBack()
+               appStack.moveActiveBack()
                 setChevronState()
                postCurrentFilterChange()
         
     }
 
     func setShiftBtnState() {
-        shiftBtn.isEnabled = (appStack.stackRowCount() > 1)
+        shiftBtn.isEnabled = (appStack.flatRowCount() > 1)
         filterShiftLabel.isEnabled = shiftBtn.isEnabled
         if (appStack.showFilterImage) {
             filterShiftLabel.title = StackDisplayMode.Single.rawValue
@@ -285,33 +287,34 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             downChevron.isEnabled = false
             return }
 
-       let myOutputStack = appStack.outputFilterStack()
-        if (myOutputStack.activeFilters.count <= 1) {
+        let rowCount = appStack.flatRowCount()
+        if (rowCount <= 1) {
             // disable both chevrons
             upChevron.isEnabled = false
             downChevron.isEnabled = false
             return
         }
-        if myOutputStack.firstFilterIsActive() {
-            // on first.. can't go further
-            upChevron.isEnabled = false
-            downChevron.isEnabled = true
-        } else { // check last
-            if myOutputStack.lastFilterIsActive() {
-                // on last filter can't go further
-                upChevron.isEnabled = true
-                downChevron.isEnabled = false
-            } else {
-                // in the middle enable both
-                upChevron.isEnabled = true
-                downChevron.isEnabled = true
+
+        let theSelectedRow = appStack.activeFilterCellRow()
+            switch theSelectedRow {
+                case 0 :
+                    // on first.. can't go further
+                    upChevron.isEnabled = false
+                    downChevron.isEnabled = true
+                case rowCount - 1 :
+                    // on last filter can't go further
+                    upChevron.isEnabled = true
+                    downChevron.isEnabled = false
+                default:
+                    // in the middle enable both
+                    upChevron.isEnabled = true
+                    downChevron.isEnabled = true
             }
-        }
     }
 
     @IBAction func downChevronAction(_ sender: UIBarButtonItem) {
         imageController?.hideParmControls()
-        appStack.outputFilterStack().moveActiveAhead()
+        appStack.moveActiveAhead() // changes to child if needed
         setChevronState()
         postCurrentFilterChange()
 
@@ -984,8 +987,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     self.tappedAttribute = cellDataAttribute
                     NSLog("PGLSelectParmController trailingSwipeActionsConfigurationForRowAt tappedAttribute = \(String(describing: self.tappedAttribute))")
                     self.imageController?.hideSliders()
-
+                    if self.tappedAttribute?.inputParmType() == ImageParm.inputChildStack {
+                        self.appStack.pushChildStack((self.tappedAttribute?.inputStack)!)
+                    }
                     self.performSegue(withIdentifier: cellDataAttribute.segueName() ?? "NoSegue", sender: cellDataAttribute)
+                    // this will segue to the filter Stack...should go stackControler.
 
                     completion(true)
                 }

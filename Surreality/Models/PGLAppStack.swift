@@ -167,6 +167,64 @@ class PGLAppStack {
         }
     }
 
+    // MARK: Child Stack push/pop
+
+    func moveActiveAhead() {
+        // called before the postSelectActiveStackRow
+        let startingActiveRow = activeFilterCellRow()
+        let endRow = flatRowCount() - 1 // zero based array
+        if startingActiveRow  == endRow {
+            return  // don't change now at the end of all the filters
+        }
+        let  nextRowCell = cellFilters[startingActiveRow + 1 ]
+        let  startRowCell = cellFilters[startingActiveRow ]
+        switch nextRowCell.level - startRowCell.level {
+            case 0:
+                // same stack
+                viewerStack.moveActiveAhead()
+            case 1:
+                // push down to child stack
+                pushChildStack(nextRowCell.stack)
+                // should be at first filter of child
+                // activeFilterIndex = 0
+            case -1:
+                //pop up to parent stack
+                popToParentStack()
+                // changes viewerStack
+                viewerStack.moveActiveAhead()
+            default:
+                viewerStack.moveActiveAhead() // how???
+        }
+    }
+
+    func moveActiveBack() {
+        // called before the postSelectActiveStackRow
+        let startingActiveRow = activeFilterCellRow()
+        let endRow = flatRowCount() - 1 // zero based array
+        if startingActiveRow  == 0 {
+            return  // don't change now at start the filters
+        }
+        let  nextRowCell = cellFilters[startingActiveRow - 1 ]
+        let  startRowCell = cellFilters[startingActiveRow ]
+        switch nextRowCell.level - startRowCell.level {
+            case 0:
+                // same stack
+                viewerStack.moveActiveBack()
+            case 1:
+                // push down to child stack
+                pushChildStack(nextRowCell.stack)
+                // should be at first filter of child
+                // activeFilterIndex = 0
+            case -1:
+                //pop up to parent stack
+                popToParentStack()
+                // changes viewerStack
+                viewerStack.moveActiveAhead()
+            default:
+                viewerStack.moveActiveAhead() // how???
+        }
+    }
+
     // MARK: flattened Filters
     // cache the flattenFilters.. reset on filter change.
     func flattenFilters() -> [PGLFilterIndent] {
@@ -217,6 +275,10 @@ class PGLAppStack {
        return outputStack.stackRowCount() // will traverse all filters and child stacks
     }
 
+    func flatRowCount() -> Int {
+        // rows including all the rows of childStacks
+        return cellFilters.count
+    }
     func resetCellFilters() {
         cellFilters = flattenFilters()
     }

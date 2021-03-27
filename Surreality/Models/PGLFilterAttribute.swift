@@ -337,7 +337,7 @@ class PGLFilterAttribute {
     }
 
     func addChildFilters(_ level: Int, into: inout Array<PGLFilterIndent>) {
-       inputStack?.addChildFilters(level + 1 , into: &into)
+       inputStack?.addChildFilters(level  , into: &into)
     }
 
     // MARK: description
@@ -1008,10 +1008,12 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     
         if hasFilterStackInput() {
             let changeAction = PGLTableCellAction(action: "Change", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
+            // this should change to the child stack... but
             allActions.append(changeAction)
         }
         else {
             let newAction = PGLTableCellAction(action: "More", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
+            // this will segue to filterBranch.. opens the filterController
             allActions.append(newAction) }
 
         return allActions
