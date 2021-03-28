@@ -135,7 +135,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
         }
         setChevronState()
-        //updateDisplay()
+        postCurrentFilterChange()
     }
 
     func setShiftBtnState() {
@@ -164,7 +164,6 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @objc func downChevronAction(_ sender: UIBarButtonItem) {
 
-//        appStack.outputFilterStack().moveActiveAhead()
         appStack.moveActiveAhead() // changes to child if needed
 
         setChevronState()
@@ -243,10 +242,28 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "filterRowCell", for: indexPath)
         let aFilterIndent = appStack.filterAt(indexPath: indexPath)
-//          cell.imageView?.image = aFilterIndent.filter.getThumbnail()
+
+
 
         cell.textLabel?.text = aFilterIndent.descriptorDisplayName  // same text as the filterController cell
         cell.indentationLevel = aFilterIndent.level
+
+        switch aFilterIndent.level {
+            case 0:
+                cell.imageView?.image = PGLFilterAttribute.TopStackSymbol
+            default:
+                cell.imageView?.image = PGLFilterAttribute.ChildStackSymbol
+            }
+
+
+
+        if aFilterIndent.stack === appStack.viewerStack {
+            if appStack.showFilterImage {
+                // single filter mode
+                cell.imageView?.image = PGLFilterAttribute.CurrentStackSymbol
+            }
+        }
+
         // Configure the cell...
         if appStack.isImageControllerOpen {
             // disable the detail disclosure button until the image controller shows

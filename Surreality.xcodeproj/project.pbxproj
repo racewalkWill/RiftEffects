@@ -438,10 +438,11 @@
 			isa = PBXGroup;
 			children = (
 				A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */,
+				A3BF505324D32A3400CD5114 /* PGLStackController.swift */,
+				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,
 				A3BF504124D32A3400CD5114 /* PGLResultsController.swift */,
 				A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */,
 				A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */,
-				A3BF505324D32A3400CD5114 /* PGLStackController.swift */,
 				A3BF505724D32A3400CD5114 /* PGLMetalController.swift */,
 				A3BF515B24D3618300CD5114 /* PGLImageController.swift */,
 				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
@@ -449,7 +450,6 @@
 				A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */,
 				A3BF506024D32A3400CD5114 /* PGLMainFilterController.swift */,
 				A3BF507A24D32A3400CD5114 /* PGLSplitViewController.swift */,
-				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,
 				A3BF50B224D32A3400CD5114 /* PGLImagesSelectContainer.swift */,
 				A3BF50B024D32A3400CD5114 /* PGLAssetController.swift */,
 				A3BF50B324D32A3400CD5114 /* PGLAssetCollection.swift */,

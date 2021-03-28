@@ -132,6 +132,18 @@ class PGLAppStack {
             postStackChange()
         }
     }
+    func popToParentStack(upTo: Int) {
+            // usually upTo is negative.. going back up the stack
+        let counter = abs(upTo)
+        if upTo == 0 { return }
+            for _ in 1 ... counter {
+                if pushedStacks.count > 0 {
+                    viewerStack = pushedStacks.removeLast()
+                }
+            }
+            postStackChange()
+    }
+
 
 
     func hasParentStack() -> Bool {
@@ -172,13 +184,15 @@ class PGLAppStack {
     func moveActiveAhead() {
         // called before the postSelectActiveStackRow
         let startingActiveRow = activeFilterCellRow()
+            // viewerStackRow in cellFilters
         let endRow = flatRowCount() - 1 // zero based array
         if startingActiveRow  == endRow {
             return  // don't change now at the end of all the filters
         }
         let  nextRowCell = cellFilters[startingActiveRow + 1 ]
         let  startRowCell = cellFilters[startingActiveRow ]
-        switch nextRowCell.level - startRowCell.level {
+        let levelChange = nextRowCell.level - startRowCell.level
+        switch levelChange {
             case 0:
                 // same stack
                 viewerStack.moveActiveAhead()
@@ -187,13 +201,14 @@ class PGLAppStack {
                 pushChildStack(nextRowCell.stack)
                 // should be at first filter of child
                 // activeFilterIndex = 0
-            case -1:
-                //pop up to parent stack
-                popToParentStack()
-                // changes viewerStack
+            case  let (thisChange) where thisChange < 0 :
+                //pop up to parent stack.. maybe end of child of child..
+                popToParentStack(upTo: levelChange)
+                // popToParentStack changes viewerStack to the popped stack
                 viewerStack.moveActiveAhead()
+                viewerStack.moveActiveAhead() // advance twice
             default:
-                viewerStack.moveActiveAhead() // how???
+                viewerStack.moveActiveAhead() // deep child stack ends???
         }
     }
 
@@ -219,9 +234,9 @@ class PGLAppStack {
                 //pop up to parent stack
                 popToParentStack()
                 // changes viewerStack
-                viewerStack.moveActiveAhead()
+
             default:
-                viewerStack.moveActiveAhead() // how???
+                viewerStack.moveActiveBack() // how???
         }
     }
 
@@ -249,6 +264,8 @@ class PGLAppStack {
         // 
         return cellFilters[indexPath.row]
     }
+
+
 
     func activeFilterCellRow() -> Int {
         // answer the cellFilter index for the appStack viewerStack.activeIndex

@@ -76,8 +76,20 @@ class PGLFilterAttribute {
     static let PhotoSymbolSingle = UIImage(systemName: "photo")
     static let PriorFilterSymbol = UIImage(systemName: "square.and.arrow.down.on.square")
     static let MissingPhotoInput = UIImage(systemName: "rectangle") // looks empty...
+    static let CurrentStackSymbol = UIImage(systemName: "square.stack.3d.up.fill")
+    static let ChildStackSymbol = UIImage(systemName: "bubble.middle.top")
+    static let ParentStackSymbol = UIImage(systemName: "arrow.down.doc")
+    static let TopStackSymbol = UIImage(systemName: "arrow.down.doc")
+            // or
+                //    doc.plaintext
+                //    Arrow.up.doc
+                //    Arrow.down.doc
+                //    Bubble.middle.top
+                //    Sidebar.squares.leading
+                //    Square.stack.3d.up
+                //    List.bullet.indent
 
-    @objc var myFilter: CIFilter {
+   @objc var myFilter: CIFilter {
         didSet {
              self.aSourceFilter.localFilter = myFilter // keep the two refs to the filter aligned
         }
