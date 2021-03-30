@@ -135,7 +135,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
         }
         setChevronState()
-        postCurrentFilterChange()
+//        postCurrentFilterChange()
     }
 
     func setShiftBtnState() {

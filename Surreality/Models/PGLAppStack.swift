@@ -215,13 +215,14 @@ class PGLAppStack {
     func moveActiveBack() {
         // called before the postSelectActiveStackRow
         let startingActiveRow = activeFilterCellRow()
-        let endRow = flatRowCount() - 1 // zero based array
+//        let endRow = flatRowCount() - 1 // zero based array
         if startingActiveRow  == 0 {
-            return  // don't change now at start the filters
+            return  // don't change now at start
         }
         let  nextRowCell = cellFilters[startingActiveRow - 1 ]
         let  startRowCell = cellFilters[startingActiveRow ]
-        switch nextRowCell.level - startRowCell.level {
+        let levelChange = nextRowCell.level - startRowCell.level
+        switch levelChange {
             case 0:
                 // same stack
                 viewerStack.moveActiveBack()
@@ -232,9 +233,9 @@ class PGLAppStack {
                 // activeFilterIndex = 0
             case -1:
                 //pop up to parent stack
-                popToParentStack()
+                popToParentStack(upTo: levelChange)
                 // changes viewerStack
-
+                viewerStack.moveActiveBack()
             default:
                 viewerStack.moveActiveBack() // how???
         }
