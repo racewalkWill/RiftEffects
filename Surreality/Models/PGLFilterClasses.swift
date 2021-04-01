@@ -82,6 +82,7 @@ class PGLSourceFilter :  PGLAnimation  {
     var detectors = [PGLDetection]()
     lazy var thumbNail = getThumbnail() // only set when referenced need to reset on changes..
     var wrapper: PGLDissolveWrapperFilter?
+private  var userDescription: String?
 
 @IBInspectable var debugOutputImage = false
 
@@ -367,6 +368,15 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         // both localized name in the interface and the ciFilter name
         // use in NSLog statements
         return "\(String(describing:self.localizedName())) \(String(describing: self.filterName)))"
+    }
+
+    func filterUserDescription() -> String? {
+        if userDescription == nil {
+            if let myuserDescriptor = PGLFilterCategory.getFilterDescriptor(aFilterName: self.filterName, cdFilterClass: classStringName()) {
+                    userDescription = myuserDescriptor.userDescription
+            }
+        }
+        return userDescription
     }
     
     // MARK: value double dispatch

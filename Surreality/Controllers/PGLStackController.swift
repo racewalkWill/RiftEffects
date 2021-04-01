@@ -22,6 +22,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     var downChevronBtn: UIBarButtonItem!
     var toolBarSpacer: UIBarButtonItem!
 
+    var longPressGesture: UILongPressGestureRecognizer!
+    var longPressStart: IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +70,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         navigationController?.isToolbarHidden = false
 
         addToolBarButtons()
+        setLongPressGesture()
         if appStack.outputStack.isEmptyStack() {
             self.performSegue(withIdentifier: "showFilterController" , sender: nil)
         }
@@ -333,6 +336,83 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
        
     }
 
+    // MARK: - LongPressGestures
+    func setLongPressGesture() {
+
+        longPressGesture = UILongPressGestureRecognizer(target: self , action: #selector(PGLFilterTableController.longPressAction(_:)))
+          if longPressGesture != nil {
+
+//                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
+              tableView.addGestureRecognizer(longPressGesture!)
+              longPressGesture!.isEnabled = true
+            NSLog("PGLStackController setLongPressGesture \(String(describing: longPressGesture))")
+          }
+      }
+
+    func removeGestureRecogniziers(targetView: UIView) {
+       // not called in viewWillDissappear..
+       // recognizier does not seem to get restored if removed...
+        if longPressGesture != nil {
+            tableView.removeGestureRecognizer(longPressGesture!)
+            longPressGesture!.removeTarget(self, action: #selector(PGLFilterTableController.longPressAction(_:)))
+            longPressGesture = nil
+           NSLog("PGLStackController removeGestureRecogniziers ")
+       }
+
+    }
+
+    @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
+
+        let point = sender.location(in: tableView)
+
+        if sender.state == .began
+        {   NSLog("PGLStackController longPressAction begin")
+            guard let longPressIndexPath = tableView.indexPathForRow(at: point) else {
+                longPressStart = nil // assign to var
+                return
+            }
+            longPressStart = longPressIndexPath // assign to var
+        }
+        if sender.state == .recognized {  // could also use .ended but there is slight delay
+            // open popup with filter userDescription
+            if longPressStart != nil {
+
+                guard let tableCell = tableView.cellForRow(at: longPressStart!) else { return  }
+                let aFilterIndent = appStack.filterAt(indexPath: longPressStart!)
+                if let description = aFilterIndent.filter.filterUserDescription() {
+                // now need the PGLFilterDescriptor from the filter..
+                // filter should be able to get it's descriptor from
+                // filter name and class
+
+                    popUpFilterDescription(filterName: description, filterText: description, filterCell: tableCell)
+                } else { return }
+            }
+        }
+
+
+
+    }
+
+    func popUpFilterDescription(filterName: String, filterText: String, filterCell: UITableViewCell) {
+        guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLPopUpFilterInfo") as? PGLPopUpFilterInfo
+        else {
+            return
+        }
+        helpController.modalPresentationStyle = .popover
+        helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
+        // specify anchor point?
+        guard let popOverPresenter = helpController.popoverPresentationController
+        else { return }
+        popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
+        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+       popOverPresenter.sourceView = filterCell
+
+        helpController.textInfo =  filterText
+        helpController.filterName = filterName
+
+        present(helpController, animated: true )
+
+    }
 
 
 // MARK: Navigation
