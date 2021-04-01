@@ -32,6 +32,9 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
 
     let frequentCategoryPath = IndexPath(row:0,section: 0)
 
+    var longPressGesture: UILongPressGestureRecognizer!
+    var longPressStart: IndexPath?
+
     // MARK: - Constants
     static let tableViewCellIdentifier = "cellID"
     private static let nibName = "TableCell"
@@ -81,6 +84,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
             self.navigationController?.popViewController(animated: true)
 
         }
+        
  
     }
 
@@ -249,15 +253,86 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
     }
     */
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - LongPressGestures
+    func setLongPressGesture() {
+
+        longPressGesture = UILongPressGestureRecognizer(target: self , action: #selector(PGLFilterTableController.longPressAction(_:)))
+          if longPressGesture != nil {
+
+//                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
+              tableView.addGestureRecognizer(longPressGesture!)
+              longPressGesture!.isEnabled = true
+            NSLog("PGLFilterTableController setLongPressGesture \(String(describing: longPressGesture))")
+          }
+      }
+
+    func removeGestureRecogniziers(targetView: UIView) {
+       // not called in viewWillDissappear..
+       // recognizier does not seem to get restored if removed...
+        if longPressGesture != nil {
+            tableView.removeGestureRecognizer(longPressGesture!)
+            longPressGesture!.removeTarget(self, action: #selector(PGLFilterTableController.longPressAction(_:)))
+            longPressGesture = nil
+           NSLog("PGLFilterTableController removeGestureRecogniziers ")
+       }
+
     }
-    */
+
+    @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
+
+        let point = sender.location(in: tableView)
+
+        if sender.state == .began
+        {   NSLog("PGLFilterTableController longPressAction begin")
+            guard let longPressIndexPath = tableView.indexPathForRow(at: point) else {
+                longPressStart = nil // assign to var
+                return
+            }
+            longPressStart = longPressIndexPath // assign to var
+        }
+        if sender.state == .recognized {  // could also use .ended but there is slight delay
+            // open popup with filter userDescription
+            if longPressStart != nil {
+                var descriptor: PGLFilterDescriptor
+
+                guard let tableCell = tableView.cellForRow(at: longPressStart!) else { return  }
+                switch mode {
+                    case .Grouped:
+                        descriptor = categories[longPressStart!.section].filterDescriptors[longPressStart!.row]
+                    case .Flat:
+                        descriptor = filters[longPressStart!.row]
+                }
+
+                popUpFilterDescription(filterName: descriptor.displayName, filterText: descriptor.userDescription, filterCell: tableCell)
+            }
+        }
+
+
+
+    }
+
+    func popUpFilterDescription(filterName: String, filterText: String, filterCell: UITableViewCell) {
+        guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLPopUpFilterInfo") as? PGLPopUpFilterInfo
+        else {
+            return
+        }
+        helpController.modalPresentationStyle = .popover
+        helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
+        // specify anchor point?
+        guard let popOverPresenter = helpController.popoverPresentationController
+        else { return }
+        popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
+        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+       popOverPresenter.sourceView = filterCell
+
+        helpController.textInfo =  filterText
+        helpController.filterName = filterName
+
+        present(helpController, animated: true )
+
+    }
+
 
 // MARK: Notification
  func postImageChange() {

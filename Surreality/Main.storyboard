@@ -220,6 +220,53 @@
             </objects>
             <point key="canvasLocation" x="176.95099818511795" y="-1268.3453237410072"/>
         </scene>
+        <!--Pop Up Filter Info-->
+        <scene sceneID="S2x-Qf-bsL">
+            <objects>
+                <viewController storyboardIdentifier="PGLPopUpFilterInfo" id="vqV-3t-21P" customClass="PGLPopUpFilterInfo" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rBC-AA-E8H"/>
+                        <viewControllerLayoutGuide type="bottom" id="2dv-g3-DH4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MAt-HO-cr4">
+                        <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Filter Info" translatesAutoresizingMaskIntoConstraints="NO" id="dHr-nB-UUt">
+                                <rect key="frame" x="20" y="55.5" width="511" height="730.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TfP-xT-jZz">
+                                <rect key="frame" x="20" y="20" width="511" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="TfP-xT-jZz" firstAttribute="centerX" secondItem="dHr-nB-UUt" secondAttribute="centerX" id="1lX-Xr-Uaw"/>
+                            <constraint firstItem="2dv-g3-DH4" firstAttribute="top" secondItem="dHr-nB-UUt" secondAttribute="bottom" constant="48" id="3Qa-xg-ivh"/>
+                            <constraint firstItem="TfP-xT-jZz" firstAttribute="leading" secondItem="MAt-HO-cr4" secondAttribute="leading" constant="20" symbolic="YES" id="Kfg-Tt-iID"/>
+                            <constraint firstItem="TfP-xT-jZz" firstAttribute="top" secondItem="MAt-HO-cr4" secondAttribute="top" constant="20" symbolic="YES" id="RdK-P0-QCX"/>
+                            <constraint firstAttribute="trailing" secondItem="TfP-xT-jZz" secondAttribute="trailing" constant="20" symbolic="YES" id="UXM-88-nbB"/>
+                            <constraint firstItem="TfP-xT-jZz" firstAttribute="leading" secondItem="dHr-nB-UUt" secondAttribute="leading" id="j9d-ca-3aE"/>
+                            <constraint firstItem="dHr-nB-UUt" firstAttribute="top" secondItem="TfP-xT-jZz" secondAttribute="bottom" constant="11.5" id="wxu-yq-5rx"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <connections>
+                        <outlet property="filterInfoText" destination="dHr-nB-UUt" id="qsx-3V-OM8"/>
+                        <outlet property="filterLabel" destination="TfP-xT-jZz" id="Obh-xP-bhN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aLI-hr-drk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="867.33212341197827" y="-1581.294964028777"/>
+        </scene>
         <!--Help Page Controller-->
         <scene sceneID="BBG-8M-FXL">
             <objects>
@@ -1002,20 +1049,20 @@
         <scene sceneID="dfj-In-sbB">
             <objects>
                 <tableViewController storyboardIdentifier="StackController" id="dDm-tJ-e98" customClass="PGLStackController" customModule="Surreality" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" showsReorderControl="YES" accessoryType="disclosureIndicator" indentationWidth="20" reuseIdentifier="filterRowCell" textLabel="jaH-Rx-fdN" style="IBUITableViewCellStyleDefault" id="yOX-Yb-noN">
-                                <rect key="frame" x="0.0" y="28" width="834" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yOX-Yb-noN" id="KAe-B8-bgl">
-                                    <rect key="frame" x="0.0" y="0.0" width="807" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="524" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jaH-Rx-fdN">
-                                            <rect key="frame" x="16" y="0.0" width="783" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="500" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
