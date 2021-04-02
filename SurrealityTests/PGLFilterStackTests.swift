@@ -29,13 +29,10 @@ class PGLFilterStackTests: XCTestCase {
        filterStack = testAppStack.viewerStack
         // filterStack gets one default filter
         // add two more
-       guard let inputAttribute = filterStack.currentFilter().attribute(nameKey: kCIInputImageKey)
-        else { XCTFail("setup filter does not have an input image parm")
-              fatalError()
-        }
+       
         guard let favoriteAlbumSource = fetchFavoritesList() else
             { fatalError("favoritesAlbum contents not returned") }
-        favoriteAlbumSource.filterParm = inputAttribute
+       
 
         let favoriteAssets = favoriteAlbumSource.assets() // converts to PGLAsset
         // take the first ones for testing...
@@ -105,7 +102,7 @@ class PGLFilterStackTests: XCTestCase {
 
     }
     func testThreeFilterStack() {
-        XCTAssert(filterStack.activeFilters.count == 3)
+        XCTAssert(filterStack.activeFilters.count == 2)
         let output = filterStack.outputImage()
         XCTAssertNotNil(output)
     }
@@ -205,7 +202,6 @@ class PGLFilterStackTests: XCTestCase {
                 testAppStack.addChildStackTo(parm: aParm)
                 let newMasterStack = testAppStack.viewerStack
 
-                XCTAssert(newMasterStack.currentFilter().filterName == defaultFilterName )
                 newMasterStack.replace(updatedFilter: blendFilter)
 
                 XCTAssert(newMasterStack.currentFilter().filterName == "CIBlendWithMask")

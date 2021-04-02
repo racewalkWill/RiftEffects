@@ -230,8 +230,23 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                             if !imageKeyFound && (attributeClass == "CIImage") {
                                 // don't add twice if both attributeClass and attributeType are listed
                                 addingArray.append(key)
+                                imageKeyFound = true
                             }
                         }
+
+                }
+
+                if !imageKeyFound {
+                    // case for another attribute type ..
+                    // such as inputGradientImage in CIColorMap
+                    // which has attibuteClass of CIImage
+                    if let attributeClass = thisDict[kCIAttributeClass] as? String {
+                           if (attributeClass == "CIImage") {
+                               // don't add twice if both attributeClass and attributeType are listed
+                               addingArray.append(key)
+                               imageKeyFound = true
+                           }
+                       }
 
                 }
             } // attributes of this key

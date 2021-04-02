@@ -517,37 +517,36 @@ class PGLCategorySurvey: XCTestCase {
             // from a failing testMultipleInput run
             let filterNames = [
                 
-                "CIDivideBlendMode",
-                "CIDepthBlurEffect" ,
-                 "CIColorMatrix",
-                 "CIColorMonochrome",
-                 "CIConvolution9Vertical",
-                 "CIDroste",
-                 "CIPerspectiveTransform",
-                 "CISharpenLuminance",
-                 "CICMYKHalftone",
-                 "CIClamp",
+                "FaceFilter",
+                 "CIAdditionCompositing",
+                 "CIVibrance",
+                 "CIColorMap",
+                 "CIDepthOfField",
+                 "CITorusLensDistortion",
+//                 "CISharpenLuminance",
+//                 "CICMYKHalftone",
+//                 "CIClamp",
                 // 2020-10-20 failing filters
-              "CIHeightFieldFromMask",
-               "CIEdges",
-                "CICrystallize",
-                "CICMYKHalftone",
-                "CIGaborGradients",
-                "CIAdditionCompositing",
-                "CIDepthBlurEffect",
-                "CIExposureAdjust",
-                "CIPhotoEffectMono",
-                "CIHexagonalPixellate",
-                "CIBumpDistortionLinear",
-                "CIKeystoneCorrectionVertical",
-                "CIUnsharpMask",
-                "CILineScreen",
-                "CITriangleTile",
+//              "CIHeightFieldFromMask",
+//               "CIEdges",
+//                "CICrystallize",
+//                "CICMYKHalftone",
+//                "CIGaborGradients",
+//                "CIAdditionCompositing",
+//                "CIDepthBlurEffect",
+//                "CIExposureAdjust",
+//                "CIPhotoEffectMono",
+//                "CIHexagonalPixellate",
+//                "CIBumpDistortionLinear",
+//                "CIKeystoneCorrectionVertical",
+//                "CIUnsharpMask",
+//                "CILineScreen",
+//                "CITriangleTile",
 
                 // 2020-12-18 failed filter
-                "CIColorAbsoluteDifference",
-
-                "CINinePartStretched"
+//                "CIColorAbsoluteDifference",
+//
+//                "CINinePartStretched"
 
 
             ]
