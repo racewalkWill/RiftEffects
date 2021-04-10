@@ -202,8 +202,17 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                   style: .destructive) { (action) in
                     // Respond to user selection of the action
                     let newStack = PGLFilterStack()
-//                    newStack.setStartupDefault() // not sent in the init.. need a starting point
+
                     self.appStack.resetToTopStack(newStack: newStack)
+            // next back out of the parm controller since the filter is removed
+
+            if ( self.parmController?.isViewLoaded ?? false ) {
+                // or .isBeingPresented?
+                self.parmController?.navigationController?.popViewController(animated: true)
+                // parmController in the master section of the splitView has a different navigation stack
+                // from the PGLImageController
+            }
+
         }
 
         let cancelAction = UIAlertAction(title: "Cancel",
