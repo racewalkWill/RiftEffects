@@ -394,9 +394,9 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                         // Populate the view with our section's description.
                         var selectionSuffix = ""
                         if self.userAssetSelection.isTransitionFilter() {
-                            selectionSuffix = "Multiple ... "
+                            selectionSuffix = "Sequence to "
                         }
-                    header.label.text = selectionSuffix + self.userAssetSelection.parmInputName() + "    >"  //+ "images"
+                    header.label.text = selectionSuffix + self.userAssetSelection.parmInputName() + " ..."  //+ "images"
                         header.backgroundColor = .systemBlue// this the selected color badge.. make header the same
                         header.layer.borderColor = UIColor.black.cgColor
                         header.layer.borderWidth = 1.0
