@@ -154,7 +154,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         let viewerStack = appStack.getViewerStack()
         if viewerStack.isEmptyStack() { return }
             // nothing to do .. no filter selected or added
-        
+
         currentFilter = viewerStack.currentFilter()
         navigationItem.title = viewerStack.stackName
 
@@ -446,24 +446,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         selectedFilter.setWrapper(outputFilter: wrapperFilter, detector: faceDetector)
 
-
-
-
-//        wrapperFilter.internalFilter = currentFilter
-
-
         currentFilter?.hasAnimation = false  //  current filter is NOT animating. The wrapper is
-        //                currentFilter?.animate(attributeTarget: tappedAttribute!)
-        // don't animate the point...
-        // the dissolve wrapper handles it
-        // the dissolve wrapper gets the
-        // increment signal.
 
-        // now the tricky part..
-//        currentFilter?.wrapper = wrapperFilter
-        // wrapper filter gets an input image on increment from animation
-//        wrapperFilter.increment()
-        tappedAttribute?.varyState = .DissolveWrapper
     }
 
 //    @objc func tapAction(_ sender: UITapGestureRecognizer) {
@@ -784,13 +768,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     func getTappedAttribute(indexPath: IndexPath) -> PGLFilterAttribute? {
         return filterParms[indexPath.section][indexPath.row]
-//        let isParmRow = indexPath.section == sectionParms
-//        if (isParmRow)
-//            {if (parmAttributes.isEmpty)
-//                    {return nil }
-//                else {return parmAttributes[indexPath.row ] } }
-//            else
-//            {return imageAttributes[indexPath.row ] }
+
     }
 
     fileprivate func showTextValueInCell(_ parmAttribute: PGLFilterAttribute, _ cell: UITableViewCell) {
@@ -824,6 +802,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             cell.accessoryType = .none
             // input from prior cell always overrides any other image input
             // can't change or choose image.. remove the disclosure indicator of the cell
+        } else {
+            if tappedAttribute?.inputParmType() != ImageParm.notAnImageParm {
+                cell.accessoryType = .detailDisclosureButton
+            }
         }
         return cell
 
