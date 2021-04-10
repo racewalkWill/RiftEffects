@@ -24,13 +24,7 @@ class PGLAssetController: UIViewController {
     var swiper: UISwipeGestureRecognizer!
 
     @IBOutlet weak var imageView: UIImageView!
-//    @IBOutlet weak var livePhotoView: PHLivePhotoView!
 
-
-    @IBOutlet weak var selectBtn: UIBarButtonItem!
-
-
-    @IBOutlet weak var skipBtn: UIBarButtonItem!
 
 
     @IBOutlet var favoriteButton: UIBarButtonItem!
@@ -55,6 +49,7 @@ class PGLAssetController: UIViewController {
         let badgeInsets = UIEdgeInsets(top: -10,left: -10,bottom: -10,right: -10)
             // negative values expand the inset
         badgeBtn.imageEdgeInsets = badgeInsets
+        setLeftRightBtns(enableOn: (userAssetSelection.fetchCount() > 1) )
 
 //        view.isUserInteractionEnabled = true
             // set in IB attributes of the view
@@ -84,6 +79,7 @@ class PGLAssetController: UIViewController {
                 self.asset = self.userAssetSelection.asset(position: self.assetIndex,albumId: self.selectedAlbumId)
                 self.navigationItem.title = self.userAssetSelection.headerTitle(albumId: self.selectedAlbumId)
                 self.updateImage()
+                self.setLeftRightBtns(enableOn: (self.userAssetSelection.fetchCount() > 1) )
             }
             }
         }
@@ -113,6 +109,7 @@ class PGLAssetController: UIViewController {
         view.layoutIfNeeded()
         updateImage()
         setSwipe()
+        self.setLeftRightBtns(enableOn: (self.userAssetSelection.fetchCount() > 1) )
 
     }
 
@@ -128,29 +125,7 @@ class PGLAssetController: UIViewController {
 
     // MARK: UI Actions
 
-    func postSelectionChange(){
-        _ = Notification(name:PGLImageSelectUpdate)
-         NSLog("PGLAssetController  posts notification PGLImageSelectUpdate")
-//        NotificationCenter.default.post(notification)
-    }
 
-    @IBAction func selectBtnAction(_ sender: UIBarButtonItem) {
-        userAssetSelection.append(asset)
-        selectBtn.isEnabled = false
-        skipBtn.isEnabled = true
-        postSelectionChange()
-    }
-
-
-    @IBAction func skipBtnAction(_ sender: UIBarButtonItem) {
-
-            userAssetSelection.remove(asset)
-            selectBtn.isEnabled = true
-            skipBtn.isEnabled = false
-             postSelectionChange()
-        
-
-    }
     
     @IBAction func assetSelectDone(_ sender: UIBarButtonItem) {
         // return to the  assetGrid and add this image asset
@@ -183,12 +158,23 @@ class PGLAssetController: UIViewController {
         // negative direction guard
         if (assetIndex <= 0) && (direction == .left) {
             assetIndex = maxIndex + 1 } // increments to maxIndex next
-
-        assetIndex += increment
-        asset = userAssetSelection.asset(position: assetIndex, albumId: selectedAlbumId)
+        if (userAssetSelection.fetchCount() > 0) {
+            // confirms assets are left in collection - user has not removed last one
+            assetIndex += increment
+            asset = userAssetSelection.asset(position: assetIndex, albumId: selectedAlbumId)
+        }
+        self.setLeftRightBtns(enableOn: (self.userAssetSelection.fetchCount() > 1))
         updateImage()
 
     }
+
+    func setLeftRightBtns(enableOn: Bool) {
+        leftBarBtn.isEnabled = enableOn
+        rightBarBtn.isEnabled = enableOn
+    }
+
+    @IBOutlet weak var leftBarBtn: UIBarButtonItem!
+    @IBOutlet weak var rightBarBtn: UIBarButtonItem!
 
     @IBAction func rightToolBarAction(_ sender: UIBarButtonItem) {
         nextImage(direction: .right)
@@ -299,8 +285,6 @@ class PGLAssetController: UIViewController {
 
         updateStaticImage()
 
-        toggleSelectBtns()
-
         favoriteButton.title = asset.asset.isFavorite ? "♥︎" : "♡"
         favoriteButton.isEnabled = asset.asset.canPerform(.properties)
 
@@ -311,47 +295,7 @@ class PGLAssetController: UIViewController {
         return userAssetSelection.contains(localIdentifier: asset.localIdentifier)
     }
 
-    func toggleSelectBtns() {
-        // only one of the select or skip buttons is enabled
-        // toggle selectBtn & skipBtn
-//        if isSelected(asset: asset.asset) {
-//            selectBtn.isEnabled = false // already selected can only skip
-//            skipBtn.isEnabled = true
-//        }
-//        else {
-//            selectBtn.isEnabled = true
-//            skipBtn.isEnabled = false
-//        }
-    }
 
-//    func updateLivePhoto() {
-//        // Prepare the options to pass when fetching the live photo.
-//        let options = PHLivePhotoRequestOptions()
-//        options.deliveryMode = .highQualityFormat
-//        options.isNetworkAccessAllowed = true
-////        options.progressHandler = { progress, _, _, _ in
-////            // Handler might not be called on the main queue, so re-dispatch for UI work.
-////            DispatchQueue.main.sync {
-////                self.progressView.progress = Float(progress)
-////            }
-////        }
-//
-//        // Request the live photo for the asset from the default PHImageManager.
-//        PHImageManager.default().requestLivePhoto(for: asset.asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { livePhoto, info in
-//            // Hide the progress view now the request has completed.
-////            self.progressView.isHidden = true
-//
-//            // If successful, show the live photo view and display the live photo.
-//            guard let livePhoto = livePhoto else { return }
-//
-//            // Now that we have the Live Photo, show it.
-//            self.imageView.isHidden = true
-//            self.livePhotoView.isHidden = false
-//            self.livePhotoView.livePhoto = livePhoto
-//
-//
-//        })
-//    }
 
     func updateStaticImage() {
         // Prepare the options to pass when fetching the (photo, or video preview) image.

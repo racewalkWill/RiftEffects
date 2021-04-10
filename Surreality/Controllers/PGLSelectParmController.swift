@@ -152,6 +152,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // dependent on current filter.
          NSLog ("PGLSelectParmController #updateDisplay start ")
         let viewerStack = appStack.getViewerStack()
+        if viewerStack.isEmptyStack() { return }
+            // nothing to do .. no filter selected or added
+        
         currentFilter = viewerStack.currentFilter()
         navigationItem.title = viewerStack.stackName
 
