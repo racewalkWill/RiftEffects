@@ -681,36 +681,8 @@ class PGLFilterStack  {
     }
 
     func filterNumLabel(maxLen: Int?) -> String {
-        var categoryName: String
-        // now prefix with category
-//        "OLD Prefix A, B, C for filters order indicator.. was numbers "
-//            UILocalizedIndexedCollation.
-//            let answerStr = String( (Character.init(Unicode.Scalar(filterNumber() + 64)!)) )
-                    // 65 is ASCII for capital A
-        // shorten some long categories
-        // truncate string to 24 chars
-
-        let filterCategory = currentFilter().filterCategories.first ?? ""
-        // usually has prefix of "CICategory". remove it
-        if filterCategory.hasPrefix("CICategory") {
-            categoryName = String(filterCategory.dropFirst(10))
-        } else {
-            categoryName = filterCategory
-        }
-        if categoryName.hasPrefix("Composite"){
-            categoryName = String(categoryName.dropFirst(9))
-        }
-
-        if categoryName.hasSuffix("Effect"){
-            categoryName = String(categoryName.dropLast(6))
-        }
-        
-
-        if categoryName.hasSuffix("Adjustment"){
-            categoryName = String(categoryName.dropLast(10))
-        }
-
-        let returnString = String(categoryName + " -" + filterName())
+        // removed category name logic 2021-04-10
+        let returnString = String( filterName())
 
         if let localMax = maxLen {
             return String(returnString.prefix(localMax) ) }

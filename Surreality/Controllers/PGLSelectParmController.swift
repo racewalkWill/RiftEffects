@@ -330,17 +330,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             panner!.isEnabled = false
         }
 
-//        tapper = UITapGestureRecognizer(target: self , action: #selector(PGLSelectParmController.tapAction(_:)))
-//        if tapper != nil {
-//            tapper?.numberOfTapsRequired = 2 // double tap to activate detectors
-//            targetView.addGestureRecognizer(tapper!)
-//            tapper!.isEnabled = true
-//        }
-         // trial effort to get the screen edge to work... did not..
-//         myScreenEdgePanGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action:#selector(PGLSelectParmController.handleScreenEdgePan))
-//        myScreenEdgePanGestureRecognizer?.delegate = self
-        // Configure the gesture recognizer and attach it to the view.
-
     }
 
     func removeGestureRecogniziers(targetView: UIView) {
@@ -351,15 +340,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             panner?.removeTarget(self, action: #selector(PGLSelectParmController.panAction(_:)))
             panner = nil
         }
-
-//        tapper = UITapGestureRecognizer(target: self , action: #selector(PGLSelectParmController.tapAction(_:)))
-//        if tapper != nil {
-//            targetView.removeGestureRecognizer(tapper!)
-//            tapper?.removeTarget(self, action: #selector(PGLSelectParmController.tapAction(_:)))
-//            tapper = nil
-//        }
-
-
     }
 
     var selectedParmControlView: UIView?
@@ -443,25 +423,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
 
-//    @objc func tapAction(_ sender: UITapGestureRecognizer) {
-    // setDissolveWrapped moved to a cell action for pointUI cells 'Faces' cell
-    // comment out the tapAction
-//       NSLog("PGLSelectParmController #tapAction Start")
-//        if sender.state == .ended {
-//            _ = sender.location(in: selectedParmControlView)
-//            if tappedAttribute?.isPointUI() ?? false {
-//                setDissolveWrapper() // setup all the inputs
-//
-//                    // if detector is removed.. remove also from the detectors array of the filter.
-//
-//                attributeValueChanged()
-//                postStackChange()
-//            }
-////            NSLog("PGLSelectParmController #tapAction tapLocation in the rectView = \(tapLocation)")
-//
-//
-//        }
-//    }
+
 
     // MARK: ImageController actions
     fileprivate func postCurrentFilterChange() {
