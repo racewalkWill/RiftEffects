@@ -123,19 +123,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
          NSLog ("PGLSelectParmController #viewDidLoad start")
         super.viewDidLoad()
 
-        // Preserves selection between presentations UITableViewController
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-
-        // splitController logic
         splitViewController?.delegate = self
 
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else { fatalError("AppDelegate not loaded")}
         appStack = myAppDelegate.appStack
-
+        navigationItem.title = "Parms"//viewerStack.stackName
 
         setImageController()
 
@@ -156,7 +149,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             // nothing to do .. no filter selected or added
 
         currentFilter = viewerStack.currentFilter()
-        navigationItem.title = viewerStack.stackName
+
 
         setShiftBtnState()
             // if only one filter then shift to this filter does not change anything

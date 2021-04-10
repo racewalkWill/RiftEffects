@@ -72,7 +72,8 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
         stackData = { self.appStack.viewerStack }
         // closure is evaluated when referenced
         //            updateSelectedButtons()
-
+        navigationItem.title = "Filters" //thisStack.stackName
+        
     tableView.register(UITableViewHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: "HeaderRenderer")
         let myCenter =  NotificationCenter.default
@@ -210,7 +211,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
 //        categoryPicked = stackData()?.currentFilterPosition().categoryIndex ?? 0
 //        filterPicked = stackData()?.currentFilterPosition().filterIndex ?? 0
-        navigationItem.title = thisStack.stackName
+
 
         }
 //        else { filterNumberLabel.text =  "No Filter" }
