@@ -30,16 +30,6 @@ class PGLImagesSelectContainer: UIViewController {
     var notifications = [Any]() // an opaque type is returned from addObservor
 
     fileprivate func setActionButtons() {
-        if userAssetSelection.isEmpty() {
-            // nothing to show - turn off action buttons
-
-            collectionAcceptBtn.isEnabled = false
-
-        } else {
-
-            collectionAcceptBtn.isEnabled = true
-
-        }
 
         if userAssetSelection.sections.isEmpty {
             allBtn.isEnabled = false
@@ -95,14 +85,7 @@ class PGLImagesSelectContainer: UIViewController {
                           }
         notifications.append(aNotification)
 
-        aNotification =  myCenter.addObserver(forName: PGLImageSelectUpdate , object: nil , queue: queue) { [weak self ]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-            self.collectionAcceptBtn.isEnabled = !(self.userAssetSelection.isEmpty() )
 
-            }
-        notifications.append(aNotification)
 
         aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen , object: nil , queue: queue) { [weak self ]
             myUpdate in
@@ -150,35 +133,7 @@ class PGLImagesSelectContainer: UIViewController {
            NotificationCenter.default.post(notification)
        }
 
-
-
-    @IBAction func clearBtnClick(_ sender: UIBarButtonItem) {
-        userAssetSelection.removeAll()
-        collectionAcceptBtn.isEnabled = false
-        postSelectionChange()
-       
-    }
-
-    @IBAction func allBtnClick(_ sender: UIBarButtonItem) {
-
-                userAssetSelection.addAll()
-               collectionAcceptBtn.isEnabled = true
-                postSelectionChange()
-
-    }
-
-    @IBAction func backBtn(_ sender: UIBarButtonItem) {
-//        post navigation to the PGLImagesSelectContainer too
-                 // this makes both the master and the detail navigate back
-
-        navigationController?.popViewController(animated: true)
-       let imageBackNotification = Notification(name: PGLSelectImageBack )
-       NotificationCenter.default.post(imageBackNotification)
-    }
-
-    @IBOutlet weak var collectionAcceptBtn: UIBarButtonItem!
-
-    @IBAction func collectionAcceptAction(_ sender: UIBarButtonItem) {
+    func saveUserPick() {
         userAssetSelection.setUserPick()
 
         // and pop back to the parmController
@@ -193,11 +148,33 @@ class PGLImagesSelectContainer: UIViewController {
 //        NotificationCenter.default.post(imageBackNotification)
 
 
-        NSLog ("PGLImagesSelectContainer #collectionAcceptAction PGLImageAccepted notification")
-        navigationController?.popViewController(animated: true)
+//        NSLog ("PGLImagesSelectContainer #collectionAcceptAction PGLImageAccepted notification")
+//        navigationController?.popViewController(animated: true)
+    }
 
+    @IBAction func clearBtnClick(_ sender: UIBarButtonItem) {
+        userAssetSelection.removeAll()
+        postSelectionChange()
+       
+    }
+
+    @IBAction func allBtnClick(_ sender: UIBarButtonItem) {
+
+                userAssetSelection.addAll()
+                postSelectionChange()
 
     }
+
+    @IBAction func backBtn(_ sender: UIBarButtonItem) {
+//        post navigation to the PGLImagesSelectContainer too
+                 // this makes both the master and the detail navigate back
+        saveUserPick()
+        navigationController?.popViewController(animated: true)
+       let imageBackNotification = Notification(name: PGLSelectImageBack )
+       NotificationCenter.default.post(imageBackNotification)
+    }
+
+
 
     @IBOutlet weak var allBtn: UIBarButtonItem!
 
