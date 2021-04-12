@@ -57,6 +57,7 @@ class PGLImagesSelectContainer: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
+        saveUserPick()
         for anObserver in  notifications {
             NotificationCenter.default.removeObserver(anObserver)
         }
@@ -168,7 +169,7 @@ class PGLImagesSelectContainer: UIViewController {
     @IBAction func backBtn(_ sender: UIBarButtonItem) {
 //        post navigation to the PGLImagesSelectContainer too
                  // this makes both the master and the detail navigate back
-        saveUserPick()
+
         navigationController?.popViewController(animated: true)
        let imageBackNotification = Notification(name: PGLSelectImageBack )
        NotificationCenter.default.post(imageBackNotification)

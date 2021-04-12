@@ -1370,7 +1370,7 @@ class PGLAttributeRectangle: PGLFilterAttribute {
 //        }
 //        // this is called to much in the inputImage code.. WHY?
 //        }}
-    var parentExtent: CGRect = CGRect.zero   // remove - not needed 5/9/18 ?
+   
     var oldVector: CIVector?
     var isCropped = false
 
@@ -1435,7 +1435,9 @@ class PGLAttributeRectangle: PGLFilterAttribute {
     }
 
     override func performAction2(_ controller: PGLSelectParmController?) {
-        self.applyCropRect(mappedCropRect: parentExtent) // or CGRect.zero ?
+        // Cancel action from the swipe cell
+
+        restoreOldValue()
         controller?.hideRectController()
          isCropped = false
     }

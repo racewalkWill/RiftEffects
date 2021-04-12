@@ -988,14 +988,7 @@ class PGLRectangleFilter : PGLSourceFilter {
 
     override func setInput(image: CIImage?, source: String?) {
         super.setInput(image: image, source: source)
-        if let imageExtent = image?.extent {
 
-            cropAttribute?.parentExtent = imageExtent
-           
-//            NSLog("PGLCropFilter #setInput parentExtent set to \(imageExtent)")
-            // need to change this for the extent at the time of the cropping of the image.
-            postImageChange()
-        }
     }
 
     func attributeCropRect() -> CGRect {
@@ -1003,9 +996,7 @@ class PGLRectangleFilter : PGLSourceFilter {
         return (cropAttribute?.filterRect)!
     }
 
-    func attributeCropParentExtent() -> CGRect {
-        return (cropAttribute?.parentExtent)!
-    }
+   
 }
 
 
