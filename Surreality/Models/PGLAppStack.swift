@@ -190,26 +190,8 @@ class PGLAppStack {
             return  // don't change now at the end of all the filters
         }
         let  nextRowCell = cellFilters[startingActiveRow + 1 ]
-        let  startRowCell = cellFilters[startingActiveRow ]
-        let levelChange = nextRowCell.level - startRowCell.level
-        switch levelChange {
-            case 0:
-                // same stack
-                viewerStack.moveActiveAhead()
-            case 1:
-                // push down to child stack
-                pushChildStack(nextRowCell.stack)
-                // should be at first filter of child
-                // activeFilterIndex = 0
-            case  let (thisChange) where thisChange < 0 :
-                //pop up to parent stack.. maybe end of child of child..
-                popToParentStack(upTo: levelChange)
-                // popToParentStack changes viewerStack to the popped stack
-                viewerStack.moveActiveAhead()
-                viewerStack.moveActiveAhead() // advance twice
-            default:
-                viewerStack.moveActiveAhead() // deep child stack ends???
-        }
+
+        moveTo(filterIndent: nextRowCell)
     }
 
     func moveActiveBack() {
@@ -220,25 +202,8 @@ class PGLAppStack {
             return  // don't change now at start
         }
         let  nextRowCell = cellFilters[startingActiveRow - 1 ]
-        let  startRowCell = cellFilters[startingActiveRow ]
-        let levelChange = nextRowCell.level - startRowCell.level
-        switch levelChange {
-            case 0:
-                // same stack
-                viewerStack.moveActiveBack()
-            case 1:
-                // push down to child stack
-                pushChildStack(nextRowCell.stack)
-                // should be at first filter of child
-                // activeFilterIndex = 0
-            case -1:
-                //pop up to parent stack
-                popToParentStack(upTo: levelChange)
-                // changes viewerStack
-                viewerStack.moveActiveBack()
-            default:
-                viewerStack.moveActiveBack() // how???
-        }
+
+        moveTo(filterIndent: nextRowCell)
     }
 
     // MARK: flattened Filters

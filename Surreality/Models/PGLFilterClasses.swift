@@ -484,6 +484,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func addChildFilters(_ level: Int, into: inout Array<PGLFilterIndent>) {
+        // called for flattened filters
         for aParm in attributes {
             if aParm.hasFilterStackInput() {
                 aParm.addChildFilters(level, into: &into )
