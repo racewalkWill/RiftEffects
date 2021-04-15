@@ -231,7 +231,43 @@ class PGLAppStack {
         return cellFilters[indexPath.row]
     }
 
+    func moveFilter(fromSourceRow: IndexPath, destinationRow: IndexPath ) {
 
+        // empty or just one element}
+        // fromSourceRow and destinationRow are indexes to flattenFilter array
+
+        let sourceIndentCell = filterAt(indexPath: fromSourceRow)
+        let targetIndentCell = filterAt(indexPath:  destinationRow)
+
+        let sourceStack = sourceIndentCell.stack
+        let targetStack = targetIndentCell.stack
+            // may be different stacks
+            // could be a move from or to a child stack from a parent stack
+
+        let sourceFilter = sourceStack.activeFilters.remove(at: sourceIndentCell.filterPosition)
+        targetStack.activeFilters.insert(sourceFilter, at: targetIndentCell.filterPosition)
+
+        // reset the imageInput chain
+        // does first filter need inputs set? priorFilter is no longer valid
+        // could have inputCollection or a childStack as working input
+        if targetIndentCell.filterPosition == 0 {
+            if let inputImageAttribute = targetStack.activeFilters[0].getInputImageAttribute(){
+                    if inputImageAttribute.imageParmState == ImageParm.inputPriorFilter {
+                        inputImageAttribute.setImageParmState(newState: ImageParm.missingInput)
+                    }
+                }
+        }
+
+        for index in 1 ..< targetStack.activeFilters.count {
+            let priorFilter = targetStack.activeFilters[index - 1 ]
+            let aFilter = targetStack.activeFilters[index]
+            aFilter.setInput(image: priorFilter.outputImage(),source: targetStack.stackFilterName(priorFilter, index: index))
+
+            aFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+            }
+
+
+    }
 
     func activeFilterCellRow() -> Int {
         // answer the cellFilter index for the appStack viewerStack.activeIndex

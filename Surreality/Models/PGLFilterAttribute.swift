@@ -79,7 +79,8 @@ class PGLFilterAttribute {
     static let CurrentStackSymbol = UIImage(systemName: "square.stack.3d.up.fill")
     static let ChildStackSymbol = UIImage(systemName: "bubble.middle.top")
     static let ParentStackSymbol = UIImage(systemName: "arrow.down.doc")
-    static let TopStackSymbol = UIImage(systemName: "arrow.down.doc")
+    static let TopStackSymbol = UIImage(systemName: "square.stack.3d.up")
+            // arrow.down.doc
             // or
                 //    doc.plaintext
                 //    Arrow.up.doc

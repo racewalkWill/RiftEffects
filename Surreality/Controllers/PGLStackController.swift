@@ -546,9 +546,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         // insert row at destination
         // if moving up the stack then inserts before the existing destination
         // if moving down the stack then inserts after the existing destination
-        let viewerStack = appStack.getViewerStack()
 
-        viewerStack.moveFilter(fromSourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row )
+        appStack.moveFilter(fromSourceRow: sourceIndexPath, destinationRow: destinationIndexPath )
     }
 
 

@@ -166,7 +166,7 @@ class PGLFilterStack  {
         return activeFilters.isEmpty
     }
 
-    fileprivate func stackFilterName(_ forFilter: PGLSourceFilter, index: Int?) -> (String) {
+    func stackFilterName(_ forFilter: PGLSourceFilter, index: Int?) -> (String) {
         // answer filter number , filter name , and arrow point chars
         // "2 Source In ->"
         let positionNumber =  1 + (index ?? activeFilterIndex) // zero based array
@@ -272,32 +272,7 @@ class PGLFilterStack  {
 //
 //    }
 
-    func moveFilter(fromSourceRow: Int, destinationRow: Int ) {
-        if activeFilters.count <= 1 {return }
-        // empty or just one element}
-        let sourceFilter = activeFilters.remove(at: fromSourceRow)
-        activeFilters.insert(sourceFilter, at: destinationRow)
-
-        // reset the imageInput chain
-        // does first filter need inputs set? priorFilter is no longer valid
-        // could have inputCollection or a childStack as working input
-        if let inputImageAttribute = activeFilters[0].getInputImageAttribute(){
-                if inputImageAttribute.imageParmState == ImageParm.inputPriorFilter {
-                    inputImageAttribute.setImageParmState(newState: ImageParm.missingInput)
-                }
-
-        }
-
-        for index in 1 ..< activeFilters.count {
-            let priorFilter = activeFilters[index - 1 ]
-            let aFilter = activeFilters[index]
-            aFilter.setInput(image: priorFilter.outputImage(),source: stackFilterName(priorFilter, index: index))
-
-            aFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
-            }
-        updateFilterList()
-
-    }
+   
 
     
 
