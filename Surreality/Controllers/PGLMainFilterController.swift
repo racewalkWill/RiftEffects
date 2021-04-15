@@ -55,6 +55,7 @@ class PGLMainFilterController: PGLFilterTableController {
         // set mode to flat and show search controller
         searchController.isActive = true
         mode = .Flat
+        modeToolBarBtn.image = ABCSymbol
         navigationItem.hidesSearchBarWhenScrolling = false
         didPresentSearchController( searchController)
     }
@@ -66,9 +67,11 @@ class PGLMainFilterController: PGLFilterTableController {
            navigationItem.hidesSearchBarWhenScrolling = true
             searchController.isActive = false
             didDismissSearchController( searchController)
+            modeToolBarBtn.image = GroupSymbol
         } else {
             // mode is Grouped so change
             mode = .Flat // change mode
+            modeToolBarBtn.image = ABCSymbol
 
         }
 
@@ -175,6 +178,12 @@ class PGLMainFilterController: PGLFilterTableController {
            // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
             setLongPressGesture()
+        switch mode {
+            case .Grouped:
+                modeToolBarBtn.image = GroupSymbol
+            case .Flat :
+                modeToolBarBtn.image = ABCSymbol
+        }
        }
 
     override func viewDidAppear(_ animated: Bool) {

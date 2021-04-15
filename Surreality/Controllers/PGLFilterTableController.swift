@@ -13,7 +13,8 @@ enum FilterChangeMode{
     case add
 }
 
-
+let ABCSymbol = UIImage(systemName: "textformat.abc")
+let GroupSymbol = UIImage(systemName: "rectangle.grid.1x2")
 
 class PGLFilterTableController: UITableViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate {
         //UIDragInteractionDelegate, UIDropInteractionDelegate
