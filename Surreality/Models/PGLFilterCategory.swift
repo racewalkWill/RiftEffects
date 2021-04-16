@@ -226,7 +226,7 @@ class PGLFilterCategory {
           var myDefaults = AppUserDefaults.stringArray(forKey: categoryName) ?? [String]()
 
         filterDescriptors.removeAll(where: {$0.displayName == trashDescriptor.displayName })
-        myDefaults.removeAll(where: {$0 == trashDescriptor.displayName })
+        myDefaults.removeAll(where: {$0 == trashDescriptor.filterName })
          AppUserDefaults.set(myDefaults, forKey: categoryName)
 
     }
