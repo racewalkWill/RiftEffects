@@ -224,13 +224,16 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     class DataSource: UITableViewDiffableDataSource<Int, CDFilterStack> {
 
         lazy var sourceMoContext: NSManagedObjectContext = PersistentContainer.viewContext
-
+        var showHeaderText = true
 
         // MARK: Header
         override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-            let firstSectionItem = itemIdentifier(for: IndexPath(item:0, section: section))
-            let thisSectionTitle =  firstSectionItem?.type ?? ""
-            return thisSectionTitle
+            if showHeaderText {
+                let firstSectionItem = itemIdentifier(for: IndexPath(item:0, section: section))
+                let thisSectionTitle =  firstSectionItem?.type ?? ""
+                return thisSectionTitle
+            }
+            else { return ""}
         }
 
         // MARK: editing support
@@ -379,6 +382,8 @@ extension PGLOpenStackViewController {
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             if searchText.count == 0 {
                let allStacks =  initialSnapShot()
+                dataSource.showHeaderText = true
+                    // show header titles
                 dataSource.apply(allStacks, animatingDifferences: true)
             } else {
                 performTitleQuery(with: searchText)}
@@ -395,6 +400,8 @@ extension PGLOpenStackViewController {
                 var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
                 snapshot.appendSections([0])
                 snapshot.appendItems(matchingStacks)
+                dataSource.showHeaderText = false
+                    // single header .. omit header title
                 dataSource.apply(snapshot, animatingDifferences: true)
                 }
         }
