@@ -107,29 +107,6 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     // MARK: toolbar
 
-    @IBAction func typeFilterBtn(_ sender: UIBarButtonItem) {
-        // open picker view for stack type filter choices
-//        let userStackTypes = AppUserDefaults.array(forKey: StackTypeKey)
-        NSLog("PGLOpenStackViewController typeFilterBtn action")
-        sortData(by: SortStacks.StackType)
-
-    }
-
-    @IBAction func sortAscendngBtn(_ sender: UIBarButtonItem) {
-        NSLog("PGLOpenStackViewController sortAscendngBtn action")
-        sortData(by: SortStacks.AscendingTitle)
-    }
-
-    @IBAction func sortDescendingBtn(_ sender: UIBarButtonItem) {
-         NSLog("PGLOpenStackViewController sortDescendingBtn action")
-        sortData(by: SortStacks.DescendingTitle)
-    }
-
-    @IBAction func sortDateCreated(_ sender: UIBarButtonItem) {
-        NSLog("PGLOpenStackViewController sortDateCreated action")
-        sortData(by: SortStacks.ModifiedDate)
-            // uses the created date if modified date not defined
-    }
 
     // MARK: - Table view data source
 
@@ -422,53 +399,8 @@ extension PGLOpenStackViewController {
                 }
         }
 
-        enum SortStacks {
-            case AscendingTitle
-            case DescendingTitle
-            case StackType
-            case CreatedDate
-            case ModifiedDate
-
-        }
-
-        func sortData(by: SortStacks) {
-            var newSortItems =  [CDFilterStack]()
-            NSLog("PGLOpenStackViewControler #sortData start")
-            var updatedSnapshot = dataSource.snapshot()
-            updatedSnapshot.sectionIdentifiers.forEach {
-                let section = $0
-                NSLog("PGLOpenStackViewControler #sortData section = \(section)")
-                let items = updatedSnapshot.itemIdentifiers(inSection: section)
-                switch by {
-                    case .AscendingTitle:
-                        newSortItems = items.sorted {
-                            $0.title! < $1.title!
-                        }
-                    case .DescendingTitle:
-                        newSortItems = items.sorted {
-                                                   $0.title! > $1.title!
-                                               }
-                    case .StackType:
-                        newSortItems = items.sorted {
-                            $0.type! > $1.type!
-                        }
-                    case .ModifiedDate:
-                        newSortItems = items.sorted {
-                            ($0.modified ?? $0.created!) > ($1.modified ?? $1.created!)
-                                               }
-                    case .CreatedDate:
-                        newSortItems = items.sorted {
-                            $0.created! > $1.created!
-                        }
+      
 
 
-
-                }
-                updatedSnapshot.deleteItems(items)
-                updatedSnapshot.appendItems(newSortItems, toSection: section)
-
-            }
-            dataSource.apply(updatedSnapshot, animatingDifferences: true)
-        }
 
 }
