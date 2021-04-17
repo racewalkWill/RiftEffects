@@ -303,6 +303,12 @@ class PGLAppStack {
     }
 
     // MARK: Display state
+    func resetDrawableSize() {
+        for aCellIndent in cellFilters {
+            aCellIndent.filter.resetDrawableSize()
+        }
+    }
+
     func toggleShowFilterImage() {
         showFilterImage = !showFilterImage
         // if the current filter is a child then update the

@@ -578,6 +578,7 @@ class PGLFilterStack  {
 
             } else {
                thisImage = inputImage
+                // for next loop of activeFilters
 //                NSLog("PGLAppStack #outputFilterStack() no output image at \(index) from filter = \(filter.filterName)")
                 }
         }

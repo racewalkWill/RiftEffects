@@ -132,9 +132,10 @@ class Renderer: NSObject {
 
 extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-//        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
+        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
          mtkViewSize = size
         TargetSize = size
+        appStack.resetDrawableSize()
     }
 
     func draw(in view: MTKView) {

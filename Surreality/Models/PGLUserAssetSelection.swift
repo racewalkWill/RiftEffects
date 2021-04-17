@@ -60,6 +60,13 @@ class PGLUserAssetSelection {
     // answer array of all the assetSourceCollections in the assets.
 
    var myTargetFilterAttribute: PGLFilterAttribute?  // model object
+   {
+    didSet{
+        // keep sections in sync.. the the PGLAlbumSource has a filter parm reference
+        resetSections()
+        // this will regen the sections to the new filterParm
+    }
+   }
     var selectedAssets = [PGLAsset]()  // [PHAsset]()  // replaces userAssetCollection array
     var sections = [String: PGLAlbumSource ]() // Dict key is album localIdentifier
      var lastTouchedAssetIndex = 0 // the last touched asset
@@ -72,6 +79,15 @@ class PGLUserAssetSelection {
         sections[sectionKey] = assetSources
 
 
+    }
+
+    func resetSections() {
+        // when the filter changes then the cached attribute filterParm
+        // in PGLAlbumSource needs to be updated
+
+        for aSection in sections {
+            aSection.value.filterParm = myTargetFilterAttribute!
+        }
     }
 
     func isTransitionFilter() -> Bool {

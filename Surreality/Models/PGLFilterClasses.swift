@@ -515,6 +515,14 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 //        }
     }
 
+    func resetDrawableSize() {
+        guard let myImageParms = imageParms()
+            else {return }
+        for anImageParm in myImageParms {
+            anImageParm.resetDrawableSize()
+        }
+    }
+
     func getSourceFilterLocation(attributeKey: String) -> (source: PGLFilterStack, at: Int)? {
         if let sourceAttribute = attribute(nameKey: attributeKey)
             { return sourceAttribute.inputSource  }

@@ -33,7 +33,7 @@ class PGLImageList {
         }
     }
     var inputStack: PGLFilterStack? // remove this var? imageParms will have an inputStack.. not the imageList
-    var firstImage: CIImage? // caches the first image as the most common case
+
 
     var position = 0
     let options: PHImageRequestOptions
@@ -211,7 +211,7 @@ class PGLImageList {
                answerImage = images[atIndex]
            }
            if doResize {
-               answerImage = self.scaleToFrame(ciImage: answerImage!, newSize: self.targetSize) }
+               answerImage = self.scaleToFrame(ciImage: answerImage!, newSize: TargetSize) }
 
           return answerImage
        }
@@ -230,7 +230,7 @@ class PGLImageList {
            // READS the CIImage
 
            var pickedCIImage: CIImage?
-           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                guard let theImage = image else { return  }
 //            let auxDataType = kCGImageAuxiliaryDataTypeDisparity
 //            let auxDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(theImage as! CGImageSource, 0, auxDataType)
@@ -321,12 +321,9 @@ class PGLImageList {
             if isEmpty() {
                 return CIImage.empty() }
             if hasImageStack() { return inputStack?.stackOutputImage(false)}  // needs scaleToFrame??
-            if firstImage == nil
-            {   let firstIndexValue = firstImageIndex()
-                firstImage =  image(atIndex: firstIndexValue)
-    //            NSLog("PGLImageList first() collectionTitle = \(collectionTitle) at \(firstIndexValue)")
-            }
-            return firstImage
+            let firstIndexValue = firstImageIndex()
+            return image(atIndex: firstIndexValue)
+
         }
 
        fileprivate func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
