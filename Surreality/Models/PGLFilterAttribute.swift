@@ -995,7 +995,9 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
   }
     func resetDrawableSize() {
-        aSourceFilter.setImageValue(newValue: (inputCollection?.first())!, keyName: self.attributeName!)
+        guard let firstImageInput = inputCollection?.first() else
+        { return }
+        aSourceFilter.setImageValue(newValue: firstImageInput, keyName: self.attributeName!)
         // inputCollection (a PGLImageList) first() will use the current TargetSize
         // to reset the input to the filter.
         // only the first element needs this as transition filters will

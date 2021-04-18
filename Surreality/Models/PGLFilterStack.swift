@@ -48,7 +48,7 @@ class PGLFilterStack  {
     var activeFilterIndex = 0
 
 
-    var stackName:String = "S1"  // Date().description(with: Locale.current)
+    var stackName:String = "FilterStack"  // Date().description(with: Locale.current)
     var parentAttribute: PGLFilterAttribute?
 
 //    var parentStack: PGLFilterStack?
@@ -435,6 +435,10 @@ class PGLFilterStack  {
         return activeFilters[0].imageInputIsEmpty()
     }
 
+    func stackHasFilter() -> Bool {
+        return !activeFilters.isEmpty
+    }
+
     fileprivate func childStackResetParent() {
         if parentAttribute != nil {
             // update the parent state too
@@ -546,6 +550,9 @@ class PGLFilterStack  {
         }
 
         for index in 0...imagePosition { // only show up to the current filter in the stack
+            if index >  activeFilters.count - 1 {
+                continue // stack changed by up/down navigation so bail
+            }
             filter = activeFilters[index]
             if filter.imageInputIsEmpty() {
                 continue

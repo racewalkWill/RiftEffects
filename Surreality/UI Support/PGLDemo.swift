@@ -118,13 +118,11 @@ class PGLDemo {
         userSelectionInfo.setUserPick()
     }
 
-    func multipleInputTransitionFilters() {
+    func multipleInputTransitionFilters() -> PGLSourceFilter{
+        // answer first addedFilter
         //MARK: Move to PGLDemo
 
-
-        var category1Filter: PGLSourceFilter
-
-
+        var firstRandomFilter: PGLSourceFilter
 
         if PGLDemo.CurrentDemoGroup >= PGLDemo.CompositeGroups.count {
         // keeps moving forward each time random button is clicked
@@ -132,48 +130,47 @@ class PGLDemo {
             PGLDemo.CurrentDemoGroup = 0
       }
 
-            let group1 = PGLDemo.CompositeGroups[PGLDemo.CurrentDemoGroup]
+        let group1 = PGLDemo.CompositeGroups[PGLDemo.CurrentDemoGroup]
+        let targetStack = appStack.outputFilterStack()
+        firstRandomFilter = group1[PGLDemo.Category1Index].pglSourceFilter()!
 
-            if PGLDemo.Category1Index < group1.count {
+        if PGLDemo.Category1Index < group1.count {
 
-                let targetStack = appStack.outputFilterStack()
-                category1Filter = group1[PGLDemo.Category1Index].pglSourceFilter()!
-                category1Filter.setDefaults()
+            firstRandomFilter.setDefaults()
 
-                NSLog("multipleInputTransitionFilters group1 filter \(category1Filter.fullFilterName())")
-                let imageAttributesNames = category1Filter.imageInputAttributeKeys
-                for anImageAttributeName in imageAttributesNames {
-                    guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
-                    setInputTo(imageParm: thisAttribute) // the six images from favorites
-                }
+            NSLog("multipleInputTransitionFilters group1 filter \(firstRandomFilter.fullFilterName())")
+            let imageAttributesNames = firstRandomFilter.imageInputAttributeKeys
+            for anImageAttributeName in imageAttributesNames {
+                guard let thisAttribute = firstRandomFilter.attribute(nameKey: anImageAttributeName) else { continue }
+                setInputTo(imageParm: thisAttribute) // the six images from favorites
+            }
 
 //                targetStack.append(category1Filter)
-                targetStack.appendFilter(category1Filter)
-                // since this is opposite order to the ui where the filter is picked then the inputs
-                // reset the input source
-                category1Filter.setInputImageParmState(newState: ImageParm.inputPhoto)
-                addFiltersTo(stack: targetStack)
+            targetStack.appendFilter(firstRandomFilter)
+            // since this is opposite order to the ui where the filter is picked then the inputs
+            // reset the input source
+            firstRandomFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
+            addFiltersTo(stack: targetStack)
 
+            targetStack.stackName = firstRandomFilter.filterName + "+ various filters"
+            targetStack.stackType = "multipleInputTransitionFilters"
+            if saveOutputToPhotoLib {
+                targetStack.exportAlbumName = "testMultipleInputTransitionFilters" }
+            else { targetStack.exportAlbumName = nil }
 
-
-                targetStack.stackName = category1Filter.filterName + "+ various filters"
-                targetStack.stackType = "multipleInputTransitionFilters"
-                if saveOutputToPhotoLib {
-                    targetStack.exportAlbumName = "testMultipleInputTransitionFilters" }
-                else { targetStack.exportAlbumName = nil }
-
-                // set the stack with the title, type, exportAlbum for save
-                NSLog("PGLDemo multipleInputTransitionFilters \(targetStack.stackName)")
+            // set the stack with the title, type, exportAlbum for save
+            NSLog("PGLDemo multipleInputTransitionFilters \(targetStack.stackName)")
 //                targetStack.saveStackImage()
-               // confirm that output is saved and the coreData has saved
+           // confirm that output is saved and the coreData has saved
 
-                PGLDemo.Category1Index += 1
+            PGLDemo.Category1Index += 1
 
-                PGLDemo.CurrentDemoGroup += 1
-                // increment
-            } else {
-                PGLDemo.Category1Index = 0 // reset
-            }
+            PGLDemo.CurrentDemoGroup += 1
+            // increment
+        } else {
+            PGLDemo.Category1Index = 0 // reset
+        }
+        return firstRandomFilter
     }
 
 }

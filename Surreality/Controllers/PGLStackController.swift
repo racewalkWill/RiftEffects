@@ -324,11 +324,17 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @IBAction func addRandom(_ sender: UIBarButtonItem) {
         NSLog("PGLStackController addRandom button click")
+        let setInputToPrior = appStack.viewerStack.stackHasFilter()
+
         let demoGenerator = PGLDemo()
 //        appStack.removeDefaultEmptyFilter()
         demoGenerator.appStack = appStack // pass on the stacks
-        demoGenerator.multipleInputTransitionFilters()
+        let startingDemoFilter = demoGenerator.multipleInputTransitionFilters()
+        
         appStack.viewerStack.activeFilterIndex = 0
+        if setInputToPrior {
+            startingDemoFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+        }
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
             // show the new results !
 
