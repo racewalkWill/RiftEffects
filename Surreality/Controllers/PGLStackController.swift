@@ -24,6 +24,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     var longPressGesture: UILongPressGestureRecognizer!
     var longPressStart: IndexPath?
+    var segueStarted = false  // set to true during prepareFor segue
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +94,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     override func viewDidAppear(_ animated: Bool) {
         NSLog("PGLStackController viewDidAppear")
         appStack.resetViewStack()
+        segueStarted = false  // reset flag
     }
 
     fileprivate func updateDisplay() {
@@ -330,7 +332,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 //        appStack.removeDefaultEmptyFilter()
         demoGenerator.appStack = appStack // pass on the stacks
         let startingDemoFilter = demoGenerator.multipleInputTransitionFilters()
-        
+
         appStack.viewerStack.activeFilterIndex = 0
         if setInputToPrior {
             startingDemoFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
@@ -389,8 +391,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
                 // now need the PGLFilterDescriptor from the filter..
                 // filter should be able to get it's descriptor from
                 // filter name and class
-
-                    popUpFilterDescription(filterName: description, filterText: description, filterCell: tableCell)
+                    let myDisplayName = aFilterIndent.filter.descriptorDisplayName ?? "Filter"
+                    popUpFilterDescription(filterName: myDisplayName, filterText: description, filterCell: tableCell)
                 } else { return }
             }
         }
@@ -400,6 +402,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     }
 
     func popUpFilterDescription(filterName: String, filterText: String, filterCell: UITableViewCell) {
+        if segueStarted { return }
+            // don't open if the navigation is already triggered
         guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLPopUpFilterInfo") as? PGLPopUpFilterInfo
         else {
             return
@@ -498,6 +502,12 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
          return UISwipeActionsConfiguration(actions: contextActions)
     }
 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        NSLog("shouldPerformSegue \(identifier)")
+         segueStarted = true
+        // don't open a popOverController seque is starting
+        return true
+    }
     func removeFilter(indexPath: IndexPath) {
 
         let cellIndent = appStack.cellFilters[indexPath.row]

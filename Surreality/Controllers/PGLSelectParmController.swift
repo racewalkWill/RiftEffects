@@ -162,7 +162,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         NSLog("PGLSelectParmController#viewWillAppear start ")
         if imageController == nil {
             setImageController()}
-        setGestureRecogniziers(targetView: (imageController?.view)!) // matches viewDidDisappear removeGesture
+        if let myView = imageController?.view
+            { // could be navigation issue
+            setGestureRecogniziers(targetView: myView) // matches viewDidDisappear removeGesture
+        } else {
+            // need to abort this loading... navigation issue -
+            // how to abort or recover?
+            NSLog("PGLSelectParmController viewWillAppear imageController.view not set")
+        }
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
         var aNotification = myCenter.addObserver(forName: PGLCurrentFilterChange, object: nil , queue: queue) {[weak self]
