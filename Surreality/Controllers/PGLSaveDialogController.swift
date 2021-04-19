@@ -38,7 +38,7 @@ class PGLSaveDialogController: UIViewController {
     var userEnteredAlbumName: String?
     var shouldStoreToPhotos: Bool = false
     var doSaveAs: Bool = false
-    var currentTextField: UITextField?
+
 
 //    var parentImageController: PGLImageController!
     @IBOutlet weak var saveDialogLabel: UILabel!
@@ -59,6 +59,11 @@ class PGLSaveDialogController: UIViewController {
         albumName.isHidden = !shouldStoreToPhotos
         albumLabel.isHidden = !shouldStoreToPhotos
         albumName.isEnabled = shouldStoreToPhotos
+        if (albumName.text!.isEmpty) {
+            albumName.text = userEnteredStackName
+            // default value
+
+        }
         
     }
 
