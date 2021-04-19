@@ -550,6 +550,7 @@ class PGLFilterStack  {
         }
 
         for index in 0...imagePosition { // only show up to the current filter in the stack
+//            NSLog("imageUpdate START thisImage.extent = \(thisImage?.extent)")
             if index >  activeFilters.count - 1 {
                 continue // stack changed by up/down navigation so bail
             }
@@ -567,15 +568,16 @@ class PGLFilterStack  {
                     // -> CIColorInvert -> CIHexagonalPixellate -> CICircleSplashDistortion)
                     // clamp and crop if infinite extent
 //                  NSLog("PGLFilterStack imageUpdate thisImage has input of infinite extent")
-                    let clampedImage = thisImage?.clampedToExtent()
-                    thisImage = clampedImage?.cropped(to: cropRect)
+
+                    thisImage = clampCrop(input: thisImage)
 //                    NSLog("PGLFilterStack imageUpdate clamped and cropped to  \(String(describing: thisImage?.extent))")
                 }
                 filter.setInput(image: thisImage, source: nil)
             }
                 // else just use the already set input image
 
-            if let newOutputImage = filter.outputImage() {
+            if let newOutputImage = clampCrop(input: filter.outputImage()) {
+
                 if newOutputImage.extent.isInfinite {
 //                    NSLog("PGLFilterStack imageUpdate newOutputImage has input of infinite extent")
                 }
@@ -589,10 +591,33 @@ class PGLFilterStack  {
 //                NSLog("PGLAppStack #outputFilterStack() no output image at \(index) from filter = \(filter.filterName)")
                 }
         }
+//        if let thisImageExtent = thisImage?.extent {
+//           NSLog("imageUpdate thisImageExtent.extent = \(thisImageExtent)")
+//
+//        }
+
         return thisImage ?? CIImage.empty()
       
     }
 
+    func clampCrop(input: CIImage?) -> CIImage? {
+        guard let actualInput = input else {
+            return input
+        }
+        if ( actualInput.extent.minX  < 0) {
+            // from https://developer.apple.com/videos/play/wwdc2018/503
+            // crop then clamp
+           let offset = abs(actualInput.extent.minX )
+
+            let insetRect = actualInput.extent.inset(by: UIEdgeInsets(top: offset, left: offset, bottom: offset, right: offset))
+
+            let clampedImage = actualInput.clampedToExtent() // makes infinite
+            return clampedImage.cropped(to: insetRect)
+
+        } else {
+            return actualInput
+        }
+    }
     func basicFilterOutput() -> CIImage {
         //bypass all the input changes and chaining
 
