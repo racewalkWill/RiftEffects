@@ -56,6 +56,10 @@ class PGLSaveDialogController: UIViewController {
 
     @IBAction func storeToLibEdit(_ sender: UISwitch) {
         shouldStoreToPhotos = sender.isOn
+        albumName.isHidden = !shouldStoreToPhotos
+        albumLabel.isHidden = !shouldStoreToPhotos
+        albumName.isEnabled = shouldStoreToPhotos
+        
     }
 
     @IBAction func stackNameEditChange(_ sender: UITextField) {
@@ -110,8 +114,11 @@ class PGLSaveDialogController: UIViewController {
             albumName.isHidden = true
             albumLabel.isHidden = true
             userEnteredAlbumName = nil
-            }
-
+        } else {
+            albumName.isHidden = !shouldStoreToPhotos  // inits to false
+            albumLabel.isHidden = !shouldStoreToPhotos
+            albumName.isEnabled = shouldStoreToPhotos
+        }
     }
 
     func isLimitedPhotoLibAccess() -> Bool {
