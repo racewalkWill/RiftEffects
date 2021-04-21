@@ -104,6 +104,8 @@ class PGLFilterStackTests: XCTestCase {
     func testThreeFilterStack() {
         XCTAssert(filterStack.activeFilters.count == 2)
         let output = filterStack.outputImage()
+        XCTAssertTrue( (output!.extent.width > 0) && (output!.extent.height > 0), "output extent is zero width/height")
+
         XCTAssertNotNil(output)
     }
 

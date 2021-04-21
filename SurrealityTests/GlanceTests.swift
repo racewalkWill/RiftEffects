@@ -19,7 +19,7 @@ class GlanceTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        testCIImage = fetchFavoritesList().firstImage
+        testCIImage = fetchFavoritesList().image(atIndex: 0)!
         testImage2 = fetchFavoritesList().image(atIndex: 1)!
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -76,7 +76,9 @@ class GlanceTests: XCTestCase {
         if let testFilter = PGLSourceFilter(filter: standardFilterName)  {
             testFilter.setInput(image:testCIImage, source:"StandardTestSource")
             testFilter.setInput(image: testImage2, source:"StandardTestSource")
-            XCTAssertNotNil(testFilter.oldImageInput )
+            let oldImage = testFilter.oldImageInput
+            XCTAssertNotNil(oldImage )
+            XCTAssertTrue( (oldImage!.extent.width > 0) && (oldImage!.extent.height > 0), "oldImage extent is zero width/height")
             let inputKeys = testFilter.localFilter.inputKeys
 
             XCTAssert(inputKeys.count == 2) //inputImage and InputRadius expected for the CIDiscBlur

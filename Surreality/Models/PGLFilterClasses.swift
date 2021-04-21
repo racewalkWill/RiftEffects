@@ -12,7 +12,7 @@ import CoreImage
 import simd
 import UIKit
 
-let AttributeConfigurableClasses = [ "CIColor", "CIVector", "NSNumber" ]
+
 
 protocol PGLAnimation {
     func addStepTime()

@@ -171,11 +171,16 @@ class PGLSourceFilterTests: XCTestCase {
             XCTAssert(timerRate1 != timerRate2)
 
             if let  result = timerFilter.outputImage(){
+                XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                 let image1 = UIImage(cgImage: context.createCGImage(result, from: result.extent)!)
                 for _ in 1...100 {timerFilter.addStepTime()}
-                let image2 = UIImage(cgImage:context.createCGImage(timerFilter.outputImage()!, from: result.extent)!)
+                let timerImage2 = timerFilter.outputImage()!
+                XCTAssertTrue( (timerImage2.extent.width > 0) && (timerImage2.extent.height > 0), "image2 extent is zero width/height")
+                let image2 = UIImage(cgImage:context.createCGImage(timerImage2, from: result.extent)!)
                 XCTAssertNotNil(image1)
+
                 XCTAssertNotNil(image2)
+
                 XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
 
             } else {
@@ -208,12 +213,16 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                     let image1 = UIImage(cgImage: context.createCGImage(result, from: result.extent)!)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: result.extent)!)
                     XCTAssertNotNil(image1)
+
                     XCTAssertNotNil(image2)
+
                     XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
 
                 } else {
@@ -247,10 +256,12 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                     let image1 = UIImage(cgImage: context.createCGImage(result, from: firstExtent)!)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
                     XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
@@ -286,10 +297,12 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                     let image1 = UIImage(cgImage: context.createCGImage(result, from: firstExtent)!)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
                     XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
@@ -326,6 +339,7 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                     guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                         else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
                             continue // to the next filter in the iteration
@@ -334,6 +348,7 @@ class PGLSourceFilterTests: XCTestCase {
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
                     XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
@@ -370,9 +385,11 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                     let image1 = UIImage(cgImage: context.createCGImage(result, from: firstExtent)!)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
@@ -410,6 +427,8 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                     guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                         else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
                             continue // to the next filter in the iteration
@@ -417,6 +436,7 @@ class PGLSourceFilterTests: XCTestCase {
                     let image1 = UIImage(cgImage: cgImage1)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
@@ -454,6 +474,8 @@ class PGLSourceFilterTests: XCTestCase {
                    }
 
                    if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                        guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                            else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
                                continue // to the next filter in the iteration
@@ -461,6 +483,8 @@ class PGLSourceFilterTests: XCTestCase {
                        let image1 = UIImage(cgImage: cgImage1)
                        for _ in 1...100 {pglFilter.addStepTime()}
                        let result2 = pglFilter.outputImage()
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
+
                        let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                        XCTAssertNotNil(image1)
                        XCTAssertNotNil(image2)
@@ -498,6 +522,8 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                     guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                         else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
                             continue // to the next filter in the iteration
@@ -505,6 +531,8 @@ class PGLSourceFilterTests: XCTestCase {
                     let image1 = UIImage(cgImage: cgImage1)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                     let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
@@ -542,17 +570,21 @@ class PGLSourceFilterTests: XCTestCase {
                 }
 
                 if let  result = pglFilter.outputImage(){
+                    XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+                    let image1 = UIImage(cgImage: context.createCGImage(result, from: firstExtent)!)
+
                     guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                         else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName)")
                             continue // to the next filter in the iteration
                     }
-                    let image1 = UIImage(cgImage: cgImage1)
+                    let image2 = UIImage(cgImage: cgImage1)
                     for _ in 1...100 {pglFilter.addStepTime()}
                     let result2 = pglFilter.outputImage()
-                    let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
+                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
+                    let image3 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                     XCTAssertNotNil(image1)
                     XCTAssertNotNil(image2)
-                    XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
+                    XCTAssertFalse( image1.isEqual( image3), "Did not change output image")
 
                 } else {
                     XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName)")
@@ -588,6 +620,8 @@ class PGLSourceFilterTests: XCTestCase {
             }
 
             if let  result = pglFilter.outputImage(){
+                XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                 guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                     else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                         continue // to the next filter in the iteration
@@ -595,6 +629,8 @@ class PGLSourceFilterTests: XCTestCase {
                 let image1 = UIImage(cgImage: cgImage1)
                 for _ in 1...100 {pglFilter.addStepTime()}
                 let result2 = pglFilter.outputImage()
+                XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
+
                 let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                 XCTAssertNotNil(image1)
                 XCTAssertNotNil(image2)
@@ -632,6 +668,8 @@ class PGLSourceFilterTests: XCTestCase {
                }
 
                if let  result = pglFilter.outputImage(){
+                XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                    guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                        else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                            continue // to the next filter in the iteration
@@ -639,6 +677,8 @@ class PGLSourceFilterTests: XCTestCase {
                    let image1 = UIImage(cgImage: cgImage1)
                    for _ in 1...100 {pglFilter.addStepTime()}
                    let result2 = pglFilter.outputImage()
+                XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                    let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                    XCTAssertNotNil(image1)
                    XCTAssertNotNil(image2)
@@ -676,6 +716,8 @@ class PGLSourceFilterTests: XCTestCase {
             }
 
             if let  result = pglFilter.outputImage(){
+                XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                 guard let cgImage1 =  context.createCGImage(result, from: firstExtent)
                     else { XCTFail("failed CGImage creation from result filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                         continue // to the next filter in the iteration
@@ -683,6 +725,8 @@ class PGLSourceFilterTests: XCTestCase {
                 let image1 = UIImage(cgImage: cgImage1)
                 for _ in 1...100 {pglFilter.addStepTime()}
                 let result2 = pglFilter.outputImage()
+                XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
+
                 let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
                 XCTAssertNotNil(image1)
                 XCTAssertNotNil(image2)

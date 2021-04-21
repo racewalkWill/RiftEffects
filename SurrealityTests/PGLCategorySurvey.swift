@@ -88,6 +88,8 @@ class PGLCategorySurvey: XCTestCase {
                }
 //            stack.append(thisFilter!) this just adds without an input
             stack.appendFilter(thisFilter!) // this sets the input
+            let outputImage = stack.outputImage()!
+            XCTAssertTrue( (outputImage.extent.width > 0) && (outputImage.extent.height > 0), " \(thisFilter!.filterName) outputImage extent is zero width/height")
 
         }
 
@@ -203,6 +205,7 @@ class PGLCategorySurvey: XCTestCase {
 
             let stackResultImage = testFilterStack.stackOutputImage(false)
             XCTAssertNotNil(stackResultImage)
+            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
             XCTAssert(testFilterStack.activeFilters.count == 3, "stack does not have three filters as expected" )
             testFilterStack.stackName = category1Filter.filterName + "+" + category2Filter.filterName
             testFilterStack.stackType = "testSingleInputFilters"
@@ -261,6 +264,7 @@ class PGLCategorySurvey: XCTestCase {
 
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                 XCTAssertNotNil(stackResultImage)
+                XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
 
                 testFilterStack.stackName = category1Filter.filterName + "+ various filters"
                 testFilterStack.stackType = "testMultipleInputTransitionFilters"
@@ -334,7 +338,7 @@ class PGLCategorySurvey: XCTestCase {
 
             let stackResultImage = testFilterStack.stackOutputImage(false)
                XCTAssertNotNil(stackResultImage)
-
+            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "\(newFilter.filterName) extent is zero width/height")
                testFilterStack.stackName = newFilter.filterName
                testFilterStack.stackType = "testiOS13Filters"
 
@@ -392,7 +396,7 @@ class PGLCategorySurvey: XCTestCase {
                     guard let stackInputAttribute = category1Filter.attribute(nameKey: imageAttributesNames[0]) else { continue }
                     appStack.addChildStackTo(parm: stackInputAttribute)
                     let childStack = appStack.viewerStack // the new childStack
-                    _ = childStack.removeLastFilter()
+//                    _ = childStack.removeLastFilter()
 
                     child1Filter = group1[filterIndex].pglSourceFilter()!
                     childFilterName = child1Filter.filterName
@@ -410,6 +414,7 @@ class PGLCategorySurvey: XCTestCase {
 
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                XCTAssertNotNil(stackResultImage)
+            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
 
                testFilterStack.stackName = category1Filter.filterName + " " + childFilterName
                testFilterStack.stackType = "testCompositeChildStack"
@@ -493,6 +498,7 @@ class PGLCategorySurvey: XCTestCase {
 
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                XCTAssertNotNil(stackResultImage)
+            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
 
                testFilterStack.stackName = category1Filter.filterName + " " + childFilterName
                testFilterStack.stackType = "testTransitionChildStacks"
@@ -516,17 +522,29 @@ class PGLCategorySurvey: XCTestCase {
             var newFilter: PGLSourceFilter
             // from a failing testMultipleInput run
             let filterNames = [
-                
-                "FaceFilter",
-                 "CIAdditionCompositing",
-                 "CIVibrance",
-                 "CIColorMap",
-                 "CIDepthOfField",
-                 "CITorusLensDistortion",
+// zero extent output failing filters 2021-04-20
+                "CICircleSplashDistortion",
+                "CIClamp",
+                "CITriangleTile",
+
+                "CIKeystoneCorrectionHorizontal",
+                "CIUnsharpMask",
+                "CIHatchedScreen"
+
+
+                // old list below
+//                "CICircleSplashDistortion",
+//                "FaceFilter",
+//                 "CIAdditionCompositing",
+//                 "CIVibrance",
+//                 "CIColorMap",
+//                 "CIDepthOfField",
+//                 "CITorusLensDistortion",
+//
 //                 "CISharpenLuminance",
 //                 "CICMYKHalftone",
 //                 "CIClamp",
-                // 2020-10-20 failing filters
+//                // 2020-10-20 failing filters
 //              "CIHeightFieldFromMask",
 //               "CIEdges",
 //                "CICrystallize",
@@ -542,8 +560,8 @@ class PGLCategorySurvey: XCTestCase {
 //                "CIUnsharpMask",
 //                "CILineScreen",
 //                "CITriangleTile",
-
-                // 2020-12-18 failed filter
+//
+//                // 2020-12-18 failed filter
 //                "CIColorAbsoluteDifference",
 //
 //                "CINinePartStretched"
@@ -575,6 +593,7 @@ class PGLCategorySurvey: XCTestCase {
                 NSLog("PGLCategorySurvey #testSelectedFilters newFilter = \(newFilter.fullFilterName())")
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                    XCTAssertNotNil(stackResultImage)
+                XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "ciImage extent is zero width/height")
 
                    testFilterStack.stackName = newFilter.fullFilterName()
                    testFilterStack.stackType = "testSelectedFilters"
