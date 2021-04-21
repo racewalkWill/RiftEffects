@@ -107,7 +107,7 @@ class PGLCategorySurvey: XCTestCase {
         var allowedAssetCount = 1
         if imageParm.isTransitionFilter() { allowedAssetCount = 6 }
         let maxIndex = favoriteAssets!.count
-        while selectedAssets.count <= allowedAssetCount {
+        while selectedAssets.count < allowedAssetCount {
             let randomIndex = Int.random(in: 0 ..< maxIndex)
             selectedAssets.append(favoriteAssets![randomIndex])
         }
@@ -575,10 +575,11 @@ class PGLCategorySurvey: XCTestCase {
             for aFilterDescriptor in descriptors {
                 let newStack = PGLFilterStack()
                   newStack.setStartupDefault() // not sent in the init.. need a starting point
+                  newStack.removeDefaultFilter()
                   self.appStack.resetToTopStack(newStack: newStack)
                   let testFilterStack = appStack.viewerStack
                       // should use the appStack to supply the filterStack
-                _ = testFilterStack.removeLastFilter() // only one at start
+//                _ = testFilterStack.removeLastFilter() // only one at start
 
                 newFilter = aFilterDescriptor.pglSourceFilter()!
                 newFilter.setDefaults()

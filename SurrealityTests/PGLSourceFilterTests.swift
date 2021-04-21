@@ -246,7 +246,7 @@ class PGLSourceFilterTests: XCTestCase {
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
-                pglFilter.setDefaults()
+                
 
                 let imageAttributesNames = pglFilter.imageInputAttributeKeys
                 for index in 0 ..< imageAttributesNames.count {

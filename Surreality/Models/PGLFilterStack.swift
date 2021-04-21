@@ -604,9 +604,16 @@ class PGLFilterStack  {
         guard let actualInput = input else {
             return input
         }
+        if actualInput.extent.isInfinite {
+            // clampCrop not needed here.. insetRect goes to zero in this case
+            return input}
+        
         if ( actualInput.extent.minX  < 0) {
+            // has a negative value in origin x
+            // negative causes frame to offset with black border to show the origin
             // from https://developer.apple.com/videos/play/wwdc2018/503
             // crop then clamp
+
            let offset = abs(actualInput.extent.minX )
 
             let insetRect = actualInput.extent.inset(by: UIEdgeInsets(top: offset, left: offset, bottom: offset, right: offset))

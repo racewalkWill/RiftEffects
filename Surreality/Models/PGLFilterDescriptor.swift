@@ -76,6 +76,7 @@ class PGLFilterDescriptor:  NSObject, NSCoding {
         // or nil if the real filter can not be created
 
         let newSourceFilter = pglSourceFilterClass.init(filter: filterName, position: uiPosition)
+        newSourceFilter?.setDefaults()
         newSourceFilter?.descriptorDisplayName = displayName
         return newSourceFilter
 
