@@ -33,8 +33,9 @@ class PGLFilterAttributeAttributedString: PGLFilterAttribute {
             //https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/AttributedStrings/Tasks/CreatingAttributedStrings.html
              // need font and size
             // create dict of font  then init attributedString with the string and the dict.
-              let attributedString = NSAttributedString(string: (value as! String))
-                aSourceFilter.setAttributeStringValue(newValue: attributedString, keyName: attributeName!)
+            if let myStringValue = value as? String {
+              let attributedString = NSAttributedString(string: myStringValue)
+                aSourceFilter.setAttributeStringValue(newValue: attributedString, keyName: attributeName!) }
             }
         }
 
@@ -88,7 +89,7 @@ class PGLFilterAttributeData: PGLFilterAttribute {
     override func set(_ value: Any) {
         if attributeName != nil {
         var stringValue = value as? String
-            if stringValue == nil { return }
+            if stringValue == nil { return }  // guard for nil
         let valueData =  NSData(bytes: &stringValue, length: stringValue?.count ?? 0 )
         aSourceFilter.setDataValue(newValue: valueData, keyName: attributeName!)
         }

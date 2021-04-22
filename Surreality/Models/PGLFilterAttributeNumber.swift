@@ -24,7 +24,8 @@ class PGLFilterAttributeNumber: PGLFilterAttribute {
 
     override func set(_ value: Any) {
          if attributeName != nil {
-            aSourceFilter.setNumberValue(newValue: value as! NSNumber, keyName: attributeName!)
+            if let myNumber = value as? NSNumber {
+                aSourceFilter.setNumberValue(newValue: myNumber, keyName: attributeName!) }
         }
     }
 
@@ -77,10 +78,12 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
     }
 
     override func set(_ value: Any) {
-       let newRate = (value as! NSNumber).floatValue
-            //simd_smoothstep is not called here
-            // see addStepTime on the Transition filter
-        aSourceFilter.setTimerDt(lengthSeconds: newRate )
+        if let myNumber = value as? NSNumber {
+           let newRate = myNumber.floatValue
+                //simd_smoothstep is not called here
+                // see addStepTime on the Transition filter
+            aSourceFilter.setTimerDt(lengthSeconds: newRate )
+        }
 
     }
 
@@ -214,7 +217,8 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
     }
     override func set(_ value: Any) {
         if attributeName != nil {
-            aSourceFilter.setVectorValue(newValue: value as! CIVector, keyName: attributeName!)
+            if let newVectorValue = value as? CIVector {
+                aSourceFilter.setVectorValue(newValue: newVectorValue, keyName: attributeName!) }
         }
     }
 

@@ -614,8 +614,8 @@ class PGLSourceFilterTests: XCTestCase {
             for index in 0 ..< imageAttributesNames.count {
                 let imageValue = favoritesAlbumList.image(atIndex: index)!
                 if index == 0 { firstExtent = imageValue.extent }
-                NSLog("PGLSourceFilterTests testColorEffectFilters setting imageValue \(imageValue)")
-                NSLog("PGLSourceFilterTests testColorEffectFilters setting key \(imageAttributesNames[index])")
+//                NSLog("PGLSourceFilterTests testColorEffectFilters setting imageValue \(imageValue)")
+//                NSLog("PGLSourceFilterTests testColorEffectFilters setting key \(imageAttributesNames[index])")
                 pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
             }
 

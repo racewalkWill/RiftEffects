@@ -68,7 +68,10 @@ class PGLFilterStack  {
 
 
 @IBInspectable  var useOldImageFeedback = false
+@IBInspectable  var doPrintCropClamp = false
     // set to true to use the old image input
+    // in the debugger add expression self.doPrintCropClamp = true
+    // need to add a break to open the debugger
 
     // MARK: Init default
     init(){
@@ -562,7 +565,7 @@ class PGLFilterStack  {
                 // image update may return CIImage.empty if all of the filters are in this state..
             }
             if thisImage != nil {
-
+                if doPrintCropClamp { NSLog("PGLFilterStack imageUpdate start thisImage.extent =   \(String(describing: thisImage?.extent))") }
                 if thisImage!.extent.isInfinite {
                     // issue CIColorDodgeBlendMode -> CIZoomBlur -> CIToneCurve
                     // -> CIColorInvert -> CIHexagonalPixellate -> CICircleSplashDistortion)
@@ -570,7 +573,7 @@ class PGLFilterStack  {
 //                  NSLog("PGLFilterStack imageUpdate thisImage has input of infinite extent")
 
                     thisImage = clampCrop(input: thisImage)
-//                    NSLog("PGLFilterStack imageUpdate clamped and cropped to  \(String(describing: thisImage?.extent))")
+//                    if doPrintCropClamp {   NSLog("PGLFilterStack imageUpdate clamped and cropped to  \(String(describing: thisImage?.extent))") }
                 }
                 filter.setInput(image: thisImage, source: nil)
             }
@@ -601,6 +604,8 @@ class PGLFilterStack  {
     }
 
     func clampCrop(input: CIImage?) -> CIImage? {
+        var returnImage: CIImage!
+
         guard let actualInput = input else {
             return input
         }
@@ -619,11 +624,16 @@ class PGLFilterStack  {
             let insetRect = actualInput.extent.inset(by: UIEdgeInsets(top: offset, left: offset, bottom: offset, right: offset))
 
             let clampedImage = actualInput.clampedToExtent() // makes infinite
-            return clampedImage.cropped(to: insetRect)
+             returnImage = clampedImage.cropped(to: insetRect)
 
         } else {
-            return actualInput
+             returnImage =  actualInput
         }
+
+        if doPrintCropClamp {
+            NSLog("PGLFilterStack newOutputImage clamped and cropped to  \(returnImage.extent)") }
+        if returnImage.extent.isInfinite { fatalError("error clampCrop returning infinite extent \(returnImage.extent)")}
+        return returnImage
     }
     func basicFilterOutput() -> CIImage {
         //bypass all the input changes and chaining

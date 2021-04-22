@@ -88,8 +88,11 @@ class PGLCategorySurvey: XCTestCase {
                }
 //            stack.append(thisFilter!) this just adds without an input
             stack.appendFilter(thisFilter!) // this sets the input
-            let outputImage = stack.outputImage()!
-            XCTAssertTrue( (outputImage.extent.width > 0) && (outputImage.extent.height > 0), " \(thisFilter!.filterName) outputImage extent is zero width/height")
+            let outputImage = stack.outputImage()
+            XCTAssertNotNil(outputImage)
+            if outputImage != nil {
+            XCTAssertTrue( (outputImage!.extent.width > 0) && (outputImage!.extent.height > 0), " \(stack) outputImage extent is zero width/height")
+            }
 
         }
 

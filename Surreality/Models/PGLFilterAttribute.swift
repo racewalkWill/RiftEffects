@@ -454,13 +454,26 @@ class PGLFilterAttribute {
                 //                case  AttrClass.Number.rawValue : aSourceFilter.setNumberValue(newValue: value as! NSNumber, keyName: attributeName!)
                 // Number case usually in subclass PGLFilterAttributeNumber method
 
-            case AttrClass.Vector.rawValue : aSourceFilter.setVectorValue(newValue: value as! CIVector, keyName: attributeName!)
+            case AttrClass.Vector.rawValue :
+                if let newVector = value as? CIVector {
+                    aSourceFilter.setVectorValue(newValue: newVector, keyName: attributeName!)}
                 // vector case usually in subclass PGLFilterAttributeVector but Flash uses rectangle extent
             //                case AttrClass.Color.rawValue : aSourceFilter.setColorValue(newValue: value as! CIColor, keyName: attributeName!)
-            case  AttrClass.Data.rawValue : aSourceFilter.setDataValue(newValue: value as! NSData, keyName: attributeName!)
-            case  AttrClass.Value.rawValue : aSourceFilter.setNSValue(newValue: value as! NSValue, keyName: attributeName!)
-            case  AttrClass.Object.rawValue : aSourceFilter.setObjectValue(newValue: value as! NSObject, keyName: attributeName!)
-            case  AttrClass.String.rawValue : aSourceFilter.setStringValue(newValue: value as! NSString, keyName: attributeName!)
+            case  AttrClass.Data.rawValue :
+                if let data = value as? NSData {
+                    aSourceFilter.setDataValue(newValue: data, keyName: attributeName!) }
+
+            case  AttrClass.Value.rawValue :
+                if let myValue = value as? NSValue {
+                    aSourceFilter.setNSValue(newValue: myValue, keyName: attributeName!) }
+
+            case  AttrClass.Object.rawValue :
+                if let myObject = value as? NSObject {
+                    aSourceFilter.setObjectValue(newValue: myObject, keyName: attributeName!) }
+
+            case  AttrClass.String.rawValue :
+                if let myString = value as? NSString {
+                    aSourceFilter.setStringValue(newValue: myString, keyName: attributeName!) }
 
             default: fatalError("Error- can not set value for unknown filter attribute class in \(String(describing: attributeName))") // raises error on a new attribute class
             }
@@ -692,16 +705,16 @@ class PGLFilterAttribute {
                    let newColor = CIColor(red: colorValue.red + 0.1 , green: colorValue.green + 0.1, blue: colorValue.blue + 0.1)
                    self.set(newColor)
                     }
-        case  AttrClass.Data.rawValue :  let dataValue = getDataValue()
+            case  AttrClass.Data.rawValue :   if let dataValue = getDataValue() {
                         set(dataValue as Any)  // increment semenatics do not work for a data object
-                        NSLog("PGLFilterAttribute increment on NSData ")
-        case  AttrClass.Value.rawValue : let aNSValue = getNSValue()
+                NSLog("PGLFilterAttribute increment on NSData ") }
+            case  AttrClass.Value.rawValue :  if let aNSValue = getNSValue() {
                         set(aNSValue as Any) // increment semenatics do not work for a data object
-                        NSLog("PGLFilterAttribute increment on NSValue ")
-        case  AttrClass.Object.rawValue : let objectValue = getObjectValue()
-                         set(objectValue as Any)
-        case  AttrClass.String.rawValue :  let stringValue = getStringValue()
-                        set(stringValue! as String + "increment")
+                NSLog("PGLFilterAttribute increment on NSValue ") }
+            case  AttrClass.Object.rawValue :  if let objectValue = getObjectValue() {
+                set(objectValue as Any) }
+            case  AttrClass.String.rawValue :  if let stringValue = getStringValue() {
+                set(stringValue! as String + "increment") }
             
         default: assert(true == false)  // raises error on a new attribute class
         }
@@ -941,7 +954,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         // use a system of double dispatch to address typing
         //
         if attributeName != nil {
-                aSourceFilter.setImageValue(newValue: value as! CIImage, keyName: attributeName!) }
+            if let newImage = value as? CIImage {
+                aSourceFilter.setImageValue(newValue: newImage, keyName: attributeName!) }
+
+            }
     }
     // answer a filter type subUI parm cell
 
@@ -1210,8 +1226,9 @@ class PGLFilterAttributeAngle: PGLFilterAttribute {
     }
     
     override func set(_ value: Any) {
-        if attributeName != nil {
-            aSourceFilter.setNumberValue(newValue: value as! NSNumber, keyName: attributeName!)
+        if attributeName != nil { if let newNumber = value as? NSNumber {
+            aSourceFilter.setNumberValue(newValue: newNumber, keyName: attributeName!) }
+
         }
     }
     
