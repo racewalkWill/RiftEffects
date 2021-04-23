@@ -220,9 +220,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewWillDisappear(_ animated: Bool) {
         // remove the parm views and the gesture recogniziers
-        removeGestureRecogniziers(targetView: (imageController?.view)!) // matches viewWillAppear setGesture
-        imageController?.hideParmControls() // actually will remove the views
-
+        if let theImageControllerView = imageController?.view {
+            removeGestureRecogniziers(targetView: theImageControllerView) // matches viewWillAppear setGesture
+            imageController?.hideParmControls() // actually will remove the views
+            }
         for anObserver in  notifications {
                        NotificationCenter.default.removeObserver(anObserver)
                    }

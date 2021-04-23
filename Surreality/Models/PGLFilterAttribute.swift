@@ -714,7 +714,7 @@ class PGLFilterAttribute {
             case  AttrClass.Object.rawValue :  if let objectValue = getObjectValue() {
                 set(objectValue as Any) }
             case  AttrClass.String.rawValue :  if let stringValue = getStringValue() {
-                set(stringValue! as String + "increment") }
+                set(stringValue as String + "increment") }
             
         default: assert(true == false)  // raises error on a new attribute class
         }

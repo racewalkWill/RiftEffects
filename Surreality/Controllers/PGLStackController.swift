@@ -211,7 +211,12 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
 
     func selectActiveFilterRow() {
-
+        // assumes only one section  section zero
+        
+        if tableView.numberOfRows(inSection: 0 ) == 0 {
+            return
+            // empty table.. trashed the stack.. nothing to show..
+        }
         let activeRow = appStack.activeFilterCellRow()
         let rowPath = IndexPath(row: activeRow, section: 0)
         if appStack.showFilterImage {
