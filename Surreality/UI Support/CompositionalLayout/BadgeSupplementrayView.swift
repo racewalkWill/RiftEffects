@@ -29,7 +29,9 @@ class BadgeSupplementaryView: UICollectionReusableView {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("Not implemented")
+        super.init(coder: coder)
+//        fatalError("Not implemented")
+        return
     }
 }
 

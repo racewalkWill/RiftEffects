@@ -35,7 +35,16 @@ var PersistentContainer: NSPersistentContainer = {
                 * The store could not be migrated to the current model version.
                 Check the error message to determine what the actual problem was.
                 */
-               fatalError("Unresolved error \(error), \(error.userInfo)")
+//               fatalError("Unresolved error \(error), \(error.userInfo)")
+            DispatchQueue.main.async {
+                // put back on the main UI loop for the user alert
+                let alert = UIAlertController(title: "Data Store Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
+
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("The userSaveErrorAlert alert occured.")
+                }))
+                alert.present(alert, animated: true, completion: nil)
+            }
            }
        })
        return container
@@ -58,6 +67,7 @@ extension PGLFilterStack {
         NSLog("PGLFilterStack init has removed defaultFilter = \(String(describing: removedFilter))")
         readCDStack(titled: readName, createdDate: createdDate)
     }
+
 
         func on(cdStack: CDFilterStack) {
             // change this to a convience init.. caller does not need to create PGLFilterStack first
@@ -106,7 +116,16 @@ extension PGLFilterStack {
 
         var readResults: [CDFilterStack]!
         do {  readResults = try moContext.fetch(request) }
-        catch { fatalError("CDFilterStack error")}
+        catch {  DispatchQueue.main.async {
+            // put back on the main UI loop for the user alert
+            let alert = UIAlertController(title: "Data Read Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The userSaveErrorAlert alert occured.")
+            }))
+            alert.present(alert, animated: true, completion: nil)
+            }
+        }
 
         if let aCDStack = readResults.first {
             on(cdStack: aCDStack)
@@ -419,7 +438,18 @@ extension PGLFilterAttributeImage {
 
         if self.storedParmImage == nil {
             guard let newCDImageParm =  NSEntityDescription.insertNewObject(forEntityName: "CDParmImage", into: moContext) as? CDParmImage
-                else { fatalError("Failure creating new CDParmImage") }
+                else {
+                DispatchQueue.main.async {
+                    // put back on the main UI loop for the user alert
+                    let alert = UIAlertController(title: "Data Create Error", message: "Data creation failure ", preferredStyle: .alert)
+
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                    NSLog("The userSaveErrorAlert alert occured.")
+                    }))
+                    alert.present(alert, animated: true, completion: nil)
+                    }
+                return
+            }
             newCDImageParm.parmName = self.attributeName
             newCDImageParm.filter = self.aSourceFilter.storedFilter // creates relationship
             self.storedParmImage = newCDImageParm
@@ -429,7 +459,18 @@ extension PGLFilterAttributeImage {
         if self.inputCollection != nil {
             if storedParmImage?.inputAssets == nil {
             guard let storedImageList =  NSEntityDescription.insertNewObject(forEntityName: "CDImageList", into: moContext) as? CDImageList
-                else { fatalError("Failure creating new CDImageList") }
+                else {
+                DispatchQueue.main.async {
+                    // put back on the main UI loop for the user alert
+                    let alert = UIAlertController(title: "Data Create Error", message: "Data creation failure ", preferredStyle: .alert)
+
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                    NSLog("The userSaveErrorAlert alert occured.")
+                    }))
+                    alert.present(alert, animated: true, completion: nil)
+                    }
+                return
+            }
                 storedParmImage?.inputAssets = storedImageList // sets up the relationship parm to inputAssets
             }
             if let imageListAssets = self.inputCollection?.imageAssets {

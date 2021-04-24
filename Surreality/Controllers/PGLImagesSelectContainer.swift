@@ -47,7 +47,11 @@ class PGLImagesSelectContainer: UIViewController {
 
         // pass vars to childerntr
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-                                 else { fatalError("AppDelegate not loaded")}
+                                 else {
+                NSLog("PGLImagesSelectContainer viewDidLoad FatalError(AppDelegate not loaded")
+                return
+
+        }
                              appStack = myAppDelegate.appStack
                       appStack.isImageControllerOpen = false
 
@@ -210,7 +214,10 @@ class PGLImagesSelectContainer: UIViewController {
                            }
             case "showZoomDetail" :
                     guard let destination = segue.destination  as? PGLAssetController
-                                   else { fatalError("unexpected view controller for segue")  }
+                                   else {
+                            NSLog(" PGLImagesSelectContainer prepare segue fatalError( unexpected view controller for segue")
+                            return
+                    }
                                destination.userAssetSelection = self.userAssetSelection
                     NSLog("PGLImagesSelectContainer #prepare.. segue to PGLAssetController")
 

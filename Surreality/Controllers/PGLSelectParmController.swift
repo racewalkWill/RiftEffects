@@ -126,7 +126,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         splitViewController?.delegate = self
 
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else { NSLog("PGLSelectParmController viewDidLoad fatalError(AppDelegate not loaded")
+            return
+        }
         appStack = myAppDelegate.appStack
         navigationItem.title = "Parms"//viewerStack.stackName
 
@@ -572,7 +574,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 // color red,green,blue for single setColor usage
             let adjustedRate = sender.value //  / 1000
             target.set(adjustedRate)
-        } else { fatalError("tappedAttribute is nil, value can not be changed") }
+        } else {
+            NSLog( "PGLSelectParmController parmSliderChange fatalError( tappedAttribute is nil, value can not be changed")
+            return
+        }
 
 
         attributeValueChanged()
@@ -606,7 +611,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 // color red,green,blue for single setColor usage
          
             target.set(sender.value)
-        } else { fatalError("tappedAttribute is nil, value can not be changed") }
+        } else {
+            NSLog("PGLSelectParmController sliderValueDidChange fatalError( tappedAttribute is nil, value can not be changed") }
 
 
         attributeValueChanged()
@@ -1022,7 +1028,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                  contextActions.append(myAction)
 
             case .unknown:
-                fatalError("unknown cell action")
+                NSLog( "PGLSelectParmController tableView trailingSwipe action fatalError(unknown cell action")
+                
 
             }
 

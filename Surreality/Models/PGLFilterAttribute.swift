@@ -478,7 +478,8 @@ class PGLFilterAttribute {
                 if let myString = value as? NSString {
                     aSourceFilter.setStringValue(newValue: myString, keyName: attributeName!) }
 
-            default: fatalError("Error- can not set value for unknown filter attribute class in \(String(describing: attributeName))") // raises error on a new attribute class
+            default: NSLog("Error- can not set value for unknown filter attribute class in \(String(describing: attributeName))")
+                // raises error on a new attribute class
             }
         }
     }
@@ -1308,7 +1309,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     override func set(_ value: Any ) {
         if let newValue = value as? Float {
             setRotation(radians: newValue)
-        } else { fatalError("PGLFilterAttributeAffine set value not converted")}
+        } else { NSLog("PGLFilterAttributeAffine set value not converted")}
     }
     override func incrementValueDelta() {
         // animation time range 0.0 to 1.0

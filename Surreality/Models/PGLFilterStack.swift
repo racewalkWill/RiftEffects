@@ -632,7 +632,7 @@ class PGLFilterStack  {
 
         if doPrintCropClamp {
             NSLog("PGLFilterStack newOutputImage clamped and cropped to  \(returnImage.extent)") }
-        if returnImage.extent.isInfinite { fatalError("error clampCrop returning infinite extent \(returnImage.extent)")}
+        if returnImage.extent.isInfinite { NSLog ("PGLFilterStack error clampCrop() returning infinite extent \(returnImage.extent)")}
         return returnImage
     }
     func basicFilterOutput() -> CIImage {
@@ -739,7 +739,16 @@ class PGLFilterStack  {
        do { try moContext.save()
            NSLog("PGLAppStack #writeCDStacks save called")
            } catch {
-            fatalError(error.localizedDescription) }
+            DispatchQueue.main.async {
+                // put back on the main UI loop for the user alert
+                let alert = UIAlertController(title: "Data Store Error", message: "PGLFilterStack writeCDStacks() \(error.localizedDescription)", preferredStyle: .alert)
+
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("The writeCDStacks error alert occured.")
+                }))
+                alert.present(alert, animated: true, completion: nil)
+            }
+           }
                }
 
        }

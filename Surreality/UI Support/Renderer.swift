@@ -58,8 +58,10 @@ class Renderer: NSObject {
 
 
     init(metalView: MTKView) {
+        super.init()
         guard let device = MTLCreateSystemDefaultDevice() else {
-            fatalError("GPU not available")
+            NSLog("Renderer init(metalView fatalError( GPU not available")
+            return
         }
         metalView.device = device
         metalView.framebufferOnly = false // from WWDC 2020 "Optimize the Core Image pipeline for your video app"
@@ -93,12 +95,16 @@ class Renderer: NSObject {
         metalView.autoResizeDrawable = true
 
 
-        super.init()
+
         metalView.clearColor = MTLClearColor(red: 1.0, green: 1.0,
                                              blue: 0.8, alpha: 1)
         metalView.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else {
+            NSLog ("Renderer init(metalView fatalError( AppDelegate not loaded")
+            return
+
+        }
 
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
@@ -144,8 +150,8 @@ extension Renderer: MTKViewDelegate {
         guard let descriptor = view.currentRenderPassDescriptor,
             let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
-                fatalError("Render did not get the renderEncoder - draw(in: view")
-
+                NSLog("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
+                return
         }
         if let currentStack = filterStack()  {
             if currentStack.activeFilters.isEmpty {
@@ -189,13 +195,14 @@ extension Renderer: MTKViewDelegate {
 //            NSLog("draw currentDrawable \(currentDrawable)")
 
                 }
-                else { fatalError("Render did not get the current currentRenderPassDescriptor - draw(in: view")}
+                else {
+                    NSLog("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
             }
-            else {fatalError("Render did not get the current view.commandBuffer - draw(in: view")}
+            else {NSLog("Renderer draw fatalError( fatalError(Render did not get the current view.commandBuffer - draw(in: view")}
         }
-        else { fatalError("Render did not get the current view.currentDrawable - draw(in: view") }
+        else { NSLog ("Renderer drawfatalError( Render did not get the current view.currentDrawable - draw(in: view") }
         }
-        else { fatalError("Render did not get the current filterStack - draw(in: view")}
+        else { NSLog ("Renderer draw fatalError(Render did not get the current filterStack - draw(in: view")}
 
     }
 }

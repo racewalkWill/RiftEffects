@@ -70,7 +70,7 @@ class PGLImageList {
     convenience init(localAssetIDs: [String],albumIds: [String]) {
         // this init assumes two matching arrays of same size localId and albumid
         if (localAssetIDs.count != albumIds.count) {
-            fatalError("PGLImageList init fails on localAssetIDs.count != albumIds.count")
+            NSLog("PGLImageList init fails on localAssetIDs.count != albumIds.count")
         }
         self.init()
         assetIDs = localAssetIDs

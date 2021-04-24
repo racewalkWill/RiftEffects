@@ -27,10 +27,13 @@ class PGLMetalController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let metalView = view as? MTKView else {
-            fatalError("metal view not set up in storyboard")
+            NSLog ( "PGLMetalController viewDidLoad fatalError(metal view not set up in storyboard")
+            return
         }
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else { NSLog ( "PGLMetalController viewDidLoad fatalError AppDelegate not loaded")
+                return
+        }
 
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
@@ -48,7 +51,8 @@ class PGLMetalController: UIViewController {
         // did not work.  2020-02-17
         // still showing quarter view
         guard let metalView = view as? MTKView else {
-                  fatalError("metal view not set up in storyboard")
+            NSLog ( "PGLMetalController reloadMetalView fatalError(metal view not set up in storyboard")
+            return
               }
         metalRender = Renderer(metalView: metalView)
     }

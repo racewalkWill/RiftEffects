@@ -16,7 +16,8 @@ class TitleSupplementaryView: UICollectionReusableView {
         configure()
     }
     required init?(coder: NSCoder) {
-        fatalError()
+        super.init(coder: coder)
+//        fatalError()
     }
     var headerAlbumId: String?
 }

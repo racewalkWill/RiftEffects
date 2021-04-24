@@ -29,7 +29,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else {
+           NSLog("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
+            return
+        }
 
         appStack = myAppDelegate.appStack
 

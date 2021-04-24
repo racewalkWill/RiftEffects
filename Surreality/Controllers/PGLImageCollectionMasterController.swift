@@ -149,7 +149,10 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         navigationController?.delegate = self
         // assume that fetchTopLevel has populated the albums,smartAlbums & userCollections
        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-                         else { fatalError("AppDelegate not loaded")}
+
+                else { NSLog ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
+                    return
+            }
                      appStack = myAppDelegate.appStack
 
 
@@ -476,8 +479,10 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
 
                 return cell
             } else {
-                fatalError("failed to create a new cell")
+                NSLog( "PGLImageCollectionMasterController configureDataSource fatalError(failed to create a new cell")
+                return nil
             }
+            return nil
         }
 
         // initial data

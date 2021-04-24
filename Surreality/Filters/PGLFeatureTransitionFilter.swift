@@ -78,7 +78,10 @@ class PGLBumpTransitionFilter: PGLFeatureTransitionFilter {
 
         detectorFilter = DetectorFramework.Active.init(ciFilter:  PGLBumpFaceCIFilter() )
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-                   else { fatalError("AppDelegate not loaded")}
+                   else {
+                NSLog("PGLBumpTransitionFilter init did not load AppDelegate")
+                return
+        }
                guard let appStack = myAppDelegate.appStack
                    else {return }
                detectorFilter?.setCIContext(detectorContext: appStack.getViewerStack().imageCIContext)
@@ -99,7 +102,10 @@ class PGLFaceTransitionFilter: PGLFeatureTransitionFilter {
 
         detectorFilter = DetectorFramework.Active.init(ciFilter:  PGLFaceCIFilter() )
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else {
+            NSLog("PGLFaceTransitionFilter init did not load AppDelegate")
+            return
+        }
         guard let appStack = myAppDelegate.appStack
             else {return }
         detectorFilter?.setCIContext(detectorContext: appStack.getViewerStack().imageCIContext)

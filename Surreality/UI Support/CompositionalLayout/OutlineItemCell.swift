@@ -48,7 +48,9 @@ class OutlineItemCell: UITableViewCell {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+//        fatalError("Not implemented")
+        return
     }
     fileprivate var indentContraint: NSLayoutConstraint! = nil
     fileprivate let inset = CGFloat(10)

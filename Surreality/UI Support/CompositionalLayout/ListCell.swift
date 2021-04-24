@@ -26,7 +26,9 @@ class ListCell: UICollectionViewCell {
         configure()
     }
     required init?(coder: NSCoder) {
-        fatalError("not implemented")
+        super.init(coder: coder)
+//        fatalError("Not implemented")
+        return
     }
 }
 

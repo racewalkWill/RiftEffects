@@ -237,7 +237,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
         }
         if snapshot.numberOfSections != snapshot.sectionIdentifiers.count {
-            fatalError("snapshot.numberOfSections != snapshot.sectionIdentifiers.count")
+            NSLog ("PGLAssetGridController applyDataSource() fatalError snapshot.numberOfSections != snapshot.sectionIdentifiers.count")
         }
         dataSource.apply(snapshot, animatingDifferences: false)
     }
@@ -270,13 +270,13 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
         case "showImageDetail" :
 
             guard let destination = segue.destination  as? PGLAssetController
-                else { fatalError("unexpected view controller for segue")  }
+                else { return  }
             if let theHeaderCell = sender as? TitleSupplementaryView {
                 destination.userAssetSelection = self.userAssetSelection
                 destination.selectedAlbumId = theHeaderCell.headerAlbumId
             }
 
-        default: fatalError("unexpected view controller for segue")
+        default: return
         }
 
     }
@@ -359,7 +359,9 @@ extension PGLAssetGridController {
                 // Get a cell of the desired kind.
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: ListCell.reuseIdentifier,
-                    for: indexPath) as? ListCell else { fatalError("Cannot create new cell") }
+                    for: indexPath) as? ListCell else {
+                        NSLog("PGLAssetGridController.configureDataSource Cannot create new cell")
+                        return nil }
 
                 // Populate the cell with our item description.
     //            cell.label.text = "\(indexPath.section),\(indexPath.item)"
@@ -402,7 +404,11 @@ extension PGLAssetGridController {
                         guard let header = collectionView.dequeueReusableSupplementaryView(
                                 ofKind: kind,
                                 withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
-                                for: indexPath) as? TitleSupplementaryView else { fatalError("Cannot create new header") }
+                                for: indexPath) as? TitleSupplementaryView else {
+                                    NSLog("PGLAssetGridController.supplementaryViewProvider Cannot create new header")
+                                    return TitleSupplementaryView.init()
+
+                        }
 
                             // Populate the view with our section's description.
 
@@ -425,7 +431,10 @@ extension PGLAssetGridController {
                         guard let badgeView = collectionView.dequeueReusableSupplementaryView(
                         ofKind: kind,
                         withReuseIdentifier: BadgeSupplementaryView.reuseIdentifier,
-                        for: indexPath) as? BadgeSupplementaryView  else { fatalError("Cannot create new badgeView") }
+                        for: indexPath) as? BadgeSupplementaryView  else {
+                                NSLog( "PGLAssetGridController.badgeElementKind Cannot create new badgeView")
+                                return BadgeSupplementaryView()
+                        }
                         if let myAsset = self.dataSource.itemIdentifier(for: indexPath)  {
 
                             let cellIsSelected = self.userAssetSelection.contains(localIdentifier: myAsset.localIdentifier)

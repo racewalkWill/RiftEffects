@@ -31,14 +31,19 @@ class PGLFilterStackTests: XCTestCase {
         // add two more
        
         guard let favoriteAlbumSource = fetchFavoritesList() else
-            { fatalError("favoritesAlbum contents not returned") }
+            { NSLog (" setUp fatalError( favoritesAlbum contents not returned")
+             return
+        }
        
 
         let favoriteAssets = favoriteAlbumSource.assets() // converts to PGLAsset
         // take the first ones for testing...
 
         guard let selectedAssets = favoriteAssets?.prefix(6)
-            else { fatalError ("Favorite Album does not have 6 images") }
+            else { 
+            NSLog (" setUp fatalError( Favorite Album does not have 6 images")
+             return
+        }
         
         let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
         for anAsset in selectedAssets {

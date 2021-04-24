@@ -101,7 +101,18 @@ class PGLCategorySurvey: XCTestCase {
     func setInputTo(imageParm: PGLFilterAttribute) {
         //MARK: Move to PGLDemo
         guard let favoriteAlbumSource = fetchFavoritesList() else
-                   { fatalError("favoritesAlbum contents not returned") }
+                   {
+            DispatchQueue.main.async {
+                // put back on the main UI loop for the user alert
+                let alert = UIAlertController(title: "Favorites Album", message: "Favorites is empty ", preferredStyle: .alert)
+
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("The userSaveErrorAlert alert occured.")
+                }))
+                alert.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
         favoriteAlbumSource.filterParm = imageParm
         let favoriteAssets = favoriteAlbumSource.assets() // converts to PGLAsset
        // mix it up with photos

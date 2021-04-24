@@ -119,16 +119,18 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
             case "showSequenceDetail" :
 
                 guard let destination = segue.destination  as? PGLAssetController
-                    else { fatalError("unexpected view controller for segue")  }
+                    else {
+                        NSLog ("PGLAssetSequenceController unexpected view controller destination for segue")
+                        return
+                }
 
                     destination.userAssetSelection = self.userAssetSelection
                     destination.selectedAlbumId = nil
                         // nil value to show the selectedAssets from the sequence
                
 
-            default: fatalError("unexpected view controller for segue")
+            default: return
             }
-
         
     }
 
@@ -344,7 +346,10 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                 // Get a cell of the desired kind.
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: ListCell.reuseIdentifier,
-                    for: indexPath) as? ListCell else { fatalError("Cannot create new cell") }
+                    for: indexPath) as? ListCell else {
+                     NSLog("PGLAssetSequenceController configureDataSource fatalError Cannot create new cell")
+                        return ListCell()
+                }
 
                 // Populate the cell with our item description.
     
@@ -389,7 +394,10 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                     guard let header = collectionView.dequeueReusableSupplementaryView(
                             ofKind: kind,
                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
-                            for: indexPath) as? TitleSupplementaryView else { fatalError("Cannot create new header") }
+                            for: indexPath) as? TitleSupplementaryView else {
+                            NSLog("PGLAssetSequenceController supplementaryViewProvider fatalError Cannot create new header")
+                            return nil
+                    }
 
                         // Populate the view with our section's description.
                         var selectionSuffix = ""
@@ -408,7 +416,11 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                         guard let badgeView = collectionView.dequeueReusableSupplementaryView(
                         ofKind: kind,
                         withReuseIdentifier: BadgeSupplementaryView.reuseIdentifier,
-                        for: indexPath) as? BadgeSupplementaryView  else { fatalError("Cannot create new badgeView") }
+                        for: indexPath) as? BadgeSupplementaryView  else {
+                            NSLog("PGLAssetSequenceController supplementaryViewProvider cannot create new badgeView")
+                            return nil
+
+                        }
 
                         // sequence area only action is to remove
                         badgeView.label.text = "-"

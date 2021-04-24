@@ -68,7 +68,9 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
 
         splitViewController?.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else { NSLog ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
+                return
+        }
         appStack = myAppDelegate.appStack
         stackData = { self.appStack.viewerStack }
         // closure is evaluated when referenced

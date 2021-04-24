@@ -101,7 +101,10 @@ class PGLSaveDialogController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else {
+                NSLog( "PGLSaveDialogController viewDidLoad fatalError(AppDelegate not loaded")
+            return
+        }
 
         appStack = myAppDelegate.appStack
          let targetStack =  appStack.outputFilterStack()

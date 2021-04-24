@@ -464,7 +464,8 @@ extension PGLMainFilterController {
 
         // Restore the title.
         guard let decodedTitle = coder.decodeObject(forKey: RestorationKeys.viewControllerTitle.rawValue) as? String else {
-            fatalError("A title did not exist. In your app, handle this gracefully.")
+            NSLog ("PGLMainFilterController decodeRestorableState fatalError( A title did not exist. ")
+            return 
         }
         navigationItem.title! = decodedTitle
 

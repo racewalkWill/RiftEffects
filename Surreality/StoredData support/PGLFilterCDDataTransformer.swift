@@ -36,14 +36,16 @@ class PGLFilterCDDataTransformer: NSSecureUnarchiveFromDataTransformer {
 
     override func transformedValue(_ value: Any?) -> Any? {
         guard let data = value as? Data else {
-            fatalError("Wrong data type: value must be a Data object; received \(type(of: value))")
+            NSLog("PGLFilterCDDataTransformer transformedValue() Wrong data type: value must be a Data object; received \(type(of: value))")
+            return nil
         }
         return super.transformedValue(data)
     }
 
     override func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let thisFilter = value as? CIFilter else {
-            fatalError("Wrong data type: value must be a CIFilter object; received \(type(of: value))")
+            NSLog("PGLFilterCDDataTransformer reverseTransformedValue()  Wrong data type: value must be a CIFilter object; received \(type(of: value))")
+            return nil
         }
         return super.reverseTransformedValue(thisFilter)
     }

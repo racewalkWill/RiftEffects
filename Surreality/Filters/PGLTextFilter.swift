@@ -110,7 +110,10 @@ class CompositeTextPositionFilter: CIFilter {
 
     required init?(coder aDecoder: NSCoder)
     {
-        fatalError("init(coder:) has not been implemented")
+        blendFilter = CIFilter(name: "CIDivideBlendMode")!
+        textImageFilter = CIFilter(name: "CITextImageGenerator", parameters: ["inputFontSize" : 30, "inputScaleFactor" : 2])!
+        super.init(coder: aDecoder)
+//        fatalError("init(coder:) has not been implemented")
     }
 
     func positionText(textCIImage: CIImage) -> CIImage {

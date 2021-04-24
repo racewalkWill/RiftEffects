@@ -336,7 +336,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { fatalError("AppDelegate not loaded")}
+            else {
+                NSLog( "PGLImageController viewDidLoad fatalError(AppDelegate not loaded")
+                return
+        }
 
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }

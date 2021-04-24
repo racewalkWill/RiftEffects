@@ -283,7 +283,7 @@ class PGLAppStack {
         var stackFilterIndent: PGLFilterIndent?
         if cellFilters.count > index.row - 1 {
              stackFilterIndent = cellFilters[index.row] }
-        else { fatalError("row in cellFilter is out of range")}
+        else { return 0 }
         return stackFilterIndent?.filterPosition ?? 0
 
 

@@ -47,7 +47,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         super.viewDidLoad()
 
         do { try fetchedResultsController.performFetch() }
-        catch { fatalError("PGLOpenStackViewController #viewDidLoad performFetch() error = \(error)") }
+        catch { NSLog ( "PGLOpenStackViewController viewDidLoad fatalError( #viewDidLoad performFetch() error = \(error)") }
         // Do any additional setup after loading the view.
 
          navigationItem.title = filterOpenTitle
@@ -209,7 +209,10 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         if let deleteStack = (self.fetchedResultsController.object(at: indexPath)) as? CDFilterStack {
             moContext.delete(deleteStack)
            do { try moContext.save() }
-           catch{ fatalError("moContext save error \(error)")}
+           catch{ NSLog ("PGLOpenStackViewController tableView commit fatalError(moContext save error \(error)")
+
+
+           }
 //            moContext.processPendingChanges()
             // refresh the view
 //            do { try fetchedResultsController.performFetch() }
@@ -241,7 +244,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         func delete(cdStack: CDFilterStack) {
             sourceMoContext.delete(cdStack)
             do { try sourceMoContext.save() }
-            catch{ fatalError("sourceMoContext save error \(error)")}
+            catch{
+                NSLog("PGLOpenStackViewController delete cdStack fatalError(sourceMoContext save error \(error)")}
         }
 
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -346,7 +350,7 @@ extension PGLOpenStackViewController {
                        // Configure the cell with data from the managed object.
                   return cell
             } else {
-                fatalError("failed to create a new cell")
+                NSLog("PGLOpenStackViewController configureDataSource fatalError(failed to create a new cell")
             }
             return cell
         }

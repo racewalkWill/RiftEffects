@@ -44,7 +44,13 @@ class PGLAsset: Hashable, Equatable  {
     init(_ sourceAsset: PHAsset, collectionId: String?, collectionLocalTitle: String?) {
         guard collectionId != nil
             else {
-                fatalError("no collectionId has been set") }
+                NSLog ("PGLAsset init sourceAsset... fatalError(no collectionId has been set")
+                asset = PHAsset()
+                albumId = ""
+                
+                return
+            return
+        }
         asset = sourceAsset
         albumId = collectionId!
         if collectionLocalTitle == nil {

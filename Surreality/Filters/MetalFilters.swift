@@ -35,8 +35,8 @@ class MetalPixellateFilter: MetalImageFilter
     }
 
     required init?(coder aDecoder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
+    {   super.init(coder: aDecoder)
+//        fatalError("init(coder:) has not been implemented")
     }
 
     @objc var inputPixelWidth: CGFloat = 50
@@ -89,8 +89,8 @@ class MetalPerlinNoise: MetalGeneratorFilter
     }
     
     required init?(coder aDecoder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
+    {    super.init(coder: aDecoder)
+//        fatalError("init(coder:) has not been implemented")
     }
 
     @objc var inputReciprocalScale = CGFloat(50)
@@ -196,8 +196,8 @@ class MetalKuwaharaFilter: MetalImageFilter
     }
     
     required init?(coder aDecoder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
+    {       super.init(coder: aDecoder)
+//        fatalError("init(coder:) has not been implemented")
     }
     
     @objc var inputRadius: CGFloat = 15
@@ -365,25 +365,28 @@ class MetalFilter: CIFilter, MetalRenderable
         }
         catch
         {
-            fatalError("Unable to create pipeline state for kernel function \(functionName)")
+//            fatalError("Unable to create pipeline state for kernel function \(functionName)")
+            NSLog("MetalFilter Unable to create pipeline state for kernel function \(functionName)")
         }
         
         
         
         if !(self is MetalImageFilter) && !(self is MetalGeneratorFilter)
         {
-            fatalError("MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
+//            fatalError("MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
+            NSLog("MetalFilter MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
         }
     }
     
     required init?(coder aDecoder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
+    {       functionName = "emptyInitString"
+            super.init(coder: aDecoder)
+//        fatalError("init(coder:) has not been implemented")
     }
     
     func textureInvalid() -> Bool
-    {
-        fatalError("textureInvalid() not implemented in MetalFilter")
+    {    return false
+//        fatalError("textureInvalid() not implemented in MetalFilter")
     }
     
     func imageFromComputeShader(width: CGFloat, height: CGFloat, inputImage: CIImage?) -> CIImage

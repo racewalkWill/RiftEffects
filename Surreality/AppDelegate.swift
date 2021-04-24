@@ -78,92 +78,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
-    // MARK: - Core Data stack
-    // this persistentContainer was used to support initial save data tests.
-    // not needed now that all filter tests use save
-    
-//    lazy var persistentContainer: NSPersistentContainer = {
-//        /*
-//         The persistent container for the application. This implementation
-//         creates and returns a container, having loaded the store for the
-//         application to it. This property is optional since there are legitimate
-//         error conditions that could cause the creation of the store to fail.
-//        */
-////        let container = NSPersistentCloudKitContainer(name: "Surreality")
-//        // issue with relationship CDFilterStack filters - ordered relationship not supported on iCloud
-//        let container = NSPersistentContainer(name: "Surreality")
-//        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//
-//                /*
-//                 Typical reasons for an error here include:
-//                 * The parent directory does not exist, cannot be created, or disallows writing.
-//                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-//                 * The device is out of space.
-//                 * The store could not be migrated to the current model version.
-//                 Check the error message to determine what the actual problem was.
-//                 */
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        })
-//        return container
-//    }()
-//
-//    // MARK: - Core Data Saving support
-//
-//    func saveContext () {
-//        let context = PersistentContainer.viewContext
-//        if context.hasChanges {
-//            do {
-//                NSLog("AppDelegate #saveContext()")
-//                try context.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }
+
 
 }
 
-// MARK: PhotoLibrary Access check
-//      if photo library access is denied then this app has no functionality
-//      it loads and applies filters to photolibrary images
-//func checkPhotoLibraryAcccess() {
-//    let accessLevel: PHAccessLevel = .readWrite
-//    let authorizationStatus = PHPhotoLibrary.authorizationStatus(for: accessLevel)
-//    var needsPhotoAccessChange = false // default
-//    switch authorizationStatus {
-//        case .authorized, .limited:
-//            needsPhotoAccessChange = false // authorized or limited is fine
-//        case  .denied, .restricted, .notDetermined:
-//            needsPhotoAccessChange = true
-//        default:
-//        //FIXME: Implement handling for all authorizationStatus values
-//        print("Not implemented")
-//    }
-//
-//    if needsPhotoAccessChange {
-//        confirmUserPhotoLibraryUsage()
-//    }
-//}
-//
-//func confirmUserPhotoLibraryUsage() {
-//    let requiredAccessLevel: PHAccessLevel = .readWrite // or .addOnly
-//    PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
-//        switch authorizationStatus {
-//            case .authorized, .limited:
-//               NSLog("User changed Photo Library authorization status") // authorized or limited is fine
-//            case  .denied, .restricted, .notDetermined:
-//                NSLog("User Photo Library authorization status = \(authorizationStatus)") // we asked  but no good.
-//            default:
-//
-//            NSLog("authorizationStatus = \(authorizationStatus) not implemented")
-//        }
-//    }
 
 

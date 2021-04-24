@@ -12,11 +12,11 @@ import CoreImage
 
 class PGLFilterDescriptor:  NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
-        fatalError("PGLFilterDescriptor does not implement encode")
+//        fatalError("PGLFilterDescriptor does not implement encode")
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("PGLFilterDescriptor does not implement coder")
+//        fatalError("PGLFilterDescriptor does not implement coder")
     }
     
     

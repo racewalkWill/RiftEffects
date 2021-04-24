@@ -28,7 +28,8 @@ class StackDataCell: UICollectionViewCell {
         configure()
     }
     required init?(coder: NSCoder) {
-        fatalError("not implemented")
+        super.init(coder: coder)
+//        fatalError("not implemented")
     }
 }
 

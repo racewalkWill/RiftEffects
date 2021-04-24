@@ -16,7 +16,8 @@ class TextCell: UICollectionViewCell {
         configure()
     }
     required init?(coder: NSCoder) {
-        fatalError("not implemnted")
+        super.init(coder: coder)
+//        fatalError("not implemnted")
     }
 
 }
