@@ -320,7 +320,10 @@ class PGLFilterAttribute {
         aSourceFilter.setImageValue(newValue: (cycleStack.first()!), keyName: attributeName!)
         aSourceFilter.setImageListClone(cycleStack: cycleStack, sourceKey: attributeName!)
                     // Filter implementation is empty..
-        setImageParmState(newState: ImageParm.inputPhoto)
+        if cycleStack.isEmpty() {
+            setImageParmState(newState: ImageParm.missingInput)
+        } else {
+            setImageParmState(newState: ImageParm.inputPhoto) }
 
         aSourceFilter.postImageChange()
     }

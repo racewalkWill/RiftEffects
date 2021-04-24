@@ -380,6 +380,10 @@ class PGLUserAssetSelection {
 
             removeUnusedAlbums()
         }
+        else {
+            // empty images list
+            self.myTargetFilterAttribute?.setImageParmState(newState: ImageParm.missingInput)
+        }
     }
 
     func changeTarget(filter: PGLSourceFilter) {
