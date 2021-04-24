@@ -268,17 +268,6 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 
     }
   
-    // MARK: Segues UINavigationControllerDelegate
-
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        // may not need this if the notification works..
-        if viewController is PGLSelectParmController {
-            NSLog("PGLImageCollectionMasterController #navigationController willShow... a PGLSelectParmController")
-            // post navigation to the PGLImagesSelectContainer too
-            let actionAccepted = Notification(name: PGLImageNavigationBack )
-            NotificationCenter.default.post(actionAccepted)
-        }
-    }
 
 
 
