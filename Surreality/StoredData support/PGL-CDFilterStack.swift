@@ -500,7 +500,14 @@ extension PGLAppStack {
     if moContext.hasChanges {
     do { try moContext.save()
         NSLog("PGLAppStack #writeCDStacks save called")
-        } catch { fatalError(error.localizedDescription) }
+        } catch {
+            NSLog("moContext.save error \(error.localizedDescription)")
+            DispatchQueue.main.async { [self] in
+                // put back on the main UI loop for the user alert
+                self.userSaveErrorAlert(withError: error)
+            }
+
+            // fatalError(error.localizedDescription) }
             }
         // now restore the filter's image inputs after the save
         // start the display timer again
@@ -509,10 +516,17 @@ extension PGLAppStack {
         if let initialStack = firstStack() {
          initialStack.restoreCDstackImageCache()
             // bring back the image cache to filter inputs after save runs
-
+            }
         }
+    }
 
 
+    func userSaveErrorAlert(withError: Error) {
+        let alert = UIAlertController(title: "Save Error", message: "Save action had the error \(withError.localizedDescription)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+        NSLog("The userSaveErrorAlert alert occured.")
+        }))
+        alert.present(alert, animated: true, completion: nil)
     }
 
     func setToNewStack() {

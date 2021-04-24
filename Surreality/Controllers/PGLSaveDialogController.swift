@@ -60,7 +60,7 @@ class PGLSaveDialogController: UIViewController {
         albumLabel.isHidden = !shouldStoreToPhotos
         albumName.isEnabled = shouldStoreToPhotos
         if (albumName.text!.isEmpty) {
-            albumName.text = userEnteredStackName
+            albumName.text = userEnteredStackType
             // default value
 
         }
