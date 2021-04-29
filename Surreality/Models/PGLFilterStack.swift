@@ -175,7 +175,7 @@ class PGLFilterStack  {
         let positionNumber =  1 + (index ?? activeFilterIndex) // zero based array
         let positionString = "\(positionNumber)"
         let answer = (positionString + " " + forFilter.filterName + "->")
-        NSLog("PGLFilterStack #stackFilterName = \(answer)")
+//        NSLog("PGLFilterStack #stackFilterName = \(answer)")
         return answer
     }
 

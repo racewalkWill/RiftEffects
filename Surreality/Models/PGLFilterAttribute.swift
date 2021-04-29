@@ -1119,7 +1119,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                     NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
                 }
              auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
-//                auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])
+
                 NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(String(describing: auxImage))")
 
             if auxImage != nil {

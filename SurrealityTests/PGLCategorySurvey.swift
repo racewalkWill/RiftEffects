@@ -299,6 +299,78 @@ class PGLCategorySurvey: XCTestCase {
         }
     }
 
+    func testSelectedMultipleFilters() {
+        // paste in a filter list from a failed test run
+        // this will build the list and test for zero extent in each filter output
+        
+        let testGroupFilters = [
+            // list the filters
+            "CIColorDodgeBlendMode",
+                    // filter 0 is usually Transition category
+            "CIDepthBlurEffect",
+            "CIExposureAdjust",
+            "CIPhotoEffectTonal",
+            "CISpotLight",
+            "CICircleSplashDistortion",
+            "CIKeystoneCorrectionCombined"
+            ]
+
+        let constructedCategory = PGLFilterCategory("constructedCategory")!
+        let descriptors = constructedCategory.buildCategoryFilterDescriptors(filterNames: testGroupFilters)
+
+        let newStack = PGLFilterStack()
+        newStack.setStartupDefault() // not sent in the init.. need a starting point
+        self.appStack.resetToTopStack(newStack: newStack)
+        let testFilterStack = appStack.viewerStack
+            // should use the appStack to supply the filterStack
+
+        _ = testFilterStack.removeLastFilter() // only one at start
+
+        let category1Filter = descriptors.first?.pglSourceFilter()
+        XCTAssertNotNil(category1Filter, "Failed to load filter \(testGroupFilters[0])")
+        category1Filter!.setDefaults()
+
+        NSLog("testSelectedMultipleInputTransitionFilters group1 filter \(category1Filter!.fullFilterName())")
+        let imageAttributesNames = category1Filter!.imageInputAttributeKeys
+        for anImageAttributeName in imageAttributesNames {
+            guard let thisAttribute = category1Filter!.attribute(nameKey: anImageAttributeName) else { continue }
+            setInputTo(imageParm: thisAttribute) // the six images from favorites
+        }
+
+        testFilterStack.append(category1Filter!)
+
+        for filterNameIndex in 1 ..< testGroupFilters.count {
+            let newFilter = descriptors[filterNameIndex].pglSourceFilter()
+            XCTAssertNotNil(newFilter)
+            newFilter!.setDefaults()
+
+            let imageAttributesNames = newFilter!.imageInputAttributeKeys
+            for anImageAttributeName in imageAttributesNames {
+                guard let thisAttribute = newFilter!.attribute(nameKey: anImageAttributeName) else { continue }
+                setInputTo(imageParm: thisAttribute) // the six images from favorites
+            }
+            testFilterStack.append(newFilter!)
+            // check each filter added
+            let stackResultImage = testFilterStack.stackOutputImage(false)
+            XCTAssertNotNil(stackResultImage)
+            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
+
+        }
+
+
+        testFilterStack.stackName = category1Filter!.filterName + " + testGroup filters"
+        testFilterStack.stackType = "testSelectedFilters"
+        if saveOutputToPhotoLib {
+            testFilterStack.exportAlbumName = "testSelectedFilters" }
+        else { testFilterStack.exportAlbumName = nil }
+            // sets the stack with the title, type, exportAlbum for save
+
+        testFilterStack.saveStackImage()
+       // confirm that output is saved and the coreData has saved
+
+
+    }
+
     func testiOS13Filters() {
           /*   CIDocumentEnhancer
                CIGaborGradients
