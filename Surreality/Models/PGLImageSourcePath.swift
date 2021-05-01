@@ -26,7 +26,7 @@ class PGLAsset: Hashable, Equatable  {
 
        var albumId: String  // must have an albumId
        var collectionTitle = String()
-       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
+//       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
 
     // MARK: Hash, Equatable
     static func == (lhs: PGLAsset, rhs: PGLAsset) -> Bool {
@@ -49,7 +49,7 @@ class PGLAsset: Hashable, Equatable  {
                 albumId = ""
                 
                 return
-            return
+            
         }
         asset = sourceAsset
         albumId = collectionId!

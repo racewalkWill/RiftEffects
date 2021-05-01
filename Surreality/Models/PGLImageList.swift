@@ -89,6 +89,7 @@ class PGLImageList {
 
     }
 
+    
     func setUserSelection(toAttribute: PGLFilterAttribute  ){
         // create a PGLUserSelection object from
         // the imageAssets
@@ -216,17 +217,25 @@ class PGLImageList {
           return answerImage
        }
 
-    func currentDisparityMap(target: PGLFilterAttributeImage)  {
-         let targetAsset = imageAssets[position]
-        if targetAsset.hasDepthData {
-            NSLog("PGLImageList #currentDisparityMap hasDepthData target")
-            let answerImage = image(atIndex: position)
-            target.requestDisparityMap(asset: targetAsset.asset, image: answerImage!)
-        }
+    func asPGLImageDepthList() -> PGLImageDepthList? {
+        // copy over to PGLImageDepthList
+        // make sure that none of these vars point back to self (PGLImageList)
+        // otherwise they need to point to the new PGLImageDepthList
+
+        let newDepthList = PGLImageDepthList()
+        newDepthList.imageAssets = imageAssets
+        newDepthList.inputStack = inputStack
+        newDepthList.position = position
+        newDepthList.assetIDs = assetIDs
+        newDepthList.collectionTitle = collectionTitle
+        newDepthList.nextType = nextType
+        newDepthList.images = images
+        newDepthList.userSelection = userSelection
+        return newDepthList
 
     }
 
-    fileprivate func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
+     func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
            // READS the CIImage
         //            options = PHImageRequestOptions()
         //            options.deliveryMode = .highQualityFormat
@@ -243,9 +252,6 @@ class PGLImageList {
            var pickedCIImage: CIImage?
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                guard let theImage = image else { return  }
-//            let auxDataType = kCGImageAuxiliaryDataTypeDisparity
-//            let auxDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(theImage as! CGImageSource, 0, auxDataType)
-                selectedAsset.hasDepthData = true //  get this set later.. (auxDataInfo != nil)
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
                 let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
 

@@ -944,7 +944,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     var imageParmState = ImageParm.missingInput
 
-    var specialFilterIsAssigned = false
+    var isDepthListAssigned = false
     // indicates that myFilter was assigned by a special constructor method
     // prevents the special specialConstructor from being assigned on every frame
 
@@ -1090,110 +1090,22 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     // MARK: Depth/Disparity PGLFilterAttributeImage
 
-    func disparityMap()  {
-        // only a portrait mode photo from iPhone 7 or greater has the depth/disparity images
-          inputCollection?.currentDisparityMap(target: self)
-    }
-
-    func requestDisparityMap(asset: PHAsset, image: CIImage) {
-            // may not have depthData in many cases
-            // process timing.. run in background for callback.
-            // suggested to downSample the image to improve performance
-            // should end with disparity and image matching...
-            var auxImage: CIImage?
-            var scaledDisparityImage: CIImage?
-
-            let options = PHContentEditingInputRequestOptions()
-
-
-            asset.requestContentEditingInput(with: options, completionHandler: { input, info in
-                guard let input = input
-                    else { NSLog ("contentEditingInput not loaded")
-                         return
-                    }
-             // the completion handler can run after the requestDisparityMap function returns
-            //  the completion handler has to assign a value not return a value
-
-                if !info.isEmpty {
-                    // is PHContentEditingInputErrorKey in the info
-                    NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
-                }
-             auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
-
-                NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(String(describing: auxImage))")
-
-            if auxImage != nil {
-                (self.aSourceFilter as? PGLDisparityFilter)?.hasDisparity = true
-                var depthData = auxImage!.depthData
-
-//                depthData?.depthDataMap.setUpNormalize()
-
-                // depthData?.depthDataMap.normalizeDSP() // normalize before conversion to half float16
-            if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat32 {
-                // convert to half-float16 but the normalize seems to expect float32..
-                depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
-
-                _ = depthData?.depthDataMap.normalizeDisparity(pixelFormat:depthData!.depthDataType)  // vector processing method in Accelerate framework
-//                depthData?.depthDataMap.normalize()
-                // or
-
-                //should depthDataByReplacingDepthDataMapWithPixelBuffer:error be used?
-                //this is creating a derivative depth map reflecting whatever edits you make to the corresponding image
-
-                if depthData?.depthDataType != kCVPixelFormatType_DisparityFloat16 {
-                    // convert to half-float16
-                    depthData = depthData?.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat16) }
-                // depthData needs to scale too...
-                let doScaleDown = false
-
-                if doScaleDown {
-                    let scaledDownInput = image.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
-                    scaledDisparityImage = auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
-                                                        parameters: ["inputImage": scaledDownInput ,"inputSmallImage":  auxImage as Any])
-                    if !self.specialFilterIsAssigned {
-                        self.myFilter = self.specialConstructor(inputImage: scaledDownInput, disparityImage: scaledDisparityImage!)
-                        self.specialFilterIsAssigned = true
-                    } else {
-                        // assign directly
-                        self.myFilter.setValue(scaledDownInput, forKey: kCIInputImageKey)
-                        self.myFilter.setValue(scaledDisparityImage, forKey: "inputDisparityImage")
-                    }
-                }
-                else {
-                    // not scaling down
-                    if !self.specialFilterIsAssigned {
-                        self.myFilter = self.specialConstructor(inputImage: image, disparityImage: auxImage!)
-                        self.specialFilterIsAssigned = true
-                    } else {
-                        // assign directly
-                        self.myFilter.setValue(image, forKey: kCIInputImageKey)
-                        self.myFilter.setValue(auxImage, forKey: "inputDisparityImage")
-                    }
-                }
-                self.postImageChange()
-                }
-            } )
-
-
-
-
+    func useDepthList() {
+        if isDepthListAssigned {return}
+        else {
+            if let newList = inputCollection?.asPGLImageDepthList() {
+            // should keep all the inst vars
+            isDepthListAssigned = true
+            inputCollection = newList
+            }
         }
+    }
+//    func disparityMap()  {
+//        // only a portrait mode photo from iPhone 7 or greater has the depth/disparity images
+//          inputCollection?.currentDisparityMap(target: self)
+//    }
 
-func specialConstructor(inputImage: CIImage, disparityImage: CIImage) -> CIFilter {
-    let ciContext = Renderer.ciContext // global context
 
-    let filter = ciContext!.depthBlurEffectFilter(for: inputImage,
-                                                 disparityImage: disparityImage,
-                                                 portraitEffectsMatte: nil,
-                                                 // the orientation of you input image
-                                                 orientation: CGImagePropertyOrientation.up,
-                                                 options: nil)!
-//    filter.setValue(4, forKey: "inputAperture")
-    filter.setValue(0.5, forKey: "inputScaleFactor")
-//    filter.setValue(CIVector(x: 0, y: 100, z: 100, w: 100), forKey: "inputFocusRect")
-    return filter
-
-}
 
 func postImageChange() {
            let outputImageUpdate = Notification(name:PGLOutputImageChange)

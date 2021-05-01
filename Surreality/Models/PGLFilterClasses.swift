@@ -98,7 +98,11 @@ private  var userDescription: String?
 
     //MARK: instance inits
 required init?(filter: String, position: PGLFilterCategoryIndex) {
-        if let thisFilter = CIFilter(name: filter) {
+    if let thisFilter = type(of:self).self.requestCISourceFilter(filterName: filter)
+        // funny way to myClass methods. Gets get the class to provide the CIFilter instance
+        // subclass of PGLSourceFilter may construct different CIFilter - see PGLDepthFilter
+
+            {
             uiPosition = position
 //            thisFilter.setDefaults()  // in iOS this is set automatically - macOS needs explicit setDefaults()
             filterCategories = thisFilter.attributes[kCIAttributeFilterCategories] as! [String]
@@ -145,7 +149,10 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     }
 
-
+   class func requestCISourceFilter(filterName: String) -> CIFilter? {
+        // override if needed -  see PGLDepthFilter
+        return CIFilter(name: filterName)
+    }
 
     func resetAttributesToLocalFilter() {
         // if the local filter (a CIFilter) is changed then the

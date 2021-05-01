@@ -32,11 +32,20 @@ class PGLExcludeFilters {
         "CIPalettize",
         "CIColorCurves",
         "CISaliencyMapFilter", // use PGLSaliencyBlurFilter instead of built in filter
+
+        // Convolution group needs an interface for the parm
+        // thinking of grid of values and a grid of gray squares to drag value changes over.
+        // a draggable grid would allow calculation of the sum adjustments as one value changes.
         "CIConvolution3X3",
         "CIConvolution5X5",
         "CIConvolution7X7",
         "CIConvolution9Horizontal",
-        "CIConvolution9Vertical"
+        "CIConvolution9Vertical",
+
+        // internal filters for use by custom filters
+        // these only work with the aux depth info from a portrait.. not an normal input image
+        "CIDepthToDisparity",
+        "CIDisparityToDepth"
 
         // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
 //        "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",
