@@ -57,10 +57,11 @@ class PGLImageDepthList: PGLImageList {
                     // is PHContentEditingInputErrorKey in the info
                     NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
                 }
-             auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
+             auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDepth: true])  // CIImageOption.auxiliaryDisparity: true
 
                 NSLog("PGLImageList #requestDisparityMap completionHandler auxImage = \(String(describing: auxImage))")
-
+                // is the rest of the datatype and normalizing still needed???
+                
             if auxImage != nil {
 
                 var depthData = auxImage!.depthData

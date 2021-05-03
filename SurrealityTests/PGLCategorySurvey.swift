@@ -306,13 +306,12 @@ class PGLCategorySurvey: XCTestCase {
         let testGroupFilters = [
             // list the filters
             "CIColorDodgeBlendMode",
-                    // filter 0 is usually Transition category
             "CIDepthBlurEffect",
             "CIExposureAdjust",
             "CIPhotoEffectTonal",
             "CISpotLight",
             "CICircleSplashDistortion",
-            "CIKeystoneCorrectionCombined"
+//            "CIKeystoneCorrectionCombined"
             ]
 
         let constructedCategory = PGLFilterCategory("constructedCategory")!

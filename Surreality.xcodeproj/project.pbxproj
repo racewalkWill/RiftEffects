@@ -17,7 +17,7 @@
 		A35BADAC2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */; };
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
-		A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDepthFilter.swift */; };
+		A39632D8250049F000F02CEC /* PGLDisparityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */; };
 		A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */; };
 		A3AAC54325D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */; };
 		A3AAC54B25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */; };
@@ -143,7 +143,7 @@
 		A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
-		A39632D7250049F000F02CEC /* PGLDepthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDepthFilter.swift; sourceTree = "<group>"; };
+		A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDisparityFilter.swift; sourceTree = "<group>"; };
 		A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialogController.swift; sourceTree = "<group>"; };
 		A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "Surreality/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -478,7 +478,7 @@
 				A3BF506C24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift */,
 				A3BF507524D32A3400CD5114 /* PGLFaceTiltShift.swift */,
 				A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */,
-				A39632D7250049F000F02CEC /* PGLDepthFilter.swift */,
+				A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */,
 				A3BF508424D32A3400CD5114 /* PGLImageCIFilter.swift */,
 				A3BF508724D32A3400CD5114 /* PGLFaceCIFilter.swift */,
 				A3BF508824D32A3400CD5114 /* PGLFeatureTransitionFilter.swift */,
@@ -731,7 +731,7 @@
 				A3BF50D924D32A3400CD5114 /* PixellateTransition.m in Sources */,
 				A3BF50E324D32A3400CD5114 /* PGLStackController.swift in Sources */,
 				A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */,
-				A39632D8250049F000F02CEC /* PGLDepthFilter.swift in Sources */,
+				A39632D8250049F000F02CEC /* PGLDisparityFilter.swift in Sources */,
 				A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */,
 				A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */,
 				A3BF50D824D32A3400CD5114 /* PixellatedPeople.m in Sources */,
