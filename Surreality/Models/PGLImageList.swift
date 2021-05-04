@@ -110,6 +110,10 @@ class PGLImageList {
         }
     }
 
+    func firstAsset() -> PGLAsset? {
+        return imageAssets.first
+    }
+
 // MARK: State
     func hasImageStack() -> Bool {
         // will return image from the stack instead of the objects
@@ -155,6 +159,25 @@ class PGLImageList {
         newList.userSelection = oddUserSelection
         return newList
     }
+
+    func clone(toParm: PGLFilterAttribute) -> PGLImageList {
+        // answer copy of self
+
+//        NSLog("PGLImageList #clone toParm = \(toParm)")
+        let newList = PGLImageList(localPGLAssets: imageAssets)
+        newList.nextType = NextElement.each
+//        newList.collectionTitle = "Odd-" + self.collectionTitle  // O for Odd
+        newList.position = 0
+        newList.images = self.images
+//        newList.isAssetList = self.isAssetList
+
+
+        let aClonedSelection = self.userSelection?.cloneAll(toParm: toParm)
+
+        newList.userSelection = aClonedSelection
+        return newList
+    }
+
 
     // MARK:  Accessors
 
@@ -217,23 +240,7 @@ class PGLImageList {
           return answerImage
        }
 
-    func asPGLImageDepthList() -> PGLImageDepthList? {
-        // copy over to PGLImageDepthList
-        // make sure that none of these vars point back to self (PGLImageList)
-        // otherwise they need to point to the new PGLImageDepthList
 
-        let newDepthList = PGLImageDepthList()
-        newDepthList.imageAssets = imageAssets
-        newDepthList.inputStack = inputStack
-        newDepthList.position = position
-        newDepthList.assetIDs = assetIDs
-        newDepthList.collectionTitle = collectionTitle
-        newDepthList.nextType = nextType
-        newDepthList.images = images
-        newDepthList.userSelection = userSelection
-        return newDepthList
-
-    }
 
      func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
            // READS the CIImage

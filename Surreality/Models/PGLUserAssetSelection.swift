@@ -127,7 +127,7 @@ class PGLUserAssetSelection {
 
         var oddAssets = [PGLAsset]()
 
-        NSLog("PGLUserAssetSelection #cloneEven")
+        NSLog("PGLUserAssetSelection #cloneOdd")
         for (i,a) in selectedAssets.enumerated() {
             NSLog("PGLUserAssetSelection #cloneOdd i = \(i)")
             if !i.isEven() { oddAssets.append(a)}
@@ -149,6 +149,33 @@ class PGLUserAssetSelection {
             self.remove(anOdd)
             }
         }
+        newbie?.myTargetFilterAttribute = toParm
+
+        return newbie
+    }
+
+    func cloneAll(toParm: PGLFilterAttribute) -> PGLUserAssetSelection? {
+        // copy all the elements of the selectedAssets
+        var newbie: PGLUserAssetSelection?
+
+        var allAssets = [PGLAsset]()
+
+        NSLog("PGLUserAssetSelection #cloneAll")
+        for (i,a) in selectedAssets.enumerated() {
+            allAssets.append(a) 
+        }
+        if let firstSource = allAssets.first {
+            let firstAlbumSource = sections[(firstSource.albumId)]
+            // then populate the matching albums and fetch results to the newbie
+            newbie = PGLUserAssetSelection(assetSources: (firstAlbumSource)! )
+            if newbie == nil  { return nil }
+            newbie?.append(firstSource)
+            for next in allAssets.suffix(from: 1) {
+                newbie?.appendAssetAlbum(next, from: self)
+            }
+        }
+
+    
         newbie?.myTargetFilterAttribute = toParm
 
         return newbie

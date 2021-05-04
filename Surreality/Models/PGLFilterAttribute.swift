@@ -1088,22 +1088,8 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         else { return nil }
     }
 
-    // MARK: Depth/Disparity PGLFilterAttributeImage
 
-    func useDepthList() {
-        if isDepthListAssigned {return}
-        else {
-            if let newList = inputCollection?.asPGLImageDepthList() {
-            // should keep all the inst vars
-            isDepthListAssigned = true
-            inputCollection = newList
-            }
-        }
-    }
-//    func disparityMap()  {
-//        // only a portrait mode photo from iPhone 7 or greater has the depth/disparity images
-//          inputCollection?.currentDisparityMap(target: self)
-//    }
+
 
 
 

@@ -198,7 +198,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-//                    NSLog("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
+                   NSLog("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
                     if let attribute = myUpdate.object as? PGLFilterAttribute {
                         // find the cell for the attribute and update the display
                         // is the attribute for the current filter?
@@ -208,6 +208,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                                 self.showTextValueInCell(attribute, animationCell)
                                 animationCell.setNeedsDisplay() // should cause detail text to update from the attribute
                                 }
+                            self.parmsTableView.reloadRows(at: [cellPath], with: .automatic)
                             }
                         }
                     }

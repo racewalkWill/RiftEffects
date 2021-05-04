@@ -280,7 +280,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             if let inputAttribute = attribute(nameKey: imageAttributeKey )
             {
                 if  inputAttribute.inputParmType() == ImageParm.missingInput
-                        { return true }
+                        {
+                    return true }
             }
         }
         return false // default return - all inputs are populated or none are image inputs
