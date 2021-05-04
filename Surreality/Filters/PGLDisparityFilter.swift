@@ -30,7 +30,7 @@ class PGLDisparityFilter: PGLRectangleFilter {
     var scaledDepthImage: CIImage?
 
     func postUIChange(attribute: PGLFilterAttribute) {
-        let uiNotification = Notification(name:PGLAttributeAnimationChange, object: attribute,userInfo: nil)
+        let uiNotification = Notification(name:PGLReloadParmCell, object: attribute,userInfo: nil)
 
         NotificationCenter.default.post(uiNotification)
     }

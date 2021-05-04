@@ -20,6 +20,7 @@ enum ImageParm: Int {
 
 
 let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAnimationChange")
+let  PGLReloadParmCell = NSNotification.Name(rawValue: "PGLReloadParmCell")
 
 class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableViewDataSource,
              UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate,
@@ -208,12 +209,24 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                                 self.showTextValueInCell(attribute, animationCell)
                                 animationCell.setNeedsDisplay() // should cause detail text to update from the attribute
                                 }
-                            self.parmsTableView.reloadRows(at: [cellPath], with: .automatic)
                             }
                         }
                     }
                 }
             notifications.append(aNotification)
+
+        aNotification = myCenter.addObserver(forName: PGLReloadParmCell, object: nil , queue: queue) {[weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+            if let attribute = myUpdate.object as? PGLFilterAttribute {
+                if let cellPath = attribute.uiIndexPath {
+                    self.parmsTableView.reloadRows(at: [cellPath], with: .automatic)
+                    }
+            }
+        }
+        notifications.append(aNotification)
+
         updateDisplay()
         setChevronState()
          NSLog("PGLSelectParmController#viewWillAppear end ")

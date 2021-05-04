@@ -305,13 +305,13 @@ class PGLCategorySurvey: XCTestCase {
         
         let testGroupFilters = [
             // list the filters
-            "CIColorDodgeBlendMode",
-            "CIDepthBlurEffect",
-            "CIExposureAdjust",
-            "CIPhotoEffectTonal",
-            "CISpotLight",
-            "CICircleSplashDistortion",
-//            "CIKeystoneCorrectionCombined"
+            "CIColorDodgeBlendMode" ,
+            "CIZoomBlur" ,
+        "CIColorClamp" ,
+        "CIColorPosterize" ,
+        "CIPixellate" ,
+        "CILightTunnel" ,
+        "CIPerspectiveTransform"
             ]
 
         let constructedCategory = PGLFilterCategory("constructedCategory")!
@@ -348,6 +348,7 @@ class PGLCategorySurvey: XCTestCase {
                 guard let thisAttribute = newFilter!.attribute(nameKey: anImageAttributeName) else { continue }
                 setInputTo(imageParm: thisAttribute) // the six images from favorites
             }
+            NSLog("testSelectedMultipleInputTransitionFilters appending filter: \(newFilter!.filterName)")
             testFilterStack.append(newFilter!)
             // check each filter added
             let stackResultImage = testFilterStack.stackOutputImage(false)
