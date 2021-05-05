@@ -360,6 +360,21 @@ class PGLUserAssetSelection {
         return fetchCount() < 1
     }
 
+    func isFetchMultiple() -> Bool {
+        // answer true if there is more than one in the sections
+        // turns on or off the navigation buttons
+        var totalFetchCount = 0
+        for anAlbumId in sections.keys {
+            let thisFetchCount =  fetchCount(albumId: anAlbumId)
+            totalFetchCount = totalFetchCount + thisFetchCount
+            if totalFetchCount > 1 {
+                return true
+            }
+        }
+        return false // did not find more than one image
+
+    }
+
     func fetchCount() -> Int {
         return selectedAssets.count
     }

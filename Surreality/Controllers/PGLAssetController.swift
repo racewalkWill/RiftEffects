@@ -49,7 +49,9 @@ class PGLAssetController: UIViewController {
         let badgeInsets = UIEdgeInsets(top: -10,left: -10,bottom: -10,right: -10)
             // negative values expand the inset
         badgeBtn.imageEdgeInsets = badgeInsets
-        setLeftRightBtns(enableOn: (userAssetSelection.fetchCount() > 1) )
+
+        setLeftRightBtns(enableOn: ( userAssetSelection.isFetchMultiple() ) )
+
 
 //        view.isUserInteractionEnabled = true
             // set in IB attributes of the view
@@ -79,7 +81,7 @@ class PGLAssetController: UIViewController {
                 self.asset = self.userAssetSelection.asset(position: self.assetIndex,albumId: self.selectedAlbumId)
                 self.navigationItem.title = self.userAssetSelection.headerTitle(albumId: self.selectedAlbumId)
                 self.updateImage()
-                self.setLeftRightBtns(enableOn: (self.userAssetSelection.fetchCount() > 1) )
+                self.setLeftRightBtns(enableOn: self.userAssetSelection.isFetchMultiple() )
             }
             }
         }
@@ -109,7 +111,7 @@ class PGLAssetController: UIViewController {
         view.layoutIfNeeded()
         updateImage()
         setSwipe()
-        self.setLeftRightBtns(enableOn: (self.userAssetSelection.fetchCount() > 1) )
+        self.setLeftRightBtns(enableOn: self.userAssetSelection.isFetchMultiple() )
 
     }
 
@@ -120,6 +122,7 @@ class PGLAssetController: UIViewController {
            }
            notifications = [Any]() // reset
            NSLog("PGLImagesSelectContainer #viewDidDisappear ...")
+            navigationController?.isToolbarHidden = true
         removeSwipe()
     }
 
@@ -158,12 +161,12 @@ class PGLAssetController: UIViewController {
         // negative direction guard
         if (assetIndex <= 0) && (direction == .left) {
             assetIndex = maxIndex + 1 } // increments to maxIndex next
-        if (userAssetSelection.fetchCount() > 0) {
+        if (userAssetSelection.isFetchMultiple()) {
             // confirms assets are left in collection - user has not removed last one
             assetIndex += increment
             asset = userAssetSelection.asset(position: assetIndex, albumId: selectedAlbumId)
         }
-        self.setLeftRightBtns(enableOn: (self.userAssetSelection.fetchCount() > 1))
+        self.setLeftRightBtns(enableOn: (self.userAssetSelection.isFetchMultiple()))
         updateImage()
 
     }

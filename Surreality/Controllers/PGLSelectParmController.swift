@@ -846,7 +846,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //            // confirm that user wants to break the connection to an input
 //            confirmReplaceFilterInput()
 //        }
-      
+        guard imageController != nil else {
+            NSLog( "PGLImageController ERROR in didSelectRow - imageController is nil")
+            return  }
+
         switch tappedAttribute!.attributeUIType() {
         case AttrUIType.pointUI , AttrUIType.rectUI:
             var croppingFilter: PGLRectangleFilter?
