@@ -47,10 +47,10 @@ class PGLDisparityFilter: PGLRectangleFilter {
          guard let filter = ciContext!.depthBlurEffectFilter(
             for: inputImage,
             disparityImage: disparityImage,
-            portraitEffectsMatte: smallColorImage(),
-            hairSemanticSegmentation: smallColorImage(),
-            glassesMatte: smallColorImage(),
-            gainMap: smallColorImage(),
+            portraitEffectsMatte:  nil , // smallColorImage(),
+            hairSemanticSegmentation:  nil , // smallColorImage(),
+            glassesMatte:  nil , // smallColorImage(),
+            gainMap:  nil , // smallColorImage(),
             orientation: CGImagePropertyOrientation.up,
                 options: nil)
          else {
@@ -68,10 +68,10 @@ class PGLDisparityFilter: PGLRectangleFilter {
 
     override func setDefaults() {
         // set all  image inputs to CGImage.empty
-        for anImageParmKey in imageInputAttributeKeys {
-            setImageValue(newValue: smallColorImage(), keyName: anImageParmKey)
-
-        }
+//        for anImageParmKey in imageInputAttributeKeys {
+//            setImageValue(newValue: smallColorImage(), keyName: anImageParmKey)
+//
+//        }
     }
 
     override func imageInputIsEmpty() -> Bool {
