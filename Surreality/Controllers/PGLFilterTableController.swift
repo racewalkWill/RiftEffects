@@ -206,6 +206,16 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         }
     }
 
+   override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    if let theCell =  sender as? UITableViewCell {
+        return theCell.isSelected
+            // if the cell is not selected then don't go to parms..
+            // this means there is no current filter
+    } else
+        { return false }
+    }
+
+
     func updateFilterLabel()  {
         // some overlap with the configureCell...
         if stackData() != nil {
