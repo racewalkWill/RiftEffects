@@ -287,7 +287,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 // MARK: CompositionLayout
 extension PGLAssetGridController {
     func createLayout() -> UICollectionViewLayout {
-            let columnCount = 5
+            let columnCount = 4
             let groupSizeHeight: CGFloat = 1.0/CGFloat(columnCount)
 
             let badgeAnchor = NSCollectionLayoutAnchor(edges: [.top, .trailing], fractionalOffset: CGPoint(x: 0.3, y: -0.3))
@@ -319,7 +319,7 @@ extension PGLAssetGridController {
 
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .estimated(44)),
+                                                  heightDimension: .estimated(20)),
                 elementKind: PGLAssetGridController.sectionHeaderElementKind,
                 alignment: .top)
 
@@ -404,11 +404,11 @@ extension PGLAssetGridController {
                         guard let header = collectionView.dequeueReusableSupplementaryView(
                                 ofKind: kind,
                                 withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
-                                for: indexPath) as? TitleSupplementaryView else {
+                                for: indexPath) as? TitleSupplementaryView
+                            else {
                                     NSLog("PGLAssetGridController.supplementaryViewProvider Cannot create new header")
                                     return TitleSupplementaryView.init()
-
-                        }
+                            }
 
                             // Populate the view with our section's description.
 

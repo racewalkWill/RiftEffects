@@ -179,7 +179,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-                    NSLog("PGLSelectParmController  notificationBlock PGLCurrentFilterChange")
+//                    NSLog("PGLSelectParmController  notificationBlock PGLCurrentFilterChange")
                     self.updateDisplay()
                 }
         notifications.append(aNotification)
@@ -199,7 +199,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-                   NSLog("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
+//                   NSLog("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
                     if let attribute = myUpdate.object as? PGLFilterAttribute {
                         // find the cell for the attribute and update the display
                         // is the attribute for the current filter?
@@ -679,7 +679,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
+//            NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
             if let target = self.tappedAttribute {
                 if target.isTextInputUI()  {
                     // shows changes as they are typed.. no commit reason

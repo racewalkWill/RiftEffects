@@ -285,7 +285,7 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                 elementKind: PGLAssetSequenceController.badgeElementKind,
                 containerAnchor: badgeAnchor)
 
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.2),
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), // was 0.2
                                                  heightDimension: .fractionalHeight(1.0))
 //          let item = NSCollectionLayoutItem(layoutSize: itemSize)
            let item = NSCollectionLayoutItem(layoutSize: itemSize, supplementaryItems: [badge])
@@ -305,7 +305,7 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
 
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
                         layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                          heightDimension: .estimated(44)),
+                                                          heightDimension: .estimated(20)),
                         elementKind: PGLAssetGridController.sectionHeaderElementKind,
                         alignment: .top)
 
@@ -394,10 +394,10 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                     guard let header = collectionView.dequeueReusableSupplementaryView(
                             ofKind: kind,
                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
-                            for: indexPath) as? TitleSupplementaryView else {
-                            NSLog("PGLAssetSequenceController supplementaryViewProvider fatalError Cannot create new header")
-                            return nil
-                    }
+                            for: indexPath) as? TitleSupplementaryView
+                        else {
+                                return TitleSupplementaryView.init()
+                                }
 
                         // Populate the view with our section's description.
                         var selectionSuffix = ""
