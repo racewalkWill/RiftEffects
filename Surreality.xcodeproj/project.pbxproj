@@ -107,6 +107,7 @@
 		A3BF515C24D3618300CD5114 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515B24D3618300CD5114 /* PGLImageController.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
 		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
+		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
 /* End PBXBuildFile section */
@@ -240,6 +241,7 @@
 		A3BF515B24D3618300CD5114 /* PGLImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLImageController.swift; path = /Users/willloew/Developer/Surreality/Surreality/PGLImageController.swift; sourceTree = "<absolute>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
 		A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLHelpPageController.swift; sourceTree = "<group>"; };
+		A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLScalingFilter.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
 		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -476,6 +478,7 @@
 				A3BF507524D32A3400CD5114 /* PGLFaceTiltShift.swift */,
 				A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */,
 				A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */,
+				A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */,
 				A3BF508424D32A3400CD5114 /* PGLImageCIFilter.swift */,
 				A3BF508724D32A3400CD5114 /* PGLFaceCIFilter.swift */,
 				A3BF508824D32A3400CD5114 /* PGLFeatureTransitionFilter.swift */,
@@ -669,6 +672,7 @@
 				A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */,
 				A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */,
 				A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */,
+				A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */,
 				A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */,
 				A3BF50D724D32A3400CD5114 /* DistortionsDemo.m in Sources */,
 				A3BF50D424D32A3400CD5114 /* ChromaKey.m in Sources */,
@@ -916,7 +920,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = Surreality/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -940,7 +944,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = Surreality/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
