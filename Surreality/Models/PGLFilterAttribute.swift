@@ -316,10 +316,12 @@ class PGLFilterAttribute {
 
         inputCollection?.inputStack = inputStack // keep these aligned
         inputSourceDescription = cycleStack.collectionTitle
+        guard let myAttributeName = attributeName else
+        { setImageParmState(newState: ImageParm.missingInput)
+            return
+        }
+        aSourceFilter.setImageValuesAndClone(inputList: cycleStack, attributeName: myAttributeName )
 
-        aSourceFilter.setImageValue(newValue: (cycleStack.first()!), keyName: attributeName!)
-        aSourceFilter.setImageListClone(cycleStack: cycleStack, sourceKey: attributeName!)
-                    // Filter implementation is empty..
         if cycleStack.isEmpty() {
             setImageParmState(newState: ImageParm.missingInput)
         } else {

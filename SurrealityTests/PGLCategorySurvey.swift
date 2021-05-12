@@ -305,13 +305,11 @@ class PGLCategorySurvey: XCTestCase {
         
         let testGroupFilters = [
             // list the filters
-            "CIColorDodgeBlendMode" ,
-            "CIZoomBlur" ,
-        "CIColorClamp" ,
-        "CIColorPosterize" ,
-        "CIPixellate" ,
-        "CILightTunnel" ,
-        "CIPerspectiveTransform"
+            "CIBarsSwipeTransition" ,
+        "CIDepthBlurEffect" ,
+        "CILinearToSRGBToneCurve" ,
+        "CIColorCrossPolynomial" ,
+        "CICrystallize" ,
             ]
 
         let constructedCategory = PGLFilterCategory("constructedCategory")!

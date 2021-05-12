@@ -22,7 +22,7 @@ class PGLDisparityFilter: PGLRectangleFilter {
         // let the usual pglattribute construction
         // change the local filter to a context created filter when the input is set
         // set
-    var hasDisparity = false
+    var hasDisparity: Bool?
     let inputDisparityKey = "inputDisparityImage"
     var auxImage: CIImage?
 
@@ -67,7 +67,7 @@ class PGLDisparityFilter: PGLRectangleFilter {
     }
 
     override func setDefaults() {
-        // set all  image inputs to CGImage.empty
+//         set all  image inputs to CGImage.empty
 //        for anImageParmKey in imageInputAttributeKeys {
 //            setImageValue(newValue: smallColorImage(), keyName: anImageParmKey)
 //
@@ -98,27 +98,20 @@ class PGLDisparityFilter: PGLRectangleFilter {
         return output?.cropped(to: smallRect) ?? CIImage.empty()
     }
 
-    fileprivate func setImageWithDepth(_ imageAttribute: PGLFilterAttributeImage, _ newValue: CIImage) {
+    // change this from the setImageValue chain to the imageList picker chain
+
+    fileprivate func setImageWithDepth(_ imageAttribute: PGLFilterAttributeImage, userPickList: PGLImageList) {
         // does newValue have a depth or portrait in the auxImage data?
         // also sets  inputDisparityImage attribute if inputImage has depth
         // if the inputDisparityImage
 
-        if  !localFilterIsSpecialConstruction {
-            if let newSpecialDepthFilter = requestDepthBlurEffect(inputImage: newValue, disparityImage: nil ) {
-                localFilterIsSpecialConstruction = true
-                localFilter = newSpecialDepthFilter
-                // replaces the standard filter installed in the init(filter:, position:)
-            }
-        } else {
-            super.setImageValue(newValue: newValue, keyName: imageAttribute.attributeName!)
-        }
 
-        // get the asset and request the aux images .. returns in a completion handler
-
-        guard let inputAsset = imageAttribute.inputCollection?.firstAsset()
+        let newImage = userPickList.firstImageBasic()
+        guard let inputAsset = userPickList.firstAsset()
          else { return }
 
         let options = PHContentEditingInputRequestOptions()
+        options.isNetworkAccessAllowed = true
 
         inputAsset.asset.requestContentEditingInput(with: options, completionHandler: { input, info in
             guard let input = input
@@ -132,12 +125,13 @@ class PGLDisparityFilter: PGLRectangleFilter {
 
             if !info.isEmpty {
                 // is PHContentEditingInputErrorKey in the info
-                NSLog("PGLImageList #requestDisparityMap has info returned \(info)")
+                NSLog("PGLImageList #requestDisparityMap has info returned \(info) for \(inputAsset.asset)")
             }
             self.auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
 
             guard var depthData = self.auxImage?.depthData
-            else {return }
+            else {  self.hasDisparity = false
+                    return }
             if depthData.depthDataType != kCVPixelFormatType_DisparityFloat32 {
                 depthData = depthData.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32) }
 
@@ -154,7 +148,8 @@ class PGLDisparityFilter: PGLRectangleFilter {
 
             // depthData needs to scale too...
 
-            self.scaledInputImage = newValue.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
+            self.scaledInputImage = newImage!.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale": 0.5])
+                // nil check on newImage performed in first line of method
 
             self.scaledDepthImage = self.auxImage?.applyingFilter("CIEdgePreserveUpsampleFilter",
                                                                   parameters: ["inputImage": self.scaledInputImage as Any ,
@@ -163,27 +158,36 @@ class PGLDisparityFilter: PGLRectangleFilter {
 
             // update the filter
             if (self.scaledInputImage == nil) || (self.scaledDepthImage == nil ) {
+                self.hasDisparity = false
                 return
                 }
             switch imageAttribute.attributeName {
                 case kCIInputImageKey:
-
-
                     super.setImageValue(newValue: self.scaledInputImage!, keyName: kCIInputImageKey)
                     if let affectedDisparityAttribute = self.attribute(nameKey: self.inputDisparityKey) {
-                        if let newList = imageAttribute.inputCollection?.clone(toParm: affectedDisparityAttribute) {
-                            affectedDisparityAttribute.setImageCollectionInput(cycleStack: newList)
-                                // setImageCollectionInput invokes setImageValue.
-                                // now set it directly with the actual depth image
-                            super.setImageValue(newValue: self.scaledDepthImage!, keyName: self.inputDisparityKey)
-                            self.postUIChange(attribute: affectedDisparityAttribute) }
+                        let newList = userPickList.clone(toParm: affectedDisparityAttribute)
+//                        affectedDisparityAttribute.setImageCollectionInput(cycleStack: newList)
+                        self.setImageValue(newValue: (newList.first()!), keyName: self.inputDisparityKey)
+                        self.setImageListClone(cycleStack: newList, sourceKey: self.inputDisparityKey)
+                        if newList.isEmpty() {
+                            affectedDisparityAttribute.setImageParmState(newState: ImageParm.missingInput)
+                        } else {
+                            affectedDisparityAttribute.setImageParmState(newState: ImageParm.inputPhoto) }
+                            // setImageCollectionInput invokes setImageValue.
+                            // now set it directly with the actual depth image
+//                        super.setImageValue(newValue: self.scaledDepthImage!, keyName: self.inputDisparityKey)
+                        self.postUIChange(attribute: affectedDisparityAttribute)
                     }
+
                 case self.inputDisparityKey:
+                    // the imageList is already set so just put in the filter
                     super.setImageValue(newValue: self.scaledDepthImage!, keyName: self.inputDisparityKey)
                 default:
-                    super.setImageValue(newValue: newValue, keyName: imageAttribute.attributeName!)
+                    return // other inputs were set in the super methods #setUserPick
             }
-
+            self.hasDisparity = true
+                // all the completion block processing has succeeded
+            
             self.postUIChange(attribute: imageAttribute)
             // notify UI for update
 
@@ -192,22 +196,56 @@ class PGLDisparityFilter: PGLRectangleFilter {
     }
 
 
+    override func outputImageBasic() -> CIImage? {
+       // just return the input if no disparity is set
+        // callback may set hasDisparity var after this is called..
+        // it will work the next time in the render loop
 
-    override func setImageValue(newValue: CIImage, keyName: String) {
-            // also set the disparity parm inputDisparityImage from the attribute imageList
+        if !(hasDisparity ?? false) { return inputImage() }
 
-    if let imageAttribute = attribute(nameKey: keyName) as? PGLFilterAttributeImage {
-            switch keyName {
-                case kCIInputImageKey ,inputDisparityKey :
-                     setImageWithDepth( imageAttribute,  newValue)
+        return super.outputImageBasic()
+    }
 
-                default:
-                    super.setImageValue(newValue: newValue, keyName: keyName)
+    override func setImageValuesAndClone(inputList: PGLImageList, attributeName:String ) {
+        let newImage = inputList.first()
+
+        if  !localFilterIsSpecialConstruction {
+            if let newSpecialDepthFilter = requestDepthBlurEffect(inputImage: newImage, disparityImage: nil ) {
+                localFilterIsSpecialConstruction = true
+                localFilter = newSpecialDepthFilter
+                // replaces the standard filter installed in the init(filter:, position:)
             }
         }
 
-  }
+        super.setImageValuesAndClone(inputList: inputList, attributeName: attributeName )
 
-    
+        guard let myAttribute = attribute(nameKey: attributeName)
+            else {return }  // or inputCollection.userSelection?.myTargetFilterAttribute
+        guard let myImageAttribute  = myAttribute as? PGLFilterAttributeImage
+            else { return }
+
+        setImageWithDepth(myImageAttribute, userPickList: inputList )
+    }
+
+//    override func setUserPick(attribute: PGLFilterAttribute, imageList: PGLImageList) {
+//        // read the aux data and set the disparity image input if it exists
+//        // first get it actually set
+//        let newImage = imageList.first()
+//
+//        if  !localFilterIsSpecialConstruction {
+//            if let newSpecialDepthFilter = requestDepthBlurEffect(inputImage: newImage, disparityImage: nil ) {
+//                localFilterIsSpecialConstruction = true
+//                localFilter = newSpecialDepthFilter
+//                // replaces the standard filter installed in the init(filter:, position:)
+//            }
+//        }
+//
+//        super.setUserPick(attribute: attribute, imageList: imageList)
+//        guard let myImageAttribute  = attribute as? PGLFilterAttributeImage else
+//        { return }
+//
+//        setImageWithDepth(myImageAttribute, userPickList: imageList )
+//
+//    }
 
 }

@@ -359,6 +359,22 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
     }
 
+    func setImageValuesAndClone(inputList: PGLImageList, attributeName:String ) {
+        //  superclass implementation to dispatch into the attribute
+        // special filters that need aux data to function should override
+        // PGLDisparityFilter implements
+
+        setImageValue(newValue: (inputList.first()!), keyName: attributeName)
+        setImageListClone(cycleStack: inputList, sourceKey: attributeName)
+    }
+
+    func setUserPick(attribute: PGLFilterAttribute, imageList: PGLImageList) {
+        //  superclass implementation to dispatch into the attribute
+        // special filters that need aux data to function should override
+        // PGLDisparityFilter implements
+        attribute.setImageCollectionInput(cycleStack: imageList)
+    }
+
     // MARK: thumbnails
     func getThumbnail(dimension: CGFloat = 200.0 ) -> UIImage{
 

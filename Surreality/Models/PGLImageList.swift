@@ -346,8 +346,23 @@ class PGLImageList {
             if hasImageStack() { return inputStack?.stackOutputImage(false)}  // needs scaleToFrame??
             let firstIndexValue = firstImageIndex()
             return image(atIndex: firstIndexValue)
+                 // may be returning CIImage.empty()
+
 
         }
+
+    func firstImageBasic() -> CIImage? {
+        // does NOT answer a CIImage.empty() if nil return from the assets
+        // does resize same as first()
+        let firstIndexValue = firstImageIndex()
+        guard let answerImage =  imageFrom(selectedAsset: imageAssets[firstIndexValue])
+        else { return nil }
+        if doResize {
+            return self.scaleToFrame(ciImage: answerImage, newSize: TargetSize) }
+        else { return answerImage}
+
+
+    }
 
        fileprivate func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
            // make all the images scale to the same size and origin
