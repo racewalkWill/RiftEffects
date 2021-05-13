@@ -36,6 +36,8 @@ extension CIFilter {
     
         let answerDict: [String: [PGLSourceFilter.Type]] =   [
           "CICrop": [PGLRectangleFilter.self] ,
+            "CIClamp": [PGLRectangleFilter.self] ,
+            "CIPerspectiveTransformWithExtent": [PGLRectangleFilter.self] ,
             "CIGaussianGradient": [PGLScalingFilter.self] ,
           kPFaceFilter : [PGLDetectorFilter.self],
            kPBumpFace : [PGLDetectorFilter.self],
