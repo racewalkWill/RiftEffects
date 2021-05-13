@@ -1137,13 +1137,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         if segue.identifier == "goToParentParmStack" {
             if segue.destination is PGLSelectParmController { appStack.popToParentStack() }
+            postCurrentFilterChange()
         }
 
         if segue.identifier == "goToParentFilterStack" {
             if segue.destination is PGLFilterTableController { appStack.popToParentStack() }
-
+            postCurrentFilterChange()
         }
-        postCurrentFilterChange()
+
     }
 
 
