@@ -40,7 +40,12 @@ class PGLRectangleController: UIViewController {
      var resizeCorner: Vertex?
 
      var corners = [UIBezierPath]()
-     var cornerRects = [CGRect]()
+//    var cornerRects = [CGRect]()
+    // bizarre this var cornerRects has no refs but commenting it out
+    // makes the crop corners show for the crop filter
+    // AND makes the crop corners not visible for the other inputRectangle filters
+    // such as DepthBlurEffecto or Ripple
+    // defining the var reverses the effect - Ripple is visible corners and crop is NOT
      var tapGesture: UITapGestureRecognizer?
      let rectLineWidth:CGFloat = 12.0
 
@@ -76,6 +81,12 @@ class PGLRectangleController: UIViewController {
 
     var scaleTransform: CGAffineTransform?
 
+    // view lifecycle
+    override func viewDidLoad() {
+        if controlViewCorners.isEmpty {
+            NSLog("PGLRectangleController does not have cornerRects...")
+        }
+    }
      // MARK: movement
 
     func hitTestCorners(location: CGPoint, controlView: UIView) -> CGRect? {
@@ -124,6 +135,7 @@ class PGLRectangleController: UIViewController {
     func setCorners(isHidden: Bool) {
         for aCornerView in controlViewCorners {
             aCornerView?.isHidden = isHidden
+            NSLog("PGLRectangleController #setCorners \(isHidden) on \(aCornerView)")
         }
     }
 
@@ -161,6 +173,7 @@ class PGLFramedView: UIImageView {
             rectPath.lineWidth = rectLineWidth
             rectPath.stroke()
         }
+        NSLog("PGLFramedView rectImage fillCollor")
         return image
     }
 
@@ -181,7 +194,7 @@ class PGLFramedView: UIImageView {
 
             rectPath.stroke()
             rectPath.fill() // the fill color for highlight
-            NSLog("PGLControlVisual#rectImageHighLight path = \(rectPath)" )
+            NSLog("PGLFramedView #rectImageHighLight path = \(rectPath)" )
         }
         return image
     }

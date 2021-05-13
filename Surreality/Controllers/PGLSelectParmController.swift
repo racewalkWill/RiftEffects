@@ -853,7 +853,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         switch tappedAttribute!.attributeUIType() {
         case AttrUIType.pointUI , AttrUIType.rectUI:
-            var croppingFilter: PGLRectangleFilter?
+//            var croppingFilter: PGLRectangleFilter?
 
             panner?.isEnabled = true
             selectedParmControlView = parmControl(named: (tappedAttribute!.attributeName)!)
@@ -862,26 +862,18 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 imageController?.parmSlider.isHidden = true
                 imageController?.hideSliders()
                 if let thisCropAttribute = tappedAttribute as? PGLAttributeRectangle {
-                    croppingFilter = currentFilter as? PGLRectangleFilter
-                    if croppingFilter != nil {
-                        croppingFilter!.cropAttribute = thisCropAttribute
+                    guard let croppingFilter = currentFilter as? PGLRectangleFilter
+                    else { return }
 
-                            // outputExtent closure evaluated in outputImage of the PGLRectangleFilter
-                        
-                        if  imageController?.rectController != nil {
-                            imageController!.rectController!.croppingFilter = croppingFilter
-                            imageController!.rectController!.thisCropAttribute = thisCropAttribute
-                            imageController!.showCropTintViews(isHidden: false)
-                        }
+                    croppingFilter.cropAttribute = thisCropAttribute
+                    guard let activeRectController = imageController?.rectController
+                        else {return }
+                    activeRectController.thisCropAttribute = thisCropAttribute
+                    imageController?.showRectInput(aRectInputFilter: croppingFilter)
 
 
-                    } else {
-                        NSLog("PGLSelectParmController # tableView(..didSelectRowAt) has PGLFilterAttributeRectangle but fails as PGLCropFilter") }
-                } else { // a point
-                    // is a detector needed to set the point?
-                    // maybe a double tap on the row or double tap on the point? triggers dialog on detector install?
+                    }
 
-                }
             }
       case AttrUIType.sliderUI , AttrUIType.integerUI  :
             // replaced by the slider in the tablePaneCell

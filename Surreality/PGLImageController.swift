@@ -548,17 +548,26 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 }
                 if parmAttribute.isRectUI() {
                     if let rectAttribute = parmAttribute as? PGLAttributeRectangle {
-                        if rectController == nil {
-                            addRectControl(attribute: rectAttribute) }
-                        else {
-                            rectController!.view.isHidden = false   // constraints still work?
-                        }
+                            addRectControl(attribute: rectAttribute)
+                            setRectTintAndCornerViews(attribute: rectAttribute)
+
+                    //rectController!.view.isHidden = false   // constraints still work?
                     }
                 }
             if parmAttribute.isTextInputUI() {
                 addTextInputControl(attribute: parmAttribute)
             }
         }
+    }
+
+    func showRectInput(aRectInputFilter: PGLRectangleFilter) {
+        guard let thisRectController = rectController
+        else { return }
+
+        thisRectController.croppingFilter = aRectInputFilter
+//        thisRectController.thisCropAttribute = aRectInputFilter.cropAttribute
+        showCropTintViews(setIsHidden: false)
+        
     }
 
     func removeParmControls() {
@@ -721,26 +730,73 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
             // display the rect with corners for crop move and resize
-       rectController =  storyboard!.instantiateViewController(withIdentifier: "RectangleController") as? PGLRectangleController
+        if rectController == nil {
+            rectController =  storyboard!.instantiateViewController(withIdentifier: "RectangleController") as? PGLRectangleController
+        }
+//        setRectTintAndCornerViews(attribute: attribute)
+
+//        if rectController != nil
+//        {  let newInsetRectFrame = insetRect(fromRect: self.view.bounds)
+//
+//            rectController!.view.frame = newInsetRectFrame
+//            rectController!.scaleTransform = myScaleTransform
+//                // .concatenating(glkScaleTransform) // for mapping the rect vector to the image coordinates
+//                // combines the scaleFactor of 2.0 with the ULO flip for applying the crop to the glkImage
+//
+//            NSLog("PGLImageController #addRectControl rectController.scaleTransform = \(String(describing: rectController!.scaleTransform))")
+//
+//            NSLog("PGLImageController #addRectControl rectController.view.frame inset from bounds = \(view.bounds)")
+//            NSLog("PGLImageController #addRectControl rectController.view.frame now = \(newInsetRectFrame)")
+//            let rectCropView = rectController!.view!
+//            view.addSubview(rectCropView)
+//            parmControls[attribute.attributeName!] = rectController!.view
+//                //parmControls = [String : UIView]() - string index by attributeName
+//            (rectController!.view).isHidden = true
+//
+//            // there are constraint errors reported from here..
+//             NSLayoutConstraint.activate([
+//                topTintView.bottomAnchor.constraint(equalTo: rectCropView.topAnchor),
+//                bottomTintView.topAnchor.constraint(equalTo: rectCropView.bottomAnchor),
+//                leftTintView.rightAnchor.constraint(equalTo: rectCropView.leftAnchor),
+//                rightTintView.leftAnchor.constraint(equalTo: rectCropView.rightAnchor)
+//                ] )
+//            for aTintView in tintViews {
+//                view.bringSubviewToFront(aTintView)
+//                // they are set to hidden in IB
+//            }
+//
+//            // next is not needed??
+//            for aCorner in rectController!.controlViewCorners {
+//                if let thisCorner = aCorner {
+//                    rectCropView.bringSubviewToFront(thisCorner)
+//                    NSLog("PGLImageController #addRectControls to front \(thisCorner)")
+//
+//                }
+//                view.bringSubviewToFront(rectCropView)
+//            }
+//        }
+
+    }
+    func setRectTintAndCornerViews(attribute: PGLAttributeRectangle) {
         if rectController != nil
-        {  let newInsetRectFrame = insetRect(fromRect: self.view.bounds)
+            {  let newInsetRectFrame = insetRect(fromRect: self.view.bounds)
 
             rectController!.view.frame = newInsetRectFrame
             rectController!.scaleTransform = myScaleTransform
                 // .concatenating(glkScaleTransform) // for mapping the rect vector to the image coordinates
                 // combines the scaleFactor of 2.0 with the ULO flip for applying the crop to the glkImage
 
-            NSLog("PGLImageController #addRectControl rectController.scaleTransform = \(String(describing: rectController!.scaleTransform))")
+            NSLog("PGLImageController #setRectTintAndCornerViews rectController.scaleTransform = \(String(describing: rectController!.scaleTransform))")
 
-            NSLog("PGLImageController #addRectControl rectController.view.frame inset from bounds = \(view.bounds)")
-            NSLog("PGLImageController #addRectControl rectController.view.frame now = \(newInsetRectFrame)")
+            NSLog("PGLImageController #setRectTintAndCornerViews rectController.view.frame inset from bounds = \(view.bounds)")
+            NSLog("PGLImageController #setRectTintAndCornerViews rectController.view.frame now = \(newInsetRectFrame)")
             let rectCropView = rectController!.view!
             view.addSubview(rectCropView)
-            parmControls[attribute.attributeName!] = rectController!.view
+            parmControls[attribute.attributeName!] = rectCropView
                 //parmControls = [String : UIView]() - string index by attributeName
-            (rectController!.view).isHidden = true
+            rectCropView.isHidden = true
 
-
+            // there are constraint errors reported from here..
              NSLayoutConstraint.activate([
                 topTintView.bottomAnchor.constraint(equalTo: rectCropView.topAnchor),
                 bottomTintView.topAnchor.constraint(equalTo: rectCropView.bottomAnchor),
@@ -751,24 +807,42 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 view.bringSubviewToFront(aTintView)
                 // they are set to hidden in IB
             }
+
+            // next is not needed??
+            for aCorner in rectController!.controlViewCorners {
+                if let thisCorner = aCorner {
+                    rectCropView.bringSubviewToFront(thisCorner)
+                    NSLog("PGLImageController #addRectControls to front \(thisCorner)")
+
+                }
+                view.bringSubviewToFront(rectCropView)
+            }
         }
 
     }
-
-    func showCropTintViews(isHidden: Bool) {
+    func showCropTintViews(setIsHidden: Bool) {
         for aTintView in tintViews {
-            aTintView.isHidden = isHidden
+            aTintView.isHidden = setIsHidden
         }
         if rectController != nil {
-            rectController!.setCorners(isHidden: isHidden)
+            NSLog("PGLImageController #showCropTintViews isHidden changing to \(setIsHidden)")
+            rectController!.view.isHidden = setIsHidden
+            rectController!.setCorners(isHidden: setIsHidden)
+
+        }
+        else {
+            NSLog("PGLImageController #showCropTintViews rectController = nil - corners NOT SET for isHidden = \(setIsHidden)")
         }
     }
+
     func hideRectControl() {
-        showCropTintViews(isHidden: true)
+        showCropTintViews(setIsHidden: true)
         if rectController != nil {
 
             rectController!.view.isHidden = true
-//            rectController?.view.removeFromSuperview()
+           rectController?.view.removeFromSuperview()
+            // to match the addSubView in #setRectTintandCornerViews
+
 //            rectController = nil
 
         }
