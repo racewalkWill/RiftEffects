@@ -838,13 +838,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     func hideRectControl() {
         showCropTintViews(setIsHidden: true)
         if rectController != nil {
-
             rectController!.view.isHidden = true
-           rectController?.view.removeFromSuperview()
-            // to match the addSubView in #setRectTintandCornerViews
-
-//            rectController = nil
-
         }
     }
     func insetRect(fromRect: CGRect) -> CGRect {
