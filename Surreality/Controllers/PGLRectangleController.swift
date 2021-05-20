@@ -83,6 +83,12 @@ class PGLRectangleController: UIViewController {
 
     // view lifecycle
     override func viewDidLoad() {
+        view.translatesAutoresizingMaskIntoConstraints = true
+         // this turns on error notice in the log of UIViewAlertForUnsatisfiableConstraints on one constraint
+        // but value of false and the whole crop rectangle does not work..
+        // (Note: If you're seeing NSAutoresizingMaskLayoutConstraints that you don't understand, refer to the documentation
+        //         for the UIView property translatesAutoresizingMaskIntoConstraints)
+
         if controlViewCorners.isEmpty {
             NSLog("PGLRectangleController does not have cornerRects...")
         }
@@ -135,7 +141,7 @@ class PGLRectangleController: UIViewController {
     func setCorners(isHidden: Bool) {
         for aCornerView in controlViewCorners {
             aCornerView?.isHidden = isHidden
-            NSLog("PGLRectangleController #setCorners \(isHidden) on \(aCornerView)")
+            NSLog("PGLRectangleController #setCorners \(isHidden) on \(String(describing: aCornerView))")
         }
     }
 

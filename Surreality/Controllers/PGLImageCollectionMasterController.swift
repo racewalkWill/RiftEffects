@@ -482,7 +482,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
                 NSLog( "PGLImageCollectionMasterController configureDataSource fatalError(failed to create a new cell")
                 return nil
             }
-            return nil
+
         }
 
         // initial data

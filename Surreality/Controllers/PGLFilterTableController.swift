@@ -219,7 +219,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
     func updateFilterLabel()  {
         // some overlap with the configureCell...
         if stackData() != nil {
-        let thisStack = stackData()!
+        _ = stackData()!
 //        filterNumberLabel.text = thisStack.filterNumLabel()
 
 //        categoryPicked = stackData()?.currentFilterPosition().categoryIndex ?? 0
