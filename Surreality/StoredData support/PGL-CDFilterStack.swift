@@ -447,6 +447,10 @@ extension PGLFilterAttributeImage {
                     NSLog("The userSaveErrorAlert alert occured.")
                     }))
                     alert.present(alert, animated: true, completion: nil)
+                    //MARK: issue
+                    // alert needs a viewController
+//                    see  guard let myStack = firstStack() else { return }
+//                    myStack.coreDataErrorAlert(alert: alert)
                     }
                 return
             }
@@ -548,10 +552,8 @@ extension PGLAppStack {
                 self.userSaveErrorAlert(withError: error)
             }
 
-            // fatalError(error.localizedDescription) }
             }
-        // now restore the filter's image inputs after the save
-        // start the display timer again
+
 
       // now restore all the cached input images
         if let initialStack = firstStack() {
@@ -563,11 +565,13 @@ extension PGLAppStack {
 
 
     func userSaveErrorAlert(withError: Error) {
-        let alert = UIAlertController(title: "Save Error", message: "Save action had the error \(withError.localizedDescription)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Save Error", message: "Action error '\(withError.localizedDescription) '. Retry with 'Save As'", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
         NSLog("The userSaveErrorAlert alert occured.")
         }))
-        alert.present(alert, animated: true, completion: nil)
+//        alert.present(alert, animated: true, completion: nil)
+        guard let myStack = firstStack() else { return }
+            myStack.coreDataErrorAlert(alert: alert)
     }
 
     func setToNewStack() {
@@ -577,19 +581,21 @@ extension PGLAppStack {
     }
 
     func saveStack(metalRender: Renderer) {
-        let targetStack = firstStack()!
+
         NSLog("PGLAppStack #saveStack start")
         let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
         serialQueue.async {
+            let targetStack = self.firstStack()!
             NSLog("PGLAppStack #saveStack serialQueue execution start")
             DoNotDrawWhileSave = true
+            defer { DoNotDrawWhileSave = false } // executes at the end of this function
             if targetStack.shouldExportToPhotos {
                self.saveToPhotosLibrary(stack: targetStack, metalRender: metalRender)
                // call first so the albumIdentifier can be stored
             }
            NSLog("PGLAppStack #saveStack calls writeCDStacks")
             self.writeCDStacks()
-            DoNotDrawWhileSave = false
+
         }
     }
 
@@ -633,7 +639,8 @@ extension PGLAppStack {
                // Add the asset to the photo library
                 // album name may not be entered or used if limited photo library access
 
-                      PHPhotoLibrary.shared().performChanges({
+            do { try PHPhotoLibrary.shared().performChangesAndWait( {
+
                           let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
                             NSLog("PGLAppStack #saveToPhotosLibrary AssetChangeRequest = \(creationRequest)")
                        // either get or create the target album
@@ -654,11 +661,10 @@ extension PGLAppStack {
                         }
                        }
 
-                      }, completionHandler: {success, error in
-                        if success { NSLog("PGLAppStack #saveToPhotosLibrary success result") }
-                            else { NSLog("PGLAppStack #saveToPhotosLibrary Error creating the asset: \(String(describing: error))") }
-                      })
-            } // exportAlbumName != nil
+                      } )
+            } catch  { userSaveErrorAlert(withError: error)}
+
+        }
 
 
            }

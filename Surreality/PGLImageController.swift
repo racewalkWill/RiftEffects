@@ -402,7 +402,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             if let userDataDict = myUpdate.userInfo {
                 if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
                     // put the new names into the stack
-                    let targetStack = self.appStack.outputFilterStack()
+                    guard let targetStack = self.appStack.firstStack()
+                        else { return }
                     targetStack.stackName = userValues.stackName!
                     targetStack.stackType = userValues.stackType!
                     targetStack.exportAlbumName = userValues.albumName

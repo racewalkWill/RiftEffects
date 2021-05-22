@@ -730,7 +730,7 @@ class PGLFilterStack  {
            // store starting from the top level
            // each stack will write in turn as it is referenced
            // do not need to iterate the collection
-
+        // called by saveHEIFToPhotols
            let moContext = PersistentContainer.viewContext
 
        _ = self.writeCDStack()
@@ -739,26 +739,49 @@ class PGLFilterStack  {
        do { try moContext.save()
            NSLog("PGLAppStack #writeCDStacks save called")
            } catch {
+            NSLog("writeCDStacks error alert: \(error.localizedDescription)")
             DispatchQueue.main.async {
                 // put back on the main UI loop for the user alert
-                let alert = UIAlertController(title: "Data Store Error", message: "PGLFilterStack writeCDStacks() \(error.localizedDescription)", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Data Store Error", message: "PGLFilterStack writeCDStacks() \(error.localizedDescription). Try again using the 'Save As' choice", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("The writeCDStacks error alert occured.")
+
                 }))
-                alert.present(alert, animated: true, completion: nil)
+                NSLog("writeCDStacks error calling alert on open viewController ")
+                self.coreDataErrorAlert(alert: alert)
+
             }
            }
                }
 
        }
 
+    func coreDataErrorAlert(alert: UIAlertController) {
+        // presents an alert on top of the open viewController
+        // informs user to try again with 'Save As'
+        guard let lastWindow = UIApplication.shared.windows.last
+        else { return
+                // no way out of this problem !!
+        }
+        var parentController = lastWindow.rootViewController
+        while (parentController?.presentedViewController != nil &&
+                parentController != parentController!.presentedViewController) {
+                    parentController = parentController!.presentedViewController
+                    }
+        NSLog("coreDataErrorAlert with viewController \(String(describing: parentController)) ")
+        parentController?.present(alert, animated: true )
+
+
+    }
+
     func saveStackImage()  {
+        // TEST method for saving... not called from the UI
+
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
         DoNotDrawWhileSave = true
            _ = self.saveToPhotosLibrary(stack: self)
-        DoNotDrawWhileSave = false
+        do { DoNotDrawWhileSave = false } // executes at the end of this function
 
 //        }
     }
