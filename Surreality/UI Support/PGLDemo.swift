@@ -101,7 +101,8 @@ class PGLDemo {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                 NSLog("The userSaveErrorAlert alert occured.")
                 }))
-                alert.present(alert, animated: true, completion: nil)
+                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                myAppDelegate.displayUser(alert: alert)
             }
             return
         }

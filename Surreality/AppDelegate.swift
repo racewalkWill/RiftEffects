@@ -77,7 +77,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    //Mark: Error Alert
 
+
+
+    func displayUser(alert: UIAlertController) {
+        // presents an alert on top of the open viewController
+        // informs user to try again with 'Save As'
+        guard let lastWindow = UIApplication.shared.windows.last
+        else { return
+                // no way out of this problem !!
+        }
+        var parentController = lastWindow.rootViewController
+        while (parentController?.presentedViewController != nil &&
+                parentController != parentController!.presentedViewController) {
+                    parentController = parentController!.presentedViewController
+                    }
+        NSLog("coreDataErrorAlert with viewController \(String(describing: parentController)) ")
+        parentController?.present(alert, animated: true )
+
+
+    }
 
 
 }

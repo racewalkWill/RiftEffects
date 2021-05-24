@@ -109,7 +109,8 @@ class PGLCategorySurvey: XCTestCase {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                 NSLog("The userSaveErrorAlert alert occured.")
                 }))
-                alert.present(alert, animated: true, completion: nil)
+                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                myAppDelegate.displayUser(alert: alert)
             }
             return
         }
@@ -346,7 +347,7 @@ class PGLCategorySurvey: XCTestCase {
                 guard let thisAttribute = newFilter!.attribute(nameKey: anImageAttributeName) else { continue }
                 setInputTo(imageParm: thisAttribute) // the six images from favorites
             }
-            NSLog("testSelectedMultipleInputTransitionFilters appending filter: \(newFilter!.filterName)")
+            NSLog("testSelectedMultipleInputTransitionFilters appending filter: \(String(describing: newFilter!.filterName))")
             testFilterStack.append(newFilter!)
             // check each filter added
             let stackResultImage = testFilterStack.stackOutputImage(false)

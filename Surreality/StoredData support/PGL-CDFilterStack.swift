@@ -43,7 +43,8 @@ var PersistentContainer: NSPersistentContainer = {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                 NSLog("The userSaveErrorAlert alert occured.")
                 }))
-                alert.present(alert, animated: true, completion: nil)
+                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                myAppDelegate.displayUser(alert: alert)
             }
            }
        })
@@ -123,7 +124,8 @@ extension PGLFilterStack {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                 NSLog("The userSaveErrorAlert alert occured.")
                 }))
-                alert.present(alert, animated: true, completion: nil)
+                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                myAppDelegate.displayUser(alert: alert)
                 }
             }
 
@@ -448,11 +450,8 @@ extension PGLFilterAttributeImage {
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                     NSLog("The userSaveErrorAlert alert occured.")
                     }))
-                    alert.present(alert, animated: true, completion: nil)
-                    //MARK: issue
-                    // alert needs a viewController
-//                    see  guard let myStack = firstStack() else { return }
-//                    myStack.coreDataErrorAlert(alert: alert)
+                    let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                    myAppDelegate.displayUser(alert: alert)
                     }
                 return
             }
@@ -473,7 +472,8 @@ extension PGLFilterAttributeImage {
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                     NSLog("The userSaveErrorAlert alert occured.")
                     }))
-                    alert.present(alert, animated: true, completion: nil)
+                    let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                    myAppDelegate.displayUser(alert: alert)
                     }
                 return
             }
@@ -578,9 +578,9 @@ extension PGLAppStack {
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
         NSLog("The userSaveErrorAlert alert occured.")
         }))
-//        alert.present(alert, animated: true, completion: nil)
-        guard let myStack = firstStack() else { return }
-            myStack.coreDataErrorAlert(alert: alert)
+
+        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+        myAppDelegate.displayUser(alert: alert)
     }
 
     func setToNewStack() {
