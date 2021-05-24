@@ -228,7 +228,7 @@ class PGLCategorySurvey: XCTestCase {
             else { testFilterStack.exportAlbumName = nil }
             // set the stack with the title, type, exportAlbum for save
             NSLog("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
-            testFilterStack.saveStackImage()
+            testFilterStack.saveTestStackImage()
            // confirm that output is saved and the coreData has saved
 
             category1Index += 1
@@ -288,7 +288,7 @@ class PGLCategorySurvey: XCTestCase {
 
                 // set the stack with the title, type, exportAlbum for save
                 NSLog("PGLCategorySurvey #testMultipleInputTransitionFilters at groups \(i)  \(testFilterStack.stackName)")
-                testFilterStack.saveStackImage()
+                testFilterStack.saveTestStackImage()
                // confirm that output is saved and the coreData has saved
 
                 category1Index += 1
@@ -363,7 +363,7 @@ class PGLCategorySurvey: XCTestCase {
         else { testFilterStack.exportAlbumName = nil }
             // sets the stack with the title, type, exportAlbum for save
 
-        testFilterStack.saveStackImage()
+        testFilterStack.saveTestStackImage()
        // confirm that output is saved and the coreData has saved
 
 
@@ -431,7 +431,7 @@ class PGLCategorySurvey: XCTestCase {
             else { testFilterStack.exportAlbumName = nil }
                // set the stack with the title, type, exportAlbum for save
                NSLog("PGLCategorySurvey #testiOS13Filters  \(testFilterStack.stackName)")
-                testFilterStack.saveStackImage()
+                testFilterStack.saveTestStackImage()
                // confirm that output is saved and the coreData has saved
         }
 
@@ -509,7 +509,7 @@ class PGLCategorySurvey: XCTestCase {
 
                // set the stack with the title, type, exportAlbum for save
                NSLog("PGLCategorySurvey #testCompositeChildStack  \(testFilterStack.stackName)")
-              testFilterStack.saveStackImage()
+              testFilterStack.saveTestStackImage()
   // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
 //               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
 
@@ -593,7 +593,7 @@ class PGLCategorySurvey: XCTestCase {
 
                // set the stack with the title, type, exportAlbum for save
                NSLog("PGLCategorySurvey #testTransitionChildStacks  \(testFilterStack.stackName)")
-              testFilterStack.saveStackImage()
+              testFilterStack.saveTestStackImage()
   // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
 //               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
 
@@ -688,7 +688,7 @@ class PGLCategorySurvey: XCTestCase {
                 else { testFilterStack.exportAlbumName = nil }
                    // set the stack with the title, type, exportAlbum for save
                    NSLog("PGLCategorySurvey #testSelectedFilters  \(testFilterStack.stackName)")
-                    testFilterStack.saveStackImage()
+                    testFilterStack.saveTestStackImage()
                // confirm that output is saved and the coreData has saved
             }
 

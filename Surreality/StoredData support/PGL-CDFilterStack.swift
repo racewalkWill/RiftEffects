@@ -103,33 +103,34 @@ extension PGLFilterStack {
 
     func readCDStack(titled: String, createdDate: Date){
 
+//        PersistentContainer.performBackgroundTask() { (moContext ) in
+            let moContext = PersistentContainer.viewContext
+            let request =  NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
+            // assume we are reading by title
+            let titlePredicate = NSPredicate(format: "title == %@", titled)
+            let datePredicate = NSPredicate(format: "created == %@", createdDate as CVarArg)
+    //        let sortFiltersPredicate = NSSortDescriptor(key: #keyPath(CDFilterStack.filters.stackPosition), ascending: true)
+            request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
+            request.fetchLimit = 1
+    //        request.sortDescriptors = [sortFiltersPredicate]
 
-        let moContext = PersistentContainer.viewContext
-        let request =  NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
-        // assume we are reading by title
-        let titlePredicate = NSPredicate(format: "title == %@", titled)
-        let datePredicate = NSPredicate(format: "created == %@", createdDate as CVarArg)
-//        let sortFiltersPredicate = NSSortDescriptor(key: #keyPath(CDFilterStack.filters.stackPosition), ascending: true)
-        request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
-        request.fetchLimit = 1
-//        request.sortDescriptors = [sortFiltersPredicate]
+            var readResults: [CDFilterStack]!
+            do {  readResults = try moContext.fetch(request) }
+            catch {  DispatchQueue.main.async {
+                // put back on the main UI loop for the user alert
+                let alert = UIAlertController(title: "Data Read Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
 
-        var readResults: [CDFilterStack]!
-        do {  readResults = try moContext.fetch(request) }
-        catch {  DispatchQueue.main.async {
-            // put back on the main UI loop for the user alert
-            let alert = UIAlertController(title: "Data Read Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
-
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-            NSLog("The userSaveErrorAlert alert occured.")
-            }))
-            alert.present(alert, animated: true, completion: nil)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("The userSaveErrorAlert alert occured.")
+                }))
+                alert.present(alert, animated: true, completion: nil)
+                }
             }
-        }
 
-        if let aCDStack = readResults.first {
-            on(cdStack: aCDStack)
-        }
+            if let aCDStack = readResults.first {
+                self.on(cdStack: aCDStack)
+            }
+//        }
     }
 
     func setToNewStack() {
@@ -140,10 +141,10 @@ extension PGLFilterStack {
         }
         storedStack = nil
     }
-    func writeCDStack() -> CDFilterStack {
+    func writeCDStack(moContext: NSManagedObjectContext) -> CDFilterStack {
         NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
 
-        let moContext = PersistentContainer.viewContext
+//        let moContext = PersistentContainer.viewContext
 
             if (storedStack == nil ) { // new stack needed
                 storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
@@ -161,7 +162,7 @@ extension PGLFilterStack {
             for filterIndex in 0..<activeFilters.count {
                 let aFilter = activeFilters[filterIndex]
                 if aFilter.storedFilter == nil {
-                    let theFilterStoredObject = aFilter.createCDFilterObject(stackPosition: Int16(filterIndex))
+                    let theFilterStoredObject = aFilter.createCDFilterObject(moContext: moContext, stackPosition: Int16(filterIndex))
                     // moves images to cache to reduce storage
                     // does not need to add if the filter exists in the relation already
                     // storedStack?.addToFilters(theFilterStoredObject)
@@ -181,7 +182,7 @@ extension PGLFilterStack {
                         storedStack?.addToFilters(aFilter.storedFilter!)
                     }
                 }
-                aFilter.writeFilter() // handles imageparms move to cache etc..
+                aFilter.writeFilter(moContext: moContext) // handles imageparms move to cache etc..
 
 
             }
@@ -199,9 +200,11 @@ extension PGLFilterStack {
     func delete() {
         // delete this stack from the data store
 
+//        PersistentContainer.performBackgroundTask() { (moContext ) in
         let moContext = PersistentContainer.viewContext
-        if storedStack != nil {
-            moContext.delete(storedStack!)
+            if self.storedStack != nil {
+                moContext.delete(self.storedStack!)
+//        }
         }
 
     }
@@ -261,39 +264,38 @@ extension PGLSourceFilter {
 
     }
 
-    func createCDFilterObject(stackPosition: Int16) -> CDStoredFilter {
+    func createCDFilterObject(moContext: NSManagedObjectContext, stackPosition: Int16) -> CDStoredFilter {
         // create cdFilter object
         // do not store filter image inputs in the CoreData..
         // saves storage memory - the localId will be saved and used to restore inputs
         // pglImageParms will handle the localId
 
         // get dictionary of attribute name and the current value in the filter
-        let moContext = PersistentContainer.viewContext
 
-        if storedFilter == nil {
-            NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(String(describing: filterName))")
-            storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
+//        let moContext = PersistentContainer.viewContext
 
+            if storedFilter == nil {
+                NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(String(describing: filterName))")
+                storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
 
+            }
+            storedFilter?.stackPosition = stackPosition
+            storedFilter!.ciFilter = self.localFilter
+            storedFilter!.ciFilterName = self.filterName
+            storedFilter!.pglSourceFilterClass = self.classStringName()
 
-            
-        }
-        storedFilter?.stackPosition = stackPosition
-        storedFilter!.ciFilter = self.localFilter
-        storedFilter!.ciFilterName = self.filterName
-        storedFilter!.pglSourceFilterClass = self.classStringName()
+            return storedFilter!
+            // moContext save at the stack save
 
-        return storedFilter!
-        // moContext save at the stack save
     }
 
-    func writeFilter() {
+    func writeFilter(moContext: NSManagedObjectContext) {
         // prepare image cache
         // create imageList
         // assumes createCDFilterObject has created the storedFilter if needed
 //        NSLog("PGLSourceFilter #writeFilter filter \(String(describing: filterName))")
         imageInputCache = moveImageInputsToCache()
-        createCDImageList() // creates for all the input parms
+        createCDImageList(moContext: moContext) // creates for all the input parms
 
     }
 
@@ -357,7 +359,7 @@ extension PGLSourceFilter {
         }
 
     }
-    func createCDImageList() {
+    func createCDImageList(moContext: NSManagedObjectContext) {
         // 4EntityModel
         // create new CDImageList for every parm
 
@@ -366,7 +368,7 @@ extension PGLSourceFilter {
 
         if let myImageParms = imageParms() {
             for anImageParm in myImageParms {
-                anImageParm.createNewCDImageParm()
+                anImageParm.createNewCDImageParm(moContext: moContext)
                  // creates where relationship does not exist
             }
         }
@@ -431,10 +433,10 @@ extension PGLFilterAttributeImage {
         }
     }
 
-    func createNewCDImageParm() {
+    func createNewCDImageParm(moContext: NSManagedObjectContext) {
         // 4EntityModel
 //        NSLog("PGLFilterAttributeImage #createNewCDImageParm filter \(String(describing: attributeName ))")
-        let moContext = PersistentContainer.viewContext
+//        let moContext = PersistentContainer.viewContext
 
         if self.storedParmImage == nil {
             guard let newCDImageParm =  NSEntityDescription.insertNewObject(forEntityName: "CDParmImage", into: moContext) as? CDParmImage
@@ -486,7 +488,7 @@ extension PGLFilterAttributeImage {
             // a child stack exists
             if self.storedParmImage?.inputStack == nil {
                 // create a cdFilterStack for the child stack input to the parm
-                if let childCDStack = self.inputStack?.writeCDStack() {
+                if let childCDStack = self.inputStack?.writeCDStack(moContext: moContext) {
                     self.storedParmImage?.inputStack = childCDStack
                 }
                     // store the relationship
@@ -523,7 +525,7 @@ extension PGLAppStack {
         // removes unsaved changes from the NSManagedObjectContext
         let moContext = PersistentContainer.viewContext
         moContext.rollback()
-            // is this overkill.. just rollback the current stack??
+
     }
 
     func writeCDStacks(){
@@ -534,16 +536,23 @@ extension PGLAppStack {
         // stop the display timer while writing the stacks to core data
         // filter image inputs are nil for core data then restored on completion
         
+
+//    PersistentContainer.performBackgroundTask() { (moContext ) in
         let moContext = PersistentContainer.viewContext
-
-        if let initialStack = firstStack() {
-
-         _ = initialStack.writeCDStack()
+        if let initialStack = self.firstStack() {
+         _ = initialStack.writeCDStack(moContext: moContext)
             // filter images are moved to a cache before the save
-        }
+//        do {
+//                try  moContext.save()  // saves to parent viewContext
+//            }
+//            catch { self.userSaveErrorAlert(withError: error)}
+////        }
+    }
 
-    if moContext.hasChanges {
-    do { try moContext.save()
+    let viewMoContext = PersistentContainer.viewContext
+    if viewMoContext.hasChanges {
+    do {
+        try viewMoContext.save() // this parent context saves to the db
         NSLog("PGLAppStack #writeCDStacks save called")
         } catch {
             NSLog("moContext.save error \(error.localizedDescription)")
@@ -577,14 +586,17 @@ extension PGLAppStack {
     func setToNewStack() {
         // save as.. command..
         // reset core data vars to nil for save as new records
-        firstStack()?.setToNewStack()
+        rollbackStack() // discards any coredata changes
+            // or update to persistant state
+
+        firstStack()?.setToNewStack() // create new
     }
 
     func saveStack(metalRender: Renderer) {
 
         NSLog("PGLAppStack #saveStack start")
-        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
-        serialQueue.async {
+//        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
+//        serialQueue.async {
             let targetStack = self.firstStack()!
             NSLog("PGLAppStack #saveStack serialQueue execution start")
             DoNotDrawWhileSave = true
@@ -592,11 +604,12 @@ extension PGLAppStack {
             if targetStack.shouldExportToPhotos {
                self.saveToPhotosLibrary(stack: targetStack, metalRender: metalRender)
                // call first so the albumIdentifier can be stored
+                // does a performChangesAndWait  sync
             }
            NSLog("PGLAppStack #saveStack calls writeCDStacks")
             self.writeCDStacks()
 
-        }
+//        }
     }
 
     func saveToPhotosLibrary( stack: PGLFilterStack, metalRender: Renderer ) {

@@ -726,14 +726,17 @@ class PGLFilterStack  {
    
 // MARK: Save Image
 
-    func writeCDStacks(){
+    func writeTestCDStacks(){
+        // TEST method for saving... not called from the UI
+        // called from saveStackImage
            // store starting from the top level
            // each stack will write in turn as it is referenced
            // do not need to iterate the collection
         // called by saveHEIFToPhotols
            let moContext = PersistentContainer.viewContext
+        // NOT background execution in the testing methods
 
-       _ = self.writeCDStack()
+       _ = self.writeCDStack(moContext: moContext)
 
        if moContext.hasChanges {
        do { try moContext.save()
@@ -774,19 +777,19 @@ class PGLFilterStack  {
 
     }
 
-    func saveStackImage()  {
+    func saveTestStackImage()  {
         // TEST method for saving... not called from the UI
 
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
         DoNotDrawWhileSave = true
-           _ = self.saveToPhotosLibrary(stack: self)
+           _ = self.saveTestToPhotosLibrary(stack: self)
         do { DoNotDrawWhileSave = false } // executes at the end of this function
 
 //        }
     }
 
-    func saveToPhotosLibrary( stack: PGLFilterStack )   -> Bool {
+    func saveTestToPhotosLibrary( stack: PGLFilterStack )   -> Bool {
                       // check if the album exists..) {
                // save the output of this stack to the photos library
                                // Create a new album with the entered title.
@@ -816,16 +819,16 @@ class PGLFilterStack  {
                    }
                }
 
-               return self.saveHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack)
+               return self.saveTestHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack)
 
 
     }
 
-    func saveHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) -> Bool {
+    func saveTestHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) -> Bool {
 //        if let heifImageData = PGLOffScreenRender().getOffScreenHEIF(filterStack: stack) {
         if self.exportAlbumName == nil {
             // don't export to photo lib if no album name
-            self.writeCDStacks()
+            self.writeTestCDStacks()
             return true
         }
         guard let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack)
@@ -853,7 +856,7 @@ class PGLFilterStack  {
 
         })
           {  // savedOk = true
-            self.writeCDStacks()
+            self.writeTestCDStacks()
             return true }
         else { return false }
 
