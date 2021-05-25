@@ -325,27 +325,24 @@ class PGLFilterStack  {
         
         for anImageKey in otherKeys{
             if oldFilter.imageInputAttributeKeys.contains(anImageKey) {
-                let inputAttribute = oldFilter.attribute(nameKey: anImageKey)
+                guard let inputAttribute = oldFilter.attribute(nameKey: anImageKey)
+                else { return }
+                guard let newAttribute = newFilter.attribute(nameKey: anImageKey)
+                else { return }
+
                 if let oldValue = oldFilter.localFilter.value(forKey: anImageKey) as? CIImage
-                {newFilter.setImageValue(newValue: oldValue, keyName: anImageKey)
-                let newAttribute = newFilter.attribute(nameKey: anImageKey)
-                    if let oldInputCollection = inputAttribute?.inputCollection {
-                        newAttribute?.inputCollection = oldInputCollection
-                        newAttribute?.setTargetAttributeOfUserAssetCollection()
-                        newAttribute?.setImageParmState(newState: ImageParm.inputPhoto)
-                        // this setting of inputCollection
-                        // does NOT setup clones
-                        // therefore it does not call
-                        // setImageCollectionInput
+                    {newFilter.setImageValue(newValue: oldValue, keyName: anImageKey)
 
-                    }
-                    
-                if let oldSource = oldFilter.getSourceFilterLocation(attributeKey: kCIInputImageKey)
-                    { newFilter.setSourceFilter(sourceLocation: oldSource, attributeKey: kCIInputImageKey) }
-                     let oldSourceDescription = oldFilter.sourceDescription(attributeKey: anImageKey)
-                        // sourceDescription is always string - could be "blank" string
-                    newFilter.setSource(description: oldSourceDescription, attributeKey: anImageKey)
-
+                newAttribute.inputCollection = inputAttribute.inputCollection
+                newAttribute.setTargetAttributeOfUserAssetCollection()
+                newAttribute.setImageParmState(newState: inputAttribute.inputParmType() )
+                newAttribute.inputStack = inputAttribute.inputStack
+                newAttribute.inputSource = inputAttribute.inputSource
+                newAttribute.inputSourceDescription = inputAttribute.inputSourceDescription
+                // this setting of inputCollection
+                // does NOT setup clones
+                // therefore it does not call
+                // setImageCollectionInput
                 }
             }
             
