@@ -165,10 +165,11 @@ class PGLDemo {
             firstRandomFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
             addFiltersTo(stack: targetStack)
 
-            targetStack.stackName = firstRandomFilter.filterName + "+ various filters"
+            targetStack.stackName = "Random Favorites"
+                //was  firstRandomFilter.filterName + "+ various filters"
             targetStack.stackType = "multipleInputTransitionFilters"
             if saveOutputToPhotoLib {
-                targetStack.exportAlbumName = "testMultipleInputTransitionFilters" }
+                targetStack.exportAlbumName = "Random" }
             else { targetStack.exportAlbumName = nil }
 
             // set the stack with the title, type, exportAlbum for save

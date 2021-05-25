@@ -48,7 +48,7 @@ class PGLFilterStack  {
     var activeFilterIndex = 0
 
 
-    var stackName:String = "FilterStack"  // Date().description(with: Locale.current)
+    var stackName:String = "new..."  // Date().description(with: Locale.current)
     var parentAttribute: PGLFilterAttribute?
 
 //    var parentStack: PGLFilterStack?

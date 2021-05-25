@@ -87,9 +87,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     @IBOutlet weak var moreBtn: UIBarButtonItem!
 
 
-
-
-
     // MARK: save btn Actions
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
@@ -101,6 +98,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         saveDialogController.doSaveAs = false
         presentSaveDialog(saveDialogController: saveDialogController)
 
+        updateNavigationBar()
+
     }
 
     func saveStackAsActionBtn(_ sender: UIBarButtonItem) {
@@ -111,6 +110,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         }
         saveDialogController.doSaveAs = true
         presentSaveDialog(saveDialogController: saveDialogController)
+
+
 
     }
 
@@ -204,6 +205,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                     let newStack = PGLFilterStack()
 
                     self.appStack.resetToTopStack(newStack: newStack)
+
+                    self.updateNavigationBar()
             // next back out of the parm controller since the filter is removed
 
             if ( self.parmController?.isViewLoaded ?? false ) {
@@ -299,7 +302,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     func updateNavigationBar() {
-
+        self.navigationItem.title = self.appStack.firstStack()?.stackName
+        setNeedsStatusBarAppearanceUpdate()
     }
 
 
@@ -355,6 +359,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
 //            NSLog("PGLImageController  notificationBlock PGLStackChange")
+
+
             self.updateNavigationBar()
             self.hideParmControls()
 
@@ -414,7 +420,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                         // save stack will create a utility queue to execute.. but should not
                         // kill the utility queue process when this notification callback process ends.
 //                    }
-
+                    self.updateNavigationBar()
                 }
             }
         }
