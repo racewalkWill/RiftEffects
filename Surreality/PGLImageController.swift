@@ -86,6 +86,43 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     
     @IBOutlet weak var moreBtn: UIBarButtonItem!
 
+    @IBOutlet weak var randomBtn: UIBarButtonItem! {
+        didSet{
+            if isLimitedPhotoLibAccess() {
+                randomBtn.isEnabled = false
+                // if user changes privacy settings then the view is reloaded
+                // and the button is enabled.. without quitting the app
+                }
+            }
+    }
+
+
+    @IBAction func randomBtnAction(_ sender: UIBarButtonItem) {
+        NSLog("PGLImageController addRandom button click")
+        let setInputToPrior = appStack.viewerStack.stackHasFilter()
+
+        let demoGenerator = PGLDemo()
+//        appStack.removeDefaultEmptyFilter()
+        demoGenerator.appStack = appStack // pass on the stacks
+        let startingDemoFilter = demoGenerator.multipleInputTransitionFilters()
+
+        appStack.viewerStack.activeFilterIndex = 0
+        if setInputToPrior {
+            startingDemoFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+        }
+        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+            // show the new results !
+        showStackControllerAction()
+
+    }
+
+    func showStackControllerAction() {
+        // other part of split should navigate back to the stack controller
+        // after the Random button is clicked
+        let goToStack = Notification(name: PGLLoadedDataStack)
+        NotificationCenter.default.post(goToStack)
+
+    }
 
     // MARK: save btn Actions
 

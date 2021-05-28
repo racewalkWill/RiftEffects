@@ -118,9 +118,20 @@ class PGLDemo {
             // may be limited access to photo lib
             return
         }
-        while selectedAssets.count <= allowedAssetCount {
+
+        // ensure an image is only picked once.
+        var pickedIndexes = [Int]()
+        let maxLoopCount = allowedAssetCount * 2
+            // stop at some point
+        var whileLoopCount = 0
+        while (selectedAssets.count <= allowedAssetCount) && (whileLoopCount <= maxLoopCount) {
             let randomIndex = Int.random(in: 0 ..< maxIndex)
+            if pickedIndexes.contains(randomIndex) {
+                // skip to next  loop for new random
+                continue }
+            pickedIndexes.append(randomIndex)
             selectedAssets.append(favoriteAssets![randomIndex])
+            whileLoopCount += 1
         }
 
         let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
@@ -167,7 +178,7 @@ class PGLDemo {
 
             targetStack.stackName = "Random Favorites"
                 //was  firstRandomFilter.filterName + "+ various filters"
-            targetStack.stackType = "multipleInputTransitionFilters"
+            targetStack.stackType = targetStack.stackName
             if saveOutputToPhotoLib {
                 targetStack.exportAlbumName = "Random" }
             else { targetStack.exportAlbumName = nil }

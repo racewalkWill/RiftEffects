@@ -423,6 +423,11 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="EUH-a9-le3"/>
+                            <barButtonItem title="Random" id="q7I-R2-kMZ">
+                                <connections>
+                                    <action selector="randomBtnAction:" destination="Cot-0o-SSg" id="sMR-Ym-NUO"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -432,6 +437,7 @@
                         <outlet property="leftTintView" destination="wa4-VM-jqe" id="Ad7-Kr-gKI"/>
                         <outlet property="moreBtn" destination="EUH-a9-le3" id="zCC-Ct-vgG"/>
                         <outlet property="parmSlider" destination="zCg-lU-rqI" id="iU8-Va-3cX"/>
+                        <outlet property="randomBtn" destination="q7I-R2-kMZ" id="wnG-Ih-ZAj"/>
                         <outlet property="rightTintView" destination="6Ki-pV-gkl" id="pC4-6T-dRi"/>
                         <outlet property="topTintView" destination="WIG-ES-l8C" id="4WK-Ii-zR6"/>
                         <outletCollection property="sliders" destination="xpj-gS-MzU" collectionClass="NSMutableArray" id="DVW-U3-NZP"/>
@@ -1021,11 +1027,11 @@
                                 <rect key="frame" x="0.0" y="24.5" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yOX-Yb-noN" id="KAe-B8-bgl">
-                                    <rect key="frame" x="0.0" y="0.0" width="525.5" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="496" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jaH-Rx-fdN">
-                                            <rect key="frame" x="16" y="0.0" width="501.5" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="473" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -1045,22 +1051,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="KJJ-kt-Vuh">
-                        <leftBarButtonItems>
-                            <barButtonItem systemItem="add" id="nc0-tH-Wbu">
-                                <connections>
-                                    <action selector="addFilter:" destination="dDm-tJ-e98" id="s8d-dr-G0S"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Random" id="QGl-L3-hpk" userLabel="Random">
-                                <connections>
-                                    <action selector="addRandom:" destination="dDm-tJ-e98" id="wSi-Ge-D7b"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="nc0-tH-Wbu">
+                            <connections>
+                                <action selector="addFilter:" destination="dDm-tJ-e98" id="s8d-dr-G0S"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="randomBtn" destination="QGl-L3-hpk" id="UgY-IT-hX7"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htE-YV-6eQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="7Bl-Rc-WWJ">

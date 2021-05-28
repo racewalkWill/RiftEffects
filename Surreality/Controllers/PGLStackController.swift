@@ -314,14 +314,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         }
     }
 
-    @IBOutlet weak var randomBtn: UIBarButtonItem! { didSet{
-        if isLimitedPhotoLibAccess() {
-            randomBtn.isEnabled = false
-            // if user changes privacy settings then the view is reloaded
-            // and the button is enabled.. without quitting the app
-        }
-        }
-    }
+
 
     @IBAction func addFilter(_ sender: UIBarButtonItem) {
         // hideParmControls()
@@ -332,25 +325,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             // chooses new filter
     }
 
-    @IBAction func addRandom(_ sender: UIBarButtonItem) {
-        NSLog("PGLStackController addRandom button click")
-        let setInputToPrior = appStack.viewerStack.stackHasFilter()
 
-        let demoGenerator = PGLDemo()
-//        appStack.removeDefaultEmptyFilter()
-        demoGenerator.appStack = appStack // pass on the stacks
-        let startingDemoFilter = demoGenerator.multipleInputTransitionFilters()
-
-        appStack.viewerStack.activeFilterIndex = 0
-        if setInputToPrior {
-            startingDemoFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
-        }
-        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
-            // show the new results !
-
-        self.updateDisplay()
-       
-    }
 
     // MARK: - LongPressGestures
     func setLongPressGesture() {

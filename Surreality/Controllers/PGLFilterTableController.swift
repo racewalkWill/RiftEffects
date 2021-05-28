@@ -77,7 +77,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
         //            updateSelectedButtons()
         navigationItem.title = "Filters" //thisStack.stackName
         
-    tableView.register(UITableViewHeaderFooterView.self,
+        tableView.register(UITableViewHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: "HeaderRenderer")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
@@ -88,7 +88,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
             self.navigationController?.popViewController(animated: true)
 
         }
-        
+
  
     }
 
