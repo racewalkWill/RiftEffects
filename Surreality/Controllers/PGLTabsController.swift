@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PGLTabsController: UITabBarController {
     // coordinates the parm settings controller and the filter view manager
     // provides the current filter to the parms view.
@@ -21,7 +22,7 @@ let parmsViewMgrIndex = 1
         super.viewDidLoad()
         // set the viewFilter
         // pass the filter object into the two tabs
-        NSLog("PGLParmsFilterTabsController->viewDidLoad has viewControllers = \(String(describing: viewControllers))")
+//        NSLog("PGLParmsFilterTabsController->viewDidLoad has viewControllers = \(String(describing: viewControllers))")
         // viewControllers now has navigationControllers that contain the FilterViewManager and ParmTableViewController
 //        let filterViewMgr = viewControllers?[filterViewMgrIndex] as! PGLFilterViewManager
 //        let parmViewMgr = viewControllers?[parmsViewMgrIndex] as! PGLParmTableViewController
@@ -46,7 +47,7 @@ let parmsViewMgrIndex = 1
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        NSLog("PGLParmsFilterTabsController prepare for segue \(String(describing: segue.identifier)) ")
+//        NSLog("PGLParmsFilterTabsController prepare for segue \(String(describing: segue.identifier)) ")
 //         Get the new view controller using segue.destinationViewController.
 //         Pass the selected object to the new view controller.
     }

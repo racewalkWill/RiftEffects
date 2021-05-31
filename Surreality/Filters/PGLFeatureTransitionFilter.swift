@@ -11,6 +11,7 @@ import UIKit
 
 import CoreImage
 import simd
+import os
 
 class PGLFeatureTransitionFilter: PGLTransitionFilter {
 
@@ -79,7 +80,7 @@ class PGLBumpTransitionFilter: PGLFeatureTransitionFilter {
         detectorFilter = DetectorFramework.Active.init(ciFilter:  PGLBumpFaceCIFilter() )
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
                    else {
-                NSLog("PGLBumpTransitionFilter init did not load AppDelegate")
+                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLBumpTransitionFilter init did not load AppDelegate")
                 return
         }
                guard let appStack = myAppDelegate.appStack
@@ -103,7 +104,7 @@ class PGLFaceTransitionFilter: PGLFeatureTransitionFilter {
         detectorFilter = DetectorFramework.Active.init(ciFilter:  PGLFaceCIFilter() )
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
-            NSLog("PGLFaceTransitionFilter init did not load AppDelegate")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLFaceTransitionFilter init did not load AppDelegate")
             return
         }
         guard let appStack = myAppDelegate.appStack
@@ -179,7 +180,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
         // get the new input from the internal filter
         // pass to the detector
         // set up images for dissolve source and target
-        NSLog("PGLDissolveWrapperFilter #increment")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLDissolveWrapperFilter #increment")
         // needs work .. increment is an attribute message
         // goes to the imageList inputCollections..
         // currently these are being set on every draw..

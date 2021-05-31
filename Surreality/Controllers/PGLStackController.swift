@@ -8,6 +8,8 @@
 
 import UIKit
 import Photos
+import os
+
 
 class PGLStackController: UITableViewController, UINavigationControllerDelegate {
     // tableview of the filters in the stack
@@ -30,7 +32,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
-           NSLog("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
             return
         }
 
@@ -48,7 +50,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            NSLog("PGLSelectFilterController  notificationBlock PGLCurrentFilterChange")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectFilterController  notificationBlock PGLCurrentFilterChange")
             self.updateDisplay()
 
         }
@@ -64,7 +66,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
         myCenter.addObserver(forName: PGLSelectActiveStackRow, object: nil , queue: queue) { [weak self]
             myUpdate in
-                        NSLog("PGLImageController  notificationBlock PGLSelectActiveStackRow")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLImageController  notificationBlock PGLSelectActiveStackRow")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             self.selectActiveFilterRow()
@@ -87,7 +89,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     // MARK: appear/disappear
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
-        NSLog("PGLSelectFilterController #viewDidDisappear removing notification observor")
+//        NSLog("PGLSelectFilterController #viewDidDisappear removing notification observor")
 
         NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange, object: self)
         NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
@@ -95,7 +97,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        NSLog("PGLStackController viewDidAppear")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLStackController viewDidAppear")
         appStack.resetViewStack()
         segueStarted = false  // reset flag
     }
@@ -336,7 +338,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 //                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
               tableView.addGestureRecognizer(longPressGesture!)
               longPressGesture!.isEnabled = true
-            NSLog("PGLStackController setLongPressGesture \(String(describing: longPressGesture))")
+//            NSLog("PGLStackController setLongPressGesture \(String(describing: longPressGesture))")
           }
       }
 
@@ -347,7 +349,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             tableView.removeGestureRecognizer(longPressGesture!)
             longPressGesture!.removeTarget(self, action: #selector(PGLFilterTableController.longPressAction(_:)))
             longPressGesture = nil
-           NSLog("PGLStackController removeGestureRecogniziers ")
+//           NSLog("PGLStackController removeGestureRecogniziers ")
        }
 
     }
@@ -357,7 +359,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         let point = sender.location(in: tableView)
 
         if sender.state == .began
-        {   NSLog("PGLStackController longPressAction begin")
+        {   Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLStackController longPressAction begin")
             guard let longPressIndexPath = tableView.indexPathForRow(at: point) else {
                 longPressStart = nil // assign to var
                 return
@@ -454,7 +456,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             self.appStack.viewerStack.activeFilterIndex = indexPath.row
                 // not needed? viewerStack may change.. row is not the index (indented issue on child stack)
 
-            NSLog("PGLStackController trailingSwipeActionsConfigurationForRowAt Change ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt Change ")
             // set appStack and stack indexes to the selected filter
             let cellObject = self.appStack.cellFilters[indexPath.row]
 
@@ -475,7 +477,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
          myAction = UIContextualAction(style: .normal, title: "Delete") { [weak self] (_, _, completion) in
                     guard let self = self
                         else { return  }
-                    NSLog("PGLStackController trailingSwipeActionsConfigurationForRowAt Delete")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt Delete")
                     self.removeFilter(indexPath: indexPath)
 
                     completion(true)
@@ -486,7 +488,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
     }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        NSLog("shouldPerformSegue \(identifier)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("shouldPerformSegue \(identifier)")
          segueStarted = true
         // don't open a popOverController seque is starting
         return true

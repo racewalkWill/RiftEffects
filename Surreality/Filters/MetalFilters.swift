@@ -19,6 +19,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import CoreImage
+import os
 
 #if !arch(i386) && !arch(x86_64)
 
@@ -366,7 +367,7 @@ class MetalFilter: CIFilter, MetalRenderable
         catch
         {
 //            fatalError("Unable to create pipeline state for kernel function \(functionName)")
-            NSLog("MetalFilter Unable to create pipeline state for kernel function \(functionName)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault("MetalFilter Unable to create pipeline state for kernel function \(functionName)")
         }
         
         
@@ -374,7 +375,7 @@ class MetalFilter: CIFilter, MetalRenderable
         if !(self is MetalImageFilter) && !(self is MetalGeneratorFilter)
         {
 //            fatalError("MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
-            NSLog("MetalFilter MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault("MetalFilter MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
         }
     }
     

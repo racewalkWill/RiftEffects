@@ -9,6 +9,7 @@
 import Foundation
 import Photos
 import UIKit
+import os
 
 class PGLDemo {
     // create random groups of image/filters
@@ -70,7 +71,7 @@ class PGLDemo {
                 let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
                 let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
                 thisFilter?.setDefaults()
-            NSLog("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
             let imageAttributesNames = thisFilter!.imageInputAttributeKeys
                 for anImageAttributeName in imageAttributesNames {
                     if anImageAttributeName == kCIInputImageKey { continue
@@ -99,7 +100,7 @@ class PGLDemo {
                 let alert = UIAlertController(title: "Favorites Album", message: "Favorites is empty ", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("The userSaveErrorAlert alert occured.")
+                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLDemo #setInputTo Favorites album is empty")
                 }))
                 let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                 myAppDelegate.displayUser(alert: alert)
@@ -136,7 +137,7 @@ class PGLDemo {
 
         let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
         for anAsset in selectedAssets {
-            NSLog("parm = \(String(describing: imageParm.attributeName)) added local id = \(anAsset.localIdentifier)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("parm = \(String(describing: imageParm.attributeName)) added local id = \(anAsset.localIdentifier)")
             userSelectionInfo.addSourceToSelection(asset: anAsset)
         }
         userSelectionInfo.setUserPick()
@@ -162,7 +163,7 @@ class PGLDemo {
 
             firstRandomFilter.setDefaults()
 
-            NSLog("multipleInputTransitionFilters group1 filter \(firstRandomFilter.fullFilterName())")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("multipleInputTransitionFilters group1 filter \(firstRandomFilter.fullFilterName())")
             let imageAttributesNames = firstRandomFilter.imageInputAttributeKeys
             for anImageAttributeName in imageAttributesNames {
                 guard let thisAttribute = firstRandomFilter.attribute(nameKey: anImageAttributeName) else { continue }
@@ -184,7 +185,7 @@ class PGLDemo {
             else { targetStack.exportAlbumName = nil }
 
             // set the stack with the title, type, exportAlbum for save
-            NSLog("PGLDemo multipleInputTransitionFilters \(targetStack.stackName)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLDemo multipleInputTransitionFilters \(targetStack.stackName)")
 //                targetStack.saveStackImage()
            // confirm that output is saved and the coreData has saved
 

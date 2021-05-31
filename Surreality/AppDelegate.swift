@@ -9,8 +9,14 @@
 import UIKit
 import CoreData
 import Photos
+import os
 
-let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.Surreality"
+let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.WillsFilterTool"
+let LogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
+var LogCategory = "PGL"
+// change in areas as needed.
+// caution on changes it is a GLOBAL
+
 var mainViewImageResize = true
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn
 // should be a user setting
@@ -44,7 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        NSLog("AppDelegate applicationDidReceiveMemoryWarning")
+//        NSLog("AppDelegate applicationDidReceiveMemoryWarning")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("AppDelegate applicationDidReceiveMemoryWarning")
         // run a memory graph.. who and how many objects have the memory?
         // see the Swift Programming Lang  book on strong referencs and reference cycles
         // chap "Automatic Reference Counting"
@@ -72,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        NSLog("AppDelegate #applicationWillTerminate saveContext")
+//        NSLog("AppDelegate #applicationWillTerminate saveContext")
 //        self.saveContext()
     }
 
@@ -93,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 parentController != parentController!.presentedViewController) {
                     parentController = parentController!.presentedViewController
                     }
-        NSLog("coreDataErrorAlert with viewController \(String(describing: parentController)) ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("coreDataErrorAlert with viewController \(String(describing: parentController)) ")
         parentController?.present(alert, animated: true )
 
 

@@ -9,6 +9,7 @@
 import Photos
 import UIKit
 import Vision
+import os
 
 class PGLVisionDetector: PGLDetection {
     // uses Vision framework to detect faces and features
@@ -56,7 +57,7 @@ class PGLVisionDetector: PGLDetection {
     func nextFeature(to: Direction) {
         // 12/2/19 should have a dissolve on incremnent for smooth change to next feature
         // moves upward to features.count. then returns to start at zero
-        NSLog("PGLVisionDetector nextFeature start currentFeatureIndex = \(currentFeatureIndex) features.count = \(features.count)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLVisionDetector nextFeature start currentFeatureIndex = \(self.currentFeatureIndex) features.count = \(self.features.count)")
         currentFeatureIndex += to.rawValue
         if (currentFeatureIndex >= features.count) || (currentFeatureIndex < 0) {
             currentFeatureIndex = 0
@@ -76,7 +77,7 @@ class PGLVisionDetector: PGLDetection {
             inputImage = anInputImage
 
             if oldInputImage == inputImage {
-                NSLog("PGLVisionDetection #setInput(image: is returning without performing ImageRequestHandler")
+                Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLVisionDetection #setInput(image: is returning without performing ImageRequestHandler")
                 return }
                 // === is test of object identity don't process twice
                 // CIImage is a class so object identity can be tested
@@ -87,7 +88,7 @@ class PGLVisionDetector: PGLDetection {
 
             else { features = [PGLFaceBounds]()
                     // new image clear the old features
-//                NSLog("PGLVisionDetection #setInput(image: has new image")
+//                Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLVisionDetection #setInput(image: has new image")
             }
         }
       let requests = [faceDetectionRequest] // other requests can be added to the array
@@ -134,23 +135,18 @@ class PGLVisionDetector: PGLDetection {
            }
        }
     func presentAlert(_ title: String, error: NSError) {
-        NSLog("PGLVisionDetection alert error  = \(title) , \(error)")
+        DispatchQueue.main.async {
+            // put back on the main UI loop for the user alert
+            let alert = UIAlertController(title: "Data Read Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
 
-         // self.present is for a UIViewController.. this is model object..
-        //  just log for the moment
-           // Always present alert on main thread.
-//           DispatchQueue.main.async {
-//               let alertController = UIAlertController(title: title,
-//                                                       message: error.localizedDescription,
-//                                                       preferredStyle: .alert)
-//               let okAction = UIAlertAction(title: "OK",
-//                                            style: .default) { _ in
-//                                               // Do nothing -- simply dismiss alert.
-//               }
-//               alertController.addAction(okAction)
-//               self.present(alertController, animated: true, completion: nil)
-//
-//           }
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLVisionDetection error \(error.localizedDescription)")
+            }))
+            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+            myAppDelegate.displayUser(alert: alert)
+            }
+
+
        }
 
     func setOutputAttributes(wrapperFilter: PGLDissolveWrapperFilter) {

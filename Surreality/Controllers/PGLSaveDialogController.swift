@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Photos
+import os
 
 let  PGLStackSaveNotification = NSNotification.Name(rawValue: "PGLStackSaveNotification")
 
@@ -102,7 +103,7 @@ class PGLSaveDialogController: UIViewController {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
-                NSLog( "PGLSaveDialogController viewDidLoad fatalError(AppDelegate not loaded")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault( "PGLSaveDialogController viewDidLoad fatalError(AppDelegate not loaded")
             return
         }
 

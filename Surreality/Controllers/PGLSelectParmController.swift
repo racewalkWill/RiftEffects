@@ -9,6 +9,8 @@
 import UIKit
 import simd
 import PhotosUI
+import os
+
 
 enum ImageParm: Int {
     case notAnImageParm = -1 // superclass of PGLFilterAttributeImage will use this...
@@ -112,7 +114,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 scaleFactor = imageController!.myScaleFactor // the metalView scaleFactor typically = 2.0
             }
             else {
-                NSLog ("PGLSelectParmController did not set var myimageController")}
+                Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLSelectParmController did not set var myimageController")}
         }
     }
 
@@ -122,13 +124,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     // MARK: View Lifecycle
     override func viewDidLoad() {
-         NSLog ("PGLSelectParmController #viewDidLoad start")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice ("PGLSelectParmController #viewDidLoad start")
         super.viewDidLoad()
 
         splitViewController?.delegate = self
 
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { NSLog("PGLSelectParmController viewDidLoad fatalError(AppDelegate not loaded")
+            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewDidLoad fatalError(AppDelegate not loaded")
             return
         }
         appStack = myAppDelegate.appStack
@@ -136,7 +138,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         setImageController()
 
-        NSLog ("PGLSelectParmController #viewDidLoad completed")
+//        NSLog ("PGLSelectParmController #viewDidLoad completed")
         navigationController?.isToolbarHidden = true
 
     }
@@ -147,7 +149,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         // See currentFilter didSet - didSet then triggers the parm updates and adding controls for the parms to the glkView
         // dependent on current filter.
-         NSLog ("PGLSelectParmController #updateDisplay start ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLSelectParmController #updateDisplay start ")
         let viewerStack = appStack.getViewerStack()
         if viewerStack.isEmptyStack() { return }
             // nothing to do .. no filter selected or added
@@ -157,13 +159,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         setShiftBtnState()
             // if only one filter then shift to this filter does not change anything
-         NSLog ("PGLSelectParmController #updateDisplay end ")
+//         NSLog ("PGLSelectParmController #updateDisplay end ")
 
 
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NSLog("PGLSelectParmController#viewWillAppear start ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController#viewWillAppear start ")
         if imageController == nil {
             setImageController()}
         if let myView = imageController?.view
@@ -172,7 +174,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             // need to abort this loading... navigation issue -
             // how to abort or recover?
-            NSLog("PGLSelectParmController viewWillAppear imageController.view not set")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewWillAppear imageController.view not set")
         }
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
@@ -230,7 +232,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         updateDisplay()
         setChevronState()
-         NSLog("PGLSelectParmController#viewWillAppear end ")
+//         NSLog("PGLSelectParmController#viewWillAppear end ")
     }
 
 
@@ -384,11 +386,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         case .began: startPoint = gesturePoint
             endPoint = startPoint // should be the same at began
-         NSLog("panAction began gesturePoint = \(gesturePoint)")
-         NSLog("panAction began tappedControl?.frame.origin  = \(String(describing: tappedControl?.frame.origin))")
+//         NSLog("panAction began gesturePoint = \(gesturePoint)")
+//         NSLog("panAction began tappedControl?.frame.origin  = \(String(describing: tappedControl?.frame.origin))")
                 if selectedParmControlView != nil {
                     tappedControl = selectedParmControlView
-                 NSLog("panAction began startPoint = \(startPoint)")
+//                 NSLog("panAction began startPoint = \(startPoint)")
                     if (tappedAttribute as? PGLAttributeRectangle) != nil {
                         if let rectController = imageController?.rectController {
                             let tapLocation = sender.location(in: selectedParmControlView)  // not the same as the location in the myimageController.view
@@ -473,7 +475,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         attributeValueChanged()
 //        startPoint = CGPoint.zero // reset
 //        endPoint = CGPoint.zero
-        NSLog("PGLSelectParmController #panEnded startPoint,endPoint reset to CGPoint.zero")
+//        NSLog("PGLSelectParmController #panEnded startPoint,endPoint reset to CGPoint.zero")
 
     }
     
@@ -503,11 +505,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     func parmsListHasChanged() {
         // notify the tableview & detailimageController to refresh
-        NSLog("parmsListHasChanged - reloadData() start")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #parmsListHasChanged - reloadData() start")
         parmsTableView.reloadData()
 //        navigationController?.toolbar.setNeedsDisplay()
         //notify the detailimageController that the parms have changed and should show on the image
-          NSLog("parmsListHasChanged - reloadData() end")
+//          NSLog("parmsListHasChanged - reloadData() end")
         if imageController != nil {
             imageController?.setParms(newFilterParms: filterParms[sectionParms])
         }
@@ -541,20 +543,20 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     func highlight(viewNamed: String) {
         // a switch statement might be cleaner
         // both UIImageView and UIControls need to be hidden or shown
-        NSLog("highlight viewNamed \(viewNamed)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight viewNamed \(viewNamed)")
         for aParmControlTuple in imageViewParmControls() {
             if aParmControlTuple.key == viewNamed {
                 // show this view
-                NSLog("highlight view isHidden = false, hightlight = true")
+                Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight view isHidden = false, hightlight = true")
                 if let imageControl = (aParmControlTuple.value) as? UIImageView {
                     imageControl.isHidden = false
                     imageControl.isHighlighted = true
-                    NSLog("highlight UIImageView isHidden = false, hightlight = true")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UIImageView isHidden = false, hightlight = true")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
                     viewControl.isHidden = false
                     viewControl.isHighlighted = true
                     viewControl.becomeFirstResponder()
-                    NSLog("highlight UITextField isHidden = false, hightlight = true")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UITextField isHidden = false, hightlight = true")
                     }
 
                 }
@@ -564,14 +566,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 if let imageControl = (aParmControlTuple.value) as? UIImageView {
                     imageControl.isHidden = true
                     imageControl.isHighlighted = false
-                    NSLog("highlight HIDE UImageView \(aParmControlTuple.key)")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UImageView \(aParmControlTuple.key)")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
                     NSLog("highlight END TextField editing \(aParmControlTuple.key)")
                     viewControl.endEditing(true)
                     viewControl.resignFirstResponder()
                     viewControl.isHidden = true
                     viewControl.isHighlighted = false
-                    NSLog("highlight HIDE UIControl \(aParmControlTuple.key)")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UIControl \(aParmControlTuple.key)")
                     }
                 }
             }
@@ -583,14 +585,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        sliderValueDidChange(sender)
         // slider in the parmController tableView cell
         if let target = tappedAttribute {
-           NSLog("PGLSelectParmController #parmSliderChange target = \(target) value = \(sender.value)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController #parmSliderChange  value = \(sender.value)")
             target.uiIndexTag = Int(sender.tag)
                 // multiple controls for attribute distinguished by tag
                 // color red,green,blue for single setColor usage
             let adjustedRate = sender.value //  / 1000
             target.set(adjustedRate)
         } else {
-            NSLog( "PGLSelectParmController parmSliderChange fatalError( tappedAttribute is nil, value can not be changed")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error( "PGLSelectParmController parmSliderChange fatalError( tappedAttribute is nil, value can not be changed")
             return
         }
 
@@ -656,7 +658,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // called from the textFields of the ImageController
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         // input text from the imageController
-        NSLog("ParmController textFieldDidEndEditing ")
+//        NSLog("ParmController textFieldDidEndEditing ")
         if let target = tappedAttribute {
             if target.isTextInputUI() && reason == .committed {
             // put the new value into the parm
@@ -671,7 +673,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // add listener for notification of text change
 
     func addTextChangeNotification(textAttributeName: String) {
-        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
+//        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
         guard let textField = parmControl(named: textAttributeName) as? UITextField else
@@ -773,7 +775,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // 4/18/19 attribute will supply the cell identifier to use
         // 2/24/20  not clear why this is called after seque to the PGLImageCollectionMasterController
 
-         NSLog("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
         tappedAttribute = getTappedAttribute(indexPath: indexPath)
 //        NSLog("PGLSelectParmController cellForRowAt tappedAttribute = \(tappedAttribute)")
         let cellIdentifier = tappedAttribute?.uiCellIdentifier() ??  "parmNoDetailCell"
@@ -807,10 +809,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        NSLog("accessoryButtonTappedForRowWith indexPath = \(indexPath)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("accessoryButtonTappedForRowWith indexPath = \(indexPath)")
 
         tappedAttribute = filterParms[indexPath.section][indexPath.row]  // ERROR is it image or parmAttributes
-        NSLog("PGLSelectParmController accessoryButtonTappedForRowWith tappedAttribute = \(String(describing: tappedAttribute))")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController accessoryButtonTappedForRowWith tappedAttribute = \(String(describing: self.tappedAttribute))")
 
         if let attributeClassTapped = tappedAttribute?.attributeClass {
             switch attributeClassTapped {
@@ -824,7 +826,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //            case "NSObject":
 //            case "NSString":
 
-            default: NSLog("attributeClass behavior not implemented for attribute = \(String(describing: tappedAttribute))")
+                default: Logger(subsystem: LogSubsystem, category: LogCategory).error("attributeClass behavior not implemented for attribute = \(String(describing: self.tappedAttribute))")
             }
         }
     }
@@ -832,7 +834,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        NSLog("PGLSelectParmController tableView didHighlightRowAt: \(indexPath)")
         selectedCellIndexPath = indexPath
         tappedAttribute = getTappedAttribute(indexPath: indexPath)
-        NSLog("PGLSelectParmController didHighlightRowAt \(String(describing: tappedAttribute!.attributeName)) \(String(describing: currentFilter!.filterName))")
+//        NSLog("PGLSelectParmController didHighlightRowAt \(String(describing: tappedAttribute!.attributeName)) \(String(describing: currentFilter!.filterName))")
     }
 
 
@@ -848,7 +850,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //            confirmReplaceFilterInput()
 //        }
         guard imageController != nil else {
-            NSLog( "PGLImageController ERROR in didSelectRow - imageController is nil")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error( "PGLImageController ERROR in didSelectRow - imageController is nil")
             return  }
 
         switch tappedAttribute!.attributeUIType() {
@@ -949,7 +951,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                         else { return  }
                     // this case for a new cell in the interface
                     self.tappedAttribute = cellDataAttribute
-                    NSLog("PGLSelectParmController trailingSwipeActionsConfigurationForRowAt tappedAttribute = \(String(describing: self.tappedAttribute))")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController trailingSwipeActionsConfigurationForRowAt tappedAttribute = \(String(describing: self.tappedAttribute))")
                     self.imageController?.hideSliders()
                     if self.tappedAttribute?.inputParmType() == ImageParm.inputChildStack {
                         self.appStack.pushChildStack((self.tappedAttribute?.inputStack)!)
@@ -996,10 +998,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
                         if anActionCell.performDissolveWrapper
                             {
-                                NSLog("PGLSelectParmController #trailingSwipe completion starts #setDissolveWrapper")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController #trailingSwipe completion starts #setDissolveWrapper")
                                 self.setDissolveWrapper() }
                         else {
-                               NSLog( "PGLSelectParmController #trailingSwipe completion starts performAction")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).info( "PGLSelectParmController #trailingSwipe completion starts performAction")
                                 cellDataAttribute.performAction(self)  // run the command
 
                         }
@@ -1038,7 +1040,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                  contextActions.append(myAction)
 
             case .unknown:
-                NSLog( "PGLSelectParmController tableView trailingSwipe action fatalError(unknown cell action")
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "PGLSelectParmController tableView trailingSwipe action fatalError(unknown cell action")
                 
 
             }
@@ -1119,7 +1121,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
             if segue.destination is PGLFilterTableController
                 {
-                if tappedAttribute == nil { NSLog ("tappedAttribute is NIL")}
+                if tappedAttribute == nil { Logger(subsystem: LogSubsystem, category: LogCategory).error ("tappedAttribute is NIL")}
                 else{
                     if tappedAttribute!.hasFilterStackInput() {
                         appStack.pushChildStack(tappedAttribute!.inputStack!)
@@ -1154,7 +1156,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // real action handled by the seque to the filterManager.
         // updates to the values occur on the reload after the filterManager
 
-        NSLog("PGLSelectParmController #pickFilter for attribute = \(attribute)")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickFilter for attribute = \(attribute)")
         
     }
 
@@ -1162,7 +1164,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // triggers segue to detail of the collection.
         // "Show" segue
         // goToImageCollection
-        NSLog("PGLSelectParmController #pickImage")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickImage")
         if usePGLImagePicker {
             performSegue(withIdentifier: "goToImageCollection", sender: attribute)
         }

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreImage
+import os
 
 //let customFilters = [
     // these are for filters listed in the bridging file and have a definition file in the project
@@ -113,7 +114,7 @@ class PGLFilterCategory {
 
             }
             else {
-                NSLog("PGLFilterCategory creation failed for \(classCategories[catIndex])") }
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLFilterCategory creation failed for \(classCategories[catIndex])") }
         }
 
         filterCategories = answerArray

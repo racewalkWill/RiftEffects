@@ -9,6 +9,7 @@
 
 import UIKit
 import Photos
+import os
 
 let PGLImageCollectionClose = NSNotification.Name(rawValue: "PGLImageCollectionClose")
 let PGLImageCollectionOpen = NSNotification.Name(rawValue: "PGLImageCollectionOpen")
@@ -135,7 +136,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
     override func viewDidLoad() {
         super.viewDidLoad()
         // if the tappedAttribute has an input then highlight and show it
-        NSLog("PGLImageCollectionMasterController viewDidLoad")
+//        NSLog("PGLImageCollectionMasterController viewDidLoad")
 //        PHPhotoLibrary.shared().register(self)
 //        PHPhotoLibrary.shared().unregisterChangeObserver(self)
         // in theory register as observor for permission changes then update an existing query
@@ -150,7 +151,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         // assume that fetchTopLevel has populated the albums,smartAlbums & userCollections
        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
 
-                else { NSLog ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
+                else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
                     return
             }
                      appStack = myAppDelegate.appStack
@@ -171,7 +172,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         super.viewDidAppear(animated)
         performQuery(with: nil)
 
-         NSLog("PGLImageCollectionMasterController viewDidAppear")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLImageCollectionMasterController viewDidAppear")
         let myCenter =  NotificationCenter.default
               let queue = OperationQueue.main
 
@@ -180,7 +181,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
             guard let self = self else { return } // a released object sometimes receives the notification
                 // the guard is based upon the apple sample app 'Conference-Diffable'
                  // navigate back here too
-                NSLog("PGLImageCollectionMasterController \(self) PGLSelectImageBack notification received - viewDidLoad")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLImageCollectionMasterController \(self) PGLSelectImageBack notification received - viewDidLoad")
                 self.navigationController?.popViewController(animated: true)
                 }
 
@@ -189,7 +190,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                    myUpdate in
                 guard let self = self else { return } // a released object sometimes receives the notification
                               // the guard is based upon the apple sample app 'Conference-Diffable'
-                   NSLog("PGLImageCollectionMasterController  notificationBlock PGLImageAccepted viewDidAppear  ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLImageCollectionMasterController  notificationBlock PGLImageAccepted viewDidAppear  ")
                 self.navigationController?.popViewController(animated: true)
 
                }
@@ -200,7 +201,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
             // select the cells of the collections/albums
             // fill the grid with the images
             // more than one album may be included
-            NSLog("PGLImageCollectionMasterController input images already exist")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLImageCollectionMasterController input images already exist")
 
             guard let firstCollection = inputFilterAttribute?.inputCollection?.sourceAssetCollection()
                 else { return  }
@@ -307,7 +308,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
             // with the existing info - ie keep the current user selection and show another album as a source
             if appStack.isImageControllerOpen {
 
-                 NSLog("PGLImageCollectionMasterController #openImageGrid notification =  PGLImageCollectionOpen")
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImageCollectionMasterController #openImageGrid notification =  PGLImageCollectionOpen")
                 let updateFilterNotification = Notification(name:PGLImageCollectionOpen)
 
                 NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["assetInfo": theInfo as Any])
@@ -315,7 +316,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
             else { // image collection is not open -
                 // just combine the userSelection.. send to the Asset container to merge
 
-                NSLog("PGLImageCollectionMasterController #openImageGrid notification =  PGLImageCollectionChange")
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImageCollectionMasterController #openImageGrid notification =  PGLImageCollectionChange")
                 let changeAlbumNotification = Notification(name:PGLImageCollectionChange)
 
                 NotificationCenter.default.post(name: changeAlbumNotification.name, object: nil, userInfo: ["assetInfo": theInfo as Any])
@@ -352,7 +353,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
     }
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NSLog("PGLImageCollectionMaster #didSelectRowAt")
+//        NSLog("PGLImageCollectionMaster #didSelectRowAt")
         // highlight this cell
         // notify the detail controller to show the assets in this cell
 
@@ -361,7 +362,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         if collectionSelected.isCollectionList() {
             let wasExpanded = collectionSelected.isExpanded
             // hold old state
-            NSLog("PGLImageCollectionMaster #didSelectRowAt wasExpanded = \(wasExpanded)")
+//            NSLog("PGLImageCollectionMaster #didSelectRowAt wasExpanded = \(wasExpanded)")
             if wasExpanded
                 { hideSubItemsQuery(collectionListItem: collectionSelected)}
             else
@@ -401,7 +402,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
                 answer.append(PGLUUIDAssetCollection( castAlbum)!)
             }
         }
-         NSLog("PGLImageCollectionMasterController #getSmartAlbums count = \(answer.count)")
+//         NSLog("PGLImageCollectionMasterController #getSmartAlbums count = \(answer.count)")
         return answer
     }
 
@@ -414,7 +415,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
                 answer.append( PGLUUIDAssetCollection( castAlbum)!)
             }
         }
-        NSLog("PGLImageCollectionMasterController #getAlbums count = \(answer.count)")
+//        NSLog("PGLImageCollectionMasterController #getAlbums count = \(answer.count)")
         return answer
     }
 
@@ -426,7 +427,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
                    answer.append( PGLUUIDAssetCollection( castAlbum)!)
                }
            }
-        NSLog("PGLImageCollectionMasterController #getUserCollections count = \(answer.count)")
+//        NSLog("PGLImageCollectionMasterController #getUserCollections count = \(answer.count)")
            return answer
        }
 
@@ -479,7 +480,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
 
                 return cell
             } else {
-                NSLog( "PGLImageCollectionMasterController configureDataSource fatalError(failed to create a new cell")
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "PGLImageCollectionMasterController configureDataSource fatalError(failed to create a new cell")
                 return nil
             }
 
@@ -568,7 +569,7 @@ extension PGLImageCollectionMasterController: UITableViewDelegate {
         if (collectionItem.childCollections.isEmpty) {
 
             let listFetch =  PHCollectionList.fetchCollections(in: thisList , options: nil)
-            NSLog("performExpandCollectionList listFetch count = \(listFetch.count)")
+//            NSLog("performExpandCollectionList listFetch count = \(listFetch.count)")
 
             for index in 0 ..< (listFetch.count ) {
                  newbie = PGLUUIDAssetCollection( listFetch.object(at: index))

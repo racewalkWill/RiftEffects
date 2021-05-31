@@ -8,6 +8,7 @@
 
 import Foundation
 import MetalKit
+import os
 
 class PGLMetalController: UIViewController {
 
@@ -27,11 +28,11 @@ class PGLMetalController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let metalView = view as? MTKView else {
-            NSLog ( "PGLMetalController viewDidLoad fatalError(metal view not set up in storyboard")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController viewDidLoad fatalError(metal view not set up in storyboard")
             return
         }
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { NSLog ( "PGLMetalController viewDidLoad fatalError AppDelegate not loaded")
+            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController viewDidLoad fatalError AppDelegate not loaded")
                 return
         }
 
@@ -51,7 +52,7 @@ class PGLMetalController: UIViewController {
         // did not work.  2020-02-17
         // still showing quarter view
         guard let metalView = view as? MTKView else {
-            NSLog ( "PGLMetalController reloadMetalView fatalError(metal view not set up in storyboard")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController reloadMetalView fatalError(metal view not set up in storyboard")
             return
               }
         metalRender = Renderer(metalView: metalView)

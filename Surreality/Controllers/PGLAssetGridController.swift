@@ -12,6 +12,7 @@
 import UIKit
 import Photos
 import PhotosUI
+import os
 
 
 let PGLImageSelectUpdate = NSNotification.Name(rawValue: "PGLImageSelectUpdate")
@@ -57,7 +58,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
    required init?(coder: NSCoder) {
         super.init(coder: coder)
-        NSLog("PGLAssetGridController init = \(self)")
+//        NSLog("PGLAssetGridController init = \(self)")
     }
 
     override func viewDidLoad() {
@@ -68,8 +69,8 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
         applyDataSource()
 
-        NSLog("PGLAssetGridController #viewDidLoad FINISH")
-        NSLog("PGLAssetGridController #viewDidLoad controller = \(self)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetGridController #viewDidLoad FINISH")
+//        NSLog("PGLAssetGridController #viewDidLoad controller = \(self)")
 
 
     }
@@ -104,7 +105,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
         var aNotification = myCenter.addObserver(forName: PGLSequenceSelectUpdate , object: nil , queue: queue) {[weak self]
                   myUpdate in
                       // now make the sequence show this too
-                    NSLog("PGLAssetGridController notification PGLSequenceSelectUpdate")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLAssetGridController notification PGLSequenceSelectUpdate")
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
                     self.applyDataSource()
@@ -126,7 +127,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
                     if let newAlbumSource = ( myUpdate.userInfo?["newSource"]) as?  PGLAlbumSource {
-                        NSLog("PGLAssetGridController = \(self) notification PGLImageAlbumAdded for newAlbumSourse = \(newAlbumSource)")
+//                        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLAssetGridController = \(self) notification PGLImageAlbumAdded for newAlbumSourse = \(newAlbumSource)")
                         self.applyDataSource()
         //                self?.appendDataSource(albumId: newAlbumSource.identifier, aSourceFetch: newAlbumSource)
                     }
@@ -156,7 +157,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
         let openNotification = Notification(name:PGLImageCollectionOpen)
          NotificationCenter.default.post(openNotification)
-        NSLog("PGLAssetGridController viewDidAppear completed self = \(self)")
+//        NSLog("PGLAssetGridController viewDidAppear completed self = \(self)")
     }
 
        //MARK: GestureRecognizer
@@ -164,7 +165,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
     @objc func openSingleAssetView(_ sender: UITapGestureRecognizer){
 
         hasCellDoubleTap = true
-        NSLog("PGLAssetGridController hasCellDoubleTap = \(hasCellDoubleTap) ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLAssetGridController hasCellDoubleTap = \(self.hasCellDoubleTap) ")
         if let headerTitleView = sender.view as? TitleSupplementaryView {
                  performSegue(withIdentifier: "showImageDetail", sender: headerTitleView )
         }
@@ -203,7 +204,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
     @IBAction func goToAssetGridView(segue: UIStoryboardSegue) {
         // DELETE?
-        NSLog("PGLParmsFilterTabsController goToAssetGridView segue")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLParmsFilterTabsController goToAssetGridView segue")
 
     }
 
@@ -221,11 +222,11 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
         
         var snapshot = NSDiffableDataSourceSnapshot<PGLAlbumSource, PGLAsset>()
 
-        NSLog("PGLAssetGridController #applyDataSource controller = \(self)")
+//        NSLog("PGLAssetGridController #applyDataSource controller = \(self)")
 
         for ( albumId, albumSource) in userAssetSelection.sections
         {
-            NSLog("PGLAssetGridController #applyDataSource albumId = \(albumId)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLAssetGridController #applyDataSource albumId = \(albumId)")
 
 
 
@@ -237,7 +238,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
         }
         if snapshot.numberOfSections != snapshot.sectionIdentifiers.count {
-            NSLog ("PGLAssetGridController applyDataSource() fatalError snapshot.numberOfSections != snapshot.sectionIdentifiers.count")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetGridController applyDataSource() fatalError snapshot.numberOfSections != snapshot.sectionIdentifiers.count")
         }
         dataSource.apply(snapshot, animatingDifferences: false)
     }
@@ -254,9 +255,9 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
     // MARK: UINavigationControllerDelegate
 
     func postSelectionChange(){
-           NSLog("PGLAssetGridController #postSelectionChange start")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetGridController #postSelectionChange start")
            // the badge is changed for the grid by the changedItems in selectedCell
-            NSLog("PGLAssetGridController #postSelectionChange sends notification PGLImageSelectUpdate")
+//            NSLog("PGLAssetGridController #postSelectionChange sends notification PGLImageSelectUpdate")
            let notification = Notification(name:PGLImageSelectUpdate)
            NotificationCenter.default.post(notification)
        }
@@ -360,7 +361,7 @@ extension PGLAssetGridController {
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: ListCell.reuseIdentifier,
                     for: indexPath) as? ListCell else {
-                        NSLog("PGLAssetGridController.configureDataSource Cannot create new cell")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetGridController.configureDataSource Cannot create new cell")
                         return nil }
 
                 // Populate the cell with our item description.
@@ -406,14 +407,14 @@ extension PGLAssetGridController {
                                 withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
                                 for: indexPath) as? TitleSupplementaryView
                             else {
-                                    NSLog("PGLAssetGridController.supplementaryViewProvider Cannot create new header")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetGridController.supplementaryViewProvider Cannot create new header")
                                     return TitleSupplementaryView.init()
                             }
 
                             // Populate the view with our section's description.
 
 
-                        NSLog("PGLAssetGridController #configureDataSource supplementaryViewProvider path = \(indexPath)")
+                        Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLAssetGridController #configureDataSource supplementaryViewProvider path = \(indexPath)")
                         let thisItem = self.dataSource.itemIdentifier(for: indexPath)
                         let headerText = (thisItem?.collectionTitle ?? "untitled") + (" ...")
                         header.label.text =  headerText
@@ -432,7 +433,7 @@ extension PGLAssetGridController {
                         ofKind: kind,
                         withReuseIdentifier: BadgeSupplementaryView.reuseIdentifier,
                         for: indexPath) as? BadgeSupplementaryView  else {
-                                NSLog( "PGLAssetGridController.badgeElementKind Cannot create new badgeView")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).error ( "PGLAssetGridController.badgeElementKind Cannot create new badgeView")
                                 return BadgeSupplementaryView()
                         }
                         if let myAsset = self.dataSource.itemIdentifier(for: indexPath)  {
@@ -450,7 +451,7 @@ extension PGLAssetGridController {
 
                                     badgeView.backgroundColor = .green
                                 }
-                        } else {NSLog("PGLAssetGridController #configureDataSource() myAsset FAILS at \(indexPath)" )}
+                        } else {Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetGridController #configureDataSource() myAsset FAILS at \(indexPath)" )}
 
 
                         return badgeView
@@ -469,7 +470,7 @@ extension PGLAssetGridController {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // user may be selecting multiple pictures from the album
-         NSLog("PGLAssetGridController didSelectItem at indexPath = \(indexPath) hasCellDoubleTap = \(hasCellDoubleTap) ")
+//         NSLog("PGLAssetGridController didSelectItem at indexPath = \(indexPath) hasCellDoubleTap = \(hasCellDoubleTap) ")
 
 //        userAssetSelection.setCurrentAlbum(forIndexPath: indexPath)
         if let selectedAsset = dataSource.itemIdentifier(for: indexPath) {
@@ -484,7 +485,7 @@ extension PGLAssetGridController {
                     }
 
                 else {
-                    NSLog("PGLAssetGridController didSelecteItem \(selectedAsset.asset.localIdentifier)")
+//                    NSLog("PGLAssetGridController didSelecteItem \(selectedAsset.asset.localIdentifier)")
                      userAssetSelection.append(selectedAsset)
                 }
 

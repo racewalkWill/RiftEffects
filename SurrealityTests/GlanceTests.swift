@@ -8,6 +8,7 @@
 
 import XCTest
 import Photos
+import os
 
 //@testable import Glance
 @testable import Surreality
@@ -55,14 +56,14 @@ class GlanceTests: XCTestCase {
 
 
             let testInputKeys = testFilter.imageInputAttributeKeys
-            NSLog("testFilterExtensions testInputKeys = \(testInputKeys)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterExtensions testInputKeys = \(testInputKeys)")
             XCTAssert(!(testInputKeys.contains("inputRadius")))
             XCTAssert(testInputKeys.contains("inputImage"))
             XCTAssert(testInputKeys.count > 0)
         } else {
-            NSLog("testFilterExtensions failed to create standard Filter")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterExtensions failed to create standard Filter")
             let secondTry = CIFilter(name: standardFilterName)
-            NSLog("testFilterExtensions secondTry = \(String(describing: secondTry))")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterExtensions secondTry = \(String(describing: secondTry))")
             XCTFail("testFilterExtensions failed to create standard Filter")
         }
 
@@ -92,7 +93,7 @@ class GlanceTests: XCTestCase {
         if let testFilter = PGLSourceFilter(filter: standardFilterName)  {
             let keys = testFilter.imageInputAttributeKeys
             XCTAssert(keys.count == 1)
-            NSLog("inputAttributeKeys = \(keys)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("inputAttributeKeys = \(keys)")
 
         }
     }

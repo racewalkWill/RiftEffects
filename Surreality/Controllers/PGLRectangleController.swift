@@ -8,6 +8,7 @@
 
 import UIKit
 import MetalKit
+import os
 
 enum Mode {
     case move, resize
@@ -70,7 +71,7 @@ class PGLRectangleController: UIViewController {
     var croppingFilter: PGLRectangleFilter? {
         didSet {
             if thisCropAttribute == nil {
-                NSLog("PGLRectangleController thisCropAttribute is nil")
+                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLRectangleController thisCropAttribute is nil")
             }
             croppingFilter?.cropAttribute = thisCropAttribute
 
@@ -90,7 +91,7 @@ class PGLRectangleController: UIViewController {
         //         for the UIView property translatesAutoresizingMaskIntoConstraints)
 
         if controlViewCorners.isEmpty {
-            NSLog("PGLRectangleController does not have cornerRects...")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLRectangleController does not have cornerRects...")
         }
     }
      // MARK: movement
@@ -108,12 +109,12 @@ class PGLRectangleController: UIViewController {
             if (controlViewCorners[i]?.frame.contains(location))! {
                 filterMode = Mode.resize
                 resizeCorner = Vertex(rawValue: i)
-                NSLog("PGLFilterAttributeRectangle #hitTestCorners found corner = \(String(describing: Vertex(rawValue: i)))")
-                NSLog("PGLFilterAttributeRectangle #hitTestCorners filterMode = \(filterMode)")
+//                NSLog("PGLFilterAttributeRectangle #hitTestCorners found corner = \(String(describing: Vertex(rawValue: i)))")
+//                NSLog("PGLFilterAttributeRectangle #hitTestCorners filterMode = \(filterMode)")
                return controlViewCorners[i]?.frame
             }
         }
-        NSLog("PGLFilterAttributeRectangle #hitTestCorners filterMode = \(filterMode)")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLFilterAttributeRectangle #hitTestCorners filterMode = \(filterMode)")
         return nil
 
     }
@@ -141,7 +142,7 @@ class PGLRectangleController: UIViewController {
     func setCorners(isHidden: Bool) {
         for aCornerView in controlViewCorners {
             aCornerView?.isHidden = isHidden
-            NSLog("PGLRectangleController #setCorners \(isHidden) on \(String(describing: aCornerView))")
+//            NSLog("PGLRectangleController #setCorners \(isHidden) on \(String(describing: aCornerView))")
         }
     }
 
@@ -179,13 +180,13 @@ class PGLFramedView: UIImageView {
             rectPath.lineWidth = rectLineWidth
             rectPath.stroke()
         }
-        NSLog("PGLFramedView rectImage fillCollor")
+//        NSLog("PGLFramedView rectImage fillCollor")
         return image
     }
 
     func rectHighLight(imageRect: CGRect, fillColor: UIColor = UIColor.systemGroupedBackground) -> UIImage {
 
-        NSLog("PGLFramedView #rectHighLight")
+//        NSLog("PGLFramedView #rectHighLight")
 
         let lineWidth = rectLineWidth
 
@@ -200,7 +201,7 @@ class PGLFramedView: UIImageView {
 
             rectPath.stroke()
             rectPath.fill() // the fill color for highlight
-            NSLog("PGLFramedView #rectImageHighLight path = \(rectPath)" )
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFramedView #rectImageHighLight path = \(rectPath)" )
         }
         return image
     }

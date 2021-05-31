@@ -7,6 +7,7 @@
 //  TableView implementation of PGLSelectFilterController
 
 import UIKit
+import os
 
 enum FilterChangeMode{
     case replace
@@ -68,7 +69,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
 
         splitViewController?.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { NSLog ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
+            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
                 return
         }
         appStack = myAppDelegate.appStack
@@ -95,7 +96,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
 
 override func viewDidDisappear(_ animated: Bool) {
     super .viewDidDisappear(animated)
-    NSLog("PGLFilterTableController #viewDidDisappear removing notification observor")
+    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController #viewDidDisappear removing notification observor")
 
 //    NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange, object: self)
    NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
@@ -105,9 +106,9 @@ override func viewDidDisappear(_ animated: Bool) {
 func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewController.DisplayMode {
     if svc.displayMode == UISplitViewController.DisplayMode.secondaryOnly {
         // don't let parms list overlay the picture...
-        NSLog("PGLSelectFilterController #targetDisplayModeForAction answers allVisible ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectFilterController #targetDisplayModeForAction answers allVisible ")
         return UISplitViewController.DisplayMode.oneBesideSecondary }
-    else { NSLog("PGLSelectFilterController #targetDisplayModeForAction answers automatic ")
+    else { Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectFilterController #targetDisplayModeForAction answers automatic ")
         return UISplitViewController.DisplayMode.automatic}
 }
 
@@ -133,7 +134,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         case .Grouped:
             return categories[section].filterDescriptors.count
         case .Flat:
-            NSLog("PGLFilterTableController numberOfRowsInSection count = \(filters.count)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController numberOfRowsInSection count = \(self.filters.count)")
             return filters.count
         }
     }
@@ -188,12 +189,12 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
     func performFilterPick(descriptor: PGLFilterDescriptor) {
         // called by both subclasses from didSelectRow
-        NSLog("PGLFilterTableController \(#function) ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterTableController performFilterPick ")
         if let selectedFilter = descriptor.pglSourceFilter() {
             stackData()?.performFilterPick(selectedFilter: selectedFilter)
                 // depending on mode will replace or add to the stack
 
-            NSLog("filter set = \(String(describing: selectedFilter.filterName))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("filter set = \(String(describing: selectedFilter.filterName))")
 
             // post notification that filter is changed. The parmSettings manager should listen
 
@@ -277,7 +278,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 //                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
               tableView.addGestureRecognizer(longPressGesture!)
               longPressGesture!.isEnabled = true
-            NSLog("PGLFilterTableController setLongPressGesture \(String(describing: longPressGesture))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLFilterTableController setLongPressGesture \(String(describing: self.longPressGesture))")
           }
       }
 
@@ -288,7 +289,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
             tableView.removeGestureRecognizer(longPressGesture!)
             longPressGesture!.removeTarget(self, action: #selector(PGLFilterTableController.longPressAction(_:)))
             longPressGesture = nil
-           NSLog("PGLFilterTableController removeGestureRecogniziers ")
+//           NSLog("PGLFilterTableController removeGestureRecogniziers ")
        }
 
     }
@@ -298,7 +299,8 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         let point = sender.location(in: tableView)
 
         if sender.state == .began
-        {   NSLog("PGLFilterTableController longPressAction begin")
+        {
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController longPressAction begin")
             guard let longPressIndexPath = tableView.indexPathForRow(at: point) else {
                 longPressStart = nil // assign to var
                 return
@@ -361,12 +363,12 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
     // MARK: unwind segue code. Triggered from PGLSelectParm
     @IBAction func goToChildStack(segue: UIStoryboardSegue) {
-        NSLog("PGLParmsFilterTabsController goToChildStack segue")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLParmsFilterTabsController goToChildStack segue")
 
     }
 
     @IBAction func goToParentFilterStack(segue: UIStoryboardSegue) {
-        NSLog("PGLParmsFilterTabsController goToParentFilterStack segue")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLParmsFilterTabsController goToParentFilterStack segue")
 
     }
 

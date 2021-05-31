@@ -117,7 +117,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
                         // don't do a clone
                             cycleStack.nextType = NextElement.each
                             nextImageAttribute.setToIncrementEach()
-                            NSLog("PGLTransitionFilter does not clone a rotation - increments each input #setImageListClone(cycleStack: PGLImageList, sourceKey: String) {")
+//                            NSLog("PGLTransitionFilter does not clone a rotation - increments each input #setImageListClone(cycleStack: PGLImageList, sourceKey: String) {")
                             return
                         }
 //                        NSLog("PGLTransitionFilter setImageListClone(cycleStack:  else branch on noImageInput")

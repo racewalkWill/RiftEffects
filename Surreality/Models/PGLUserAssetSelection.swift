@@ -8,6 +8,7 @@
 
 import Foundation
 import Photos
+import os
 
 class PGLAlbumSource: Hashable {
     var sectionSource: PHAssetCollection
@@ -108,8 +109,8 @@ class PGLUserAssetSelection {
         let newSectionKey = newSource.value.identifier
         let newSection = newSource.value
 
-        NSLog("PGLUserAssetSelection #merge key = \(newSectionKey)")
-        NSLog("PGLUserAssetSelection #merge newSection = \(newSection)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #merge key = \(newSectionKey)")
+
 
         sections[newSectionKey ] = newSection
 
@@ -127,9 +128,9 @@ class PGLUserAssetSelection {
 
         var oddAssets = [PGLAsset]()
 
-        NSLog("PGLUserAssetSelection #cloneOdd")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #cloneOdd")
         for (i,a) in selectedAssets.enumerated() {
-            NSLog("PGLUserAssetSelection #cloneOdd i = \(i)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #cloneOdd i = \(i)")
             if !i.isEven() { oddAssets.append(a)}
         }
         if let firstSource = oddAssets.first {
@@ -160,7 +161,7 @@ class PGLUserAssetSelection {
 
         var allAssets = [PGLAsset]()
 
-        NSLog("PGLUserAssetSelection #cloneAll")
+
         for (i,a) in selectedAssets.enumerated() {
             allAssets.append(a) 
         }

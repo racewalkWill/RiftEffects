@@ -70,7 +70,7 @@ class PGLImageList {
     convenience init(localAssetIDs: [String],albumIds: [String]) {
         // this init assumes two matching arrays of same size localId and albumid
         if (localAssetIDs.count != albumIds.count) {
-            NSLog("PGLImageList init fails on localAssetIDs.count != albumIds.count")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLImageList init fails on localAssetIDs.count != albumIds.count")
         }
         self.init()
         assetIDs = localAssetIDs
@@ -96,7 +96,7 @@ class PGLImageList {
 //        var newbie: PGLUserAssetSelection
 
         if let firstAsset = imageAssets.first {
-            NSLog("PGLImageList #setUserSelection first = \(firstAsset)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageList #setUserSelection set firstAsset")
             let thisAlbumSource = firstAsset.asPGLAlbumSource(onAttribute: toAttribute)
 
             let newbie = PGLUserAssetSelection(assetSources: thisAlbumSource)

@@ -8,6 +8,11 @@
 
 import XCTest
 import Photos
+import os
+
+let TestLogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
+var TestLogCategory = "PGL"
+
 @testable import Surreality
 
 
@@ -70,7 +75,7 @@ class PGLSourceFilterTests: XCTestCase {
         // test creation of the parmAttributes of the CIFilter. PGLSourceFilter connects parms and the filter
         
         XCTAssertNotNil(depthFilter)
-        NSLog("testParmAttributes depthFilter = \(String(describing: depthFilter))")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testParmAttributes depthFilter = \(String(describing: self.depthFilter))")
         XCTAssert(depthFilter!.attributes.count == 7)
         
         if let depthAttributes = depthFilter?.attributes {
@@ -88,7 +93,7 @@ class PGLSourceFilterTests: XCTestCase {
 //        let ciFilterQueue = DispatchQueue(label: "glance-ciFilter-processing")
         XCTAssertNotNil(depthFilter)
         depthFilter?.setDefaults()
-        NSLog("testParmAttributes depthFilter = \(String(describing: depthFilter))")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testParmAttributes depthFilter = \(String(describing: self.depthFilter))")
         XCTAssert(depthFilter!.attributes.count == 7)
 
 
@@ -98,9 +103,9 @@ class PGLSourceFilterTests: XCTestCase {
                 anAttribute.increment()
                let  changedValue = anAttribute.getValue()!
 //                NSLog("testParmInput anAttribute = \(String(describing: anAttribute.attributeDisplayName))")
-                NSLog("testParmInput initialValue = \(initialValue)")
-                NSLog("testParmInput changedValue = \(changedValue)")
-//                XCTAssert(changedValue === initialValue,"Filter parm  is NOT changed. Set Value failed")
+//                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testParmInput initialValue = \(initialValue)")
+//                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testParmInput changedValue = \(changedValue)")
+////                XCTAssert(changedValue === initialValue,"Filter parm  is NOT changed. Set Value failed")
             }
 
         }
@@ -143,7 +148,7 @@ class PGLSourceFilterTests: XCTestCase {
         let transitionCategory = PGLFilterCategory("CICategoryTransition")!
         for aTransitionDescriptor in transitionCategory.filterDescriptors {
 //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-              NSLog("PGLSourceFilterTests \(#function) testing filter \(aTransitionDescriptor.displayName)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aTransitionDescriptor.displayName)")
             let timerFilter = aTransitionDescriptor.pglSourceFilter()!
 
             XCTAssertNotNil(timerFilter)
@@ -155,7 +160,7 @@ class PGLSourceFilterTests: XCTestCase {
                 // so two parms are set with values
             if let allImageParms = timerFilter.imageParms() {
                 if allImageParms.count > 2 {
-                    NSLog("\(String(describing: timerFilter.filterName)) has more than 2 image inputs")
+                    Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("\(String(describing: timerFilter.filterName)) has more than 2 image inputs")
 
                     favoritesAlbumList.position = 2
                     for nextImageParm in allImageParms.suffix(from: 2) {
@@ -200,7 +205,7 @@ class PGLSourceFilterTests: XCTestCase {
             let theCategory = PGLFilterCategory("CICategoryStylize")!
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -242,7 +247,7 @@ class PGLSourceFilterTests: XCTestCase {
             let theCategory = PGLFilterCategory("CICategoryDistortionEffect")!
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -283,7 +288,7 @@ class PGLSourceFilterTests: XCTestCase {
             let theCategory = PGLFilterCategory("CICategoryGeometryAdjustment")!
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -325,7 +330,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -371,7 +376,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -413,7 +418,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -460,7 +465,7 @@ class PGLSourceFilterTests: XCTestCase {
 
                for aFilter in theCategory.filterDescriptors {
        //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                     NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                     Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                    let pglFilter = aFilter.pglSourceFilter()!
 
                    XCTAssertNotNil(pglFilter)
@@ -508,7 +513,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             for aFilter in theCategory.filterDescriptors {
     //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -556,7 +561,7 @@ class PGLSourceFilterTests: XCTestCase {
 
             for aFilter in theCategory.filterDescriptors {
 
-                  NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
+                  Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
@@ -604,7 +609,7 @@ class PGLSourceFilterTests: XCTestCase {
 
         for aFilter in theCategory.filterDescriptors {
 
-            NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
             let pglFilter = aFilter.pglSourceFilter()!
 
             XCTAssertNotNil(pglFilter)
@@ -654,7 +659,7 @@ class PGLSourceFilterTests: XCTestCase {
 
            for aFilter in theCategory.filterDescriptors {
 
-                 NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
+                 Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
                let pglFilter = aFilter.pglSourceFilter()!
 
                XCTAssertNotNil(pglFilter)
@@ -702,7 +707,7 @@ class PGLSourceFilterTests: XCTestCase {
 
         for aFilter in theCategory.filterDescriptors {
 
-              NSLog("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
+              Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName) \(String(describing: aFilter.filterName))")
             let pglFilter = aFilter.pglSourceFilter()!
 
             XCTAssertNotNil(pglFilter)
@@ -747,7 +752,7 @@ class PGLSourceFilterTests: XCTestCase {
         let testFilterNames = ["CISpotColor" , "CICopyMachineTransition"]
 
         for aFilterName in testFilterNames {
-            NSLog("testDynamicFilterAttributeClass filter = \(aFilterName)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testDynamicFilterAttributeClass filter = \(aFilterName)")
         let colorFilter = PGLSourceFilter(filter: aFilterName )
 
         for spotAttribute in (colorFilter?.attributes)! {
@@ -769,7 +774,7 @@ class PGLSourceFilterTests: XCTestCase {
                         let attributeType = type(of: spotAttribute)
                         XCTAssert(attributeType == PGLFilterAttribute.self )
                         if (attributeType != PGLFilterAttribute.self ) {
-                            NSLog("Attribute class of \(String(describing: spotAttribute.attributeName))is \(attributeType) PGLFilterAttribute") }
+                            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Attribute class of \(String(describing: spotAttribute.attributeName))is \(attributeType) PGLFilterAttribute") }
 
                 }
             }
@@ -790,7 +795,7 @@ class PGLSourceFilterTests: XCTestCase {
         if let attributeRed = colorAttribute?.red {
             XCTAssert(attributeRed > 0.0) } else {XCTAssertNotNil(colorAttribute?.red) }
 
-        NSLog("testCISpotColorFilter color1 = \(String(describing: color1))")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testCISpotColorFilter color1 = \(String(describing: color1))")
     }
     
 //    func testPerformanceExample() {

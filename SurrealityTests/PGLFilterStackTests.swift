@@ -8,6 +8,8 @@
 
 import XCTest
 import Photos
+import os
+
 
 @testable import Surreality
 
@@ -31,7 +33,7 @@ class PGLFilterStackTests: XCTestCase {
         // add two more
        
         guard let favoriteAlbumSource = fetchFavoritesList() else
-            { NSLog (" setUp fatalError( favoritesAlbum contents not returned")
+            { Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice (" setUp fatalError( favoritesAlbum contents not returned")
              return
         }
        
@@ -41,7 +43,7 @@ class PGLFilterStackTests: XCTestCase {
 
         guard let selectedAssets = favoriteAssets?.prefix(6)
             else { 
-            NSLog (" setUp fatalError( Favorite Album does not have 6 images")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice (" setUp fatalError( Favorite Album does not have 6 images")
              return
         }
         
@@ -65,7 +67,7 @@ class PGLFilterStackTests: XCTestCase {
             filterStack.appendFilter(tileFilter)
         }
         activeFilterCount = filterStack.activeFilters.count
-        NSLog("PGLFilterStackTests setup activeFilterCount = \(activeFilterCount)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests setup activeFilterCount = \(self.activeFilterCount)")
 
         filterStack.stackType = "testCase PGLFilterStackTests"
 
@@ -100,8 +102,9 @@ class PGLFilterStackTests: XCTestCase {
     func testStackSetup() {
         // shows that the suite setup has an output image
         // and save the output image
+        let moContext = PersistentContainer.viewContext
         filterStack.stackName = "testStackSetup" + " \(Date())"
-        _ = filterStack.writeCDStack()
+        _ = filterStack.writeCDStack(moContext: moContext)
         XCTAssertNotNil(filterStack.storedStack)
         
 
@@ -121,16 +124,18 @@ class PGLFilterStackTests: XCTestCase {
         // show adding a filter to a stored stack.
         let defaultTitle = "testAddDeleteFilters" +  " \(Date())"
         filterStack.stackName = defaultTitle
-        NSLog("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
-        let writtenStack = filterStack.writeCDStack()
-        NSLog("PGLFilterStackTests #testAddDeleteFilters wroteCDStack \(writtenStack)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
+        let moContext = PersistentContainer.viewContext
+
+        let writtenStack = filterStack.writeCDStack(moContext: moContext)
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testAddDeleteFilters wroteCDStack \(writtenStack)")
 
 
         _ = filterStack.removeLastFilter()
         XCTAssert(filterStack.activeFilters.count == activeFilterCount - 1)
 
 
-        let savedStack = filterStack.writeCDStack() // should update with delete
+        let savedStack = filterStack.writeCDStack(moContext: moContext) // should update with delete
         let newStack2 = PGLFilterStack()
         newStack2.on(cdStack: savedStack)
         XCTAssert(filterStack.activeFilters.count == newStack2.activeFilters.count)
@@ -141,11 +146,11 @@ class PGLFilterStackTests: XCTestCase {
         
 
         for aFilter in filterStack.activeFilters {
-            NSLog("filterStack filter = \(String(describing: aFilter.filterName))")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("filterStack filter = \(String(describing: aFilter.filterName))")
         }
 
         for aFilter in newStack2.activeFilters {
-            NSLog("newStack2 filter = \(String(describing: aFilter.filterName))")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("newStack2 filter = \(String(describing: aFilter.filterName))")
         }
 
         
@@ -155,6 +160,7 @@ class PGLFilterStackTests: XCTestCase {
     func testCycleSave() {
         //confirm that the multiple inputs to a filter are saved
         let stackName = "testCycleSave" +  " \(Date())"
+        let moContext = PersistentContainer.viewContext
         filterStack.stackName = stackName
         // need a filter then assign the test PGLImageList to it..
         // the save of the filter should create the CDImageList
@@ -167,7 +173,7 @@ class PGLFilterStackTests: XCTestCase {
            
         }
 
-        let savedStack = filterStack.writeCDStack()
+        let savedStack = filterStack.writeCDStack(moContext: moContext)
             // stack, filters, imageList should all be stored
 
         let aNewStack = PGLFilterStack()
@@ -202,9 +208,9 @@ class PGLFilterStackTests: XCTestCase {
             blendFilter.setDefaults()
             filterStack.moveActiveBack()
             if let aParm = filterStack.currentFilter().imageParms()?.first {
-                NSLog("PGLFilterStackTests #testInputFilterSave to  \(filterStack.stackName)")
-                NSLog("PGLFilterStackTests #testInputFilterSave to \(String(describing: filterStack.currentFilter().filterName))")
-                NSLog("PGLFilterStackTests #testInputFilterSave to \(String(describing: aParm.attributeName))")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testInputFilterSave to  \(self.filterStack.stackName)")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testInputFilterSave to \(String(describing: self.filterStack.currentFilter().filterName))")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testInputFilterSave to \(String(describing: aParm.attributeName))")
 
                 testAppStack.addChildStackTo(parm: aParm)
                 let newMasterStack = testAppStack.viewerStack
@@ -228,9 +234,9 @@ class PGLFilterStackTests: XCTestCase {
                 let testInputStack = inputStackAttribute!.inputStack
                 XCTAssertNotNil(outputAttributes)
                 XCTAssertNotNil(testInputStack)
-                NSLog("Filter with child inputStack = \(testAppStack.outputFilterStack().currentFilter())")
-                NSLog("Filter position = \(inputFilterPosition)")
-                NSLog("attribute \(String(describing: inputStackAttribute)) has inputStack \(String(describing: testInputStack))")
+//                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter with child inputStack = \(testAppStack.outputFilterStack().currentFilter())")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter position = \(inputFilterPosition)")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("attribute \(String(describing: inputStackAttribute)) has inputStack \(String(describing: testInputStack))")
 
                 _ = testAppStack.outputFilterStack().stackName
                  testAppStack.writeCDStacks()

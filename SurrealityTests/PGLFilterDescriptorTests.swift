@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import os
+
 @testable import Surreality
 
 class PGLFilterDescriptorTests: XCTestCase {
@@ -33,7 +35,7 @@ class PGLFilterDescriptorTests: XCTestCase {
                                kCICategoryGeometryAdjustment]
         for aCategory in classCategories {
             let allFilters = CIFilter.filterNames(inCategory: aCategory)
-//            NSLog("all filters by category \(aCategory) = \(allFilters)")
+//            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("all filters by category \(aCategory) = \(allFilters)")
             XCTAssertNotNil(allFilters)
 
         }
@@ -62,7 +64,7 @@ class PGLFilterDescriptorTests: XCTestCase {
         let allCategories = PGLFilterCategory.allFilterCategories()
 
        let categoryGeometryAdjustment = allCategories[2]
-//        NSLog( "categoryGeometryAdjustment = \(categoryGeometryAdjustment)")
+//        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice( "categoryGeometryAdjustment = \(categoryGeometryAdjustment)")
 
      XCTAssert(categoryGeometryAdjustment.filterDescriptors.count > 5 )
     }
@@ -73,13 +75,13 @@ class PGLFilterDescriptorTests: XCTestCase {
             let categoryFilterNames = CIFilter.filterNames(inCategory: aCategory.categoryConstant)
 
             for aFilterName in categoryFilterNames {
-                NSLog("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
                 let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, standardClass)
                 // these filters should already be cached in the categories but checking direct creation here
                 XCTAssertNotNil(thisFilterDescriptor?.filter, "CIFilter did not create filter /(aFilterName) from category \(aCategory.categoryConstant)")
                 XCTAssertNotNil(thisFilterDescriptor?.pglSourceFilter(), "CIFilter did not create pglSourceFilter /(aFilterName) from category \(aCategory.categoryConstant)")
             }
-            //            NSLog("all filters by category \(aCategory) = \(allFilters)")
+            //            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("all filters by category \(aCategory) = \(allFilters)")
 
 
         }
@@ -95,17 +97,17 @@ class PGLFilterDescriptorTests: XCTestCase {
 
             for aFilterName in categoryFilterNames {
                 filterAttributes = [String:Any]()
-                NSLog("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
                 let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, standardClass)
                 // these filters should already be cached in the categories but checking direct creation here
                 if let myFilter = thisFilterDescriptor?.pglSourceFilter() {
-                    NSLog(aFilterName)
-                    NSLog(CIFilter.localizedDescription(forFilterName: aFilterName)!)
+                    Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("\(aFilterName)")
+                    Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("\(CIFilter.localizedDescription(forFilterName: aFilterName)!)" )
 
                     filterAttributes = (myFilter.localFilter.attributes)
-                    NSLog(filterAttributes.description)
+                    Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("\(filterAttributes.description)")
                 }
-//                        NSLog("all filters by category \(aCategory) = \(allFilters)")
+//                        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("all filters by category \(aCategory) = \(allFilters)")
 
 
             }
@@ -133,14 +135,14 @@ class PGLFilterDescriptorTests: XCTestCase {
                         if anAttribute.attributeUIType() == AttrUIType.filterPickUI {
                             // pointUI, sliderUI, imagePickUI, rectUI are not filterPickUI.. interfaces exist
                             nonUIParmCount += 1
-//                            NSLog("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
-                            NSLog("filter \(aFilterName) category \(aCategory.categoryConstant) NOT UI Parm \(anAttribute.description)")
+//                            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
+                            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("filter \(aFilterName) category \(aCategory.categoryConstant) NOT UI Parm \(anAttribute.description)")
                         }
                     }
                 }
             }
         }
-        NSLog("Count of nonUI Parms = \(nonUIParmCount)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Count of nonUI Parms = \(nonUIParmCount)")
     }
 
     func testFilterAttributeCounter() {
@@ -158,7 +160,7 @@ class PGLFilterDescriptorTests: XCTestCase {
         let allCategories = PGLFilterCategory.allFilterCategories()
         for aCategory in allCategories {
             let categoryFilterNames = CIFilter.filterNames(inCategory: aCategory.categoryConstant)
-            NSLog("filters in category \(aCategory.categoryName) = \(categoryFilterNames.count)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("filters in category \(aCategory.categoryName) = \(categoryFilterNames.count)")
             for aFilterName in categoryFilterNames {
                 filterAttributes = [String:Any]()  // reset to empty attributes
                 if let thisFilter = CIFilter(name: aFilterName) {
@@ -169,7 +171,7 @@ class PGLFilterDescriptorTests: XCTestCase {
                     filterAttributes = (thisFilter.attributes)
                     let inputKeysCount = thisFilter.inputKeys.count
                         if inputKeysCount > 5 {
-//                            NSLog(" large parm count for \(aFilterName) count = \(inputKeysCount)")
+//                            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice(" large parm count for \(aFilterName) count = \(inputKeysCount)")
                         }
                     oldCount = attributeCounts[inputKeysCount] ?? 0 // needs to count only the input parms
                     attributeCounts[inputKeysCount] = oldCount + 1
@@ -193,17 +195,17 @@ class PGLFilterDescriptorTests: XCTestCase {
 
 
                 }
-                //            NSLog("all filters by category \(aCategory) = \(allFilters)")
+                //            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("all filters by category \(aCategory) = \(allFilters)")
 
 
             }
 
         }
-        NSLog("testFilterAttibuteCounter filter count = \(filters.count)")
-        NSLog("testFilterAttibuteCounter PARMS (parmsSize: filterCount) \(attributeCounts)")
-        NSLog("testFilterAttibuteCounter CLASS (class: count) \(attributeClassCounts)")
-        NSLog("testFilterAttibuteCounter TYPE (type: count) \(attributeTypeCounts)")
-        NSLog("filters with Vectors \(filtersUsingVectors)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterAttibuteCounter filter count = \(filters.count)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterAttibuteCounter PARMS (parmsSize: filterCount) \(attributeCounts)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterAttibuteCounter CLASS (class: count) \(attributeClassCounts)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testFilterAttibuteCounter TYPE (type: count) \(attributeTypeCounts)")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("filters with Vectors \(filtersUsingVectors)")
 
     }
 

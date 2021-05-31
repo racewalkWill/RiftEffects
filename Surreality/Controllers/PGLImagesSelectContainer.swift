@@ -3,12 +3,13 @@
 //  Glance
 //
 //  Created by Will on 2/28/20.
-//  Copyright © 2020 Will. All rights reserved.
+//  Copyright © 2020 Will Loew-Blosser. All rights reserved.
 //
 
 import UIKit
 import Photos
 import PhotosUI
+import os
 
 let PGLImageAccepted = NSNotification.Name(rawValue: "PGLImageAccepted")
 let PGLSelectImageBack = NSNotification.Name(rawValue: "PGLSelectImageBack")
@@ -22,7 +23,7 @@ class PGLImagesSelectContainer: UIViewController {
 
     var userAssetSelection: PGLUserAssetSelection! {
         didSet{
-            NSLog("PGLImagesSelectContainer set var userAssetSelection= \(String(describing: userAssetSelection))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImagesSelectContainer set var userAssetSelection= \(String(describing: self.userAssetSelection))")
         }
     }
     var appStack: PGLAppStack!
@@ -48,7 +49,7 @@ class PGLImagesSelectContainer: UIViewController {
         // pass vars to childerntr
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
                                  else {
-                NSLog("PGLImagesSelectContainer viewDidLoad FatalError(AppDelegate not loaded")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLImagesSelectContainer viewDidLoad FatalError(AppDelegate not loaded")
                 return
 
         }
@@ -66,7 +67,7 @@ class PGLImagesSelectContainer: UIViewController {
             NotificationCenter.default.removeObserver(anObserver)
         }
         notifications = [Any]() // reset
-        NSLog("PGLImagesSelectContainer #viewDidDisappear ...")
+//        NSLog("PGLImagesSelectContainer #viewDidDisappear ...")
 
        }
 
@@ -96,7 +97,7 @@ class PGLImagesSelectContainer: UIViewController {
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            NSLog("PGLImagesSelectContainer PGLImageCollectionOpen call setActionButtons ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImagesSelectContainer PGLImageCollectionOpen call setActionButtons ")
             self.setActionButtons()
                    }
          notifications.append(aNotification)
@@ -105,7 +106,7 @@ class PGLImagesSelectContainer: UIViewController {
                    myUpdate in
                    guard let self = self else { return } // a released object sometimes receives the notification
                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-                   NSLog("PGLImagesSelectContainer  notificationBlock PGLReplaceFilterEvent")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImagesSelectContainer  notificationBlock PGLReplaceFilterEvent")
                    // pull out the changed filterAttribute and assign to the userAssetSelection object
 
                 let currentFilter = self.appStack.outputStack.currentFilter()
@@ -122,7 +123,7 @@ class PGLImagesSelectContainer: UIViewController {
             let userSelectionInfo = PGLUserAssetSelection(assetSources: assetInfo)
             if let newSource = self.userAssetSelection.merge(newAssetSource: userSelectionInfo)
                 {
-                    NSLog("PGLImagesSelectContainter observer for PGLImageCollectionChange is triggering PGLImageAlbumAdded")
+                Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImagesSelectContainter observer for PGLImageCollectionChange is triggering PGLImageAlbumAdded")
                     let changeAlbumNotification = Notification(name:PGLImageAlbumAdded)
                     NotificationCenter.default.post(name: changeAlbumNotification.name, object: nil, userInfo: ["newSource": newSource as Any])
                 }

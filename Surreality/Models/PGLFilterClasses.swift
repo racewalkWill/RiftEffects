@@ -11,6 +11,7 @@ import Foundation
 import CoreImage
 import simd
 import UIKit
+import os
 
 
 
@@ -47,7 +48,7 @@ class PGLSourceFilter :  PGLAnimation  {
     }
     var filterName: String! {
         didSet {
-            NSLog("PGLSourceFilter filterName set to String(describing:filterName)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSourceFilter filterName set to String(describing:filterName)")
         }
     }
     var descriptorDisplayName: String? // not the same as the ciFilter name
@@ -197,7 +198,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                 // ignore changes in the image input for successive frames.
                 oldImageInput = image
 // uncomment this logging to see the frame by frame .. also lists the kernel in the filter... for CIDepthOfField it's more than you would think.
-                if debugOutputImage { NSLog("PGLSourceFilter setInput(image: didSet = \(String(describing: image))") }
+//                if debugOutputImage { NSLog("PGLSourceFilter setInput(image: didSet = \(String(describing: image))") }
 //                localFilter.setValue(image, forKey: kCIInputImageKey)
 
                 setImageValue(newValue: image!, keyName: kCIInputImageKey)
@@ -332,7 +333,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                 }
         let thisOutput = localFilter.outputImage
         //        thisOutput?.cropped(to: thisOutput!.extent)
-                if debugOutputImage { NSLog("PGLSourceFilter outputImage =  \(String(describing: thisOutput))")  }
+//                if debugOutputImage { NSLog("PGLSourceFilter outputImage =  \(String(describing: thisOutput))")  }
         return thisOutput
     }
 
@@ -825,19 +826,19 @@ class PGLDetector: PGLDetection {
     func nextFeature(to: Direction) {
         // 12/2/19 should have a dissolve on incremnent for smooth change to next feature
         // moves upward to features.count. then returns to start at zero
-        NSLog("PGLDetector nextFeature start currentFeatureIndex = \(currentFeatureIndex) features.count = \(features.count)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLDetector nextFeature start currentFeatureIndex = \(self.currentFeatureIndex) features.count = \(self.features.count)")
         currentFeatureIndex += to.rawValue
         if (currentFeatureIndex >= features.count) || (currentFeatureIndex < 0) {
             currentFeatureIndex = 0
         }
-        NSLog("PGLDetector nextFeature end currentFeatureIndex = \(currentFeatureIndex) features.count = \(features.count)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLDetector nextFeature end currentFeatureIndex = \(self.currentFeatureIndex) features.count = \(self.features.count)")
 //        setFeaturePoint()
     }
 
     // set features
     func setFeaturePoint(){
         // put the center of the first feature into the point value of the attribute
-         NSLog("PGLDetector setFeaturePoint currentFeatureIndex = \(currentFeatureIndex) features.count = \(features.count)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLDetector setFeaturePoint currentFeatureIndex = \(self.currentFeatureIndex) features.count = \(self.features.count)")
         if features.isEmpty {return }
         if currentFeatureIndex >= features.count {return}
         let mainFeature = features[currentFeatureIndex]
@@ -846,7 +847,7 @@ class PGLDetector: PGLDetection {
         let centerY = mainBox.midY
         let pointVector = CIVector(x:centerX, y: centerY)
         filterAttribute?.set( pointVector)
-        NSLog("PGLDetector setFeaturePoint = \(pointVector)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLDetector setFeaturePoint = \(pointVector)")
 
     }
 

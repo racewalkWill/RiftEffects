@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os
 
 let  PGLStackChange = NSNotification.Name(rawValue: "PGLStackChange")
 let PGLSelectActiveStackRow = NSNotification.Name(rawValue: "PGLSelectActiveStackRow")
@@ -87,12 +88,12 @@ class PGLAppStack {
         
     }
     func moveTo(filterIndent: PGLFilterIndent) {
-        NSLog("PGLAppStack #moveTo(filterIndent: \(filterIndent)")
-        NSLog("PGLAppStack #moveTo( viewerStack was \(viewerStack)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLAppStack #moveTo(filterIndent: \(filterIndent.filterPosition)")
+
 
         filterIndent.stack.imageCIContext = viewerStack.imageCIContext
         viewerStack = filterIndent.stack
-        NSLog("PGLAppStack #moveTo( viewerStack now \(viewerStack)")
+//        NSLog("PGLAppStack #moveTo( viewerStack now \(viewerStack)")
         viewerStack.activeFilterIndex = filterIndent.filterPosition
         // remove from pushedStacks???
         pushedStacks.removeAll(where: { $0 === viewerStack })
@@ -325,8 +326,8 @@ class PGLAppStack {
         }
     var isImageControllerOpen = true { // set to false when PGLAssetGridController or other controllers in the detail are open
         didSet{
-            NSLog ("PGLAppStackl isImageControllerOpen = \(isImageControllerOpen)")
-            NSLog ("PGLAppStackl isImageControllerOpen oldValue = \(oldValue)")
+//            NSLog ("PGLAppStackl isImageControllerOpen = \(isImageControllerOpen)")
+//            NSLog ("PGLAppStackl isImageControllerOpen oldValue = \(oldValue)")
         }
     }
 }

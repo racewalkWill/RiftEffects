@@ -9,6 +9,7 @@
 import Foundation
 import CoreGraphics
 import UIKit
+import os
 
 class PGLTextFilter: PGLSourceFilter {
     // super class for the text filters which have a
@@ -211,7 +212,9 @@ class CompositeTextPositionFilter: CIFilter {
 
     class func register()   {
  //       let attr: [String: AnyObject] = [:]
-        NSLog("CompositeTextPositionFilter #register()")
+//        NSLog("CompositeTextPositionFilter #register()")
+
+            Logger().info("CompositeTextPositionFilter #register()")
         CIFilter.registerName(kCompositeTextPositionFilter, constructor: PGLFilterConstructor(), classAttributes: [
             kCIAttributeFilterCategories :    [kCICategoryGenerator ,
                                                kCICategoryStillImage,

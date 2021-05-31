@@ -12,6 +12,7 @@ import CoreImage
 import simd
 import UIKit
 import Photos
+import os
 
 class PGLDisparityFilter: PGLRectangleFilter {
     // filters that use depth or disparity
@@ -115,7 +116,8 @@ class PGLDisparityFilter: PGLRectangleFilter {
 
         inputAsset.asset.requestContentEditingInput(with: options, completionHandler: { input, info in
             guard let input = input
-                else { NSLog ("contentEditingInput not loaded")
+                else {
+                Logger(subsystem: LogSubsystem, category: LogCategory).info( ("contentEditingInput not loaded"))
                      return
                 }
 
@@ -125,7 +127,7 @@ class PGLDisparityFilter: PGLRectangleFilter {
 
             if !info.isEmpty {
                 // is PHContentEditingInputErrorKey in the info
-                NSLog("PGLImageList #requestDisparityMap has info returned \(info) for \(inputAsset.asset)")
+                Logger(subsystem: LogSubsystem,  category: LogCategory).debug("PGLImageList #requestDisparityMap has info returned \(info) for \(inputAsset.asset)")
             }
             self.auxImage = CIImage(contentsOf: input.fullSizeImageURL!, options: [CIImageOption.auxiliaryDisparity: true])
 

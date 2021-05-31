@@ -10,6 +10,7 @@
 import UIKit
 import Photos
 import PhotosUI
+import os
 
 
 
@@ -42,7 +43,7 @@ class PGLAssetController: UIViewController {
 
         asset = userAssetSelection.asset(position: assetIndex,albumId: selectedAlbumId)
             // selectedAlbumId may be nil - uses selectedAssets
-        NSLog("PGLAssetController #viewDidLoad")
+//        NSLog("PGLAssetController #viewDidLoad")
 
         navigationItem.title = userAssetSelection.headerTitle(albumId: selectedAlbumId)
         navigationController?.isToolbarHidden = false
@@ -93,7 +94,7 @@ class PGLAssetController: UIViewController {
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             // PGLImageCollectionMasterController in the master section is navigating back.
             // navigate back here too
-            NSLog("PGLAssetController received notification PGLImageNavigationBack ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetController received notification PGLImageNavigationBack ")
 //            NSLog("PGLAssetController navigationController.viewControllers = \(self.navigationController?.viewControllers)")
             if let imageController = self.navigationController?.viewControllers.first {
 
@@ -121,7 +122,7 @@ class PGLAssetController: UIViewController {
                NotificationCenter.default.removeObserver(anObserver)
            }
            notifications = [Any]() // reset
-           NSLog("PGLImagesSelectContainer #viewDidDisappear ...")
+//           NSLog("PGLImagesSelectContainer #viewDidDisappear ...")
             navigationController?.isToolbarHidden = true
         removeSwipe()
     }
@@ -135,7 +136,7 @@ class PGLAssetController: UIViewController {
         // to the current grid selection
 //        NSLog("PGLAssetController #assetSelectDone btn action")
         // keep the image highlight in the assetGrid
-        NSLog("PGLAssetController #assetSelectDone popViewController")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetController #assetSelectDone popViewController")
         navigationController?.popViewController(animated: true) 
 
     }

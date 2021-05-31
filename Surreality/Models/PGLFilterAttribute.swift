@@ -11,6 +11,7 @@ import UIKit
 import Photos
 import CoreImage
 import Accelerate
+import os
 
 enum AttrClass: String {
     case Color = "CIColor"
@@ -480,7 +481,7 @@ class PGLFilterAttribute {
                 if let myString = value as? NSString {
                     aSourceFilter.setStringValue(newValue: myString, keyName: attributeName!) }
 
-            default: NSLog("Error- can not set value for unknown filter attribute class in \(String(describing: attributeName))")
+            default: Logger(subsystem: LogSubsystem, category: LogCategory).fault("Error- can not set value for unknown filter attribute class in \(String(describing: self.attributeName))")
                 // raises error on a new attribute class
             }
         }
@@ -629,7 +630,7 @@ class PGLFilterAttribute {
                 // keeps animation logic going but no changes in the attribute values
         }
 
-        NSLog( "#setTimerDT attributeValueDelta = \(String(describing: attributeValueDelta))")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice( "#setTimerDT attributeValueDelta = \(String(describing: self.attributeValueDelta))")
     }
 
 
@@ -713,16 +714,20 @@ class PGLFilterAttribute {
                     }
             case  AttrClass.Data.rawValue :   if let dataValue = getDataValue() {
                         set(dataValue as Any)  // increment semenatics do not work for a data object
-                NSLog("PGLFilterAttribute increment on NSData ") }
+//                NSLog("PGLFilterAttribute increment on NSData ")
+
+                }
             case  AttrClass.Value.rawValue :  if let aNSValue = getNSValue() {
                         set(aNSValue as Any) // increment semenatics do not work for a data object
-                NSLog("PGLFilterAttribute increment on NSValue ") }
+//                NSLog("PGLFilterAttribute increment on NSValue ")
+
+            }
             case  AttrClass.Object.rawValue :  if let objectValue = getObjectValue() {
                 set(objectValue as Any) }
             case  AttrClass.String.rawValue :  if let stringValue = getStringValue() {
                 set(stringValue as String + "increment") }
             
-        default: assert(true == false)  // raises error on a new attribute class
+            default: Logger(subsystem: LogSubsystem, category: LogCategory).fault("new attribute class")
         }
     }
 
@@ -1209,7 +1214,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     override func set(_ value: Any ) {
         if let newValue = value as? Float {
             setRotation(radians: newValue)
-        } else { NSLog("PGLFilterAttributeAffine set value not converted")}
+        } else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLFilterAttributeAffine set value not converted")}
     }
     override func incrementValueDelta() {
         // animation time range 0.0 to 1.0
@@ -1282,7 +1287,7 @@ class PGLFilterAttributeColor: PGLFilterAttribute {
                 changedColor = CIColor(red: oldColor.red, green: oldColor.green, blue: oldColor.blue, alpha: newValue, colorSpace: oldColor.colorSpace)!
             }
             aSourceFilter.setColorValue(newValue: changedColor, keyName: attributeName!)
-            NSLog("PGLFilterAttribute setColor to \(changedColor)")
+//            NSLog("PGLFilterAttribute setColor to \(changedColor)")
         }
     }
 

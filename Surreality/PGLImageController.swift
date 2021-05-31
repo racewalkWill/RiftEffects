@@ -11,6 +11,7 @@ import AVFoundation
 import GLKit
 import MetalKit
 import Photos
+import os
 
 enum PGLFilterPick: Int {
     case category = 0, filter
@@ -98,7 +99,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
     @IBAction func randomBtnAction(_ sender: UIBarButtonItem) {
-        NSLog("PGLImageController addRandom button click")
+//        NSLog("PGLImageController addRandom button click")
         let setInputToPrior = appStack.viewerStack.stackHasFilter()
 
         let demoGenerator = PGLDemo()
@@ -299,7 +300,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     func doImageCollectionOpen(assetInfo: PGLAlbumSource) {
 
       if let theTop = navigationController?.topViewController {
-        NSLog("PGLImageController #doImageCollectionOpen on \(theTop) ")
+//        NSLog("PGLImageController #doImageCollectionOpen on \(theTop) ")
         }
         if appStack.isImageControllerOpen {
 
@@ -320,7 +321,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                     if let pictureGrid = segue.destination as? PGLImagesSelectContainer {
                         if let aUserAssetSelection = info.filterParm?.getUserAssetSelection() {
                             // there is an existing userSelection in progress.. use it
-                            NSLog("PGLImageController prepare destination but OPEN..")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImageController prepare destination but OPEN..")
                             // use navController and cancel the segue???
 
                             pictureGrid.userAssetSelection = aUserAssetSelection
@@ -331,7 +332,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                             pictureGrid.userAssetSelection = userSelectionInfo
                             pictureGrid.title = info.sectionSource.localizedTitle
 
-                            NSLog("PGLImageController #prepare for segue showCollection")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController #prepare for segue showCollection")
                         }
                             }
                     }
@@ -378,14 +379,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
-                NSLog( "PGLImageController viewDidLoad fatalError(AppDelegate not loaded")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault( "PGLImageController viewDidLoad fatalError(AppDelegate not loaded")
                 return
         }
 
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
 
-        NSLog("PGLImageController #viewdidLoad")
+//        NSLog("PGLImageController #viewdidLoad")
 
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
@@ -467,7 +468,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         myUpdate in
         guard let self = self else { return } // a released object sometimes receives the notification
                       // the guard is based upon the apple sample app 'Conference-Diffable'
-         NSLog("PGLImageController has  PGLImageCollectionOpen -calls doImageCollectionOpen")
+//         NSLog("PGLImageController has  PGLImageCollectionOpen -calls doImageCollectionOpen")
         
         if (self.view.isHidden) {self.view.isHidden = false }
             // needed to refresh the view after the trash creates a new stack.
@@ -624,7 +625,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 let parmView = parmControls[nameAttribute.key]
                 if parmAttribute.isTextInputUI() {
                     if let textInputField = parmView as? UITextField {
-                        NSLog("ImageController removeParmControls on textField -- end editing?")
+//                        NSLog("ImageController removeParmControls on textField -- end editing?")
 //                    textInputField.endEditing(true)
                     // end editing should cause resignFirstResponder and keyboard disappears
 //                   textInputField.resignFirstResponder()
@@ -649,7 +650,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //                }
 
         }
-        NSLog("PGLImageController removeParmControls completed")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController removeParmControls completed")
 
     }
 
@@ -696,7 +697,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             newView.isHidden = true
         }
         else {
-            NSLog("PGLImageController #addPositionControl fails on no vector value in \(attribute)")}
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLImageController #addPositionControl fails on no vector value ")}
     }
 
     func addTextInputControl(attribute: PGLFilterAttribute) {
@@ -777,48 +778,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         if rectController == nil {
             rectController =  storyboard!.instantiateViewController(withIdentifier: "RectangleController") as? PGLRectangleController
         }
-//        setRectTintAndCornerViews(attribute: attribute)
-
-//        if rectController != nil
-//        {  let newInsetRectFrame = insetRect(fromRect: self.view.bounds)
-//
-//            rectController!.view.frame = newInsetRectFrame
-//            rectController!.scaleTransform = myScaleTransform
-//                // .concatenating(glkScaleTransform) // for mapping the rect vector to the image coordinates
-//                // combines the scaleFactor of 2.0 with the ULO flip for applying the crop to the glkImage
-//
-//            NSLog("PGLImageController #addRectControl rectController.scaleTransform = \(String(describing: rectController!.scaleTransform))")
-//
-//            NSLog("PGLImageController #addRectControl rectController.view.frame inset from bounds = \(view.bounds)")
-//            NSLog("PGLImageController #addRectControl rectController.view.frame now = \(newInsetRectFrame)")
-//            let rectCropView = rectController!.view!
-//            view.addSubview(rectCropView)
-//            parmControls[attribute.attributeName!] = rectController!.view
-//                //parmControls = [String : UIView]() - string index by attributeName
-//            (rectController!.view).isHidden = true
-//
-//            // there are constraint errors reported from here..
-//             NSLayoutConstraint.activate([
-//                topTintView.bottomAnchor.constraint(equalTo: rectCropView.topAnchor),
-//                bottomTintView.topAnchor.constraint(equalTo: rectCropView.bottomAnchor),
-//                leftTintView.rightAnchor.constraint(equalTo: rectCropView.leftAnchor),
-//                rightTintView.leftAnchor.constraint(equalTo: rectCropView.rightAnchor)
-//                ] )
-//            for aTintView in tintViews {
-//                view.bringSubviewToFront(aTintView)
-//                // they are set to hidden in IB
-//            }
-//
-//            // next is not needed??
-//            for aCorner in rectController!.controlViewCorners {
-//                if let thisCorner = aCorner {
-//                    rectCropView.bringSubviewToFront(thisCorner)
-//                    NSLog("PGLImageController #addRectControls to front \(thisCorner)")
-//
-//                }
-//                view.bringSubviewToFront(rectCropView)
-//            }
-//        }
 
     }
     func setRectTintAndCornerViews(attribute: PGLAttributeRectangle) {
@@ -830,10 +789,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 // .concatenating(glkScaleTransform) // for mapping the rect vector to the image coordinates
                 // combines the scaleFactor of 2.0 with the ULO flip for applying the crop to the glkImage
 
-            NSLog("PGLImageController #setRectTintAndCornerViews rectController.scaleTransform = \(String(describing: rectController!.scaleTransform))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController #setRectTintAndCornerViews rectController.scaleTransform = \(String(describing: self.rectController!.scaleTransform))")
 
-            NSLog("PGLImageController #setRectTintAndCornerViews rectController.view.frame inset from bounds = \(view.bounds)")
-            NSLog("PGLImageController #setRectTintAndCornerViews rectController.view.frame now = \(newInsetRectFrame)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController #setRectTintAndCornerViews rectController.view.frame inset from bounds = \(self.view)")
+//            NSLog("PGLImageController #setRectTintAndCornerViews rectController.view.frame now = \(newInsetRectFrame)")
             let rectCropView = rectController!.view!
             view.addSubview(rectCropView)
             parmControls[attribute.attributeName!] = rectCropView
@@ -856,7 +815,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             for aCorner in rectController!.controlViewCorners {
                 if let thisCorner = aCorner {
                     rectCropView.bringSubviewToFront(thisCorner)
-                    NSLog("PGLImageController #addRectControls to front \(thisCorner)")
+//                    NSLog("PGLImageController #addRectControls to front \(thisCorner)")
 
                 }
                 view.bringSubviewToFront(rectCropView)
@@ -869,13 +828,13 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             aTintView.isHidden = setIsHidden
         }
         if rectController != nil {
-            NSLog("PGLImageController #showCropTintViews isHidden changing to \(setIsHidden)")
+//            NSLog("PGLImageController #showCropTintViews isHidden changing to \(setIsHidden)")
             rectController!.view.isHidden = setIsHidden
             rectController!.setCorners(isHidden: setIsHidden)
 
         }
         else {
-            NSLog("PGLImageController #showCropTintViews rectController = nil - corners NOT SET for isHidden = \(setIsHidden)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLImageController #showCropTintViews rectController = nil - corners NOT SET for isHidden = \(setIsHidden)")
         }
     }
 
@@ -937,8 +896,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
                 parmSlider.isHidden = false
                 view.bringSubviewToFront(parmSlider)
-            NSLog("PGLImageController addSliderControl \(attribute.description)")
-            NSLog("slider min = \(parmSlider.minimumValue) max = \(parmSlider.maximumValue) value = \(parmSlider.value)")
+//            NSLog("PGLImageController addSliderControl \(attribute.description)")
+//            NSLog("slider min = \(parmSlider.minimumValue) max = \(parmSlider.maximumValue) value = \(parmSlider.value)")
 
         }
 
@@ -956,7 +915,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
        {
         let matchedAttributeName = parmControls[buttonIndex].key
         let matchedAttribute = parms[matchedAttributeName]
-        NSLog("PGLImageController #buttonWasPressed attribute = \(String(describing: matchedAttribute))")
+//        NSLog("PGLImageController #buttonWasPressed attribute = \(String(describing: matchedAttribute))")
         }
     }
 

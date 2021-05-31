@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreImage
+import os
 
 @objc(PGLFilterCDDataTransformer)
 class PGLFilterCDDataTransformer: NSSecureUnarchiveFromDataTransformer {
@@ -36,7 +37,7 @@ class PGLFilterCDDataTransformer: NSSecureUnarchiveFromDataTransformer {
 
     override func transformedValue(_ value: Any?) -> Any? {
         guard let data = value as? Data else {
-            NSLog("PGLFilterCDDataTransformer transformedValue() Wrong data type: value must be a Data object; received \(type(of: value))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLFilterCDDataTransformer transformedValue() Wrong data type: value must be a Data object; received \(type(of: value))")
             return nil
         }
         return super.transformedValue(data)
@@ -44,7 +45,7 @@ class PGLFilterCDDataTransformer: NSSecureUnarchiveFromDataTransformer {
 
     override func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let thisFilter = value as? CIFilter else {
-            NSLog("PGLFilterCDDataTransformer reverseTransformedValue()  Wrong data type: value must be a CIFilter object; received \(type(of: value))")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLFilterCDDataTransformer reverseTransformedValue()  Wrong data type: value must be a CIFilter object; received \(type(of: value))")
             return nil
         }
         return super.reverseTransformedValue(thisFilter)

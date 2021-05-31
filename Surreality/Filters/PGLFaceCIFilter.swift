@@ -18,7 +18,7 @@ class PGLFaceCIFilter: PGLFilterCIAbstract {
 
     override class func register() {
  //       let attr: [String: AnyObject] = [:]
-        NSLog("PGLFaceCIFilter #register()")
+//        NSLog("PGLFaceCIFilter #register()")
         CIFilter.registerName(kPFaceFilter, constructor: PGLFilterConstructor(), classAttributes: PGLFaceCIFilter.customAttributes())
     }
 

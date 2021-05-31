@@ -37,6 +37,7 @@
  */
 
 import MetalKit
+import os
 var TargetSize = CGSize(width: 1040, height: 768)
 var DoNotDrawWhileSave = false
 
@@ -60,7 +61,7 @@ class Renderer: NSObject {
     init(metalView: MTKView) {
         super.init()
         guard let device = MTLCreateSystemDefaultDevice() else {
-            NSLog("Renderer init(metalView fatalError( GPU not available")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer init(metalView fatalError( GPU not available")
             return
         }
         metalView.device = device
@@ -101,7 +102,7 @@ class Renderer: NSObject {
         metalView.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
-            NSLog ("Renderer init(metalView fatalError( AppDelegate not loaded")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer init(metalView fatalError( AppDelegate not loaded")
             return
 
         }
@@ -117,13 +118,13 @@ class Renderer: NSObject {
 
         if let ciOutput = filterStack()?.stackOutputImage(false) {
             let currentRect = filterStack()!.cropRect
-            NSLog("Renderer #captureImage currentRect = \(currentRect)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("Renderer #captureImage currentRect ")
             let croppedOutput = ciOutput.cropped(to: currentRect)
             guard let currentOutputImage = ciContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
 
            
 
-            NSLog("Renderer #captureImage croppedOutput.extent = \(croppedOutput.extent)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureImage croppedOutput = \(croppedOutput)")
 
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
             // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
@@ -138,7 +139,7 @@ class Renderer: NSObject {
 
 extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
+//        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
          mtkViewSize = size
         TargetSize = size
         appStack.resetDrawableSize()
@@ -150,7 +151,7 @@ extension Renderer: MTKViewDelegate {
         guard let descriptor = view.currentRenderPassDescriptor,
             let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
-                NSLog("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
                 return
         }
         if let currentStack = filterStack()  {
@@ -196,13 +197,13 @@ extension Renderer: MTKViewDelegate {
 
                 }
                 else {
-                    NSLog("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
             }
-            else {NSLog("Renderer draw fatalError( fatalError(Render did not get the current view.commandBuffer - draw(in: view")}
+            else {Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( fatalError(Render did not get the current view.commandBuffer - draw(in: view")}
         }
-        else { NSLog ("Renderer drawfatalError( Render did not get the current view.currentDrawable - draw(in: view") }
+        else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer drawfatalError( Render did not get the current view.currentDrawable - draw(in: view") }
         }
-        else { NSLog ("Renderer draw fatalError(Render did not get the current filterStack - draw(in: view")}
+        else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError(Render did not get the current filterStack - draw(in: view")}
 
     }
 }

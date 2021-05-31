@@ -12,7 +12,7 @@ import UIKit
 import CoreImage
 import Photos
 import PhotosUI
-
+import os
 var PersistentContainer: NSPersistentContainer = {
        /*
         The persistent container for the application. This implementation
@@ -41,7 +41,7 @@ var PersistentContainer: NSPersistentContainer = {
                 let alert = UIAlertController(title: "Data Store Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("The userSaveErrorAlert alert occured.")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("The userSaveErrorAlert \(error.localizedDescription)")
                 }))
                 let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                 myAppDelegate.displayUser(alert: alert)
@@ -65,7 +65,7 @@ extension PGLFilterStack {
         self.init()
         stackName = readName
         let removedFilter = removeDefaultFilter() // remove existing filters from the init()
-        NSLog("PGLFilterStack init has removed defaultFilter = \(String(describing: removedFilter))")
+//        NSLog("PGLFilterStack init has removed defaultFilter = \(String(describing: removedFilter))")
         readCDStack(titled: readName, createdDate: createdDate)
     }
 
@@ -84,12 +84,12 @@ extension PGLFilterStack {
             exportAlbumName = cdStack.exportAlbumName
             let sortDescription = NSSortDescriptor(key: "stackPosition", ascending: true)
             let sortedFilter = cdStack.filters!.sortedArray(using: [sortDescription])
-            NSLog("PGL-CDFilter PGLFilterStack init storedStack" )
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGL-CDFilter PGLFilterStack init storedStack" )
             for aCDFilter in sortedFilter {
                 // load stack to filter relationship
 
                 if let myCDFilter = aCDFilter as? CDStoredFilter {
-                    NSLog("PGLFilterStack init storedStack on filter = \(String(describing: myCDFilter.ciFilterName))" )
+                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterStack init storedStack on filter = \(String(describing: myCDFilter.ciFilterName))" )
 //                    NSLog("PGLFilterStack filters on \(aCDFilter.stackPosition)")
                     guard let newSource = PGLSourceFilter.readPGLFilter(myCDFilter: myCDFilter)
 
@@ -122,7 +122,7 @@ extension PGLFilterStack {
                 let alert = UIAlertController(title: "Data Read Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("The userSaveErrorAlert alert occured.")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("The userSaveErrorAlert alert \(error.localizedDescription)")
                 }))
                 let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                 myAppDelegate.displayUser(alert: alert)
@@ -144,7 +144,7 @@ extension PGLFilterStack {
         storedStack = nil
     }
     func writeCDStack(moContext: NSManagedObjectContext) -> CDFilterStack {
-        NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
+//        NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
 
 //        let moContext = PersistentContainer.viewContext
 
@@ -277,7 +277,7 @@ extension PGLSourceFilter {
 //        let moContext = PersistentContainer.viewContext
 
             if storedFilter == nil {
-                NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(String(describing: filterName))")
+//                NSLog("PGLSourceFilter #cdFilterObject storedFilter insertNewObject \(String(describing: filterName))")
                 storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
 
             }
@@ -303,11 +303,11 @@ extension PGLSourceFilter {
 
     func moveImageInputsToCache() -> [String :CIImage?] {
         var localCache = [String : CIImage?]()
-        NSLog("PGLSourceFilter #moveImageInputsToCache filter \(String(describing: filterName))")
+//        NSLog("PGLSourceFilter #moveImageInputsToCache filter \(String(describing: filterName))")
 
 
         for aImageKey in imageInputAttributeKeys {
-            NSLog("PGLSourceFilter #moveImageInputsToCache on \(aImageKey)")
+//            NSLog("PGLSourceFilter #moveImageInputsToCache on \(aImageKey)")
             localCache[aImageKey] = valueFor(keyName: aImageKey) as? CIImage
             self.removeImageValue(keyName: aImageKey)
         }
@@ -317,7 +317,7 @@ extension PGLSourceFilter {
 
     func restoreImageInputsFromCache() {
         // from the filter var imageInputCache
-       NSLog("PGLSourceFilter #restoreImageInputsFromCache filter \(String(describing: filterName))")
+//       NSLog("PGLSourceFilter #restoreImageInputsFromCache filter \(String(describing: filterName))")
         for (attributeName, image ) in imageInputCache {
             if let aCIImage = image {
                 setImageValue(newValue: aCIImage, keyName: attributeName)
@@ -448,7 +448,7 @@ extension PGLFilterAttributeImage {
                     let alert = UIAlertController(title: "Data Create Error", message: "Data creation failure ", preferredStyle: .alert)
 
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                    NSLog("The userSaveErrorAlert alert occured.")
+                        Logger(subsystem: LogSubsystem, category: LogCategory).error("The userSaveErrorAlert Data Create Error")
                     }))
                     let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                     myAppDelegate.displayUser(alert: alert)
@@ -470,7 +470,7 @@ extension PGLFilterAttributeImage {
                     let alert = UIAlertController(title: "Data Create Error", message: "Data creation failure ", preferredStyle: .alert)
 
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                    NSLog("The userSaveErrorAlert alert occured.")
+                        Logger(subsystem: LogSubsystem, category: LogCategory).error ("The userSaveErrorAlert Data Create Error.")
                     }))
                     let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                     myAppDelegate.displayUser(alert: alert)
@@ -553,7 +553,7 @@ extension PGLAppStack {
     if viewMoContext.hasChanges {
     do {
         try viewMoContext.save() // this parent context saves to the db
-        NSLog("PGLAppStack #writeCDStacks save called")
+//        NSLog("PGLAppStack #writeCDStacks save called")
         } catch {
             NSLog("moContext.save error \(error.localizedDescription)")
             DispatchQueue.main.async { [self] in
@@ -576,7 +576,7 @@ extension PGLAppStack {
     func userSaveErrorAlert(withError: Error) {
         let alert = UIAlertController(title: "Save Error", message: "Action error '\(withError.localizedDescription) '. Retry with 'Save As'", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-        NSLog("The userSaveErrorAlert alert occured.")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("The userSaveErrorAlert \(withError.localizedDescription)")
         }))
 
         let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
@@ -594,11 +594,11 @@ extension PGLAppStack {
 
     func saveStack(metalRender: Renderer) {
 
-        NSLog("PGLAppStack #saveStack start")
+//        NSLog("PGLAppStack #saveStack start")
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
             let targetStack = self.firstStack()!
-            NSLog("PGLAppStack #saveStack serialQueue execution start")
+//            NSLog("PGLAppStack #saveStack serialQueue execution start")
             DoNotDrawWhileSave = true
             defer { DoNotDrawWhileSave = false } // executes at the end of this function
             if targetStack.shouldExportToPhotos {
@@ -606,7 +606,7 @@ extension PGLAppStack {
                // call first so the albumIdentifier can be stored
                 // does a performChangesAndWait  sync
             }
-           NSLog("PGLAppStack #saveStack calls writeCDStacks")
+//           NSLog("PGLAppStack #saveStack calls writeCDStacks")
             self.writeCDStacks()
 
 //        }
@@ -620,11 +620,11 @@ extension PGLAppStack {
               
         var assetCollection: PHAssetCollection?
 
-        NSLog("saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
+//        NSLog("saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
           if let existingAlbumId = stack.exportAlbumIdentifier {
                let fetchResult  = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [existingAlbumId], options: nil)
                assetCollection = fetchResult.firstObject
-                NSLog("PGLImageController #saveToPhotosLibrary append to existing assetCollection \(String(describing: assetCollection))")
+//                NSLog("PGLImageController #saveToPhotosLibrary append to existing assetCollection \(String(describing: assetCollection))")
           } else {
                // check for existing albumName
            if let aAlbumExportName = stack.exportAlbumName { // maybe nil
@@ -655,7 +655,7 @@ extension PGLAppStack {
             do { try PHPhotoLibrary.shared().performChangesAndWait( {
 
                           let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
-                            NSLog("PGLAppStack #saveToPhotosLibrary AssetChangeRequest = \(creationRequest)")
+//                            NSLog("PGLAppStack #saveToPhotosLibrary AssetChangeRequest = \(creationRequest)")
                        // either get or create the target album
 
                         if ( assetCollection == nil ) && ( stack.exportAlbumName != nil) {
@@ -663,14 +663,14 @@ extension PGLAppStack {
                            let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
                            assetCollectionRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
                            stack.exportAlbumIdentifier = assetCollectionRequest.placeholderForCreatedAssetCollection.localIdentifier
-                            NSLog("PGLAppStack #saveToPhotosLibrary new assetCollectionRequest = \(assetCollectionRequest)")
+//                            NSLog("PGLAppStack #saveToPhotosLibrary new assetCollectionRequest = \(assetCollectionRequest)")
 
                        } else {
                            // asset collection exists
                         if assetCollection != nil {
                             let addAssetRequest = PHAssetCollectionChangeRequest(for: assetCollection!)
                             addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-                            NSLog("PGLAppStack #saveToPhotosLibrary existing assetCollection adds = \(String(describing: addAssetRequest))")
+//                            NSLog("PGLAppStack #saveToPhotosLibrary existing assetCollection adds = \(String(describing: addAssetRequest))")
                         }
                        }
 

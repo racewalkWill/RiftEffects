@@ -8,6 +8,8 @@
 
 import XCTest
 import Photos
+import os
+
 @testable import Surreality
 
 class PGLCategorySurvey: XCTestCase {
@@ -77,7 +79,7 @@ class PGLCategorySurvey: XCTestCase {
                 let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
                 let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
                 thisFilter?.setDefaults()
-            NSLog("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
             let imageAttributesNames = thisFilter!.imageInputAttributeKeys
                 for anImageAttributeName in imageAttributesNames {
                     if anImageAttributeName == kCIInputImageKey { continue
@@ -107,7 +109,7 @@ class PGLCategorySurvey: XCTestCase {
                 let alert = UIAlertController(title: "Favorites Album", message: "Favorites is empty ", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("The userSaveErrorAlert alert occured.")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("The userSaveErrorAlert alert occured.")
                 }))
                 let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                 myAppDelegate.displayUser(alert: alert)
@@ -129,7 +131,7 @@ class PGLCategorySurvey: XCTestCase {
 
         let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
         for anAsset in selectedAssets {
-            NSLog("parm = \(String(describing: imageParm.attributeName)) added local id = \(anAsset.localIdentifier)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("parm = \(String(describing: imageParm.attributeName)) added local id = \(anAsset.localIdentifier)")
             userSelectionInfo.addSourceToSelection(asset: anAsset)
         }
 
@@ -228,7 +230,7 @@ class PGLCategorySurvey: XCTestCase {
                 testFilterStack.exportAlbumName = "testSingleInputFilters" }
             else { testFilterStack.exportAlbumName = nil }
             // set the stack with the title, type, exportAlbum for save
-            NSLog("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
             testFilterStack.saveTestStackImage()
            // confirm that output is saved and the coreData has saved
 
@@ -266,7 +268,7 @@ class PGLCategorySurvey: XCTestCase {
                 category1Filter = group1[category1Index].pglSourceFilter()!
                 category1Filter.setDefaults()
 
-                NSLog("testMultipleInputTransitionFilters group1 filter \(category1Filter.fullFilterName())")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testMultipleInputTransitionFilters group1 filter \(category1Filter.fullFilterName())")
                 let imageAttributesNames = category1Filter.imageInputAttributeKeys
                 for anImageAttributeName in imageAttributesNames {
                     guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
@@ -288,7 +290,7 @@ class PGLCategorySurvey: XCTestCase {
                 else { testFilterStack.exportAlbumName = nil }
 
                 // set the stack with the title, type, exportAlbum for save
-                NSLog("PGLCategorySurvey #testMultipleInputTransitionFilters at groups \(i)  \(testFilterStack.stackName)")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testMultipleInputTransitionFilters at groups \(i)  \(testFilterStack.stackName)")
                 testFilterStack.saveTestStackImage()
                // confirm that output is saved and the coreData has saved
 
@@ -328,7 +330,7 @@ class PGLCategorySurvey: XCTestCase {
         XCTAssertNotNil(category1Filter, "Failed to load filter \(testGroupFilters[0])")
         category1Filter!.setDefaults()
 
-        NSLog("testSelectedMultipleInputTransitionFilters group1 filter \(category1Filter!.fullFilterName())")
+        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testSelectedMultipleInputTransitionFilters group1 filter \(category1Filter!.fullFilterName())")
         let imageAttributesNames = category1Filter!.imageInputAttributeKeys
         for anImageAttributeName in imageAttributesNames {
             guard let thisAttribute = category1Filter!.attribute(nameKey: anImageAttributeName) else { continue }
@@ -347,7 +349,7 @@ class PGLCategorySurvey: XCTestCase {
                 guard let thisAttribute = newFilter!.attribute(nameKey: anImageAttributeName) else { continue }
                 setInputTo(imageParm: thisAttribute) // the six images from favorites
             }
-            NSLog("testSelectedMultipleInputTransitionFilters appending filter: \(String(describing: newFilter!.filterName))")
+            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testSelectedMultipleInputTransitionFilters appending filter: \(String(describing: newFilter!.filterName))")
             testFilterStack.append(newFilter!)
             // check each filter added
             let stackResultImage = testFilterStack.stackOutputImage(false)
@@ -423,7 +425,7 @@ class PGLCategorySurvey: XCTestCase {
 
             let stackResultImage = testFilterStack.stackOutputImage(false)
                XCTAssertNotNil(stackResultImage)
-            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "\(newFilter.filterName) extent is zero width/height")
+            XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "\(String(describing: newFilter.filterName)) extent is zero width/height")
                testFilterStack.stackName = newFilter.filterName
                testFilterStack.stackType = "testiOS13Filters"
 
@@ -431,7 +433,7 @@ class PGLCategorySurvey: XCTestCase {
                 testFilterStack.exportAlbumName = "exportTestiOS13Filters" }
             else { testFilterStack.exportAlbumName = nil }
                // set the stack with the title, type, exportAlbum for save
-               NSLog("PGLCategorySurvey #testiOS13Filters  \(testFilterStack.stackName)")
+               Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testiOS13Filters  \(testFilterStack.stackName)")
                 testFilterStack.saveTestStackImage()
                // confirm that output is saved and the coreData has saved
         }
@@ -467,7 +469,7 @@ class PGLCategorySurvey: XCTestCase {
                 category1Filter = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()!
                    category1Filter.setDefaults()
 
-                   NSLog("testCompositeChildStack group1 filter = \(category1Filter.localizedName())")
+                   Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testCompositeChildStack group1 filter = \(category1Filter.localizedName())")
                    let imageAttributesNames = category1Filter.imageInputAttributeKeys
                    for anImageAttributeName in imageAttributesNames {
                        guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
@@ -509,7 +511,7 @@ class PGLCategorySurvey: XCTestCase {
                 else { testFilterStack.exportAlbumName = nil }
 
                // set the stack with the title, type, exportAlbum for save
-               NSLog("PGLCategorySurvey #testCompositeChildStack  \(testFilterStack.stackName)")
+               Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testCompositeChildStack  \(testFilterStack.stackName)")
               testFilterStack.saveTestStackImage()
   // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
 //               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
@@ -551,7 +553,7 @@ class PGLCategorySurvey: XCTestCase {
                 category1Filter = PGLCategorySurvey.DistortFilters[aFilterIndex].pglSourceFilter()!
                    category1Filter.setDefaults()
 
-                   NSLog("testTransitionChildStacks group1 filter = \(category1Filter.localizedName())")
+                   Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testTransitionChildStacks group1 filter = \(category1Filter.localizedName())")
                    let imageAttributesNames = category1Filter.imageInputAttributeKeys
                    for anImageAttributeName in imageAttributesNames {
                        guard let thisAttribute = category1Filter.attribute(nameKey: anImageAttributeName) else { continue }
@@ -593,7 +595,7 @@ class PGLCategorySurvey: XCTestCase {
                 else { testFilterStack.exportAlbumName = nil }
 
                // set the stack with the title, type, exportAlbum for save
-               NSLog("PGLCategorySurvey #testTransitionChildStacks  \(testFilterStack.stackName)")
+               Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testTransitionChildStacks  \(testFilterStack.stackName)")
               testFilterStack.saveTestStackImage()
   // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
 //               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
@@ -676,7 +678,7 @@ class PGLCategorySurvey: XCTestCase {
                     setInputTo(imageParm: thisAttribute) // the six images from favorites
                 }
                 testFilterStack.append(newFilter)
-                NSLog("PGLCategorySurvey #testSelectedFilters newFilter = \(newFilter.fullFilterName())")
+                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testSelectedFilters newFilter = \(newFilter.fullFilterName())")
                 let stackResultImage = testFilterStack.stackOutputImage(false)
                    XCTAssertNotNil(stackResultImage)
                 XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "ciImage extent is zero width/height")
@@ -688,7 +690,7 @@ class PGLCategorySurvey: XCTestCase {
                     testFilterStack.exportAlbumName = "ExportTestSelectedFilters" }
                 else { testFilterStack.exportAlbumName = nil }
                    // set the stack with the title, type, exportAlbum for save
-                   NSLog("PGLCategorySurvey #testSelectedFilters  \(testFilterStack.stackName)")
+                   Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testSelectedFilters  \(testFilterStack.stackName)")
                     testFilterStack.saveTestStackImage()
                // confirm that output is saved and the coreData has saved
             }

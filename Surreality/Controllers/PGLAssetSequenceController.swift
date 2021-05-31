@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import PhotosUI
+import os
 
 private let reuseIdentifier = "Cell"
 let PGLSequenceSelectUpdate = NSNotification.Name(rawValue: "PGLSequenceSelectUpdate")
@@ -89,11 +90,11 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
                 myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            NSLog("PGLAssetSequenceController notification receieved PGLImageSelectUpdate ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetSequenceController notification receieved PGLImageSelectUpdate ")
             self.applyDataSource()
         }
         notifications.append(aNotification)
-            NSLog("PGLAssetSequenceController  viewWillAppear observer for PGLImageSelectUpdate")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetSequenceController  viewWillAppear observer for PGLImageSelectUpdate")
          postSelectionChange()
 
     }
@@ -105,7 +106,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
     func postSelectionChange(){
 
         applyDataSource()
-        NSLog("PGLAssetSequenceController posts notification #PGLSequenceAssetChanged start")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLAssetSequenceController posts notification #PGLSequenceAssetChanged start")
         let notification = Notification(name:PGLSequenceAssetChanged)
         NotificationCenter.default.post(notification)
     }
@@ -120,7 +121,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 
                 guard let destination = segue.destination  as? PGLAssetController
                     else {
-                        NSLog ("PGLAssetSequenceController unexpected view controller destination for segue")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetSequenceController unexpected view controller destination for segue")
                         return
                 }
 
@@ -159,7 +160,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 //                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
                   collectionView.addGestureRecognizer(longPressGesture!)
                   longPressGesture!.isEnabled = true
-                NSLog("PGLAssetSequenceController setLongPressGesture \(String(describing: longPressGesture))")
+//                NSLog("PGLAssetSequenceController setLongPressGesture \(String(describing: longPressGesture))")
               }
           }
 
@@ -170,7 +171,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
                  collectionView.removeGestureRecognizer(longPressGesture!)
                  longPressGesture!.removeTarget(self, action: #selector(PGLAssetSequenceController.longPressAction(_:)))
                  longPressGesture = nil
-                NSLog("PGLAssetSequenceController removeGestureRecogniziers ")
+//                 NSLog("PGLAssetSequenceController removeGestureRecogniziers ")
             }
             if tapper != nil {
                targetView.removeGestureRecognizer(tapper!)
@@ -184,29 +185,29 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
         let point = sender.location(in: collectionView)
         switch sender.state {
         case .began:
-            NSLog("PGLAssetSequenceController longPressAction begin")
+//            NSLog("PGLAssetSequenceController longPressAction begin")
             guard let longPressIndexPath = collectionView.indexPathForItem(at: point) else {
                 longPressStart = nil // assign to var
                 return
             }
             longPressStart = longPressIndexPath // assign to var
            let isS = collectionView.beginInteractiveMovementForItem(at: longPressIndexPath)
-            NSLog("PGLAssetSequenceController #longPressAction begins \(isS) path \(String(describing: longPressStart))")
+//            NSLog("PGLAssetSequenceController #longPressAction begins \(isS) path \(String(describing: longPressStart))")
 
         case .changed:
             collectionView.updateInteractiveMovementTargetPosition(point)
 //            NSLog("PGLAssetSequenceController longPressAction change to \(point)")
         case .ended:
             collectionView.endInteractiveMovement()
-             NSLog("PGLAssetSequenceController longPressAction ended")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLAssetSequenceController longPressAction ended")
 
             guard let endIndex = collectionView.indexPathForItem(at: point) else { return  }
             userAssetSelection.moveItemAt(longPressStart!.row, toIndex: endIndex.row)
-            NSLog("PGLAssetSequenceController longPress ended move from \(longPressStart!.row) to \(endIndex)")
+//            NSLog("PGLAssetSequenceController longPress ended move from \(longPressStart!.row) to \(endIndex)")
 //            dataSource.collectionView(collectionView, moveItemAt: longPressStart!, to: endIndex)
 
             applyDataSource()
-            NSLog("PGLAssetSequenceController longPressAction move from \(String(describing: longPressStart)) to \(endIndex)")
+//                Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLAssetSequenceController longPressAction move from \(String(describingself.: longPressStart)) to \(endIndex)")
         default:
             collectionView.cancelInteractiveMovement()
              NSLog("PGLAssetSequenceController longPressAction cancelled")
@@ -218,7 +219,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
         @objc func openSingleAssetView(_ sender: UITapGestureRecognizer){
 
             hasCellDoubleTap = true
-            NSLog("PGLAssetGridController hasHeaderCellTap = \(hasCellDoubleTap) ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetGridController hasHeaderCellTap = \(self.hasCellDoubleTap) ")
             if let headerTitleView = sender.view as? TitleSupplementaryView {
                      performSegue(withIdentifier: "showSequenceDetail", sender: headerTitleView )
             }
@@ -242,7 +243,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 
     // Uncomment this method to specify if the specified item should be highlighted during tracking
      func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-         NSLog("PGLAssetSequenceController shouldHighLightItemAt \(indexPath)")
+//         NSLog("PGLAssetSequenceController shouldHighLightItemAt \(indexPath)")
         return true
     }
 
@@ -250,12 +251,12 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 
     // Uncomment this method to specify if the specified item should be selected
      func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        NSLog("PGLAssetSequenceController shouldSelectItemAt \(indexPath)")
+//        NSLog("PGLAssetSequenceController shouldSelectItemAt \(indexPath)")
         return true
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldSpringLoadItemAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
-         NSLog("PGLAssetSequenceController shouldSpringLoadItemAt \(indexPath)")
+//         NSLog("PGLAssetSequenceController shouldSpringLoadItemAt \(indexPath)")
         return true
     }
 }
@@ -347,7 +348,7 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: ListCell.reuseIdentifier,
                     for: indexPath) as? ListCell else {
-                     NSLog("PGLAssetSequenceController configureDataSource fatalError Cannot create new cell")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetSequenceController configureDataSource fatalError Cannot create new cell")
                         return ListCell()
                 }
 
@@ -417,7 +418,7 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
                         ofKind: kind,
                         withReuseIdentifier: BadgeSupplementaryView.reuseIdentifier,
                         for: indexPath) as? BadgeSupplementaryView  else {
-                            NSLog("PGLAssetSequenceController supplementaryViewProvider cannot create new badgeView")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAssetSequenceController supplementaryViewProvider cannot create new badgeView")
                             return nil
 
                         }
@@ -441,7 +442,7 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // remove from the sequence
 
-         NSLog("PGLAssetSequenceController didSelectItem at indexPath = \(indexPath)  ")
+//         NSLog("PGLAssetSequenceController didSelectItem at indexPath = \(indexPath)  ")
 
        let theItem = userAssetSelection.selectedAssets[indexPath.item]
             // only selectedAssets are in the collectionView

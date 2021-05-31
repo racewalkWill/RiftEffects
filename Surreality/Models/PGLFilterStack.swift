@@ -11,6 +11,7 @@ import CoreImage
 import UIKit
 import Photos
 import PhotosUI
+import os
 
 // let defaultFilterName = "DistortionDemo"
 // let defaultFilterName = "CIDepthOfField"
@@ -109,7 +110,9 @@ class PGLFilterStack  {
             appendFilter(filter)
 //            NSLog("PGLFilterStack #setDefault image color space = \(String(describing: initialImage.colorSpace))")
         } else
-        { NSLog("PGLFilterStack FAILED setDefault")}
+        {
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLFilterStack FAILED setDefault")
+        }
 
     }
 
@@ -562,7 +565,9 @@ class PGLFilterStack  {
                 // image update may return CIImage.empty if all of the filters are in this state..
             }
             if thisImage != nil {
-                if doPrintCropClamp { NSLog("PGLFilterStack imageUpdate start thisImage.extent =   \(String(describing: thisImage?.extent))") }
+                if doPrintCropClamp {
+                    Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterStack imageUpdate start thisImage.extent =   \(String(describing: thisImage?.extent))")
+                }
                 if thisImage!.extent.isInfinite {
                     // issue CIColorDodgeBlendMode -> CIZoomBlur -> CIToneCurve
                     // -> CIColorInvert -> CIHexagonalPixellate -> CICircleSplashDistortion)
@@ -628,8 +633,13 @@ class PGLFilterStack  {
         }
 
         if doPrintCropClamp {
-            NSLog("PGLFilterStack newOutputImage clamped and cropped to  \(returnImage.extent)") }
-        if returnImage.extent.isInfinite { NSLog ("PGLFilterStack error clampCrop() returning infinite extent \(returnImage.extent)")}
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterStack newOutputImage clamped and cropped to  \(returnImage)")
+
+        }
+        if returnImage.extent.isInfinite {
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterStack error clampCrop() returning infinite extent \(returnImage)")
+
+        }
         return returnImage
     }
     func basicFilterOutput() -> CIImage {
@@ -737,9 +747,9 @@ class PGLFilterStack  {
 
        if moContext.hasChanges {
        do { try moContext.save()
-           NSLog("PGLAppStack #writeCDStacks save called")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLAppStack #writeCDStacks save called")
            } catch {
-            NSLog("writeCDStacks error alert: \(error.localizedDescription)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("writeCDStacks error alert: \(error.localizedDescription)")
             DispatchQueue.main.async {
                 // put back on the main UI loop for the user alert
                 let alert = UIAlertController(title: "Data Store Error", message: "PGLFilterStack writeCDStacks() \(error.localizedDescription). Try again using the 'Save As' choice", preferredStyle: .alert)
@@ -747,7 +757,7 @@ class PGLFilterStack  {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
 
                 }))
-                NSLog("writeCDStacks error calling alert on open viewController ")
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice("writeCDStacks error calling alert on open viewController ")
                 let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                 myAppDelegate.displayUser(alert: alert)
 
@@ -860,7 +870,7 @@ class PGLFilterStack  {
                   answer.append( PGLUUIDAssetCollection( albums.object(at: index))!)
 
           }
-          NSLog("PGLImageCollectionMasterController #getAlbums count = \(answer.count)")
+//          NSLog("PGLImageCollectionMasterController #getAlbums count = \(answer.count)")
           return answer
       }
 

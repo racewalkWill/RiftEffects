@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 class PGLMainFilterController: PGLFilterTableController {
 
@@ -133,10 +134,10 @@ class PGLMainFilterController: PGLFilterTableController {
         switch mode {
             case .Grouped:
                 selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
-                NSLog("PGLMainFilterController \(#function) mode = Grouped")
+                Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped")
             case .Flat:
                 selectedDescriptor = filters[thePath.row]
-                NSLog("PGLMainFilterController \(#function) mode = Flat")
+                Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Flat")
             }
 
         }
@@ -215,17 +216,17 @@ class PGLMainFilterController: PGLFilterTableController {
             thePath.section = currentFilter?.uiPosition.categoryIndex ?? 0
             thePath.row = currentFilter?.uiPosition.filterIndex ?? 0
             setBookmarksGroupMode(indexSection: thePath.section)
-            NSLog("PGLMainFilterController \(#function) mode = Grouped")
+//            NSLog("PGLMainFilterController \(#function) mode = Grouped")
         case .Flat:
             if let filterRow = filters.firstIndex(where: {$0.filterName == currentFilter?.filterName}) {
                 thePath.row = filterRow
             }
-            NSLog("PGLMainFilterController \(#function) mode = Flat")
+//            NSLog("PGLMainFilterController \(#function) mode = Flat")
            setBookmarksFlatMode()
         }
 
         tableView.selectRow(at: thePath, animated: false, scrollPosition: .middle)
-        NSLog("PGLMainFilterController selects row at \(thePath)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController selects row at \(thePath)")
 
 
 
@@ -332,7 +333,7 @@ class PGLMainFilterController: PGLFilterTableController {
     extension PGLMainFilterController: UISearchBarDelegate {
 
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            NSLog("PGLMainFilterController searchBarSearchButtonClicked")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController searchBarSearchButtonClicked")
             searchBar.resignFirstResponder()
         }
 
@@ -345,26 +346,26 @@ class PGLMainFilterController: PGLFilterTableController {
 extension PGLMainFilterController: UISearchControllerDelegate {
 
         func presentSearchController(_ searchController: UISearchController) {
-            NSLog("UISearchControllerDelegate invoked method: \(#function).")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
         }
 
         func willPresentSearchController(_ searchController: UISearchController) {
-            NSLog("UISearchControllerDelegate invoked method: \(#function).")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
         }
 
         func didPresentSearchController(_ searchController: UISearchController) {
             selectCurrentFilterRow()
             searchController.searchBar.becomeFirstResponder()
-            NSLog("UISearchControllerDelegate invoked method: \(#function).")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
         }
 
         func willDismissSearchController(_ searchController: UISearchController) {
-            NSLog("UISearchControllerDelegate invoked method: \(#function).")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("UISearchControllerDelegate invoked method: \(#function).")
         }
 
         func didDismissSearchController(_ searchController: UISearchController) {
              selectCurrentFilterRow()
-            NSLog("UISearchControllerDelegate invoked method: \(#function).")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("UISearchControllerDelegate invoked method: \(#function).")
         }
 
 }
@@ -403,7 +404,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
 
             let orMatchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: searchItemsPredicate)
 
-            NSLog("PGLMainFilterController \(#function) orMatchPredicate = \(orMatchPredicate)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) orMatchPredicate = \(orMatchPredicate)")
             return orMatchPredicate
         }
 
@@ -464,7 +465,7 @@ extension PGLMainFilterController {
 
         // Restore the title.
         guard let decodedTitle = coder.decodeObject(forKey: RestorationKeys.viewControllerTitle.rawValue) as? String else {
-            NSLog ("PGLMainFilterController decodeRestorableState fatalError( A title did not exist. ")
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLMainFilterController decodeRestorableState fatalError( A title did not exist. ")
             return 
         }
         navigationItem.title! = decodedTitle

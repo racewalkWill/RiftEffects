@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import os
 
 let  PGLLoadedDataStack = NSNotification.Name(rawValue: "PGLLoadedDataStack")
 
@@ -47,7 +48,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         super.viewDidLoad()
 
         do { try fetchedResultsController.performFetch() }
-        catch { NSLog ( "PGLOpenStackViewController viewDidLoad fatalError( #viewDidLoad performFetch() error = \(error)") }
+        catch { Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLOpenStackViewController viewDidLoad fatalError( #viewDidLoad performFetch() error = \(error.localizedDescription)") }
         // Do any additional setup after loading the view.
 
          navigationItem.title = filterOpenTitle
@@ -65,19 +66,19 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         configureNavigationItem()
         let snapshot = initialSnapShot()
         dataSource.apply(snapshot, animatingDifferences: false)
-         NSLog("PGLOpenStackViewControler viewDidLoad completed")
+//         NSLog("PGLOpenStackViewControler viewDidLoad completed")
 
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-          NSLog("PGLOpenStackViewControler viewDidDisappear set dataSource to nil")
+//          NSLog("PGLOpenStackViewControler viewDidDisappear set dataSource to nil")
         dataSource = nil
 
     }
 
     override func viewWillAppear(_ animated: Bool) {
         if dataSource == nil {
-             NSLog("PGLOpenStackViewControler viewWillAppear dataSource = nil ")
+//             NSLog("PGLOpenStackViewControler viewWillAppear dataSource = nil ")
             configureDataSource()
         }
     }
@@ -110,7 +111,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     // MARK: - Table view data source
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {     NSLog("PGLOpenStackViewController cellForRowAt \(indexPath)")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLOpenStackViewController cellForRowAt \(indexPath)")
            return dataSource.tableView(tableView, cellForRowAt: indexPath)
        }
 
@@ -191,7 +193,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
            }
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NSLog("PGLOpenStackViewController didSelectRowAt \(indexPath)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
         dataSource.tableView(tableView, didSelectRowAt: indexPath)
         dismiss(animated: true, completion: nil )
     }
@@ -209,7 +211,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         if let deleteStack = (self.fetchedResultsController.object(at: indexPath)) as? CDFilterStack {
             moContext.delete(deleteStack)
            do { try moContext.save() }
-           catch{ NSLog ("PGLOpenStackViewController tableView commit fatalError(moContext save error \(error)")
+           catch{ Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLOpenStackViewController tableView commit fatalError(moContext save error \(error.localizedDescription)")
 
 
            }
@@ -245,7 +247,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             sourceMoContext.delete(cdStack)
             do { try sourceMoContext.save() }
             catch{
-                NSLog("PGLOpenStackViewController delete cdStack fatalError(sourceMoContext save error \(error)")}
+                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLOpenStackViewController delete cdStack fatalError(sourceMoContext save error \(error.localizedDescription)")}
         }
 
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -265,7 +267,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             // start with saved stack... later have it insert on the selected parm as new input
-            NSLog("DataSource didSelectRowAt \(indexPath)")
+//            NSLog("DataSource didSelectRowAt \(indexPath)")
             if let object = itemIdentifier(for: indexPath) {
 
                 if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
@@ -350,7 +352,7 @@ extension PGLOpenStackViewController {
                        // Configure the cell with data from the managed object.
                   return cell
             } else {
-                NSLog("PGLOpenStackViewController configureDataSource fatalError(failed to create a new cell")
+                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLOpenStackViewController configureDataSource fatalError-failed to create a new cell")
             }
             return cell
         }

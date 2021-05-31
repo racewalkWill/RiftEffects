@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 
 
@@ -28,7 +29,7 @@ class PGLSplitViewController: UISplitViewController {
     }
 
     @IBAction func goToSplitView(segue: UIStoryboardSegue) {
-        NSLog("PGLParmsFilterTabsController goToSplitView segue")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLParmsFilterTabsController goToSplitView segue")
 
     }
     override func didReceiveMemoryWarning() {

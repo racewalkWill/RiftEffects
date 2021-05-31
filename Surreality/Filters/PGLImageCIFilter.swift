@@ -17,7 +17,7 @@ class PGLImageCIFilter: CIFilter {
 
     class func register() {
         //       let attr: [String: AnyObject] = [:]
-        NSLog("PGLImageCIFilter #register()")
+//        NSLog("PGLImageCIFilter #register()")
         CIFilter.registerName(kPImages, constructor: PGLFilterConstructor(), classAttributes: PGLImageCIFilter.customAttributes())
     }
 
