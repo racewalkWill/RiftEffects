@@ -49,8 +49,15 @@ class PGLHelpPageController: UIPageViewController {
             ("SurrealityFilter1",
                 "Select a new filter" ),
             ( "SurrealityFilterParm",
-                "Select a filter parm, and adjust the control")
-
+                "Select a filter parm, and adjust the control"),
+        ( "longPress",
+            "Long touch for filter description"),
+        ( "swipeMore",
+            "Swipe then touch More or Pick"),
+        ( "imagePick",
+            "Pick an album, touch images to pick"),
+        ( "cropOK",
+            "Swipe on a parm cell for actions")
             ]
 
     var currentIndex: Int!
