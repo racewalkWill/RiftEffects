@@ -161,8 +161,6 @@ class PGLSourceFilterTests: XCTestCase {
             if let allImageParms = timerFilter.imageParms() {
                 if allImageParms.count > 2 {
                     Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("\(String(describing: timerFilter.filterName)) has more than 2 image inputs")
-
-                    favoritesAlbumList.position = 2
                     for nextImageParm in allImageParms.suffix(from: 2) {
                         nextImageParm.set(favoritesAlbumList.increment() as Any)
                     }
