@@ -147,10 +147,10 @@
 		A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3AAC54A25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "Surreality/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
-		A3BF500924D3298F00CD5114 /* Surreality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Surreality.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3BF502224D3299100CD5114 /* SurrealityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF500924D3298F00CD5114 /* WillsFilterTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WillsFilterTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WillsFilterToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A3BF502D24D3299100CD5114 /* SurrealityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurrealityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF502D24D3299100CD5114 /* WillsFilterToolUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WillsFilterToolUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF503124D3299100CD5114 /* SurrealityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurrealityUITests.swift; sourceTree = "<group>"; };
 		A3BF503324D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3BF504124D32A3400CD5114 /* PGLResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLResultsController.swift; sourceTree = "<group>"; };
@@ -295,9 +295,9 @@
 		A3BF500A24D3298F00CD5114 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A3BF500924D3298F00CD5114 /* Surreality.app */,
-				A3BF502224D3299100CD5114 /* SurrealityTests.xctest */,
-				A3BF502D24D3299100CD5114 /* SurrealityUITests.xctest */,
+				A3BF500924D3298F00CD5114 /* WillsFilterTool.app */,
+				A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */,
+				A3BF502D24D3299100CD5114 /* WillsFilterToolUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -531,9 +531,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A3BF500824D3298F00CD5114 /* Surreality */ = {
+		A3BF500824D3298F00CD5114 /* WillsFilterTool */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "Surreality" */;
+			buildConfigurationList = A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterTool" */;
 			buildPhases = (
 				A3BF500524D3298F00CD5114 /* Sources */,
 				A3BF500624D3298F00CD5114 /* Frameworks */,
@@ -543,14 +543,14 @@
 			);
 			dependencies = (
 			);
-			name = Surreality;
+			name = WillsFilterTool;
 			productName = Surreality;
-			productReference = A3BF500924D3298F00CD5114 /* Surreality.app */;
+			productReference = A3BF500924D3298F00CD5114 /* WillsFilterTool.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A3BF502124D3299100CD5114 /* SurrealityTests */ = {
+		A3BF502124D3299100CD5114 /* WillsFilterToolTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityTests" */;
+			buildConfigurationList = A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolTests" */;
 			buildPhases = (
 				A3BF501E24D3299100CD5114 /* Sources */,
 				A3BF501F24D3299100CD5114 /* Frameworks */,
@@ -561,14 +561,14 @@
 			dependencies = (
 				A3BF502424D3299100CD5114 /* PBXTargetDependency */,
 			);
-			name = SurrealityTests;
+			name = WillsFilterToolTests;
 			productName = SurrealityTests;
-			productReference = A3BF502224D3299100CD5114 /* SurrealityTests.xctest */;
+			productReference = A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A3BF502C24D3299100CD5114 /* SurrealityUITests */ = {
+		A3BF502C24D3299100CD5114 /* WillsFilterToolUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityUITests" */;
+			buildConfigurationList = A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolUITests" */;
 			buildPhases = (
 				A3BF502924D3299100CD5114 /* Sources */,
 				A3BF502A24D3299100CD5114 /* Frameworks */,
@@ -579,9 +579,9 @@
 			dependencies = (
 				A3BF502F24D3299100CD5114 /* PBXTargetDependency */,
 			);
-			name = SurrealityUITests;
+			name = WillsFilterToolUITests;
 			productName = SurrealityUITests;
-			productReference = A3BF502D24D3299100CD5114 /* SurrealityUITests.xctest */;
+			productReference = A3BF502D24D3299100CD5114 /* WillsFilterToolUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -607,7 +607,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "Surreality" */;
+			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "WillsFilterTool" */;
 			compatibilityVersion = "Xcode 11.4";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -620,9 +620,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A3BF500824D3298F00CD5114 /* Surreality */,
-				A3BF502124D3299100CD5114 /* SurrealityTests */,
-				A3BF502C24D3299100CD5114 /* SurrealityUITests */,
+				A3BF500824D3298F00CD5114 /* WillsFilterTool */,
+				A3BF502124D3299100CD5114 /* WillsFilterToolTests */,
+				A3BF502C24D3299100CD5114 /* WillsFilterToolUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -780,12 +780,12 @@
 /* Begin PBXTargetDependency section */
 		A3BF502424D3299100CD5114 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A3BF500824D3298F00CD5114 /* Surreality */;
+			target = A3BF500824D3298F00CD5114 /* WillsFilterTool */;
 			targetProxy = A3BF502324D3299100CD5114 /* PBXContainerItemProxy */;
 		};
 		A3BF502F24D3299100CD5114 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A3BF500824D3298F00CD5114 /* Surreality */;
+			target = A3BF500824D3298F00CD5114 /* WillsFilterTool */;
 			targetProxy = A3BF502E24D3299100CD5114 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -977,7 +977,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Surreality.app/Surreality";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WillsFilterTool.app/WillsFilterTool";
 			};
 			name = Debug;
 		};
@@ -999,7 +999,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Surreality.app/Surreality";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WillsFilterTool.app/WillsFilterTool";
 			};
 			name = Release;
 		};
@@ -1048,7 +1048,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "Surreality" */ = {
+		A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "WillsFilterTool" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503424D3299100CD5114 /* Debug */,
@@ -1057,7 +1057,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "Surreality" */ = {
+		A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterTool" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503724D3299100CD5114 /* Debug */,
@@ -1066,7 +1066,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityTests" */ = {
+		A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503A24D3299100CD5114 /* Debug */,
@@ -1075,7 +1075,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "SurrealityUITests" */ = {
+		A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503D24D3299100CD5114 /* Debug */,
