@@ -13,7 +13,7 @@ import CoreImage
 import Photos
 import PhotosUI
 import os
-var PersistentContainer: NSPersistentContainer = {
+var PersistentContainer: NSPersistentCloudKitContainer = {
        /*
         The persistent container for the application. This implementation
         creates and returns a container, having loaded the store for the
@@ -21,7 +21,14 @@ var PersistentContainer: NSPersistentContainer = {
         error conditions that could cause the creation of the store to fail.
        */
 //       let container = NSPersistentContainer(name: "Surreality")
-    let container = NSPersistentCloudKitContainer(name: "Surreality")
+      let container = NSPersistentCloudKitContainer(name: "WillsFilterTool")
+
+  
+
+    //******* ONLY One time END
+
+
+//    let container = NSPersistentContainer(name: "WillsFilterTool")
        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
            if let error = error as NSError? {
                // Replace this implementation with code to handle the error appropriately.

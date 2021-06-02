@@ -73,7 +73,7 @@
 		A3BF511224D32A3400CD5114 /* PGLFeatureTransitionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF508824D32A3400CD5114 /* PGLFeatureTransitionFilter.swift */; };
 		A3BF511324D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF508924D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift */; };
 		A3BF511424D32A3400CD5114 /* CIFilterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF508A24D32A3400CD5114 /* CIFilterExtensions.swift */; };
-		A3BF511924D32A3400CD5114 /* Surreality.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509024D32A3400CD5114 /* Surreality.xcdatamodeld */; };
+		A3BF511924D32A3400CD5114 /* WillsFilterTool.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509024D32A3400CD5114 /* WillsFilterTool.xcdatamodeld */; };
 		A3BF512024D32A3400CD5114 /* CoreImageKernels.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509824D32A3400CD5114 /* CoreImageKernels.metal */; };
 		A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509924D32A3400CD5114 /* AppDelegate.swift */; };
 		A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF509C24D32A3400CD5114 /* PGLImageList.swift */; };
@@ -394,7 +394,7 @@
 				A33999F925D6CF7900089560 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */,
 				A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */,
-				A3BF509024D32A3400CD5114 /* Surreality.xcdatamodeld */,
+				A3BF509024D32A3400CD5114 /* WillsFilterTool.xcdatamodeld */,
 			);
 			path = "StoredData support";
 			sourceTree = "<group>";
@@ -662,7 +662,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3AAC54B25D6FCF100264A31 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
-				A3BF511924D32A3400CD5114 /* Surreality.xcdatamodeld in Sources */,
+				A3BF511924D32A3400CD5114 /* WillsFilterTool.xcdatamodeld in Sources */,
 				A3BF510E24D32A3400CD5114 /* PGLImageCIFilter.swift in Sources */,
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
 				A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */,
@@ -1087,13 +1087,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		A3BF509024D32A3400CD5114 /* Surreality.xcdatamodeld */ = {
+		A3BF509024D32A3400CD5114 /* WillsFilterTool.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				A3BF509124D32A3400CD5114 /* GlanceData.xcdatamodel */,
 			);
 			currentVersion = A3BF509124D32A3400CD5114 /* GlanceData.xcdatamodel */;
-			path = Surreality.xcdatamodeld;
+			path = WillsFilterTool.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

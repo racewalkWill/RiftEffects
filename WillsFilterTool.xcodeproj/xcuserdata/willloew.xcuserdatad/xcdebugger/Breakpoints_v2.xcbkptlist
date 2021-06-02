@@ -264,8 +264,10 @@
             filePath = "Surreality/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701">
+            startingLineNumber = "693"
+            endingLineNumber = "693"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -308,8 +310,8 @@
             filePath = "Surreality/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "672"
-            endingLineNumber = "672"
+            startingLineNumber = "679"
+            endingLineNumber = "679"
             landmarkName = "saveToPhotosLibrary(stack:metalRender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -324,8 +326,8 @@
             filePath = "Surreality/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "639"
-            endingLineNumber = "639"
+            startingLineNumber = "646"
+            endingLineNumber = "646"
             landmarkName = "saveToPhotosLibrary(stack:metalRender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -340,8 +342,8 @@
             filePath = "Surreality/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "writeCDStack(moContext:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -356,8 +358,8 @@
             filePath = "Surreality/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
+            startingLineNumber = "384"
+            endingLineNumber = "384"
             landmarkName = "createCDImageList(moContext:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -386,6 +388,22 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             breakpointStackSelectionBehavior = "1">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CBFB9128-8746-46FB-A257-9347F39B63B6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Surreality/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

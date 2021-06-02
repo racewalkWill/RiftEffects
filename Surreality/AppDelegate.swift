@@ -34,6 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //******* ONLY One time to push schema to cloudKit
+        // get the store description
+//        guard let description = PersistentContainer.persistentStoreDescriptions.first else {
+//            fatalError("Could not retrieve a persistent store description.")
+//        }
+        // initialize the CloudKit schema
+
+
+//        do {
+//            try
+//            PersistentContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema)
+//        }
+//            catch {
+//                NSLog("initializeCloudKitSchema \(error.localizedDescription)" )  }
+
 
 
 //       PGLFaceCIFilter.register()
