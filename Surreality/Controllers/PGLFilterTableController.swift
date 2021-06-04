@@ -278,7 +278,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 //                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
               tableView.addGestureRecognizer(longPressGesture!)
               longPressGesture!.isEnabled = true
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLFilterTableController setLongPressGesture \(String(describing: self.longPressGesture))")
+//            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLFilterTableController setLongPressGesture \(String(describing: self.longPressGesture))")
           }
       }
 

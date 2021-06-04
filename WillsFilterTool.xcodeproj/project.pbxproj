@@ -10,6 +10,8 @@
 		A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A308939E251E977400F244D6 /* Launch Screen.storyboard */; };
 		A316B9E425D9AD25000C8299 /* PGLDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */; };
 		A318F31F24FC0D8B00569349 /* PGLFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */; };
+		A320F6262669550E008F6090 /* PGLInfoPrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */; };
+		A320F62A26699FA8008F6090 /* PrivacyPolicy.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */; };
 		A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */; };
 		A341186425C300F300587590 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A341186325C300F300587590 /* CloudKit.framework */; };
 		A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */; };
@@ -133,6 +135,8 @@
 		A308939E251E977400F244D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLDataStoreTests.swift; sourceTree = "<group>"; };
 		A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterGroup.swift; sourceTree = "<group>"; };
+		A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLInfoPrivacyController.swift; sourceTree = "<group>"; };
+		A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
 		A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDemo.swift; sourceTree = "<group>"; };
 		A33999F925D6CF7900089560 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A341185E25C3008100587590 /* Surreality.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Surreality.entitlements; sourceTree = "<group>"; };
@@ -448,6 +452,7 @@
 				A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */,
 				A3BF505724D32A3400CD5114 /* PGLMetalController.swift */,
 				A3BF515B24D3618300CD5114 /* PGLImageController.swift */,
+				A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */,
 				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
 				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
 				A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */,
@@ -515,6 +520,7 @@
 				A3BF50B824D32A3400CD5114 /* GridViewCell.swift */,
 				A3BF50A924D32A3400CD5114 /* Renderer.swift */,
 				A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */,
+				A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */,
 			);
 			path = "UI Support";
 			sourceTree = "<group>";
@@ -635,6 +641,7 @@
 				A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */,
 				A3BF512C24D32A3400CD5114 /* StackCell.xib in Resources */,
 				A3BF510224D32A3400CD5114 /* Main.storyboard in Resources */,
+				A320F62A26699FA8008F6090 /* PrivacyPolicy.rtf in Resources */,
 				A3BF50F024D32A3400CD5114 /* TableCell.xib in Resources */,
 				A3BF50F124D32A3400CD5114 /* Assets.xcassets in Resources */,
 			);
@@ -675,6 +682,7 @@
 				A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */,
 				A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */,
 				A3BF50D724D32A3400CD5114 /* DistortionsDemo.m in Sources */,
+				A320F6262669550E008F6090 /* PGLInfoPrivacyController.swift in Sources */,
 				A3BF50D424D32A3400CD5114 /* ChromaKey.m in Sources */,
 				A3BF50EB24D32A3400CD5114 /* PGLVisionDetection.swift in Sources */,
 				A3BF511324D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift in Sources */,
