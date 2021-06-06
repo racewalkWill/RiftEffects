@@ -11,7 +11,7 @@ import CoreData
 import Photos
 import os
 
-let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.WillsFilterTool"
+let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.WillsFilterTool"
 let LogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
 var LogCategory = "PGL"
 // change in areas as needed.
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLSaliencyBlurFilter.register()
         PGLImageCIFilter.register()
        appStack = PGLAppStack()
-//        checkPhotoLibraryAcccess()
+   
        return true
         }
 
@@ -99,6 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+
     //Mark: Error Alert
 
 
@@ -106,16 +107,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func displayUser(alert: UIAlertController) {
         // presents an alert on top of the open viewController
         // informs user to try again with 'Save As'
-        guard let lastWindow = UIApplication.shared.windows.last
+
+
+        guard let lastWindow = UIApplication.shared.windows.last(where: {!$0.isKeyWindow })
+            // don't use the keywindow - they have error with the alert of
+            //  "Keyboard cannot present view controllers (attempted to present <UIAlertController: 0x131893600>)"
         else { return
-                // no way out of this problem !!
+            // need a window to present an alert.. give up
         }
+
         var parentController = lastWindow.rootViewController
+        // drill down until front viewController is reached
         while (parentController?.presentedViewController != nil &&
                 parentController != parentController!.presentedViewController) {
                     parentController = parentController!.presentedViewController
                     }
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice("coreDataErrorAlert with viewController \(String(describing: parentController)) ")
         parentController?.present(alert, animated: true )
 
 

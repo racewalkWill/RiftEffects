@@ -8,6 +8,7 @@
 
 import UIKit
 import os
+import Photos
 
 
 
@@ -19,12 +20,10 @@ class PGLSplitViewController: UISplitViewController {
  //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
        preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
        presentsWithGesture = true
-        // register all of the CIFilter subclasses
 
 
-    
         // Do any additional setup after loading the view.
-       
+        checkPhotoLibraryAccess()
 
     }
 
@@ -47,5 +46,33 @@ class PGLSplitViewController: UISplitViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+    func checkPhotoLibraryAccess() {
+        let requiredAccessLevel: PHAccessLevel = .readWrite // or .addOnly
+        PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
+            switch authorizationStatus {
+                case .notDetermined , .denied:
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error("PhotoLibrary.requestAuthorization status notDetermined or denied)")
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Photo Library access denied", message: "You may allow access to the Photo Library in Settings -> Privacy -> Photos -> Wills Filter Tool", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+
+                        }))
+                        guard let  myAppDelegate = UIApplication.shared.delegate as? AppDelegate
+                        else {return
+                                //can't do anything give up
+                        }
+                        myAppDelegate.displayUser(alert: alert)
+                    }
+
+
+                default:
+                    // case of case .authorized, .restricted , .limited :
+                    // user has made a setting.. the app can run
+                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PhotoLibrary.requestAuthorization status is authorized or .restricted or .limited ")
+            }
+        }
+    }
+
 
 }
