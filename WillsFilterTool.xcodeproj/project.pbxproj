@@ -110,6 +110,8 @@
 		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
 		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
+		A3EDB008266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */; };
+		A3EDB00A266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
 /* End PBXBuildFile section */
 
@@ -137,7 +139,6 @@
 		A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLInfoPrivacyController.swift; sourceTree = "<group>"; };
 		A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
 		A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDemo.swift; sourceTree = "<group>"; };
-		A33999F925D6CF7900089560 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A341185E25C3008100587590 /* WillsFilterTool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WillsFilterTool.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
@@ -245,6 +246,8 @@
 		A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLHelpPageController.swift; sourceTree = "<group>"; };
 		A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLScalingFilter.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
+		A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "WillsFilterTool/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -285,6 +288,7 @@
 		A3BF500024D3298F00CD5114 = {
 			isa = PBXGroup;
 			children = (
+				A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF500B24D3298F00CD5114 /* WillsFilterTool */,
 				A3BF502524D3299100CD5114 /* WillsFilterToolTests */,
 				A3BF503024D3299100CD5114 /* WillsFilterToolUITests */,
@@ -392,8 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
-				A33999F925D6CF7900089560 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */,
+				A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */,
 				A3BF509024D32A3400CD5114 /* WillsFilterTool.xcdatamodeld */,
 			);
@@ -665,6 +669,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3EDB00A266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF511924D32A3400CD5114 /* WillsFilterTool.xcdatamodeld in Sources */,
 				A3BF510E24D32A3400CD5114 /* PGLImageCIFilter.swift in Sources */,
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
@@ -716,6 +721,7 @@
 				A3BF513924D32A3400CD5114 /* PGLUserAssetSelection.swift in Sources */,
 				A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */,
 				A3BF512B24D32A3400CD5114 /* PGLSelectParmController.swift in Sources */,
+				A3EDB008266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF512D24D32A3400CD5114 /* PGLImageSourcePath.swift in Sources */,
 				A3BF50E124D32A3400CD5114 /* PGLOpenStackViewController.swift in Sources */,
 				A3BF512924D32A3400CD5114 /* PGLSourceMetalFilter.swift in Sources */,
