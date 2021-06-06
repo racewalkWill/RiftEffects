@@ -13,7 +13,7 @@ import os
 let TestLogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
 var TestLogCategory = "PGL"
 
-@testable import Surreality
+@testable import WillsFilterTool
 
 
 

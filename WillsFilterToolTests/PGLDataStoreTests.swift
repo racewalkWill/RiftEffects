@@ -11,7 +11,7 @@ import CoreData
 import CoreImage
 import Photos
 
-@testable import Surreality
+@testable import WillsFilterTool
 
 
 enum PhotoId: String {

@@ -11,7 +11,7 @@ import Photos
 import os
 
 //@testable import Glance
-@testable import Surreality
+@testable import WillsFilterTool
 
 class GlanceTests: XCTestCase {
     var testCIImage: CIImage!

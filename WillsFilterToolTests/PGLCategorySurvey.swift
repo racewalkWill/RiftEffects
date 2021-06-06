@@ -10,7 +10,7 @@ import XCTest
 import Photos
 import os
 
-@testable import Surreality
+@testable import WillsFilterTool
 
 class PGLCategorySurvey: XCTestCase {
     let context = CIContext()

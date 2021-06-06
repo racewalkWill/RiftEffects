@@ -11,7 +11,7 @@ import Photos
 import os
 
 
-@testable import Surreality
+@testable import WillsFilterTool
 
 
 class PGLFilterStackTests: XCTestCase {
