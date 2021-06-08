@@ -110,7 +110,6 @@
 		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
 		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
-		A3EDB008266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3EDB00A266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
 /* End PBXBuildFile section */
@@ -598,7 +597,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Will Loew-Blosser";
 				TargetAttributes = {
 					A3BF500824D3298F00CD5114 = {
@@ -721,7 +720,6 @@
 				A3BF513924D32A3400CD5114 /* PGLUserAssetSelection.swift in Sources */,
 				A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */,
 				A3BF512B24D32A3400CD5114 /* PGLSelectParmController.swift in Sources */,
-				A3EDB008266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF512D24D32A3400CD5114 /* PGLImageSourcePath.swift in Sources */,
 				A3BF50E124D32A3400CD5114 /* PGLOpenStackViewController.swift in Sources */,
 				A3BF512924D32A3400CD5114 /* PGLSourceMetalFilter.swift in Sources */,

@@ -134,6 +134,32 @@ class Renderer: NSObject {
 
     }
 
+    func captureHEIFImage() -> Data? {
+        // capture the current image in the context
+        // provide a UIImage for save to photoLibrary
+        // uses existing ciContext in a background process..
+
+        if let ciOutput = filterStack()?.stackOutputImage(false) {
+
+
+            let clampedOutput = ciOutput.clampedToExtent()
+//            guard let currentOutputImage = ciContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
+
+            let rgbSpace = CGColorSpaceCreateDeviceRGB()
+            let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
+            let heifData =  ciContext.heifRepresentation(of: clampedOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
+
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureHEIFImage ")
+
+            return heifData
+
+
+            // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
+
+        } else {
+            return nil}
+
+    }
 
 }
 

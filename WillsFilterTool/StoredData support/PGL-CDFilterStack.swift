@@ -650,18 +650,23 @@ extension PGLAppStack {
            }
 
 
-           // get the metal context -
-           guard let uiImageOutput = metalRender.captureImage()
-            else { return
-//                        fatalError("outputImage fails in #saveToPhotosLibrary")
-                    }
         if stack.shouldExportToPhotos {
                // Add the asset to the photo library
                 // album name may not be entered or used if limited photo library access
-
+            guard let heifData = metalRender.captureHEIFImage() else {
+                Logger(subsystem: LogSubsystem, category: LogCategory).error ("saveToPhotosLibrary metalRender failed at captureHEIFImage")
+                return
+            }
             do { try PHPhotoLibrary.shared().performChangesAndWait( {
+                let creationRequest = PHAssetCreationRequest.forAsset()
+                let fileNameOption = PHAssetResourceCreationOptions()
+                fileNameOption.originalFilename = stack.stackName
+                creationRequest.addResource(
+                    with: PHAssetResourceType.photo,
+                    data: heifData,
+                    options: fileNameOption)
 
-                          let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
+//                            PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
 //                            NSLog("PGLAppStack #saveToPhotosLibrary AssetChangeRequest = \(creationRequest)")
                        // either get or create the target album
 
