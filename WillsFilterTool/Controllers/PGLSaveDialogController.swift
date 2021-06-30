@@ -91,10 +91,11 @@ class PGLSaveDialogController: UIViewController {
         saveData.albumName = userEnteredAlbumName
         saveData.storeToPhoto = shouldStoreToPhotos
         saveData.shouldSaveAs = doSaveAs
-        let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
 
-        NotificationCenter.default.post(stackNotification)
-        dismiss(animated: true, completion: nil )
+        dismiss(animated: true, completion: {
+        let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
+            NotificationCenter.default.post(stackNotification)} )
+
     }
 
 

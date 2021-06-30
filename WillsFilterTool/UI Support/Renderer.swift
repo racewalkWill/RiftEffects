@@ -134,7 +134,7 @@ class Renderer: NSObject {
 
     }
 
-    func captureHEIFImage() -> Data? {
+    func captureHEIFImage() throws -> Data? {
         // capture the current image in the context
         // provide a UIImage for save to photoLibrary
         // uses existing ciContext in a background process..
@@ -147,7 +147,10 @@ class Renderer: NSObject {
 
             let rgbSpace = CGColorSpaceCreateDeviceRGB()
             let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
-            let heifData =  ciContext.heifRepresentation(of: clampedOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
+            guard let heifData =  ciContext.heifRepresentation(of: clampedOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
+            else {
+                    throw saveHEIFError.nilReturn
+            }
 
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureHEIFImage ")
 

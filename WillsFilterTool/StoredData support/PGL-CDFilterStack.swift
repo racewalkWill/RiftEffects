@@ -65,6 +65,10 @@ struct PGLStackType {
 let StackTypeKey = "StackTypes"
 // key for the AppUserDefaults instance of UserDefaults
 
+enum saveHEIFError: Error {
+    case nilReturn
+    case otherSaveError
+}
 
 extension PGLFilterStack {
 
@@ -562,11 +566,11 @@ extension PGLAppStack {
         try viewMoContext.save() // this parent context saves to the db
 //        NSLog("PGLAppStack #writeCDStacks save called")
         } catch {
-            NSLog("moContext.save error \(error.localizedDescription)")
-            DispatchQueue.main.async { [self] in
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("moContext.save error \(error.localizedDescription)")
+
                 // put back on the main UI loop for the user alert
                 self.userSaveErrorAlert(withError: error)
-            }
+
 
             }
 
@@ -581,14 +585,18 @@ extension PGLAppStack {
 
 
     func userSaveErrorAlert(withError: Error) {
-        let alert = UIAlertController(title: "Save Error", message: "Action error '\(withError.localizedDescription) '. Retry with 'Save As'", preferredStyle: .alert)
+        DispatchQueue.main.async {
+            // all UI needs to be in the main queue including creation of UIAlertController
+        let alert = UIAlertController(title: "Save Error", message: "Try again with 'Save As' command", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
             Logger(subsystem: LogSubsystem, category: LogCategory).error ("The userSaveErrorAlert \(withError.localizedDescription)")
         }))
 
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        myAppDelegate.displayUser(alert: alert)
+        let userAlertNotification =  Notification(name: PGLUserAlertNotice, object: nil , userInfo: ["alertController" : alert])
+        NotificationCenter.default.post(userAlertNotification)
+        }
     }
+
 
     func setToNewStack() {
         // save as.. command..
@@ -602,8 +610,8 @@ extension PGLAppStack {
     func saveStack(metalRender: Renderer) {
 
 //        NSLog("PGLAppStack #saveStack start")
-//        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
-//        serialQueue.async {
+        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
+        serialQueue.async {
             let targetStack = self.firstStack()!
 //            NSLog("PGLAppStack #saveStack serialQueue execution start")
             DoNotDrawWhileSave = true
@@ -616,7 +624,7 @@ extension PGLAppStack {
 //           NSLog("PGLAppStack #saveStack calls writeCDStacks")
             self.writeCDStacks()
 
-//        }
+        }
     }
 
     func saveToPhotosLibrary( stack: PGLFilterStack, metalRender: Renderer ) {
@@ -626,6 +634,7 @@ extension PGLAppStack {
                 // Create a new album with the entered title.
               
         var assetCollection: PHAssetCollection?
+        var heifData: Data?
 
 //        NSLog("saveToPhotosLibrary = \(String(describing: stack.exportAlbumIdentifier))")
           if let existingAlbumId = stack.exportAlbumIdentifier {
@@ -653,8 +662,11 @@ extension PGLAppStack {
         if stack.shouldExportToPhotos {
                // Add the asset to the photo library
                 // album name may not be entered or used if limited photo library access
-            guard let heifData = metalRender.captureHEIFImage() else {
+            do {  heifData = try metalRender.captureHEIFImage() }
+
+            catch {
                 Logger(subsystem: LogSubsystem, category: LogCategory).error ("saveToPhotosLibrary metalRender failed at captureHEIFImage")
+                userSaveErrorAlert(withError: error)
                 return
             }
             do { try PHPhotoLibrary.shared().performChangesAndWait( {
@@ -663,7 +675,7 @@ extension PGLAppStack {
                 fileNameOption.originalFilename = stack.stackName
                 creationRequest.addResource(
                     with: PHAssetResourceType.photo,
-                    data: heifData,
+                    data: heifData!,
                     options: fileNameOption)
 
 //                            PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
