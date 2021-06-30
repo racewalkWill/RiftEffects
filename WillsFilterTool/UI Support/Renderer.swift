@@ -141,13 +141,9 @@ class Renderer: NSObject {
 
         if let ciOutput = filterStack()?.stackOutputImage(false) {
 
-
-            let clampedOutput = ciOutput.clampedToExtent()
-//            guard let currentOutputImage = ciContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
-
             let rgbSpace = CGColorSpaceCreateDeviceRGB()
             let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
-            guard let heifData =  ciContext.heifRepresentation(of: clampedOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
+            guard let heifData =  ciContext.heifRepresentation(of: ciOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
             else {
                     throw saveHEIFError.nilReturn
             }
