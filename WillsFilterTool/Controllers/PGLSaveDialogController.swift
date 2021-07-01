@@ -65,6 +65,10 @@ class PGLSaveDialogController: UIViewController {
             // default value
 
         }
+        if shouldStoreToPhotos {
+            userEnteredAlbumName = albumName.text
+            // after UISwitch change
+        }
         
     }
 
