@@ -8,6 +8,16 @@
 	<array>
 		<dict>
 			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Show Help Page at startup</string>
+			<key>Key</key>
+			<string>showHelpPageAtStartup</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Save Photos Library File Format</string>

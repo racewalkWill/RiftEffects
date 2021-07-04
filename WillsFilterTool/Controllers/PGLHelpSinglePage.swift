@@ -45,6 +45,12 @@ class PGLHelpSinglePage: UIViewController {
         }
     }
 
+    @IBOutlet weak var showHelpAtStartup: UISwitch!
+
+    @IBAction func showHelpAtStartupChange(_ sender: UISwitch) {
+        AppUserDefaults.setValue(sender.isOn, forKey: showHelpPageAtStartupKey)
+    }
+
 
     @IBOutlet weak var imageView: UIImageView!
     var photoName: String?
@@ -52,9 +58,13 @@ class PGLHelpSinglePage: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    if let photoName = photoName {     imageView.image = UIImage(named: photoName)
+    if let photoName = photoName {
+        imageView.image = UIImage(named: photoName)
     }
-    
+    let turnOnSwitch =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
+    showHelpAtStartup.setOn(turnOnSwitch, animated: false)
+    showHelpAtStartup.isEnabled = true
+
 
   }
  
