@@ -57,6 +57,9 @@ class Renderer: NSObject {
 
     let debugRender = false
 
+    var currentPhotoFileFormat: PhotoLibSaveFormat!
+
+
 
     init(metalView: MTKView) {
         super.init()
@@ -109,9 +112,15 @@ class Renderer: NSObject {
 
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
+
+        let fileType = UserDefaults.init().string(forKey:  "photosFileType")
+        currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "JPEG")
+
+
+        NSLog("Renderer init currentPhotoFileFormat \(String(describing: currentPhotoFileFormat))")
     }
 
-    func captureImage() -> UIImage? {
+    func captureImage() throws -> UIImage? {
         // capture the current image in the context
         // provide a UIImage for save to photoLibrary
         // uses existing ciContext in a background process..
@@ -130,7 +139,7 @@ class Renderer: NSObject {
             // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
 
         } else {
-            return nil}
+            throw savePhotoError.jpegError}
 
     }
 
@@ -145,7 +154,7 @@ class Renderer: NSObject {
             let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
             guard let heifData =  ciContext.heifRepresentation(of: ciOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
             else {
-                    throw saveHEIFError.nilReturn
+                    throw savePhotoError.nilReturn
             }
 
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureHEIFImage ")
@@ -156,7 +165,7 @@ class Renderer: NSObject {
             // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
 
         } else {
-            return nil}
+            throw savePhotoError.heifError}
 
     }
 
