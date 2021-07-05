@@ -42,8 +42,8 @@ class PGLHelpPageController: UIPageViewController {
     // pop up modal 4 pages intro pics with comments
 
     var helpPages: [(imageName: String, imageText: String )] = [
-            ("TouchSwipePick2",
-                "Touch the filter, then Swipe and Pick an image from your photo library") ,
+            ("TouchPick",
+                "Touch the filter and the info button then Pick an image from your photo library") ,
             ("PlusButton",
                 "+ button adds a new filter"),
             ("SurrealityFilter1",
@@ -75,6 +75,13 @@ class PGLHelpPageController: UIPageViewController {
         }
 
         dataSource = self
+
+        let turnOnSwitch =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
+
+        if turnOnSwitch { AppUserDefaults.setValue(false, forKey: showHelpPageAtStartupKey)}
+            // set to false at first time true (startup)
+            // only show once on first startup... then user should use the ? button for help
+
       }
     func viewPhotoCommentController(_ index: Int) -> PGLHelpSinglePage? {
       guard

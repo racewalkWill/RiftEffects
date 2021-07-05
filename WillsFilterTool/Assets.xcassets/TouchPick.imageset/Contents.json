@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "TouchSwipePick2.png",
+      "filename" : "TouchPick.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,14 +12,6 @@
     {
       "idiom" : "universal",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "ipad",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "ipad",
-      "scale" : "2x"
     }
   ],
   "info" : {
