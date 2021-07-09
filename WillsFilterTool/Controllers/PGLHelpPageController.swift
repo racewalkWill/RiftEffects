@@ -43,7 +43,7 @@ class PGLHelpPageController: UIPageViewController {
 
     var helpPages: [(imageName: String, imageText: String )] = [
             ("TouchPick",
-                "Touch the filter and the info button then Pick an image from your photo library") ,
+                "SELECT a filter, TAP the info button, then PICK an image from your photo library") ,
             ("PlusButton",
                 "+ button adds a new filter"),
             ("SurrealityFilter1",

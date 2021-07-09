@@ -12,7 +12,7 @@
 			<key>Title</key>
 			<string>Show Help Page at startup</string>
 			<key>Key</key>
-			<string>showHelpPageAtStartup</string>
+			<string>displayStartHelp</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>

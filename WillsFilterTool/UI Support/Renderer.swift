@@ -113,7 +113,10 @@ class Renderer: NSObject {
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
 
-        let fileType = UserDefaults.init().string(forKey:  "photosFileType")
+//        let fileType = UserDefaults.init().string(forKey:  "photosFileType")
+            // above works..
+        
+        let fileType = AppUserDefaults.string(forKey:  "photosFileType")
         currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "JPEG")
 
 
