@@ -211,6 +211,11 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         if newSaveAs {self.appStack.setToNewStack()
             // set the coredata vars to nil
             }
+        splitViewController?.preferredDisplayMode = .secondaryOnly
+        // go to full screen to render the save image
+        // preferredStatusBarStyle left to user action
+
+
         self.appStack.saveStack(metalRender: self.metalController!.metalRender)
     }
 

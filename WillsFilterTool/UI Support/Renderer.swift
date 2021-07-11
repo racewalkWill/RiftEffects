@@ -141,6 +141,9 @@ class Renderer: NSObject {
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
             // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
 
+            // let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+//             pickedCIImage = convertedImage.oriented(theOrientation)
+
         } else {
             throw savePhotoError.jpegError}
 
