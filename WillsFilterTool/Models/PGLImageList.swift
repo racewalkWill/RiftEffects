@@ -89,7 +89,20 @@ class PGLImageList {
 
     }
 
-    
+    static var DeviceIsSimulator: Bool?
+
+    static func isDeviceASimulator() -> Bool {
+        if DeviceIsSimulator == nil {
+            if let envVar = ProcessInfo.processInfo.environment["DeviceIsSimulator"] {
+                DeviceIsSimulator = Bool.init(envVar)
+            } else {
+                DeviceIsSimulator = false
+                    // cache
+            }
+        }
+        return DeviceIsSimulator ?? false
+    }
+
     func setUserSelection(toAttribute: PGLFilterAttribute  ){
         // create a PGLUserSelection object from
         // the imageAssets
@@ -260,10 +273,13 @@ class PGLImageList {
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                guard let theImage = image else { return  }
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
+
                 let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+                if PGLImageList.isDeviceASimulator() {
+                        pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+                    } else {
 
-
-                pickedCIImage = convertedImage.oriented(theOrientation)
+                        pickedCIImage = convertedImage.oriented(theOrientation) }
                }
            })
            return pickedCIImage

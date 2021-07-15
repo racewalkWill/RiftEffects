@@ -432,8 +432,8 @@
             filePath = "WillsFilterTool/Models/PGLImageList.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "imageFrom(selectedAsset:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -451,6 +451,22 @@
             startingLineNumber = "204"
             endingLineNumber = "204"
             landmarkName = "draw(in:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4034EB9E-0CD4-4CE1-B2BE-A6D155B936B7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WillsFilterTool/Models/PGLDevice.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "isSimulatorDevice()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
