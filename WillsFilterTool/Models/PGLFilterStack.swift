@@ -296,9 +296,14 @@ class PGLFilterStack  {
 //        NSLog("PGLFilterStack -> appendFilter = \(newFilter.filterName)")
         if !activeFilters.isEmpty {
             let currentFilter = activeFilters[activeFilterIndex]
-            newFilter.setInput(image: currentFilter.outputImage(),source: stackFilterName(currentFilter, index: activeFilterIndex))
+            let priorOutput = imageUpdate(nil, true) // inputImage: showCurrentFilterImage:
 
-            newFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+            newFilter.setInput(image: priorOutput ,source: stackFilterName(currentFilter, index: activeFilterIndex))
+
+            if !currentFilter.imageInputIsEmpty() {
+                // issue - when current filter input is fixed then newFilter state should change too
+                // see check in #imageUpdate empty to inputPriorFilter state
+                newFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter) }
 
         } else {
             // first filter in the stack
@@ -550,7 +555,7 @@ class PGLFilterStack  {
             imagePosition = activeFilterIndex
         } else {
             imagePosition = activeFilters.count - 1 // zero based array
-        }
+            }
 
         for index in 0...imagePosition { // only show up to the current filter in the stack
 //            NSLog("imageUpdate START thisImage.extent = \(thisImage?.extent)")
@@ -559,15 +564,12 @@ class PGLFilterStack  {
             }
             filter = activeFilters[index]
             if filter.imageInputIsEmpty() {
-                continue
-                // don't render from filter with no input.
-                // see return line below...
-                // image update may return CIImage.empty if all of the filters are in this state..
+                if thisImage == nil {
+                    // don't render from filter with no input.
+                    continue
+                }
             }
             if thisImage != nil {
-                if doPrintCropClamp {
-                    Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterStack imageUpdate start thisImage.extent =   \(String(describing: thisImage?.extent))")
-                }
                 if thisImage!.extent.isInfinite {
                     // issue CIColorDodgeBlendMode -> CIZoomBlur -> CIToneCurve
                     // -> CIColorInvert -> CIHexagonalPixellate -> CICircleSplashDistortion)
@@ -578,8 +580,13 @@ class PGLFilterStack  {
 //                    if doPrintCropClamp {   NSLog("PGLFilterStack imageUpdate clamped and cropped to  \(String(describing: thisImage?.extent))") }
                 }
                 filter.setInput(image: thisImage, source: nil)
+                if filter.imageInputIsEmpty() {
+                    if let changedAttribute = filter.getInputImageAttribute() {
+                        changedAttribute.setImageParmState(newState: ImageParm.inputPriorFilter)
+                    }
+                }
             }
-                // else just use the already set input image
+
 
             if let newOutputImage = clampCrop(input: filter.outputImage()) {
 
@@ -595,11 +602,7 @@ class PGLFilterStack  {
                 // for next loop of activeFilters
 //                NSLog("PGLAppStack #outputFilterStack() no output image at \(index) from filter = \(filter.filterName)")
                 }
-        }
-//        if let thisImageExtent = thisImage?.extent {
-//           NSLog("imageUpdate thisImageExtent.extent = \(thisImageExtent)")
-//
-//        }
+            }
 
         return thisImage ?? CIImage.empty()
       
