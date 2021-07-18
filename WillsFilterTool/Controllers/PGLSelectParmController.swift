@@ -584,6 +584,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // later move the logic of sliderValueDidChange to here..
 //        sliderValueDidChange(sender)
         // slider in the parmController tableView cell
+        // Need to ensure that the cell containing the slider control is highlighted
+        // i.e. tappedAttribute is the parmSliderInputCell
+        // timer slider is enabled when the cell is selected
+        // see DidSelectRowAt for the TimerSliderUI case where it is enable
+
         if let target = tappedAttribute {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController #parmSliderChange  value = \(sender.value)")
             target.uiIndexTag = Int(sender.tag)
@@ -1296,7 +1301,14 @@ fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePicke
 
 class PGLTableCellSlider: UITableViewCell {
     
-    @IBOutlet weak var sliderControl: UISlider!
+    @IBOutlet weak var sliderControl: UISlider! {
+        didSet {
+            sliderControl.isEnabled = false
+            // enable when the cell is highlighted or selected
+        }
+    }
+
+
 
 func showTextValueInCell(){
         // this class does not show the value of the attribute

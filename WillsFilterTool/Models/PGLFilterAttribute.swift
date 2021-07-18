@@ -745,7 +745,9 @@ class PGLFilterAttribute {
             // override to answer nil in some subclasses (image etc)
 
         if let newTimerRow = PGLTimerRateAttributeUI(pglFilter: (self.aSourceFilter), attributeDict: self.initDict, inputKey: self.attributeName!) {
-            newTimerRow.timerParent = self
+            newTimerRow.filterAttribute(parent: self)
+                // triggers change to animation state
+//            newTimerRow.startCellAnimationTimer()
             return newTimerRow}
         else { return nil }
     }
@@ -776,10 +778,12 @@ class PGLFilterAttribute {
         // subclasses override
         var allActions = [PGLTableCellAction]()
             // [(action:String,newCell:PGLFilterAttribute?) ]()
-        if let newVaryAttribute = varyTimerAttribute() {
-            if !hasAnimation() { // add Vary
+
+        if !hasAnimation() { // add Vary
+            if let newVaryAttribute = varyTimerAttribute() {
                 let varyAction = PGLTableCellAction(action: "Vary", newAttribute: newVaryAttribute, canPerformAction: true, targetAttribute: self)
                 allActions.append(varyAction) }
+            }
             else { // add Cancel
                 let cancelVaryAction = PGLTableCellAction(action: "Cancel", newAttribute: nil, canPerformAction: true, targetAttribute: self)
                 allActions.append(cancelVaryAction) }
@@ -792,7 +796,7 @@ class PGLFilterAttribute {
             // or
             // currentFilter?attribute(removeAnimationTarget: PGLFilterAttribute)
             // the timer method is the #addStepTime
-        }
+
 
         return allActions
     }
@@ -1140,12 +1144,35 @@ class PGLFilterAttributeAngle: PGLFilterAttribute {
 
         }
     }
-    
+  // this is in class PGLFilterAttributeAngle
+    override func incrementValueDelta() {
+        // animation time range 0.0 to 1.0
+        // PGLFilterAttributeAngle has
+            //attributeType = CIAttributeTypeAngle
+            // attributeClass = NSNumber
+            //  an angle in radians  presuming maxValue is 2Pi radians
+
+        if !hasAnimation() {return }
+        // get the current value and add the delta
+        // then set into the filter
+        guard let currentValue = getNumberValue() as? Float
+        else { return }
+
+        let incrementValue = NSNumber ( value: currentValue + ( attributeValueDelta  ?? 0.0 ) )
+        aSourceFilter.setNumberValue(newValue: incrementValue, keyName: attributeName!)
+        postUIChange(attribute: self)
+
+
+    }
+
+
   func hasSwipeAction() -> Bool {
         return true // subclasses override if they support timer or filter input actions
 
     }
-}
+}  // END class PGLFilterAttributeAngle
+
+
 class PGLFilterAttributeAffine: PGLFilterAttribute {
     var affine = CGAffineTransform.identity
     var rotation: Float = 0.0

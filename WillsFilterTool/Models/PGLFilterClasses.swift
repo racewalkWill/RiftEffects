@@ -675,6 +675,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
             anAttribute.attributeName == removeAnimationTarget.attributeName
         }
+        hasAnimation = !animationAttributes.isEmpty
+            // keep the var and the lower level animationAttributes in sync
     }
 
     func addStepTime() {

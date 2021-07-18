@@ -347,7 +347,7 @@ class PGLTimerRateAttributeUI: PGLFilterAttribute {
     // support Vary, Cancel, OK swipeActions
 
     var timerParent: PGLFilterAttribute?  // maybe the parent should be the varying
-    let defaultDt: Double = 0.005
+    let defaultDt: Double = 2.000 // was 0.005
 
     // MARK: PGLAttributeUI protocol
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
