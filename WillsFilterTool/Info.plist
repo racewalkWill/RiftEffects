@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Display Photo collections &amp; Albums</string>
+	<string>The app will display your photos and apply visual effect filters to the display.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
