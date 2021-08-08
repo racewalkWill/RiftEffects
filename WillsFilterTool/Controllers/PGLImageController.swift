@@ -563,8 +563,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         if theShowHelp {
             // if the key does not exist then bool answers false
             helpBtnAction(helpBtn)
-            // now set to false for the next startup
-            AppUserDefaults.set(false, forKey: showHelpPageAtStartupKey)
+            // PGLHelpPageController will set to false after showing help
+
         }
     }
 

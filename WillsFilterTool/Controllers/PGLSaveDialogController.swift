@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Photos
 import os
+import StoreKit
 
 let  PGLStackSaveNotification = NSNotification.Name(rawValue: "PGLStackSaveNotification")
 
@@ -32,6 +33,8 @@ class PGLSaveDialogController: UIViewController {
     // capture new values for the stack and notify the parent view to saveStack
 
     // saveAs.. will nil out the CDvars of the stack. On save new ones are created
+
+    // 2021/08/07 after user has saved 15 images then ask for an app review for this version
 
     var appStack: PGLAppStack!
     var userEnteredStackName: String?
@@ -95,6 +98,7 @@ class PGLSaveDialogController: UIViewController {
         saveData.albumName = userEnteredAlbumName
         saveData.storeToPhoto = shouldStoreToPhotos
         saveData.shouldSaveAs = doSaveAs
+        incrementSaveCountForAppReview()
 
         dismiss(animated: true, completion: {
         let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
@@ -145,6 +149,36 @@ class PGLSaveDialogController: UIViewController {
         default:
             // all other authorizationStatus values
            return false
+        }
+    }
+
+    //MARK: App Review save count
+    func incrementSaveCountForAppReview() {
+        // based on Apple sample StoreKitReviewRequest example code
+
+        var saveCount = AppUserDefaults.integer(forKey: PGLUserDefaultKeys.processCompletedCountKey)
+        saveCount += 1
+        AppUserDefaults.set(saveCount, forKey: PGLUserDefaultKeys.processCompletedCountKey)
+
+        // Get the current bundle version for the app
+        let infoDictionaryKey = kCFBundleVersionKey as String
+        guard let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
+            else { fatalError("Expected to find a bundle version in the info dictionary") }
+
+        let lastVersionPromptedForReview = AppUserDefaults.string(forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
+
+        if saveCount >= 15 && currentVersion != lastVersionPromptedForReview {
+            let twoSecondsFromNow = DispatchTime.now() + 2.0
+            DispatchQueue.main.asyncAfter(deadline: twoSecondsFromNow) {
+
+                SKStoreReviewController.requestReview()
+                // requestReview is deprecated in iOS 14.0
+                // assuming that change to WindowScene will take
+                // a long time as there is a huge library of apps using the AppDelegate protocols
+
+                AppUserDefaults.set(currentVersion, forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
+
+            }
         }
     }
 }

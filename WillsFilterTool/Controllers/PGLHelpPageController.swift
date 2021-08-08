@@ -40,6 +40,8 @@ import UIKit
 
 class PGLHelpPageController: UIPageViewController {
     // pop up modal 4 pages intro pics with comments
+    // PGLImageController checks for first startup and shows this Help
+    // PGLImageController turns off first startup boolean
 
     var helpPages: [(imageName: String, imageText: String )] = [
             ("TouchPick",
@@ -76,13 +78,18 @@ class PGLHelpPageController: UIPageViewController {
 
         dataSource = self
 
-        let turnOnSwitch =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
 
+
+      }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        let turnOnSwitch =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
         if turnOnSwitch { AppUserDefaults.setValue(false, forKey: showHelpPageAtStartupKey)}
-            // set to false at first time true (startup)
+            // set to false after first time true (startup)
             // only show once on first startup... then user should use the ? button for help
 
       }
+
     func viewPhotoCommentController(_ index: Int) -> PGLHelpSinglePage? {
       guard
         let storyboard = storyboard,
