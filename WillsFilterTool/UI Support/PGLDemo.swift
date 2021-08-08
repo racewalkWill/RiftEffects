@@ -39,7 +39,7 @@ class PGLDemo {
     static var GeneratorFilters = PGLFilterCategory("CICategoryGenerator")!.filterDescriptors
 
 
-    static var SingleFilterGroups = [BlurFilters,ColorAdjFilters, ColorEffectFilters,StylizeFilters, DistortFilters, GeometryFilters,SharpenFilters, HalfToneFilters] //TileFilters
+    static var SingleFilterGroups = [BlurFilters,ColorAdjFilters, ColorEffectFilters,StylizeFilters, DistortFilters, GeometryFilters,SharpenFilters, HalfToneFilters , TileFilters ,GeneratorFilters, GradientFilters] //TileFilters
     static var GeneratorGroups = [GeneratorFilters, GradientFilters]
     static var CompositeGroups = [CompositeFilters, TransistionFilters]
 
@@ -63,14 +63,17 @@ class PGLDemo {
     }
 
     func addFiltersTo(stack: PGLFilterStack) {
-        // put 9 random filters on the stack
-        // one filter from each group: blur, colorAdj, colorEffect, stylize, distort
-        //MARK: Move to PGLDemo
+        // put 4 random filters on the stack
+        // filters from random groups in singleFilterGroups
 
-        for aGroup in PGLDemo.SingleFilterGroups {
-                let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
-                let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
-                thisFilter?.setDefaults()
+
+//        for aGroup in PGLDemo.SingleFilterGroups {
+        for _ in 0...3 {
+            let groupIndex = Int.random(in: 0 ..< PGLDemo.SingleFilterGroups.count)
+            let aGroup = PGLDemo.SingleFilterGroups[groupIndex]
+            let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
+            let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
+            thisFilter?.setDefaults()
             Logger(subsystem: LogSubsystem, category: LogCategory).notice("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
             let imageAttributesNames = thisFilter!.imageInputAttributeKeys
                 for anImageAttributeName in imageAttributesNames {
