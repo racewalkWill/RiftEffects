@@ -46,11 +46,12 @@ class PGLExcludeFilters {
         // these only work with the aux depth info from a portrait.. not an normal input image
         "CIDepthToDisparity",
         "CIDisparityToDepth",
-        "CIColorClamp"  // see note N73.7.3 CIColorClamp for how to implement interface at later time
+        "CIColorClamp" ,  // see note N73.7.3 CIColorClamp for how to implement interface at later time
 
         // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
 //        "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",
 //        "CICrystallize", "CICMYKHalftone","CIGaborGradients", "CISpotColor", "CIEdgeWork"
+        "FaceFilter"
         ]
 
 

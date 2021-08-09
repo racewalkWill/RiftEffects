@@ -711,6 +711,7 @@ class PGLFilterStack  {
 
     func filterName() -> String {
         if activeFilterIndex < 0 { return ""}
+        if activeFilters.count == 0 {return "" }
         let theCurrentFilter = filterAt(tabIndex: activeFilterIndex)
         return theCurrentFilter.localizedName()
     }

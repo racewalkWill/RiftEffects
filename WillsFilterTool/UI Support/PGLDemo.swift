@@ -68,27 +68,40 @@ class PGLDemo {
 
 
 //        for aGroup in PGLDemo.SingleFilterGroups {
-        for _ in 0...3 {
+        for filterIndex in 0...3 {
             let groupIndex = Int.random(in: 0 ..< PGLDemo.SingleFilterGroups.count)
             let aGroup = PGLDemo.SingleFilterGroups[groupIndex]
             let aFilterIndex = Int.random(in: 0 ..< aGroup.count)
-            let thisFilter = aGroup[aFilterIndex].pglSourceFilter()
-            thisFilter?.setDefaults()
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("addFiltersTo \(thisFilter!.localizedName()) \(String(describing: thisFilter!.filterName))")
-            let imageAttributesNames = thisFilter!.imageInputAttributeKeys
-                for anImageAttributeName in imageAttributesNames {
-                    if anImageAttributeName == kCIInputImageKey { continue
-                        // skip the default.. adding to the stack will set the input
-                    }
-                    guard let thisAttribute = thisFilter!.attribute(nameKey: anImageAttributeName) else { continue }
-                   setInputTo(imageParm: thisAttribute) // the six images from favorites
-               }
-//            stack.append(thisFilter!)
-            //  this just adds without an input
-            stack.appendFilter(thisFilter!) // this sets the input
+            guard let thisFilter = aGroup[aFilterIndex].pglSourceFilter() else {
+                continue
+            }
+            thisFilter.setDefaults()
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice("addFiltersTo \(thisFilter.localizedName()) \(String(describing: thisFilter.filterName))")
 
+            switch filterIndex {
+                case  0 :
+                // first filter special setup
+                    setImageInputs(thisFilter)
+                    stack.append(thisFilter)
+                    thisFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
+                default  :
+
+
+                    let imageAttributesNames = thisFilter.imageInputAttributeKeys
+                        for anImageAttributeName in imageAttributesNames {
+                            if anImageAttributeName == kCIInputImageKey { continue
+                                // skip the default.. adding to the stack will set the input
+                            }
+                            guard let thisAttribute = thisFilter.attribute(nameKey: anImageAttributeName) else { continue }
+                            let newChildAdded = mightAddChildStack(attribute: thisAttribute)
+                            if !newChildAdded {
+                                setInputTo(imageParm: thisAttribute) // the six images from favorites
+                            }
+
+                       }
+                    stack.appendFilter(thisFilter) // this sets the input
+            }
         }
-
     }
 
     func setInputTo(imageParm: PGLFilterAttribute) {
@@ -145,6 +158,42 @@ class PGLDemo {
         }
         userSelectionInfo.setUserPick()
     }
+    func mightAddChildStack(attribute: PGLFilterAttribute) -> Bool {
+       // use childStack infrequently..
+        // need a guard to usually return false without change
+        // if childStack added then return true
+        // random 1 in 10 chance to addChildStack..
+        let skipAddChild = Int.random(in: 1...100) < 90
+        if skipAddChild { return false }
+
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("adding ChildStack at \(String(describing: attribute.attributeName))")
+        guard let imageAttribute = attribute as? PGLFilterAttributeImage
+            else { return false }
+        appStack.addChildStackTo(parm: imageAttribute)
+        let childStack = appStack.viewerStack // the new childStack
+        setInputTo(imageParm: imageAttribute)
+        addFiltersTo(stack: childStack)
+        return true
+    }
+
+    fileprivate func setImageInputs(_ firstRandomFilter: PGLSourceFilter) {
+        let imageAttributesNames = firstRandomFilter.imageInputAttributeKeys
+
+        for anImageAttributeName in imageAttributesNames {
+            guard let thisAttribute = firstRandomFilter.attribute(nameKey: anImageAttributeName) else { continue }
+
+            if imageAttributesNames.count == 1 {
+                // for a single image input set an image without a child stack
+                setInputTo(imageParm: thisAttribute)
+                return
+            }
+
+            let newChildAdded = mightAddChildStack(attribute: thisAttribute)
+            if !newChildAdded {
+                setInputTo(imageParm: thisAttribute) // the six images from favorites
+            }
+        }
+    }
 
     func multipleInputTransitionFilters() -> PGLSourceFilter{
         // answer first addedFilter
@@ -162,22 +211,8 @@ class PGLDemo {
         let targetStack = appStack.outputFilterStack()
         firstRandomFilter = group1[PGLDemo.Category1Index].pglSourceFilter()!
 
-        if PGLDemo.Category1Index < group1.count {
+        if PGLDemo.Category1Index < (group1.count - 1 ){
 
-            firstRandomFilter.setDefaults()
-
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("multipleInputTransitionFilters group1 filter \(firstRandomFilter.fullFilterName())")
-            let imageAttributesNames = firstRandomFilter.imageInputAttributeKeys
-            for anImageAttributeName in imageAttributesNames {
-                guard let thisAttribute = firstRandomFilter.attribute(nameKey: anImageAttributeName) else { continue }
-                setInputTo(imageParm: thisAttribute) // the six images from favorites
-            }
-
-//                targetStack.append(category1Filter)
-            targetStack.appendFilter(firstRandomFilter)
-            // since this is opposite order to the ui where the filter is picked then the inputs
-            // reset the input source
-            firstRandomFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
             addFiltersTo(stack: targetStack)
 
             targetStack.stackName = "Random Favorites"

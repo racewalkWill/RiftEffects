@@ -170,13 +170,7 @@ class PGLAppStack {
         }
         else { // show the final output
             return outputStack
-//            if pushedStacks.isEmpty {
-//                return viewerStack
-//            }
-//            else {
-//                return (pushedStacks.first!)
-//                // this fails to pick the actual output of all the stacks
-//            }
+
         }
     }
 
