@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CompositeTextPositionFilter.register()
         PGLSaliencyBlurFilter.register()
         PGLImageCIFilter.register()
+        PGLRandomFilterAction.register()
        appStack = PGLAppStack()
    
        return true

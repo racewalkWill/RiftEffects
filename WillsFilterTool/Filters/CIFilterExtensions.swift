@@ -18,6 +18,7 @@ let kPFaceFilter = "FaceFilter"
 let kPBumpBlend = "BumpBlend"
 let kPBumpFace = "BumpFace"
 let kPImages = "Images"
+let kPRandom = "Random Filters"
 let kPCarnivalMirror = "CarnivalMirror"
 let kPTiltShift = "TiltShift"
 let kPWarpItMetal  = "WarpItMetal"
@@ -46,6 +47,7 @@ extension CIFilter {
 //                , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
             ],
             kPImages : [PGLTransitionFilter.self ],
+            kPRandom : [PGLTransitionFilter.self ],
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],
             "CIBarsSwipeTransition" : [PGLTransitionFilter.self] ,
             "CICopyMachineTransition" : [PGLTransitionFilter.self ],

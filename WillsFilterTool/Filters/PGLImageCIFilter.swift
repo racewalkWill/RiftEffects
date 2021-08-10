@@ -1,6 +1,6 @@
 //
-//  PGLNullCIFilter.swift
-//  Glance
+//  PGLImageCIFilter.swift
+//  
 //
 //  Created by Will on 2/2/19.
 //  Copyright © 2019 Will Loew-Blosser. All rights reserved.

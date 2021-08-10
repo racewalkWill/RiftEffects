@@ -1070,7 +1070,8 @@ class PGLFilterConstructor: CIFilterConstructor {
                     return PGLFaceCIFilter()
             case kPImages :
                     return PGLImageCIFilter()
-
+            case kPRandom :
+                return PGLRandomFilterAction()
 
 //            case kPCarnivalMirror:
 //                return PGLCarnivalMirror()
