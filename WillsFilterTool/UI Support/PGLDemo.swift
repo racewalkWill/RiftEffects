@@ -17,6 +17,10 @@ class PGLDemo {
     // supports PGLStackController Random button
     // supports Test classes
 
+    static let NoRandomChildStackPercentage = 70  // integer 0 to 100
+        // percentage to control how often a child stack is added in the Random function
+        // 100 means child stack is never added
+
     static var FavoritesAlbumList: PGLAlbumSource?
     var appStack: PGLAppStack!
     let saveOutputToPhotoLib = false
@@ -83,7 +87,7 @@ class PGLDemo {
                 // first filter special setup
                     setImageInputs(thisFilter)
                     stack.append(thisFilter)
-                    thisFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
+
                 default  :
 
 
@@ -163,7 +167,7 @@ class PGLDemo {
         // need a guard to usually return false without change
         // if childStack added then return true
         // random 1 in 10 chance to addChildStack..
-        let skipAddChild = Int.random(in: 1...100) < 90
+        let skipAddChild = Int.random(in: 1...100) < PGLDemo.NoRandomChildStackPercentage
         if skipAddChild { return false }
 
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("adding ChildStack at \(String(describing: attribute.attributeName))")
@@ -171,26 +175,28 @@ class PGLDemo {
             else { return false }
         appStack.addChildStackTo(parm: imageAttribute)
         let childStack = appStack.viewerStack // the new childStack
-        setInputTo(imageParm: imageAttribute)
+
         addFiltersTo(stack: childStack)
         return true
     }
 
-    fileprivate func setImageInputs(_ firstRandomFilter: PGLSourceFilter) {
-        let imageAttributesNames = firstRandomFilter.imageInputAttributeKeys
+    fileprivate func setImageInputs(_ targetFilter: PGLSourceFilter) {
+        let imageAttributesNames = targetFilter.imageInputAttributeKeys
 
         for anImageAttributeName in imageAttributesNames {
-            guard let thisAttribute = firstRandomFilter.attribute(nameKey: anImageAttributeName) else { continue }
+            guard let thisAttribute = targetFilter.attribute(nameKey: anImageAttributeName) else { continue }
 
             if imageAttributesNames.count == 1 {
                 // for a single image input set an image without a child stack
                 setInputTo(imageParm: thisAttribute)
+                targetFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
                 return
             }
 
             let newChildAdded = mightAddChildStack(attribute: thisAttribute)
             if !newChildAdded {
                 setInputTo(imageParm: thisAttribute) // the six images from favorites
+                targetFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
             }
         }
     }
@@ -208,7 +214,7 @@ class PGLDemo {
       }
 
         let group1 = PGLDemo.CompositeGroups[PGLDemo.CurrentDemoGroup]
-        let targetStack = appStack.outputFilterStack()
+        let targetStack = appStack.viewerStack // appStack.outputFilterStack()
         firstRandomFilter = group1[PGLDemo.Category1Index].pglSourceFilter()!
 
         if PGLDemo.Category1Index < (group1.count - 1 ){
