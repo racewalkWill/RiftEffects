@@ -20,6 +20,8 @@ class PGLDemo {
     static let NoRandomChildStackPercentage = 70  // integer 0 to 100
         // percentage to control how often a child stack is added in the Random function
         // 100 means child stack is never added
+    static var RandomImageList: PGLImageList?
+        // interacts with PGLRandomFilter to hold user images for random consturction
 
     static var FavoritesAlbumList: PGLAlbumSource?
     var appStack: PGLAppStack!
@@ -203,7 +205,7 @@ class PGLDemo {
 
     func multipleInputTransitionFilters() -> PGLSourceFilter{
         // answer first addedFilter
-        //MARK: Move to PGLDemo
+
 
         var firstRandomFilter: PGLSourceFilter
 
@@ -241,6 +243,21 @@ class PGLDemo {
             PGLDemo.Category1Index = 0 // reset
         }
         return firstRandomFilter
+    }
+
+    // MARK: Run
+    func runMakeRandom(stackController: PGLStackController) {
+        appStack = stackController.appStack // pass on the stacks
+        let setInputToPrior = appStack.viewerStack.stackHasFilter()
+        let startingDemoFilter = multipleInputTransitionFilters()
+
+        appStack.viewerStack.activeFilterIndex = 0
+        if setInputToPrior {
+            startingDemoFilter.setInputImageParmState(newState: ImageParm.inputPriorFilter)
+        }
+        stackController.postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+       
+
     }
 
 }

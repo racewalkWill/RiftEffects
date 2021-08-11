@@ -47,7 +47,7 @@ extension CIFilter {
 //                , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
             ],
             kPImages : [PGLTransitionFilter.self ],
-            kPRandom : [PGLTransitionFilter.self ],
+            kPRandom : [PGLRandomFilterMaker.self ],
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],
             "CIBarsSwipeTransition" : [PGLTransitionFilter.self] ,
             "CICopyMachineTransition" : [PGLTransitionFilter.self ],

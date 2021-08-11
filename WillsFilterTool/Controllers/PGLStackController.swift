@@ -416,7 +416,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         NotificationCenter.default.post(updateFilterNotification)
     }
 
-    fileprivate func postCurrentFilterChange() {
+    func postCurrentFilterChange() {
         let updateFilterNotification = Notification(name: PGLCurrentFilterChange)
         NotificationCenter.default.post(updateFilterNotification)
     }
@@ -448,41 +448,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         // on swipe from the filter list open the parm controller
           var contextActions = [UIContextualAction]()
 
-//        case .segue:
-        var myAction = UIContextualAction(style: .normal, title: "Change") { [weak self] (_, _, completion) in
-            guard let self = self
-                else { return  }
-
-            self.appStack.viewerStack.activeFilterIndex = indexPath.row
-                // not needed? viewerStack may change.. row is not the index (indented issue on child stack)
-
-            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt Change ")
-            // set appStack and stack indexes to the selected filter
-            let cellObject = self.appStack.cellFilters[indexPath.row]
-
-            self.appStack.moveTo(filterIndent: cellObject) // this is also setting the activeFilterIndes..
-            self.appStack.viewerStack.stackMode =  FilterChangeMode.replace
-                // this is passed to the filterController
-                // in the segue
-            self.performSegue(withIdentifier: "showFilterController" , sender: nil)
-                  // show segue showFilterController opens the PGLFilterTableController
-                  // set the stack activeFilter
-
-
-            completion(true)
-        }
-         contextActions.append(myAction)
-
-        // delete filter
-         myAction = UIContextualAction(style: .normal, title: "Delete") { [weak self] (_, _, completion) in
-                    guard let self = self
-                        else { return  }
-            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt Delete")
-                    self.removeFilter(indexPath: indexPath)
-
-                    completion(true)
-                }
-         contextActions.append(myAction)
+        let cellFilter: PGLFilterIndent =  appStack.cellFilters[indexPath.row]
+        let thisSourceFilter = cellFilter.filter
+        contextActions = thisSourceFilter.cellFilterAction(stackController: self, indexPath: indexPath)
 
          return UISwipeActionsConfiguration(actions: contextActions)
     }
