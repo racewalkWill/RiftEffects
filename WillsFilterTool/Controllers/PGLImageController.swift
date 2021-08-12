@@ -384,7 +384,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
     override func viewWillLayoutSubviews() {
 
-     navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+//     navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         // turns on the full screen toggle button on the left nav bar
         // Do not change the configuration of the returned button.
         // The split view controller updates the button’s configuration and appearance automatically based on the current display mode

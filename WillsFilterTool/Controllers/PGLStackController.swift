@@ -76,6 +76,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         navigationController?.isToolbarHidden = false
 
         addToolBarButtons()
+        updateNavigationBar()
         setLongPressGesture()
         if appStack.outputStack.isEmptyStack() {
             self.performSegue(withIdentifier: "showFilterController" , sender: nil)
@@ -411,6 +412,13 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
 
 // MARK: Navigation
+
+    func updateNavigationBar() {
+//        self.navigationItem.title = self.appStack.firstStack()?.stackName
+        self.navigationItem.title = "Stack"
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
     fileprivate func postFilterNavigationChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
         NotificationCenter.default.post(updateFilterNotification)

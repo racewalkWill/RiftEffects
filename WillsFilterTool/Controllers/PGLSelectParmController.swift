@@ -33,7 +33,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // UITableViewController
 //    var parmStackData: () -> PGLFilterStack?  = { PGLFilterStack() }
     // a function is assigned to this var that answers the filterStack
-    var myMasterSplitController: PGLSplitViewController?
+//    var myMasterSplitController: PGLSplitViewController?
     var appStack: PGLAppStack!
 
     var currentFilter: PGLSourceFilter?  {

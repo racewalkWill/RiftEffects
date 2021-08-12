@@ -122,7 +122,7 @@ class PGLCategorySurvey: XCTestCase {
 
         var selectedAssets = [PGLAsset]()
         var allowedAssetCount = 1
-        if imageParm.isTransitionFilter() { allowedAssetCount = 6 }
+        if imageParm.isTransitionFilter { allowedAssetCount = 6 }
         let maxIndex = favoriteAssets!.count
         while selectedAssets.count < allowedAssetCount {
             let randomIndex = Int.random(in: 0 ..< maxIndex)

@@ -22,11 +22,11 @@
                                 <rect key="frame" x="0.0" y="24.5" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bAo-zi-it5" id="LE4-Pc-AYC">
-                                    <rect key="frame" x="0.0" y="0.0" width="515" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="511" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oxp-d1-8dN">
-                                            <rect key="frame" x="16" y="0.0" width="490.5" height="43.5"/>
+                                            <rect key="frame" x="20" y="0.0" width="482.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
@@ -597,7 +597,7 @@
         <!--RootSplit-->
         <scene sceneID="nHH-rO-VOb">
             <objects>
-                <splitViewController title="RootSplit" behavior="displace" id="vbC-U8-P9f" customClass="PGLSplitViewController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController title="RootSplit" allowDoubleColumnStyle="YES" behavior="tile" id="vbC-U8-P9f" customClass="PGLSplitViewController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="sz9-Js-XAp" kind="relationship" relationship="detailViewController" id="DCq-97-jjZ"/>
                         <segue destination="8fb-qg-1Kn" kind="relationship" relationship="masterViewController" id="Sw7-lT-GVy"/>
@@ -1059,10 +1059,10 @@
             </objects>
             <point key="canvasLocation" x="364.24682395644282" y="730.21582733812954"/>
         </scene>
-        <!--Stack Controller-->
+        <!--Stack-->
         <scene sceneID="dfj-In-sbB">
             <objects>
-                <tableViewController storyboardIdentifier="StackController" id="dDm-tJ-e98" customClass="PGLStackController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="StackController" title="Stack" id="dDm-tJ-e98" customClass="PGLStackController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1072,11 +1072,11 @@
                                 <rect key="frame" x="0.0" y="24.5" width="551" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yOX-Yb-noN" id="KAe-B8-bgl">
-                                    <rect key="frame" x="0.0" y="0.0" width="525.5" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="521.5" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jaH-Rx-fdN">
-                                            <rect key="frame" x="16" y="0.0" width="501.5" height="43.5"/>
+                                            <rect key="frame" x="20" y="0.0" width="493.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
