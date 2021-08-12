@@ -93,7 +93,7 @@ class PGLUserAssetSelection {
 
     func isTransitionFilter() -> Bool {
         // answer true if the filter is in the "CICategoryTransition" category
-        return myTargetFilterAttribute?.isTransitionFilter() ?? false
+        return myTargetFilterAttribute?.isTransitionFilter ?? false
     }
     // MARK: Changing
     func merge(newAssetSource: PGLUserAssetSelection) -> PGLAlbumSource? {

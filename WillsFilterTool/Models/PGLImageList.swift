@@ -191,7 +191,22 @@ class PGLImageList {
         return newList
     }
 
+    func randomPrune(imageParm: PGLFilterAttribute) {
+        // prune randomly from imageAssets and assetIDs
+        var allowedAssetCount = 1
+        if imageParm.isTransitionFilter {
+            allowedAssetCount = PGLDemo.MaxListSize }
 
+
+        while (assetIDs.count > allowedAssetCount) {
+            let randomIndex = Int.random(in: 0 ..< assetIDs.count)
+            assetIDs.remove(at: randomIndex)
+            imageAssets.remove(at: randomIndex)
+            // update userSelection too !
+        }
+        setUserSelection(toAttribute: imageParm)
+    }
+    
     // MARK:  Accessors
 
 

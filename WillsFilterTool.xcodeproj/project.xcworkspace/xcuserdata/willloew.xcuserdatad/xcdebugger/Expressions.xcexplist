@@ -54,10 +54,10 @@
          contextName = "PGLSelectParmController.sliderValueDidChange(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "sender.value">
+               value = "target.uiIndexTag">
             </PersistentString>
             <PersistentString
-               value = "target.uiIndexTag">
+               value = "sender.value">
             </PersistentString>
             <PersistentString
                value = "sender.tag">
@@ -193,6 +193,9 @@
                value = "super.outputImageBasic()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLSourceFilter.setImageValuesAndClone(inputList:attributeName:):PGLFilterClasses.swift">
       </ContextState>
       <ContextState
          contextName = "PGLImageList.getAssets(localIds:albums:):PGLImageList.swift">
@@ -335,13 +338,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "thisImage?.extent">
-            </PersistentString>
-            <PersistentString
                value = "cropRect">
             </PersistentString>
             <PersistentString
                value = "self.doPrintCropClamp = false">
+            </PersistentString>
+            <PersistentString
+               value = "thisImage?.extent">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -391,6 +394,14 @@
       </ContextState>
       <ContextState
          contextName = "PGLImageController.showCropTintViews(isHidden:):PGLImageController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PGLRandomFilterMaker.setImageValuesAndClone(inputList:attributeName:):PGLRandomFilterMaker.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PGLDemo.RandomImageList">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PGLFilterStackTests.testThreeFilterStack():PGLFilterStackTests.swift">
@@ -597,7 +608,7 @@
          contextName = "PGLSourceFilter.init(filter:position:):PGLFilterClasses.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kCIAttributeFilterCategories">
+               value = "kCICategoryGenerator">
             </PersistentString>
             <PersistentString
                value = "thisFilter.attributes[kCIAttributeFilterCategories]">
@@ -606,7 +617,7 @@
                value = "thisFilter.attributes">
             </PersistentString>
             <PersistentString
-               value = "kCICategoryGenerator">
+               value = "kCIAttributeFilterCategories">
             </PersistentString>
             <PersistentString
                value = "thisFilter.inputKeys">
@@ -875,6 +886,14 @@
             </PersistentString>
             <PersistentString
                value = "kCIAttributeTypeImage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLDemo.setInputTo(imageParm:):PGLDemo.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PGLDemo.RandomImageList == nil">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

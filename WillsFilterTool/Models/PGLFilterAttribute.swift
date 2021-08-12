@@ -142,6 +142,8 @@ class PGLFilterAttribute {
     //    ReferenceWritableKeyPath<PGLFilterAttribute, Any>
     // add attributeMin, Max and Identity? They are strings in the dict.. need conversion to floating Point
 
+    var isTransitionFilter = false  // cache at init time aSourceFilter is unowned var.
+
     var inputSourceMetadata: PGLAsset? // photo or filter name used as input data store
 
     var inputStack: PGLFilterStack? {
@@ -185,7 +187,7 @@ class PGLFilterAttribute {
   required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         initDict = attributeDict // save for creating valueParms such as PGLRotateAffineUI
         myFilter = pglFilter.localFilter
-        aSourceFilter = pglFilter
+        aSourceFilter = pglFilter  // unowned var that may be deferenced..
         attributeType = attributeDict[kCIAttributeType] as? String
         attributeClass = attributeDict[kCIAttributeClass] as? String
         attributeDisplayName = attributeDict[kCIAttributeDisplayName] as? String
@@ -196,6 +198,9 @@ class PGLFilterAttribute {
         sliderMaxValue = attributeDict[kCIAttributeSliderMax] as? Float
         defaultValue = attributeDict[kCIAttributeDefault] as? Float // this fails for affineTransform
         identityValue = attributeDict[kCIAttributeIdentity] as? Float // this fails for affineTransform
+
+        isTransitionFilter = pglFilter.isTransitionFilter()
+            // // cache at init time aSourceFilter is unowned var and may  be dereferenced
 
         if attributeClass != nil {
             classForAttribute = NSClassFromString(("Glance." + attributeClass!)) }
@@ -281,10 +286,8 @@ class PGLFilterAttribute {
         NotificationCenter.default.post(uiNotification)
     }
 
-    func isTransitionFilter() -> Bool {
-        // answer true if the filter is in the "CICategoryTransition" category
-        return aSourceFilter.isTransitionFilter()
-    }
+
+
     func setUICellDescription(_ uiCell: UITableViewCell) {
         uiCell.textLabel?.text = attributeDisplayName ?? ""
 

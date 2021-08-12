@@ -22,6 +22,7 @@ class PGLDemo {
         // 100 means child stack is never added
     static var RandomImageList: PGLImageList?
         // interacts with PGLRandomFilter to hold user images for random consturction
+    static var MaxListSize = 6
 
     static var FavoritesAlbumList: PGLAlbumSource?
     var appStack: PGLAppStack!
@@ -83,43 +84,42 @@ class PGLDemo {
             }
             thisFilter.setDefaults()
             Logger(subsystem: LogSubsystem, category: LogCategory).notice("addFiltersTo \(thisFilter.localizedName()) \(String(describing: thisFilter.filterName))")
-
-            switch filterIndex {
-                case  0 :
-                // first filter special setup
-                    setImageInputs(thisFilter)
-                    stack.append(thisFilter)
-
-                default  :
-
-
-                    let imageAttributesNames = thisFilter.imageInputAttributeKeys
-                        for anImageAttributeName in imageAttributesNames {
-                            if anImageAttributeName == kCIInputImageKey { continue
-                                // skip the default.. adding to the stack will set the input
-                            }
-                            guard let thisAttribute = thisFilter.attribute(nameKey: anImageAttributeName) else { continue }
-                            let newChildAdded = mightAddChildStack(attribute: thisAttribute)
-                            if !newChildAdded {
-                                setInputTo(imageParm: thisAttribute) // the six images from favorites
-                            }
-
-                       }
-                    stack.appendFilter(thisFilter) // this sets the input
+            stack.appendFilter(thisFilter)
+                // will parmState to inputPriorState if there is prior input
+            setImageInputs(thisFilter)
             }
-        }
     }
 
     func setInputTo(imageParm: PGLFilterAttribute) {
-        //MARK: Move to PGLDemo
-        //use first 6 images of the favorites if a transition filter
+        // creates an imageList for the targetAttribute
+        //use up to PGLDemo.MaxListSize images if a transition filter
        // otherwise just one image
 
+        if PGLDemo.RandomImageList == nil {
+            setRandomImagesFromFavorites(imageParm: imageParm)
+        }
+        else {
+            // use images from the global PGLDemo.RandomImageList
+            if imageParm.inputParmType() == ImageParm.missingInput {
+                guard let newbieList = PGLDemo.RandomImageList?.clone(toParm: imageParm)
+                else {return }
+                // now prune down  the newbie list if needed
+                newbieList.randomPrune(imageParm: imageParm)
+                imageParm.setImageCollectionInput(cycleStack: newbieList)
+            }
+
+        }
+
+
+
+    }
+
+    func setRandomImagesFromFavorites(imageParm: PGLFilterAttribute) {
         guard let favoriteAlbumSource = fetchFavoritesList() else
                    {
             DispatchQueue.main.async {
                 // put back on the main UI loop for the user alert
-                let alert = UIAlertController(title: "Favorites Album", message: "Favorites is empty ", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Favorites Album", message: "Favorites is empty. Add or select images for random filter inputs.", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                 Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLDemo #setInputTo Favorites album is empty")
@@ -135,7 +135,8 @@ class PGLDemo {
 
         var selectedAssets = [PGLAsset]()
         var allowedAssetCount = 1
-        if imageParm.isTransitionFilter() { allowedAssetCount = 6 }
+        if imageParm.isTransitionFilter
+            { allowedAssetCount = PGLDemo.MaxListSize }
         let maxIndex = favoriteAssets!.count
         if maxIndex == 0 {
             // may be limited access to photo lib
@@ -162,8 +163,11 @@ class PGLDemo {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("parm = \(String(describing: imageParm.attributeName)) added local id = \(anAsset.localIdentifier)")
             userSelectionInfo.addSourceToSelection(asset: anAsset)
         }
+
         userSelectionInfo.setUserPick()
     }
+
+
     func mightAddChildStack(attribute: PGLFilterAttribute) -> Bool {
        // use childStack infrequently..
         // need a guard to usually return false without change
@@ -187,19 +191,14 @@ class PGLDemo {
 
         for anImageAttributeName in imageAttributesNames {
             guard let thisAttribute = targetFilter.attribute(nameKey: anImageAttributeName) else { continue }
+            if thisAttribute.inputParmType() == ImageParm.missingInput {
 
-            if imageAttributesNames.count == 1 {
-                // for a single image input set an image without a child stack
-                setInputTo(imageParm: thisAttribute)
-                targetFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
-                return
-            }
+                let newChildAdded = mightAddChildStack(attribute: thisAttribute)
+                if !newChildAdded {
+                    setInputTo(imageParm: thisAttribute) // the six images from favorites
 
-            let newChildAdded = mightAddChildStack(attribute: thisAttribute)
-            if !newChildAdded {
-                setInputTo(imageParm: thisAttribute) // the six images from favorites
-                targetFilter.setInputImageParmState(newState: ImageParm.inputPhoto)
-            }
+                    }
+                }
         }
     }
 

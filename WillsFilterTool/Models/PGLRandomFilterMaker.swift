@@ -15,14 +15,6 @@ class PGLRandomFilterMaker: PGLTransitionFilter {
 
     var demoCreator = PGLDemo()
 
-    override func setUserPick(attribute: PGLFilterAttribute, imageList: PGLImageList) {
-        super .setUserPick(attribute: attribute, imageList: imageList)
-
-        PGLDemo.RandomImageList = imageList
-            // class var means the this list will persist with each randomMaker..
-            // if changed to instance var then source list needs to be picked each time..
-
-    }
 
     override func cellFilterAction(stackController: PGLStackController, indexPath: IndexPath) -> [UIContextualAction] {
         var normalSwipeActions = super.cellFilterAction(stackController: stackController, indexPath: indexPath)
@@ -31,7 +23,7 @@ class PGLRandomFilterMaker: PGLTransitionFilter {
             guard let self = self
                 else { return  }
 
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt runMakeRandom")
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt runMakeRandom")
 
             self.demoCreator.runMakeRandom(stackController: stackController)
             completion(true)
@@ -39,6 +31,12 @@ class PGLRandomFilterMaker: PGLTransitionFilter {
         normalSwipeActions.append(makeRandomFiltersAction)
 
         return normalSwipeActions
+
+    }
+
+    override func setImageValuesAndClone(inputList: PGLImageList, attributeName: String) {
+        PGLDemo.RandomImageList = inputList
+        super.setImageValuesAndClone(inputList: inputList, attributeName: attributeName)
 
     }
 
