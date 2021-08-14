@@ -15,6 +15,11 @@ class PGLRandomFilterMaker: PGLTransitionFilter {
 
     var demoCreator = PGLDemo()
 
+    override class func localizedDescription(filterName: String) -> String {
+        // custom subclasses should override
+       return "Swipe 'Make' to add random filters. Select photos for random input on Parms 'Pick' command"
+    }
+
 
     override func cellFilterAction(stackController: PGLStackController, indexPath: IndexPath) -> [UIContextualAction] {
         var normalSwipeActions = super.cellFilterAction(stackController: stackController, indexPath: indexPath)
@@ -39,5 +44,7 @@ class PGLRandomFilterMaker: PGLTransitionFilter {
         super.setImageValuesAndClone(inputList: inputList, attributeName: attributeName)
 
     }
+
+
 
 }

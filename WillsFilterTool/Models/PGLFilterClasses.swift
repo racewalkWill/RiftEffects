@@ -155,6 +155,14 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return CIFilter(name: filterName)
     }
 
+    class func localizedDescription(filterName: String) -> String {
+        // custom subclasses should override
+        guard let standardDescription = CIFilter.localizedDescription(forFilterName: filterName)
+            else { return filterName }
+        return standardDescription
+
+    }
+
     func resetAttributesToLocalFilter() {
         // if the local filter (a CIFilter) is changed then the
         // attributes all need it too.. this occurs in the CoreData read
@@ -1100,7 +1108,7 @@ class PGLDetectorFilter: PGLSourceFilter {
 
 }
 
-class PGLFilterConstructor: CIFilterConstructor {
+class PGLFilterConstructor: NSObject,  CIFilterConstructor {
     //MARK: CIFilterConstructor protocol
     // see also the PGLFilterDescriptor method filter() -> CIFilter
 

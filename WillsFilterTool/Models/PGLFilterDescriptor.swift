@@ -45,19 +45,18 @@ class PGLFilterDescriptor:  NSObject, NSCoding {
 
     init?(_ ciFilterName: String, _ pglClassType: PGLSourceFilter.Type? ) {
 
-            filterName = ciFilterName  // keep the code name around
+        filterName = ciFilterName  // keep the code name around
 
-            if let myUserDescription = CIFilter.localizedDescription(forFilterName: ciFilterName) {
-                userDescription = myUserDescription
-            }
         if let aPGLClass = pglClassType {
             pglSourceFilterClass = aPGLClass
             if let pglSourceDisplayName =  pglSourceFilterClass.displayName() {
               displayName =  pglSourceDisplayName
-                
             }
         }
-        // else the default value is PGLSourceFilter.self
+        userDescription = pglSourceFilterClass.localizedDescription(filterName: ciFilterName)
+            // just the filter name if no description is found
+            // else the default value is PGLSourceFilter.self
+        
          if displayName == "InitialDisplayName"
          {
             displayName = CIFilter.localizedName(forFilterName: ciFilterName) ?? ciFilterName }

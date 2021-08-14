@@ -21,7 +21,17 @@ class PGLRandomFilterAction: CIFilter {
         //       let attr: [String: AnyObject] = [:]
 //        NSLog("PGLRandomFilterAction #register()")
         CIFilter.registerName(kPRandom, constructor: PGLFilterConstructor(), classAttributes:
-                                PGLRandomFilterAction.customAttributes()
+                                 [
+                                    kCIAttributeFilterDisplayName : kPRandom,
+
+                                    kCIAttributeFilterCategories :
+                                        [ kCICategoryStillImage,
+
+                                        kCICategoryTransition],
+
+                                    kCIAttributeDescription : PGLRandomFilterMaker.localizedDescription(filterName: kPRandom)
+
+                                ]
         )
     }
 
@@ -35,12 +45,14 @@ class PGLRandomFilterAction: CIFilter {
     @objc class func customAttributes() -> [String: Any] {
         // this is called at the PGLSourceFilter instance creation.
         let customDict:[String: Any] = [
-            kCIAttributeFilterDisplayName : "Random Filters",
+            kCIAttributeFilterDisplayName : kPRandom,
 
             kCIAttributeFilterCategories :
                 [ kCICategoryStillImage,
-                
+
                 kCICategoryTransition],
+
+            kCIAttributeDescription : PGLRandomFilterMaker.localizedDescription(filterName: kPRandom)
 
         ]
         return customDict
