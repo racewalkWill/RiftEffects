@@ -61,13 +61,17 @@ class PGLMainFilterController: PGLFilterTableController {
         didPresentSearchController( searchController)
     }
 
+    fileprivate func hideSearchBar() {
+        navigationItem.hidesSearchBarWhenScrolling = true
+        searchController.isActive = false
+        didDismissSearchController( searchController)
+    }
+
     @IBAction func groupModeAction(_ sender: UIBarButtonItem) {
         // set mode to group and show index group tabs
         if mode == .Flat {
             mode = .Grouped
-           navigationItem.hidesSearchBarWhenScrolling = true
-            searchController.isActive = false
-            didDismissSearchController( searchController)
+//            hideSearchBar()
             modeToolBarBtn.image = GroupSymbol
         } else {
             // mode is Grouped so change
@@ -159,8 +163,16 @@ class PGLMainFilterController: PGLFilterTableController {
 //           searchController.searchBar.showsCancelButton = false
             searchController.automaticallyShowsCancelButton = true
 
-           navigationItem.searchController = searchController
-           navigationItem.hidesSearchBarWhenScrolling = (mode == .Grouped) // flat mode searches
+//           navigationItem.searchController = searchController
+
+        // using searchController in the nav item causes the width of the searchbar
+        // to be twice as big. Leading edge is cut off.
+        // there is a comment -- For iOS 11 and later, place the search bar in the navigation bar.
+        // but it has this leading edge cut off issue.
+
+        tableView.tableHeaderView = searchController.searchBar
+
+//           navigationItem.hidesSearchBarWhenScrolling = (mode == .Grouped) // flat mode searches
            navigationController?.isToolbarHidden = false
 
 
@@ -252,26 +264,31 @@ class PGLMainFilterController: PGLFilterTableController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
-        if tableView === self.tableView {
-            // not a results controller table
-           descriptor = selectedFilterDescriptor(inTable: tableView)!
-        } else {
-             // on a resultsTableController
-            switch mode {
-            case .Grouped:
-                descriptor = resultsTableController.categories[indexPath.section].filterDescriptors[indexPath.row]
-//                NSLog("resultsTableController \(#function) mode = Grouped")
-            case .Flat:
-                descriptor = resultsTableController.matchFilters[indexPath.row]
-//                NSLog("resultsTableController \(#function) mode = Flat")
+        if searchController.isActive {
+            descriptor = resultsTableController.matchFilters[indexPath.row]
 
+        } else {
+            if tableView === self.tableView {
+                // not a results controller table
+               descriptor = selectedFilterDescriptor(inTable: tableView)!
+            } else {
+                 // grouped mode does not exist in the resultTableController??
+                switch mode {
+                case .Grouped:
+                    descriptor = resultsTableController.categories[indexPath.section].filterDescriptors[indexPath.row]
+    //                NSLog("resultsTableController \(#function) mode = Grouped")
+                case .Flat:
+                    descriptor = resultsTableController.matchFilters[indexPath.row]
+    //                NSLog("resultsTableController \(#function) mode = Flat")
+
+                }
             }
-        }
-        switch mode {
-            case .Grouped:
-                setBookmarksGroupMode(indexSection: indexPath.section)
-            case .Flat :
-                setBookmarksFlatMode()
+            switch mode {
+                case .Grouped:
+                    setBookmarksGroupMode(indexSection: indexPath.section)
+                case .Flat :
+                    setBookmarksFlatMode()
+            }
         }
          performFilterPick(descriptor: descriptor)
 
