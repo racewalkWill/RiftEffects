@@ -308,13 +308,17 @@ class PGLCategorySurvey: XCTestCase {
         
         let testGroupFilters = [
             // list the filters
-            "CIHardLightBlendMode",
-            "FaceFilter",
-            "CIColorThreshold",
-            "CIPhotoEffectMono",
-            "CISpotLight",
-            "CILightTunnel",
-            "CIPerspectiveTransform"
+            "CILuminosityBlendMode",
+
+
+            "CIMorphologyGradient",
+            "CIExposureAdjust",
+            "CIPhotoEffectInstant",
+            "CIEdges",
+            "BumpBlend",
+            "CIAffineTransform",
+            "CIUnsharpMask",
+            "CICircularScreen"
             ]
 
         let constructedCategory = PGLFilterCategory("constructedCategory")!
@@ -613,7 +617,7 @@ class PGLCategorySurvey: XCTestCase {
             let filterNames = [
 // zero extent output failing filters 2021-04-20
                 "CICircleSplashDistortion",
-                "CIClamp",
+                "CIClamp",   // failed 2021-08-16  others passed on this run
                 "CITriangleTile",
 
                 "CIKeystoneCorrectionHorizontal",
