@@ -126,7 +126,7 @@ class PGLFilterStack  {
     func filterAt(tabIndex: Int) -> PGLSourceFilter {
         if( ( activeFilterIndex >= 0 )
             //            && (0 <= tabIndex )
-            //            && (tabIndex < activeFilters.count)
+                        && (tabIndex < activeFilters.count)
             // two different errors don't tackle both in same method
             // activeFilterIndex = - 1 is first filter was removed
             // so start over with default
