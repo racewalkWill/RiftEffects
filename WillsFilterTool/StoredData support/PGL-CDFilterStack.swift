@@ -55,6 +55,16 @@ var PersistentContainer: NSPersistentCloudKitContainer = {
             }
            }
        })
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.undoManager = nil // We don't need undo so set it to nil.
+        container.viewContext.shouldDeleteInaccessibleFaults = true
+        /**
+         Merge the changes from other contexts automatically.
+         You can also choose to merge the changes by observing NSManagedObjectContextDidSave
+         notification and calling mergeChanges(fromContextDidSave notification: Notification)
+        */
+        container.viewContext.automaticallyMergesChangesFromParent = true
+    
        return container
    }()
 
@@ -233,26 +243,39 @@ extension PGLFilterStack {
 
 
         let outputImage = stackOutputImage(false)
-        let uiOutput = UIImage(ciImage: outputImage )
-//        return uiOutput.pngData() // big size
-
-//         the code below produces a thumbnail that is too small.
-        let magicNum: CGFloat  = 800.0  // 44.0 numerator for ratio to max dimension of the image
-       let outputSize = uiOutput.size
-
-        var ratio: CGFloat = 0
-        ratio = magicNum / max(outputSize.width, outputSize.height)
-
-        let smallSize = CGSize(width: (ratio * outputSize.width), height: (ratio * outputSize.height))
-        let smallRect = CGRect(origin: CGPoint.zero, size: smallSize)
-
-        UIGraphicsBeginImageContext(smallSize)
-        uiOutput.draw(in: smallRect)
+        let sourceSize = outputImage.extent
+        let newHeight: CGFloat = 56.0  // tableCell height in view
 
 
-        let thumbnail = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-      return thumbnail?.pngData()
+        let scaleBy =  newHeight / sourceSize.height
+        let smallSize = CGSize(width: newHeight,height: newHeight)
+        let thumbNailImage = outputImage.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale" : scaleBy])
+
+//          let theContext =  Renderer.ciContext // global context
+//            let cgThumbnail = theContext?.createCGImage(thumbNailImage, from: CGRect.init(origin: CGPoint.zero, size: smallSize))
+//            // the cgThumbnail needs to be released
+
+        let uiOutput = UIImage(ciImage: thumbNailImage)
+
+        return uiOutput.pngData() // small size
+//
+////         the code below produces a thumbnail that is too small.
+//        let magicNum: CGFloat  = 800.0  // 44.0 numerator for ratio to max dimension of the image
+//       let outputSize = uiOutput.size
+//
+//        var ratio: CGFloat = 0
+//        ratio = magicNum / max(outputSize.width, outputSize.height)
+//
+//        let smallSize = CGSize(width: (ratio * outputSize.width), height: (ratio * outputSize.height))
+//        let smallRect = CGRect(origin: CGPoint.zero, size: smallSize)
+//
+//        UIGraphicsBeginImageContext(smallSize)
+//        uiOutput.draw(in: smallRect)
+//
+//
+//        let thumbnail = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//      return thumbnail?.pngData()
 
     }
 

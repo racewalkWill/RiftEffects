@@ -226,9 +226,11 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     @IBAction func openStackActionBtn(_ sender: UIBarButtonItem) {
 //        let showOpenStackView = true  // change for old or new openDialog
 //        if showOpenStackView {
-            let saveVC = storyboard!.instantiateViewController(
+            let pickStoredStackViewController = storyboard!.instantiateViewController(
                 withIdentifier: "openStackController")
-            let navController = UINavigationController(rootViewController: saveVC)
+        pickStoredStackViewController.modalPresentationStyle = UIModalPresentationStyle.automatic
+                // tried some of the other ones .pageSheet .formSheet .currentContext.. all seem to be the same
+            let navController = UINavigationController(rootViewController: pickStoredStackViewController)
                                      present(navController, animated: true)
 
         }
@@ -537,7 +539,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let contextMenu = UIMenu(title: "",
                     children: [
-                        UIAction (title: "Open..", image:UIImage(systemName: "folder")) {
+                        UIAction (title: "Pick..", image:UIImage(systemName: "folder")) {
                             action in
                             self.openStackActionBtn(self.moreBtn)
                                 },

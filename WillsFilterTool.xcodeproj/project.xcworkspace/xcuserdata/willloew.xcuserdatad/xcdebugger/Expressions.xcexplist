@@ -71,13 +71,13 @@
          contextName = "PGLSelectParmController.sliderValueDidChange(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "sender.tag">
+            </PersistentString>
+            <PersistentString
                value = "sender.value">
             </PersistentString>
             <PersistentString
                value = "target.uiIndexTag">
-            </PersistentString>
-            <PersistentString
-               value = "sender.tag">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -299,13 +299,13 @@
          contextName = "closure #1 in CVBufferRef.processImage(data:rowBytes:width:height:):CVPixelBufferExtension.swift">
          <PersistentStrings>
             <PersistentString
-               value = "2 * width">
-            </PersistentString>
-            <PersistentString
                value = "MemoryLayout&lt;Pixel_16U&gt;.stride">
             </PersistentString>
             <PersistentString
                value = "surceBuffer.rowBytes = width * MemoryLayout&lt;Pixel_16U&gt;.stride">
+            </PersistentString>
+            <PersistentString
+               value = "2 * width">
             </PersistentString>
             <PersistentString
                value = "sourceBuffer.rowBytes">
@@ -372,13 +372,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
+               value = "cropRect">
+            </PersistentString>
+            <PersistentString
                value = "self.doPrintCropClamp = false">
             </PersistentString>
             <PersistentString
                value = "thisImage?.extent">
-            </PersistentString>
-            <PersistentString
-               value = "cropRect">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -485,6 +485,14 @@
          contextName = "PGLUserAssetSelection.init(assetSources:):PGLUserAssetSelection.swift">
       </ContextState>
       <ContextState
+         contextName = "PGLOpenStackViewController.toggleEditing():PGLOpenStackViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fetchedResultsController.object(at: aRowPath)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLFilterStack.on(cdStack:):PGL-CDFilterStack.swift">
       </ContextState>
       <ContextState
@@ -522,10 +530,10 @@
          contextName = "PGLFilterStackTests.testAddDeleteFilters():PGLFilterStackTests.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newStack.activeFilters.count">
+               value = "filterStack.activeFilters.count">
             </PersistentString>
             <PersistentString
-               value = "filterStack.activeFilters.count">
+               value = "newStack.activeFilters.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -614,10 +622,10 @@
          contextName = "PGLSourceFilter.cdFilterObject():PGL-CDFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "storedFilter!.ciFilter">
+               value = "storedFilter!.pglSourceFilterClass">
             </PersistentString>
             <PersistentString
-               value = "storedFilter!.pglSourceFilterClass">
+               value = "storedFilter!.ciFilter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -642,7 +650,7 @@
          contextName = "PGLSourceFilter.init(filter:position:):PGLFilterClasses.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kCIAttributeFilterCategories">
+               value = "thisFilter.inputKeys">
             </PersistentString>
             <PersistentString
                value = "thisFilter.attributes[kCIAttributeFilterCategories]">
@@ -651,10 +659,10 @@
                value = "thisFilter.attributes">
             </PersistentString>
             <PersistentString
-               value = "kCICategoryGenerator">
+               value = "kCIAttributeFilterCategories">
             </PersistentString>
             <PersistentString
-               value = "thisFilter.inputKeys">
+               value = "kCICategoryGenerator">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -884,6 +892,9 @@
          <PersistentStrings>
             <PersistentString
                value = "object.title">
+            </PersistentString>
+            <PersistentString
+               value = "tableView.isEditing">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

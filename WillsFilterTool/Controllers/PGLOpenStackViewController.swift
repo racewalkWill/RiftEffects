@@ -16,10 +16,9 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
     // this is the current controller to open stacks 7/15/20
-    // See PGLImageController openStackActionBtn which can open
-    // either PGLSelectStackController or PGLOpenStackViewController
-    // PGLOpenStackViewController is the UITableViewController version
-    // PGLSelectStackController is the CollectionView version
+    // See PGLImageController openStackActionBtn caller
+    // PGLOpenStackViewController is a UITableView form working as the UITableViewDelegate
+
 
     static let tableViewCellIdentifier = "stackCell"
     private static let nibName = "StackCell"
@@ -87,16 +86,18 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             let myMOContext = moContext
             let stackRequest = NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
             stackRequest.predicate = NSPredicate(format: "outputToParm = null")
+            stackRequest.fetchBatchSize = 15  // usually 12 rows visible -
+                // breaks up the full object fetch into view sized chunks
 
                 // only CDFilterStacks with outputToParm = null.. ie it is not a child stack)
             var sortArray = [NSSortDescriptor]()
             sortArray.append(NSSortDescriptor(key: "type", ascending: true))
-            sortArray.append(NSSortDescriptor(key: "title", ascending: true))
+            sortArray.append(NSSortDescriptor(key: "created", ascending: false))
 
 
             stackRequest.sortDescriptors = sortArray
 
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: stackRequest, managedObjectContext: myMOContext, sectionNameKeyPath:"type" , cacheName: nil ) as! NSFetchedResultsController<NSFetchRequestResult>
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: stackRequest, managedObjectContext: myMOContext, sectionNameKeyPath:"type" , cacheName: "StackType" ) as! NSFetchedResultsController<NSFetchRequestResult>
                 // or cacheName = "GlanceStackCache" "StackType"
 
            fetchedResultsController.delegate = self
@@ -106,7 +107,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     }
 
-    // MARK: toolbar
+    // MARK: NSFetchedResultsControllerDelegate
 
 
     // MARK: - Table view data source
@@ -178,19 +179,52 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     // MARK: editing
     func configureNavigationItem() {
-               navigationItem.title = filterOpenTitle
-               let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
-               navigationItem.rightBarButtonItems = [editingItem]
+           navigationItem.title = filterOpenTitle
+           let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Delete" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+           navigationItem.rightBarButtonItems = [editingItem]
 
 //             navigationController?.setToolbarHidden(false, animated: false)
            }
 
     @objc func toggleEditing() {
-               tableView.setEditing(!tableView.isEditing, animated: true)
-               searchBar.isHidden = tableView.isEditing // no search bar when editing
 
-               configureNavigationItem()
-           }
+        if tableView.isEditing {
+            // delete is pressed
+            if ( tableView.indexPathsForSelectedRows?.count ?? 0 ) > 0 {
+                // rows are selected for deletion
+//                self.fetchedResultsController.fetchRequest.resultType = .managedObjectIDResultType
+                var deleteIds = [NSManagedObjectID]()
+                for aRowPath in tableView.indexPathsForSelectedRows! {
+
+                    let theFetchedObject  = fetchedResultsController.object(at: aRowPath)
+                   if let theId: NSManagedObject = theFetchedObject as? NSManagedObject? ?? nil
+                    { deleteIds.append(theId.objectID) }
+
+                    // mark for batch delete
+
+                }
+                let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)
+                batchDelete.resultType = .resultTypeObjectIDs
+                do {
+                    let batchDeleteResult = try moContext.execute(batchDelete) as? NSBatchDeleteResult
+
+                    if let deletedObjectIDs = batchDeleteResult?.result as? [NSManagedObjectID] {
+                        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: deletedObjectIDs],
+                        into: [moContext])
+                    }
+                } catch {
+                    print("Error: \(error)\nCould not batch delete existing records.")
+                    return
+                }
+
+
+            }
+        }
+        tableView.setEditing(!tableView.isEditing, animated: true)
+           searchBar.isHidden = tableView.isEditing // no search bar when editing
+
+           configureNavigationItem()
+       }
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
@@ -259,6 +293,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
         override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             if editingStyle == .delete {
+
                 if let identifierToDelete = itemIdentifier(for: indexPath) {
                     var snapshot = self.snapshot()
                     snapshot.deleteItems([identifierToDelete])
@@ -271,17 +306,23 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             // start with saved stack... later have it insert on the selected parm as new input
 //            NSLog("DataSource didSelectRowAt \(indexPath)")
-            if let object = itemIdentifier(for: indexPath) {
 
-                if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
-                    
-                    let userPickedStack = PGLFilterStack.init()
-                    userPickedStack.on(cdStack: object)
-                    theAppStack.resetToTopStack(newStack: userPickedStack)
+            if tableView.isEditing == false {
+                // pick and show this row
+                if let object = itemIdentifier(for: indexPath) {
 
-                    postStackChange()
+                    if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
+
+                        let userPickedStack = PGLFilterStack.init()
+                        userPickedStack.on(cdStack: object)
+                        theAppStack.resetToTopStack(newStack: userPickedStack)
+
+                        postStackChange()
+                    }
                 }
-
+            } // not editing mode
+            else {
+                let theRows = tableView.indexPathsForSelectedRows
             }
 
         }
@@ -308,6 +349,7 @@ extension PGLOpenStackViewController {
                // autocapitalizationType = UITextAutocapitalizationType.nonesear
 
         tableView = UITableView(frame: .zero, style: .plain)
+        tableView.allowsMultipleSelectionDuringEditing = true
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(tableView)
