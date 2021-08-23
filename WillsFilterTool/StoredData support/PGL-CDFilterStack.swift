@@ -180,7 +180,7 @@ extension PGLFilterStack {
                 storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
                 storedStack?.created = Date()
                 }
-                else { storedStack?.modified = Date()}
+            storedStack?.modified = Date()  // modified date may equal created on first save
             storedStack?.title = stackName
             storedStack?.type = stackType
             storedStack?.exportAlbumName = exportAlbumName

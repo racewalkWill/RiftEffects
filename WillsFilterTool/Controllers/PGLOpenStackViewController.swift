@@ -29,7 +29,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     lazy var fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 as! CDFilterStack ) })
 
 
-    let filterOpenTitle = "Open Filter Stack"
+    let filterOpenTitle = "Pick Filter Stack"
      let dateFormatter = DateFormatter()
 
 
@@ -194,7 +194,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                 // rows are selected for deletion
 //                self.fetchedResultsController.fetchRequest.resultType = .managedObjectIDResultType
                 var deleteIds = [NSManagedObjectID]()
-                for aRowPath in tableView.indexPathsForSelectedRows! {
+                let rowsToDelete = tableView.indexPathsForSelectedRows!
+                for aRowPath in rowsToDelete {
 
                     let theFetchedObject  = fetchedResultsController.object(at: aRowPath)
                    if let theId: NSManagedObject = theFetchedObject as? NSManagedObject? ?? nil
@@ -216,6 +217,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                     print("Error: \(error)\nCould not batch delete existing records.")
                     return
                 }
+                removeDeletedFromSnapshot(deletedRows:rowsToDelete )
 
 
             }
@@ -225,6 +227,16 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
            configureNavigationItem()
        }
+
+    func removeDeletedFromSnapshot(deletedRows: [IndexPath]) {
+
+        let diffableIdentifiers = deletedRows.map { aPath in
+            dataSource.itemIdentifier(for: aPath)!
+        }
+        var currentSnapshot = dataSource.snapshot()
+        currentSnapshot.deleteItems(diffableIdentifiers)
+        dataSource.apply(currentSnapshot)
+    }
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
@@ -307,8 +319,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             // start with saved stack... later have it insert on the selected parm as new input
 //            NSLog("DataSource didSelectRowAt \(indexPath)")
 
-            if tableView.isEditing == false {
                 // pick and show this row
+                // even if in edit mode
                 if let object = itemIdentifier(for: indexPath) {
 
                     if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
@@ -320,11 +332,6 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                         postStackChange()
                     }
                 }
-            } // not editing mode
-            else {
-                let theRows = tableView.indexPathsForSelectedRows
-            }
-
         }
 
         func postStackChange() {
