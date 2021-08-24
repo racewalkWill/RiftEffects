@@ -57,7 +57,7 @@ class PGLFilterStack  {
 
     var frameValueDeltas = PGLFilterChange()
     var storedStack: CDFilterStack? // managedObject write/read to Core Data
-//    var thumbnail: UIImage? //  for Core Data store
+    var thumbnail: UIImage? //  for Core Data store
 
     var stackType = "type"
     var exportAlbumName: String?

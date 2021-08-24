@@ -104,9 +104,9 @@ extension PGLFilterStack {
             storedStack = cdStack
             stackName = cdStack.title ?? "untitled"
             stackType = cdStack.type ?? "unTyped"
-//            if let thumbNailPGNImage = cdStack.thumbnail {
-//                thumbnail = UIImage(data: thumbNailPGNImage) // thumbnail is png format data aCDStack.thumbnail
-//            }
+            if let thumbNailPGNImage = cdStack.thumbnail {
+                thumbnail = UIImage(data: thumbNailPGNImage) // thumbnail is png format data aCDStack.thumbnail
+            }
 
            exportAlbumIdentifier = cdStack.exportAlbumIdentifier
             exportAlbumName = cdStack.exportAlbumName

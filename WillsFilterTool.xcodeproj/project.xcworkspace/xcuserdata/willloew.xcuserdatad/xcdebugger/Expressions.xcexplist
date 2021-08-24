@@ -516,6 +516,14 @@
          contextName = "PGLAssetController.nextImage(direction:):PGLAssetController.swift">
       </ContextState>
       <ContextState
+         contextName = "PGLImageController.randomBtnAction(_:):PGLImageController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PGLDemo.RandomImageList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLOpenStackViewController.initialSnapShot():PGLOpenStackViewController.swift">
          <PersistentStrings>
             <PersistentString
