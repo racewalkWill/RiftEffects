@@ -822,7 +822,7 @@
          contextName = "PGLFilterStack.writeCDStack(moContext:):PGL-CDFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "storedStack?">
+               value = "storedStack?.thumbnail">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -909,6 +909,14 @@
             </PersistentString>
             <PersistentString
                value = "tableView.isEditing">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLFilterStack.stackThumbnail():PGL-CDFilterStack.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sourceSize.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

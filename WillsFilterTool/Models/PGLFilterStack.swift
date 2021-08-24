@@ -57,7 +57,7 @@ class PGLFilterStack  {
 
     var frameValueDeltas = PGLFilterChange()
     var storedStack: CDFilterStack? // managedObject write/read to Core Data
-    var thumbnail: UIImage? //  for Core Data store
+//    var thumbnail: UIImage? //  for Core Data store
 
     var stackType = "type"
     var exportAlbumName: String?
@@ -576,7 +576,7 @@ class PGLFilterStack  {
                     // clamp and crop if infinite extent
 //                  NSLog("PGLFilterStack imageUpdate thisImage has input of infinite extent")
 
-                    thisImage = clampCrop(input: thisImage)
+                    thisImage = thisImage!.cropForInfiniteExtent()
 //                    if doPrintCropClamp {   NSLog("PGLFilterStack imageUpdate clamped and cropped to  \(String(describing: thisImage?.extent))") }
                 }
                 filter.setInput(image: thisImage, source: nil)
@@ -588,7 +588,7 @@ class PGLFilterStack  {
             }
 
 
-            if let newOutputImage = clampCrop(input: filter.outputImage()) {
+            if let newOutputImage = clampCropForNegativeX(input: filter.outputImage()) {
 
                 if newOutputImage.extent.isInfinite {
 //                    NSLog("PGLFilterStack imageUpdate newOutputImage has input of infinite extent")
@@ -608,7 +608,7 @@ class PGLFilterStack  {
       
     }
 
-    func clampCrop(input: CIImage?) -> CIImage? {
+    func clampCropForNegativeX(input: CIImage?) -> CIImage? {
         var returnImage: CIImage!
 
         guard let actualInput = input else {
@@ -645,6 +645,9 @@ class PGLFilterStack  {
         }
         return returnImage
     }
+
+
+
     func basicFilterOutput() -> CIImage {
         //bypass all the input changes and chaining
 

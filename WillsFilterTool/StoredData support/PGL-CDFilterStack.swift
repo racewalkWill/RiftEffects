@@ -104,9 +104,9 @@ extension PGLFilterStack {
             storedStack = cdStack
             stackName = cdStack.title ?? "untitled"
             stackType = cdStack.type ?? "unTyped"
-            if let thumbNailPGNImage = cdStack.thumbnail {
-                thumbnail = UIImage(data: thumbNailPGNImage) // thumbnail is png format data aCDStack.thumbnail
-            }
+//            if let thumbNailPGNImage = cdStack.thumbnail {
+//                thumbnail = UIImage(data: thumbNailPGNImage) // thumbnail is png format data aCDStack.thumbnail
+//            }
 
            exportAlbumIdentifier = cdStack.exportAlbumIdentifier
             exportAlbumName = cdStack.exportAlbumName
@@ -241,41 +241,9 @@ extension PGLFilterStack {
     func stackThumbnail() -> Data? {
         // output image in thumbnail size and png data format
 
-
         let outputImage = stackOutputImage(false)
-        let sourceSize = outputImage.extent
-        let newHeight: CGFloat = 56.0  // tableCell height in view
-
-
-        let scaleBy =  newHeight / sourceSize.height
-        let smallSize = CGSize(width: newHeight,height: newHeight)
-        let thumbNailImage = outputImage.applyingFilter("CILanczosScaleTransform", parameters: ["inputScale" : scaleBy])
-
-//          let theContext =  Renderer.ciContext // global context
-//            let cgThumbnail = theContext?.createCGImage(thumbNailImage, from: CGRect.init(origin: CGPoint.zero, size: smallSize))
-//            // the cgThumbnail needs to be released
-
-        let uiOutput = UIImage(ciImage: thumbNailImage)
-
-        return uiOutput.pngData() // small size
-//
-////         the code below produces a thumbnail that is too small.
-//        let magicNum: CGFloat  = 800.0  // 44.0 numerator for ratio to max dimension of the image
-//       let outputSize = uiOutput.size
-//
-//        var ratio: CGFloat = 0
-//        ratio = magicNum / max(outputSize.width, outputSize.height)
-//
-//        let smallSize = CGSize(width: (ratio * outputSize.width), height: (ratio * outputSize.height))
-//        let smallRect = CGRect(origin: CGPoint.zero, size: smallSize)
-//
-//        UIGraphicsBeginImageContext(smallSize)
-//        uiOutput.draw(in: smallRect)
-//
-//
-//        let thumbnail = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//      return thumbnail?.pngData()
+        let uiOutput = outputImage.thumbnailUIImage()
+       return uiOutput.pngData() // converts to data
 
     }
 

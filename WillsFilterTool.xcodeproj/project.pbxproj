@@ -510,7 +510,6 @@
 		A3C71708255C3E93005C2CAD /* obsolete */ = {
 			isa = PBXGroup;
 			children = (
-				A3BF507D24D32A3400CD5114 /* CIImage.swift */,
 				A3BF509D24D32A3400CD5114 /* PGLTestImage.swift */,
 				A318F31E24FC0D8B00569349 /* PGLFilterGroup.swift */,
 			);
@@ -530,6 +529,7 @@
 				A3BF50B424D32A3400CD5114 /* PGLDiffableDataSource.swift */,
 				A3BF50B824D32A3400CD5114 /* GridViewCell.swift */,
 				A3BF50A924D32A3400CD5114 /* Renderer.swift */,
+				A3BF507D24D32A3400CD5114 /* CIImage.swift */,
 				A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */,
 				A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */,
 				A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */,
@@ -941,7 +941,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WillsFilterTool/WillsFilterTool.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = WillsFilterTool/Info.plist;
@@ -967,7 +967,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WillsFilterTool/WillsFilterTool.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = WillsFilterTool/Info.plist;

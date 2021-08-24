@@ -385,30 +385,14 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     // MARK: thumbnails
-    func getThumbnail(dimension: CGFloat = 200.0 ) -> UIImage{
+    func getThumbnail(dimension: CGFloat = 200.0 ) -> UIImage {
 
             if  let ciOutput = outputImage() {
 
-                // output image in thumbnail size
-                let magicNum: CGFloat  = dimension  // 44.0 numerator for ratio to max dimension of the image
-
-                let uiOutput = UIImage(ciImage: ciOutput )
-
-                let outputSize = uiOutput.size
-                //        let outputFrame = outputImage.extent
-                var ratio: CGFloat = 0
-                ratio = magicNum / max(outputSize.width, outputSize.height)
-
-                let smallSize = CGSize(width: (ratio * outputSize.width), height: (ratio * outputSize.height))
-                let smallRect = CGRect(origin: CGPoint.zero, size: smallSize)
-
-                UIGraphicsBeginImageContext(smallSize)
-                uiOutput.draw(in: smallRect)
-                let thumbnail = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                return thumbnail ?? UIImage()
+                let thumbnail = ciOutput.thumbnailUIImage(dimension)
+                return thumbnail
             }
-
+        // if no output return empty UIImage
         return UIImage()
     }
 

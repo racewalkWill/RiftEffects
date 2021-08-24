@@ -127,35 +127,9 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             let rowCount = dataSource.tableView(tableView, numberOfRowsInSection: section)
         return rowCount
-        // #warning Incomplete implementation, return the number of rows
-//        guard let sections = self.fetchedResultsController.sections else {
-//            fatalError("No sections in fetchedResultsController")
-//        }
-//        let sectionInfo = sections[section]
-//        return sectionInfo.numberOfObjects
+
     }
 
-
-//      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        NSLog("PGLOpenStackViewController cellForRowAt \(indexPath)")
-//        let cell = dataSource.tableView(tableView, cellForRowAt: indexPath)
-        // passes to the dataSource implementation
-
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "stackCell", for: indexPath)
-//        if let object = (self.fetchedResultsController.object(at: indexPath)) as? CDFilterStack {
-//
-//        cell.textLabel?.text  = object.title
-//        cell.detailTextLabel?.text = detailTextString(ofObject: object)
-//
-//          if let cellThumbnail = object.thumbnail
-//          {  cell.imageView?.image = UIImage(data: cellThumbnail) }
-//            else { return cell}
-//        // Configure the cell with data from the managed object.
-//        } else { cell.textLabel?.text = "stack read error"}
-//
-//
-//     return cell
-//     }
 
     func detailTextString(ofObject: CDFilterStack) -> String {
         var dateString: String
