@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLImageCIFilter.register()
         PGLRandomFilterAction.register()
        appStack = PGLAppStack()
-   
+        checkVersion()
        return true
         }
 
@@ -125,6 +125,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
         parentController?.present(alert, animated: true )
 
+
+    }
+
+    // MARK: Migration
+
+    func checkVersion() {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String
+        let build = info?["CFBundleVersion"] as? String
 
     }
 
