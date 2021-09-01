@@ -23,10 +23,16 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     static let tableViewCellIdentifier = "stackCell"
     private static let nibName = "StackCell"
 
-    lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = setFetchController()
-    lazy var moContext: NSManagedObjectContext = PersistentContainer.viewContext
+    private lazy var dataProvider: PGLStackProvider = {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let provider = PGLStackProvider(with: appDelegate!.coreDataStack.persistentContainer,
+                                    fetchedResultsControllerDelegate: self)
+        return provider
+    }()
 
-    lazy var fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 as! CDFilterStack ) })
+//    lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = setFetchController()
+//    lazy var moContext: NSManagedObjectContext = PersistentContainer.viewContext
+
 
 
     let filterOpenTitle = "Pick Filter Stack"
@@ -46,10 +52,6 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        do { try fetchedResultsController.performFetch() }
-        catch { Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLOpenStackViewController viewDidLoad fatalError( #viewDidLoad performFetch() error = \(error.localizedDescription)") }
-        // Do any additional setup after loading the view.
-
          navigationItem.title = filterOpenTitle
          navigationController?.delegate = self
 
@@ -65,6 +67,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         configureNavigationItem()
         let snapshot = initialSnapShot()
         dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.dataProvider = dataProvider
 //         NSLog("PGLOpenStackViewControler viewDidLoad completed")
 
     }
@@ -82,32 +85,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         }
     }
 
-    func setFetchController() -> NSFetchedResultsController<NSFetchRequestResult> {
-            let myMOContext = moContext
-            let stackRequest = NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
-            stackRequest.predicate = NSPredicate(format: "outputToParm = null")
-            stackRequest.fetchBatchSize = 15  // usually 12 rows visible -
-                // breaks up the full object fetch into view sized chunks
 
-                // only CDFilterStacks with outputToParm = null.. ie it is not a child stack)
-            var sortArray = [NSSortDescriptor]()
-            sortArray.append(NSSortDescriptor(key: "type", ascending: true))
-            sortArray.append(NSSortDescriptor(key: "created", ascending: false))
-
-
-            stackRequest.sortDescriptors = sortArray
-
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: stackRequest, managedObjectContext: myMOContext, sectionNameKeyPath:"type" , cacheName: "StackType" ) as! NSFetchedResultsController<NSFetchRequestResult>
-                // or cacheName = "GlanceStackCache" "StackType"
-
-           fetchedResultsController.delegate = self
-        // set delegate if change notifications are needed for insert, delete, etc in the manageobjects
-            return fetchedResultsController
-
-
-    }
-
-    // MARK: NSFetchedResultsControllerDelegate
 
 
     // MARK: - Table view data source
@@ -171,29 +149,14 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                 let rowsToDelete = tableView.indexPathsForSelectedRows!
                 for aRowPath in rowsToDelete {
 
-                    let theFetchedObject  = fetchedResultsController.object(at: aRowPath)
-                   if let theId: NSManagedObject = theFetchedObject as? NSManagedObject? ?? nil
-                    { deleteIds.append(theId.objectID) }
+                    let theFetchedObject  = dataProvider.fetchedResultsController.object(at: aRowPath)
+                     deleteIds.append(theFetchedObject.objectID)
 
                     // mark for batch delete
 
                 }
-                let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)
-                batchDelete.resultType = .resultTypeObjectIDs
-                do {
-                    let batchDeleteResult = try moContext.execute(batchDelete) as? NSBatchDeleteResult
-
-                    if let deletedObjectIDs = batchDeleteResult?.result as? [NSManagedObjectID] {
-                        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: deletedObjectIDs],
-                        into: [moContext])
-                    }
-                } catch {
-                    print("Error: \(error)\nCould not batch delete existing records.")
-                    return
-                }
+                dataProvider.batchDelete(deleteIds: deleteIds)
                 removeDeletedFromSnapshot(deletedRows:rowsToDelete )
-
-
             }
         }
         tableView.setEditing(!tableView.isEditing, animated: true)
@@ -227,32 +190,15 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         dataSource.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
         // dataSource deletes from the UITableViewDiffableDataSource
-        if editingStyle == .delete {
+        // then deletes from the database
 
-     // Now Delete the row from the database
-
-        if let deleteStack = (self.fetchedResultsController.object(at: indexPath)) as? CDFilterStack {
-            moContext.delete(deleteStack)
-           do { try moContext.save() }
-           catch{ Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLOpenStackViewController tableView commit fatalError(moContext save error \(error.localizedDescription)")
-
-
-           }
-//            moContext.processPendingChanges()
-            // refresh the view
-//            do { try fetchedResultsController.performFetch() }
-//            catch{ fatalError("fetchedResults error \(error)")}
-//            tableView.reloadData()
-        }
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
      }
 
     class DataSource: UITableViewDiffableDataSource<Int, CDFilterStack> {
 
-        lazy var sourceMoContext: NSManagedObjectContext = PersistentContainer.viewContext
+
         var showHeaderText = true
+        var dataProvider: PGLStackProvider?
 
         // MARK: Header
         override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -267,10 +213,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         // MARK: editing support
 
         func delete(cdStack: CDFilterStack) {
-            sourceMoContext.delete(cdStack)
-            do { try sourceMoContext.save() }
-            catch{
-                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLOpenStackViewController delete cdStack fatalError(sourceMoContext save error \(error.localizedDescription)")}
+            dataProvider?.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
         }
 
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -285,6 +228,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                     snapshot.deleteItems([identifierToDelete])
                     apply(snapshot)
                     delete(cdStack: identifierToDelete) //need to remove from the datastore too
+                        // is identifierToDelete a CDFilterStack?
                 }
             }
         }
@@ -316,8 +260,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             NotificationCenter.default.post(filterNotification)
         }
     } // end internal class DataSource
-
 }
+
 
 extension PGLOpenStackViewController {
     // MARK: DiffableDataSource
@@ -389,7 +333,7 @@ extension PGLOpenStackViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
 
 
-        if let sections = fetchedResultsController.sections {
+        if let sections = dataProvider.fetchedResultsController.sections {
             for index in  0..<sections.count
               {
                 snapshot.appendSections([index])
@@ -423,7 +367,7 @@ extension PGLOpenStackViewController {
 
          func performTitleQuery(with titletFilter: String) {
             let lowerCaseFilter = titletFilter.lowercased()
-            if let matchingStacks = fetchedStacks?.filter({
+            if let matchingStacks = dataProvider.fetchedStacks?.filter({
                     if let lowerTitle =  $0.title?.lowercased() {
                         return lowerTitle.contains(lowerCaseFilter)
                     } else {return false }

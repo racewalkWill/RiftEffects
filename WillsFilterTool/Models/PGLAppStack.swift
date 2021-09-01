@@ -8,6 +8,9 @@
 
 import Foundation
 import os
+import UIKit
+import CoreData
+
 
 let  PGLStackChange = NSNotification.Name(rawValue: "PGLStackChange")
 let PGLSelectActiveStackRow = NSNotification.Name(rawValue: "PGLSelectActiveStackRow")
@@ -25,6 +28,13 @@ class PGLAppStack {
         // flat array of filters in the stack trees
 
     var showFilterImage = false
+
+     lazy var dataProvider: PGLStackProvider = {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let provider = PGLStackProvider(with: appDelegate!.coreDataStack.persistentContainer,
+                                    fetchedResultsControllerDelegate: nil)
+        return provider
+    }()
 
    
 

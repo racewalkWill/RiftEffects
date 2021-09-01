@@ -31,6 +31,11 @@
         <relationship name="input" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDParmImage" inverseName="filter" inverseEntity="CDParmImage"/>
         <relationship name="stack" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFilterStack" inverseName="filters" inverseEntity="CDFilterStack"/>
     </entity>
+    <entity name="PGLTag" representedClassName="PGLTag" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="postCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
     <entity name="PGLVersion" representedClassName="PGLVersion" syncable="YES" codeGenerationType="class">
         <attribute name="appVersion" optional="YES" attributeType="String" defaultValueString="1.0"/>
         <attribute name="buildLabel" optional="YES" attributeType="String" defaultValueString=""/>
@@ -41,6 +46,7 @@
         <element name="CDImageList" positionX="-4319.14453125" positionY="273.2890625" width="159.109375" height="103"/>
         <element name="CDParmImage" positionX="-4096.78125" positionY="223.5859375" width="128" height="103"/>
         <element name="CDStoredFilter" positionX="-4290.27734375" positionY="39.40234375" width="128" height="133"/>
+        <element name="PGLTag" positionX="-4131" positionY="135" width="128" height="74"/>
         <element name="PGLVersion" positionX="-4122" positionY="144" width="128" height="74"/>
     </elements>
 </model>

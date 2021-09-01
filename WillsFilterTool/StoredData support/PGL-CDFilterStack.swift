@@ -13,60 +13,7 @@ import CoreImage
 import Photos
 import PhotosUI
 import os
-var PersistentContainer: NSPersistentCloudKitContainer = {
-       /*
-        The persistent container for the application. This implementation
-        creates and returns a container, having loaded the store for the
-        application to it. This property is optional since there are legitimate
-        error conditions that could cause the creation of the store to fail.
-       */
-//       let container = NSPersistentContainer(name: "Surreality")
-      let container = NSPersistentCloudKitContainer(name: "WillsFilterTool")
 
-  
-
-    //******* ONLY One time END
-
-
-//    let container = NSPersistentContainer(name: "WillsFilterTool")
-       container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-           if let error = error as NSError? {
-               // Replace this implementation with code to handle the error appropriately.
-               // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-               /*
-                Typical reasons for an error here include:
-                * The parent directory does not exist, cannot be created, or disallows writing.
-                * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                * The device is out of space.
-                * The store could not be migrated to the current model version.
-                Check the error message to determine what the actual problem was.
-                */
-//               fatalError("Unresolved error \(error), \(error.userInfo)")
-            DispatchQueue.main.async {
-                // put back on the main UI loop for the user alert
-                let alert = UIAlertController(title: "Data Store Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
-
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("The userSaveErrorAlert \(error.localizedDescription)")
-                }))
-                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-                myAppDelegate.displayUser(alert: alert)
-            }
-           }
-       })
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        container.viewContext.undoManager = nil // We don't need undo so set it to nil.
-        container.viewContext.shouldDeleteInaccessibleFaults = true
-        /**
-         Merge the changes from other contexts automatically.
-         You can also choose to merge the changes by observing NSManagedObjectContextDidSave
-         notification and calling mergeChanges(fromContextDidSave notification: Notification)
-        */
-        container.viewContext.automaticallyMergesChangesFromParent = true
-    
-       return container
-   }()
 
 struct PGLStackType {
    var name: String
@@ -88,14 +35,6 @@ enum PhotoLibSaveFormat: String {
 }
 
 extension PGLFilterStack {
-
-    convenience init(readName: String, createdDate: Date) {
-        self.init()
-        stackName = readName
-        let removedFilter = removeDefaultFilter() // remove existing filters from the init()
-//        NSLog("PGLFilterStack init has removed defaultFilter = \(String(describing: removedFilter))")
-        readCDStack(titled: readName, createdDate: createdDate)
-    }
 
 
         func on(cdStack: CDFilterStack) {
@@ -129,40 +68,6 @@ extension PGLFilterStack {
         }
 
 
-
-    func readCDStack(titled: String, createdDate: Date){
-
-//        PersistentContainer.performBackgroundTask() { (moContext ) in
-            let moContext = PersistentContainer.viewContext
-            let request =  NSFetchRequest<CDFilterStack>(entityName: "CDFilterStack")
-            // assume we are reading by title
-            let titlePredicate = NSPredicate(format: "title == %@", titled)
-            let datePredicate = NSPredicate(format: "created == %@", createdDate as CVarArg)
-    //        let sortFiltersPredicate = NSSortDescriptor(key: #keyPath(CDFilterStack.filters.stackPosition), ascending: true)
-            request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
-            request.fetchLimit = 1
-    //        request.sortDescriptors = [sortFiltersPredicate]
-
-            var readResults: [CDFilterStack]!
-            do {  readResults = try moContext.fetch(request) }
-            catch {  DispatchQueue.main.async {
-                // put back on the main UI loop for the user alert
-                let alert = UIAlertController(title: "Data Read Error", message: " \(error.localizedDescription)", preferredStyle: .alert)
-
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("The userSaveErrorAlert alert \(error.localizedDescription)")
-                }))
-                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-                myAppDelegate.displayUser(alert: alert)
-                }
-            }
-
-            if let aCDStack = readResults.first {
-                self.on(cdStack: aCDStack)
-            }
-//        }
-    }
-
     func setToNewStack() {
         for filterIndex in 0..<activeFilters.count {
             let aFilter = activeFilters[filterIndex]
@@ -174,7 +79,6 @@ extension PGLFilterStack {
     func writeCDStack(moContext: NSManagedObjectContext) -> CDFilterStack {
 //        NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
 
-//        let moContext = PersistentContainer.viewContext
 
             if (storedStack == nil ) { // new stack needed
                 storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
@@ -227,17 +131,7 @@ extension PGLFilterStack {
 
     }
 
-    func delete() {
-        // delete this stack from the data store
-
-//        PersistentContainer.performBackgroundTask() { (moContext ) in
-        let moContext = PersistentContainer.viewContext
-            if self.storedStack != nil {
-                moContext.delete(self.storedStack!)
-//        }
-        }
-
-    }
+  
     func stackThumbnail() -> Data? {
         // output image in thumbnail size and png data format
 
@@ -532,7 +426,7 @@ extension PGLAppStack {
 
     func rollbackStack() {
         // removes unsaved changes from the NSManagedObjectContext
-        let moContext = PersistentContainer.viewContext
+        let moContext = dataProvider.persistentContainer.viewContext
         moContext.rollback()
 
     }
@@ -546,30 +440,11 @@ extension PGLAppStack {
         // filter image inputs are nil for core data then restored on completion
         
 
-//    PersistentContainer.performBackgroundTask() { (moContext ) in
-        let moContext = PersistentContainer.viewContext
         if let initialStack = self.firstStack() {
-         _ = initialStack.writeCDStack(moContext: moContext)
+            let dataViewContext = dataProvider.persistentContainer.viewContext
+            let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
             // filter images are moved to a cache before the save
-//        do {
-//                try  moContext.save()  // saves to parent viewContext
-//            }
-//            catch { self.userSaveErrorAlert(withError: error)}
-////        }
-    }
-
-    let viewMoContext = PersistentContainer.viewContext
-    if viewMoContext.hasChanges {
-    do {
-        try viewMoContext.save() // this parent context saves to the db
-//        NSLog("PGLAppStack #writeCDStacks save called")
-        } catch {
-            Logger(subsystem: LogSubsystem, category: LogCategory).error("moContext.save error \(error.localizedDescription)")
-
-                // put back on the main UI loop for the user alert
-                self.userSaveErrorAlert(withError: error)
-
-
+            dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
             }
 
 
@@ -578,8 +453,8 @@ extension PGLAppStack {
          initialStack.restoreCDstackImageCache()
             // bring back the image cache to filter inputs after save runs
             }
-        }
     }
+
 
 
     func userSaveErrorAlert(withError: Error) {

@@ -740,14 +740,14 @@ class PGLFilterStack  {
    
 // MARK: Save Image
 
-    func writeTestCDStacks(){
+    func writeTestCDStacks(stackProvider: PGLStackProvider){
         // TEST method for saving... not called from the UI
         // called from saveStackImage
            // store starting from the top level
            // each stack will write in turn as it is referenced
            // do not need to iterate the collection
         // called by saveHEIFToPhotols
-           let moContext = PersistentContainer.viewContext
+        let moContext = stackProvider.persistentContainer.viewContext
         // NOT background execution in the testing methods
 
        _ = self.writeCDStack(moContext: moContext)
@@ -776,19 +776,17 @@ class PGLFilterStack  {
 
 
 
-    func saveTestStackImage()  {
+    func saveTestStackImage(stackProvider: PGLStackProvider)  {
         // TEST method for saving... not called from the UI
 
-//        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
-//        serialQueue.async {
         DoNotDrawWhileSave = true
-           _ = self.saveTestToPhotosLibrary(stack: self)
+           _ = self.saveTestToPhotosLibrary(stack: self, stackProvider: stackProvider)
         do { DoNotDrawWhileSave = false } // executes at the end of this function
 
 //        }
     }
 
-    func saveTestToPhotosLibrary( stack: PGLFilterStack )   -> Bool {
+    func saveTestToPhotosLibrary( stack: PGLFilterStack, stackProvider: PGLStackProvider )   -> Bool {
                       // check if the album exists..) {
                // save the output of this stack to the photos library
                                // Create a new album with the entered title.
@@ -818,16 +816,16 @@ class PGLFilterStack  {
                    }
                }
 
-               return self.saveTestHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack)
+               return self.saveTestHEIFToPhotosLibrary(exportCollection: assetCollection, stack: stack, dataProvider: stackProvider)
 
 
     }
 
-    func saveTestHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack) -> Bool {
+    func saveTestHEIFToPhotosLibrary(exportCollection: PHAssetCollection?, stack: PGLFilterStack, dataProvider: PGLStackProvider ) -> Bool {
 //        if let heifImageData = PGLOffScreenRender().getOffScreenHEIF(filterStack: stack) {
         if self.exportAlbumName == nil {
             // don't export to photo lib if no album name
-            self.writeTestCDStacks()
+            self.writeTestCDStacks(stackProvider: dataProvider)
             return true
         }
         guard let uiImageOutput = PGLOffScreenRender().captureUIImage(filterStack: stack)
@@ -855,7 +853,7 @@ class PGLFilterStack  {
 
         })
           {  // savedOk = true
-            self.writeTestCDStacks()
+            self.writeTestCDStacks(stackProvider: dataProvider)
             return true }
         else { return false }
 
