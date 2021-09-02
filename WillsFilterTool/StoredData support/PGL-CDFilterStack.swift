@@ -483,29 +483,25 @@ extension PGLAppStack {
     func saveStack(metalRender: Renderer) {
 
 //        NSLog("PGLAppStack #saveStack start")
-        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
-        serialQueue.async {
-            let targetStack = self.firstStack()!
+//        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
+//        serialQueue.async {
+        let targetStack = self.firstStack()!
 //            NSLog("PGLAppStack #saveStack serialQueue execution start")
-            DoNotDrawWhileSave = true
-            defer { DoNotDrawWhileSave = false } // executes at the end of this function
-            if targetStack.shouldExportToPhotos {
-                switch metalRender.currentPhotoFileFormat {
-                    case .JPEG:
-                        self.saveJPEGToPhotosLibrary(stack: targetStack, metalRender: metalRender)
-                    case .HEIF:
-                        self.saveToHEIFPhotosLibrary(stack: targetStack, metalRender: metalRender)
-                    default:
-                        return // not supported format??
-                }
-
-               // call first so the albumIdentifier can be stored
-                // does a performChangesAndWait  sync
+        DoNotDrawWhileSave = true
+        defer {
+            DoNotDrawWhileSave = false } // executes at the end of this function
+        if targetStack.shouldExportToPhotos {
+            switch metalRender.currentPhotoFileFormat {
+                case .JPEG:
+                    self.saveJPEGToPhotosLibrary(stack: targetStack, metalRender: metalRender)
+                case .HEIF:
+                    self.saveToHEIFPhotosLibrary(stack: targetStack, metalRender: metalRender)
+                default:
+                    return // not supported format??
             }
 //           NSLog("PGLAppStack #saveStack calls writeCDStacks")
-            self.writeCDStacks()
-
         }
+        self.writeCDStacks()
     }
 
     fileprivate func fetchExistingAlbum(_ stack: PGLFilterStack, _ assetCollection: inout PHAssetCollection?) {
