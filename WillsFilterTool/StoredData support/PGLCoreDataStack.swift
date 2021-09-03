@@ -174,6 +174,12 @@ extension Notification.Name {
 
 extension CoreDataStack {
 
+    func build14DeleteOrphanStacks() {
+        // prior builds did not have the delete rule to remove child stacks
+        // at startup appDelegate checks db version, build and PGLVersion table
+        // if buildLabel is not migrated run this func
+
+    }
     /**
      Process persistent history, posting any relevant transactions to the current view.
      */

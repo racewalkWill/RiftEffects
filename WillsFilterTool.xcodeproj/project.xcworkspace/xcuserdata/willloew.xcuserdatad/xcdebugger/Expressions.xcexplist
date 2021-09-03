@@ -71,13 +71,13 @@
          contextName = "PGLSelectParmController.sliderValueDidChange(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "sender.tag">
+            </PersistentString>
+            <PersistentString
                value = "target.uiIndexTag">
             </PersistentString>
             <PersistentString
                value = "sender.value">
-            </PersistentString>
-            <PersistentString
-               value = "sender.tag">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -299,13 +299,13 @@
          contextName = "closure #1 in CVBufferRef.processImage(data:rowBytes:width:height:):CVPixelBufferExtension.swift">
          <PersistentStrings>
             <PersistentString
-               value = "2 * width">
-            </PersistentString>
-            <PersistentString
                value = "MemoryLayout&lt;Pixel_16U&gt;.stride">
             </PersistentString>
             <PersistentString
                value = "surceBuffer.rowBytes = width * MemoryLayout&lt;Pixel_16U&gt;.stride">
+            </PersistentString>
+            <PersistentString
+               value = "2 * width">
             </PersistentString>
             <PersistentString
                value = "sourceBuffer.rowBytes">
@@ -372,13 +372,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
+               value = "self.doPrintCropClamp = false">
+            </PersistentString>
+            <PersistentString
                value = "thisImage?.extent">
             </PersistentString>
             <PersistentString
                value = "cropRect">
-            </PersistentString>
-            <PersistentString
-               value = "self.doPrintCropClamp = false">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -490,10 +490,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PGLUserAssetSelection.init(assetSources:):PGLUserAssetSelection.swift">
+         contextName = "PGLImageController.randomBtnAction(_:):PGLImageController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PGLDemo.RandomImageList">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PGLFilterStack.on(cdStack:):PGL-CDFilterStack.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PGLUserAssetSelection.init(assetSources:):PGLUserAssetSelection.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PGLAssetController.nextImage(direction:):PGLAssetController.swift">
       </ContextState>
       <ContextState
          contextName = "PGLFilterAttributeImage.createNewCDImageParm():PGL-CDFilterStack.swift">
@@ -513,21 +524,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PGLAssetController.nextImage(direction:):PGLAssetController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "PGLImageController.randomBtnAction(_:):PGLImageController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "PGLDemo.RandomImageList">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "PGLOpenStackViewController.initialSnapShot():PGLOpenStackViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "sections[3].indexTitle">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AppDelegate.checkVersion():AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "oldVersions.first.CD_appVersion">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -538,10 +546,10 @@
          contextName = "PGLFilterStackTests.testAddDeleteFilters():PGLFilterStackTests.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newStack.activeFilters.count">
+               value = "filterStack.activeFilters.count">
             </PersistentString>
             <PersistentString
-               value = "filterStack.activeFilters.count">
+               value = "newStack.activeFilters.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -630,10 +638,10 @@
          contextName = "PGLSourceFilter.cdFilterObject():PGL-CDFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "storedFilter!.ciFilter">
+               value = "storedFilter!.pglSourceFilterClass">
             </PersistentString>
             <PersistentString
-               value = "storedFilter!.pglSourceFilterClass">
+               value = "storedFilter!.ciFilter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -658,7 +666,7 @@
          contextName = "PGLSourceFilter.init(filter:position:):PGLFilterClasses.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kCICategoryGenerator">
+               value = "thisFilter.inputKeys">
             </PersistentString>
             <PersistentString
                value = "thisFilter.attributes[kCIAttributeFilterCategories]">
@@ -667,10 +675,10 @@
                value = "thisFilter.attributes">
             </PersistentString>
             <PersistentString
-               value = "kCIAttributeFilterCategories">
+               value = "kCICategoryGenerator">
             </PersistentString>
             <PersistentString
-               value = "thisFilter.inputKeys">
+               value = "kCIAttributeFilterCategories">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

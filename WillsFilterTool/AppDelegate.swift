@@ -135,6 +135,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let version = info?["CFBundleShortVersionString"] as? String
         let build = info?["CFBundleVersion"] as? String
 
+        let dataModel = coreDataStack.persistentContainer.managedObjectModel
+        let currentVersionSet = dataModel.versionIdentifiers
+
+        // read PGLVersion table for last migration status
+        let versionProvider = PGLVersionProvider(with: self.coreDataStack.persistentContainer)
+        let oldVersions = versionProvider.versionDataRows()
+
     }
 
 
