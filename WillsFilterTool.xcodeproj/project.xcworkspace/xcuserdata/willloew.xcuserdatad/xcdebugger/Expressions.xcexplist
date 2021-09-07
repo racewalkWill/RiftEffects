@@ -372,13 +372,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
+               value = "cropRect">
+            </PersistentString>
+            <PersistentString
                value = "self.doPrintCropClamp = false">
             </PersistentString>
             <PersistentString
                value = "thisImage?.extent">
-            </PersistentString>
-            <PersistentString
-               value = "cropRect">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -528,14 +528,6 @@
          <PersistentStrings>
             <PersistentString
                value = "sections[3].indexTitle">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "AppDelegate.checkVersion():AppDelegate.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "oldVersions.first.CD_appVersion">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -843,6 +835,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "CoreDataStack.deleteOrphanStacks():PGLCoreDataStack.swift">
+      </ContextState>
+      <ContextState
          contextName = "static PGLDevice.isSimulatorDevice():PGLDevice.swift">
          <PersistentStrings>
             <PersistentString
@@ -1006,6 +1001,9 @@
          contextName = "PGLFilterAttribute.increment():PGLFilterAttribute.swift">
       </ContextState>
       <ContextState
+         contextName = "CoreDataStack.deleteOrphanParms():PGLCoreDataStack.swift">
+      </ContextState>
+      <ContextState
          contextName = "PGLTableCellAction.isCancelCell():PGLTableCellAction.swift">
       </ContextState>
       <ContextState
@@ -1024,6 +1022,14 @@
          <PersistentStrings>
             <PersistentString
                value = "uiPosition">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in CoreDataStack.deleteOrphanFilters():PGLCoreDataStack.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "filterController.fetchedObjects?.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

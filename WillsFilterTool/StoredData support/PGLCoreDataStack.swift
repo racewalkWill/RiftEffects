@@ -15,6 +15,7 @@ A class to set up the Core Data stack, observe Core Data notifications, process 
 
 import Foundation
 import CoreData
+import os
 
 // MARK: - Core Data Stack
 
@@ -22,10 +23,13 @@ import CoreData
  Core Data stack setup including history processing.
  */
 class CoreDataStack {
+    enum DataMigrationError: Error {
+        case orphanFilterError
+        case orphanStackError
+        case orphanParmImageError
+    }
 
-    /**
-     A persistent container that can load cloud-backed and non-cloud stores.
-     */
+
     lazy var persistentContainer: NSPersistentContainer = {
 
         // Create a container that can load CloudKit-backed stores
@@ -174,12 +178,206 @@ extension Notification.Name {
 
 extension CoreDataStack {
 
-    func build14DeleteOrphanStacks() {
-        // prior builds did not have the delete rule to remove child stacks
-        // at startup appDelegate checks db version, build and PGLVersion table
-        // if buildLabel is not migrated run this func
+    // MARK: clean up delete
+    fileprivate func deleteOrphanStacks() -> Bool {
+        // all child stacks
+        let backgroundContext = persistentContainer.backgroundContext()
+        backgroundContext.performAndWait {
+            let stackRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
+            stackRequest.sortDescriptors = [NSSortDescriptor(key:"title", ascending: true)]
+            stackRequest.predicate = NSPredicate(format:"outputToParm != null")
+            let stackController = NSFetchedResultsController(fetchRequest: stackRequest,
+                                                             managedObjectContext: backgroundContext,
+                                                             sectionNameKeyPath: nil, cacheName: nil)
+            do {
+                try stackController.performFetch()
+            } catch {
 
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "deleteOrphanStacks: Failed to performFetch")
+            }
+
+            var orphanStacks = [CDFilterStack]()
+            for aChildStack in stackController.fetchedObjects! {
+                if let imageParm = aChildStack.outputToParm {
+                    guard let parmFilter = imageParm.filter
+                    else {
+                        // no filter related.. this stack is an orphan
+                        orphanStacks.append(aChildStack)
+                        continue  // to next childStack in the loop
+                    }
+                    if parmFilter.stack == nil {
+                        orphanStacks.append(aChildStack)
+                    }
+                } else {
+                    // no image parm this stack is an orphan
+                    orphanStacks.append(aChildStack)
+                }
+
+            }
+
+            let orphanStackIDs = orphanStacks.map({$0.objectID})
+            NSLog("deleteOrphanStacks count = \(orphanStackIDs.count)")
+            batchDelete(deleteIds: orphanStackIDs, aContext: backgroundContext)
+        }
+        return true  // no errors
     }
+
+    fileprivate func deleteOrphanFilters() -> Bool {
+        //  builds before build 14 did not have the delete rule to remove child stacks
+        // at startup appDelegate checks db version, build
+        // if they do not match. ie. not migrated migrated run this func
+        // rows to delete...
+        // remember that the delete cascade rule is now used for the relationships
+        // it was a nullify rule in the previous db versions
+
+        //  filters that are orphaned from a filter stack
+        let backgroundContext = persistentContainer.backgroundContext()
+        let filterRequest: NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
+        filterRequest.sortDescriptors = [NSSortDescriptor(key:"ciFilterName", ascending: true)]
+        filterRequest.predicate = NSPredicate(format:"stack = null")
+
+        let filterController = NSFetchedResultsController(fetchRequest: filterRequest,
+                                                          managedObjectContext: backgroundContext,
+                                                          sectionNameKeyPath: nil, cacheName: nil)
+        let startingCount = countFilterTable()
+        NSLog("starting Filter Count = \(startingCount)")
+
+        backgroundContext.performAndWait {
+
+            do {
+                try filterController.performFetch()
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "deleteOrphanFilters: Failed to performFetch")
+            }
+            // delete the orphan filters
+            var filterDeleteIDs = [NSManagedObjectID]()
+
+            for aFilterObject in filterController.fetchedObjects! {
+                filterDeleteIDs.append(aFilterObject.objectID)
+            }
+
+           NSLog("deleteOrphanFilters count = \(filterDeleteIDs.count)")
+            batchDelete(deleteIds: filterDeleteIDs, aContext: backgroundContext)
+        }
+
+
+        return true  // no errors
+    }
+
+    fileprivate func deleteOrphanParms() -> Bool {
+        //  remaining ParmImages that are orphaned from a filter
+        let startingParmCount = countParmsTable()
+        let backgroundContext = persistentContainer.backgroundContext()
+        backgroundContext.performAndWait {
+            let parmRequest: NSFetchRequest<CDParmImage> = CDParmImage.fetchRequest()
+            parmRequest.sortDescriptors = [NSSortDescriptor(key:"parmName", ascending: true)]
+            parmRequest.predicate = NSPredicate(format:"filter = null")
+            let parmController = NSFetchedResultsController(fetchRequest: parmRequest,
+                                                            managedObjectContext: backgroundContext,
+                                                            sectionNameKeyPath: nil, cacheName: nil)
+            do {
+                try parmController.performFetch()
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "deleteOrphanParms: Failed to performFetch")
+            }
+            // delete the orphan filters
+            if let parmDeleteIds = parmController.fetchedObjects?.map( {$0.objectID} )
+            { NSLog("deleteOrphanParms count = \(parmDeleteIds.count)")
+                batchDelete(deleteIds: parmDeleteIds, aContext: backgroundContext)
+            }
+        }
+        let endingParmCount = countParmsTable()
+        NSLog("startingParmCount = \(startingParmCount) ending = \(endingParmCount)")
+        return true  // no errors
+    }
+
+    fileprivate func deleteOrphanImageList() -> Bool {
+        //  remaining ParmImages that are orphaned from a filter
+        let startingParmCount = countImageListTable()
+        let backgroundContext = persistentContainer.backgroundContext()
+        backgroundContext.performAndWait {
+            let parmRequest: NSFetchRequest<CDImageList> = CDImageList.fetchRequest()
+            parmRequest.sortDescriptors = [NSSortDescriptor(key:"attributeName", ascending: true)]
+            parmRequest.predicate = NSPredicate(format:"parm = null")
+            let listController = NSFetchedResultsController(fetchRequest: parmRequest,
+                                                            managedObjectContext: backgroundContext,
+                                                            sectionNameKeyPath: nil, cacheName: nil)
+            do {
+                try listController.performFetch()
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "deleteOrphanImageList: Failed to performFetch")
+            }
+            // delete the orphan filters
+            if let listDeleteIds = listController.fetchedObjects?.map( {$0.objectID} )
+            { NSLog("deleteOrphanImageList count = \(listDeleteIds.count)")
+                batchDelete(deleteIds: listDeleteIds, aContext: backgroundContext)
+            }
+        }
+        let endingParmCount = countImageListTable()
+        NSLog("startingParmCount = \(startingParmCount) ending = \(endingParmCount)")
+        return true  // no errors
+    }
+
+
+// MARK: count table rows
+    func countParmsTable() -> Int {
+
+        let fetchRequest:NSFetchRequest<CDParmImage> = CDParmImage.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+        return number ?? 0
+    }
+
+    func countFilterTable() -> Int {
+
+        let fetchRequest:NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+        return number ?? 0
+    }
+
+    func countStackTable() -> Int {
+
+        let fetchRequest:NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+        return number ?? 0
+    }
+
+    func countImageListTable() -> Int {
+
+        let fetchRequest:NSFetchRequest<CDImageList> = CDImageList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+        return number ?? 0
+    }
+
+
+    func build14DeleteOrphanStacks() -> Bool {
+
+        let stacksProcessed = true  // deleteOrphanStacks()
+       let filtersProcessed =  deleteOrphanFilters()
+        let parmsProcessed =  true // deleteOrphanParms()
+        let imageListProcessed = true // deleteOrphanImageList()
+
+        return ( stacksProcessed && filtersProcessed && parmsProcessed && imageListProcessed)
+    }
+
+
+
+    func batchDelete(deleteIds: [NSManagedObjectID], aContext: NSManagedObjectContext) {
+        if deleteIds.isEmpty { return  }
+
+        let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)
+        batchDelete.resultType = .resultTypeObjectIDs
+        batchDelete.resultType = .resultTypeCount
+        do {
+            let batchDeleteResult = try aContext.execute(batchDelete) as? NSBatchDeleteResult
+            print("###\(#function): Batch deleted post count: \(String(describing: batchDeleteResult?.result))")
+        } catch {
+            print("###\(#function): Failed to batch delete existing records: \(error)")
+        }
+}
     /**
      Process persistent history, posting any relevant transactions to the current view.
      */

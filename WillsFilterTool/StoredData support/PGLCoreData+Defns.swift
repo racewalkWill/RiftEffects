@@ -26,9 +26,7 @@ enum Schema {
     enum Post: String {
         case title
     }
-    enum PGLTag: String {
-        case uuid, name, postCount
-    }
+    
 }
 /**
  A convenience method for creating background contexts that specify the app as their transaction author.

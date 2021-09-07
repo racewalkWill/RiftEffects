@@ -132,16 +132,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func checkVersion() {
         let info = Bundle.main.infoDictionary
+        var dbVersionStrings = [String]()
+        var cleanUpRan = false
         let version = info?["CFBundleShortVersionString"] as? String
-        let build = info?["CFBundleVersion"] as? String
+//        guard let build = Int( info?["CFBundleVersion"] as? String ?? "0" ) else { return  }
 
-        let dataModel = coreDataStack.persistentContainer.managedObjectModel
+       let dataModel = coreDataStack.persistentContainer.managedObjectModel
+
         let currentVersionSet = dataModel.versionIdentifiers
+        for aVersion in currentVersionSet {
+            dbVersionStrings.append(aVersion as! String)
+        }
+        if dbVersionStrings.contains(version!) {
+            NSLog("BundleVersion and dataModel match")
+        } else {
+            NSLog("Needs Migration for version \(String(describing: version))")
+            if version == "1.2"  {
+               cleanUpRan = self.coreDataStack.build14DeleteOrphanStacks()
+            }
 
-        // read PGLVersion table for last migration status
-        let versionProvider = PGLVersionProvider(with: self.coreDataStack.persistentContainer)
-        let oldVersions = versionProvider.versionDataRows()
-
+            if cleanUpRan {
+//                dataModel.versionIdentifiers.insert(version)
+                // add the version so this does not run again
+            }
+        }
     }
 
 
