@@ -15,6 +15,8 @@
 		A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */; };
 		A341186425C300F300587590 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A341186325C300F300587590 /* CloudKit.framework */; };
 		A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */; };
+		A349E85F26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */; };
+		A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */; };
 		A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */; };
 		A35506EC26BF376A00BAC9BD /* PGLUserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */; };
 		A35BADAC2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */; };
@@ -23,12 +25,10 @@
 		A35FF77E26DC346200D78252 /* PGLCoreData+Defns.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35FF77D26DC346200D78252 /* PGLCoreData+Defns.swift */; };
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
 		A375F25F26DFE47E00721D3A /* PGLStackProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */; };
-		A3813CBC26E3AB38008CD7F0 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A392D5EE26C3EBDA00688952 /* PGLRandomFilterMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392D5ED26C3EBDA00688952 /* PGLRandomFilterMaker.swift */; };
 		A39632D8250049F000F02CEC /* PGLDisparityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */; };
 		A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */; };
-		A3AAC54325D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
 		A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504124D32A3400CD5114 /* PGLResultsController.swift */; };
@@ -119,7 +119,6 @@
 		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
 		A3E6243D2691261A0017372F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A3E6243C2691261A0017372F /* Settings.bundle */; };
-		A3EDB00A266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +149,8 @@
 		A341185E25C3008100587590 /* WillsFilterTool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WillsFilterTool.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterAction.swift; sourceTree = "<group>"; };
+		A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
 		A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLUserDefaultKeys.swift; sourceTree = "<group>"; };
 		A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPopUpFilterInfo.swift; sourceTree = "<group>"; };
@@ -163,7 +164,6 @@
 		A392D5ED26C3EBDA00688952 /* PGLRandomFilterMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterMaker.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDisparityFilter.swift; sourceTree = "<group>"; };
 		A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialogController.swift; sourceTree = "<group>"; };
-		A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* WillsFilterTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WillsFilterTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WillsFilterToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -262,8 +262,6 @@
 		A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLScalingFilter.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
 		A3E6243C2691261A0017372F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -420,13 +418,12 @@
 		A3BF508B24D32A3400CD5114 /* StoredData support */ = {
 			isa = PBXGroup;
 			children = (
-				A3EDB007266D90F500FA9F82 /* CDStoredFilter+CoreDataProperties.swift */,
+				A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */,
+				A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
 				A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */,
 				A35FF77826DC316400D78252 /* PGLCoreDataStack.swift */,
 				A35FF77D26DC346200D78252 /* PGLCoreData+Defns.swift */,
-				A3AAC54225D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift */,
-				A3EDB009266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift */,
 				A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */,
 				A3BF509024D32A3400CD5114 /* WillsFilterTool.xcdatamodeld */,
 			);
@@ -703,7 +700,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3EDB00A266D91D300FA9F82 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF511924D32A3400CD5114 /* WillsFilterTool.xcdatamodeld in Sources */,
 				A3BF510E24D32A3400CD5114 /* PGLImageCIFilter.swift in Sources */,
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
@@ -731,6 +727,7 @@
 				A3BF513524D32A3400CD5114 /* PGLImagesSelectContainer.swift in Sources */,
 				A3BF50EF24D32A3400CD5114 /* PGLMainFilterController.swift in Sources */,
 				A3BF50E924D32A3400CD5114 /* PGLTableCellAction.swift in Sources */,
+				A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF50DB24D32A3400CD5114 /* PGL-CDFilterStack.swift in Sources */,
 				A3BF513724D32A3400CD5114 /* PGLDiffableDataSource.swift in Sources */,
 				A3BF510124D32A3400CD5114 /* PGLFaceTiltShift.swift in Sources */,
@@ -740,7 +737,6 @@
 				A35FF77E26DC346200D78252 /* PGLCoreData+Defns.swift in Sources */,
 				A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */,
 				A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */,
-				A3AAC54325D6FC8F00264A31 /* CDStoredFilter+CoreDataClass.swift in Sources */,
 				A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */,
 				A3BF513124D32A3400CD5114 /* Renderer.swift in Sources */,
 				A3BF513324D32A3400CD5114 /* PGLAssetController.swift in Sources */,
@@ -752,6 +748,7 @@
 				A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */,
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3BF513224D32A3400CD5114 /* PGLDataSource.swift in Sources */,
+				A349E85F26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift in Sources */,
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
 				A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */,
 				A3BF513824D32A3400CD5114 /* PGLAssetGridController.swift in Sources */,
@@ -772,7 +769,6 @@
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,
 				A3BF513624D32A3400CD5114 /* PGLAssetCollection.swift in Sources */,
 				A3BF514824D32A3400CD5114 /* PGLTabsController.swift in Sources */,
-				A3813CBC26E3AB38008CD7F0 /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF50D524D32A3400CD5114 /* OldeFilm.m in Sources */,
 				A3BF512A24D32A3400CD5114 /* PGLTransitionFilter.swift in Sources */,
 				A3BF50D924D32A3400CD5114 /* PixellateTransition.m in Sources */,

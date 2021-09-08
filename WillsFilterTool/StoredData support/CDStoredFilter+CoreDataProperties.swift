@@ -2,7 +2,7 @@
 //  CDStoredFilter+CoreDataProperties.swift
 //  WillsFilterTool
 //
-//  Created by Will on 6/6/21.
+//  Created by Will on 9/8/21.
 //  Copyright © 2021 Will Loew-Blosser. All rights reserved.
 //
 //
@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 import CoreImage
-
 
 extension CDStoredFilter {
 

@@ -49,7 +49,7 @@ class PGLFilterStack  {
     var activeFilterIndex = 0
 
 
-    var stackName:String = "new..."  // Date().description(with: Locale.current)
+    var stackName:String = ""  // Date().description(with: Locale.current)
     var parentAttribute: PGLFilterAttribute?
 
 //    var parentStack: PGLFilterStack?
@@ -732,7 +732,7 @@ class PGLFilterStack  {
 
     func nextStackName() -> String {
         // this stack name + filterNumberLabel of the current filter
-        return "-> " + stackName + " " + filterNumLabel(maxLen: 20)
+        return "@->" + stackName + " filter: " + filterNumLabel(maxLen: 20)
     }
 
 

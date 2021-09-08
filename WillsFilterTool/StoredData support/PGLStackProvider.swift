@@ -21,7 +21,8 @@ class PGLStackProvider {
 
     lazy var fetchedResultsController: NSFetchedResultsController<CDFilterStack> = {
         let fetchRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "outputToParm = null")
+//        fetchRequest.predicate = NSPredicate(format: "outputToParm = null")  // only parent stacks
+        fetchRequest.predicate = NSPredicate(value: true) // return all stacks
         fetchRequest.fetchBatchSize = 15  // usually 12 rows visible -
             // breaks up the full object fetch into view sized chunks
 
@@ -64,7 +65,7 @@ class PGLStackProvider {
     }
 
     func batchDelete(deleteIds: [NSManagedObjectID]) {
-        let taskContext = persistentContainer.backgroundContext()
+        let taskContext = persistentContainer.viewContext
         let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)
         batchDelete.resultType = .resultTypeObjectIDs
         batchDelete.resultType = .resultTypeCount

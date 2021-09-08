@@ -14,6 +14,7 @@ import os
 let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.WillsFilterTool"
 let LogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
 var LogCategory = "PGL"
+var LogMigration = "PGL_Migration"
 // change in areas as needed.
 // caution on changes it is a GLOBAL
 
@@ -134,30 +135,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let info = Bundle.main.infoDictionary
         var dbVersionStrings = [String]()
         var cleanUpRan = false
-        let version = info?["CFBundleShortVersionString"] as? String
-//        guard let build = Int( info?["CFBundleVersion"] as? String ?? "0" ) else { return  }
 
-       let dataModel = coreDataStack.persistentContainer.managedObjectModel
+        let version = info?["CFBundleShortVersionString"] as? String
+        let dataModel = coreDataStack.persistentContainer.managedObjectModel
 
         let currentVersionSet = dataModel.versionIdentifiers
         for aVersion in currentVersionSet {
             dbVersionStrings.append(aVersion as! String)
         }
         if dbVersionStrings.contains(version!) {
-            NSLog("BundleVersion and dataModel match")
+            Logger(subsystem: LogSubsystem, category: LogMigration).info("BundleVersion and dataModel match")
         } else {
-            NSLog("Needs Migration for version \(String(describing: version))")
+            Logger(subsystem: LogSubsystem, category: LogMigration).notice("Needs Migration for version \(String(describing: version))")
+            Logger(subsystem: LogSubsystem, category: LogMigration).notice("dataModel.versionIdentifiers = \(dataModel.versionIdentifiers)")
             if version == "1.2"  {
                cleanUpRan = self.coreDataStack.build14DeleteOrphanStacks()
             }
-
             if cleanUpRan {
-//                dataModel.versionIdentifiers.insert(version)
+              dataModel.versionIdentifiers.insert(version)
                 // add the version so this does not run again
+                Logger(subsystem: LogSubsystem, category: LogMigration).notice("Completed migration to dataModel.versionIdentifiers = \(dataModel.versionIdentifiers)")
             }
         }
     }
-
 
 }
 

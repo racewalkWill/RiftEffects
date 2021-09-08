@@ -181,8 +181,13 @@ extension CoreDataStack {
     // MARK: clean up delete
     fileprivate func deleteOrphanStacks() -> Bool {
         // all child stacks
+        // Does not seem to find orphan child stacks in development..
+        // Not needed?
+        let startingCount =  countStackTable()
+
         let backgroundContext = persistentContainer.backgroundContext()
         backgroundContext.performAndWait {
+
             let stackRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
             stackRequest.sortDescriptors = [NSSortDescriptor(key:"title", ascending: true)]
             stackRequest.predicate = NSPredicate(format:"outputToParm != null")
@@ -205,7 +210,8 @@ extension CoreDataStack {
                         orphanStacks.append(aChildStack)
                         continue  // to next childStack in the loop
                     }
-                    if parmFilter.stack == nil {
+                    let theParentStack = parmFilter.stack
+                    if theParentStack == nil {
                         orphanStacks.append(aChildStack)
                     }
                 } else {
@@ -215,10 +221,16 @@ extension CoreDataStack {
 
             }
 
-            let orphanStackIDs = orphanStacks.map({$0.objectID})
+            var orphanStackIDs = [NSManagedObjectID]()
+
+            for aFilterObject in orphanStacks {
+                orphanStackIDs.append(aFilterObject.objectID)
+            }
+
             NSLog("deleteOrphanStacks count = \(orphanStackIDs.count)")
             batchDelete(deleteIds: orphanStackIDs, aContext: backgroundContext)
         }
+        let endingCount =  countStackTable()
         return true  // no errors
     }
 
@@ -355,10 +367,10 @@ extension CoreDataStack {
 
     func build14DeleteOrphanStacks() -> Bool {
 
-        let stacksProcessed = true  // deleteOrphanStacks()
-       let filtersProcessed =  deleteOrphanFilters()
-        let parmsProcessed =  true // deleteOrphanParms()
-        let imageListProcessed = true // deleteOrphanImageList()
+        let imageListProcessed =  deleteOrphanImageList()
+        let parmsProcessed =  deleteOrphanParms()
+        let filtersProcessed =  deleteOrphanFilters()
+        let stacksProcessed =  deleteOrphanStacks()
 
         return ( stacksProcessed && filtersProcessed && parmsProcessed && imageListProcessed)
     }

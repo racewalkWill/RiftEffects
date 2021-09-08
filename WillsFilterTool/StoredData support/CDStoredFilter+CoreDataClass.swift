@@ -1,9 +1,9 @@
 //
 //  CDStoredFilter+CoreDataClass.swift
-//  Glance
+//  WillsFilterTool
 //
-//  Created by Will on 12/4/18.
-//  Copyright © 2018 Will. All rights reserved.
+//  Created by Will on 9/8/21.
+//  Copyright © 2021 Will Loew-Blosser. All rights reserved.
 //
 //
 
