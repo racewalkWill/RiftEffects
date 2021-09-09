@@ -111,6 +111,44 @@ class CoreDataStack {
         return url.appendingPathComponent("token.data", isDirectory: false)
     }()
 
+    // MARK: dbVersion file text
+     var dbVersionTxt: String? = nil {
+        didSet {
+
+            guard let version = dbVersionTxt,
+                  let data = try? NSKeyedArchiver.archivedData(withRootObject: version, requiringSecureCoding: true) else {return }
+            do {
+                try data.write(to: dbVersionFile)
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogMigration).error("Failed to write dbVersion to text file")
+            }
+        }
+    }
+    private lazy var dbVersionFile: URL = {
+        let url = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(appStackName, isDirectory: true)
+        if !FileManager.default.fileExists(atPath: url.path) {
+            do {
+                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogMigration).error("Failed to create persistent container for dbVersionFile URL")
+            }
+        }
+        return url.appendingPathComponent("dbVersion.txt", isDirectory: false)
+    }()
+
+    func lastDbVersionMigration() -> String {
+        var answer = "0.0"
+
+        if let tokenData = try? Data(contentsOf: dbVersionFile) {
+            do {
+                answer = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(tokenData) as! String
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogMigration).error("Failed to unarchive dbVersionFile.")
+            }
+        }
+        return answer
+    }
+
     /**
      An operation queue for handling history processing tasks: watching changes, deduplicating tags, and triggering UI updates if needed.
      */

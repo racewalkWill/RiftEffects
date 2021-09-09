@@ -133,30 +133,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func checkVersion() {
         let info = Bundle.main.infoDictionary
-        var dbVersionStrings = [String]()
         var cleanUpRan = false
 
-        let version = info?["CFBundleShortVersionString"] as? String
+        let buildVersion = info?["CFBundleVersion"] as? String
+    /*
+        // only compare bundle version to the txt file version string
+         // ignore the datamodel version
         let dataModel = coreDataStack.persistentContainer.managedObjectModel
-
         let currentVersionSet = dataModel.versionIdentifiers
         for aVersion in currentVersionSet {
             dbVersionStrings.append(aVersion as! String)
         }
-        if dbVersionStrings.contains(version!) {
-            Logger(subsystem: LogSubsystem, category: LogMigration).info("BundleVersion and dataModel match")
+    */
+        // get migration status from txt file
+ //       coreDataStack.dbVersionTxt = "1.0" use this to trigger migration again
+
+        let readLastVersion = coreDataStack.lastDbVersionMigration()
+
+        if buildVersion == readLastVersion {
+            Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion match \(readLastVersion)")
         } else {
-            Logger(subsystem: LogSubsystem, category: LogMigration).notice("Needs Migration for version \(String(describing: version))")
-            Logger(subsystem: LogSubsystem, category: LogMigration).notice("dataModel.versionIdentifiers = \(dataModel.versionIdentifiers)")
-            if version == "1.2"  {
+            Logger(subsystem: LogSubsystem, category: LogMigration).notice("Needs Migration for build \(String(describing: buildVersion))")
+
+            if buildVersion == "14"  {
                cleanUpRan = self.coreDataStack.build14DeleteOrphanStacks()
             }
             if cleanUpRan {
-              dataModel.versionIdentifiers.insert(version)
+              coreDataStack.dbVersionTxt = buildVersion
                 // add the version so this does not run again
-                Logger(subsystem: LogSubsystem, category: LogMigration).notice("Completed migration to dataModel.versionIdentifiers = \(dataModel.versionIdentifiers)")
+                Logger(subsystem: LogSubsystem, category: LogMigration).notice("Completed migration to build = \(String(describing: buildVersion))")
             }
         }
+
     }
 
 }
