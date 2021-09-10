@@ -148,8 +148,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // get migration status from txt file
  //       coreDataStack.dbVersionTxt = "1.0" use this to trigger migration again
 
-        let readLastVersion = coreDataStack.lastDbVersionMigration()
-
+        var readLastVersion = coreDataStack.lastDbVersionMigration()
+//        readLastVersion = "1.0" // temp to force rerun of migration
         if buildVersion == readLastVersion {
             Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion match \(readLastVersion)")
         } else {

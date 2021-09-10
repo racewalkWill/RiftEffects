@@ -212,11 +212,107 @@ extension Notification.Name {
     static let didFindRelevantTransactions = Notification.Name("didFindRelevantTransactions")
 }
 
-// MARK: - Persistent history processing
+
 
 extension CoreDataStack {
 
+    // MARK: count table rows
+        func countParmsTable() -> Int {
+
+            let fetchRequest:NSFetchRequest<CDParmImage> = CDParmImage.fetchRequest()
+            fetchRequest.predicate = NSPredicate(value: true)
+            let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+            return number ?? 0
+        }
+
+        func countFilterTable() -> Int {
+
+            let fetchRequest:NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
+            fetchRequest.predicate = NSPredicate(value: true)
+            let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+            return number ?? 0
+        }
+
+        func countStackTable() -> Int {
+
+            let fetchRequest:NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
+            fetchRequest.predicate = NSPredicate(value: true)
+            let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+            return number ?? 0
+        }
+
+        func countImageListTable() -> Int {
+
+            let fetchRequest:NSFetchRequest<CDImageList> = CDImageList.fetchRequest()
+            fetchRequest.predicate = NSPredicate(value: true)
+            let number = try? persistentContainer.viewContext.count(for: fetchRequest)
+            return number ?? 0
+        }
+
     // MARK: clean up delete
+
+        func build14DeleteOrphanStacks() -> Bool {
+
+            let imageListProcessed =  deleteOrphanImageList()
+            let parmsProcessed =  deleteOrphanParms()
+            let filtersProcessed =  deleteOrphanFilters()
+            let stacksProcessed =  deleteOrphanStacks()
+//                resaveStackThumbnails()
+            return ( stacksProcessed && filtersProcessed && parmsProcessed && imageListProcessed)
+
+
+        }
+
+    func resaveStackThumbnails() {
+        // before build 14, version 12, the thumbnails were full size
+        // resave as real thumbnails
+        let backgroundContext = persistentContainer.backgroundContext()
+            backgroundContext.performAndWait {
+            let fetchRequest:NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
+            fetchRequest.predicate = NSPredicate(value: true)
+                var sortArray = [NSSortDescriptor]()
+                sortArray.append(NSSortDescriptor(key: "title", ascending: true))
+            fetchRequest.sortDescriptors = sortArray
+                // all rows in the filterStack table
+            let stackController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                             managedObjectContext: backgroundContext,
+                                                             sectionNameKeyPath: nil, cacheName: nil)
+            do {
+                try stackController.performFetch()
+            } catch {
+                Logger(subsystem: LogSubsystem, category: LogCategory).error( "resaveStackThumbnails: Failed to performFetch")
+            }
+            for aStack in stackController.fetchedObjects! {
+                let pglStack = PGLFilterStack.init()
+                pglStack.on(cdStack: aStack)
+                // now everything is connected
+
+                let myCDStack = pglStack.writeCDStack(moContext: backgroundContext)
+                // filter images are moved to a cache before the save
+                backgroundContext.perform {
+                    try? backgroundContext.save()
+                    }
+                }
+        }  // end performAndWait
+
+
+    }
+
+        func batchDelete(deleteIds: [NSManagedObjectID], aContext: NSManagedObjectContext) {
+            if deleteIds.isEmpty { return  }
+
+            let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)
+            batchDelete.resultType = .resultTypeObjectIDs
+            batchDelete.resultType = .resultTypeCount
+            do {
+                let batchDeleteResult = try aContext.execute(batchDelete) as? NSBatchDeleteResult
+                print("###\(#function): Batch deleted post count: \(String(describing: batchDeleteResult?.result))")
+            } catch {
+                print("###\(#function): Failed to batch delete existing records: \(error)")
+            }
+    }
+
+
     fileprivate func deleteOrphanStacks() -> Bool {
         // all child stacks
         // Does not seem to find orphan child stacks in development..
@@ -369,65 +465,7 @@ extension CoreDataStack {
     }
 
 
-// MARK: count table rows
-    func countParmsTable() -> Int {
-
-        let fetchRequest:NSFetchRequest<CDParmImage> = CDParmImage.fetchRequest()
-        fetchRequest.predicate = NSPredicate(value: true)
-        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
-        return number ?? 0
-    }
-
-    func countFilterTable() -> Int {
-
-        let fetchRequest:NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
-        fetchRequest.predicate = NSPredicate(value: true)
-        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
-        return number ?? 0
-    }
-
-    func countStackTable() -> Int {
-
-        let fetchRequest:NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
-        fetchRequest.predicate = NSPredicate(value: true)
-        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
-        return number ?? 0
-    }
-
-    func countImageListTable() -> Int {
-
-        let fetchRequest:NSFetchRequest<CDImageList> = CDImageList.fetchRequest()
-        fetchRequest.predicate = NSPredicate(value: true)
-        let number = try? persistentContainer.viewContext.count(for: fetchRequest)
-        return number ?? 0
-    }
-
-
-    func build14DeleteOrphanStacks() -> Bool {
-
-        let imageListProcessed =  deleteOrphanImageList()
-        let parmsProcessed =  deleteOrphanParms()
-        let filtersProcessed =  deleteOrphanFilters()
-        let stacksProcessed =  deleteOrphanStacks()
-
-        return ( stacksProcessed && filtersProcessed && parmsProcessed && imageListProcessed)
-    }
-
-
-
-    func batchDelete(deleteIds: [NSManagedObjectID], aContext: NSManagedObjectContext) {
-        if deleteIds.isEmpty { return  }
-
-        let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)
-        batchDelete.resultType = .resultTypeObjectIDs
-        batchDelete.resultType = .resultTypeCount
-        do {
-            let batchDeleteResult = try aContext.execute(batchDelete) as? NSBatchDeleteResult
-            print("###\(#function): Batch deleted post count: \(String(describing: batchDeleteResult?.result))")
-        } catch {
-            print("###\(#function): Failed to batch delete existing records: \(error)")
-        }
-}
+    // MARK: - Persistent history processing
     /**
      Process persistent history, posting any relevant transactions to the current view.
      */
