@@ -220,21 +220,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
 
-
-
-
-    @IBAction func openStackActionBtn(_ sender: UIBarButtonItem) {
-//        let showOpenStackView = true  // change for old or new openDialog
-//        if showOpenStackView {
-            let pickStoredStackViewController = storyboard!.instantiateViewController(
-                withIdentifier: "openStackController")
-        pickStoredStackViewController.modalPresentationStyle = UIModalPresentationStyle.automatic
-                // tried some of the other ones .pageSheet .formSheet .currentContext.. all seem to be the same
-            let navController = UINavigationController(rootViewController: pickStoredStackViewController)
-                                     present(navController, animated: true)
-
-        }
-
     @IBAction func newStackActionBtn(_ sender: UIBarButtonItem) {
         // confirm user action if current stack is not saved
         // from the trash action button -
@@ -539,10 +524,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let contextMenu = UIMenu(title: "",
                     children: [
-                        UIAction (title: "Pick..", image:UIImage(systemName: "folder")) {
-                            action in
-                            self.openStackActionBtn(self.moreBtn)
-                                },
+                        
                         UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
                             action in
                                 // self.saveStackAlert(self.moreBtn)
