@@ -106,15 +106,15 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     // MARK: View change
     fileprivate func setImageController() {
-        if let glkNavController =  (splitViewController?.viewControllers[1]) as? UINavigationController {
-            imageController = glkNavController.visibleViewController as? PGLImageController
-            if imageController != nil {
-                imageController!.parmController = self
+//        let primaryController  = splitViewController?.viewController(for: .primary)
+//        let supplementaryController =  splitViewController?.viewController(for: .supplementary)
+        let secondaryController  = splitViewController?.viewController(for: .secondary)
+        let navController = secondaryController as? UINavigationController
+        imageController = navController?.visibleViewController as? PGLImageController
 
+        if imageController != nil {
+                imageController!.parmController = self
                 scaleFactor = imageController!.myScaleFactor // the metalView scaleFactor typically = 2.0
-            }
-            else {
-                Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLSelectParmController did not set var myimageController")}
         }
     }
 
