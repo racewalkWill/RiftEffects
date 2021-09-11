@@ -52,6 +52,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Do any additional setup after loading the view.
+
          navigationItem.title = filterOpenTitle
          navigationController?.delegate = self
 
@@ -72,18 +74,23 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-//          NSLog("PGLOpenStackViewControler viewDidDisappear set dataSource to nil")
-        dataSource = nil
-
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        if dataSource == nil {
-//             NSLog("PGLOpenStackViewControler viewWillAppear dataSource = nil ")
-            configureDataSource()
-        }
-    }
+//    override func viewDidDisappear(_ animated: Bool) {
+////          NSLog("PGLOpenStackViewControler viewDidDisappear set dataSource to nil")
+////        dataSource = nil
+//
+//    }
+//
+//    override func viewWillAppear(_ animated: Bool) {
+//        if dataSource == nil {
+////             NSLog("PGLOpenStackViewControler viewWillAppear dataSource = nil ")
+//            configureDataSource()
+//        } else {
+////            let allStacks =  initialSnapShot()
+////             dataSource.showHeaderText = true
+////                 // show header titles
+////             dataSource.apply(allStacks, animatingDifferences: true)
+//        }
+//    }
 
 
 

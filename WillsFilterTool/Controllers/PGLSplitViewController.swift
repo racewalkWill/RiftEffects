@@ -18,8 +18,9 @@ class PGLSplitViewController: UISplitViewController {
 
         super.viewDidLoad()
  //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
-       preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
-       presentsWithGesture = true
+        preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary
+        presentsWithGesture = true
+        showsSecondaryOnlyButton = true
 
 
         // Do any additional setup after loading the view.
