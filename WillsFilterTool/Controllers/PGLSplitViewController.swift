@@ -9,16 +9,24 @@
 import UIKit
 import os
 import Photos
+import CoreData
 
 
 
-class PGLSplitViewController: UISplitViewController {
+class PGLSplitViewController: UISplitViewController, NSFetchedResultsControllerDelegate {
 
     override func viewDidLoad() {
 
         super.viewDidLoad()
  //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
-        preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let provider = PGLStackProvider(with: appDelegate!.coreDataStack.persistentContainer,
+                                    fetchedResultsControllerDelegate: self)
+        let stackRowCount = provider.filterStackCount()
+        if stackRowCount > 0 {
+            preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary }
+        else {
+            preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
         presentsWithGesture = true
         showsSecondaryOnlyButton = true
 

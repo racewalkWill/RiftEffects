@@ -185,6 +185,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
         dataSource.tableView(tableView, didSelectRowAt: indexPath)
+        splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
+        
 //        dismiss(animated: true, completion: nil )
         // let user touch outside of the controller to dismiss
         // selected stack is loaded into the image controller behind the openStackViewController

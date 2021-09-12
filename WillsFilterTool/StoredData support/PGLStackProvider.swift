@@ -87,4 +87,17 @@ class PGLStackProvider {
         }
     }
 
+    func filterStackCount() -> Int {
+        // number of rows in the CDFilterStack table
+        var rowCount = 0
+
+        let fetchCountRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
+        fetchCountRequest.predicate = NSPredicate(value: true)
+            // all rows returned
+
+        rowCount = try! persistentContainer.viewContext.count(for: fetchCountRequest)
+
+        return rowCount
+    }
+
 }
