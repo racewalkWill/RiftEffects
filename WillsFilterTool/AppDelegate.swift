@@ -151,11 +151,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var readLastVersion = coreDataStack.lastDbVersionMigration()
 //        readLastVersion = "1.0" // temp to force rerun of migration
         if buildVersion == readLastVersion {
-            Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion match \(readLastVersion)")
+            Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion are matching. Value = \(readLastVersion)")
         } else {
             Logger(subsystem: LogSubsystem, category: LogMigration).notice("Needs Migration for build \(String(describing: buildVersion))")
+            let buildVersionNumber = Int(buildVersion ?? "0" ) ?? 0
 
-            if buildVersion == "14"  {
+            if buildVersionNumber <= 15  {
                cleanUpRan = self.coreDataStack.build14DeleteOrphanStacks()
             }
             if cleanUpRan {
