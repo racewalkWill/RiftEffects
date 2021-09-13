@@ -20,6 +20,12 @@ class PGLFaceTiltShift: CIFilter {
 //    class func register() {
 //         CIFilter.registerName("FaceTiltShift", constructor: PGLFilterConstructor() , classAttributes: customAttributes()  )
 //    }
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
+    
 @objc dynamic   var inputImage: CIImage?
 @objc dynamic   var inputRadius: NSNumber = 10.0
 

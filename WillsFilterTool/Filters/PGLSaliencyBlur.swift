@@ -12,6 +12,12 @@ import Vision
 
 class PGLSaliencyBlurFilter: CIFilter {
     // attention based saliency with Gaussian Blur
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
+    
     @objc dynamic   var inputImage: CIImage?
     @objc dynamic   var inputRadius: NSNumber = 10.0
 
@@ -98,11 +104,7 @@ class PGLSaliencyBlurFilter: CIFilter {
 
     }
 
-        class override var supportsSecureCoding: Bool { get {
-            // subclasses of PGLFilterCIAbstract must  each implement this
-//             Core Data requires secureCoding to store the filter
-            return true
-        }}
+
 
     class func register()   {
  //       let attr: [String: AnyObject] = [:]

@@ -93,6 +93,13 @@ class PGLTextImageGenerator: PGLTextFilter {
 }
 
 class CompositeTextPositionFilter: CIFilter {
+
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
+
     let blendFilter: CIFilter
     let textImageFilter: CIFilter
 

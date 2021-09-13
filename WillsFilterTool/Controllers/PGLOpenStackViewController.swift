@@ -11,6 +11,7 @@ import CoreData
 import os
 
 let  PGLLoadedDataStack = NSNotification.Name(rawValue: "PGLLoadedDataStack")
+let PGLStackHasSavedNotification = NSNotification.Name(rawValue: "PGLStackHasSavedNotification")
 
 class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UINavigationControllerDelegate {
 
@@ -72,27 +73,42 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         dataSource.dataProvider = dataProvider
 //         NSLog("PGLOpenStackViewControler viewDidLoad completed")
 
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+        
+        myCenter.addObserver(forName: PGLStackHasSavedNotification , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+            if let userDataDict = myUpdate.userInfo {
+                if let newStackId = userDataDict["stackObjectID"] as? NSManagedObjectID {
+                    // read the stack and insert into the data source
+                    if let theCDStack = self.dataProvider.persistentContainer.viewContext.object(with: newStackId) as? CDFilterStack {
+                        var currentSnapshot = self.dataSource.snapshot()
+                        var sectionIndex = 0
+                        // now get the type for the section
+
+                            if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
+                            { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
+                                }
+                            else {
+                                // new section
+                               // minor bug to fix.. it goes into the first section not the new one.
+
+                            }
+
+                        currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
+                            // puts into the first section.. a refresh will have it in the matching type section
+                            
+
+                        self.dataSource.apply(currentSnapshot ,animatingDifferences: true)
+
+                    }
+                }
+            }
+
+
+        }
     }
-
-//    override func viewDidDisappear(_ animated: Bool) {
-////          NSLog("PGLOpenStackViewControler viewDidDisappear set dataSource to nil")
-////        dataSource = nil
-//
-//    }
-//
-//    override func viewWillAppear(_ animated: Bool) {
-//        if dataSource == nil {
-////             NSLog("PGLOpenStackViewControler viewWillAppear dataSource = nil ")
-//            configureDataSource()
-//        } else {
-////            let allStacks =  initialSnapShot()
-////             dataSource.showHeaderText = true
-////                 // show header titles
-////             dataSource.apply(allStacks, animatingDifferences: true)
-//        }
-//    }
-
-
 
 
     // MARK: - Table view data source

@@ -277,6 +277,12 @@ class MetalImageFilter: MetalFilter
 
 class MetalFilter: CIFilter, MetalRenderable
 {
+    class override var supportsSecureCoding: Bool { get {
+        // subclasses must  implement this
+        // Core Data requires secureCoding to store the filter
+        return true
+    }}
+    
     let device: MTLDevice = MTLCreateSystemDefaultDevice()!
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     

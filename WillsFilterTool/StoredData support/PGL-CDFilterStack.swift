@@ -445,6 +445,12 @@ extension PGLAppStack {
             let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
             // filter images are moved to a cache before the save
             dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
+            // post notification to update PGLOpenStackViewController
+            // with the new or updated stack
+            // send only the objectID to the main UI process
+
+            let stackHasSavedNotification = Notification(name: PGLStackHasSavedNotification, object: nil, userInfo: [ "stackObjectID": myCDStack.objectID, "stackType" : myCDStack.type])
+            NotificationCenter.default.post(stackHasSavedNotification)
             }
 
 
