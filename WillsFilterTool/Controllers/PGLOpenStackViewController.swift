@@ -89,18 +89,22 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
                             if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
                             { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
+                                currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
+                                    // puts into the matching section..
+
+                                self.dataSource.apply(currentSnapshot ,animatingDifferences: true)
                                 }
                             else {
                                 // new section
-                               // minor bug to fix.. it goes into the first section not the new one.
+                                // just force a reload of the whole snapshot
+                                let allStacks =  self.initialSnapShot()
+                                self.dataSource.showHeaderText = true
+                                     // show header titles
+                                self.dataSource.apply(allStacks, animatingDifferences: true)
 
                             }
 
-                        currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
-                            // puts into the first section.. a refresh will have it in the matching type section
-                            
 
-                        self.dataSource.apply(currentSnapshot ,animatingDifferences: true)
 
                     }
                 }
