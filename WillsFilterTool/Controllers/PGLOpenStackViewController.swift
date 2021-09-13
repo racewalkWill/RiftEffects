@@ -87,24 +87,20 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                         var sectionIndex = 0
                         // now get the type for the section
 
-                            if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
+                        if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
                             { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
                                 currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
                                     // puts into the matching section..
 
                                 self.dataSource.apply(currentSnapshot ,animatingDifferences: true)
-                                }
-                            else {
-                                // new section
-                                // just force a reload of the whole snapshot
-                                let allStacks =  self.initialSnapShot()
-                                self.dataSource.showHeaderText = true
-                                     // show header titles
-                                self.dataSource.apply(allStacks, animatingDifferences: true)
 
-                            }
-
-
+                        } else {
+                            // read it all back in the correct section
+                            try? self.dataProvider.fetchedResultsController.performFetch()
+                            let allStacks =  self.initialSnapShot()
+                            self.dataSource.showHeaderText = true
+                                 // show header titles
+                            self.dataSource.apply(allStacks, animatingDifferences: true)}
 
                     }
                 }
@@ -205,7 +201,9 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
         dataSource.tableView(tableView, didSelectRowAt: indexPath)
-        splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
+        if !tableView.isEditing {
+            splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
+        }
         
 //        dismiss(animated: true, completion: nil )
         // let user touch outside of the controller to dismiss
