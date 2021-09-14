@@ -26,7 +26,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     private lazy var dataProvider: PGLStackProvider = {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let provider = PGLStackProvider(with: appDelegate!.coreDataStack.persistentContainer,
+        let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer,
                                     fetchedResultsControllerDelegate: self)
         return provider
     }()
@@ -137,9 +137,14 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
        if let modifiedDate =  ofObject.modified {
             dateString = dateFormatter.string(from: modifiedDate)
        }
-       else { dateString =  dateFormatter.string(from: ofObject.created!)}
-       let detailText = ofObject.type! + " " + dateString
-        return detailText
+       else { guard let createdDate = ofObject.created else
+                {  return " "
+                    }
+            dateString =  dateFormatter.string(from: createdDate )}
+        guard let objectType = ofObject.type else
+            { return dateString }
+       return objectType + " " + dateString
+       
     }
 
 

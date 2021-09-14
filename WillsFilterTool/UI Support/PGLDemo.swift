@@ -23,6 +23,7 @@ class PGLDemo {
     static var RandomImageList: PGLImageList?
         // interacts with PGLRandomFilter to hold user images for random consturction
     static var MaxListSize = 6
+    var NumOfFilters = 5
 
     static var FavoritesAlbumList: PGLAlbumSource?
     var appStack: PGLAppStack!
@@ -70,12 +71,12 @@ class PGLDemo {
     }
 
     func addFiltersTo(stack: PGLFilterStack) {
-        // put 4 random filters on the stack
+        // put NumOfFilters random filters on the stack
         // filters from random groups in singleFilterGroups
 
 
 //        for aGroup in PGLDemo.SingleFilterGroups {
-        for filterIndex in 0...3 {
+        for filterIndex in 0..<NumOfFilters {
             let groupIndex = Int.random(in: 0 ..< PGLDemo.SingleFilterGroups.count)
             let aGroup = PGLDemo.SingleFilterGroups[groupIndex]
             let aFilterIndex = Int.random(in: 0 ..< aGroup.count)

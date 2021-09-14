@@ -20,7 +20,7 @@ class PGLSplitViewController: UISplitViewController, NSFetchedResultsControllerD
         super.viewDidLoad()
  //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let provider = PGLStackProvider(with: appDelegate!.coreDataStack.persistentContainer,
+        let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer,
                                     fetchedResultsControllerDelegate: self)
         let stackRowCount = provider.filterStackCount()
         if stackRowCount > 0 {

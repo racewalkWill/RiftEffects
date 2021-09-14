@@ -9,6 +9,7 @@
 import XCTest
 import Photos
 import os
+import CoreData
 
 
 @testable import WillsFilterTool
@@ -20,7 +21,13 @@ class PGLFilterStackTests: XCTestCase {
     var testAppStack = PGLAppStack() // creates an empty filterStack
     var testCIImage: CIImage!
     var activeFilterCount = 0
-
+    var cleanUpDeleteList = [NSManagedObjectID]()
+    lazy var dataProvider: PGLStackProvider = {
+       let appDelegate = UIApplication.shared.delegate as? AppDelegate
+       let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer,
+                                   fetchedResultsControllerDelegate: nil)
+       return provider
+   }()
 
     override func setUp() {
        // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -102,7 +109,7 @@ class PGLFilterStackTests: XCTestCase {
     func testStackSetup() {
         // shows that the suite setup has an output image
         // and save the output image
-        let moContext = PersistentContainer.viewContext
+        let moContext = dataProvider.persistentContainer.viewContext
         filterStack.stackName = "testStackSetup" + " \(Date())"
         _ = filterStack.writeCDStack(moContext: moContext)
         XCTAssertNotNil(filterStack.storedStack)
@@ -125,7 +132,7 @@ class PGLFilterStackTests: XCTestCase {
         let defaultTitle = "testAddDeleteFilters" +  " \(Date())"
         filterStack.stackName = defaultTitle
         Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testWriteStack() stackName = \(defaultTitle)")
-        let moContext = PersistentContainer.viewContext
+        let moContext = dataProvider.persistentContainer.viewContext
 
         let writtenStack = filterStack.writeCDStack(moContext: moContext)
         Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLFilterStackTests #testAddDeleteFilters wroteCDStack \(writtenStack)")
@@ -160,7 +167,7 @@ class PGLFilterStackTests: XCTestCase {
     func testCycleSave() {
         //confirm that the multiple inputs to a filter are saved
         let stackName = "testCycleSave" +  " \(Date())"
-        let moContext = PersistentContainer.viewContext
+        let moContext = dataProvider.persistentContainer.viewContext
         filterStack.stackName = stackName
         // need a filter then assign the test PGLImageList to it..
         // the save of the filter should create the CDImageList

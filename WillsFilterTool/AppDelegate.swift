@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var appStack: PGLAppStack!
-    lazy var coreDataStack: CoreDataStack = { return CoreDataStack() }()
+    lazy var dataWrapper: CoreDataWrapper = { return CoreDataWrapper() }()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -148,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // get migration status from txt file
  //       coreDataStack.dbVersionTxt = "1.0" use this to trigger migration again
 
-        var readLastVersion = coreDataStack.lastDbVersionMigration()
+        var readLastVersion = dataWrapper.lastDbVersionMigration()
 //        readLastVersion = "1.0" // temp to force rerun of migration
         if buildVersion == readLastVersion {
             Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion are matching. Value = \(readLastVersion)")
@@ -157,10 +157,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let buildVersionNumber = Int(buildVersion ?? "0" ) ?? 0
 
             if buildVersionNumber <= 15  {
-               cleanUpRan = self.coreDataStack.build14DeleteOrphanStacks()
+               cleanUpRan = self.dataWrapper.build14DeleteOrphanStacks()
             }
             if cleanUpRan {
-              coreDataStack.dbVersionTxt = buildVersion
+              dataWrapper.dbVersionTxt = buildVersion
                 // add the version so this does not run again
                 Logger(subsystem: LogSubsystem, category: LogMigration).notice("Completed migration to build = \(String(describing: buildVersion))")
             }

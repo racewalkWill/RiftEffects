@@ -20,10 +20,11 @@ class PGLCategorySurvey: XCTestCase {
     let saveOutputToPhotoLib = false  // change to true as needed
     lazy var dataProvider: PGLStackProvider = {
        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-       let provider = PGLStackProvider(with: appDelegate!.coreDataStack.persistentContainer,
+       let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer,
                                    fetchedResultsControllerDelegate: nil)
        return provider
    }()
+    var deleteStackIds = [NSManagedObjectID]()
 
     
     override func setUpWithError() throws {
@@ -33,6 +34,7 @@ class PGLCategorySurvey: XCTestCase {
 
         let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
         appStack = myAppDelegate.appStack
+        deleteStackIds = [NSManagedObjectID]()  //
 
     }
 
@@ -44,6 +46,7 @@ class PGLCategorySurvey: XCTestCase {
         let newStack = PGLFilterStack()
         newStack.setStartupDefault() // not sent in the init.. need a starting point
         self.appStack.resetToTopStack(newStack: newStack)
+        dataProvider.batchDelete(deleteIds: deleteStackIds)
         super.tearDown()
     }
 
@@ -239,6 +242,8 @@ class PGLCategorySurvey: XCTestCase {
             // set the stack with the title, type, exportAlbum for save
             Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testSingleInputFilters at groups \(i)  \(testFilterStack.stackName)")
             testFilterStack.saveTestStackImage(stackProvider: dataProvider )
+            if let stackID = testFilterStack.storedStack?.objectID {
+                deleteStackIds.append(stackID) }
            // confirm that output is saved and the coreData has saved
 
             category1Index += 1
@@ -299,6 +304,8 @@ class PGLCategorySurvey: XCTestCase {
                 // set the stack with the title, type, exportAlbum for save
                 Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testMultipleInputTransitionFilters at groups \(i)  \(testFilterStack.stackName)")
                 testFilterStack.saveTestStackImage(stackProvider: dataProvider )
+                if let stackID = testFilterStack.storedStack?.objectID {
+                    deleteStackIds.append(stackID) }
                // confirm that output is saved and the coreData has saved
 
                 category1Index += 1
@@ -380,6 +387,8 @@ class PGLCategorySurvey: XCTestCase {
             // sets the stack with the title, type, exportAlbum for save
 
         testFilterStack.saveTestStackImage(stackProvider: dataProvider )
+        if let stackID = testFilterStack.storedStack?.objectID {
+            deleteStackIds.append(stackID) }
        // confirm that output is saved and the coreData has saved
 
 
@@ -448,6 +457,8 @@ class PGLCategorySurvey: XCTestCase {
                // set the stack with the title, type, exportAlbum for save
                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testiOS13Filters  \(testFilterStack.stackName)")
                 testFilterStack.saveTestStackImage(stackProvider: dataProvider )
+            if let stackID = testFilterStack.storedStack?.objectID {
+                deleteStackIds.append(stackID) }
                // confirm that output is saved and the coreData has saved
         }
 
@@ -526,8 +537,8 @@ class PGLCategorySurvey: XCTestCase {
                // set the stack with the title, type, exportAlbum for save
                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testCompositeChildStack  \(testFilterStack.stackName)")
               testFilterStack.saveTestStackImage(stackProvider: dataProvider )
-  // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
-//               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
+            if let stackID = testFilterStack.storedStack?.objectID {
+                deleteStackIds.append(stackID) }
 
 
             }
@@ -610,9 +621,8 @@ class PGLCategorySurvey: XCTestCase {
                // set the stack with the title, type, exportAlbum for save
                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testTransitionChildStacks  \(testFilterStack.stackName)")
               testFilterStack.saveTestStackImage(stackProvider: dataProvider )
-  // ui version is              appStack.saveStack(metalRender: <#T##Renderer#>)
-//               XCTAssertTrue(photoSaveResult , testFilterStack.stackName + " Error on saveStackImage")
-
+            if let stackID = testFilterStack.storedStack?.objectID {
+                deleteStackIds.append(stackID) }
 
             }
 
@@ -705,7 +715,8 @@ class PGLCategorySurvey: XCTestCase {
                    // set the stack with the title, type, exportAlbum for save
                    Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLCategorySurvey #testSelectedFilters  \(testFilterStack.stackName)")
                     testFilterStack.saveTestStackImage(stackProvider: dataProvider )
-               // confirm that output is saved and the coreData has saved
+                if let stackID = testFilterStack.storedStack?.objectID {
+                    deleteStackIds.append(stackID) }
             }
 
            }

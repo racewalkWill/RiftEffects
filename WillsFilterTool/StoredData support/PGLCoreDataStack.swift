@@ -22,7 +22,7 @@ import os
 /**
  Core Data stack setup including history processing.
  */
-class CoreDataStack {
+class CoreDataWrapper {
     enum DataMigrationError: Error {
         case orphanFilterError
         case orphanStackError
@@ -190,7 +190,7 @@ class CoreDataStack {
 }
 // MARK: - Notifications
 
-extension CoreDataStack {
+extension CoreDataWrapper {
     /**
      Handle remote store change notifications (.NSPersistentStoreRemoteChange).
      */
@@ -214,7 +214,7 @@ extension Notification.Name {
 
 
 
-extension CoreDataStack {
+extension CoreDataWrapper {
 
     // MARK: count table rows
         func countParmsTable() -> Int {
@@ -511,7 +511,7 @@ extension CoreDataStack {
 
 // MARK: - Deduplicate tags
 
-extension CoreDataStack {
+extension CoreDataWrapper {
     /**
      Deduplicate tags with the same name by processing the persistent history, one tag at a time, on the historyQueue.
 
