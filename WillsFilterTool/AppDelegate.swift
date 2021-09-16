@@ -134,8 +134,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkVersion() {
         let info = Bundle.main.infoDictionary
         var cleanUpRan = false
-
-        let buildVersion = info?["CFBundleVersion"] as? String
+        var buildVersion = "1.0"
+         buildVersion = (info?["CFBundleVersion"] as? String) ?? "1.0"
     /*
         // only compare bundle version to the txt file version string
          // ignore the datamodel version
@@ -154,13 +154,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion are matching. Value = \(readLastVersion)")
         } else {
             Logger(subsystem: LogSubsystem, category: LogMigration).notice("Needs Migration for build \(String(describing: buildVersion))")
-            let buildVersionNumber = Int(buildVersion ?? "0" ) ?? 0
+            let buildVersionNumber = Int(buildVersion ) ?? 0
 
-            if buildVersionNumber <= 15  {
+            if buildVersionNumber <= 17  {
                cleanUpRan = self.dataWrapper.build14DeleteOrphanStacks()
             }
             if cleanUpRan {
-              dataWrapper.dbVersionTxt = buildVersion
+//              dataWrapper.dbVersionTxt = buildVersion
                 // add the version so this does not run again
                 Logger(subsystem: LogSubsystem, category: LogMigration).notice("Completed migration to build = \(String(describing: buildVersion))")
             }
