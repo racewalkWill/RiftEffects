@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //       PGLFaceCIFilter.register()
 //        PGLFilterCategory.allFilterCategories()
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice( "start didFinishLaunchingWithOptions")
         PGLFilterCIAbstract.register()
         WarpItMetalFilter.register()
 
@@ -62,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLImageCIFilter.register()
         PGLRandomFilterAction.register()
        appStack = PGLAppStack()
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice( " didFinishLaunchingWithOptions appStack created")
         checkVersion()
        return true
         }
@@ -132,41 +134,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Migration
 
     func checkVersion() {
-        let info = Bundle.main.infoDictionary
-        var cleanUpRan = false
-        var buildVersion = "1.0"
-         buildVersion = (info?["CFBundleVersion"] as? String) ?? "1.0"
-    /*
-        // only compare bundle version to the txt file version string
-         // ignore the datamodel version
-        let dataModel = coreDataStack.persistentContainer.managedObjectModel
-        let currentVersionSet = dataModel.versionIdentifiers
-        for aVersion in currentVersionSet {
-            dbVersionStrings.append(aVersion as! String)
-        }
-    */
-        // get migration status from txt file
- //       coreDataStack.dbVersionTxt = "1.0" use this to trigger migration again
-
-        var readLastVersion = dataWrapper.lastDbVersionMigration()
-//        readLastVersion = "1.0" // temp to force rerun of migration
-        if buildVersion == readLastVersion {
-            Logger(subsystem: LogSubsystem, category: LogMigration).info("buildVersion and readLastVersion are matching. Value = \(readLastVersion)")
-        } else {
-            Logger(subsystem: LogSubsystem, category: LogMigration).notice("Needs Migration for build \(String(describing: buildVersion))")
-            let buildVersionNumber = Int(buildVersion ) ?? 0
-
-            if buildVersionNumber <= 17  {
-               cleanUpRan = self.dataWrapper.build14DeleteOrphanStacks()
-            }
-            if cleanUpRan {
-//              dataWrapper.dbVersionTxt = buildVersion
-                // add the version so this does not run again
-                Logger(subsystem: LogSubsystem, category: LogMigration).notice("Completed migration to build = \(String(describing: buildVersion))")
-            }
-        }
-
+//        self.dataWrapper.build14DeleteOrphanStacks()
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice( "completed checkVersion")
     }
+
 
 }
 

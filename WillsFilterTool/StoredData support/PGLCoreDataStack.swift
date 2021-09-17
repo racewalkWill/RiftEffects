@@ -252,11 +252,15 @@ extension CoreDataWrapper {
     // MARK: clean up delete
 
         func build14DeleteOrphanStacks() -> Bool {
-
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice( "build14DeleteOrphanStacks")
             let imageListProcessed =  deleteOrphanImageList()
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice( "completed deleteOrphanImageList")
             let parmsProcessed =  deleteOrphanParms()
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice( "completed deleteOrphanParms")
             let filtersProcessed =  deleteOrphanFilters()
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice( "completed deleteOrphanFilters")
             let stacksProcessed =  deleteOrphanStacks()
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice( "completed deleteOrphanStacks")
 //                resaveStackThumbnails()
             return ( stacksProcessed && filtersProcessed && parmsProcessed && imageListProcessed)
 
@@ -378,20 +382,22 @@ extension CoreDataWrapper {
 
         //  filters that are orphaned from a filter stack
         let backgroundContext = persistentContainer.backgroundContext()
-        let filterRequest: NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
-        filterRequest.sortDescriptors = [NSSortDescriptor(key:"ciFilterName", ascending: true)]
-        filterRequest.predicate = NSPredicate(format:"stack = null")
 
-        let filterController = NSFetchedResultsController(fetchRequest: filterRequest,
-                                                          managedObjectContext: backgroundContext,
-                                                          sectionNameKeyPath: nil, cacheName: nil)
         let startingCount = countFilterTable()
         NSLog("starting Filter Count = \(startingCount)")
-
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice( "starting deleteOrphanFilters")
         backgroundContext.performAndWait {
-
+            let filterRequest: NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
+            filterRequest.sortDescriptors = [NSSortDescriptor(key:"ciFilterName", ascending: true)]
+            filterRequest.predicate = NSPredicate(format:"stack = null")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice( "line 392 deleteOrphanFilters")
+            let filterController = NSFetchedResultsController(fetchRequest: filterRequest,
+                                                              managedObjectContext: backgroundContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice( "line 394 deleteOrphanFilters")
             do {
                 try filterController.performFetch()
+                Logger(subsystem: LogSubsystem, category: LogCategory).notice( "line 399 deleteOrphanFilters")
             } catch {
                 Logger(subsystem: LogSubsystem, category: LogCategory).error( "deleteOrphanFilters: Failed to performFetch")
             }
@@ -401,9 +407,14 @@ extension CoreDataWrapper {
             for aFilterObject in filterController.fetchedObjects! {
                 filterDeleteIDs.append(aFilterObject.objectID)
             }
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice( "line 409 deleteOrphanFilters")
+            let endingCount = countFilterTable()
 
-           NSLog("deleteOrphanFilters count = \(filterDeleteIDs.count)")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice( "line 411 deleteOrphanFilters")
             batchDelete(deleteIds: filterDeleteIDs, aContext: backgroundContext)
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice( "line 414 deleteOrphanFilters")
+            Logger(subsystem: LogSubsystem, category: LogCategory).notice( "deleteOrphanFilters starting count = \(startingCount, privacy: .public) ending = \(endingCount, privacy: .public)")
+
         }
 
 

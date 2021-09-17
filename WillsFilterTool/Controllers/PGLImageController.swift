@@ -524,7 +524,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let contextMenu = UIMenu(title: "",
                     children: [
-                        
+
                         UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
                             action in
                                 // self.saveStackAlert(self.moreBtn)
@@ -538,6 +538,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                             action in
                             self.displayPrivacyPolicy(self.moreBtn)
                                     },
+                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
+                            action in
+                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                            else { return }
+                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
+                                    }
 
 
         ])
