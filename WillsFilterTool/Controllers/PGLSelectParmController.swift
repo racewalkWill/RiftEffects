@@ -240,9 +240,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillDisappear(_ animated: Bool) {
         // remove the parm views and the gesture recogniziers
         if let theImageControllerView = imageController?.view {
-            removeGestureRecogniziers(targetView: theImageControllerView) // matches viewWillAppear setGesture
-            imageController?.hideParmControls() // actually will remove the views
+            let deviceIdom = traitCollection.userInterfaceIdiom
+            if deviceIdom == .pad {
+                removeGestureRecogniziers(targetView: theImageControllerView) // matches viewWillAppear setGesture
+                imageController?.hideParmControls() // actually will remove the views
             }
+                // else on the iphone the parm controller is moving off screen but we are changging parms
+                // keep the parmControls visible
+        }
         for anObserver in  notifications {
                        NotificationCenter.default.removeObserver(anObserver)
                    }
