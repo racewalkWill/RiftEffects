@@ -24,6 +24,9 @@ class PGLAppStack {
     var outputStack: PGLFilterStack
     var viewerStack = PGLFilterStack()
     var pushedStacks = [PGLFilterStack]()
+
+
+
     lazy var cellFilters = self.flattenFilters()
         // flat array of filters in the stack trees
 
@@ -56,7 +59,17 @@ class PGLAppStack {
 //            self.isImageControllerOpen = false
 //        }
     }
-    
+    // MARK: REFACTOR ParmController
+    // this section contains the logic from the PGLSelectParmController
+    // to set values into the parm attribute.
+    // REFACTOR vars moved from PGLSelectParmController
+    var currentFilter: PGLSourceFilter?
+    var targetAttribute: PGLFilterAttribute?
+    // the imageController viewDidLoad or appear
+    // should perform the highlight logic..
+    // 
+
+
     // MARK: Master Data Object Stacks
     func postStackChange() {
         

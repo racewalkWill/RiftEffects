@@ -45,6 +45,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             filterParms[sectionParms]  = allAttributes.filter{ !($0.isImageUI()) } //isImageInput
             filterParms[sectionOther] = [PGLFilterAttribute]()  // no constructor for others
              parmsListHasChanged()
+            // this triggers setting of the current filter
+            // into the appStack model
         }
     }
 
@@ -167,15 +169,18 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         super.viewWillAppear(animated)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController#viewWillAppear start ")
         if imageController == nil {
-            setImageController()}
-        if let myView = imageController?.view
-            { // could be navigation issue
-            setGestureRecogniziers(targetView: myView) // matches viewDidDisappear removeGesture
-        } else {
-            // need to abort this loading... navigation issue -
-            // how to abort or recover?
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewWillAppear imageController.view not set")
+            setImageController()
         }
+//        imageController?.setGestureRecogniziers()
+//        if let myView = imageController?.view
+//            { // could be navigation issue
+//            //MARK: REFACTOR
+//            setGestureRecogniziers(targetView: myView) // matches viewDidDisappear removeGesture
+//        } else {
+//            // need to abort this loading... navigation issue -
+//            // how to abort or recover?
+//            Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewWillAppear imageController.view not set")
+//        }
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
         var aNotification = myCenter.addObserver(forName: PGLCurrentFilterChange, object: nil , queue: queue) {[weak self]
@@ -239,15 +244,18 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewWillDisappear(_ animated: Bool) {
         // remove the parm views and the gesture recogniziers
-        if let theImageControllerView = imageController?.view {
-            let deviceIdom = traitCollection.userInterfaceIdiom
-            if deviceIdom == .pad {
-                removeGestureRecogniziers(targetView: theImageControllerView) // matches viewWillAppear setGesture
-                imageController?.hideParmControls() // actually will remove the views
-            }
-                // else on the iphone the parm controller is moving off screen but we are changging parms
-                // keep the parmControls visible
+
+        //MARK: REFACTOR
+        let deviceIdom = traitCollection.userInterfaceIdiom
+        if deviceIdom == .pad {
+            imageController?.removeGestureRecogniziers()
+            // the imageController may have pan controls showing.
+
+            imageController?.hideParmControls() // actually will remove the views
         }
+            // else on the iphone the parm controller is moving off screen but we are changging parms
+            // keep the parmControls visible
+
         for anObserver in  notifications {
                        NotificationCenter.default.removeObserver(anObserver)
                    }
@@ -261,6 +269,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        currentFilter = nil
         tappedAttribute = nil
         appStack = nil
+        // don't update the model targetAttribute.. the imageController needs it.
 
     }
     override func didReceiveMemoryWarning() {
@@ -348,87 +357,90 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
     // MARK: Gestures
-    var startPoint = CGPoint.zero
-    var endPoint = CGPoint.zero
-    var panner: UIPanGestureRecognizer?
+//    var startPoint = CGPoint.zero
+//    var endPoint = CGPoint.zero
+//    var panner: UIPanGestureRecognizer?
 //    var tapper: UITapGestureRecognizer?
 //    var myScreenEdgePanGestureRecognizer:  UIScreenEdgePanGestureRecognizer?
 
-    func setGestureRecogniziers(targetView: UIView) {
-//        NSLog("PGLSelectParmController #setGestureRecogniziers")
-        panner = UIPanGestureRecognizer(target: self, action: #selector(PGLSelectParmController.panAction(_:)))
-        if panner != nil {
-            targetView.addGestureRecognizer(panner!)
-            panner!.isEnabled = false
-        }
-
-    }
-
-    func removeGestureRecogniziers(targetView: UIView) {
-//        NSLog("PGLSelectParmController #removeGestureRecogniziers")
+//    func setGestureRecogniziers(targetView: UIView) {
+////        NSLog("PGLSelectParmController #setGestureRecogniziers")
 //        panner = UIPanGestureRecognizer(target: self, action: #selector(PGLSelectParmController.panAction(_:)))
-        if panner != nil {
-            targetView.removeGestureRecognizer(panner!)
-            panner?.removeTarget(self, action: #selector(PGLSelectParmController.panAction(_:)))
-            panner = nil
-        }
-    }
+//        if panner != nil {
+//            targetView.addGestureRecognizer(panner!)
+//            panner!.isEnabled = false
+//        }
+//
+//    }
+//
+//    func removeGestureRecogniziers(targetView: UIView) {
+////        NSLog("PGLSelectParmController #removeGestureRecogniziers")
+////        panner = UIPanGestureRecognizer(target: self, action: #selector(PGLSelectParmController.panAction(_:)))
+//        if panner != nil {
+//            targetView.removeGestureRecognizer(panner!)
+//            panner?.removeTarget(self, action: #selector(PGLSelectParmController.panAction(_:)))
+//            panner = nil
+//        }
+//    }
 
     var selectedParmControlView: UIView?
     var tappedControl: UIView?
 
 
-    @objc func panAction(_ sender: UIPanGestureRecognizer) {
-        // should enable only when a point parm is selected.
-        let gesturePoint = sender.location(in:  imageController?.view)
-        // this changing as an ULO - move down has increased Y
-
-//        NSLog("panAction changed gesturePoint = \(gesturePoint) " )
-
-        // expected that one is ULO and the other is LLO point
-
-        switch sender.state {
-
-        case .began: startPoint = gesturePoint
-            endPoint = startPoint // should be the same at began
-//         NSLog("panAction began gesturePoint = \(gesturePoint)")
-//         NSLog("panAction began tappedControl?.frame.origin  = \(String(describing: tappedControl?.frame.origin))")
-                if selectedParmControlView != nil {
-                    tappedControl = selectedParmControlView
-//                 NSLog("panAction began startPoint = \(startPoint)")
-                    if (tappedAttribute as? PGLAttributeRectangle) != nil {
-                        if let rectController = imageController?.rectController {
-                            let tapLocation = sender.location(in: selectedParmControlView)  // not the same as the location in the myimageController.view
-                            if rectController.hitTestCorners(location: tapLocation, controlView: selectedParmControlView!) != nil {
-//                                NSLog("PGLSelectParmController #panAction found hit corner = \(tappedCorner)")
-
-                            }
-                        }
-                    }
-
-                    
-                }
-
-        case .ended:
-                endPoint = gesturePoint
-                if tappedAttribute != nil {panEnded(endingPoint:  endPoint, parm: tappedAttribute!) }
-                tappedControl = nil
-
-        case .changed:
-                    startPoint = endPoint // of last changed message .. just process the delta
-                    endPoint = gesturePoint
-                    tappedControl?.center = gesturePoint 
-                    if tappedAttribute != nil {panMoveChange(endingPoint:  endPoint, parm: tappedAttribute!) }
-
-//           NSLog("panAction changed NOW tappedControl?.frame.origin  = \(String(describing: tappedControl?.frame.origin))")
-            case .cancelled, .failed:
-                tappedControl = nil
-
-            case .possible: break
-            default: break
-
-        }
-    }
+//    @objc func panAction(_ sender: UIPanGestureRecognizer) {
+//        //MARK: REFACTOR
+//        // moved to ImageController REMOVE this
+//
+//        // should enable only when a point parm is selected.
+//        let gesturePoint = sender.location(in:  imageController?.view)
+//        // this changing as an ULO - move down has increased Y
+//
+////        NSLog("panAction changed gesturePoint = \(gesturePoint) " )
+//
+//        // expected that one is ULO and the other is LLO point
+//
+//        switch sender.state {
+//
+//        case .began: startPoint = gesturePoint
+//            endPoint = startPoint // should be the same at began
+////         NSLog("panAction began gesturePoint = \(gesturePoint)")
+////         NSLog("panAction began tappedControl?.frame.origin  = \(String(describing: tappedControl?.frame.origin))")
+//                if selectedParmControlView != nil {
+//                    tappedControl = selectedParmControlView
+////                 NSLog("panAction began startPoint = \(startPoint)")
+//                    if (tappedAttribute as? PGLAttributeRectangle) != nil {
+//                        if let rectController = imageController?.rectController {
+//                            let tapLocation = sender.location(in: selectedParmControlView)  // not the same as the location in the myimageController.view
+//                            if rectController.hitTestCorners(location: tapLocation, controlView: selectedParmControlView!) != nil {
+////                                NSLog("PGLSelectParmController #panAction found hit corner = \(tappedCorner)")
+//
+//                            }
+//                        }
+//                    }
+//
+//
+//                }
+//
+//        case .ended:
+//                endPoint = gesturePoint
+//                if tappedAttribute != nil {panEnded(endingPoint:  endPoint, parm: tappedAttribute!) }
+//                tappedControl = nil
+//
+//        case .changed:
+//                    startPoint = endPoint // of last changed message .. just process the delta
+//                    endPoint = gesturePoint
+//                    tappedControl?.center = gesturePoint
+//                    if tappedAttribute != nil {panMoveChange(endingPoint:  endPoint, parm: tappedAttribute!) }
+//
+////           NSLog("panAction changed NOW tappedControl?.frame.origin  = \(String(describing: tappedControl?.frame.origin))")
+//            case .cancelled, .failed:
+//                tappedControl = nil
+//
+//            case .possible: break
+//            default: break
+//
+//        }
+//    }
 
     fileprivate func setDissolveWrapper() {
         // install a detector input to the tappedAttribute.
@@ -463,50 +475,53 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         NotificationCenter.default.post(updateFilterNotification)
     }
 
-    func panEnded( endingPoint: CGPoint, parm: PGLFilterAttribute) {
-        // add move or resize mode logic
-        // tap action should have set the rectController
-
-//        parm.moveTo(startPoint: startPoint, newPoint: endingPoint, inView: (myimageController?.view)!)
-            // PGLFilterAttributeRectangle should have empty implementation of moveTo
-            // it moves on the OK action not the pan ended
-
-        if let viewHeight = imageController?.view.bounds.height  {
-//            let flippedVertical = viewHeight - endingPoint.y
-            let newVector = parm.mapPoint2Vector(point: endingPoint, viewHeight: viewHeight, scale: scaleFactor)
-            parm.set(newVector)
-            // or parm.set(oldVector)
-            }
-        attributeValueChanged()
-//        startPoint = CGPoint.zero // reset
-//        endPoint = CGPoint.zero
-//        NSLog("PGLSelectParmController #panEnded startPoint,endPoint reset to CGPoint.zero")
-
-    }
+//    func panEnded( endingPoint: CGPoint, parm: PGLFilterAttribute) {
+//        //MARK: REFACTOR
+//        // REMOVE
+//        // add move or resize mode logic
+//        // tap action should have set the rectController
+//
+////        parm.moveTo(startPoint: startPoint, newPoint: endingPoint, inView: (myimageController?.view)!)
+//            // PGLFilterAttributeRectangle should have empty implementation of moveTo
+//            // it moves on the OK action not the pan ended
+//
+//        if let viewHeight = imageController?.view.bounds.height  {
+////            let flippedVertical = viewHeight - endingPoint.y
+//            let newVector = parm.mapPoint2Vector(point: endingPoint, viewHeight: viewHeight, scale: scaleFactor)
+//            parm.set(newVector)
+//            // or parm.set(oldVector)
+//            }
+//        attributeValueChanged()
+////        startPoint = CGPoint.zero // reset
+////        endPoint = CGPoint.zero
+////        NSLog("PGLSelectParmController #panEnded startPoint,endPoint reset to CGPoint.zero")
+//
+//    }
     
-    func panMoveChange( endingPoint: CGPoint, parm: PGLFilterAttribute) {
-        // add move or resize mode logic
-        // delta logic - the startPoint is just the previous change method endingPoint
-        // also note that startPoint is an instance var. should be parm also, like the ending point??
-
-        switch parm {
-        case  _ as PGLAttributeRectangle:
-             if let rectController = imageController?.rectController {
-                rectController.movingChange(startPoint: startPoint, newPoint: endingPoint, inView: view)
-                view.setNeedsLayout()
-                
-            }
-        default:
-            tappedControl?.center = endingPoint // this makes the screen update for point
-//            parm.movingChange(startPoint: startPoint, newPoint: endingPoint, inView: (myimageController?.view)!)
-
-            if let viewHeight = imageController?.view.bounds.height {
-                let flippedVertical = viewHeight - endingPoint.y
-                parm.set(CIVector(x: endingPoint.x * scaleFactor , y: flippedVertical * scaleFactor))
-                }
-        }
-        // make the display show this
-    }
+//    func panMoveChange( endingPoint: CGPoint, parm: PGLFilterAttribute) {
+//        //MARK: REFACTOR
+//        // add move or resize mode logic
+//        // delta logic - the startPoint is just the previous change method endingPoint
+//        // also note that startPoint is an instance var. should be parm also, like the ending point??
+//
+//        switch parm {
+//        case  _ as PGLAttributeRectangle:
+//             if let rectController = imageController?.rectController {
+//                rectController.movingChange(startPoint: startPoint, newPoint: endingPoint, inView: view)
+//                view.setNeedsLayout()
+//
+//            }
+//        default:
+//            tappedControl?.center = endingPoint // this makes the screen update for point
+////            parm.movingChange(startPoint: startPoint, newPoint: endingPoint, inView: (myimageController?.view)!)
+//
+//            if let viewHeight = imageController?.view.bounds.height {
+//                let flippedVertical = viewHeight - endingPoint.y
+//                parm.set(CIVector(x: endingPoint.x * scaleFactor , y: flippedVertical * scaleFactor))
+//                }
+//        }
+//        // make the display show this
+//    }
 
     func parmsListHasChanged() {
         // notify the tableview & detailimageController to refresh
@@ -515,6 +530,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        navigationController?.toolbar.setNeedsDisplay()
         //notify the detailimageController that the parms have changed and should show on the image
 //          NSLog("parmsListHasChanged - reloadData() end")
+
+        appStack.currentFilter = currentFilter
+
         if imageController != nil {
             imageController?.setParms(newFilterParms: filterParms[sectionParms])
         }
@@ -523,29 +541,33 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     func imageViewParmControls() -> [String : UIView] {
         // answers dictionary indexed index by attributeName
+        //MARK: REFACTOR
         return imageController?.parmControls ?? [String : UIView]()
     }
 
     func parmControl(named: String) -> UIView? {
+        //MARK: REFACTOR
         return imageController?.parmControls[named]
     }
 
-    func attributeValueChanged() {
-        // put the value of the tappedAttribute into the cell detail text
-
-        if let displayCell = parmsTableView.cellForRow(at: selectedCellIndexPath!),
-            let aParmAttribute = tappedAttribute {
-            if let aNumberUI = aParmAttribute as? PGLVectorNumeric3UI {
-                aNumberUI.postUIChange(attribute: aNumberUI.zValueParent ?? aParmAttribute  )
-                // parent should show value changes of the subUI cell
-            }
-//            NSLog("PGLSelectParmController #attributeValueChanged \(displayCell)")
-            showTextValueInCell(aParmAttribute, displayCell)
-        }
-
-
-    }
+//    func attributeValueChanged() {
+//        //MARK: REFACTOR
+//        // put the value of the tappedAttribute into the cell detail text
+//        // refactor comment - NOT used remove
+////        if let displayCell = parmsTableView.cellForRow(at: selectedCellIndexPath!),
+////            let aParmAttribute = tappedAttribute {
+////            if let aNumberUI = aParmAttribute as? PGLVectorNumeric3UI {
+////                aNumberUI.postUIChange(attribute: aNumberUI.zValueParent ?? aParmAttribute  )
+////                // parent should show value changes of the subUI cell
+////            }
+//////            NSLog("PGLSelectParmController #attributeValueChanged \(displayCell)")
+////            showTextValueInCell(aParmAttribute, displayCell)
+////        }
+//
+//
+//    }
     func highlight(viewNamed: String) {
+        //MARK: REFACTOR
         // a switch statement might be cleaner
         // both UIImageView and UIControls need to be hidden or shown
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight viewNamed \(viewNamed)")
@@ -586,6 +608,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     @IBAction func parmSliderChange(_ sender: UISlider) {
+        //MARK: REFACTOR
         // later move the logic of sliderValueDidChange to here..
 //        sliderValueDidChange(sender)
         // slider in the parmController tableView cell
@@ -594,7 +617,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // timer slider is enabled when the cell is selected
         // see DidSelectRowAt for the TimerSliderUI case where it is enable
 
-        if let target = tappedAttribute {
+        if let target = appStack.targetAttribute {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController #parmSliderChange  value = \(sender.value)")
             target.uiIndexTag = Int(sender.tag)
                 // multiple controls for attribute distinguished by tag
@@ -605,17 +628,16 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             Logger(subsystem: LogSubsystem, category: LogCategory).error( "PGLSelectParmController parmSliderChange fatalError( tappedAttribute is nil, value can not be changed")
             return
         }
-
-
-        attributeValueChanged()
+//        attributeValueChanged()
         imageController?.view.setNeedsDisplay()
     }
-//    func setRotation(_ sender: UISlider) {
-//        if let affineAttribute = tappedAttribute as? PGLFilterAttributeAffine {
-//            affineAttribute.setRotation(radians: sender.value)
-//        }
-//    }
+    func setRotation(_ sender: UISlider) {
+        if let affineAttribute = tappedAttribute as? PGLFilterAttributeAffine {
+            affineAttribute.setRotation(radians: sender.value)
+        }
+    }
     func colorSliderValueDidChange(_ sender: UISlider) {
+        //MARK: REFACTOR
         // from the imageController sliderValueDidChange
         //        NSLog("PGLSelectParmController #sliderValueDidChange to \(sender.value)")
         let senderIndex: Int = Int(sender.tag)
@@ -623,13 +645,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             if let aColor = SliderColor(rawValue: senderIndex) {
                 let sliderValue = (CGFloat)(sender.value)
                 colorAttribute.setColor(color: aColor , newValue: sliderValue  )
-                attributeValueChanged()
+//                attributeValueChanged()
                 imageController?.view.setNeedsDisplay()
             }
         }
     }
 
     func sliderValueDidChange(_ sender: UISlider) {
+        //MARK: REFACTOR
         // slider in the imageController on the image view
         if let target = tappedAttribute {
 //          NSLog("PGLSelectParmController #sliderValueDidChange target = \(target) value = \(sender.value)")
@@ -642,11 +665,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             NSLog("PGLSelectParmController sliderValueDidChange fatalError( tappedAttribute is nil, value can not be changed") }
 
 
-        attributeValueChanged()
+//        attributeValueChanged()
         imageController?.view.setNeedsDisplay()
     }
     // MARK:  UIFontPickerViewControllerDelegate
         func showFontPicker(_ sender: Any) {
+            //MARK: REFACTOR
                 let fontConfig = UIFontPickerViewController.Configuration()
                 fontConfig.includeFaces = false
                 let fontPicker = UIFontPickerViewController(configuration: fontConfig)
@@ -655,6 +679,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             }
 
     func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
+        //MARK: REFACTOR
         if let target = tappedAttribute {
             if target.isFontUI() {
                 let theFont = viewController.selectedFontDescriptor
@@ -667,6 +692,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 // MARK: UITextFieldDelegate
     // called from the textFields of the ImageController
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        //MARK: REFACTOR
+        // are there any senders of this?
+
         // input text from the imageController
 //        NSLog("ParmController textFieldDidEndEditing ")
         if let target = tappedAttribute {
@@ -683,6 +711,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     // add listener for notification of text change
 
     func addTextChangeNotification(textAttributeName: String) {
+        //MARK: REFACTOR
 //        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
@@ -787,6 +816,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
         tappedAttribute = getTappedAttribute(indexPath: indexPath)
+        appStack.targetAttribute = tappedAttribute
+            // pass to the model refectoring
+
 //        NSLog("PGLSelectParmController cellForRowAt tappedAttribute = \(tappedAttribute)")
         let cellIdentifier = tappedAttribute?.uiCellIdentifier() ??  "parmNoDetailCell"
 //      NSLog("PGLSelectParmController cellForRowAt cellIdentifier = \(cellIdentifier)")
@@ -822,6 +854,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("accessoryButtonTappedForRowWith indexPath = \(indexPath)")
 
         tappedAttribute = filterParms[indexPath.section][indexPath.row]  // ERROR is it image or parmAttributes
+        appStack.targetAttribute = tappedAttribute
+            // set the model attribute for the imageController use
+
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController accessoryButtonTappedForRowWith tappedAttribute = \(String(describing: self.tappedAttribute))")
 
         if let attributeClassTapped = tappedAttribute?.attributeClass {
@@ -844,14 +879,19 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //        NSLog("PGLSelectParmController tableView didHighlightRowAt: \(indexPath)")
         selectedCellIndexPath = indexPath
         tappedAttribute = getTappedAttribute(indexPath: indexPath)
+        appStack.targetAttribute = tappedAttribute
+            // pass to the model object refactoring
+
 //        NSLog("PGLSelectParmController didHighlightRowAt \(String(describing: tappedAttribute!.attributeName)) \(String(describing: currentFilter!.filterName))")
     }
 
 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-         panner?.isEnabled = false // only enable pan gesture on certain cases
+        //MARK: REFACTOR
+        // moved to  PGLImageController -
+        imageController?.panner?.isEnabled = false
+//         panner?.isEnabled = false // only enable pan gesture on certain cases
 
 //        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
         if tappedAttribute == nil { return }
@@ -867,7 +907,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         case AttrUIType.pointUI , AttrUIType.rectUI:
 //            var croppingFilter: PGLRectangleFilter?
 
-            panner?.isEnabled = true
+//            panner?.isEnabled = true
+                if let myPanner = imageController?.panner {
+                    myPanner.isEnabled = true
+                }
             selectedParmControlView = parmControl(named: (tappedAttribute!.attributeName)!)
             if let thisAttributeName = tappedAttribute!.attributeName {
                 highlight(viewNamed: thisAttributeName)
@@ -1060,26 +1103,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func cropAction(rectAttribute: PGLAttributeRectangle) {
-        if let rectController = self.imageController?.rectController {
-            let metalView = imageController!.metalController!.view
-            let newFrame = rectController.panEnded(startPoint: self.startPoint, newPoint: self.endPoint, inView:(metalView)!)  // or imageController.metalController.view ?
-            // panEnded handles both modes of resize or move of the pan action
-            // handle the transform coordinates here. Tell the attribute to change the filter to new crop
-            // have it save the old vector
-            // tell the rectController to unhighlight the filterRect box..
-
-            let glkScaleFactorTransform = imageController!.myScaleTransform
-            var yOffset = metalView!.frame.height
-            yOffset = yOffset * -1.0  // negate
-            let glkTranslateTransform  = (CGAffineTransform.init(translationX: 0.0, y: yOffset ))
-            let glkScaleTransform = glkTranslateTransform.concatenating(CGAffineTransform.init(scaleX: 1.0, y: -1.0))
-            let finalTransform = glkScaleTransform.concatenating(glkScaleFactorTransform)
-        // start with the scale of the glkView - scaleFactor = 2.. then do the flip
-
-            let mappedFrame = newFrame.applying(finalTransform)
-            rectAttribute.applyCropRect(mappedCropRect: mappedFrame)
-
-        }
+        imageController?.cropAction(rectAttribute: rectAttribute)
     }
 
     func hideRectController() {
@@ -1162,13 +1186,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     // MARK: Pick Image
 
-    func pickFilter( _ attribute: PGLFilterAttribute) {
-        // real action handled by the seque to the filterManager.
-        // updates to the values occur on the reload after the filterManager
-
-//        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickFilter for attribute = \(attribute)")
-        
-    }
+//    func pickFilter( _ attribute: PGLFilterAttribute) {
+//        // real action handled by the seque to the filterManager.
+//        // updates to the values occur on the reload after the filterManager
+//
+////        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickFilter for attribute = \(attribute)")
+//
+//    }
 
     func pickImage( _ attribute: PGLFilterAttribute) {
         // triggers segue to detail of the collection.
