@@ -27,6 +27,12 @@ class PGLSplitViewController: UISplitViewController, NSFetchedResultsControllerD
             preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary }
         else {
             preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
+        let deviceIdom = traitCollection.userInterfaceIdiom
+        if deviceIdom == .phone
+            { preferredSplitBehavior = UISplitViewController.SplitBehavior.displace }
+//        else
+//            { preferredSplitBehavior = UISplitViewController.SplitBehavior.automatic }
+
         presentsWithGesture = true
         showsSecondaryOnlyButton = true
 
