@@ -248,7 +248,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         //MARK: REFACTOR
         let deviceIdom = traitCollection.userInterfaceIdiom
         if deviceIdom == .pad {
-            imageController?.removeGestureRecogniziers()
+//            imageController?.removeGestureRecogniziers()
             // the imageController may have pan controls showing.
 
             imageController?.hideParmControls() // actually will remove the views
@@ -912,6 +912,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     myPanner.isEnabled = true
                 }
             selectedParmControlView = parmControl(named: (tappedAttribute!.attributeName)!)
+                imageController?.selectedParmControlView = selectedParmControlView
             if let thisAttributeName = tappedAttribute!.attributeName {
                 highlight(viewNamed: thisAttributeName)
                 imageController?.parmSlider.isHidden = true

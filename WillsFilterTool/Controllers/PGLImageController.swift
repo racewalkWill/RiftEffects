@@ -1219,9 +1219,14 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 
 
         func setGestureRecogniziers() {
-    //        NSLog("PGLSelectParmController #setGestureRecogniziers")
+            if panner != nil {
+                NSLog("PGLImageController  SKIP #setGestureRecogniziers, panner exists")
+                return
+                // it is already set
+            }
             panner = UIPanGestureRecognizer(target: self, action: #selector(PGLImageController.panAction(_:)))
             if panner != nil {
+                NSLog("PGLImageController #setGestureRecogniziers")
                 view.addGestureRecognizer(panner!)
                 panner!.isEnabled = false
             }
@@ -1231,6 +1236,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
         func removeGestureRecogniziers() {
 
             if panner != nil {
+                NSLog("PGLImageController #removeGestureRecogniziers")
                 view.removeGestureRecognizer(panner!)
                 panner?.removeTarget(self, action: #selector(PGLImageController.panAction(_:)) )
                 panner = nil
