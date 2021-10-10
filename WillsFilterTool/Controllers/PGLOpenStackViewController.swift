@@ -108,7 +108,19 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
         }
+        // check for zero rows in compact mode and trigger segue  compactOpenToStackView
+        let deviceIdom = traitCollection.userInterfaceIdiom
+        if deviceIdom == .phone {
+            if let mySplitView = splitViewController as? PGLSplitViewController {
+                if !mySplitView.stackProviderHasRows() {
+                    // no stacks .. just go to the stackView for a new one.
+                    performSegue(withIdentifier: "compactOpenToStackView", sender: self)
+            }
+            }
+        }
     }
+
+
 
 
     // MARK: - Table view data source
