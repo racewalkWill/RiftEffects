@@ -26,8 +26,8 @@ let  PGLReloadParmCell = NSNotification.Name(rawValue: "PGLReloadParmCell")
 
 class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableViewDataSource,
              UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate,
-                UIFontPickerViewControllerDelegate
-// PHPickerViewControllerDelegate
+                               UIFontPickerViewControllerDelegate, PHPickerViewControllerDelegate
+
 {
 
     // UITableViewController
@@ -61,7 +61,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     let sectionOther = 2
 
     var imageController: PGLImageController?
-    var usePGLImagePicker = true // false will use the WWDC20 PHPickerViewController image selection
+    var usePGLImagePicker = false // false will use the WWDC20 PHPickerViewController image selection
     // waiting for improvments in PHPickerViewController to use albumId to
     // show last user selection
     
@@ -1203,39 +1203,59 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         if usePGLImagePicker {
             performSegue(withIdentifier: "goToImageCollection", sender: attribute)
         }
-//        else {
-            // waiting for improvments in PHPickerViewController to use albumId to
-            // show last user selection
-//            let photoLibrary = PHPhotoLibrary.shared()
-//                   var configuration = PHPickerConfiguration(photoLibrary: photoLibrary)
-//                if (currentFilter?.isTransitionFilter() ??  false ) {
-//                            configuration.selectionLimit = 0
-//                    }
-//                   let picker = PHPickerViewController(configuration: configuration)
-//                   picker.delegate = self
-//                   present(picker, animated: true)
-//        }
+        else {
+//             waiting for improvments in PHPickerViewController to use albumId to
+//             show last user selection
+            let photoLibrary = PHPhotoLibrary.shared()
+                   var configuration = PHPickerConfiguration(photoLibrary: photoLibrary)
+                if (currentFilter?.isTransitionFilter() ??  false ) {
+                            configuration.selectionLimit = 0
+                    }
+                    // Set the selection behavior to respect the user’s selection order.
+            if #available(iOS 15, *) {
+                configuration.selection = .ordered
+            } else {
+                // Fallback on earlier versions
+            }
+                    // Set the selection limit to enable multiselection.
+                    configuration.selectionLimit = 0
+
+                   let picker = PHPickerViewController(configuration: configuration)
+                   picker.delegate = self
+                   present(picker, animated: true)
+        }
     }
 
 
-//    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-//        picker.dismiss(animated: true)
-//        // waiting for improvments in PHPickerViewController to use albumId to
-//        // show last user selection
-//        // obsolete - remove...
-//        // now user pick is set in PGLUserAssetSelection.setUserPick
-//        //   setUserPick invoked in PGLImagesSelectContainer.viewWillDissappear..
-//        //   i.e. when the back navigation occurs
-//        let identifiers = results.compactMap(\.assetIdentifier)
-//
-//        let selectedImageList = PGLImageList(localAssetIDs: identifiers, albumIds: [] )
-//
-//        guard let targetAttribute = tappedAttribute else {
-//            return
-//        }
-//        currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
-//
-//    }
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        // waiting for improvments in PHPickerViewController to use albumId to
+        // show last user selection
+        // obsolete - remove...
+        // now user pick is set in PGLUserAssetSelection.setUserPick
+        //   setUserPick invoked in PGLImagesSelectContainer.viewWillDissappear..
+        //   i.e. when the back navigation occurs
+        let identifiers = results.compactMap(\.assetIdentifier)
+        // get albumIds for PGLImageList
+        if let itemProvider = results.first?.itemProvider {
+            if itemProvider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+                itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
+                    guard let data = data,
+                          let cgImageSource = CGImageSourceCreateWithData(data as CFData, nil),
+                          let properties = CGImageSourceCopyPropertiesAtIndex(cgImageSource, 0, nil) else { return }
+                    print(properties)
+                }
+            }
+        }
+
+        let selectedImageList = PGLImageList(localAssetIDs: identifiers, albumIds: [] )
+
+        guard let targetAttribute = tappedAttribute else {
+            return
+        }
+        currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
+
+    }
 
 
 
