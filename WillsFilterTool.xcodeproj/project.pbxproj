@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -644,7 +644,7 @@
 				};
 			};
 			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "WillsFilterTool" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -967,7 +967,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = WillsFilterTool/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -993,7 +993,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = WillsFilterTool/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

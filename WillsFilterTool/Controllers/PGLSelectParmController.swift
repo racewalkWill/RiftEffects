@@ -61,7 +61,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     let sectionOther = 2
 
     var imageController: PGLImageController?
-    var usePGLImagePicker = false // false will use the WWDC20 PHPickerViewController image selection
+    
+    var usePGLImagePicker = false  // false will use the WWDC20 PHPickerViewController image selection
     // waiting for improvments in PHPickerViewController to use albumId to
     // show last user selection
     
@@ -1236,19 +1237,24 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         //   setUserPick invoked in PGLImagesSelectContainer.viewWillDissappear..
         //   i.e. when the back navigation occurs
         let identifiers = results.compactMap(\.assetIdentifier)
-        // get albumIds for PGLImageList
-        if let itemProvider = results.first?.itemProvider {
-            if itemProvider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
-                itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
-                    guard let data = data,
-                          let cgImageSource = CGImageSourceCreateWithData(data as CFData, nil),
-                          let properties = CGImageSourceCopyPropertiesAtIndex(cgImageSource, 0, nil) else { return }
-                    print(properties)
+        let itemProviders = results.map(\.itemProvider)
+
+        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
+        NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchResult)")
+
+
+        let selectedImageList = PGLImageList(localIdentifiers: identifiers)
+        for index in 0..<itemProviders.count {
+            let currentItemProvider = itemProviders[index]
+            if currentItemProvider.canLoadObject(ofClass: UIImage.self) {
+                currentItemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+                    if let ciImage = CIImage(image: image as! UIImage) {
+                        selectedImageList.setImage(aCiImage: ciImage, at: index)
+
+                    }
                 }
             }
         }
-
-        let selectedImageList = PGLImageList(localAssetIDs: identifiers, albumIds: [] )
 
         guard let targetAttribute = tappedAttribute else {
             return

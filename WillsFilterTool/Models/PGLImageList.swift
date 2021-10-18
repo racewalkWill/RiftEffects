@@ -89,6 +89,18 @@ class PGLImageList {
 
     }
 
+    convenience init(localIdentifiers: [String]) {
+        // use this when there are no album identfiers
+        // ie using the PHPickerViewController which only returns assetIds
+        self.init()
+//        imageAssets = localPGLAssets
+        assetIDs = localIdentifiers
+//        let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: assetIDs, options: nil)
+        //set up imageAssets
+        imageAssets = getAssets(localIds: assetIDs, albums: [String]())
+
+    }
+
     static var DeviceIsSimulator: Bool?
 
     static func isDeviceASimulator() -> Bool {
@@ -214,7 +226,7 @@ class PGLImageList {
         // in limitedAccess mode there are no user albums accessible
         // in this case we do  have the album of the asset
        // this assumes two matching arrays of same size localId and albums
-
+        // modified for empty albums as in the PHPickerViewController path
 
 
         let idFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIDs, options: nil)
@@ -226,9 +238,12 @@ class PGLImageList {
         //return assetItems as! [PGLAsset]
         var pglAssetItems = [PGLAsset]()
         for (index,anItem) in assetItems.enumerated() {
-
-            pglAssetItems.append(PGLAsset(anItem, collectionId: albums[index] , collectionLocalTitle: nil))
-                // PGLAsset will read collectionTitle 
+            if albums.isEmpty {
+                pglAssetItems.append(PGLAsset(anItem, collectionId: nil , collectionLocalTitle: nil))
+            } else {
+                pglAssetItems.append(PGLAsset(anItem, collectionId: albums[index] , collectionLocalTitle: nil))
+                    // PGLAsset will read collectionTitle
+            }
         }
         return pglAssetItems
     }
@@ -270,7 +285,7 @@ class PGLImageList {
 
 
 
-     func imageFrom(selectedAsset: PGLAsset) ->CIImage? {
+     func imageFrom(selectedAsset: PGLAsset) -> CIImage? {
            // READS the CIImage
         //            options = PHImageRequestOptions()
         //            options.deliveryMode = .highQualityFormat
@@ -285,7 +300,12 @@ class PGLImageList {
         //            The PHImageResultIsDegradedKey key in the result handler’s info parameter indicates when Photos is providing a temporary low-quality image.
 
            var pickedCIImage: CIImage?
-           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+               if let error =  info?[PHImageErrorKey]
+                { NSLog( "PGLImageList imageFrom error = \(error)") }
+               else {
+
+
                guard let theImage = image else { return  }
                if let convertedImage = CoreImage.CIImage(image: theImage ) {
 
@@ -295,9 +315,14 @@ class PGLImageList {
                     } else {
 
                         pickedCIImage = convertedImage.oriented(theOrientation) }
+                }
+
                }
-           })
-           return pickedCIImage
+            }
+           )
+         return pickedCIImage
+                // may be nil if not set in the result handler block
+
        }
 
 
@@ -454,6 +479,10 @@ class PGLImageList {
     //        isAssetList = false
 
         }
+
+    func setImage(aCiImage : CIImage, at: Int ) {
+        images[at] = aCiImage
+    }
 
 
 }
