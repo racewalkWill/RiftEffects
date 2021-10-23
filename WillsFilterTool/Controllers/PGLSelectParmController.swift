@@ -1253,18 +1253,21 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         options.isSynchronous = true
 
 
-        var pglAssetItems = [PGLAsset]()
-        for anObject in fetchResult.objects {
+//        var pglAssetItems = [PGLAsset]()
+//        for anObject in fetchResult.objects {
         //return assetItems as! [PGLAsset
-            let anNewPGLAsset = PGLAsset(sourceAsset: anObject)
-            pglAssetItems.append(anNewPGLAsset)
-        }
-        let selectedImageList = PGLImageList(localPGLAssets: pglAssetItems)
+        let anNewPGLAsset = PGLAsset(sourceAsset: fetchResult.firstObject!)
+
+//            pglAssetItems.append(anNewPGLAsset)
+//        }
+        let selectedImageList = PGLImageList(localPGLAssets: [anNewPGLAsset])
         var pickedCIImage: CIImage?
 
-        for index in 0 ... 0 {
+//        for index in 0 ... 0 {
 //        for index in 0 ..< selectedImageList.sizeCount() {
-            PHImageManager.default().requestImage(for: pglAssetItems[index].asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+
+            //pglAssetItems[index].asset
+            PHImageManager.default().requestImage(for: fetchResult.firstObject! , targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
                 if let error =  info?[PHImageErrorKey]
                  { NSLog( "PGLImageList imageFrom error = \(error)") }
                 else {
@@ -1279,13 +1282,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                              pickedCIImage = convertedImage.oriented(theOrientation) }
                      }
                     if let orientedCIImage = pickedCIImage {
-                        selectedImageList.setImage(aCiImage: orientedCIImage, position: index)
+                        selectedImageList.setImage(aCiImage: orientedCIImage, position: 0)
                     }
                 }
                 }
 
             )
-        }
+//        }
 
         guard let targetAttribute = self.tappedAttribute
             else {  return }
