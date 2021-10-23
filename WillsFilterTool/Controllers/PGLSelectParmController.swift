@@ -1232,10 +1232,20 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         picker.dismiss(animated: true)
         // waiting for improvments in PHPickerViewController to use albumId to
         // show last user selection
-        // obsolete - remove...
-        // now user pick is set in PGLUserAssetSelection.setUserPick
+
         //   setUserPick invoked in PGLImagesSelectContainer.viewWillDissappear..
         //   i.e. when the back navigation occurs
+
+        // logic that seems to work with out a 'NSInternalInconsistencyException', reason: 'Invalid parameter not satisfying: assetUUID'
+        // for each object in the fetchResult  execute the  PHImageManager.default().requestImage
+        // then create the PGLAsset and the PGLImageList
+        // creating PGLAsset and PGLImageList first and using the asset has the failure
+
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.isSynchronous = true
+
         let identifiers = results.compactMap(\.assetIdentifier)
 //        let itemProviders = results.map(\.itemProvider)
 
@@ -1247,55 +1257,33 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             return CGSize(width: view.bounds.width * scale,
                           height: view.bounds.height * scale)
         }
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.isSynchronous = true
 
+        var images = [CIImage]()
 
-//        var pglAssetItems = [PGLAsset]()
-//        for anObject in fetchResult.objects {
-        //return assetItems as! [PGLAsset
-        let anNewPGLAsset = PGLAsset(sourceAsset: fetchResult.firstObject!)
-
-//            pglAssetItems.append(anNewPGLAsset)
-//        }
-        let selectedImageList = PGLImageList(localPGLAssets: [anNewPGLAsset])
-        var pickedCIImage: CIImage?
-
-//        for index in 0 ... 0 {
-//        for index in 0 ..< selectedImageList.sizeCount() {
-
-            //pglAssetItems[index].asset
-            PHImageManager.default().requestImage(for: fetchResult.firstObject! , targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
-                if let error =  info?[PHImageErrorKey]
-                 { NSLog( "PGLImageList imageFrom error = \(error)") }
-                else {
-                    guard let theImage = image else { return  }
-                    if let convertedImage = CoreImage.CIImage(image: theImage ) {
-
-                     let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-                     if PGLImageList.isDeviceASimulator() {
-                             pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
-                         } else {
-
-                             pickedCIImage = convertedImage.oriented(theOrientation) }
-                     }
-                    if let orientedCIImage = pickedCIImage {
-                        selectedImageList.setImage(aCiImage: orientedCIImage, position: 0)
+        for aFetchedImageObject in fetchResult.objects {
+            PHImageManager.default().requestImage(for: aFetchedImageObject  , targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+                    if let error =  info?[PHImageErrorKey]
+                     { NSLog( "PGLImageList imageFrom error = \(error)") }
+                    else {
+                        guard let theImage = image else { return  }
+                        if let convertedImage = CoreImage.CIImage(image: theImage ) {
+                            images.append(convertedImage)
+                        }
                     }
-                }
-                }
-
-            )
-//        }
+            } )
+        }
+        var assets = [PGLAsset]()
+        for index in 0 ..< identifiers.count {
+            let anNewPGLAsset = PGLAsset(sourceAsset: fetchResult.object(at: index))
+            assets.append(anNewPGLAsset)
+            }
+        let selectedImageList = PGLImageList(localPGLAssets: assets)
+        selectedImageList.setImages(ciImageArray: images)
 
         guard let targetAttribute = self.tappedAttribute
             else {  return }
 
         self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
-
-
 
     }
 

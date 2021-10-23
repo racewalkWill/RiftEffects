@@ -473,11 +473,20 @@ class PGLImageList {
         return answerImage
     }
 
-     // may hold objects or images
         func setImages(ciImageArray: [CIImage]) {
-    //        NSLog("PGLImageList setImages( ciImageArray = \(ciImageArray)")
+
             images = ciImageArray
-    //        isAssetList = false
+
+//            let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+//            if PGLImageList.isDeviceASimulator() {
+//                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+//                } else {
+//
+//                    pickedCIImage = convertedImage.oriented(theOrientation) }
+//            }
+//           if let orientedCIImage = pickedCIImage {
+//               selectedImageList.setImage(aCiImage: orientedCIImage, position: 0)
+//           }
 
         }
 
