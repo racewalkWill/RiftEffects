@@ -53,7 +53,7 @@ class PGLImageList {
             return images.isEmpty && !imageAssets.isEmpty
         }
     }
-    private var images = [CIImage]()
+    private var images = [CIImage?]()
     let doResize = true  // working on scaling... boolean switch here
     var userSelection: PGLUserAssetSelection?
 
@@ -78,6 +78,7 @@ class PGLImageList {
             imageAssets = getAssets(localIds: localAssetIDs, albums: albumIds )
 
         }
+
 
     }
 
@@ -480,8 +481,9 @@ class PGLImageList {
 
         }
 
-    func setImage(aCiImage : CIImage, at: Int ) {
-        images[at] = aCiImage
+    func setImage(aCiImage : CIImage, position: Int ) {
+        images.insert( aCiImage, at: position)  // this adjusts the arrary size as needed.
+
     }
 
 

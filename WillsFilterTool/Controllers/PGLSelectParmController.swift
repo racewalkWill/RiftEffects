@@ -1237,29 +1237,62 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         //   setUserPick invoked in PGLImagesSelectContainer.viewWillDissappear..
         //   i.e. when the back navigation occurs
         let identifiers = results.compactMap(\.assetIdentifier)
-        let itemProviders = results.map(\.itemProvider)
+//        let itemProviders = results.map(\.itemProvider)
 
         let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
         NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchResult)")
 
+        var targetSize: CGSize {
+            let scale = UIScreen.main.scale
+            return CGSize(width: view.bounds.width * scale,
+                          height: view.bounds.height * scale)
+        }
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.isSynchronous = true
 
-        let selectedImageList = PGLImageList(localIdentifiers: identifiers)
-        for index in 0..<itemProviders.count {
-            let currentItemProvider = itemProviders[index]
-            if currentItemProvider.canLoadObject(ofClass: UIImage.self) {
-                currentItemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-                    if let ciImage = CIImage(image: image as! UIImage) {
-                        selectedImageList.setImage(aCiImage: ciImage, at: index)
 
+        var pglAssetItems = [PGLAsset]()
+        for anObject in fetchResult.objects {
+        //return assetItems as! [PGLAsset
+            let anNewPGLAsset = PGLAsset(sourceAsset: anObject)
+            pglAssetItems.append(anNewPGLAsset)
+        }
+        let selectedImageList = PGLImageList(localPGLAssets: pglAssetItems)
+        var pickedCIImage: CIImage?
+
+        for index in 0 ... 0 {
+//        for index in 0 ..< selectedImageList.sizeCount() {
+            PHImageManager.default().requestImage(for: pglAssetItems[index].asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+                if let error =  info?[PHImageErrorKey]
+                 { NSLog( "PGLImageList imageFrom error = \(error)") }
+                else {
+                    guard let theImage = image else { return  }
+                    if let convertedImage = CoreImage.CIImage(image: theImage ) {
+
+                     let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+                     if PGLImageList.isDeviceASimulator() {
+                             pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+                         } else {
+
+                             pickedCIImage = convertedImage.oriented(theOrientation) }
+                     }
+                    if let orientedCIImage = pickedCIImage {
+                        selectedImageList.setImage(aCiImage: orientedCIImage, position: index)
                     }
                 }
-            }
+                }
+
+            )
         }
 
-        guard let targetAttribute = tappedAttribute else {
-            return
-        }
-        currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
+        guard let targetAttribute = self.tappedAttribute
+            else {  return }
+
+        self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
+
+
 
     }
 

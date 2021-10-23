@@ -66,6 +66,10 @@ class PGLAsset: Hashable, Equatable  {
         sourceInfo = sourceCollection
     }
 
+    convenience init(sourceAsset: PHAsset) {
+        self.init(sourceAsset, collectionId: nil, collectionLocalTitle: nil)
+    }
+
     var localIdentifier: String { get {
         return asset.localIdentifier
         }
