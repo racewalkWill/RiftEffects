@@ -1218,12 +1218,22 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             } else {
                 // Fallback on earlier versions
             }
+            if let targetAttribute = self.tappedAttribute {
                     // Set the selection limit to enable multiselection.
-                    configuration.selectionLimit = 0
+                if targetAttribute.isTransitionFilter {
+                    configuration.selectionLimit = 0 }
+            else {
+                configuration.selectionLimit = 1 }
 
-                   let picker = PHPickerViewController(configuration: configuration)
-                   picker.delegate = self
-                   present(picker, animated: true)
+            }
+            if let targetAttribute = self.tappedAttribute {
+                if let existingSelectionIDs = targetAttribute.inputCollection?.assetIDs
+                    { configuration.preselectedAssetIdentifiers = existingSelectionIDs }
+            }
+           let picker = PHPickerViewController(configuration: configuration)
+           picker.delegate = self
+
+           present(picker, animated: true)
         }
     }
 
@@ -1241,10 +1251,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // then create the PGLAsset and the PGLImageList
         // creating PGLAsset and PGLImageList first and using the asset has the failure
 
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.isSynchronous = true
+
 
         let identifiers = results.compactMap(\.assetIdentifier)
 //        let itemProviders = results.map(\.itemProvider)
@@ -1252,16 +1259,15 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
         NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchResult)")
 
-        var targetSize: CGSize {
-            let scale = UIScreen.main.scale
-            return CGSize(width: view.bounds.width * scale,
-                          height: view.bounds.height * scale)
-        }
 
         var images = [CIImage]()
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.isSynchronous = true
 
         for aFetchedImageObject in fetchResult.objects {
-            PHImageManager.default().requestImage(for: aFetchedImageObject  , targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+            PHImageManager.default().requestImage(for: aFetchedImageObject  , targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
                     if let error =  info?[PHImageErrorKey]
                      { NSLog( "PGLImageList imageFrom error = \(error)") }
                     else {
@@ -1277,11 +1283,15 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             let anNewPGLAsset = PGLAsset(sourceAsset: fetchResult.object(at: index))
             assets.append(anNewPGLAsset)
             }
-        let selectedImageList = PGLImageList(localPGLAssets: assets)
-        selectedImageList.setImages(ciImageArray: images)
-
         guard let targetAttribute = self.tappedAttribute
             else {  return }
+
+        let selectedImageList = PGLImageList(localPGLAssets: assets)
+            // with the PKPickerViewController.. the asset.LocalIdentifier gets niled on the second use
+            // it should have carried into the localPGLAssets assigment but .. something happens internally
+            // also set the imageList assetIDs directly to match the images array
+        selectedImageList.assetIDs = identifiers
+        selectedImageList.setImages(ciImageArray: images)
 
         self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
 
