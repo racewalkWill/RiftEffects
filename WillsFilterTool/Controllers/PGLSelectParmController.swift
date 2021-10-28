@@ -62,9 +62,10 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     var imageController: PGLImageController?
     
-    var usePGLImagePicker = false  // false will use the WWDC20 PHPickerViewController image selection
-    // waiting for improvments in PHPickerViewController to use albumId to
-    // show last user selection
+    var usePGLImagePicker = (UITraitCollection.current.userInterfaceIdiom == .pad)
+        // false will use the WWDC20 PHPickerViewController image selection
+        // true - iPad uses PGLImagePicker which tracks the album source of the picked image
+
     
     var scaleFactor: CGFloat = 2.0
 
