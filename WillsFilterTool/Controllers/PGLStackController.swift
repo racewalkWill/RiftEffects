@@ -328,7 +328,23 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             // chooses new filter
     }
 
+    @IBAction func showImageControllerAction(_ sender: UIBarButtonItem) {
 
+        performSegue(withIdentifier:"showImageController", sender:self)
+//        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+//            // show the new results !
+//
+//        showStackControllerAction()
+
+    }
+
+//    func showStackControllerAction() {
+//        // other part of split should navigate back to the stack controller
+//        // after the Random button is clicked
+//        let goToStack = Notification(name: PGLLoadedDataStack)
+//        NotificationCenter.default.post(goToStack)
+//
+//    }
 
     // MARK: - LongPressGestures
     func setLongPressGesture() {
@@ -435,18 +451,34 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         // can check  if segue.identifier == "showCollection" and
         // segue.destination as? PGLImageCollectionMasterController ...
         // but currently only one segue so just set the model object for the cell
-        if segue.identifier == "showParmSettings" {
-            // didSelectRowAt has set the appStack model
-            return //
-        }
-        if let cellDetail = sender as? UITableViewCell {
 
-            if let thePath = tableView.indexPath(for: cellDetail) {
-                let cellObject = appStack.cellFilters[thePath.row]
-                appStack.moveTo(filterIndent: cellObject)
-            }
+//        if let cellDetail = sender as? UITableViewCell  {
+//
+//            if let thePath = tableView.indexPath(for: cellDetail) {
+//                let cellObject = appStack.cellFilters[thePath.row]
+//                appStack.moveTo(filterIndent: cellObject)
+//            }
+//
+//        }
 
+        switch segue.identifier {
+            case "showImageController":
+                let controller = segue.destination as! PGLImageController
+
+                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                controller.navigationItem.leftItemsSupplementBackButton = true
+            case "showParmSettings" :
+                    // didSelectRowAt has set the appStack model
+                return
+            default:
+                return
         }
+
+//        if segue.identifier == "showParmSettings" {
+//            // didSelectRowAt has set the appStack model
+//            return //
+//        }
+
 
     }
 

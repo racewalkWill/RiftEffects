@@ -77,7 +77,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
     @IBAction func sliderValueEvent(_ sender: UISlider) {
-        //MARK: REFACTOR
+
         sliderValueDidChange(sender)
         // should be self sliderValueDidChange...
         // hook up the event triggers !
@@ -614,7 +614,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     // MARK: public protocol to vars
 
     func setParms(newFilterParms: [PGLFilterAttribute]) {
-        //MARK: REFACTOR
+
         // Sender?
         // set parms with the attributeName as the dictionary key for the filterAttribute
         // what about clearing old  buttons  in updateParmControls?
@@ -626,13 +626,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         updateParmControls()
     }
 
-// MARK: REFACTOR Implementation
     // moved or new method for iPhone
     // the Parm controller may not be loaded in
     // the secondaryViewOnly mode - only the imageController is loaded
 
     func highlight(viewNamed: String) {
-        //MARK: REFACTOR
+
         // a switch statement might be cleaner
         // both UIImageView and UIControls need to be hidden or shown
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight viewNamed \(viewNamed)")
@@ -673,7 +672,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //MARK: REFACTOR
+        
         // moved to  PGLImageController -
          panner?.isEnabled = false // only enable pan gesture on certain cases
 
@@ -750,7 +749,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     func addTextChangeNotification(textAttributeName: String) {
-        //MARK: REFACTOR
+
 //        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
@@ -977,7 +976,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
     func cropAction(rectAttribute: PGLAttributeRectangle) {
-        //MARK: REFACTOR
+
         // assumes RectController is setup
             let metalView = metalController!.view
         if let newFrame = rectController?.panEnded(startPoint: self.startPoint, newPoint: self.endPoint, inView:(metalView)!)
@@ -1159,7 +1158,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 
     // MARK: Sliders
 //    @IBAction func parmSliderChange(_ sender: UISlider) {
-//        //MARK: REFACTOR
+//
 //        // later move the logic of sliderValueDidChange to here..
 ////        sliderValueDidChange(sender)
 //        // slider in the parmController tableView cell
@@ -1183,7 +1182,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 //    }
 
     func colorSliderValueDidChange(_ sender: UISlider) {
-        //MARK: REFACTOR
+
         // from the imageController sliderValueDidChange
         //        NSLog("PGLSelectParmController #sliderValueDidChange to \(sender.value)")
         let senderIndex: Int = Int(sender.tag)
@@ -1198,7 +1197,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
     }
 
     func sliderValueDidChange(_ sender: UISlider) {
-        //MARK: REFACTOR
+
         // slider in the imageController on the image view
         if let target = appStack.targetAttribute {
 //          NSLog("PGLSelectParmController #sliderValueDidChange target = \(target) value = \(sender.value)")
@@ -1244,7 +1243,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 
         }
     func panMoveChange( endingPoint: CGPoint, parm: PGLFilterAttribute) {
-        //MARK: REFACTOR
+
         // add move or resize mode logic
         // delta logic - the startPoint is just the previous change method endingPoint
         // also note that startPoint is an instance var. should be parm also, like the ending point??
@@ -1270,7 +1269,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 
 
     func panEnded( endingPoint: CGPoint, parm: PGLFilterAttribute) {
-        //MARK: REFACTOR
+
 
         // add move or resize mode logic
         // tap action should have set the rectController
@@ -1293,7 +1292,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
     }
 
     @objc func panAction(_ sender: UIPanGestureRecognizer) {
-        //MARK: REFACTOR
+
 
         // should enable only when a point parm is selected.
         let gesturePoint = sender.location(in: view)
@@ -1349,7 +1348,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 
         // MARK:  UIFontPickerViewControllerDelegate
             func showFontPicker(_ sender: Any) {
-                //MARK: REFACTOR
+
                     let fontConfig = UIFontPickerViewController.Configuration()
                     fontConfig.includeFaces = false
                     let fontPicker = UIFontPickerViewController(configuration: fontConfig)
@@ -1358,7 +1357,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
                 }
 
         func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
-            //MARK: REFACTOR
+
             if let target = appStack.targetAttribute {
                 if target.isFontUI() {
                     let theFont = viewController.selectedFontDescriptor
@@ -1371,7 +1370,7 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
     // MARK: UITextFieldDelegate
         // called from the textFields of the ImageController
         func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-            //MARK: REFACTOR
+
             // are there any senders of this?
 
             // input text from the imageController

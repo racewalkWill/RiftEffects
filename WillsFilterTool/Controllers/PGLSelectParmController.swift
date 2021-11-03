@@ -254,10 +254,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             // the imageController may have pan controls showing.
 
             imageController?.hideParmControls() // actually will remove the views
-        }
+        } else {
             // else on the iphone the parm controller is moving off screen but we are changging parms
-            // keep the parmControls visible
-
+            // keep the parmControls visible if it is only one split showing
+            if !(splitViewController?.isCollapsed ?? true) {
+                imageController?.hideParmControls()
+            }
+        }
         for anObserver in  notifications {
                        NotificationCenter.default.removeObserver(anObserver)
                    }
@@ -1262,6 +1265,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 
         var images = [CIImage]()
+        var pickedCIImage: CIImage?
+
         let options = PHImageRequestOptions()
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
@@ -1274,7 +1279,15 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     else {
                         guard let theImage = image else { return  }
                         if let convertedImage = CoreImage.CIImage(image: theImage ) {
-                            images.append(convertedImage)
+                            let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+                            if PGLImageList.isDeviceASimulator() {
+                                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+                                } else {
+
+                                    pickedCIImage = convertedImage.oriented(theOrientation) }
+                            }
+                        if pickedCIImage != nil {
+                            images.append(pickedCIImage!)
                         }
                     }
             } )

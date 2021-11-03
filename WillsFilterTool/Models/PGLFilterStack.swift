@@ -53,7 +53,12 @@ class PGLFilterStack  {
     var parentAttribute: PGLFilterAttribute?
 
 //    var parentStack: PGLFilterStack?
-    lazy var imageCIContext: CIContext = {return Renderer.ciContext}()
+    lazy var imageCIContext: CIContext = { () -> CIContext in
+        guard let theRenderContext = Renderer.ciContext
+        else {return CIContext() }
+        return theRenderContext
+    }()
+
 
     var frameValueDeltas = PGLFilterChange()
     var storedStack: CDFilterStack? // managedObject write/read to Core Data

@@ -13,30 +13,58 @@ import CoreData
 
 
 
-class PGLSplitViewController: UISplitViewController, NSFetchedResultsControllerDelegate {
+class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
     override func viewDidLoad() {
 
         super.viewDidLoad()
- //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
+        delegate = self
+//       navigationItem.leftBarButtonItem = self.displayModeButtonItem
         if stackProviderHasRows() {
             preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary }
         else {
             preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
-        let deviceIdom = traitCollection.userInterfaceIdiom
-        if deviceIdom == .phone
-            { preferredSplitBehavior = UISplitViewController.SplitBehavior.displace }
+        // if the smaller iPhone is compact then should be the two column where the columns are controlled by buttons
+        // used to have this.. check versions
+
+//        let deviceIdom = traitCollection.userInterfaceIdiom
+//        if deviceIdom == .phone
+//            { preferredSplitBehavior = UISplitViewController.SplitBehavior.displace }
 //        else
 //            { preferredSplitBehavior = UISplitViewController.SplitBehavior.automatic }
-
+        let horizontalSize = traitCollection.horizontalSizeClass
+        if horizontalSize == .compact {
+//            navigationItem.leftItemsSupplementBackButton = true
+            // should be in double column style
+            // init(style: UISplitViewController.Style)
+//            let showImageControllerBtn = UIBarButtonItem(title: "View", style: .plain, target: self , action: #selector(showImageCompact))
+//            navigationItem.setRightBarButton(showImageControllerBtn, animated: false)
+        }
         presentsWithGesture = true
         showsSecondaryOnlyButton = true
+            // this button shows on the navigation of the secondary controller - the imageController
 
 
         // Do any additional setup after loading the view.
         checkPhotoLibraryAccess()
 
     }
+
+//    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+//        let horizontalSize = traitCollection.horizontalSizeClass
+//        if horizontalSize == .compact {
+//             return .secondary  // makes the imageController in secondary show
+//            // return .compact this does not show the imagaController
+//        }
+//        else { return .secondary}
+//
+//    }
+//
+//    @objc func showImageCompact() {
+//        // in horizontal compact mode on the iPhone the split view controller is not showing the secondary window.
+//        // force it
+//        show(UISplitViewController.Column.secondary)
+//    }
 
     @IBAction func goToSplitView(segue: UIStoryboardSegue) {
         Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLParmsFilterTabsController goToSplitView segue")
@@ -60,7 +88,10 @@ class PGLSplitViewController: UISplitViewController, NSFetchedResultsControllerD
 // MARK: iPhone Navigation
     override func viewWillLayoutSubviews() {
 
-     navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+//     navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+        // 2021-11-01 comment out the assignment and the triple column navigation comes back.
+        // still not showing the imageController
+
         // turns on the full screen toggle button on the left nav bar
         // Do not change the configuration of the returned button.
         // The split view controller updates the button’s configuration and appearance automatically based on the current display mode
@@ -69,9 +100,10 @@ class PGLSplitViewController: UISplitViewController, NSFetchedResultsControllerD
 
         let deviceIdom = traitCollection.userInterfaceIdiom
         if deviceIdom == .phone {
-            navigationItem.leftItemsSupplementBackButton = false
+            navigationItem.leftItemsSupplementBackButton = true
             navigationItem.hidesBackButton = false
-        }
+            showsSecondaryOnlyButton = true
+            }
         else {
             navigationItem.leftItemsSupplementBackButton = true
         }
