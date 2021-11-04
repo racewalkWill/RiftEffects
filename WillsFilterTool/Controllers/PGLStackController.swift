@@ -330,10 +330,11 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @IBAction func showImageControllerAction(_ sender: UIBarButtonItem) {
 
-        performSegue(withIdentifier:"showImageController", sender:self)
-//        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
-//            // show the new results !
-//
+//        performSegue(withIdentifier:"showImageController", sender:self)
+        splitViewController?.show(.secondary)
+        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+            // show the new results !
+
 //        showStackControllerAction()
 
     }

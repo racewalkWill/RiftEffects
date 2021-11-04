@@ -221,6 +221,14 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         if !tableView.isEditing {
             splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
         }
+         let deviceIdom = traitCollection.userInterfaceIdiom
+         if deviceIdom == .phone {
+             // test for compact format here??
+             // trying to navigate to the stackController...
+//             splitViewController?.setViewController(PGLStackController(), for: .compact)
+             splitViewController?.show(.secondary)
+
+         }
         
 //        dismiss(animated: true, completion: nil )
         // let user touch outside of the controller to dismiss
@@ -302,6 +310,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             NotificationCenter.default.post(stackNotification)
             let filterNotification = Notification(name: PGLCurrentFilterChange) // turns on the filter cell detailDisclosure button even on cancels
             NotificationCenter.default.post(filterNotification)
+            
         }
     } // end internal class DataSource
 }

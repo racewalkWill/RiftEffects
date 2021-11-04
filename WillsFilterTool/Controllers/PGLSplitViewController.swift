@@ -27,11 +27,7 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         // if the smaller iPhone is compact then should be the two column where the columns are controlled by buttons
         // used to have this.. check versions
 
-//        let deviceIdom = traitCollection.userInterfaceIdiom
-//        if deviceIdom == .phone
-//            { preferredSplitBehavior = UISplitViewController.SplitBehavior.displace }
-//        else
-//            { preferredSplitBehavior = UISplitViewController.SplitBehavior.automatic }
+
         let horizontalSize = traitCollection.horizontalSizeClass
         if horizontalSize == .compact {
 //            navigationItem.leftItemsSupplementBackButton = true
@@ -39,6 +35,8 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
             // init(style: UISplitViewController.Style)
 //            let showImageControllerBtn = UIBarButtonItem(title: "View", style: .plain, target: self , action: #selector(showImageCompact))
 //            navigationItem.setRightBarButton(showImageControllerBtn, animated: false)
+//            show(UISplitViewController.Column.primary)
+            setViewController(PGLOpenStackViewController(), for: .compact)
         }
         presentsWithGesture = true
         showsSecondaryOnlyButton = true

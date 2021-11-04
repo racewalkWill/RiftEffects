@@ -397,6 +397,7 @@
 			children = (
 				A3BF506424D32A3400CD5114 /* ListCell.swift */,
 				A3BF506524D32A3400CD5114 /* BadgeSupplementrayView.swift */,
+				A3F1075625604EB1005E86B4 /* cell xib */,
 				A3BF506624D32A3400CD5114 /* TextCell.swift */,
 				A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */,
 				A3BF506924D32A3400CD5114 /* TitleSupplementaryView.swift */,
@@ -541,7 +542,6 @@
 				A3BF505A24D32A3400CD5114 /* PGLTableCellAction.swift */,
 				A3BF508924D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift */,
 				A3BF507924D32A3400CD5114 /* PGLDynamicDragBehavior.swift */,
-				A3F1075625604EB1005E86B4 /* cell xib */,
 				A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */,
 				A3BF50AF24D32A3400CD5114 /* PGLDataSource.swift */,
 				A3BF50B424D32A3400CD5114 /* PGLDiffableDataSource.swift */,
