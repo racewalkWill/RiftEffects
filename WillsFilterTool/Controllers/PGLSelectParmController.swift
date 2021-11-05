@@ -1232,12 +1232,19 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             }
             if let targetAttribute = self.tappedAttribute {
                 if let existingSelectionIDs = targetAttribute.inputCollection?.assetIDs
-                    { configuration.preselectedAssetIdentifiers = existingSelectionIDs }
+                    { let hasNullID = existingSelectionIDs.contains(where: { anAssetIDString in
+                        // "(null)/L0/001" is error string
+                        return anAssetIDString.hasPrefix("(null)/")
+                    })
+                    if !hasNullID {
+                        configuration.preselectedAssetIdentifiers = existingSelectionIDs }
+                    }
             }
            let picker = PHPickerViewController(configuration: configuration)
            picker.delegate = self
+            present(picker, animated: true)
 
-           present(picker, animated: true)
+
         }
     }
 
