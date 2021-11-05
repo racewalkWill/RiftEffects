@@ -114,7 +114,13 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             if let mySplitView = splitViewController as? PGLSplitViewController {
                 if !mySplitView.stackProviderHasRows() {
                     // no stacks .. just go to the stackView for a new one.
-                    performSegue(withIdentifier: "compactOpenToStackView", sender: self)
+                    //  init(identifier: NSStoryboardSegue.Identifier,
+//                    source sourceController: Any,
+//               destination destinationController: Any,
+//            performHandler: @escaping () -> Void)
+
+//                    performSegue(withIdentifier: "compactOpenToStackView", sender: self)
+//                    performSegue(withIdentifier: "openStackView", sender: self)
             }
             }
         }
