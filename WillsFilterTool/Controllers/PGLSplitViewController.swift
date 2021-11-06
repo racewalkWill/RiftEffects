@@ -20,7 +20,9 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         super.viewDidLoad()
         delegate = self
 //       navigationItem.leftBarButtonItem = self.displayModeButtonItem
-        if stackProviderHasRows() {
+        let stackProviderCanOpen = stackProviderHasRows()
+            
+        if stackProviderCanOpen {
             preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary }
         else {
             preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
@@ -36,7 +38,18 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 //            let showImageControllerBtn = UIBarButtonItem(title: "View", style: .plain, target: self , action: #selector(showImageCompact))
 //            navigationItem.setRightBarButton(showImageControllerBtn, animated: false)
 //            show(UISplitViewController.Column.primary)
-            setViewController(PGLOpenStackViewController(), for: .compact)
+            
+            if !stackProviderCanOpen {
+                setViewController(PGLStackController(), for: .compact)
+                    // no navigation controller from the setViewController mode..
+
+//                setViewController(PGLOpenStackViewController(), for: .compact) }
+//            else {
+//                setViewController(PGLStackController(), for: .compact)
+//                    // no navigation controller from the setViewController mode..
+//                    // push a navigation controller or is it not allowed?
+//            }
+            }
         }
         presentsWithGesture = true
         showsSecondaryOnlyButton = true

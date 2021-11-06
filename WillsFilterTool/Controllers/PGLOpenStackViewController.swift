@@ -121,12 +121,27 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 //                    performSegue(withIdentifier: "compactOpenToStackView", sender: self)
 //                    performSegue(withIdentifier: "openStackView", sender: self)
+//                    mySplitView.show(.supplementary) // should go to the stackView
+
+//                    mySplitView.setViewController(PGLStackController(), for: .compact)
+                            // or secondary?
+
             }
             }
         }
     }
 
-
+    override func viewWillLayoutSubviews() {
+        let deviceIdom = traitCollection.userInterfaceIdiom
+        if deviceIdom == .phone {
+            navigationItem.leftItemsSupplementBackButton = true
+            navigationItem.hidesBackButton = false
+//            showsSecondaryOnlyButton = true
+            }
+        else {
+            navigationItem.leftItemsSupplementBackButton = true
+        }
+    }
 
 
     // MARK: - Table view data source
@@ -224,17 +239,28 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
         dataSource.tableView(tableView, didSelectRowAt: indexPath)
-        if !tableView.isEditing {
-            splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
-        }
+            // dataSource #didSelectRow updates the appStack and loads from coreData
+
          let deviceIdom = traitCollection.userInterfaceIdiom
          if deviceIdom == .phone {
+             // test for compact fo
+             // keep the prefferred display mode
+         }
+         else {
+             if !tableView.isEditing {
+                 self.splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
+             }
+         }
+         
+
+//         let deviceIdom = traitCollection.userInterfaceIdiom
+//         if deviceIdom == .phone {
              // test for compact format here??
              // trying to navigate to the stackController...
 //             splitViewController?.setViewController(PGLStackController(), for: .compact)
-             splitViewController?.show(.secondary)
+//             splitViewController?.show(.secondary)
 
-         }
+//         }
         
 //        dismiss(animated: true, completion: nil )
         // let user touch outside of the controller to dismiss

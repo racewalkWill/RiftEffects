@@ -79,7 +79,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         updateNavigationBar()
         setLongPressGesture()
         if appStack.outputStack.isEmptyStack() {
-            self.performSegue(withIdentifier: "showFilterController" , sender: nil)
+            let horizontalSize = traitCollection.horizontalSizeClass
+            if horizontalSize != .compact {
+                self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
         }
     }
 
