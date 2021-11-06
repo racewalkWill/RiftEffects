@@ -130,6 +130,12 @@ class PGLMainFilterController: PGLFilterTableController {
 
     }
 
+    @IBAction func showImageController(_ sender: UIBarButtonItem) {
+        splitViewController?.show(.secondary)
+        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+    }
+
+
     func selectedFilterDescriptor(inTable: UITableView)-> PGLFilterDescriptor? {
         var selectedDescriptor: PGLFilterDescriptor?
 

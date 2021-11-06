@@ -128,7 +128,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         let verticalSize = traitCollection.verticalSizeClass
         if verticalSize != .compact {
             var theButtons = navigationItem.leftBarButtonItems
-            theButtons?.removeLast(1)
+            theButtons?.removeLast(1)  // removes the openImageController button
             navigationItem.setLeftBarButtonItems(theButtons, animated: false)
 
         }
@@ -342,12 +342,11 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     @IBAction func showImageControllerAction(_ sender: UIBarButtonItem) {
 
-//        performSegue(withIdentifier:"showImageController", sender:self)
+
         splitViewController?.show(.secondary)
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
             // show the new results !
 
-//        showStackControllerAction()
 
     }
 

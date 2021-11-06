@@ -72,6 +72,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     // MARK: control Vars
 
+    var keepParmSlidersVisible = false
+        // when navigating in .phone vertical compact from parms keep
+        // parm value controllers visible in the imageController
 
     @IBOutlet weak var parmSlider: UISlider!
 
@@ -429,7 +432,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
             self.updateNavigationBar()
-            self.hideParmControls()
+            if !self.keepParmSlidersVisible {
+                self.hideParmControls()
+            }
 
             self.view.isHidden = true
             // makes the image go blank after the trash button loads a new stack.
@@ -443,7 +448,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             self.filterValuesHaveChanged = true
-            self.hideParmControls()
+            if !self.keepParmSlidersVisible {
+                self.hideParmControls()
+
+            }
             if (self.view.isHidden ) {
                     self.view.isHidden = false }
                        // needed to refresh the view after the trash creates a new stack.
