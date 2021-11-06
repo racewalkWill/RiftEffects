@@ -79,8 +79,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         updateNavigationBar()
         setLongPressGesture()
         if appStack.outputStack.isEmptyStack() {
-            let horizontalSize = traitCollection.horizontalSizeClass
-            if horizontalSize != .compact {
+            let verticalSize = traitCollection.verticalSizeClass
+            if verticalSize != .compact {
                 self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
         }
     }
@@ -123,6 +123,16 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
 
     // MARK: ToolBar
     fileprivate func addToolBarButtons() {
+
+
+        let verticalSize = traitCollection.verticalSizeClass
+        if verticalSize != .compact {
+            var theButtons = navigationItem.leftBarButtonItems
+            theButtons?.removeLast(1)
+            navigationItem.setLeftBarButtonItems(theButtons, animated: false)
+
+        }
+
         filterShiftBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
         filterShiftImage = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
         // both use the same selector...

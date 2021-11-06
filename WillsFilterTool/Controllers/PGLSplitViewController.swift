@@ -30,27 +30,6 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         // used to have this.. check versions
 
 
-        let horizontalSize = traitCollection.horizontalSizeClass
-        if horizontalSize == .compact {
-//            navigationItem.leftItemsSupplementBackButton = true
-            // should be in double column style
-            // init(style: UISplitViewController.Style)
-//            let showImageControllerBtn = UIBarButtonItem(title: "View", style: .plain, target: self , action: #selector(showImageCompact))
-//            navigationItem.setRightBarButton(showImageControllerBtn, animated: false)
-//            show(UISplitViewController.Column.primary)
-            
-            if !stackProviderCanOpen {
-                setViewController(PGLStackController(), for: .compact)
-                    // no navigation controller from the setViewController mode..
-
-//                setViewController(PGLOpenStackViewController(), for: .compact) }
-//            else {
-//                setViewController(PGLStackController(), for: .compact)
-//                    // no navigation controller from the setViewController mode..
-//                    // push a navigation controller or is it not allowed?
-//            }
-            }
-        }
         presentsWithGesture = true
         showsSecondaryOnlyButton = true
             // this button shows on the navigation of the secondary controller - the imageController
@@ -62,6 +41,10 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
     }
 
 //    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+    // note this commented out code should be testing the verticalSizeClass for compact..
+    //  all of the iPad,iPhones have horizontal compact.
+    //  only the vertical on iPad has vertical different  = .Regular
+    
 //        let horizontalSize = traitCollection.horizontalSizeClass
 //        if horizontalSize == .compact {
 //             return .secondary  // makes the imageController in secondary show
