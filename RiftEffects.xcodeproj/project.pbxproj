@@ -146,7 +146,7 @@
 		A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLInfoPrivacyController.swift; sourceTree = "<group>"; };
 		A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
 		A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDemo.swift; sourceTree = "<group>"; };
-		A341185E25C3008100587590 /* WillsFilterTool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WillsFilterTool.entitlements; sourceTree = "<group>"; };
+		A341185E25C3008100587590 /* RiftEffects.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RiftEffects.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterAction.swift; sourceTree = "<group>"; };
 		A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -165,10 +165,10 @@
 		A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDisparityFilter.swift; sourceTree = "<group>"; };
 		A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialogController.swift; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
-		A3BF500924D3298F00CD5114 /* WillsFilterTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WillsFilterTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WillsFilterToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF500924D3298F00CD5114 /* RiftEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiftEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF502224D3299100CD5114 /* RiftEffectsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiftEffectsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A3BF502D24D3299100CD5114 /* WillsFilterToolUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WillsFilterToolUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3BF502D24D3299100CD5114 /* RiftEffectsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiftEffectsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF503124D3299100CD5114 /* SurrealityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurrealityUITests.swift; sourceTree = "<group>"; };
 		A3BF503324D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3BF504124D32A3400CD5114 /* PGLResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLResultsController.swift; sourceTree = "<group>"; };
@@ -310,9 +310,9 @@
 		A3BF500024D3298F00CD5114 = {
 			isa = PBXGroup;
 			children = (
-				A3BF500B24D3298F00CD5114 /* WillsFilterTool */,
-				A3BF502524D3299100CD5114 /* WillsFilterToolTests */,
-				A3BF503024D3299100CD5114 /* WillsFilterToolUITests */,
+				A3BF500B24D3298F00CD5114 /* RiftEffects */,
+				A3BF502524D3299100CD5114 /* RiftEffectsTests */,
+				A3BF503024D3299100CD5114 /* RiftEffectsUITests */,
 				A3BF500A24D3298F00CD5114 /* Products */,
 				A341186225C300F300587590 /* Frameworks */,
 			);
@@ -321,17 +321,17 @@
 		A3BF500A24D3298F00CD5114 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A3BF500924D3298F00CD5114 /* WillsFilterTool.app */,
-				A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */,
-				A3BF502D24D3299100CD5114 /* WillsFilterToolUITests.xctest */,
+				A3BF500924D3298F00CD5114 /* RiftEffects.app */,
+				A3BF502224D3299100CD5114 /* RiftEffectsTests.xctest */,
+				A3BF502D24D3299100CD5114 /* RiftEffectsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A3BF500B24D3298F00CD5114 /* WillsFilterTool */ = {
+		A3BF500B24D3298F00CD5114 /* RiftEffects */ = {
 			isa = PBXGroup;
 			children = (
-				A341185E25C3008100587590 /* WillsFilterTool.entitlements */,
+				A341185E25C3008100587590 /* RiftEffects.entitlements */,
 				A35FF77A26DC320400D78252 /* License */,
 				A3BF507624D32A3400CD5114 /* Main.storyboard */,
 				A3E6243C2691261A0017372F /* Settings.bundle */,
@@ -348,10 +348,10 @@
 				A3BF506224D32A3400CD5114 /* Assets.xcassets */,
 				A3C71708255C3E93005C2CAD /* obsolete */,
 			);
-			path = WillsFilterTool;
+			path = RiftEffects;
 			sourceTree = "<group>";
 		};
-		A3BF502524D3299100CD5114 /* WillsFilterToolTests */ = {
+		A3BF502524D3299100CD5114 /* RiftEffectsTests */ = {
 			isa = PBXGroup;
 			children = (
 				A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */,
@@ -364,10 +364,10 @@
 				A3BF514924D32D3400CD5114 /* GlanceTests */,
 				A3BF502824D3299100CD5114 /* Info.plist */,
 			);
-			path = WillsFilterToolTests;
+			path = RiftEffectsTests;
 			sourceTree = "<group>";
 		};
-		A3BF503024D3299100CD5114 /* WillsFilterToolUITests */ = {
+		A3BF503024D3299100CD5114 /* RiftEffectsUITests */ = {
 			isa = PBXGroup;
 			children = (
 				A3BF515624D32D7400CD5114 /* GlanceUITests */,
@@ -375,7 +375,7 @@
 				A3BF515724D32D7400CD5114 /* GlanceUITests.swift */,
 				A3BF503324D3299100CD5114 /* Info.plist */,
 			);
-			path = WillsFilterToolUITests;
+			path = RiftEffectsUITests;
 			sourceTree = "<group>";
 		};
 		A3BF504224D32A3400CD5114 /* ImportedFilters */ = {
@@ -567,9 +567,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A3BF500824D3298F00CD5114 /* WillsFilterTool */ = {
+		A3BF500824D3298F00CD5114 /* RiftEffects */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterTool" */;
+			buildConfigurationList = A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "RiftEffects" */;
 			buildPhases = (
 				A3BF500524D3298F00CD5114 /* Sources */,
 				A3BF500624D3298F00CD5114 /* Frameworks */,
@@ -579,14 +579,14 @@
 			);
 			dependencies = (
 			);
-			name = WillsFilterTool;
+			name = RiftEffects;
 			productName = Surreality;
-			productReference = A3BF500924D3298F00CD5114 /* WillsFilterTool.app */;
+			productReference = A3BF500924D3298F00CD5114 /* RiftEffects.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A3BF502124D3299100CD5114 /* WillsFilterToolTests */ = {
+		A3BF502124D3299100CD5114 /* RiftEffectsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolTests" */;
+			buildConfigurationList = A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "RiftEffectsTests" */;
 			buildPhases = (
 				A3BF501E24D3299100CD5114 /* Sources */,
 				A3BF501F24D3299100CD5114 /* Frameworks */,
@@ -597,14 +597,14 @@
 			dependencies = (
 				A3BF502424D3299100CD5114 /* PBXTargetDependency */,
 			);
-			name = WillsFilterToolTests;
+			name = RiftEffectsTests;
 			productName = SurrealityTests;
-			productReference = A3BF502224D3299100CD5114 /* WillsFilterToolTests.xctest */;
+			productReference = A3BF502224D3299100CD5114 /* RiftEffectsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A3BF502C24D3299100CD5114 /* WillsFilterToolUITests */ = {
+		A3BF502C24D3299100CD5114 /* RiftEffectsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolUITests" */;
+			buildConfigurationList = A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "RiftEffectsUITests" */;
 			buildPhases = (
 				A3BF502924D3299100CD5114 /* Sources */,
 				A3BF502A24D3299100CD5114 /* Frameworks */,
@@ -615,9 +615,9 @@
 			dependencies = (
 				A3BF502F24D3299100CD5114 /* PBXTargetDependency */,
 			);
-			name = WillsFilterToolUITests;
+			name = RiftEffectsUITests;
 			productName = SurrealityUITests;
-			productReference = A3BF502D24D3299100CD5114 /* WillsFilterToolUITests.xctest */;
+			productReference = A3BF502D24D3299100CD5114 /* RiftEffectsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -643,7 +643,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "WillsFilterTool" */;
+			buildConfigurationList = A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "RiftEffects" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -656,9 +656,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A3BF500824D3298F00CD5114 /* WillsFilterTool */,
-				A3BF502124D3299100CD5114 /* WillsFilterToolTests */,
-				A3BF502C24D3299100CD5114 /* WillsFilterToolUITests */,
+				A3BF500824D3298F00CD5114 /* RiftEffects */,
+				A3BF502124D3299100CD5114 /* RiftEffectsTests */,
+				A3BF502C24D3299100CD5114 /* RiftEffectsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -826,12 +826,12 @@
 /* Begin PBXTargetDependency section */
 		A3BF502424D3299100CD5114 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A3BF500824D3298F00CD5114 /* WillsFilterTool */;
+			target = A3BF500824D3298F00CD5114 /* RiftEffects */;
 			targetProxy = A3BF502324D3299100CD5114 /* PBXContainerItemProxy */;
 		};
 		A3BF502F24D3299100CD5114 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A3BF500824D3298F00CD5114 /* WillsFilterTool */;
+			target = A3BF500824D3298F00CD5114 /* RiftEffects */;
 			targetProxy = A3BF502E24D3299100CD5114 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1027,7 +1027,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WillsFilterTool.app/WillsFilterTool";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RiftEffects.app/RiftEffects";
 			};
 			name = Debug;
 		};
@@ -1049,7 +1049,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WillsFilterTool.app/WillsFilterTool";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RiftEffects.app/RiftEffects";
 			};
 			name = Release;
 		};
@@ -1098,7 +1098,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "WillsFilterTool" */ = {
+		A3BF500424D3298F00CD5114 /* Build configuration list for PBXProject "RiftEffects" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503424D3299100CD5114 /* Debug */,
@@ -1107,7 +1107,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterTool" */ = {
+		A3BF503624D3299100CD5114 /* Build configuration list for PBXNativeTarget "RiftEffects" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503724D3299100CD5114 /* Debug */,
@@ -1116,7 +1116,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolTests" */ = {
+		A3BF503924D3299100CD5114 /* Build configuration list for PBXNativeTarget "RiftEffectsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503A24D3299100CD5114 /* Debug */,
@@ -1125,7 +1125,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "WillsFilterToolUITests" */ = {
+		A3BF503C24D3299100CD5114 /* Build configuration list for PBXNativeTarget "RiftEffectsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3BF503D24D3299100CD5114 /* Debug */,

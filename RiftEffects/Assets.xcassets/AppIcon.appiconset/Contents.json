@@ -1,95 +1,103 @@
 {
   "images" : [
     {
+      "filename" : "Notifications-and-Activity---01iPhone-20@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
+      "filename" : "Notifications-and-Activity---01iPhone-20@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
+      "filename" : "Settings-Icon---29x29iPhone-29@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "Settings-Icon---29x29iPhone-29@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
+      "filename" : "Spotlight-Icon---80x80-iPad-40@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
+      "filename" : "Spotlight-Icon---40x40iPhone-40@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
+      "filename" : "Spotlight-Icon---120x120iPhone-60@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "Spotlight-Icon---120x120iPhone-60@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "Notifications-40-x-40-iPad-20.png",
+      "filename" : "Notifications-and-Activity---01-iPad-20.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "20x20"
     },
     {
-      "filename" : "Notifications-20x20-iPad-20@2x.png",
+      "filename" : "Notifications-and-Activity---01-iPad-20@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "Settings Icon - 29x29.png",
+      "filename" : "Settings-Icon---29x29-iPad-29.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
-      "filename" : "Settings Icon - 58x58.png",
+      "filename" : "Settings-Icon---29x29-iPad-29@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "Spotlight Icon - 40x40.png",
+      "filename" : "Spotlight-Icon---40x40-iPad-40.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "40x40"
     },
     {
-      "filename" : "Spotlight Icon - 80x80.png",
+      "filename" : "Spotlight-Icon---40x40-iPad-40@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "App Icon - 76 x 76.png",
+      "filename" : "App-Icon---120x120-iPad-76.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
-      "filename" : "App Icon - 152 x 152.png",
+      "filename" : "App-Icon---120x120-iPad-76@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
-      "filename" : "App-Icon---83.5-iPad-167@2x.png",
+      "filename" : "App-Icon-Main---1024x1024-iPad-167@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
