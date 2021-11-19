@@ -36,7 +36,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
 
-    let filterOpenTitle = "Pick Filter Stack"
+    let filterOpenTitle = "Library"
      let dateFormatter = DateFormatter()
 
 

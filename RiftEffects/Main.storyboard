@@ -10,7 +10,7 @@
         <!--Main Filter Controller-->
         <scene sceneID="DqE-Gr-IQA">
             <objects>
-                <tableViewController storyboardIdentifier="FilterTable" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VNd-gL-KQM" customClass="PGLMainFilterController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FilterTable" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VNd-gL-KQM" customClass="PGLMainFilterController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" contentInsetAdjustmentBehavior="scrollableAxes" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9hY-uE-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="475" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
@@ -99,7 +99,7 @@
         <!--Save Dialog Controller-->
         <scene sceneID="5eV-23-rJZ">
             <objects>
-                <viewController storyboardIdentifier="PGLSaveDialogController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YDi-EF-p5k" customClass="PGLSaveDialogController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLSaveDialogController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YDi-EF-p5k" customClass="PGLSaveDialogController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dSV-Fg-Wru"/>
                         <viewControllerLayoutGuide type="bottom" id="eMG-JX-enb"/>
@@ -231,7 +231,7 @@
         <!--Pop Up Filter Info-->
         <scene sceneID="S2x-Qf-bsL">
             <objects>
-                <viewController storyboardIdentifier="PGLPopUpFilterInfo" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vqV-3t-21P" customClass="PGLPopUpFilterInfo" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLPopUpFilterInfo" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vqV-3t-21P" customClass="PGLPopUpFilterInfo" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rBC-AA-E8H"/>
                         <viewControllerLayoutGuide type="bottom" id="2dv-g3-DH4"/>
@@ -278,7 +278,7 @@
         <!--Help Page Controller-->
         <scene sceneID="BBG-8M-FXL">
             <objects>
-                <pageViewController storyboardIdentifier="PGLHelpPageController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="n9h-BV-vuJ" customClass="PGLHelpPageController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PGLHelpPageController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="n9h-BV-vuJ" customClass="PGLHelpPageController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YtR-Yq-uME" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -288,7 +288,7 @@
         <!--Help Single Page-->
         <scene sceneID="Omk-uf-URZ">
             <objects>
-                <viewController storyboardIdentifier="PGLHelpSinglePage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mti-YC-37S" customClass="PGLHelpSinglePage" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLHelpSinglePage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mti-YC-37S" customClass="PGLHelpSinglePage" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bMu-Zr-fIC"/>
                         <viewControllerLayoutGuide type="bottom" id="Whs-gL-mdt"/>
@@ -334,7 +334,7 @@
         <!--Image Controller-->
         <scene sceneID="8Cz-fE-dCl">
             <objects>
-                <viewController storyboardIdentifier="PGLImageController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Cot-0o-SSg" customClass="PGLImageController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLImageController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Cot-0o-SSg" customClass="PGLImageController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EJI-ec-Z2e"/>
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
@@ -469,12 +469,12 @@
         <!--Rectangle Controller-->
         <scene sceneID="Rbc-Iu-llg">
             <objects>
-                <viewController storyboardIdentifier="RectangleController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0s2-K9-Juh" customClass="PGLRectangleController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RectangleController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0s2-K9-Juh" customClass="PGLRectangleController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wTg-zf-dvd"/>
                         <viewControllerLayoutGuide type="bottom" id="lrB-jY-RdT"/>
                     </layoutGuides>
-                    <view key="view" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" id="564-Ze-R9G" customClass="PGLFramedView" customModule="WillsFilterTool" customModuleProvider="target">
+                    <view key="view" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" id="564-Ze-R9G" customClass="PGLFramedView" customModule="RiftEffects" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -537,7 +537,7 @@
         <!--Images Select Container-->
         <scene sceneID="wdk-jU-kPG">
             <objects>
-                <viewController id="2XN-h9-RTP" customClass="PGLImagesSelectContainer" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2XN-h9-RTP" customClass="PGLImagesSelectContainer" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sNu-Gu-IP8"/>
                         <viewControllerLayoutGuide type="bottom" id="Tg7-pC-Cny"/>
@@ -606,7 +606,7 @@
         <!--RootSplit-->
         <scene sceneID="nHH-rO-VOb">
             <objects>
-                <splitViewController title="RootSplit" allowDoubleColumnStyle="YES" preferredDisplayMode="twoOver" preferredSupplementaryColumnWidthFraction="0.25" id="vbC-U8-P9f" customClass="PGLSplitViewController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController title="RootSplit" allowDoubleColumnStyle="YES" preferredDisplayMode="twoOver" preferredSupplementaryColumnWidthFraction="0.25" id="vbC-U8-P9f" customClass="PGLSplitViewController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="sz9-Js-XAp" kind="relationship" relationship="detailViewController" id="DCq-97-jjZ"/>
                         <segue destination="8fb-qg-1Kn" kind="relationship" relationship="supplementaryViewController" id="m2a-Dr-QEi"/>
@@ -620,7 +620,7 @@
         <!--Photos-->
         <scene sceneID="XU8-jt-lPj">
             <objects>
-                <tableViewController storyboardIdentifier="MasterViewController" title="Photos" useStoryboardIdentifierAsRestorationIdentifier="YES" clearsSelectionOnViewWillAppear="NO" id="rdd-Ke-TzN" customClass="PGLImageCollectionMasterController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MasterViewController" title="Photos" useStoryboardIdentifierAsRestorationIdentifier="YES" clearsSelectionOnViewWillAppear="NO" id="rdd-Ke-TzN" customClass="PGLImageCollectionMasterController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Photos" id="QHw-X5-5aw">
                         <barButtonItem key="leftBarButtonItem" title="&lt; Back" style="done" id="Uar-BK-BU7" userLabel="BackBtn">
@@ -638,7 +638,7 @@
         <!--Asset Controller-->
         <scene sceneID="GxD-2q-YeU">
             <objects>
-                <viewController id="t1n-aW-YzS" customClass="PGLAssetController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="t1n-aW-YzS" customClass="PGLAssetController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="30B-gu-KO4"/>
                         <viewControllerLayoutGuide type="bottom" id="VLb-a3-ytY"/>
@@ -727,7 +727,7 @@
         <!--Metal Controller-->
         <scene sceneID="31t-u1-PFW">
             <objects>
-                <viewController storyboardIdentifier="MetalController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kZU-WZ-KCQ" customClass="PGLMetalController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MetalController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kZU-WZ-KCQ" customClass="PGLMetalController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7ws-mv-fuy"/>
                         <viewControllerLayoutGuide type="bottom" id="Jrg-JV-ffE"/>
@@ -745,7 +745,7 @@
         <!--Info Privacy Controller-->
         <scene sceneID="JGx-z3-RKe">
             <objects>
-                <viewController storyboardIdentifier="infoPrivacy" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bPt-hZ-Z0Q" customClass="PGLInfoPrivacyController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="infoPrivacy" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bPt-hZ-Z0Q" customClass="PGLInfoPrivacyController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6FL-Ff-X7c"/>
                         <viewControllerLayoutGuide type="bottom" id="ob8-yd-AlQ"/>
@@ -783,7 +783,7 @@
         <!--Asset Sequence Controller-->
         <scene sceneID="021-HB-tph">
             <objects>
-                <viewController id="85J-B1-Ou1" customClass="PGLAssetSequenceController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="85J-B1-Ou1" customClass="PGLAssetSequenceController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="N6t-ad-6Ji"/>
                         <viewControllerLayoutGuide type="bottom" id="noZ-c1-sxH"/>
@@ -804,7 +804,7 @@
         <!--Asset Grid Controller-->
         <scene sceneID="SAl-n8-pfO">
             <objects>
-                <viewController id="0Eu-a7-58l" customClass="PGLAssetGridController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0Eu-a7-58l" customClass="PGLAssetGridController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q1k-Ii-dcp"/>
                         <viewControllerLayoutGuide type="bottom" id="RMh-Hm-vBq"/>
@@ -825,17 +825,17 @@
         <!--ParmSettings-->
         <scene sceneID="nHe-e3-ukU">
             <objects>
-                <viewController storyboardIdentifier="ParmSettingsViewController" title="ParmSettings" id="VjG-Q1-3mN" customClass="PGLSelectParmController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ParmSettingsViewController" title="ParmSettings" id="VjG-Q1-3mN" customClass="PGLSelectParmController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KnY-4y-Zdr"/>
                         <viewControllerLayoutGuide type="bottom" id="B3Z-Ou-0MT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yRh-nH-8rC">
-                        <rect key="frame" x="0.0" y="0.0" width="475" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="OEz-3T-9Rf">
-                                <rect key="frame" x="0.0" y="249" width="475" height="45"/>
+                                <rect key="frame" x="0.0" y="249" width="375" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Item" image="photo" catalog="system" id="I7O-i5-Th9" userLabel="ShowImageController">
@@ -867,20 +867,20 @@
                                 </items>
                             </toolbar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Filter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEW-y3-MfP">
-                                <rect key="frame" x="0.0" y="0.0" width="475" height="18"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="770" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qzX-VM-dr8">
-                                <rect key="frame" x="0.0" y="18" width="475" height="231"/>
+                                <rect key="frame" x="0.0" y="18" width="375" height="231"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="parmSectionHeader" editingAccessoryType="disclosureIndicator" textLabel="ea4-B7-xyI" detailTextLabel="S19-xP-cfG" style="IBUITableViewCellStyleValue1" id="wng-mG-QUf">
-                                        <rect key="frame" x="0.0" y="44.5" width="475" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wng-mG-QUf" id="PIe-M6-NIf">
-                                            <rect key="frame" x="144" y="0.0" width="301.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ea4-B7-xyI">
@@ -891,7 +891,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S19-xP-cfG">
-                                                    <rect key="frame" x="256" y="15" width="37.5" height="17"/>
+                                                    <rect key="frame" x="300" y="15" width="37.5" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
@@ -901,10 +901,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="parmNoDetailCell" editingAccessoryType="disclosureIndicator" textLabel="16o-a0-Rp6" detailTextLabel="xAG-al-4fa" style="IBUITableViewCellStyleValue1" id="ZYO-60-RfD" userLabel="parmNoDetailCell">
-                                        <rect key="frame" x="0.0" y="88" width="475" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZYO-60-RfD" id="Tmj-D8-fhC">
-                                            <rect key="frame" x="144" y="0.0" width="301.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="16o-a0-Rp6">
@@ -915,7 +915,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xAG-al-4fa">
-                                                    <rect key="frame" x="256" y="15" width="37.5" height="17"/>
+                                                    <rect key="frame" x="300" y="15" width="37.5" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
@@ -924,11 +924,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="parmSliderInputCell" textLabel="pbp-I2-VDf" detailTextLabel="aKE-Xj-Sin" style="IBUITableViewCellStyleValue1" id="ez7-dJ-DTc" userLabel="parmSliderInputCell" customClass="PGLTableCellSlider" customModule="WillsFilterTool" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="131.5" width="475" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="parmSliderInputCell" textLabel="pbp-I2-VDf" detailTextLabel="aKE-Xj-Sin" style="IBUITableViewCellStyleValue1" id="ez7-dJ-DTc" userLabel="parmSliderInputCell" customClass="PGLTableCellSlider" customModule="RiftEffects" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="131.5" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ez7-dJ-DTc" id="uvh-Qg-4z2">
-                                            <rect key="frame" x="144" y="0.0" width="331" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="0YH-xH-KM9">
@@ -947,7 +947,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aKE-Xj-Sin">
-                                                    <rect key="frame" x="283" y="16" width="28" height="12"/>
+                                                    <rect key="frame" x="327" y="16" width="28" height="12"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <nil key="textColor"/>
@@ -960,14 +960,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="Image" textLabel="te2-NL-lee" style="IBUITableViewCellStyleDefault" id="swc-b8-0cV" userLabel="Image">
-                                        <rect key="frame" x="0.0" y="175" width="475" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="175" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="swc-b8-0cV" id="9go-GY-Tgt">
-                                            <rect key="frame" x="144" y="0.0" width="301.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="te2-NL-lee">
-                                                    <rect key="frame" x="20" y="0.0" width="273.5" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="317.5" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -977,14 +977,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageNewFilterInput" textLabel="Tqt-bV-lcY" style="IBUITableViewCellStyleDefault" id="D1Z-6c-nBR">
-                                        <rect key="frame" x="0.0" y="218.5" width="475" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="218.5" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D1Z-6c-nBR" id="svq-sK-Gar">
-                                            <rect key="frame" x="144" y="0.0" width="331" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tqt-bV-lcY">
-                                                    <rect key="frame" x="20" y="0.0" width="291" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="335" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -997,10 +997,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="parmNoDisclosureCell" editingAccessoryType="disclosureIndicator" textLabel="7qB-yU-b0X" detailTextLabel="mDD-17-duv" style="IBUITableViewCellStyleValue1" id="qN1-S3-tGq" userLabel="parmNoDisclosureCell">
-                                        <rect key="frame" x="0.0" y="262" width="475" height="44"/>
+                                        <rect key="frame" x="0.0" y="262" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qN1-S3-tGq" id="qjw-tx-KJe">
-                                            <rect key="frame" x="0.0" y="0.0" width="475" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7qB-yU-b0X">
@@ -1011,7 +1011,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mDD-17-duv">
-                                                    <rect key="frame" x="429.5" y="15" width="37.5" height="17"/>
+                                                    <rect key="frame" x="329.5" y="15" width="37.5" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
@@ -1054,7 +1054,7 @@
         <!--Stack-->
         <scene sceneID="dfj-In-sbB">
             <objects>
-                <tableViewController storyboardIdentifier="StackController" title="Stack" id="dDm-tJ-e98" customClass="PGLStackController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="StackController" title="Stack" id="dDm-tJ-e98" customClass="PGLStackController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="djp-vO-L7b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1150,7 +1150,7 @@
         <!--Open Stack View Controller-->
         <scene sceneID="PT0-Sc-XF9">
             <objects>
-                <viewController storyboardIdentifier="OpenStackController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rBY-w8-JEI" customClass="PGLOpenStackViewController" customModule="WillsFilterTool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OpenStackController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rBY-w8-JEI" customClass="PGLOpenStackViewController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="arS-CJ-NqK"/>
                         <viewControllerLayoutGuide type="bottom" id="l3F-y4-gjY"/>
@@ -1186,7 +1186,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hGW-uD-Bfy"/>
+        <segue reference="Fbq-A6-ZwM"/>
         <segue reference="upL-2v-qbI"/>
         <segue reference="F2R-RF-eJT"/>
         <segue reference="8dR-Nq-8eW"/>

@@ -961,7 +961,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = WillsFilterTool/WillsFilterTool.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
@@ -987,7 +987,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = WillsFilterTool/WillsFilterTool.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 23;
