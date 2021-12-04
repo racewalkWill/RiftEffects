@@ -15,6 +15,7 @@ import CoreData
 
 class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
+    // MARK: View Lifecycle
     override func viewDidLoad() {
 
         super.viewDidLoad()
@@ -25,7 +26,7 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         if stackProviderCanOpen {
             preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary }
         else {
-            preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
+            preferredDisplayMode = UISplitViewController.DisplayMode.oneOverSecondary }
         // if the smaller iPhone is compact then should be the two column where the columns are controlled by buttons
         // used to have this.. check versions
 
@@ -40,11 +41,30 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
     }
 
-//    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-    // note this commented out code should be testing the verticalSizeClass for compact..
-    //  all of the iPad,iPhones have horizontal compact.
-    //  only the vertical on iPad has vertical different  = .Regular
-    
+    override func viewWillAppear(_ animated: Bool) {
+
+        let secondaryImageColumn =  self.viewController(for: .secondary)
+        let primaryColumn = self.viewController(for: .primary)
+        let supplmentaryColumn = self.viewController(for: .supplementary)
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController viewWillAppear ")
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+
+        let secondaryImageColumn =  (self.viewController(for: .secondary) as? UINavigationController)?.topViewController
+        let primaryColumn = (self.viewController(for: .primary) as? UINavigationController)?.topViewController
+        let supplmentaryColumn = (self.viewController(for: .supplementary) as? UINavigationController)?.topViewController
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController viewDidAppear ")
+        let myPrimaryPreffered = preferredPrimaryColumnWidthFraction
+        let myPrimaryWidth = preferredPrimaryColumnWidth
+    }
+
+// MARK: SplitView Delegate
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+//     note this commented out code should be testing the verticalSizeClass for compact..
+//      all of the iPad,iPhones have horizontal compact.
+//      only the vertical on iPad has vertical different  = .Regular
+        return proposedTopColumn
 //        let horizontalSize = traitCollection.horizontalSizeClass
 //        if horizontalSize == .compact {
 //             return .secondary  // makes the imageController in secondary show
@@ -58,7 +78,33 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 //        // in horizontal compact mode on the iPhone the split view controller is not showing the secondary window.
 //        // force it
 //        show(UISplitViewController.Column.secondary)
-//    }
+    }
+    func splitViewController(_ svc: UISplitViewController, willHide column: UISplitViewController.Column) {
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController willHide ")
+    }
+    func splitViewController(_ svc: UISplitViewController, willShow column: UISplitViewController.Column) {
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController willShow ")
+    }
+    func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController splitViewControllerDidCollapse ")
+    }
+    func splitViewControllerDidExpand(_ svc: UISplitViewController) {
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController splitViewControllerDidExpand ")
+    }
+    func splitViewController(_ svc: UISplitViewController, displayModeForExpandingToProposedDisplayMode proposedDisplayMode: UISplitViewController.DisplayMode) -> UISplitViewController.DisplayMode {
+        // set secondary column width to full width of view?
+        let secondaryImageColumn = svc.viewController(for: .secondary)
+
+        return proposedDisplayMode
+    }
+    func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewController.DisplayMode) {
+        NSLog("SplitViewController display mode change ")
+    }
+
+    func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewController.DisplayMode {
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSplitViewController targetDisplayModeForAction ")
+        return .twoOverSecondary
+    }
 
     @IBAction func goToSplitView(segue: UIStoryboardSegue) {
         Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLParmsFilterTabsController goToSplitView segue")

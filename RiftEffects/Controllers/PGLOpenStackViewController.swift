@@ -248,7 +248,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
          }
          else {
              if !tableView.isEditing {
-                 self.splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
+                 self.splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneOverSecondary
              }
          }
          

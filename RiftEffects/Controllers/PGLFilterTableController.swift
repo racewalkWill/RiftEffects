@@ -107,7 +107,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
     if svc.displayMode == UISplitViewController.DisplayMode.secondaryOnly {
         // don't let parms list overlay the picture...
         Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectFilterController #targetDisplayModeForAction answers allVisible ")
-        return UISplitViewController.DisplayMode.oneBesideSecondary
+        return UISplitViewController.DisplayMode.oneOverSecondary
     }
     else { Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectFilterController #targetDisplayModeForAction answers automatic ")
         return UISplitViewController.DisplayMode.automatic}
