@@ -11,32 +11,15 @@ import UIKit
 let EffectBtnAction = NSNotification.Name(rawValue: "EffectBtnActionNotification")
 let LibraryBtnAction = NSNotification.Name(rawValue: "LibraryBtnActionNotification")
 
-class PGLTripleSplitController: UIViewController, UINavigationBarDelegate {
-        // custom implementation like a UISplitViewController
-        var libraryController: PGLOpenStackViewController!
-        var effectController: PGLStackController!
+//class PGLTripleSplitController: UIViewController, UINavigationBarDelegate {
+extension PGLImageController {
 
-        var hideLibraryController = false
-        var hideEffectController = true
-        var notifications = [Any]() // an opaque type is returned from addObservor
-
-        let maxControllerAlpha = 0.7
-
-        private var staticConstraints: [NSLayoutConstraint] = []
-        private var showLibraryConstraints: [NSLayoutConstraint] = []
-        private var hideLibraryConstraints: [NSLayoutConstraint] = []
-
-        private var showEffectConstraints: [NSLayoutConstraint] = []
-        private var hideEffectConstraints: [NSLayoutConstraint] = []
-
-        private var libraryDynamicConstraints: [NSLayoutConstraint] = []
-        private var effectDynamicConstraint: [NSLayoutConstraint] = []
 
     // MARK: View Lifecycle
 
 
 
-        override func viewDidLoad() {
+    func setupTripleViews() {
 
             loadLibraryController()
             loadEffectController()
@@ -63,13 +46,6 @@ class PGLTripleSplitController: UIViewController, UINavigationBarDelegate {
 
 
 
-        }
-
-        override func viewDidDisappear(_ animated: Bool) {
-            for anObserver in  notifications {
-                           NotificationCenter.default.removeObserver(anObserver)
-                       }
-            notifications = [Any]() // reset
         }
 
         // MARK: controller loading
@@ -213,50 +189,8 @@ class PGLTripleSplitController: UIViewController, UINavigationBarDelegate {
           }
 
 
-    @IBAction func libraryBtn(_ sender: UIBarButtonItem) {
-        UIView.animate(
-          withDuration: 1.0,
-          delay: 0.0,
-          usingSpringWithDamping: 0.6,
-          initialSpringVelocity: 1,
-          options: [],
-          animations: {
-              if self.hideLibraryController {
-                  self.libraryController.view.alpha = self.maxControllerAlpha }
-              else {
-                  self.libraryController.view.alpha = 0
-              }
-        },
-          completion: { [weak self]  finished in
-              self?.toggleLibraryControllerHidden()
-              self?.view.layoutIfNeeded()
-          })
+   
 
-    }
-
-
-
-    @IBAction func effectsBtn(_ sender: UIBarButtonItem) {
-        UIView.animate(
-          withDuration: 1.0,
-          delay: 0.0,
-          usingSpringWithDamping: 0.6,
-          initialSpringVelocity: 1,
-          options: [],
-          animations: {
-              if self.hideEffectController {
-                    self.effectController.view.alpha = self.maxControllerAlpha
-              }
-                  else {
-                      self.effectController.view.alpha = 0
-                  }
-        },
-          completion: { [weak self]  finished in
-              self?.toggleEffectControllerHidden()
-              self?.view.layoutIfNeeded()
-          })
-
-    }
-    }
+}
    
 

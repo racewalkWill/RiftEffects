@@ -93,8 +93,73 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     var selectedParmControlView: UIView?
     var tappedControl: UIView?
 
+    // MARK: TripleView vars
+        // custom implementation like a UISplitViewController
+        var libraryController: PGLOpenStackViewController!
+        var effectController: PGLStackController!
+
+        var hideLibraryController = false
+        var hideEffectController = true
+
+
+        let maxControllerAlpha = 0.7
+
+         var staticConstraints: [NSLayoutConstraint] = []
+         var showLibraryConstraints: [NSLayoutConstraint] = []
+         var hideLibraryConstraints: [NSLayoutConstraint] = []
+
+         var showEffectConstraints: [NSLayoutConstraint] = []
+         var hideEffectConstraints: [NSLayoutConstraint] = []
+
+         var libraryDynamicConstraints: [NSLayoutConstraint] = []
+         var effectDynamicConstraint: [NSLayoutConstraint] = []
 
         // MARK: Navigation Buttons
+
+    @IBAction func libraryBtnAction(_ sender: UIBarButtonItem) {
+        UIView.animate(
+          withDuration: 1.0,
+          delay: 0.0,
+          usingSpringWithDamping: 0.6,
+          initialSpringVelocity: 1,
+          options: [],
+          animations: {
+              if self.hideLibraryController {
+                  self.libraryController.view.alpha = self.maxControllerAlpha }
+              else {
+                  self.libraryController.view.alpha = 0
+              }
+        },
+          completion: { [weak self]  finished in
+              self?.toggleLibraryControllerHidden()
+              self?.view.layoutIfNeeded()
+          })
+
+
+    }
+
+    @IBAction func effectsBtnAction(_ sender: UIBarButtonItem) {
+        UIView.animate(
+          withDuration: 1.0,
+          delay: 0.0,
+          usingSpringWithDamping: 0.6,
+          initialSpringVelocity: 1,
+          options: [],
+          animations: {
+              if self.hideEffectController {
+                    self.effectController.view.alpha = self.maxControllerAlpha
+              }
+                  else {
+                      self.effectController.view.alpha = 0
+                  }
+        },
+          completion: { [weak self]  finished in
+              self?.toggleEffectControllerHidden()
+              self?.view.layoutIfNeeded()
+          })
+
+    }
+
 
     @IBOutlet var sliders: [UISlider]!
 
@@ -422,7 +487,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
-        self.view.isHidden = true // use neutral screen not black of the CIImage.empty
+//        self.view.isHidden = true // use neutral screen not black of the CIImage.empty
         
         var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
             myUpdate in
@@ -586,6 +651,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             // PGLHelpPageController will set to false after showing help
 
         }
+
+        setupTripleViews()
     }
 
     override func viewDidAppear(_ animated: Bool) {
