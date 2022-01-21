@@ -11,7 +11,7 @@ import CoreData
 import CoreImage
 import Photos
 
-@testable import WillsFilterTool
+@testable import RiftEffects
 
 
 enum PhotoId: String {

@@ -15,6 +15,7 @@
 		A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */; };
 		A341186425C300F300587590 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A341186325C300F300587590 /* CloudKit.framework */; };
 		A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */; };
+		A343A20F279B0B730005A8DB /* PGLTripleSplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A343A20E279B0B730005A8DB /* PGLTripleSplitController.swift */; };
 		A349E85F26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */; };
 		A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */; };
 		A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */; };
@@ -149,6 +150,8 @@
 		A341185E25C3008100587590 /* RiftEffects.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RiftEffects.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterAction.swift; sourceTree = "<group>"; };
+		A343A20E279B0B730005A8DB /* PGLTripleSplitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLTripleSplitController.swift; sourceTree = "<group>"; };
+		A348371F279A0667008C3F57 /* RiftTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = RiftTestPlan.xctestplan; sourceTree = "<group>"; };
 		A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
@@ -354,6 +357,7 @@
 		A3BF502524D3299100CD5114 /* RiftEffectsTests */ = {
 			isa = PBXGroup;
 			children = (
+				A348371F279A0667008C3F57 /* RiftTestPlan.xctestplan */,
 				A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */,
 				A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */,
 				A3BF514A24D32D3400CD5114 /* PGLSourceFilterTests.swift */,
@@ -494,6 +498,7 @@
 				A3BF50B924D32A3400CD5114 /* PGLAssetSequenceController.swift */,
 				A3BF50BA24D32A3400CD5114 /* PGLImageCollectionMasterController.swift */,
 				A3BF50CA24D32A3400CD5114 /* PGLTabsController.swift */,
+				A343A20E279B0B730005A8DB /* PGLTripleSplitController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -776,6 +781,7 @@
 				A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */,
 				A39632D8250049F000F02CEC /* PGLDisparityFilter.swift in Sources */,
 				A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */,
+				A343A20F279B0B730005A8DB /* PGLTripleSplitController.swift in Sources */,
 				A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */,
 				A3BF50D824D32A3400CD5114 /* PixellatedPeople.m in Sources */,
 				A3BF50D624D32A3400CD5114 /* TiltShift.m in Sources */,
@@ -889,7 +895,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -946,7 +952,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -967,7 +973,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/RiftEffects/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -994,7 +1000,7 @@
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/RiftEffects/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1018,14 +1024,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
-				INFOPLIST_FILE = WillsFilterTool/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				INFOPLIST_FILE = RiftEffects/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.WillsFilterToolTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.RiftEffectsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1040,14 +1046,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
-				INFOPLIST_FILE = WillsFilterTool/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				INFOPLIST_FILE = RiftEffects/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.WillsFilterToolTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.RiftEffectsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
