@@ -28,6 +28,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLOpenStackViewController.configureHierarchy():PGLOpenStackViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view.safeAreaLayoutGuide">
+            </PersistentString>
+            <PersistentString
+               value = "view">
+            </PersistentString>
+            <PersistentString
+               value = "tableView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLSaveDialogController.saveBtnClick(_:):PGLSaveDialogController.swift">
       </ContextState>
       <ContextState
@@ -294,7 +308,13 @@
          contextName = "PGLOpenStackViewController.viewDidLoad():PGLOpenStackViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "navigationItem">
+            </PersistentString>
+            <PersistentString
                value = "mySplitView.splitBehavior">
+            </PersistentString>
+            <PersistentString
+               value = "navigationController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -319,10 +339,10 @@
                value = "(secondaryController as? UINavigationController).visibleViewController">
             </PersistentString>
             <PersistentString
-               value = "splitViewController">
+               value = "supplementaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
-               value = "supplementaryController as? PGLImageController">
+               value = "splitViewController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -651,6 +671,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLImageController.toggleLibraryControllerHidden():PGLTripleSplitController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view">
+            </PersistentString>
+            <PersistentString
+               value = "libraryController.view">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLSourceFilter.removeImageValue(keyName:):PGLFilterClasses.swift">
       </ContextState>
       <ContextState
@@ -754,10 +785,10 @@
                value = "thisFilter.attributes">
             </PersistentString>
             <PersistentString
-               value = "kCICategoryGenerator">
+               value = "kCIAttributeFilterCategories">
             </PersistentString>
             <PersistentString
-               value = "kCIAttributeFilterCategories">
+               value = "kCICategoryGenerator">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -836,10 +867,10 @@
                value = "sender.tag">
             </PersistentString>
             <PersistentString
-               value = "target.uiIndexTag">
+               value = "sender.value">
             </PersistentString>
             <PersistentString
-               value = "sender.value">
+               value = "target.uiIndexTag">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -884,6 +915,14 @@
          <PersistentStrings>
             <PersistentString
                value = "attributeValueDelta">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLImageController.setLibraryDynamicConstraints():PGLTripleSplitController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1218,13 +1257,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "thisImage?.extent">
-            </PersistentString>
-            <PersistentString
                value = "cropRect">
             </PersistentString>
             <PersistentString
                value = "self.doPrintCropClamp = false">
+            </PersistentString>
+            <PersistentString
+               value = "thisImage?.extent">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

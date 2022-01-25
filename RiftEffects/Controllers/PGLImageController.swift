@@ -117,46 +117,46 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         // MARK: Navigation Buttons
 
     @IBAction func libraryBtnAction(_ sender: UIBarButtonItem) {
-        UIView.animate(
-          withDuration: 1.0,
-          delay: 0.0,
-          usingSpringWithDamping: 0.6,
-          initialSpringVelocity: 1,
-          options: [],
-          animations: {
-              if self.hideLibraryController {
-                  self.libraryController.view.alpha = self.maxControllerAlpha }
-              else {
-                  self.libraryController.view.alpha = 0
-              }
-        },
-          completion: { [weak self]  finished in
-              self?.toggleLibraryControllerHidden()
-              self?.view.layoutIfNeeded()
-          })
+//        UIView.animate(
+//          withDuration: 1.0,
+//          delay: 0.0,
+//          usingSpringWithDamping: 0.6,
+//          initialSpringVelocity: 1,
+//          options: [],
+//          animations: {
+//              if self.hideLibraryController {
+//                  self.libraryController.view.alpha = self.maxControllerAlpha }
+//              else {
+//                  self.libraryController.view.alpha = 0
+//              }
+//        },
+//          completion: { [weak self]  finished in
+//              self?.toggleLibraryControllerHidden()
+//              self?.view.layoutIfNeeded()
+//          })
 
 
     }
 
     @IBAction func effectsBtnAction(_ sender: UIBarButtonItem) {
-        UIView.animate(
-          withDuration: 1.0,
-          delay: 0.0,
-          usingSpringWithDamping: 0.6,
-          initialSpringVelocity: 1,
-          options: [],
-          animations: {
-              if self.hideEffectController {
-                    self.effectController.view.alpha = self.maxControllerAlpha
-              }
-                  else {
-                      self.effectController.view.alpha = 0
-                  }
-        },
-          completion: { [weak self]  finished in
-              self?.toggleEffectControllerHidden()
-              self?.view.layoutIfNeeded()
-          })
+//        UIView.animate(
+//          withDuration: 1.0,
+//          delay: 0.0,
+//          usingSpringWithDamping: 0.6,
+//          initialSpringVelocity: 1,
+//          options: [],
+//          animations: {
+//              if self.hideEffectController {
+//                    self.effectController.view.alpha = self.maxControllerAlpha
+//              }
+//                  else {
+//                      self.effectController.view.alpha = 0
+//                  }
+//        },
+//          completion: { [weak self]  finished in
+//              self?.toggleEffectControllerHidden()
+//              self?.view.layoutIfNeeded()
+//          })
 
     }
 

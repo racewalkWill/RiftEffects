@@ -81,7 +81,11 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
         if appStack.outputStack.isEmptyStack() {
             let verticalSize = traitCollection.verticalSizeClass
             if verticalSize != .compact {
-                self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
+//                self.performSegue(withIdentifier: "showFilterController" , sender: nil)
+                // in the transparent mode with an empty stack the stack controller constraints are
+                // not yet set.. so goes to full size of the image controller view.
+
+            }
         }
     }
 

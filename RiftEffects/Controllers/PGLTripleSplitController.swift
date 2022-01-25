@@ -21,9 +21,9 @@ extension PGLImageController {
 
     func setupTripleViews() {
 
-            loadLibraryController()
-            loadEffectController()
-            setLibraryDynamicConstraints()
+//            loadLibraryController()
+//            loadEffectController()
+//            setLibraryDynamicConstraints()
 
 
 
@@ -72,12 +72,12 @@ extension PGLImageController {
                 let
             staticConstraints =
                 [
-                    libraryView.leadingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leadingAnchor, constant: viewInset),
-                    libraryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor , constant: 60),
+                    libraryView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: viewInset),
+                    libraryView.topAnchor.constraint(equalTo: view.topAnchor , constant: 60),
                     // width contstrain will change.. not static
                     // need to fully define with the dynamic constraint too
 
-                    libraryView.heightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.8 )
+                    libraryView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor, multiplier: 0.8 )
                 ]
 
 
@@ -91,7 +91,7 @@ extension PGLImageController {
          func setLibraryDynamicConstraints() {
             hideLibraryConstraints =  [ libraryController.view.widthAnchor.constraint(equalToConstant: 0.0)
                                         ]
-            showLibraryConstraints =  [ libraryController.view.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.30)
+             showLibraryConstraints =  [ libraryController.view.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, multiplier: 0.30)
                                          ]
 
                 // Notify the child view controller that the move is complete.
@@ -118,6 +118,7 @@ extension PGLImageController {
             NSLayoutConstraint.deactivate(libraryDynamicConstraints)
             libraryDynamicConstraints = hideLibraryController ? hideLibraryConstraints : showLibraryConstraints
             NSLayoutConstraint.activate(libraryDynamicConstraints)
+            libraryController.view.setNeedsDisplay()
 
         }
 
@@ -125,6 +126,7 @@ extension PGLImageController {
             NSLayoutConstraint.deactivate(effectDynamicConstraint)
             effectDynamicConstraint = hideEffectController ? hideEffectConstraints : showEffectConstraints
             NSLayoutConstraint.activate(effectDynamicConstraint)
+            effectController.view.setNeedsDisplay()
 
         }
 
@@ -156,7 +158,7 @@ extension PGLImageController {
             // Notify the child view controller that the move is complete.
             effectController.didMove(toParent: self)
             effectView.isHidden = true
-            setEffectsDynamicConstraints()
+//            setEffectsDynamicConstraints()
 
         }
 
@@ -168,7 +170,7 @@ extension PGLImageController {
 
               hideEffectController = !hideEffectController // toggle
              effectController.view.isHidden = hideEffectController
-             updateEffectDynamicConstraints()
+//             updateEffectDynamicConstraints()
     //         effectController.view.setNeedsUpdateConstraints()
 
 
@@ -180,8 +182,11 @@ extension PGLImageController {
                   //            NSLog("PGLImageController  notificationBlock PGLStackChange")
 
               hideLibraryController = !hideLibraryController // toggle
+             if !hideLibraryController && view.isHidden {
+                 view.isHidden = false
+             }
               libraryController.view.isHidden = hideLibraryController
-             updateLibraryDynamicConstraints()
+//             updateLibraryDynamicConstraints()
     //         libraryController.view.setNeedsUpdateConstraints()
 
 
