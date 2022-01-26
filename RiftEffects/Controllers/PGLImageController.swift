@@ -1147,10 +1147,13 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     func hideSliders() {
-        for aSlideControl in sliders {
-            aSlideControl.isHidden = true
+        if let mySliderControls = sliders {
+            for aSlideControl in mySliderControls {
+                aSlideControl.isHidden = true
+            }
         }
     }
+
     @objc func buttonWasPressed(_ sender: UIButton , forEvent: UIEvent) {
        if let buttonIndex = parmControls.firstIndex(where: { $0.value.tag == sender.tag } )
        {

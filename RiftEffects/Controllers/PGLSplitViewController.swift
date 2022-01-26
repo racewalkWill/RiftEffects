@@ -33,26 +33,47 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         presentsWithGesture = true
         showsSecondaryOnlyButton = true
             // this button shows on the navigation of the secondary controller - the imageController
+        let horizontalSize = traitCollection.horizontalSizeClass
+        if horizontalSize == .compact {
 
+            preferredPrimaryColumnWidthFraction = 0.3
+            preferredSupplementaryColumnWidthFraction = 0.3
+        }
 
         // Do any additional setup after loading the view.
         checkPhotoLibraryAccess()
 
     }
 
-//    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-    // note this commented out code should be testing the verticalSizeClass for compact..
-    //  all of the iPad,iPhones have horizontal compact.
-    //  only the vertical on iPad has vertical different  = .Regular
-    
-//        let horizontalSize = traitCollection.horizontalSizeClass
-//        if horizontalSize == .compact {
-//             return .secondary  // makes the imageController in secondary show
-//            // return .compact this does not show the imagaController
-//        }
-//        else { return .secondary}
-//
-//    }
+    func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
+        NSLog("Did Collapse splitView ")
+    }
+
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+//     note this commented out code should be testing the verticalSizeClass for compact..
+//      all of the iPad,iPhones have horizontal compact.
+//      only the vertical on iPad has vertical different  = .Regular
+
+//        preferredPrimaryColumnWidthFraction = 0.3
+//        preferredSupplementaryColumnWidth = 0.3
+        
+        let horizontalSize = traitCollection.horizontalSizeClass
+        if horizontalSize == .compact {
+
+             return .supplementary  // makes the imageController in secondary show
+            // return .compact this does not show the imagaController
+        }
+        else { return proposedTopColumn}
+
+
+
+    }
+
+    func splitViewController(_ svc: UISplitViewController,
+                             displayModeForExpandingToProposedDisplayMode proposedDisplayMode: UISplitViewController.DisplayMode) -> UISplitViewController.DisplayMode  {
+        return proposedDisplayMode
+
+    }
 //
 //    @objc func showImageCompact() {
 //        // in horizontal compact mode on the iPhone the split view controller is not showing the secondary window.
