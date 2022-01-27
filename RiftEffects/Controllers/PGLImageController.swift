@@ -699,7 +699,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
              selectedParmControlView = thisAttributeControlView
             if let thisAttributeName = modelAttribute.attributeName {
                 highlight(viewNamed: thisAttributeName)
-                parmSlider.isHidden = true
+                parmSlider?.isHidden = true
                 hideSliders()
                 if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
@@ -729,11 +729,11 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
                 highlight(viewNamed: modelAttribute.attributeName!)
             addTextChangeNotification(textAttributeName: modelAttribute.attributeName!)
-            parmSlider.isHidden = true
+            parmSlider?.isHidden = true
             hideSliders()
 
         case AttrUIType.fontUI :
-            parmSlider.isHidden = true
+            parmSlider?.isHidden = true
             hideSliders()
             showFontPicker(self)
 
@@ -1110,32 +1110,34 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
             case _ as PGLFilterAttributeAngle:
                 if let numberValue = attribute.getNumberValue() as? Float {
-                    parmSlider.maximumValue = attribute.sliderMaxValue! // init to 2pi Radians
-                    parmSlider.minimumValue = attribute.sliderMinValue!  // init to 0.0
-                    parmSlider.setValue( numberValue, animated: false )
+                    parmSlider?.maximumValue = attribute.sliderMaxValue! // init to 2pi Radians
+                    parmSlider?.minimumValue = attribute.sliderMinValue!  // init to 0.0
+                    parmSlider?.setValue( numberValue, animated: false )
                 }
                 parmSlider.isHidden = false
                  view.bringSubviewToFront(parmSlider)
 //            case let rectAttribute as PGLFilterAttributeRectangle:
 //                NSLog("Should not hit this case where addSlider control called for a rectangle attribute")
             case _ as PGLFilterAttributeAffine:
-                parmSlider.maximumValue = 2 *  Float.pi  // this is the rotation part of the Affine
-                parmSlider.minimumValue = 0.0
-                parmSlider.isHidden = false
+                parmSlider?.maximumValue = 2 *  Float.pi  // this is the rotation part of the Affine
+                parmSlider?.minimumValue = 0.0
+                parmSlider?.isHidden = false
                 view.bringSubviewToFront(parmSlider)
             default: if let numberValue = attribute.getNumberValue()?.floatValue {
-                    parmSlider.maximumValue = attribute.sliderMaxValue ?? 100.0
-                    parmSlider.minimumValue = attribute.sliderMinValue ?? 0.0
-                    parmSlider.setValue( numberValue, animated: false )
+                    parmSlider?.maximumValue = attribute.sliderMaxValue ?? 100.0
+                    parmSlider?.minimumValue = attribute.sliderMinValue ?? 0.0
+                    parmSlider?.setValue( numberValue, animated: false )
                     }
                     else { // sort of assuming angle.. need to explore this else statement further
-                        parmSlider.maximumValue = 2 *  Float.pi  // assuming this is for angle radians - see Straighten Filter
-                        parmSlider.minimumValue = 0.0
+                        parmSlider?.maximumValue = 2 *  Float.pi  // assuming this is for angle radians - see Straighten Filter
+                        parmSlider?.minimumValue = 0.0
                         // defaults value to 0.0
 
                     }
 
-                parmSlider.isHidden = false
+                parmSlider?.isHidden = false
+                guard let theParmSlider = parmSlider
+                    else {return}
                 view.bringSubviewToFront(parmSlider)
 //            NSLog("PGLImageController addSliderControl \(attribute.description)")
 //            NSLog("slider min = \(parmSlider.minimumValue) max = \(parmSlider.maximumValue) value = \(parmSlider.value)")

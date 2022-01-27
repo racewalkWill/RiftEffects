@@ -50,18 +50,14 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
     }
 
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-//     note this commented out code should be testing the verticalSizeClass for compact..
-//      all of the iPad,iPhones have horizontal compact.
-//      only the vertical on iPad has vertical different  = .Regular
 
-//        preferredPrimaryColumnWidthFraction = 0.3
-//        preferredSupplementaryColumnWidth = 0.3
         
         let horizontalSize = traitCollection.horizontalSizeClass
         if horizontalSize == .compact {
-
-             return .supplementary  // makes the imageController in secondary show
-            // return .compact this does not show the imagaController
+             return .supplementary
+            // supplementary shows the effects col - on small screens this is full size
+            // but navigation works and the pict icon navigation works to see the
+            // image controller view
         }
         else { return proposedTopColumn}
 

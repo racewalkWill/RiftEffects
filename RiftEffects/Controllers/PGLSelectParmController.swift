@@ -148,7 +148,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 //        NSLog ("PGLSelectParmController #viewDidLoad completed")
         if traitCollection.userInterfaceIdiom == .pad {
-            navigationController?.isToolbarHidden = true }
+            navigationController?.isToolbarHidden = true } // was true
         // don't hide if iPhone
      
 
