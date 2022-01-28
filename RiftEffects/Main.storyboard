@@ -1034,6 +1034,7 @@
                             <constraint firstItem="sEW-y3-MfP" firstAttribute="leading" secondItem="yRh-nH-8rC" secondAttribute="leading" id="z3G-az-ix8"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Fj4-1g-a62"/>
                     <connections>
