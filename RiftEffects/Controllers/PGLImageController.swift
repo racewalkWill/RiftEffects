@@ -422,8 +422,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
-        self.view.isHidden = true // use neutral screen not black of the CIImage.empty
-        
+
         var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
@@ -436,7 +435,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 self.hideParmControls()
             }
 
-            self.view.isHidden = true
+//            self.view.isHidden = true
             // makes the image go blank after the trash button loads a new stack.
             // set visible again when new images are selected
 
