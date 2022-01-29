@@ -108,6 +108,24 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
         }
+
+        myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+            let deviceIdom = self.traitCollection.userInterfaceIdiom
+                    if deviceIdom == .phone {
+                        if self.traitCollection.horizontalSizeClass == .compact {
+                            if self.tableView.numberOfRows(inSection: 0) < 1 {
+                                    // plain tables without sections just have a zero section
+                                    self.dismiss(animated: true, completion: nil)
+                                    }
+                                }
+                        }
+
+         }
+
+
+
         // check for zero rows in compact mode and trigger segue  compactOpenToStackView
         let deviceIdom = traitCollection.userInterfaceIdiom
         if deviceIdom == .phone {
@@ -300,6 +318,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             dataProvider?.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
             let stackNotification = Notification(name:PGLUpdateLibraryMenu)
             NotificationCenter.default.post(stackNotification)
+            
         }
 
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

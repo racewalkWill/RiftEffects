@@ -463,7 +463,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                 self.hideParmControls()
             }
 
-//            self.view.isHidden = true
+            self.view.isHidden = true
             // makes the image go blank after the trash button loads a new stack.
             // set visible again when new images are selected
 
