@@ -31,6 +31,7 @@ enum SliderColor: Int {
 let  PGLCurrentFilterChange = NSNotification.Name(rawValue: "PGLCurrentFilterChangeNotification")
 let  PGLOutputImageChange = NSNotification.Name(rawValue: "PGLOutputImageChange")
 let  PGLUserAlertNotice = NSNotification.Name(rawValue: "PGLUserAlertNotice")
+let  PGLUpdateLibraryMenu = NSNotification.Name(rawValue: "PGLUpdateLibraryMenu")
 
 let ExportAlbumId = "ExportAlbumId"
 let ExportAlbum = "ExportAlbum"
@@ -44,7 +45,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 // MARK: Property vars
 
-
+    static var LibraryMenuIdentifier = UIAction.Identifier("Library")
     var filterValuesHaveChanged = false
 
     var videoPreviewViewBounds = CGRect.init()
@@ -169,6 +170,33 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
     }
+
+   func openStackActionBtn(_ sender: UIBarButtonItem) {
+//        let showOpenStackView = true  // change for old or new openDialog
+//        if showOpenStackView {
+            let pickStoredStackViewController = storyboard!.instantiateViewController(
+                withIdentifier: "OpenStackController")
+//        pickStoredStackViewController.modalPresentationStyle = UIModalPresentationStyle.automatic
+//                // tried some of the other ones .pageSheet .formSheet .currentContext.. all seem to be the same
+//            let navController = UINavigationController(rootViewController: pickStoredStackViewController)
+//                                     present(navController, animated: true)
+
+       pickStoredStackViewController.modalPresentationStyle = .popover
+//       pickStoredStackViewController.preferredContentSize = CGSize(width: 350, height: 300.0)
+        // contentSize does not matter in iPhone compact.. system goes to full screen...
+
+       guard let popOverPresenter = pickStoredStackViewController.popoverPresentationController
+       else { return }
+       popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
+       popOverPresenter.delegate = self
+
+       // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+//        popOverPresenter.sourceView = view
+       popOverPresenter.barButtonItem = sender
+       present(pickStoredStackViewController, animated: true )
+
+        }
+
 
     func presentSaveDialog(saveDialogController: PGLSaveDialogController){
         // assumes shouldSaveAs mode is correctly set in the controller
@@ -509,12 +537,21 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                         // save stack will create a utility queue to execute.. but should not
                         // kill the utility queue process when this notification callback process ends.
 //                    }
+                    self.updateLibraryMenu()
                     self.updateNavigationBar()
+
+
                 }
             }
         }
         notifications.append(aNotification)
 
+        aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+            self.updateLibraryMenu()
+
+        }
 
         aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
         myUpdate in
@@ -547,13 +584,31 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         filterValuesHaveChanged = true
 //        updateDisplay()
-        updateNavigationBar()
+
 
         tintViews.append(contentsOf: [topTintView, bottomTintView, leftTintView, rightTintView])
 
-        let contextMenu = UIMenu(title: "",
-                    children: [
+//      if traitCollection.userInterfaceIdiom == .phone {
+            let libraryMenu = UIAction.init(title: "Library..", image: UIImage(systemName: "folder"), identifier: PGLImageController.LibraryMenuIdentifier, discoverabilityTitle: "Library", attributes: [], state: UIMenuElement.State.off) {
+                action in
+                self.openStackActionBtn(self.moreBtn)
+                    }
 
+            if let mySplitView =  splitViewController as? PGLSplitViewController {
+                if traitCollection.userInterfaceIdiom == .pad {
+                    libraryMenu.attributes = [.disabled] // always disabled on iPad
+                } else {
+                    if !mySplitView.stackProviderHasRows() {
+                        libraryMenu.attributes = [.disabled]
+                    }
+                }
+
+            }
+
+
+        let contextMenu = UIMenu(title: "",
+                    children: [ libraryMenu
+                                ,
                         UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
                             action in
                                 // self.saveStackAlert(self.moreBtn)
@@ -566,13 +621,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                         UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
                             action in
                             self.displayPrivacyPolicy(self.moreBtn)
-                                    },
-                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
-                            action in
-                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
-                            else { return }
-                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
                                     }
+//                                ,
+//                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
+//                            action in
+//                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//                            else { return }
+//                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
+//                                    }
 
 
         ])
@@ -585,6 +641,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             // PGLHelpPageController will set to false after showing help
 
         }
+        updateNavigationBar()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -603,7 +660,31 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         notifications = [Any]() // reset
     }
 
+    func updateLibraryMenu() {
+        // from open stack delete command or the saveActionBtns
+        // enable/disable the More button library menu item
+        if traitCollection.userInterfaceIdiom == .pad
+            { return
+                // leave as default ie disabled on the iPad
+        }
+        if let mySplitView =  splitViewController as? PGLSplitViewController {
+            guard let theActions = moreBtn.menu?.children
+            else { return }
+            for aMenuAction in theActions {
+                if let thisAction = aMenuAction as? UIAction {
+                    if thisAction.identifier == PGLImageController.LibraryMenuIdentifier {
+                        if mySplitView.stackProviderHasRows() {
+                            thisAction.attributes = []  // ie not disabled
+                        } else {
+                            thisAction.attributes = [.disabled]
+                        }
+                    break
+                    }
+                }
+            }
 
+        }
+    }
 
     func hideParmControls() {
         // called from the PGLParmTableViewController viewDidDisappear

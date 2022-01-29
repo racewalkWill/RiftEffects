@@ -221,9 +221,10 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             }
         }
         tableView.setEditing(!tableView.isEditing, animated: true)
-           searchBar.isHidden = tableView.isEditing // no search bar when editing
+       searchBar.isHidden = tableView.isEditing // no search bar when editing
 
-           configureNavigationItem()
+       configureNavigationItem()
+
        }
 
     func removeDeletedFromSnapshot(deletedRows: [IndexPath]) {
@@ -234,6 +235,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         var currentSnapshot = dataSource.snapshot()
         currentSnapshot.deleteItems(diffableIdentifiers)
         dataSource.apply(currentSnapshot)
+
+
     }
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -245,28 +248,25 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
          if deviceIdom == .phone {
              // test for compact fo
              // keep the prefferred display mode
+
+    //              test for compact format here??
+//                  trying to navigate to the stackController...
+//                 splitViewController?.setViewController(PGLStackController(), for: .compact)
+//                 splitViewController?.show(.secondary)
+             // let user touch outside of the controller to dismiss
+             // selected stack is loaded into the image controller behind the openStackViewController
+             // ie. a little preview..
+             dismiss(animated: true, completion: nil )
          }
          else {
              if !tableView.isEditing {
                  self.splitViewController?.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
              }
          }
-         
 
-//         let deviceIdom = traitCollection.userInterfaceIdiom
-//         if deviceIdom == .phone {
-             // test for compact format here??
-             // trying to navigate to the stackController...
-//             splitViewController?.setViewController(PGLStackController(), for: .compact)
-//             splitViewController?.show(.secondary)
+         }
 
-//         }
-        
-//        dismiss(animated: true, completion: nil )
-        // let user touch outside of the controller to dismiss
-        // selected stack is loaded into the image controller behind the openStackViewController
-        // ie. a little preview..
-    }
+
 
 
 
@@ -298,6 +298,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
         func delete(cdStack: CDFilterStack) {
             dataProvider?.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
+            let stackNotification = Notification(name:PGLUpdateLibraryMenu)
+            NotificationCenter.default.post(stackNotification)
         }
 
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
