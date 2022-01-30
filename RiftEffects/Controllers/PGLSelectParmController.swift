@@ -66,6 +66,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // false will use the WWDC20 PHPickerViewController image selection
         // true - iPad uses PGLImagePicker which tracks the album source of the picked image
 
+    var picker: PHPickerViewController?
     
     var scaleFactor: CGFloat = 2.0
 
@@ -1227,41 +1228,46 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         else {
 //             waiting for improvments in PHPickerViewController to use albumId to
 //             show last user selection
-            let photoLibrary = PHPhotoLibrary.shared()
-                   var configuration = PHPickerConfiguration(photoLibrary: photoLibrary)
-                if (currentFilter?.isTransitionFilter() ??  false ) {
-                            configuration.selectionLimit = 0
-                    }
-                    // Set the selection behavior to respect the user’s selection order.
-            if #available(iOS 15, *) {
-                configuration.selection = .ordered
-            } else {
-                // Fallback on earlier versions
-            }
-            if let targetAttribute = self.tappedAttribute {
-                    // Set the selection limit to enable multiselection.
-                if targetAttribute.isTransitionFilter {
-                    configuration.selectionLimit = 0 }
-            else {
-                configuration.selectionLimit = 1 }
+            if picker == nil
+                { picker = initPHPickerView() }
 
-            }
-            if let targetAttribute = self.tappedAttribute {
-                if let existingSelectionIDs = targetAttribute.inputCollection?.assetIDs
-                    { let hasNullID = existingSelectionIDs.contains(where: { anAssetIDString in
-                        // "(null)/L0/001" is error string
-                        return anAssetIDString.hasPrefix("(null)/")
-                    })
-                    if !hasNullID {
-                        configuration.preselectedAssetIdentifiers = existingSelectionIDs }
-                    }
-            }
-           let picker = PHPickerViewController(configuration: configuration)
-           picker.delegate = self
-            present(picker, animated: true)
+            //PHPickerViewController documentation says 'You can present a picker object only once; you can’t reuse it across sessions'
+            // there must be a ref back into this process from the picker.. use the same picker
+            // if in the same view works BUT
+            // navigation from the effects (filter) causes the error
+//                  Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Picker's configuration is not a valid configuration.'
+
+            if picker != nil {
+                present(picker!, animated: true) }
 
 
         }
+    }
+
+    func initPHPickerView() -> PHPickerViewController? {
+        var configuration = PHPickerConfiguration(photoLibrary: .shared())
+        if (currentFilter?.isTransitionFilter() ??  false ) {
+            configuration.selectionLimit = 0
+        } else {
+            configuration.selectionLimit = 1
+        }
+                // Set the selection behavior to respect the user’s selection order.
+        configuration.filter = .images
+        configuration.preferredAssetRepresentationMode = .automatic
+        configuration.selection = .ordered
+
+        let targetAttribute = self.tappedAttribute
+
+        var existingSelectionIDs: [String] = targetAttribute?.inputCollection?.assetIDs ?? [String]()
+        existingSelectionIDs.removeAll( where: {
+                 $0.hasPrefix("(null)/")   // "(null)/L0/001" is error string
+            })
+        configuration.preselectedAssetIdentifiers = existingSelectionIDs
+        // config will hold onto the existingSelection if the user opens it again
+
+        let myPicker = PHPickerViewController(configuration: configuration)
+        myPicker.delegate = self
+        return myPicker
     }
 
 
