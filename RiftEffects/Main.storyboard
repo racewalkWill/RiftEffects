@@ -105,21 +105,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="812" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pwg-wD-r4G">
-                                <rect key="frame" x="0.0" y="323" width="812" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem systemItem="save" id="ctd-YV-PgA">
-                                        <connections>
-                                            <action selector="saveBtnClick:" destination="YDi-EF-p5k" id="44P-hC-98A"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="czb-Qh-xUv">
                                 <rect key="frame" x="321.66666666666669" y="40" width="168.66666666666669" height="201"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Stack" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6X-jX-kBi">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6X-jX-kBi">
                                         <rect key="frame" x="0.0" y="0.0" width="168.66666666666666" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <nil key="textColor"/>
@@ -205,11 +194,33 @@
                                     <constraint firstItem="3KB-2l-0gr" firstAttribute="leading" secondItem="AO9-l8-IAb" secondAttribute="leading" id="VAJ-hd-Nh3"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgu-ZE-w9s" userLabel="Save">
+                                <rect key="frame" x="603" y="20" width="44" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="OK"/>
+                                <connections>
+                                    <action selector="upperSaveBtn:" destination="YDi-EF-p5k" eventType="touchUpInside" id="7Yn-et-fAD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="362-y2-YVB" userLabel="Cancel">
+                                <rect key="frame" x="165" y="20" width="68.666666666666686" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelBtnAction:" destination="YDi-EF-p5k" eventType="touchUpInside" id="6bV-XQ-GNk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Lgu-ZE-w9s" firstAttribute="top" secondItem="dSV-Fg-Wru" secondAttribute="bottom" constant="20" id="335-zj-VaH"/>
                             <constraint firstItem="czb-Qh-xUv" firstAttribute="top" secondItem="dSV-Fg-Wru" secondAttribute="bottom" constant="40" id="4go-oS-lsu"/>
                             <constraint firstItem="czb-Qh-xUv" firstAttribute="centerX" secondItem="XQ0-Te-ZA5" secondAttribute="centerX" id="Fmr-w7-rUe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Lgu-ZE-w9s" secondAttribute="trailing" constant="105" id="mXu-wo-VIW"/>
+                            <constraint firstItem="W6X-jX-kBi" firstAttribute="top" secondItem="dSV-Fg-Wru" secondAttribute="bottom" constant="40" id="mgu-1C-nxN"/>
+                            <constraint firstItem="362-y2-YVB" firstAttribute="top" secondItem="dSV-Fg-Wru" secondAttribute="bottom" constant="20" id="qJX-pi-Keg"/>
+                            <constraint firstItem="362-y2-YVB" firstAttribute="leading" secondItem="XQ0-Te-ZA5" secondAttribute="leadingMargin" constant="105" id="sc9-TM-Aj0"/>
+                            <constraint firstItem="Lgu-ZE-w9s" firstAttribute="top" secondItem="362-y2-YVB" secondAttribute="top" id="uBD-UX-mY5"/>
                         </constraints>
                     </view>
                     <connections>

@@ -88,10 +88,17 @@ class PGLSaveDialogController: UIViewController {
         userEnteredAlbumName = sender.text
     }
 
+    @IBAction func cancelBtnAction(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
 
+    }
 
-    @IBAction func saveBtnClick(_ sender: UIBarButtonItem) {
+    @IBAction func upperSaveBtn(_ sender: UIButton) {
+        saveAction()
 
+    }
+
+    fileprivate func saveAction() {
         var saveData = PGLStackSaveData()
         saveData.stackName = userEnteredStackName
         saveData.stackType = userEnteredStackType
@@ -101,11 +108,11 @@ class PGLSaveDialogController: UIViewController {
         incrementSaveCountForAppReview()
 
         dismiss(animated: true, completion: {
-        let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
+            let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
             NotificationCenter.default.post(stackNotification)} )
-
     }
 
+   
 
 // MARK: View Load TableView config
     override func viewDidLoad() {

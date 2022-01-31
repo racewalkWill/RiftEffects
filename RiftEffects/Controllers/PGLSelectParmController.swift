@@ -1338,6 +1338,12 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
 
+
+        if let cellPath = targetAttribute.uiIndexPath {
+            self.parmsTableView.reloadRows(at: [cellPath], with: .automatic) }
+        // gets the parm cell icon updated for an input image
+        else { self.parmsTableView.reloadData() }
+
     }
 
 
