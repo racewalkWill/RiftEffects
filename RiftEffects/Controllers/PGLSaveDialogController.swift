@@ -26,7 +26,7 @@ struct PGLStackSaveData {
 
 }
 
-class PGLSaveDialogController: UIViewController {
+class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     // 2/22/2021  Change to stackView TableView controller
     // see examples in Filterpedia and UIStackView documentation
     // esp figure 7 with nestedStackViews for label and text input cells
@@ -45,13 +45,28 @@ class PGLSaveDialogController: UIViewController {
 
 
 //    var parentImageController: PGLImageController!
+
+    @IBOutlet weak var saveFieldsStack: UIStackView!
+
     @IBOutlet weak var saveDialogLabel: UILabel!
 
-    @IBOutlet weak var stackName: UITextField!
+    @IBOutlet weak var stackName: UITextField! {
+        didSet {
+            stackName.delegate = self
+        }
+    }
 
-    @IBOutlet weak var stackType: UITextField!
+    @IBOutlet weak var stackType: UITextField! {
+        didSet {
+            stackType.delegate = self
+        }
+    }
 
-    @IBOutlet weak var albumName: UITextField!
+    @IBOutlet weak var albumName: UITextField! {
+        didSet {
+            albumName.delegate = self
+        }
+    }
 
     @IBOutlet weak var toPhotos: UISwitch!
     
@@ -98,6 +113,61 @@ class PGLSaveDialogController: UIViewController {
 
     }
 
+    @IBOutlet weak var bottomLayoutGuideConstraint: NSLayoutConstraint!
+
+
+    // MARK: UITextFieldDelegate
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
+        textField.resignFirstResponder()
+    }
+
+    @objc func handleKeyboardNotification(_ notification: Notification) {
+        guard let userInfo = notification.userInfo else { return }
+
+        // Get the animation duration.
+        var animationDuration: TimeInterval = 0
+        if let value = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber {
+           animationDuration = value.doubleValue
+        }
+
+        // Convert the keyboard frame from screen to view coordinates.
+        var keyboardScreenBeginFrame = CGRect()
+        if let value = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue) {
+            keyboardScreenBeginFrame = value.cgRectValue
+        }
+
+        var keyboardScreenEndFrame = CGRect()
+        if let value = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue) {
+            keyboardScreenEndFrame = value.cgRectValue
+        }
+
+        let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
+
+        // The text view should be adjusted, update the constant for this constraint.
+        bottomLayoutGuideConstraint.constant -= originDelta
+
+        // Inform the view that its autolayout constraints have changed and the layout should be updated.
+        view.setNeedsUpdateConstraints()
+
+        // Animate updating the view's layout by calling layoutIfNeeded inside a `UIViewPropertyAnimator` animation block.
+        let textViewAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeIn, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        })
+        textViewAnimator.startAnimation()
+
+        // Scroll to the selected text once the keyboard frame changes.
+//        let selectedRange = textView.selectedRange
+//        saveFieldsStack.scrollRangeToVisible(selectedRange)
+    }
+
+
+
+    // MARK: View Lifecycle
     fileprivate func saveAction() {
         var saveData = PGLStackSaveData()
         saveData.stackName = userEnteredStackName
@@ -144,6 +214,25 @@ class PGLSaveDialogController: UIViewController {
             albumLabel.isHidden = !shouldStoreToPhotos
             albumName.isEnabled = shouldStoreToPhotos
         }
+        // adjust keyboard
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,
+                                       selector: #selector(PGLSaveDialogController.handleKeyboardNotification(_:)),
+                                       name: UIResponder.keyboardWillShowNotification,
+                                       object: nil)
+
+        notificationCenter.addObserver(self,
+                                       selector: #selector(PGLSaveDialogController.handleKeyboardNotification(_:)),
+                                       name: UIResponder.keyboardWillHideNotification,
+                                       object: nil)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     func isLimitedPhotoLibAccess() -> Bool {
