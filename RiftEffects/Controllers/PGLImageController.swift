@@ -190,9 +190,14 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
        popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
        popOverPresenter.delegate = self
 
-       // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
-//        popOverPresenter.sourceView = view
        popOverPresenter.barButtonItem = sender
+
+       let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+       sheet.detents = [.medium(), .large()]
+//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+       sheet.prefersEdgeAttachedInCompactHeight = true
+       sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
        present(pickStoredStackViewController, animated: true )
 
         }
@@ -210,6 +215,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         popOverPresenter.delegate = self
         // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
 //        popOverPresenter.sourceView = view
+        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+        sheet.detents = [.medium(), .large()]
+//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        sheet.prefersEdgeAttachedInCompactHeight = true
+        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
         popOverPresenter.barButtonItem = moreBtn
          present(saveDialogController, animated: true )
     }
@@ -226,6 +237,13 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
         // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
 //        popOverPresenter.sourceView = view
+
+        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+        sheet.detents = [.medium(), .large()]
+//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        sheet.prefersEdgeAttachedInCompactHeight = true
+        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
         popOverPresenter.barButtonItem = helpBtn
         present(helpController, animated: true )
     }
