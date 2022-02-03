@@ -11,7 +11,7 @@ import Photos
 import os
 
 
-class PGLStackController: UITableViewController, UINavigationControllerDelegate {
+class PGLStackController: UITableViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate {
     // tableview of the filters in the stack
     // opens on cell select the masterFilterController to pick new filter
     // on swipe cell "Parms" opens parmController to change filter parms
@@ -423,13 +423,19 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate 
             return
         }
         helpController.modalPresentationStyle = .popover
-        helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
+//        helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
         // specify anchor point?
         guard let popOverPresenter = helpController.popoverPresentationController
         else { return }
         popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
         // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
        popOverPresenter.sourceView = filterCell
+
+        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+        sheet.detents = [.medium(), .large()]
+//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        sheet.prefersEdgeAttachedInCompactHeight = true
+        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
 
         helpController.textInfo =  filterText
         helpController.filterName = filterName

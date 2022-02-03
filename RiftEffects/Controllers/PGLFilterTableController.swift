@@ -17,7 +17,7 @@ enum FilterChangeMode{
 let ABCSymbol = UIImage(systemName: "textformat.abc")
 let GroupSymbol = UIImage(systemName: "rectangle.grid.1x2")
 
-class PGLFilterTableController: UITableViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate {
+class PGLFilterTableController: UITableViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate {
         //UIDragInteractionDelegate, UIDropInteractionDelegate
 
     //MARK: - Properties
@@ -335,13 +335,16 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
             return
         }
         helpController.modalPresentationStyle = .popover
-        helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
+       helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
         // specify anchor point?
         guard let popOverPresenter = helpController.popoverPresentationController
         else { return }
-        popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
-        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
-       popOverPresenter.sourceView = filterCell
+        popOverPresenter.sourceView = filterCell
+        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+        sheet.detents = [.medium(), .large()]
+//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        sheet.prefersEdgeAttachedInCompactHeight = true
+        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
 
         helpController.textInfo =  filterText
         helpController.filterName = filterName
@@ -373,5 +376,8 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
     }
 
+
 }
+
+
 
