@@ -43,6 +43,7 @@
                             <outlet property="delegate" destination="VNd-gL-KQM" id="oSA-ei-hYH"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems>
                         <barButtonItem title="Item" image="photo" catalog="system" id="wN4-M4-iXU" userLabel="ShowImageController">
                             <connections>
@@ -617,6 +618,7 @@
         <scene sceneID="nHH-rO-VOb">
             <objects>
                 <splitViewController title="RootSplit" allowDoubleColumnStyle="YES" maximumPrimaryColumnWidth="300" minimumPrimaryColumnWidth="100" maximumSupplementaryColumnWidth="300" minimumSupplementaryColumnWidth="100" preferredDisplayMode="twoOver" preferredPrimaryColumnWidthFraction="0.29999999999999999" preferredSupplementaryColumnWidthFraction="0.29999999999999999" id="vbC-U8-P9f" customClass="PGLSplitViewController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <variation key="heightClass=compact-widthClass=compact" preferredPrimaryColumnWidthFraction="0.3" preferredSupplementaryColumnWidthFraction="0.3"/>
                     <variation key="heightClass=compact-widthClass=regular" preferredPrimaryColumnWidthFraction="0.1" preferredSupplementaryColumnWidthFraction="0.3"/>
                     <variation key="heightClass=regular-widthClass=compact" preferredPrimaryColumnWidthFraction="0.3" preferredSupplementaryColumnWidthFraction="0.3"/>
@@ -1100,6 +1102,7 @@
                             <outlet property="delegate" destination="dDm-tJ-e98" id="yca-nZ-yb7"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="KJJ-kt-Vuh">
                         <leftBarButtonItems>
                             <barButtonItem systemItem="add" id="nc0-tH-Wbu">
@@ -1202,7 +1205,7 @@
         <segue reference="Fbq-A6-ZwM"/>
         <segue reference="upL-2v-qbI"/>
         <segue reference="F2R-RF-eJT"/>
-        <segue reference="q90-Vk-s0q"/>
+        <segue reference="8dR-Nq-8eW"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>

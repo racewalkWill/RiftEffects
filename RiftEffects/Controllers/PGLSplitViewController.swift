@@ -38,11 +38,25 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
             preferredPrimaryColumnWidthFraction = 0.3
             preferredSupplementaryColumnWidthFraction = 0.3
+
         }
 
         // Do any additional setup after loading the view.
         checkPhotoLibraryAccess()
 
+    }
+
+    func prepare(for segue: UIStoryboardSegue,
+                 sender: Any?) {
+        if segue.destination is PGLStackController {
+            let stackController = segue.destination
+            if traitCollection.verticalSizeClass == .compact {
+                let presentationController = stackController.presentationController
+               presentationController.shouldPresentInFullscreen = false
+            }|
+
+
+        }
     }
 
     func splitViewControllerDidCollapse(_ svc: UISplitViewController) {

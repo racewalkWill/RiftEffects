@@ -11,7 +11,7 @@ import Photos
 import os
 
 
-class PGLStackController: UITableViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate {
+class PGLStackController: UITableViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate {
     // tableview of the filters in the stack
     // opens on cell select the masterFilterController to pick new filter
     // on swipe cell "Parms" opens parmController to change filter parms
@@ -28,6 +28,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     var longPressStart: IndexPath?
     var segueStarted = false  // set to true during prepareFor segue
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
@@ -43,6 +44,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
+
 
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
@@ -83,12 +85,27 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             if verticalSize != .compact {
                 self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
         }
+
+
+
+      
     }
 
     override func viewWillAppear(_ animated: Bool) {
         appStack.postSelectActiveStackRow()
+        if traitCollection.horizontalSizeClass == .compact {
+            modalPresentationStyle = .formSheet
+            let myPresentation =  presentationController
+            myPresentation?.delegate = self
+        }
     }
 
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        if traitCollection.verticalSizeClass == .compact {
+            return .none }
+        else { return .automatic }
+    }
+    
     // MARK: appear/disappear
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
