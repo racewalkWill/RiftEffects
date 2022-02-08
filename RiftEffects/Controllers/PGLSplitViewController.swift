@@ -46,55 +46,46 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
     }
 
-    func prepare(for segue: UIStoryboardSegue,
-                 sender: Any?) {
-        if segue.destination is PGLStackController {
-            let stackController = segue.destination
-            if traitCollection.verticalSizeClass == .compact {
-                let presentationController = stackController.presentationController
-               presentationController.shouldPresentInFullscreen = false
-            }|
 
-
-        }
-    }
 
     func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
         NSLog("Did Collapse splitView ")
     }
 
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-
+        //horizontally regular to a horizontally compact size class
         
-        let horizontalSize = traitCollection.horizontalSizeClass
-        if horizontalSize == .compact {
-             return .supplementary
-            // supplementary shows the effects col - on small screens this is full size
-            // but navigation works and the pict icon navigation works to see the
-            // image controller view
-        }
-        else { return proposedTopColumn}
+//        let horizontalSize = traitCollection.horizontalSizeClass
+//        if horizontalSize == .compact {
+//             return .supplementary
+//            // supplementary shows the effects col - on small screens this is full size
+//            // but navigation works and the pict icon navigation works to see the
+//            // image controller view
+//        }
+//        else { return proposedTopColumn}
+        if proposedTopColumn == .compact {
+            // change the to a single ImageController and use popup detent to show the other controllers
+            let imageController = self.storyboard?.instantiateViewController(withIdentifier: "PGLImageController")
+            svc.setViewController(imageController, for: .compact)
 
+            return .compact
+        } else {
+            return proposedTopColumn
+        }
 
 
     }
+
+
 
     func splitViewController(_ svc: UISplitViewController,
                              displayModeForExpandingToProposedDisplayMode proposedDisplayMode: UISplitViewController.DisplayMode) -> UISplitViewController.DisplayMode  {
         return proposedDisplayMode
 
     }
-//
-//    @objc func showImageCompact() {
-//        // in horizontal compact mode on the iPhone the split view controller is not showing the secondary window.
-//        // force it
-//        show(UISplitViewController.Column.secondary)
-//    }
 
-    @IBAction func goToSplitView(segue: UIStoryboardSegue) {
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLParmsFilterTabsController goToSplitView segue")
 
-    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

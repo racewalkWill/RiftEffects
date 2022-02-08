@@ -116,6 +116,7 @@
 		A3BF515924D32D7400CD5114 /* GlanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515724D32D7400CD5114 /* GlanceUITests.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
 		A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC264E2698FD83003E48C2 /* PGLImageController.swift */; };
+		A3DC3DE227B17EF500E4C111 /* PGLCompactImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */; };
 		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
 		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
@@ -260,6 +261,7 @@
 		A3BF515724D32D7400CD5114 /* GlanceUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceUITests.swift; sourceTree = "<group>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
 		A3DC264E2698FD83003E48C2 /* PGLImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageController.swift; sourceTree = "<group>"; };
+		A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCompactImageController.swift; sourceTree = "<group>"; };
 		A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLHelpPageController.swift; sourceTree = "<group>"; };
 		A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLScalingFilter.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */,
 				A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */,
 				A3DC264E2698FD83003E48C2 /* PGLImageController.swift */,
+				A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */,
 				A3BF505724D32A3400CD5114 /* PGLMetalController.swift */,
 				A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */,
 				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
@@ -740,6 +743,7 @@
 				A3BF514724D32A3400CD5114 /* PGLFilterCIAbstract.swift in Sources */,
 				A35FF77E26DC346200D78252 /* PGLCoreData+Defns.swift in Sources */,
 				A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */,
+				A3DC3DE227B17EF500E4C111 /* PGLCompactImageController.swift in Sources */,
 				A3BF50D324D32A3400CD5114 /* Sobel.m in Sources */,
 				A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */,
 				A3BF513124D32A3400CD5114 /* Renderer.swift in Sources */,

@@ -342,10 +342,10 @@
             </objects>
             <point key="canvasLocation" x="1503.2667876588023" y="-917.2661870503598"/>
         </scene>
-        <!--Image Controller-->
+        <!--Compact Image Controller-->
         <scene sceneID="8Cz-fE-dCl">
             <objects>
-                <viewController storyboardIdentifier="PGLImageController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Cot-0o-SSg" customClass="PGLImageController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLImageController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Cot-0o-SSg" customClass="PGLCompactImageController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EJI-ec-Z2e"/>
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
