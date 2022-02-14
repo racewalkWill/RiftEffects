@@ -115,15 +115,23 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var bottomLayoutGuideConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var topLayoutGuideConstraint: NSLayoutConstraint!
 
     // MARK: UITextFieldDelegate
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         textField.resignFirstResponder()
+        return true
     }
 
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+
+
     @objc func handleKeyboardNotification(_ notification: Notification) {
+        // from UIKitCatalog  TextViewController example
         guard let userInfo = notification.userInfo else { return }
 
         // Get the animation duration.
@@ -149,8 +157,8 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
 
         // The text view should be adjusted, update the constant for this constraint.
-        bottomLayoutGuideConstraint.constant -= originDelta
-
+//        bottomLayoutGuideConstraint.constant -= originDelta
+        topLayoutGuideConstraint.constant  += originDelta
         // Inform the view that its autolayout constraints have changed and the layout should be updated.
         view.setNeedsUpdateConstraints()
 
@@ -160,9 +168,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         })
         textViewAnimator.startAnimation()
 
-        // Scroll to the selected text once the keyboard frame changes.
-//        let selectedRange = textView.selectedRange
-//        saveFieldsStack.scrollRangeToVisible(selectedRange)
+
     }
 
 
@@ -201,8 +207,8 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
          userEnteredStackName = targetStack.stackName
         userEnteredStackType =  targetStack.stackType
         userEnteredAlbumName =  targetStack.exportAlbumName
-        if doSaveAs {saveDialogLabel.text = "Save Stack As.."
-            } else { saveDialogLabel.text = "Save Stack" }
+        if doSaveAs {saveDialogLabel.text = "Rename As.."
+            } else { saveDialogLabel.text = "Effect" }
 
         if isLimitedPhotoLibAccess() {
             // limited access does not allow album creation or save to album
