@@ -48,6 +48,10 @@ class PGLMainFilterController: PGLFilterTableController {
     /// Restoration state for UISearchController
     private var restoredState = SearchControllerRestorableState()
 
+    @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+
+    }
     @IBOutlet weak var modeToolBarBtn: UIBarButtonItem!
 
     @IBOutlet weak var searchToolBarBtn: UIBarButtonItem!

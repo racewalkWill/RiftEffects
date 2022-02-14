@@ -85,6 +85,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     var selectedCellIndexPath: IndexPath?
 
 
+    @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
+//        let actionAccepted = Notification(name: PGLImageNavigationBack )
+//               NotificationCenter.default.post(actionAccepted)
+
+               self.navigationController?.popViewController(animated: true)
+
+    }
     @IBOutlet weak var shiftBtn: UIBarButtonItem!
 
     @IBOutlet weak var filterShiftLabel: UIBarButtonItem!
@@ -144,6 +151,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
         appStack = myAppDelegate.appStack
         navigationItem.title = "Parms"//viewerStack.stackName
+
 
         setImageController()
 

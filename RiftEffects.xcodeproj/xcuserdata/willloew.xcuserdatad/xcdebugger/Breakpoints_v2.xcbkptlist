@@ -110,8 +110,8 @@
             filePath = "RiftEffects/Controllers/PGLSelectParmController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1231"
-            endingLineNumber = "1231"
+            startingLineNumber = "1239"
+            endingLineNumber = "1239"
             landmarkName = "pickImage(_:)"
             landmarkType = "7">
          </BreakpointContent>
