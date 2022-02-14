@@ -162,7 +162,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         downChevronBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(downChevronAction))
         downChevronBtn.image = UIImage(systemName:"chevron.down")
         toolBarSpacer = UIBarButtonItem.flexibleSpace()
-        setToolbarItems([filterShiftImage, filterShiftBtn,  toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
+      setToolbarItems([filterShiftImage, filterShiftBtn,  toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
         setShiftBtnState()
         setChevronState()
     }

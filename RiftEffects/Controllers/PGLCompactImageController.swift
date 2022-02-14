@@ -16,33 +16,37 @@ class PGLCompactImageController: PGLImageController {
 
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
+    @IBAction func stackBtnAction(_ sender: UIBarButtonItem) {
+        // not called button removed
         let horizontalSize = traitCollection.horizontalSizeClass
               if horizontalSize == .compact {
                   // trigger the effects controller in a non dimmed popover
                   // as shown in  WWDC21 session ! Customize and Resize Sheets in UIKit
                  guard let stackEffectsController = self.storyboard?.instantiateViewController(withIdentifier: "StackController") else
                  { return }
-                  stackEffectsController.modalPresentationStyle = .popover
+                  stackEffectsController.modalPresentationStyle = .formSheet  // was .popover
                   stackEffectsController.preferredContentSize = CGSize(width: 350, height: 300.0)
                   if let popover = stackEffectsController.popoverPresentationController {
                       let sheet = popover.adaptiveSheetPresentationController
-                      sheet.detents = [.medium()]
+                      sheet.detents = [.medium(), .large()]
                       sheet.largestUndimmedDetentIdentifier = .medium
                       sheet.prefersScrollingExpandsWhenScrolledToEdge = false
                       sheet.prefersEdgeAttachedInCompactHeight = true
                       sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-                      
+
                   }
 //                  let navController = UINavigationController(rootViewController: stackEffectsController)
 //                  present(navController, animated: true, completion: nil )
-                  present(stackEffectsController, animated: true, completion: nil )
+                  let items = stackEffectsController.toolbarItems
+                  NSLog("stack has tool bar items \(items)")
+                 present(stackEffectsController, animated: true, completion: nil )
+                    // but no nav bar item with the buttons !
+
 
 
               }
     }
+
     
 
     /*
