@@ -613,12 +613,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                     }
 
             if let mySplitView =  splitViewController as? PGLSplitViewController {
-                if traitCollection.userInterfaceIdiom == .pad {
-                    libraryMenu.attributes = [.disabled] // always disabled on iPad
-                } else {
-                    if !mySplitView.stackProviderHasRows() {
-                        libraryMenu.attributes = [.disabled]
-                    }
+//                if traitCollection.userInterfaceIdiom == .pad {
+//                    libraryMenu.attributes = [.disabled] // always disabled on iPad
+//                } else {
+                if !mySplitView.stackProviderHasRows() {
+                    libraryMenu.attributes = [.disabled]
+    //                    }
                 }
 
             }
@@ -681,10 +681,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     func updateLibraryMenu() {
         // from open stack delete command or the saveActionBtns
         // enable/disable the More button library menu item
-        if traitCollection.userInterfaceIdiom == .pad
-            { return
-                // leave as default ie disabled on the iPad
-        }
+//        if traitCollection.userInterfaceIdiom == .pad
+//            { return
+//                // leave as default ie disabled on the iPad
+//        }
         if let mySplitView =  splitViewController as? PGLSplitViewController {
             guard let theActions = moreBtn.menu?.children
             else { return }
