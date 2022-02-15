@@ -598,6 +598,11 @@ extension PGLAppStack {
            }
 
     fileprivate func photoLibPerformJPEGChange(_ uiImageOutput: UIImage?, _ assetCollection: PHAssetCollection?, _ stack: PGLFilterStack) {
+        if uiImageOutput == nil {
+            let imageRenderError = savePhotoError.otherSaveError
+            userSaveErrorAlert(withError: imageRenderError)
+            return
+        }
         do { try PHPhotoLibrary.shared().performChangesAndWait( {
 
             let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput!)
