@@ -19,7 +19,7 @@ struct PGLStackSaveData {
     // in the PGLStackSaveNotification
 
     var stackName: String!
-    var stackType: String!
+    var stackType: String!  // 2/15/22 stackType will also store to albumName.. interface is labelled album
     var albumName: String?
     var storeToPhoto = false
     var shouldSaveAs = false
@@ -39,7 +39,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     var appStack: PGLAppStack!
     var userEnteredStackName: String?
     var userEnteredStackType: String?
-    var userEnteredAlbumName: String?
+//    var userEnteredAlbumName: String?
     var shouldStoreToPhotos: Bool = false
     var doSaveAs: Bool = false
 
@@ -55,6 +55,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
             stackName.delegate = self
         }
     }
+    @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var stackType: UITextField! {
         didSet {
@@ -62,11 +63,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet weak var albumName: UITextField! {
-        didSet {
-            albumName.delegate = self
-        }
-    }
+
 
     @IBOutlet weak var toPhotos: UISwitch!
     
@@ -75,18 +72,12 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
     @IBAction func storeToLibEdit(_ sender: UISwitch) {
         shouldStoreToPhotos = sender.isOn
-        albumName.isHidden = !shouldStoreToPhotos
-        albumLabel.isHidden = !shouldStoreToPhotos
-        albumName.isEnabled = shouldStoreToPhotos
-        if (albumName.text!.isEmpty) {
-            albumName.text = userEnteredStackType
-            // default value
+//        albumName.text = userEnteredStackType
 
-        }
-        if shouldStoreToPhotos {
-            userEnteredAlbumName = albumName.text
-            // after UISwitch change
-        }
+//        if shouldStoreToPhotos {
+//            userEnteredAlbumName = albumName.text
+//            // after UISwitch change
+//        }
         
     }
 
@@ -99,9 +90,9 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         userEnteredStackType = sender.text
     }
 
-    @IBAction func albumNameEditChange(_ sender: UITextField) {
-        userEnteredAlbumName = sender.text
-    }
+//    @IBAction func albumNameEditChange(_ sender: UITextField) {
+//        userEnteredAlbumName = sender.text
+//    }
 
     @IBAction func cancelBtnAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -113,9 +104,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
     }
 
-    @IBOutlet weak var bottomLayoutGuideConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var topLayoutGuideConstraint: NSLayoutConstraint!
 
     // MARK: UITextFieldDelegate
 
@@ -158,16 +147,16 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
         // The text view should be adjusted, update the constant for this constraint.
 //        bottomLayoutGuideConstraint.constant -= originDelta
-        topLayoutGuideConstraint.constant  += originDelta
+//        topLayoutGuideConstraint.constant  += originDelta
         // Inform the view that its autolayout constraints have changed and the layout should be updated.
-        view.setNeedsUpdateConstraints()
+//        view.setNeedsUpdateConstraints()
 
         // Animate updating the view's layout by calling layoutIfNeeded inside a `UIViewPropertyAnimator` animation block.
-        let textViewAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeIn, animations: { [weak self] in
-            self?.view.layoutIfNeeded()
-        })
-        textViewAnimator.startAnimation()
-
+//        let textViewAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeIn, animations: { [weak self] in
+//            self?.view.layoutIfNeeded()
+//        })
+//        textViewAnimator.startAnimation()
+//        scrollView.
 
     }
 
@@ -178,7 +167,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         var saveData = PGLStackSaveData()
         saveData.stackName = userEnteredStackName
         saveData.stackType = userEnteredStackType
-        saveData.albumName = userEnteredAlbumName
+        saveData.albumName = userEnteredStackType // 2/15/22 stack type now labelled album
         saveData.storeToPhoto = shouldStoreToPhotos
         saveData.shouldSaveAs = doSaveAs
         incrementSaveCountForAppReview()
@@ -203,23 +192,23 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
          let targetStack =  appStack.outputFilterStack()
         stackName.text  = targetStack.stackName
         stackType.text  =  targetStack.stackType
-        albumName.text  = targetStack.exportAlbumName
+//        albumName.text  = targetStack.exportAlbumName
          userEnteredStackName = targetStack.stackName
         userEnteredStackType =  targetStack.stackType
-        userEnteredAlbumName =  targetStack.exportAlbumName
+//        userEnteredAlbumName =  targetStack.exportAlbumName
         if doSaveAs {saveDialogLabel.text = "Rename As.."
             } else { saveDialogLabel.text = "Effect" }
 
-        if isLimitedPhotoLibAccess() {
+//        if isLimitedPhotoLibAccess() {
             // limited access does not allow album creation or save to album
-            albumName.isHidden = true
-            albumLabel.isHidden = true
-            userEnteredAlbumName = nil
-        } else {
-            albumName.isHidden = !shouldStoreToPhotos  // inits to false
-            albumLabel.isHidden = !shouldStoreToPhotos
-            albumName.isEnabled = shouldStoreToPhotos
-        }
+//            albumName.isHidden = true
+//            albumLabel.isHidden = true
+//            userEnteredAlbumName = nil
+//        } else {
+//            albumName.isHidden = !shouldStoreToPhotos  // inits to false
+//            albumLabel.isHidden = !shouldStoreToPhotos
+//            albumName.isEnabled = shouldStoreToPhotos
+//        }
         // adjust keyboard
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self,
