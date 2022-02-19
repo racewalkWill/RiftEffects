@@ -67,8 +67,32 @@ class PGLAppStack {
     var targetAttribute: PGLFilterAttribute?
     // the imageController viewDidLoad or appear
     // should perform the highlight logic..
-    // 
 
+    var parmControls = [String : UIView]() // string index by attributeName
+        // holds point and textfield input controls
+    var parms =  [String : PGLFilterAttribute]() // string index by attributeName
+
+    var isImageControllerOpen = false { // set to false when PGLAssetGridController or other controllers in the detail are open
+       // MARK: appStackParmRefactor
+       //  make sure this is set correctly in the iphone compact mode where imageController
+        // is not visible
+        didSet{
+//            NSLog ("PGLAppStackl isImageControllerOpen = \(isImageControllerOpen)")
+//            NSLog ("PGLAppStackl isImageControllerOpen oldValue = \(oldValue)")
+        }
+    }
+
+    func setParms(newFilterParms: [PGLFilterAttribute]) {
+            // MARK: appStackParmRefactor
+
+        // Sender?
+        // set parms with the attributeName as the dictionary key for the filterAttribute
+        // what about clearing old  buttons  in updateParmControls?
+        parms =  [String : PGLFilterAttribute]()
+        for anAttribute in newFilterParms {
+            parms[anAttribute.attributeName!] = anAttribute
+        }
+    }
 
     // MARK: Master Data Object Stacks
     func postStackChange() {
@@ -342,12 +366,8 @@ class PGLAppStack {
                 aStack.hasAnimationFilter() }
             }
         }
-    var isImageControllerOpen = true { // set to false when PGLAssetGridController or other controllers in the detail are open
-        didSet{
-//            NSLog ("PGLAppStackl isImageControllerOpen = \(isImageControllerOpen)")
-//            NSLog ("PGLAppStackl isImageControllerOpen oldValue = \(oldValue)")
-        }
-    }
+
+
 }
 
 class PGLFilterIndent {

@@ -44,9 +44,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             filterParms[sectionImages] = allAttributes.filter{ $0.isImageUI() }  //isImageInput
             filterParms[sectionParms]  = allAttributes.filter{ !($0.isImageUI()) } //isImageInput
             filterParms[sectionOther] = [PGLFilterAttribute]()  // no constructor for others
-             parmsListHasChanged()
-            // this triggers setting of the current filter
-            // into the appStack model
+            if !(currentFilter === appStack.currentFilter)  {
+                // identity test not value compare
+                parmsListHasChanged()
+                    // this triggers setting of the current filter
+                    // into the appStack model
+            }
+
         }
     }
 
@@ -114,7 +118,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBAction func showImageController(_ sender: UIBarButtonItem) {
         splitViewController?.show(.secondary)
-        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+
     }
     
     var notifications = [Any]() // an opaque type is returned from addObservor
@@ -257,7 +261,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         setChevronState()
         if traitCollection.userInterfaceIdiom == .phone {
             imageController?.keepParmSlidersVisible = false
-            imageController?.hideParmControls()
+
         }
 //         NSLog("PGLSelectParmController#viewWillAppear end ")
     }
@@ -558,22 +562,23 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //          NSLog("parmsListHasChanged - reloadData() end")
 
         appStack.currentFilter = currentFilter
+        appStack.setParms(newFilterParms: filterParms[sectionParms])
+       imageController?.updateParmControls()
+            // MARK: appStackParmRefactor
+           
 
-        if imageController != nil {
-            imageController?.setParms(newFilterParms: filterParms[sectionParms])
-        }
 
     }
 
     func imageViewParmControls() -> [String : UIView] {
         // answers dictionary indexed index by attributeName
 
-        return imageController?.parmControls ?? [String : UIView]()
+        return appStack.parmControls
     }
 
     func parmControl(named: String) -> UIView? {
 
-        return imageController?.parmControls[named]
+        return appStack.parmControls[named]
     }
 
 //    func attributeValueChanged() {

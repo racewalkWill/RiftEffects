@@ -57,11 +57,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     var appStack: PGLAppStack!
 
 
-    var parms =  [String : PGLFilterAttribute]() // string index by attributeName
-
-    var parmControls = [String : UIView]() // string index by attributeName
-        // holds point and textfield input controls
-        // var parmTextControls = [String : UITextField]() // string index by attributeName
     var parmController: PGLSelectParmController?
     var metalController: PGLMetalController?
 
@@ -665,6 +660,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
          appStack.isImageControllerOpen = true
+
     }
 
     func viewDidDisappear(animated: Bool) {
@@ -719,18 +715,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     // MARK: public protocol to vars
 
-    func setParms(newFilterParms: [PGLFilterAttribute]) {
-
-        // Sender?
-        // set parms with the attributeName as the dictionary key for the filterAttribute
-        // what about clearing old  buttons  in updateParmControls?
-        parms =  [String : PGLFilterAttribute]()
-        for anAttribute in newFilterParms {
-            parms[anAttribute.attributeName!] = anAttribute
-        }
-
-        updateParmControls()
-    }
 
     // moved or new method for iPhone
     // the Parm controller may not be loaded in
@@ -741,7 +725,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         // a switch statement might be cleaner
         // both UIImageView and UIControls need to be hidden or shown
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight viewNamed \(viewNamed)")
-        for aParmControlTuple in parmControls {
+        for aParmControlTuple in appStack.parmControls {
             if aParmControlTuple.key == viewNamed {
                 // show this view
                 Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight view isHidden = false, hightlight = true")
@@ -792,7 +776,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //            var croppingFilter: PGLRectangleFilter?
 
             panner?.isEnabled = true
-            guard let thisAttributeControlView = parmControls[modelAttribute.attributeName ?? "forceReturn"] else
+                guard let thisAttributeControlView = appStack.parmControls[modelAttribute.attributeName ?? "forceReturn"] else
                 { return }
              selectedParmControlView = thisAttributeControlView
             if let thisAttributeName = modelAttribute.attributeName {
@@ -859,7 +843,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
-        guard let textField = parmControls[ textAttributeName ] as? UITextField else
+        guard let textField = appStack.parmControls[ textAttributeName ] as? UITextField else
             {return }
         let textNotifier = myCenter.addObserver(forName: UITextField.textDidChangeNotification, object: textField , queue: queue) {[weak self]
             myUpdate in
@@ -890,11 +874,11 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     // MARK: parmUI
     func updateParmControls() {
-        if parmControls.count > 0 {
+        if appStack.parmControls.count > 0 {
 //            NSLog("PGLImageController should remove old parm buttons")
             removeParmControls()
         }
-        for attribute in parms {
+        for attribute in appStack.parms {
             // should use the attribute methods isPointUI() or isRectUI()..
             // testing only on attributeType  misses CIAttributeTypeOffset & CIVector combo in
             // CINinePartStretched attribute inputGrowAmount
@@ -932,12 +916,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
     func removeParmControls() {
         // should use the attribute methods isPointUI() or isRectUI()..
-        for nameAttribute in parms {
+        for nameAttribute in appStack.parms {
             let parmAttribute = nameAttribute.value
 
             if parmAttribute.isPointUI() || parmAttribute.isTextInputUI() {
 
-                let parmView = parmControls[nameAttribute.key]
+                let parmView = appStack.parmControls[nameAttribute.key]
                 if parmAttribute.isTextInputUI() {
                     if let textInputField = parmView as? UITextField {
 //                        NSLog("ImageController removeParmControls on textField -- end editing?")
@@ -946,8 +930,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //                   textInputField.resignFirstResponder()
                     }
                 }
-                    parmView?.removeFromSuperview()
-                    parmControls.removeValue(forKey: nameAttribute.key)
+                parmView?.removeFromSuperview()
+                appStack.parmControls.removeValue(forKey: nameAttribute.key)
                 }
 //                    NSLog("PGLImageController #removeParmControls removed parm \(String(describing: nameAttribute.value.attributeName))" )
 
@@ -1008,7 +992,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 
             view.addSubview(newView)
-            parmControls[attribute.attributeName!] = newView
+            appStack.parmControls[attribute.attributeName!] = newView
             newView.isHidden = true
         }
         else {
@@ -1037,7 +1021,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //        inputView.isOpaque = true
         inputView.delegate = parmController
         view.addSubview(inputView)
-        parmControls[attribute.attributeName!] = inputView
+        appStack.parmControls[attribute.attributeName!] = inputView
          NSLayoutConstraint.activate([
             inputView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             inputView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -1134,7 +1118,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //            NSLog("PGLImageController #setRectTintAndCornerViews rectController.view.frame now = \(newInsetRectFrame)")
             let rectCropView = rectController!.view!
             view.addSubview(rectCropView)
-            parmControls[attribute.attributeName!] = rectCropView
+            appStack.parmControls[attribute.attributeName!] = rectCropView
                 //parmControls = [String : UIView]() - string index by attributeName
             rectCropView.isHidden = true
 
@@ -1255,10 +1239,10 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     @objc func buttonWasPressed(_ sender: UIButton , forEvent: UIEvent) {
-       if let buttonIndex = parmControls.firstIndex(where: { $0.value.tag == sender.tag } )
+        if let buttonIndex = appStack.parmControls.firstIndex(where: { $0.value.tag == sender.tag } )
        {
-        let matchedAttributeName = parmControls[buttonIndex].key
-        let matchedAttribute = parms[matchedAttributeName]
+            let matchedAttributeName = appStack.parmControls[buttonIndex].key
+            let matchedAttribute = appStack.parms[matchedAttributeName]
 //        NSLog("PGLImageController #buttonWasPressed attribute = \(String(describing: matchedAttribute))")
         }
     }
