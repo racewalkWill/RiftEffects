@@ -275,7 +275,9 @@ class PGLMainFilterController: PGLFilterTableController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
         if searchController.isActive {
-            descriptor = resultsTableController.matchFilters[indexPath.row]
+            if resultsTableController.matchFilters.count > indexPath.row {
+                descriptor = resultsTableController.matchFilters[indexPath.row] }
+            else { return }
 
         } else {
             if tableView === self.tableView {

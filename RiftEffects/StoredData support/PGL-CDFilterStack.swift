@@ -332,8 +332,23 @@ extension PGLFilterAttributeImage {
         } else {
             // load relation inputAssets and attach an ImageList as input
             if let inputImageList = cdImageParm.inputAssets {
-                let newImageList = PGLImageList(localAssetIDs: (inputImageList.assetIDs)!,albumIds: (inputImageList.albumIds!))
+                // convert the stored cloudIDs in the cdImageParm to localIdentifiers
+//                let aCloudID = PHCloudIdentifier(stringValue: "thisisATest")
+                let storedCloudStrings = inputImageList.assetIDs ?? [String]()
+                let cloudIDs: [PHCloudIdentifier] = storedCloudStrings.map({ (cloudString: String )
+                        in  PHCloudIdentifier(stringValue: cloudString )})
+
+                let localIds = cloudId2LocalId(assetCloudIdentifiers: cloudIDs)
+
+                let cloudAlbums = inputImageList.albumIds ?? [String]()
+
+                let cloudAlbumIDs: [PHCloudIdentifier] = cloudAlbums.map({ (cloudString: String )
+                    in  PHCloudIdentifier(stringValue: cloudString )})
+
+                let localAlbums = cloudId2LocalId(assetCloudIdentifiers: cloudAlbumIDs)
+                let newImageList = PGLImageList(localAssetIDs: (localIds),albumIds: (localAlbums) )
                 newImageList.on(imageParm: self)
+
             }
         }
     }
@@ -383,8 +398,12 @@ extension PGLFilterAttributeImage {
                 storedParmImage?.inputAssets = storedImageList // sets up the relationship parm to inputAssets
             }
             if let imageListAssets = self.inputCollection?.imageAssets {
-                storedParmImage?.inputAssets?.assetIDs = imageListAssets.map({$0.localIdentifier})
-                storedParmImage?.inputAssets?.albumIds = imageListAssets.map({$0.albumId})
+
+                let cloudIDs = localId2CloudId(localIdentifiers: imageListAssets.map({$0.localIdentifier}))
+                storedParmImage?.inputAssets?.assetIDs = cloudIDs
+
+                let cloudAlbums = localId2CloudId(localIdentifiers: imageListAssets.map({$0.albumId}))
+                storedParmImage?.inputAssets?.albumIds = cloudAlbums
                 }
             }
         if self.inputStack != nil {
@@ -403,7 +422,68 @@ extension PGLFilterAttributeImage {
 
     }
 
+    func localId2CloudId(localIdentifiers: [String]) -> [String] {
+        var mappedIdentifiers = [String]()
+       let library = PHPhotoLibrary.shared()
+        let iCloudIDs = library.cloudIdentifierMappings(forLocalIdentifiers: localIdentifiers)
+        for aCloudID in iCloudIDs {
+            //'Dictionary<String, Result<PHCloudIdentifier, Error>>.Element' (aka '(key: String, value: Result<PHCloudIdentifier, Error>)')
+            let cloudResult: Result = aCloudID.value
+            // Result is an enum .. not a tuple
+            switch cloudResult {
+                case .success(let success):
+                    let newValue = success.stringValue
+                    mappedIdentifiers.append(newValue)
+                case .failure(let failure):
+                    // do error notify to user
+                    let iCloudError = savePhotoError.otherSaveError
+//                    userSaveErrorAlert(withError: iCloudError)
+            }
+        }
+        return mappedIdentifiers
+    }
+
+    func cloudId2LocalId(assetCloudIdentifiers: [PHCloudIdentifier]) -> [String] {
+            // patterned error handling per documentation
+        var localIDs = [String]()
+        let localIdentifiers: [PHCloudIdentifier: Result<String, Error>]
+           = PHPhotoLibrary
+                .shared()
+                .localIdentifierMappings(
+                  for: assetCloudIdentifiers)
+
+        for cloudIdentifier in assetCloudIdentifiers {
+            guard let identifierMapping = localIdentifiers[cloudIdentifier] else {
+                print("Failed to find a mapping for \(cloudIdentifier).")
+                continue
+            }
+            switch identifierMapping {
+                case .success(let success):
+                    localIDs.append(success)
+                case .failure(let failure) :
+                    let thisError = failure as? PHPhotosError
+                    switch thisError?.code {
+                        case .identifierNotFound:
+                            // Skip the missing or deleted assets.
+                            print("Failed to find the local identifier for \(cloudIdentifier). \(String(describing: thisError?.localizedDescription)))")
+                        case .multipleIdentifiersFound:
+                            // Prompt the user to resolve the cloud identifier that matched multiple assets.
+                            print("Found multiple local identifiers for \(cloudIdentifier). \(String(describing: thisError?.localizedDescription))")
+//                            if let selectedLocalIdentifier = promptUserForPotentialReplacement(with: thisError.userInfo[PHLocalIdentifiersErrorKey]) {
+//                                localIDs.append(selectedLocalIdentifier)
+
+                        default:
+                            print("Encountered an unexpected error looking up the local identifier for \(cloudIdentifier). \(String(describing: thisError?.localizedDescription))")
+                    }
+              }
+            }
+        return localIDs
+    }
 }
+
+
+
+
 // ================ end extension PGLFilterAttributeImage =========================
 
 // ================ start extension PGLImageList  =========================
