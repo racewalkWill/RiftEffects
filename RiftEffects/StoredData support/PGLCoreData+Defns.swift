@@ -20,7 +20,7 @@ import CoreData
 // MARK: - Creating Contexts
 
 let appTransactionAuthorName = "PGL"
-let appStackName = "WillsFilterTool"
+let appStackName = "RiftEffects"
 
 enum Schema {
     enum Post: String {

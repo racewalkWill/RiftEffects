@@ -11,8 +11,8 @@ import CoreData
 import Photos
 import os
 
-let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.WillsFilterTool"
-let LogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
+let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.RiftEffects"
+let LogSubsystem = "L-BSoftwareArtist.RiftEffects"
 var LogCategory = "PGL"
 var LogMigration = "PGL_Migration"
 // change in areas as needed.

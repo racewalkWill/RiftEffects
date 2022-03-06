@@ -12,7 +12,7 @@ import os
 import CoreData
 
 
-@testable import WillsFilterTool
+@testable import RiftEffects
 
 
 class PGLFilterStackTests: XCTestCase {

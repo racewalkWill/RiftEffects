@@ -10,10 +10,10 @@ import XCTest
 import Photos
 import os
 
-let TestLogSubsystem = "L-BSoftwareArtist.WillsFilterTool"
+let TestLogSubsystem = "L-BSoftwareArtist.RiftEffects"
 var TestLogCategory = "PGL"
 
-@testable import WillsFilterTool
+@testable import RiftEffects
 
 
 

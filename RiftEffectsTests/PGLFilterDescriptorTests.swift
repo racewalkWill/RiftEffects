@@ -9,7 +9,7 @@
 import XCTest
 import os
 
-@testable import WillsFilterTool
+@testable import RiftEffects
 
 class PGLFilterDescriptorTests: XCTestCase {
      let standardFilterName = "CIDiscBlur"

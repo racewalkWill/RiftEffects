@@ -11,7 +11,7 @@ import Photos
 import os
 import CoreData
 
-@testable import WillsFilterTool
+@testable import RiftEffects
 
 class PGLCategorySurvey: XCTestCase {
     let context = CIContext()
