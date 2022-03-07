@@ -37,18 +37,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //******* ONLY One time to push schema to cloudKit
         // get the store description
-//        guard let description = PersistentContainer.persistentStoreDescriptions.first else {
-//            fatalError("Could not retrieve a persistent store description.")
-//        }
+        guard let description = dataWrapper.persistentContainer.persistentStoreDescriptions.first else {
+            fatalError("Could not retrieve a persistent store description.")
+        }
         // initialize the CloudKit schema
 
+            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
+            //        options.shouldInitializeSchema = true // toggle to false when done
+            //        description.cloudKitContainerOptions = options
+        NSLog("initializeCloudKitSchema  START " )
+     let theContainer =  dataWrapper.persistentContainer
 
-//        do {
-//            try
-//            PersistentContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema)
-//        }
-//            catch {
-//                NSLog("initializeCloudKitSchema \(error.localizedDescription)" )  }
+    if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
+        do {
+                try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
+            }
+        catch {
+                NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
+
+        }
+    }
+        NSLog("initializeCloudKitSchema  END " )
 
 
 
