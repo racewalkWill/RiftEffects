@@ -11,7 +11,7 @@ import CoreData
 import Photos
 import os
 
-let iCloudDataContainerName = "iCloud.com.L-BSoftwareArtist.RiftEffects"
+let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.RiftEffects"
 let LogSubsystem = "L-BSoftwareArtist.RiftEffects"
 var LogCategory = "PGL"
 var LogMigration = "PGL_Migration"
@@ -35,31 +35,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        //******* ONLY One time to push schema to cloudKit
+        //******* START ONLY One time to push schema to cloudKit
         // get the store description
-        guard let description = dataWrapper.persistentContainer.persistentStoreDescriptions.first else {
-            fatalError("Could not retrieve a persistent store description.")
-        }
-        // initialize the CloudKit schema
+//        guard let description = dataWrapper.persistentContainer.persistentStoreDescriptions.first else {
+//            fatalError("Could not retrieve a persistent store description.")
+//        }
+////        // initialize the CloudKit schema
+////
+////            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
+////            //        options.shouldInitializeSchema = true // toggle to false when done
+////            //        description.cloudKitContainerOptions = options
+//        NSLog("initializeCloudKitSchema  START " )
+//     let theContainer =  dataWrapper.persistentContainer
+//
+//    if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
+//        do {
+//                try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
+//            }
+//        catch {
+//                NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
+//
+//        }
+//
+//    }
+//        NSLog("initializeCloudKitSchema  END " )
 
-            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
-            //        options.shouldInitializeSchema = true // toggle to false when done
-            //        description.cloudKitContainerOptions = options
-        NSLog("initializeCloudKitSchema  START " )
-     let theContainer =  dataWrapper.persistentContainer
-
-    if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
-        do {
-                try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
-            }
-        catch {
-                NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
-
-        }
-    }
-        NSLog("initializeCloudKitSchema  END " )
-
-
+            //******* END ONLY One time to push schema to cloudKit
 
 //       PGLFaceCIFilter.register()
 //        PGLFilterCategory.allFilterCategories()

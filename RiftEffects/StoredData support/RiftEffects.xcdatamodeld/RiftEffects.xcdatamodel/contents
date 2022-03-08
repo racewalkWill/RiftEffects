@@ -15,6 +15,7 @@
         <attribute name="albumIds" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="assetIDs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="attributeName" optional="YES" attributeType="String"/>
+        <attribute name="machineName" optional="YES" attributeType="String"/>
         <relationship name="parm" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDParmImage" inverseName="inputAssets" inverseEntity="CDParmImage"/>
     </entity>
     <entity name="CDParmImage" representedClassName="CDParmImage" syncable="YES" codeGenerationType="class">
@@ -33,7 +34,7 @@
     </entity>
     <elements>
         <element name="CDFilterStack" positionX="-3947.26171875" positionY="-29.34765625" width="128" height="164"/>
-        <element name="CDImageList" positionX="-4332.67578125" positionY="240.85546875" width="159.109375" height="89"/>
+        <element name="CDImageList" positionX="-4332.67578125" positionY="240.85546875" width="159.109375" height="104"/>
         <element name="CDParmImage" positionX="-4050.90234375" positionY="274.85546875" width="128" height="89"/>
         <element name="CDStoredFilter" positionX="-4290.27734375" positionY="39.40234375" width="128" height="119"/>
     </elements>
