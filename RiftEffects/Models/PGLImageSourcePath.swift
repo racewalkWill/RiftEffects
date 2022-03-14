@@ -21,7 +21,8 @@ class PGLAsset: Hashable, Equatable  {
     var asset: PHAsset
     lazy var sourceInfo: PHAssetCollection? =
         { let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [albumId], options: nil)
-            return fetchResult.object(at: 0)
+            return fetchResult.firstObject
+                // may be nil
         }()
            // remove this after albumId & album title are implemented
 
@@ -75,6 +76,11 @@ class PGLAsset: Hashable, Equatable  {
         }
     }
 
+    func isNull() -> Bool {
+        return  asset.localIdentifier.hasPrefix("(null)/")
+            // "(null)/L0/001" is error string
+    }
+
     func assetIdAlbumId() -> (assetId: String, albumId: String) {
         return (assetId: localIdentifier, albumId: albumId)
     }
@@ -90,9 +96,18 @@ class PGLAsset: Hashable, Equatable  {
     }
 
     func asPGLAlbumSource(onAttribute: PGLFilterAttribute) -> PGLAlbumSource {
-        let resultFetch = getAssetFetchResult()
-        let newbie = PGLAlbumSource(sourceInfo!, resultFetch)
-        newbie.filterParm = onAttribute
-        return newbie
+        if let resultFetch = getAssetFetchResult()
+        {
+            if let mySourceInfo = sourceInfo {
+                let newbie = PGLAlbumSource(targetAttribute: onAttribute, mySourceInfo, resultFetch)
+                return newbie}
+            else { // missing album source info
+               let emptyAlbum = PGLAlbumSource(forAttribute: onAttribute)
+                return emptyAlbum
+            }
+        } else { // missing resultFetch
+            let emptyAlbum = PGLAlbumSource(forAttribute: onAttribute)
+             return emptyAlbum
+             }
     }
 }

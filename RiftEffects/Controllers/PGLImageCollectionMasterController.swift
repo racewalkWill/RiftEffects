@@ -300,8 +300,8 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
         if let anAssetCollection = assetCollection as? PHAssetCollection {
          let collectionFetch =   PHAsset.fetchAssets(in: anAssetCollection, options: nil)
 
-            let theInfo = PGLAlbumSource(anAssetCollection, collectionFetch)
-            theInfo.filterParm = inputFilterAttribute
+            let theInfo = PGLAlbumSource(targetAttribute: inputFilterAttribute!, anAssetCollection, collectionFetch)
+
             // show the content images of the selected collection for user pick
 
             // if thePGLImagesSelectContainer is open notify it to merage the new info

@@ -52,7 +52,7 @@ class PGLDemo {
     static var CompositeGroups = [CompositeFilters, TransistionFilters]
 
 
-    func fetchFavoritesList() ->  PGLAlbumSource? {
+    func fetchFavoritesList(onImageParm: PGLFilterAttribute) ->  PGLAlbumSource? {
 
         if PGLDemo.FavoritesAlbumList == nil {
             let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
@@ -60,7 +60,7 @@ class PGLDemo {
 
             if let theFavoriteAlbum = userFavorites.firstObject {
                  let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
-                let theInfo =  PGLAlbumSource(theFavoriteAlbum,fetchResultAssets)
+                let theInfo =  PGLAlbumSource(targetAttribute: onImageParm, theFavoriteAlbum,fetchResultAssets)
     //                                          init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ))
                                 // init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? )
                 PGLDemo.FavoritesAlbumList = theInfo
@@ -116,7 +116,7 @@ class PGLDemo {
     }
 
     func setRandomImagesFromFavorites(imageParm: PGLFilterAttribute) {
-        guard let favoriteAlbumSource = fetchFavoritesList() else
+        guard let favoriteAlbumSource = fetchFavoritesList(onImageParm: imageParm) else
                    {
             DispatchQueue.main.async {
                 // put back on the main UI loop for the user alert

@@ -399,7 +399,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                             let userSelectionInfo = PGLUserAssetSelection(assetSources: info)
                             // create a new userSelection
                             pictureGrid.userAssetSelection = userSelectionInfo
-                            pictureGrid.title = info.sectionSource.localizedTitle
+                            pictureGrid.title = info.sectionSource?.localizedTitle
 
                             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController #prepare for segue showCollection")
                         }

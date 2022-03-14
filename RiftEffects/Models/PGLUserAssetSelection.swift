@@ -10,13 +10,15 @@ import Foundation
 import Photos
 import os
 
+let PGLAlbumErrorString = "Album Error"
+
 class PGLAlbumSource: Hashable {
-    var sectionSource: PHAssetCollection
+    var sectionSource: PHAssetCollection?
     var  assetFetch:  PHFetchResult<PHAsset>?
     var identifier: String
     var filterParm: PGLFilterAttribute?
 
-    lazy var albumTitle = sectionSource.localizedTitle
+    lazy var albumTitle = sectionSource?.localizedTitle
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
@@ -26,17 +28,34 @@ class PGLAlbumSource: Hashable {
                  return lhs.identifier == rhs.identifier
              }
 
-    init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ) {
+    convenience init(targetAttribute: PGLFilterAttribute, _ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ) {
+        self.init(forAttribute: targetAttribute )
         sectionSource = assetAlbum
         assetFetch = result
         identifier = assetAlbum.localIdentifier
     }
 
+    init(forAttribute: PGLFilterAttribute) {
+        // empty nil vars are
+        //  sectionSource & assetFetch
+        filterParm = forAttribute
+        identifier = PGLAlbumErrorString
+
+    }
+
     func assets() -> [PGLAsset]? {
-        let convertedAssets = assetFetch?.objects.map( {
-            PGLAsset(sourceAsset: $0, sourceCollection: sectionSource)
-        })
-        return convertedAssets
+        if let mySectionSource = sectionSource {
+            let convertedAssets = assetFetch?.objects.map( {
+                PGLAsset(sourceAsset: $0, sourceCollection: mySectionSource)
+            })
+            return convertedAssets
+        } else {
+            assetFetch = nil // on error  clean up vars
+            identifier = PGLAlbumErrorString
+            sectionSource = nil
+            return nil // explict nil return
+        }
+
         }
 
    fileprivate func asset(position: Int) -> PGLAsset? {
@@ -45,7 +64,11 @@ class PGLAlbumSource: Hashable {
           let  newPGLAsset = PGLAsset(theAsset, collectionId: identifier, collectionLocalTitle: albumTitle)
              return newPGLAsset
             }
-            else { return nil}
+            else { // error do cleanup
+                assetFetch = nil // on error  clean up vars
+                identifier = PGLAlbumErrorString
+                sectionSource = nil
+                return nil}
         }
     
     func fetchCount() -> Int {
@@ -70,7 +93,7 @@ class PGLUserAssetSelection {
    }
     var selectedAssets = [PGLAsset]()  // [PHAsset]()  // replaces userAssetCollection array
     var sections = [String: PGLAlbumSource ]() // Dict key is album localIdentifier
-     var lastTouchedAssetIndex = 0 // the last touched asset
+    var lastTouchedAssetIndex = 0 // the last touched asset
 
 
     init( assetSources: PGLAlbumSource ) {
@@ -107,6 +130,7 @@ class PGLUserAssetSelection {
         guard let newSource = newAssetSource.sections.first
             else { return nil }
         let newSectionKey = newSource.value.identifier
+        // from the PGLAlbumSource object
         let newSection = newSource.value
 
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #merge key = \(newSectionKey)")
@@ -162,7 +186,7 @@ class PGLUserAssetSelection {
         var allAssets = [PGLAsset]()
 
 
-        for (i,a) in selectedAssets.enumerated() {
+        for (_ ,a) in selectedAssets.enumerated() {
             allAssets.append(a) 
         }
         if let firstSource = allAssets.first {
@@ -191,17 +215,15 @@ class PGLUserAssetSelection {
                 remove(currentAsset)
             }
         }
+        if userAsset.isNull() { return }
         selectedAssets.append(userAsset)
 
         let newAlbumId = userAsset.albumId
-//        let sourceAlbumTitle = userAsset.collectionTitle
 
         if sections[newAlbumId] == nil {
                                  // add the album and the fetchResult
                                 // add assetSourceCollection & fetchResult
-
             self.sections[newAlbumId] = userAsset.asPGLAlbumSource(onAttribute:myTargetFilterAttribute!)
-//                self.sectionTitle.append((title: sourceAlbumTitle, albumId: newAlbumId))
                 }
      }
 
@@ -226,7 +248,7 @@ class PGLUserAssetSelection {
             if let oldSection = from?.sections[newAlbumId] {
             self.sections[newAlbumId] = oldSection
             } else
-            {   let aEmptySourceFetch = PGLAlbumSource(userAsset.sourceInfo!, nil)
+             {   let aEmptySourceFetch = PGLAlbumSource(targetAttribute: myTargetFilterAttribute!, userAsset.sourceInfo!, nil)
                 self.sections[newAlbumId] = aEmptySourceFetch }
 //            self.sectionTitle.append((title: (userAsset.collectionTitle), albumId: newAlbumId))
             }

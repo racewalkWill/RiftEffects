@@ -273,7 +273,15 @@ class PGLImageList {
 
 
            if isAssetList {
-               answerImage = imageFrom(selectedAsset: imageAssets[atIndex]) ?? CIImage.empty()
+               if let imageFromAsset = imageFrom(selectedAsset: imageAssets[atIndex]) {
+                   answerImage = imageFromAsset
+               }
+               else { answerImage = CIImage.empty()
+                        // reset the imageAssets
+                        imageAssets.remove(at: atIndex)
+                   if assetIDs.count < (atIndex - 1 )
+                    {  assetIDs.remove(at: atIndex) }
+               }
            }
            else { // has images
                answerImage = images[atIndex]
@@ -303,7 +311,9 @@ class PGLImageList {
            var pickedCIImage: CIImage?
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
                if let error =  info?[PHImageErrorKey]
-                { NSLog( "PGLImageList imageFrom error = \(error)") }
+                { NSLog( "PGLImageList imageFrom error = \(error)")
+
+               }
                else {
 
 
@@ -413,7 +423,10 @@ class PGLImageList {
         // does resize same as first()
         let firstIndexValue = firstImageIndex()
         guard let answerImage =  imageFrom(selectedAsset: imageAssets[firstIndexValue])
-        else { return nil }
+        else {
+            imageAssets.remove(at: firstIndexValue)
+            // no image  so need to reset
+            return nil }
         if doResize {
             return self.scaleToFrame(ciImage: answerImage, newSize: TargetSize) }
         else { return answerImage}

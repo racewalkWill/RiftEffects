@@ -94,6 +94,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLAssetGridController.applyDataSource():PGLAssetGridController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "snapshot.numberofSections">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLFilterStack.init():PGLFilterStack.swift">
       </ContextState>
       <ContextState
@@ -327,10 +335,10 @@
                value = "primaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
-               value = "splitViewController">
+               value = "supplementaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
-               value = "supplementaryController as? PGLImageController">
+               value = "splitViewController">
             </PersistentString>
             <PersistentString
                value = "(secondaryController as? UINavigationController).visibleViewController">
@@ -531,6 +539,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLImageController.prepare(for:sender:):PGLImageController.swift">
+      </ContextState>
+      <ContextState
          contextName = "static PGLDevice.isSimulatorDevice():PGLDevice.swift">
          <PersistentStrings>
             <PersistentString
@@ -593,6 +604,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLFilterAttributeImage.cloudId2LocalId(assetCloudIdentifiers:):PGL-CDFilterStack.swift">
+      </ContextState>
+      <ContextState
          contextName = "PGLAssetController.nextImage(direction:):PGLAssetController.swift">
       </ContextState>
       <ContextState
@@ -618,6 +632,9 @@
                value = "kCIInputImageKey">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLImageCollectionMasterController.openImageCollection(assetCollection:):PGLImageCollectionMasterController.swift">
       </ContextState>
       <ContextState
          contextName = "PGLSourceFilter.animate(attributeTarget:):PGLFilterClasses.swift">
@@ -747,7 +764,7 @@
          contextName = "PGLSourceFilter.init(filter:position:):PGLFilterClasses.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kCICategoryGenerator">
+               value = "kCIAttributeFilterCategories">
             </PersistentString>
             <PersistentString
                value = "thisFilter.attributes[kCIAttributeFilterCategories]">
@@ -756,7 +773,7 @@
                value = "thisFilter.attributes">
             </PersistentString>
             <PersistentString
-               value = "kCIAttributeFilterCategories">
+               value = "kCICategoryGenerator">
             </PersistentString>
             <PersistentString
                value = "thisFilter.inputKeys">
@@ -835,10 +852,10 @@
          contextName = "PGLSelectParmController.sliderValueDidChange(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "target.uiIndexTag">
+               value = "sender.value">
             </PersistentString>
             <PersistentString
-               value = "sender.value">
+               value = "target.uiIndexTag">
             </PersistentString>
             <PersistentString
                value = "sender.tag">
@@ -932,6 +949,14 @@
          contextName = "PGLTimerRateAttributeUI.set(_:):PGLAttributeUI.swift">
       </ContextState>
       <ContextState
+         contextName = "PGLImageList.setUserSelection(toAttribute:):PGLImageList.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "nextAsset.asset.localIdentifier">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLSourceFilterTests.testDistortFilters():PGLSourceFilterTests.swift">
          <PersistentStrings>
             <PersistentString
@@ -1008,6 +1033,9 @@
                value = "attribute.getVectorValue()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLAssetSequenceController.viewWillAppear(_:):PGLAssetSequenceController.swift">
       </ContextState>
       <ContextState
          contextName = "PGLOpenStackViewController.toggleEditing():PGLOpenStackViewController.swift">
@@ -1111,6 +1139,9 @@
       </ContextState>
       <ContextState
          contextName = "PGLFilterAttribute.hasAnimation():PGLFilterAttribute.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PGLAsset.asPGLAlbumSource(onAttribute:):PGLImageSourcePath.swift">
       </ContextState>
       <ContextState
          contextName = "PGLImageController.updateParmControls():PGLImageController.swift">
@@ -1236,13 +1267,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.doPrintCropClamp = false">
-            </PersistentString>
-            <PersistentString
                value = "thisImage?.extent">
             </PersistentString>
             <PersistentString
                value = "cropRect">
+            </PersistentString>
+            <PersistentString
+               value = "self.doPrintCropClamp = false">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
