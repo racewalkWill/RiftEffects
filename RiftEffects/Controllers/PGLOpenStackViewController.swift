@@ -259,8 +259,12 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLOpenStackViewController didSelectRowAt \(indexPath)")
-        dataSource.tableView(tableView, didSelectRowAt: indexPath)
-            // dataSource #didSelectRow updates the appStack and loads from coreData
+         if !tableView.isEditing {
+            dataSource.tableView(tableView, didSelectRowAt: indexPath)
+                 // dataSource #didSelectRow updates the appStack and loads from coreData
+                // do not update if editing rows
+         }
+
 
          let deviceIdom = traitCollection.userInterfaceIdiom
          if deviceIdom == .phone {

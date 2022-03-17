@@ -64,6 +64,8 @@ class PGLImageList {
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
         options.isSynchronous = true
+        options.version = .current
+
     }
 
 
@@ -309,24 +311,23 @@ class PGLImageList {
         //            The PHImageResultIsDegradedKey key in the result handler’s info parameter indicates when Photos is providing a temporary low-quality image.
 
            var pickedCIImage: CIImage?
-           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
+//         let matchingSize = CGSize(width: selectedAsset.asset.pixelWidth, height: selectedAsset.asset.pixelHeight)
+         // commented out pixelWidth is zero
+            let matchingSize = TargetSize  //global
+
+         options.progressHandler = {  (progress, error, stop, info) in
+                print("progress: \(progress)")
+            }
+         options.resizeMode = PHImageRequestOptionsResizeMode.fast
+
+           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: matchingSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
                if let error =  info?[PHImageErrorKey]
                 { NSLog( "PGLImageList imageFrom error = \(error)")
 
                }
                else {
-
-
-               guard let theImage = image else { return  }
-               if let convertedImage = CoreImage.CIImage(image: theImage ) {
-
-                let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-                if PGLImageList.isDeviceASimulator() {
-                        pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
-                    } else {
-
-                        pickedCIImage = convertedImage.oriented(theOrientation) }
-                }
+                guard let theImage = image else { return  }
+                pickedCIImage = self.convert2CIImage(aUIImage: theImage)
 
                }
             }
@@ -336,7 +337,20 @@ class PGLImageList {
 
        }
 
+    func convert2CIImage(aUIImage: UIImage) -> CIImage? {
+        var pickedCIImage: CIImage?
 
+        if let convertedImage = CoreImage.CIImage(image: aUIImage ) {
+
+         let theOrientation = CGImagePropertyOrientation(aUIImage.imageOrientation)
+         if PGLImageList.isDeviceASimulator() {
+                 pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+             } else {
+
+                 pickedCIImage = convertedImage.oriented(theOrientation) }
+         }
+        return pickedCIImage
+    }
 
 
     func normalize3(scaledCIDisparity: CIImage?) -> CIImage? {

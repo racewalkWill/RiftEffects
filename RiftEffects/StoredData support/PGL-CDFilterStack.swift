@@ -397,14 +397,27 @@ extension PGLFilterAttributeImage {
             }
                 storedParmImage?.inputAssets = storedImageList // sets up the relationship parm to inputAssets
             }
+            if let theAssetIdentifiers = self.inputCollection?.assetIDs {
+                // on the iPhone PHPicker the imageAssets do not have the identifiers
+                // use the inputCollection identifiers
+                let cloudAssetIDs = localId2CloudId(localIdentifiers: theAssetIdentifiers)
+                storedParmImage?.inputAssets?.assetIDs = cloudAssetIDs
+            }
+            else {
             if let imageListAssets = self.inputCollection?.imageAssets {
 
                 let cloudIDs = localId2CloudId(localIdentifiers: imageListAssets.map({$0.localIdentifier}))
-                storedParmImage?.inputAssets?.assetIDs = cloudIDs
+                storedParmImage?.inputAssets?.assetIDs = cloudIDs }
 
-                let cloudAlbums = localId2CloudId(localIdentifiers: imageListAssets.map({$0.albumId}))
-                storedParmImage?.inputAssets?.albumIds = cloudAlbums
                 }
+            // albums are set in the getAssets(localIds: [String],albums: [String])
+
+            if let localListAssets = self.inputCollection?.imageAssets {
+                let cloudAlbums = localId2CloudId(localIdentifiers: localListAssets.map({$0.albumId}))
+                storedParmImage?.inputAssets?.albumIds = cloudAlbums
+
+            }
+
             }
         if self.inputStack != nil {
             // a child stack exists

@@ -44,17 +44,11 @@ class PGLAsset: Hashable, Equatable  {
 
 
     init(_ sourceAsset: PHAsset, collectionId: String?, collectionLocalTitle: String?) {
-        guard collectionId != nil
-            else {
-//            Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLAsset init sourceAsset... fatalError(no collectionId has been set")
-                asset = PHAsset()
-                albumId = ""
-                
-                return
-            
-        }
+        if collectionId == nil
+          {  albumId = "" }
+        else { albumId = collectionId! }
         asset = sourceAsset
-        albumId = collectionId!
+       
         if collectionLocalTitle == nil {
             collectionTitle = sourceInfo?.localizedTitle ?? "untitled"
         }
