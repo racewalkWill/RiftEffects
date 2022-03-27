@@ -316,7 +316,7 @@ class PGLImageList {
             let matchingSize = TargetSize  //global
 
          options.progressHandler = {  (progress, error, stop, info) in
-                print("progress: \(progress)")
+             NSLog("PGLImageList imageFrom: progressHandler  \(progress) info = \(String(describing: info))")
             }
          options.resizeMode = PHImageRequestOptionsResizeMode.fast
 

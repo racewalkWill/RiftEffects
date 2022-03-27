@@ -11,12 +11,10 @@ import CoreData
 
 class PGLStackProvider {
     private(set) var persistentContainer: NSPersistentContainer
-    private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
 
-    init(with persistentContainer: NSPersistentContainer,
-         fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?) {
+
+    init(with persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
-        self.fetchedResultsControllerDelegate = fetchedResultsControllerDelegate
     }
 
     lazy var fetchedResultsController: NSFetchedResultsController<CDFilterStack> = {
@@ -37,7 +35,10 @@ class PGLStackProvider {
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                     managedObjectContext: persistentContainer.viewContext,
                                                     sectionNameKeyPath: "type" , cacheName: "StackType")
-        controller.delegate = fetchedResultsControllerDelegate
+//        controller.delegate = fetchedResultsControllerDelegate
+            // Full persistent tracking: the delegate and the file cache name are non-nil. The controller monitors objects in its result set
+            // and updates section and ordering information in response
+            // to relevant changes. The controller maintains a persistent cache of the results of its computation.
 
         do {
             try controller.performFetch()

@@ -34,8 +34,7 @@ class PGLAppStack {
 
      lazy var dataProvider: PGLStackProvider = {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer,
-                                    fetchedResultsControllerDelegate: nil)
+        let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer )
         return provider
     }()
 

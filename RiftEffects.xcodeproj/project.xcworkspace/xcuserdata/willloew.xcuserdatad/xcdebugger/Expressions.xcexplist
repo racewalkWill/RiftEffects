@@ -3,10 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in CoreDataStack.deleteOrphanFilters():PGLCoreDataStack.swift">
+         contextName = "PGLSelectParmController.viewWillDisappear(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "filterController.fetchedObjects?.count">
+               value = "splitViewController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -171,10 +171,10 @@
          contextName = "PGLRectangleFilter.scaleOutput(ciOutput:stackCropRect:):PGLFilterClasses.swift">
       </ContextState>
       <ContextState
-         contextName = "PGLSelectParmController.setChevronState():PGLSelectParmController.swift">
+         contextName = "PGLImageList.__allocating_init(localAssetIDs:albumIds:):PGLImageList.swift">
       </ContextState>
       <ContextState
-         contextName = "PGLImageList.__allocating_init(localAssetIDs:albumIds:):PGLImageList.swift">
+         contextName = "PGLSelectParmController.setChevronState():PGLSelectParmController.swift">
       </ContextState>
       <ContextState
          contextName = "PGLAssetGridController.viewDidLoad():PGLAssetGridController.swift">
@@ -272,10 +272,10 @@
                value = "view.subviews">
             </PersistentString>
             <PersistentString
-               value = "PGLDemo.RandomImageList">
+               value = "view">
             </PersistentString>
             <PersistentString
-               value = "view">
+               value = "PGLDemo.RandomImageList">
             </PersistentString>
             <PersistentString
                value = "view.isHidden">
@@ -358,13 +358,13 @@
                value = "primaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
-               value = "(secondaryController as? UINavigationController).visibleViewController">
+               value = "supplementaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
                value = "splitViewController">
             </PersistentString>
             <PersistentString
-               value = "supplementaryController as? PGLImageController">
+               value = "(secondaryController as? UINavigationController).visibleViewController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -776,10 +776,10 @@
          contextName = "PGLSelectParmController.picker(_:didFinishPicking:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "anNewPGLAsset.asset.localIdentifier">
+               value = "selectedImageList">
             </PersistentString>
             <PersistentString
-               value = "selectedImageList">
+               value = "anNewPGLAsset.asset.localIdentifier">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -787,7 +787,7 @@
          contextName = "PGLSourceFilter.init(filter:position:):PGLFilterClasses.swift">
          <PersistentStrings>
             <PersistentString
-               value = "thisFilter.inputKeys">
+               value = "kCIAttributeFilterCategories">
             </PersistentString>
             <PersistentString
                value = "thisFilter.attributes[kCIAttributeFilterCategories]">
@@ -799,7 +799,7 @@
                value = "kCICategoryGenerator">
             </PersistentString>
             <PersistentString
-               value = "kCIAttributeFilterCategories">
+               value = "thisFilter.inputKeys">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -853,10 +853,10 @@
          contextName = "PGLSourceFilter.cdFilterObject():PGL-CDFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "storedFilter!.pglSourceFilterClass">
+               value = "storedFilter!.ciFilter">
             </PersistentString>
             <PersistentString
-               value = "storedFilter!.ciFilter">
+               value = "storedFilter!.pglSourceFilterClass">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -875,13 +875,13 @@
          contextName = "PGLSelectParmController.sliderValueDidChange(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "sender.tag">
+               value = "sender.value">
             </PersistentString>
             <PersistentString
                value = "target.uiIndexTag">
             </PersistentString>
             <PersistentString
-               value = "sender.value">
+               value = "sender.tag">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -947,7 +947,7 @@
          contextName = "PGLSelectParmController.tableView(_:didSelectRowAt:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "currentFilter">
+               value = "imageController?.panner">
             </PersistentString>
             <PersistentString
                value = "appStack?.targetAttribute">
@@ -956,7 +956,7 @@
                value = "tappedAttribute">
             </PersistentString>
             <PersistentString
-               value = "imageController?.panner">
+               value = "currentFilter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1008,10 +1008,10 @@
          contextName = "PGLFilterStackTests.testAddDeleteFilters():PGLFilterStackTests.swift">
          <PersistentStrings>
             <PersistentString
-               value = "filterStack.activeFilters.count">
+               value = "newStack.activeFilters.count">
             </PersistentString>
             <PersistentString
-               value = "newStack.activeFilters.count">
+               value = "filterStack.activeFilters.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1172,13 +1172,13 @@
          contextName = "closure #1 in CVBufferRef.processImage(data:rowBytes:width:height:):CVPixelBufferExtension.swift">
          <PersistentStrings>
             <PersistentString
+               value = "2 * width">
+            </PersistentString>
+            <PersistentString
                value = "MemoryLayout&lt;Pixel_16U&gt;.stride">
             </PersistentString>
             <PersistentString
                value = "surceBuffer.rowBytes = width * MemoryLayout&lt;Pixel_16U&gt;.stride">
-            </PersistentString>
-            <PersistentString
-               value = "2 * width">
             </PersistentString>
             <PersistentString
                value = "sourceBuffer.rowBytes">
@@ -1210,6 +1210,9 @@
          <PersistentStrings>
             <PersistentString
                value = "sections[3].indexTitle">
+            </PersistentString>
+            <PersistentString
+               value = "dataProvider">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1315,21 +1318,21 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
+               value = "self.doPrintCropClamp = false">
+            </PersistentString>
+            <PersistentString
                value = "thisImage?.extent">
             </PersistentString>
             <PersistentString
                value = "cropRect">
             </PersistentString>
-            <PersistentString
-               value = "self.doPrintCropClamp = false">
-            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PGLSelectParmController.viewWillDisappear(_:):PGLSelectParmController.swift">
+         contextName = "closure #1 in CoreDataStack.deleteOrphanFilters():PGLCoreDataStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "splitViewController">
+               value = "filterController.fetchedObjects?.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

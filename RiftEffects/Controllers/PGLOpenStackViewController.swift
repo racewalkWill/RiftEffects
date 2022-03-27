@@ -12,8 +12,9 @@ import os
 
 let  PGLLoadedDataStack = NSNotification.Name(rawValue: "PGLLoadedDataStack")
 let PGLStackHasSavedNotification = NSNotification.Name(rawValue: "PGLStackHasSavedNotification")
+let PGLRemoteChange = NSNotification.Name(rawValue: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
-class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UINavigationControllerDelegate {
+class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
 
 
     // this is the current controller to open stacks 7/15/20
@@ -23,11 +24,13 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     static let tableViewCellIdentifier = "stackCell"
     private static let nibName = "StackCell"
+    var notifications = [Any]() // an opaque type is returned from addObservor
 
     private lazy var dataProvider: PGLStackProvider = {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer,
-                                    fetchedResultsControllerDelegate: self)
+      let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer)
+//        let provider = appDelegate?.appStack.dataProvider
+        provider.fetchedResultsController.delegate = self
         return provider
     }()
 
@@ -76,7 +79,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
         
-        myCenter.addObserver(forName: PGLStackHasSavedNotification , object: nil , queue: queue) { [weak self ]
+        let stackSaveObservor = myCenter.addObserver(forName: PGLStackHasSavedNotification , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
             if let userDataDict = myUpdate.userInfo {
@@ -108,8 +111,10 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
         }
+        notifications.append(stackSaveObservor)
 
-        myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
+
+        let updateLibraryObservor = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
             let deviceIdom = self.traitCollection.userInterfaceIdiom
@@ -123,6 +128,19 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                         }
 
          }
+        notifications.append(updateLibraryObservor)
+
+
+
+        let remoteChangeObservor = myCenter.addObserver(forName: PGLRemoteChange , object: nil , queue: queue) { [weak self ]
+        myUpdate in
+        guard let self = self else { return}
+        let snapshot = self.initialSnapShot()
+        self.dataSource.apply(snapshot, animatingDifferences: false)
+     }
+        notifications.append(remoteChangeObservor)
+
+
 
 
 
@@ -149,6 +167,12 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        let snapshot = initialSnapShot()
+        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.dataProvider = dataProvider
+        tableView.reloadData()
+    }
     override func viewWillLayoutSubviews() {
         let deviceIdom = traitCollection.userInterfaceIdiom
         if deviceIdom == .phone {
@@ -160,6 +184,14 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             navigationItem.leftItemsSupplementBackButton = true
         }
     }
+
+//    override func viewWillDisappear(_ animated: Bool) {
+//        for anObserver in  notifications {
+//            NotificationCenter.default.removeObserver(anObserver)
+//        }
+//        notifications = [Any]() // reset
+//
+//    }
 
 
     // MARK: - Table view data source
@@ -414,7 +446,7 @@ extension PGLOpenStackViewController {
     }
     func configureDataSource() {
         dataSource = DataSource(tableView: tableView) { (tableView, indexPath, cdFilterStack) -> UITableViewCell? in
-
+                // see also configureCell(_ cell: UITableViewCell, withCDFilterStack: CDFilterStack?)
 
 
             var cell = tableView.dequeueReusableCell(withIdentifier: "stackCell")
@@ -462,9 +494,63 @@ extension PGLOpenStackViewController {
     }
 } // end extension scope
 
+// MARK: NSFetchedResultsControllerDelegate
 
+extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
+    // see example in RayWenderlich course 'cdt materials' CampgroundManager unit 07 unit testing
+    // /Users/willloew/Developer/raywenderlich courses/cdt-materials/07-unit-testing/projects/final
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      tableView.beginUpdates()
+    }
 
-    extension PGLOpenStackViewController: UISearchBarDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+      switch type {
+      case .insert:
+        tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+      case .delete:
+        tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+      default:
+        return
+      }
+    }
+    // swiftlint:disable force_unwrapping
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+      switch type {
+      case .insert:
+        tableView.insertRows(at: [newIndexPath!], with: .fade)
+      case .delete:
+        tableView.deleteRows(at: [indexPath!], with: .fade)
+      case .update:
+        configureCell(tableView.cellForRow(at: indexPath!)!,  withCDFilterStack: anObject as? CDFilterStack)
+      case .move:
+        tableView.deleteRows(at: [indexPath!], with: .fade)
+        tableView.insertRows(at: [newIndexPath!], with: .fade)
+      @unknown default:
+        return
+      }
+    }
+    // swiftlint:enable force_unwrapping
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      tableView.endUpdates()
+    }
+
+    func configureCell(_ cell: UITableViewCell, withCDFilterStack: CDFilterStack?) {
+        // see also configureDataSource()
+        if let cdStack = withCDFilterStack {
+                // Configure the cell with data from the managed object.
+            cell.textLabel?.text  = cdStack.title
+            cell.detailTextLabel?.text = self.detailTextString(ofObject: cdStack)
+
+             if let cellThumbnail = cdStack.thumbnail
+                {  cell.imageView?.image = UIImage(data: cellThumbnail) }
+      }
+
+    }
+} // end  extension NSFetchedResultsControllerDelegate
+
+    // MARK: UISearchBarDelegate
+extension PGLOpenStackViewController: UISearchBarDelegate {
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             if searchText.count == 0 {
                let allStacks =  initialSnapShot()
@@ -491,9 +577,4 @@ extension PGLOpenStackViewController {
                 dataSource.apply(snapshot, animatingDifferences: true)
                 }
         }
-
-      
-
-
-
-}
+}  // end extension UISearchBarDelegate
