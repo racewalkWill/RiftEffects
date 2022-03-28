@@ -439,6 +439,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setGestureRecogniziers()
+        updateParmControls() // restore removed position & text controls
     }
 
     override func viewDidLoad() {
