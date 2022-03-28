@@ -53,6 +53,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
     // MARK: View LifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,24 +87,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                 if let newStackId = userDataDict["stackObjectID"] as? NSManagedObjectID {
                     // read the stack and insert into the data source
                     if let theCDStack = self.dataProvider.persistentContainer.viewContext.object(with: newStackId) as? CDFilterStack {
-                        var currentSnapshot = self.dataSource.snapshot()
-                        var sectionIndex = 0
-                        // now get the type for the section
-
-                        if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
-                            { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
-                                currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
-                                    // puts into the matching section..
-
-                                self.dataSource.apply(currentSnapshot ,animatingDifferences: true)
-
-                        } else {
-                            // read it all back in the correct section
-                            try? self.dataProvider.fetchedResultsController.performFetch()
-                            let allStacks =  self.initialSnapShot()
-                            self.dataSource.showHeaderText = true
-                                 // show header titles
-                            self.dataSource.apply(allStacks, animatingDifferences: true)}
+                        self.dataSource.insertStack(self, theCDStack: theCDStack)
 
                     }
                 }
@@ -349,6 +333,27 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         }
 
         // MARK: editing support
+        
+        func insertStack(_ myController: PGLOpenStackViewController, theCDStack: CDFilterStack) {
+            var currentSnapshot = snapshot()
+            var sectionIndex = 0
+                // now get the type for the section
+
+            if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
+            { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
+                currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
+                    // puts into the matching section..
+
+                self.apply(currentSnapshot ,animatingDifferences: true)
+
+            } else {
+                    // read it all back in the correct section
+                try? dataProvider?.fetchedResultsController.performFetch()
+                let allStacks =  myController.initialSnapShot()
+                showHeaderText = true
+                    // show header titles
+                apply(allStacks, animatingDifferences: true)}
+        }
 
         func delete(cdStack: CDFilterStack) {
             dataProvider?.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
@@ -506,9 +511,11 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
       switch type {
       case .insert:
-        tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+//        tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+              self.dataSource.postStackChange()
       case .delete:
-        tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+//        tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+              self.dataSource.postStackChange()
       default:
         return
       }
@@ -517,14 +524,22 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
       switch type {
       case .insert:
-        tableView.insertRows(at: [newIndexPath!], with: .fade)
+//        tableView.insertRows(at: [newIndexPath!], with: .fade)
+        guard let myNewStack = anObject as? CDFilterStack
+              else { return }
+        self.dataSource.insertStack(self, theCDStack: myNewStack)
       case .delete:
-        tableView.deleteRows(at: [indexPath!], with: .fade)
+//        tableView.deleteRows(at: [indexPath!], with: .fade)
+            guard let myDeletedRowPath = indexPath
+              else { return}
+            removeDeletedFromSnapshot(deletedRows: [myDeletedRowPath])
       case .update:
         configureCell(tableView.cellForRow(at: indexPath!)!,  withCDFilterStack: anObject as? CDFilterStack)
       case .move:
-        tableView.deleteRows(at: [indexPath!], with: .fade)
-        tableView.insertRows(at: [newIndexPath!], with: .fade)
+//        tableView.deleteRows(at: [indexPath!], with: .fade)
+//        tableView.insertRows(at: [newIndexPath!], with: .fade)
+
+         self.dataSource.postStackChange()
       @unknown default:
         return
       }
