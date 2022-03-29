@@ -277,7 +277,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //            imageController?.removeGestureRecogniziers()
             // the imageController may have pan controls showing.
 
-            imageController?.hideParmControls() // actually will remove the views
+            imageController?.hideParmControls() // just hides the UI controls
         } else {
             // else on the iphone the parm controller is moving off screen but we are changging parms
             // keep the parmControls visible
@@ -1005,6 +1005,18 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
        // this method completes before the processses invoked above run..
         // updates need to be invoked in the completion routines
+
+    // if iPhone then navigate to the imageController to see the parm control
+
+        if (imageController?.keepParmSlidersVisible ?? false) {
+            // keepParmSlidersVisible means running on the iPhone
+
+            if tappedAttribute!.attributeUIType() != AttrUIType.timerSliderUI {
+                // timerSliderUI is on the parm controller not on the image controller
+                // if not timerSliderUI then show the imageController so the parm value can be set
+                splitViewController?.show(.secondary) }
+        }
+
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

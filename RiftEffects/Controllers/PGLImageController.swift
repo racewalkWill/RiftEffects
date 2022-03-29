@@ -439,7 +439,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setGestureRecogniziers()
-        updateParmControls() // restore removed position & text controls
+//        updateParmControls() // restore removed position & text controls
     }
 
     override func viewDidLoad() {
@@ -476,7 +476,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             if !self.keepParmSlidersVisible {
                 self.hideParmControls()
             }
-
             self.view.isHidden = true
             // makes the image go blank after the trash button loads a new stack.
             // set visible again when new images are selected
@@ -704,7 +703,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     func hideParmControls() {
         // called from the PGLParmTableViewController viewDidDisappear
         hideSliders()
-        removeParmControls()
+//        removeParmControls()
+        hideViewControls()
         parmSlider?.isHidden = true
 
     }
@@ -913,6 +913,23 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //        thisRectController.thisCropAttribute = aRectInputFilter.cropAttribute
         showCropTintViews(setIsHidden: false)
         
+    }
+
+    func hideViewControls() {
+        // should use the attribute methods isPointUI() or isRectUI()..
+        for nameAttribute in appStack.parms {
+            let parmAttribute = nameAttribute.value
+            if parmAttribute.isPointUI() || parmAttribute.isTextInputUI() {
+                let parmView = appStack.parmControls[nameAttribute.key]
+                parmView?.isHidden = true
+                }
+            if parmAttribute.isRectUI() {
+                if parmAttribute is PGLAttributeRectangle {
+                        hideRectControl()
+                }
+            }
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController hideViewControls completed")
+        }
     }
 
     func removeParmControls() {
