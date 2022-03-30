@@ -70,7 +70,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // false will use the WWDC20 PHPickerViewController image selection
         // true - iPad uses PGLImagePicker which tracks the album source of the picked image
 
-    var picker: PHPickerViewController?
+//    var picker: PHPickerViewController?
     
     var scaleFactor: CGFloat = 2.0
 
@@ -1246,6 +1246,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         // triggers segue to detail of the collection.
         // "Show" segue
         // goToImageCollection
+
+
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickImage")
         if usePGLImagePicker {
             performSegue(withIdentifier: "goToImageCollection", sender: attribute)
@@ -1253,8 +1255,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         else {
 //             waiting for improvments in PHPickerViewController to use albumId to
 //             show last user selection
-            if picker == nil
-                { picker = initPHPickerView() }
+//            if picker == nil
+//                { picker = initPHPickerView() }
+            let picker = initPHPickerView()
 
             //PHPickerViewController documentation says 'You can present a picker object only once; you can’t reuse it across sessions'
             // there must be a ref back into this process from the picker.. use the same picker
@@ -1281,13 +1284,17 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         configuration.preferredAssetRepresentationMode = .automatic
         configuration.selection = .ordered
 
-        let targetAttribute = self.tappedAttribute
+        // 2022-03-30 give up trying to show the old selection in the PHPickerViewController.
+        //  keeps throwing crashes with 'invalid preselected asset identifiers
+        //   {( "595AF8D6-A8B9-4505-A7EA-AE6FBEAA9B6E/L0/001")}
 
-        var existingSelectionIDs: [String] = targetAttribute?.inputCollection?.assetIDs ?? [String]()
-        existingSelectionIDs.removeAll( where: {
-                 $0.hasPrefix("(null)/")   // "(null)/L0/001" is error string
-            })
-        configuration.preselectedAssetIdentifiers = existingSelectionIDs
+//        let targetAttribute = self.tappedAttribute
+
+//        var existingSelectionIDs: [String] = targetAttribute?.inputCollection?.assetIDs ?? [String]()
+//        existingSelectionIDs.removeAll( where: {
+//                 $0.hasPrefix("(null)/")   // "(null)/L0/001" is error string
+//            })
+//        configuration.preselectedAssetIdentifiers = existingSelectionIDs
         // config will hold onto the existingSelection if the user opens it again
 
         let myPicker = PHPickerViewController(configuration: configuration)
@@ -1368,6 +1375,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             self.parmsTableView.reloadRows(at: [cellPath], with: .automatic) }
         // gets the parm cell icon updated for an input image
         else { self.parmsTableView.reloadData() }
+
+        splitViewController?.show(.secondary)
+        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+
+        // clean up.. do not keep  ref to the picker
+        picker.delegate = nil
+
+
 
     }
 

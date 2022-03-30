@@ -32,6 +32,7 @@ let  PGLCurrentFilterChange = NSNotification.Name(rawValue: "PGLCurrentFilterCha
 let  PGLOutputImageChange = NSNotification.Name(rawValue: "PGLOutputImageChange")
 let  PGLUserAlertNotice = NSNotification.Name(rawValue: "PGLUserAlertNotice")
 let  PGLUpdateLibraryMenu = NSNotification.Name(rawValue: "PGLUpdateLibraryMenu")
+let PGLHideParmUIControls = NSNotification.Name(rawValue: "PGLHideParmUIControls")
 
 let ExportAlbumId = "ExportAlbumId"
 let ExportAlbum = "ExportAlbum"
@@ -565,19 +566,25 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
             self.updateLibraryMenu()
 
         }
+        notifications.append(aNotification)
 
         aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
         myUpdate in
-        guard let self = self else { return } // a released object sometimes receives the notification
-                      // the guard is based upon the apple sample app 'Conference-Diffable'
-//         NSLog("PGLImageController has  PGLImageCollectionOpen -calls doImageCollectionOpen")
-        
-        if (self.view.isHidden) {self.view.isHidden = false }
-            // needed to refresh the view after the trash creates a new stack.
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+            if (self.view.isHidden)
+                {self.view.isHidden = false }
+                // needed to refresh the view after the trash creates a new stack.
+            if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
+                self.doImageCollectionOpen(assetInfo: assetInfo) }
+        }
+        notifications.append(aNotification)
 
-        if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
-            self.doImageCollectionOpen(assetInfo: assetInfo) }
-            }
+        aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
+            myUpdate in
+            guard let self = self else { return }
+            self.hideParmControls()
+        }
 
         if let myMetalControllerView = storyboard!.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController {
             // does the metalView extend under the navigation bar?? change constraints???

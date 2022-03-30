@@ -29,6 +29,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     var segueStarted = false  // set to true during prepareFor segue
 
 
+    // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
@@ -85,10 +86,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             if verticalSize != .compact {
                 self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
         }
+        if traitCollection.userInterfaceIdiom == .phone {
+            postPGLHideParmUIControls()
 
-
-
-      
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +107,6 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         else { return .automatic }
     }
     
-    // MARK: appear/disappear
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
 //        NSLog("PGLSelectFilterController #viewDidDisappear removing notification observor")
@@ -472,6 +472,11 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
     fileprivate func postFilterNavigationChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
+        NotificationCenter.default.post(updateFilterNotification)
+    }
+
+    func postPGLHideParmUIControls(){
+        let updateFilterNotification = Notification(name:PGLHideParmUIControls)
         NotificationCenter.default.post(updateFilterNotification)
     }
 
