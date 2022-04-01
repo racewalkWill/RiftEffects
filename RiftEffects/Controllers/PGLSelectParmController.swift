@@ -279,9 +279,11 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
             imageController?.hideParmControls() // just hides the UI controls
         } else {
-            // else on the iphone the parm controller is moving off screen but we are changging parms
-            // keep the parmControls visible
-                imageController?.keepParmSlidersVisible = true
+
+//                imageController?.keepParmSlidersVisible = true
+            // this is now controlled by the highlight action and the select
+            // which triggers navigation to the imageController for
+            // manipulation of the parm values with a slider or point.
 
         }
         for anObserver in  notifications {
