@@ -708,9 +708,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
     func hideParmControls() {
-        // called from the PGLParmTableViewController viewDidDisappear
+
         hideSliders()
-//        removeParmControls()
+        panner?.isEnabled = false
         hideViewControls()
         parmSlider?.isHidden = true
 
