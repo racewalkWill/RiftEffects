@@ -534,7 +534,13 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
               else { return}
             removeDeletedFromSnapshot(deletedRows: [myDeletedRowPath])
       case .update:
-        configureCell(tableView.cellForRow(at: indexPath!)!,  withCDFilterStack: anObject as? CDFilterStack)
+        guard let thisPath = indexPath
+              else { return }
+        guard let thisCell = tableView.cellForRow(at: thisPath)
+              else { return }
+        guard let myCDFilterStack = anObject as? CDFilterStack
+              else { return }
+        configureCell(thisCell,  withCDFilterStack: myCDFilterStack)
       case .move:
 //        tableView.deleteRows(at: [indexPath!], with: .fade)
 //        tableView.insertRows(at: [newIndexPath!], with: .fade)

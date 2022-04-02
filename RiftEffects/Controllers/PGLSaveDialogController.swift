@@ -48,7 +48,6 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var saveFieldsStack: UIStackView!
 
-    @IBOutlet weak var saveDialogLabel: UILabel!
 
     @IBOutlet weak var stackName: UITextField! {
         didSet {
@@ -196,8 +195,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
          userEnteredStackName = targetStack.stackName
         userEnteredStackType =  targetStack.stackType
 //        userEnteredAlbumName =  targetStack.exportAlbumName
-        if doSaveAs {saveDialogLabel.text = "Rename As.."
-            } else { saveDialogLabel.text = "Effect" }
+      
 
 //        if isLimitedPhotoLibAccess() {
             // limited access does not allow album creation or save to album
