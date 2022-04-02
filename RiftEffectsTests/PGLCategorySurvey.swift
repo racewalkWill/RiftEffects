@@ -12,6 +12,7 @@ import os
 import CoreData
 
 @testable import RiftEffects
+import Accelerate
 
 class PGLCategorySurvey: XCTestCase {
     let context = CIContext()
@@ -63,22 +64,24 @@ class PGLCategorySurvey: XCTestCase {
 
     // MARK: common support func
 
-//    func fetchFavoritesList() ->  PGLAlbumSource? {
-//        //MARK: Move to PGLDemo
-//            let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
-//
-//
-//            if let theFavoriteAlbum = userFavorites.firstObject {
-//                 let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
-//                let theInfo =  PGLAlbumSource(theFavoriteAlbum,fetchResultAssets)
-//    //                                          init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ))
-//                                // init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? )
-//                return theInfo
-//
-//            }
-//            return nil
-//
-//        }
+    func fetchFavoritesList() ->  PGLAlbumSource? {
+        //MARK: Move to PGLDemo
+            let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
+        let startingFilter = (PGLFilterDescriptor(defaultFilterName, PGLTransitionFilter.self))!.pglSourceFilter()
+        guard let dummyFilterAttribute = startingFilter?.attributes.first
+            else { fatalError("fetchFavoritesList() fails to create a dummyFilterAttribute")}
+
+            if let theFavoriteAlbum = userFavorites.firstObject {
+                 let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
+            let theInfo =  PGLAlbumSource(targetAttribute: dummyFilterAttribute, theFavoriteAlbum,fetchResultAssets)
+    //                                          init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ))
+                                // init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? )
+                return theInfo
+
+            }
+            return nil
+
+        }
 
     func add9FiltersTo(stack: PGLFilterStack) {
         // put 9 random filters on the stack
