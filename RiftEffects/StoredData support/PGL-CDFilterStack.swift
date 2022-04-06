@@ -413,8 +413,19 @@ extension PGLFilterAttributeImage {
             // albums are set in the getAssets(localIds: [String],albums: [String])
 
             if let localListAssets = self.inputCollection?.imageAssets {
-                let cloudAlbums = localId2CloudId(localIdentifiers: localListAssets.map({$0.albumId}))
-                storedParmImage?.inputAssets?.albumIds = cloudAlbums
+                var mappedCloudIds = [String]()
+                let myAlbumIds = localListAssets.map({$0.albumId})
+
+                for eachAlbumID in myAlbumIds {
+                    let thisAlbumMapping  = localId2CloudId(localIdentifiers: [ eachAlbumID ] )
+                    mappedCloudIds.append(contentsOf: thisAlbumMapping)
+                }
+
+                // local2CloudId will return a single cloudAlbum if the albumIds are the same...
+                // we expect a matching same size array.. every local image asset has a cloudAlbumId
+               // therefore need to iterate and map each albumID one, by one
+
+                storedParmImage?.inputAssets?.albumIds = mappedCloudIds
 
             }
 

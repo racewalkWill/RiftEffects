@@ -38,32 +38,17 @@ class PGLFilterStackTests: XCTestCase {
         // filterStack gets one default filter
         // add two more
        
-        guard let favoriteAlbumSource = fetchFavoritesList() else
+        guard let favoriteImageList = fetchFavoritesList() else
             { Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice (" setUp fatalError( favoritesAlbum contents not returned")
              return
         }
-       
-
-        let favoriteAssets = favoriteAlbumSource.assets() // converts to PGLAsset
-        // take the first ones for testing...
-
-        guard let selectedAssets = favoriteAssets?.prefix(6)
-            else { 
-            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice (" setUp fatalError( Favorite Album does not have 6 images")
-             return
-        }
-        
-        let userSelectionInfo = PGLUserAssetSelection(assetSources: favoriteAlbumSource)
-        for anAsset in selectedAssets {
-            userSelectionInfo.addSourceToSelection(asset: anAsset)
-        }
-
-         //use first 6 images of the favorites
-        userSelectionInfo.setUserPick()
-
 
         if let bumpFilter = PGLSourceFilter(filter: "CIBumpDistortion") {
             bumpFilter.setDefaults()
+           guard let firstImageParm = bumpFilter.imageParms()?.first
+            else { fatalError("Need an image parm to test ")}
+            firstImageParm.inputCollection = favoriteImageList
+            firstImageParm.imageParmState = ImageParm.inputPhoto
             filterStack.appendFilter(bumpFilter) }
 
         // 2018-12-14  most of the tile filters seem to error.. skip CIPerspectiveTile for now..
@@ -88,22 +73,32 @@ class PGLFilterStackTests: XCTestCase {
         super.tearDown()
     }
 
-    func fetchFavoritesList() -> PGLAlbumSource? {
-        
-//        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
-//
-//
-//        if let theFavoriteAlbum = userFavorites.firstObject {
-//             let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
-//            let theInfo =  PGLAlbumSource(targetAttribute: <#PGLFilterAttribute#>, theFavoriteAlbum,fetchResultAssets)
-////                                          init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? ))
-//                            // init(_ assetAlbum: PHAssetCollection, _ result: PHFetchResult<PHAsset>? )
-//            return theInfo
-//
-//        }
-        return nil
+    func fetchFavoritesList() -> PGLImageList? {
+            // prune to 6 images
+        let maxFavoriteSize = 6
+        var favIDs = [String]()
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit  = maxFavoriteSize
+        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: fetchOptions)
+        if let theFavoriteAlbum: PHAssetCollection = userFavorites.firstObject {
+             let assets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: fetchOptions)
+                assets.enumerateObjects{(asset,index,stop) in
+                    favIDs.append(asset.localIdentifier)
+                }
+            let albumIDs = Array(repeating: theFavoriteAlbum.localIdentifier, count: min(favIDs.count, maxFavoriteSize) )
 
+            let theFavorites =  PGLImageList(localAssetIDs: favIDs, albumIds: albumIDs)
+            // this init assumes two matching arrays of same size localId and albumid
+
+            //        theFavorites.isAssetList = true
+            return theFavorites
+
+        }
+
+
+        return PGLImageList()
     }
+
 
     func testStackSetup() {
         // shows that the suite setup has an output image

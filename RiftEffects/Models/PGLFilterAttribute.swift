@@ -324,6 +324,11 @@ class PGLFilterAttribute {
         { setImageParmState(newState: ImageParm.missingInput)
             return
         }
+
+        // MARK: to do
+        // aSourceFilter is unowned var..
+        // guard for early deallocation
+
         aSourceFilter.setImageValuesAndClone(inputList: cycleStack, attributeName: myAttributeName )
 
         if cycleStack.isEmpty() {
