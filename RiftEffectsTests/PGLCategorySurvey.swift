@@ -107,7 +107,14 @@ class PGLCategorySurvey: XCTestCase {
             let outputImage = stack.outputImage()
             XCTAssertNotNil(outputImage)
             if outputImage != nil {
-            XCTAssertTrue( (outputImage!.extent.width > 0) && (outputImage!.extent.height > 0), " \(stack) outputImage extent is zero width/height")
+                let imageExtent = outputImage!.extent
+                if (imageExtent.isInfinite || imageExtent.isOutofRange()) {
+                    Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("#add9FiltersTo(stack: output image isNAN or infinite")
+                    }
+                else {
+
+                    XCTAssertTrue( (imageExtent.width > 0) && (imageExtent.height > 0), " \(stack) outputImage extent is zero width/height")
+                }
             }
 
         }
@@ -636,14 +643,32 @@ class PGLCategorySurvey: XCTestCase {
             var newFilter: PGLSourceFilter
             // from a failing testMultipleInput run
             let filterNames = [
-// zero extent output failing filters 2021-04-20
-                "CICircleSplashDistortion",
-                "CIClamp",   // failed 2021-08-16  others passed on this run
-                "CITriangleTile",
+                // XCTAssertTrue failed -  RiftEffects.PGLFilterStack outputImage extent is zero width/height
+                // 4/9/22  now passing
+                "CIMaximumCompositing" ,
+                "WarpItMetal" ,
+                "CIColorControls" ,
+                "CIColorMap" ,
+                "CIGaborGradients" ,
+                "CILightTunnel" ,
+                "CIPerspectiveTransform"
+//                "CIColorBlendMode" ,
+//                "BumpFace" ,
+//                "CIColorControls" ,
+//                "CIPhotoEffectChrome" ,
+//                "CISpotColor" ,
+//                "CIDroste" ,
+//                "CIKeystoneCorrectionCombined"
 
-                "CIKeystoneCorrectionHorizontal",
-                "CIUnsharpMask",
-                "CIHatchedScreen"
+// zero extent output failing filters 2021-04-20
+                // commented out 4/9/22  now passing
+//                "CICircleSplashDistortion",
+//                "CIClamp",   // failed 2021-08-16  others passed on this run
+//                "CITriangleTile",
+//
+//                "CIKeystoneCorrectionHorizontal",
+//                "CIUnsharpMask",
+//                "CIHatchedScreen"
 
 
                 // old list below

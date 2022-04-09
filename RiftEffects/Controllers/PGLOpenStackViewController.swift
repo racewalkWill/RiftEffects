@@ -348,11 +348,13 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
             } else {
                     // read it all back in the correct section
-                try? dataProvider?.fetchedResultsController.performFetch()
-                let allStacks =  myController.initialSnapShot()
-                showHeaderText = true
-                    // show header titles
-                apply(allStacks, animatingDifferences: true)}
+//                try? dataProvider?.fetchedResultsController.performFetch()
+//                let allStacks =  myController.initialSnapShot()
+//                showHeaderText = true
+//                    // show header titles
+//                apply(allStacks, animatingDifferences: true)
+                
+            }
         }
 
         func delete(cdStack: CDFilterStack) {

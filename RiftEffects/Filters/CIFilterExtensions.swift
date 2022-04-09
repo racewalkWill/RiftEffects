@@ -71,3 +71,18 @@ extension CIFilter {
 
 extension Int { func isEven() -> Bool { return (self % 2 == 0) } }
 
+extension CGRect {
+    func isNAN() -> Bool {
+        return width.isNaN || height.isNaN
+    }
+
+    func isXYInfinite() -> Bool {
+        return origin.x.isInfinite || origin.y.isInfinite
+    }
+
+    func isOutofRange() -> Bool {
+        let answer =  isNAN() || isXYInfinite()
+        return answer
+    }
+}
+
