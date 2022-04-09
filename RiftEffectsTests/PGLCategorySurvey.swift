@@ -66,13 +66,17 @@ class PGLCategorySurvey: XCTestCase {
 
     func fetchFavoritesList() ->  PGLAlbumSource? {
         //MARK: Move to PGLDemo
-        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
+        let maxFavoriteSize = 6
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit  = maxFavoriteSize
+
+        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: fetchOptions)
         let startingFilter = (PGLFilterDescriptor(defaultFilterName, PGLTransitionFilter.self))!.pglSourceFilter()
         guard let dummyFilterAttribute = startingFilter?.attributes.first
             else { fatalError("fetchFavoritesList() fails to create a dummyFilterAttribute")}
 
             if let theFavoriteAlbum = userFavorites.firstObject {
-                let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
+                let fetchResultAssets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: fetchOptions)
                 let theInfo =  PGLAlbumSource(targetAttribute: dummyFilterAttribute, theFavoriteAlbum,fetchResultAssets)
                 return theInfo
 

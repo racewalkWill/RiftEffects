@@ -49,13 +49,17 @@ class PGLSourceFilterTests: XCTestCase {
 
     func fetchFavoritesList() -> PGLImageList {
         var favIDs = [String]()
-        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: nil)
-        if let theFavoriteAlbum = userFavorites.firstObject {
-             let assets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: nil)
+        let maxFavoriteSize = 6
+      
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit  = maxFavoriteSize
+        let userFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites , options: fetchOptions)
+        if let theFavoriteAlbum: PHAssetCollection = userFavorites.firstObject {
+             let assets = PHAsset.fetchAssets(in: theFavoriteAlbum , options: fetchOptions)
                 assets.enumerateObjects{(asset,index,stop) in
                     favIDs.append(asset.localIdentifier)
                 }
-            let albumIDs = Array(repeating: theFavoriteAlbum.localIdentifier, count: favIDs.count)
+            let albumIDs = Array(repeating: theFavoriteAlbum.localIdentifier, count: min(favIDs.count, maxFavoriteSize) )
 
             let theFavorites =  PGLImageList(localAssetIDs: favIDs, albumIds: albumIDs)
             // this init assumes two matching arrays of same size localId and albumid
@@ -64,6 +68,8 @@ class PGLSourceFilterTests: XCTestCase {
             return theFavorites
 
         }
+
+
         return PGLImageList()
 
     }

@@ -44,7 +44,7 @@ class PGLAssetController: UIViewController {
         asset = userAssetSelection.asset(position: assetIndex,albumId: selectedAlbumId)
             // selectedAlbumId may be nil - uses selectedAssets
 //        NSLog("PGLAssetController #viewDidLoad")
-
+        if asset == nil { return }
         navigationItem.title = userAssetSelection.headerTitle(albumId: selectedAlbumId)
         navigationController?.isToolbarHidden = false
         let badgeInsets = UIEdgeInsets(top: -10,left: -10,bottom: -10,right: -10)
@@ -104,7 +104,8 @@ class PGLAssetController: UIViewController {
                 // and do nothing :)
         }
         notifications.append(aNotification)
-
+        if asset == nil { return }
+        
         favoriteButton.title = asset.asset.isFavorite ? "♥︎" : "♡"
         favoriteButton.isEnabled = asset.asset.canPerform(.properties)
 

@@ -328,7 +328,9 @@ class PGLUserAssetSelection {
         // nil albumId indicates the selectedAssets collection
         // otherwise the PGLAlbumSource collection with that albumId
         if albumId == nil  {
-            return selectedAssets[position]
+            if (selectedAssets.count > 0) && (position < selectedAssets.count) {
+                    return selectedAssets[position] }
+            else { return nil }
         } else {
             let thisSource = sections[albumId!]
             return thisSource?.asset(position: position)
