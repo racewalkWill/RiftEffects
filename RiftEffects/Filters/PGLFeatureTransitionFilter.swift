@@ -41,12 +41,16 @@ class PGLFeatureTransitionFilter: PGLTransitionFilter {
         // calls requestImage for the asset
         // add images for each feature of an image in the cycleStack..
         // then clone with super to setImageListClone
-        if cycleStack.nextType == NextElement.odd { return }
+        if cycleStack.nextType == NextElement.odd {
+            // detected array of images is copied.. It may be bigger than the imageAsset array
+
+            return }
         // stop.. don't make a further clone. Even stack clones odd stack and stops
         
         var theImages = [CIImage]()
         var thisSet = [CIImage]()
-        for index in 0..<cycleStack.sizeCount()  {
+        for index in 0..<cycleStack.maxAssetsOrImagesCount()  {
+
             if let theImage = cycleStack.image(atIndex: index) {
              // image(atIndex: int) calls requestImage for the asset
             detectorFilter?.setInput(image: theImage, source: "blank")

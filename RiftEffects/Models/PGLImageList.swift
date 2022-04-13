@@ -151,10 +151,10 @@ class PGLImageList {
 
     func isSingular() -> Bool {
         // answer true if only one element in the objects
-            return sizeCount()  == 1
+            return maxAssetsOrImagesCount()  == 1
     }
 
-    func sizeCount() -> Int {
+    func maxAssetsOrImagesCount() -> Int {
           if isAssetList {
               return imageAssets.count
           }
@@ -416,7 +416,7 @@ class PGLImageList {
             case NextElement.each, NextElement.even:
                 return 0
             case NextElement.odd:
-                if sizeCount()  == 1 {
+                if maxAssetsOrImagesCount()  == 1 {
                     return 0  // only one element have use the zero element
                 }
                 else { return 1 }
@@ -475,7 +475,7 @@ class PGLImageList {
     func increment() -> CIImage? {
         if hasImageStack() { return inputStack?.stackOutputImage(false)} // needs scaleToFrame??
         if isEmpty() {return nil } // guard
-        if sizeCount()  == 1 { return first() } // guard - nothing to increment
+        if maxAssetsOrImagesCount()  == 1 { return first() } // guard - nothing to increment
 
 //      NSLog("PGLImageList nextType = \(nextType) #increment start position = \(position)")
         let answerImage =  image(atIndex: position)
@@ -485,7 +485,7 @@ class PGLImageList {
             position = position + 1 }
         else { position = position + 2 } // skip by 2 }
 
-        if position >= sizeCount()  {
+        if position >= maxAssetsOrImagesCount()  {
             // start over
 //            imageAssets.reverse()
 //            images.reverse() // in opposite direction

@@ -123,7 +123,7 @@ class PGLSourceFilterTests: XCTestCase {
             var image2: CIImage
             let timerFilter = PGLSourceFilter(filter: "CIDissolveTransition" )!
             let albumFavorite = fetchFavoritesList() // PGLImageList of the favorites albume
-            if albumFavorite.sizeCount() < 2 {
+            if albumFavorite.maxAssetsOrImagesCount() < 2 {
                 XCTFail() }
 
             image1 = albumFavorite.image(atIndex: 0)!

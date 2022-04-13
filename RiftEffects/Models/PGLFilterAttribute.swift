@@ -635,7 +635,7 @@ class PGLFilterAttribute {
     }
     func hasInputCollection() -> Bool {
         // more than one input image exists
-        if let theSize = inputCollection?.sizeCount() {
+        if let theSize = inputCollection?.maxAssetsOrImagesCount() {
             return theSize > 1
         }
         return false
