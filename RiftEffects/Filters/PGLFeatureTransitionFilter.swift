@@ -46,7 +46,7 @@ class PGLFeatureTransitionFilter: PGLTransitionFilter {
         
         var theImages = [CIImage]()
         var thisSet = [CIImage]()
-        for index in 0..<(cycleStack.sizeCount() ) {
+        for index in 0..<cycleStack.sizeCount()  {
             if let theImage = cycleStack.image(atIndex: index) {
              // image(atIndex: int) calls requestImage for the asset
             detectorFilter?.setInput(image: theImage, source: "blank")

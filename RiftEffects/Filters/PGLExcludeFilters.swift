@@ -41,9 +41,15 @@ class PGLExcludeFilters {
         "CIConvolution7X7",
         "CIConvolution9Horizontal",
         "CIConvolution9Vertical",
+        "CIConvolutionRGB5X5",
+        "CIConvolutionRGB3X3" ,
+        "CIConvolutionRGB7X7" ,
+        "CIConvolutionRGB9Horizontal",
+        "CIConvolutionRGB9Vertical",
 
         // internal filters for use by custom filters
         // these only work with the aux depth info from a portrait.. not an normal input image
+        "CITextImageGenerator" ,
         "CIDepthToDisparity",
         "CIDisparityToDepth",
         "CIColorClamp"   // see note N73.7.3 CIColorClamp for how to implement interface at later time
