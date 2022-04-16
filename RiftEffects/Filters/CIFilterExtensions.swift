@@ -43,8 +43,8 @@ extension CIFilter {
           kPFaceFilter : [PGLDetectorFilter.self],
            kPBumpFace : [PGLDetectorFilter.self],
            kPBumpBlend : [PGLBumpBlend.self] ,
-            "CIDissolveTransition" : [ PGLFaceTransitionFilter.self, PGLTransitionFilter.self , PGLBumpTransitionFilter.self
-//                , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
+            "CIDissolveTransition" : [ PGLFaceTransitionFilter.self, PGLTransitionFilter.self ,
+//              PGLBumpTransitionFilter.self  , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
             ],
             kPImages : [PGLTransitionFilter.self ],
             kPRandom : [PGLRandomFilterMaker.self ],

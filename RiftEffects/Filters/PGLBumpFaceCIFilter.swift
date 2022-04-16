@@ -68,14 +68,24 @@ class PGLBumpFaceCIFilter: PGLFilterCIAbstract {
         inputFeatureSelect = 0
     }
 
-    var bumpDistortFilter = CIFilter(name: "BumpDistort")
+
 
     override var outputImage: CIImage? {
         get {
 
             if features.isEmpty { return inputImage}
 //            if inputFeatureSelect < 0 {return inputImage}
-            bumpDistortFilter?.setValue(inputImage, forKey: kCIInputImageKey)
+
+
+            var bumpDistortFilter = CIFilter(
+                name: "CIBumpDistortion",
+                parameters: [ kCIInputRadiusKey: inputRadius,
+                   kCIInputImageKey: inputImage,
+                   kCIInputScaleKey: inputScale,
+                   kCIInputRadiusKey: inputRadius
+
+                                     ])
+
 
             if inputFeatureSelect >= 0 {
                 let featureIndex = min( inputFeatureSelect, features.count - 1) // don't go beyond the number of featurs

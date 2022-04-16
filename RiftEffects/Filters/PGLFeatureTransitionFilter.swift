@@ -72,29 +72,29 @@ class PGLFeatureTransitionFilter: PGLTransitionFilter {
     }
 }
 
-class PGLBumpTransitionFilter: PGLFeatureTransitionFilter {
-
-    override class func displayName() -> String? {
-        return "Bump Dissolve"
-    }
-
-    required init?(filter: String, position: PGLFilterCategoryIndex) {
-        super.init(filter: filter, position: position)
-
-        detectorFilter = DetectorFramework.Active.init(ciFilter:  PGLBumpFaceCIFilter() )
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-                   else {
-                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLBumpTransitionFilter init did not load AppDelegate")
-                return
-        }
-               guard let appStack = myAppDelegate.appStack
-                   else {return }
-               detectorFilter?.setCIContext(detectorContext: appStack.getViewerStack().imageCIContext)
-    }
-    
-
-
-}
+//class PGLBumpTransitionFilter: PGLFeatureTransitionFilter {
+//
+//    override class func displayName() -> String? {
+//        return "Bump Dissolve"
+//    }
+//
+//    required init?(filter: String, position: PGLFilterCategoryIndex) {
+//        super.init(filter: filter, position: position)
+//
+//        detectorFilter = DetectorFramework.Active.init(ciFilter:  PGLBumpFaceCIFilter() )
+//        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+//                   else {
+//                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLBumpTransitionFilter init did not load AppDelegate")
+//                return
+//        }
+//               guard let appStack = myAppDelegate.appStack
+//                   else {return }
+//               detectorFilter?.setCIContext(detectorContext: appStack.getViewerStack().imageCIContext)
+//    }
+//    
+//
+//
+//}
 
 class PGLFaceTransitionFilter: PGLFeatureTransitionFilter {
 

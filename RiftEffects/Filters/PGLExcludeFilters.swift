@@ -46,7 +46,8 @@ class PGLExcludeFilters {
         "CIConvolutionRGB7X7" ,
         "CIConvolutionRGB9Horizontal",
         "CIConvolutionRGB9Vertical",
-
+        "BumpFace" ,
+        
         // internal filters for use by custom filters
         // these only work with the aux depth info from a portrait.. not an normal input image
         "CITextImageGenerator" ,
