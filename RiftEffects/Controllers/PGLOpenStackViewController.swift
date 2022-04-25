@@ -265,8 +265,11 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
     func removeDeletedFromSnapshot(deletedRows: [IndexPath]) {
 
-        let diffableIdentifiers = deletedRows.map { aPath in
-            dataSource.itemIdentifier(for: aPath)!
+        var diffableIdentifiers = [CDFilterStack]()
+        for aRow in deletedRows {
+            if let thisIdentifier = dataSource.itemIdentifier(for: aRow) {
+                diffableIdentifiers.append(thisIdentifier)
+            }
         }
         var currentSnapshot = dataSource.snapshot()
         currentSnapshot.deleteItems(diffableIdentifiers)
