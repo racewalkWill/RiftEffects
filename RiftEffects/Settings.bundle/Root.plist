@@ -30,7 +30,7 @@
 			<key>Key</key>
 			<string>photosFileType</string>
 			<key>DefaultValue</key>
-			<string>JPEG</string>
+			<string>HEIF</string>
 			<key>Titles</key>
 			<array>
 				<string>JPEG</string>

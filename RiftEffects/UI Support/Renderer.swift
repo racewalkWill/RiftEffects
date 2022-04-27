@@ -117,7 +117,7 @@ class Renderer: NSObject {
             // above works..
         
         let fileType = AppUserDefaults.string(forKey:  "photosFileType")
-        currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "JPEG")
+        currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "HEIF")
 
 
         NSLog("Renderer init currentPhotoFileFormat \(String(describing: currentPhotoFileFormat))")

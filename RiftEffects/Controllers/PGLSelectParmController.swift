@@ -43,7 +43,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
             filterParms[sectionImages] = allAttributes.filter{ $0.isImageUI() }  //isImageInput
             filterParms[sectionParms]  = allAttributes.filter{ !($0.isImageUI()) } //isImageInput
-            filterParms[sectionOther] = [PGLFilterAttribute]()  // no constructor for others
+//            filterParms[sectionOther] = [PGLFilterAttribute]()  // no constructor for others
             if !(currentFilter === appStack.currentFilter)  {
                 // identity test not value compare
                 parmsListHasChanged()
@@ -54,7 +54,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
-    var filterParms: [[PGLFilterAttribute]] = [[PGLFilterAttribute](), [PGLFilterAttribute](),[PGLFilterAttribute]()]
+    var filterParms: [[PGLFilterAttribute]] = [[PGLFilterAttribute](), [PGLFilterAttribute]()]
+                                               // ,[PGLFilterAttribute]()] not using the 'other section
 //    var imageAttributes = [PGLFilterAttribute]()  // attributes for an image - input, background, mask etc..
 //    var parmAttributes = [PGLFilterAttribute]()  // not an image - all other parms
 //    var valueAttributes = [PGLFilterAttribute]()  // supporting value attributes for parent attibutes
@@ -794,8 +795,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 return "Images"
         case sectionParms:
                 return "Parms"
-        case sectionOther:
-            return "Other"
+//        case sectionOther:
+//            return "Other"
         default:
                 return "Speed"
         }
@@ -816,8 +817,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //                let timerRows = (filterParms[sectionParms].filter { $0.hasAnimation()}).count
 //                return baseRows + timerRows
             // end why ???
-        case sectionOther  :
-                rowCount = filterParms[sectionOther].count
+//        case sectionOther  :
+//                rowCount = filterParms[sectionOther].count
         default: rowCount = 0
         }
 //        NSLog("PGLSelectParmController numberOfRowsInSection section =\(section) = \(rowCount)")
