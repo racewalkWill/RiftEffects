@@ -40,7 +40,16 @@ class PGLFilterAttributeAttributedString: PGLFilterAttribute {
         }
 
     // do not need to override valueString() implementation of superclass PGLFilterAttribute
+    override  func setUICellDescription(_ uiCell: UITableViewCell) {
+      var content = uiCell.defaultContentConfiguration()
+      let newDescriptionString = self.attributeDisplayName ?? ""
+      content.text = newDescriptionString
+      content.imageProperties.tintColor = .secondaryLabel
+    content.image = UIImage(systemName: "character.textbox")
 
+      uiCell.contentConfiguration = content
+
+    }
 }
 
 class PGLFilterAttributeString: PGLFilterAttribute {
