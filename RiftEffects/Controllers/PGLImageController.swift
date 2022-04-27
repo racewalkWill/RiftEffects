@@ -808,7 +808,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
       case AttrUIType.sliderUI , AttrUIType.integerUI  :
             // replaced by the slider in the tablePaneCell
             // do not show the slider in the image
-
+            hideViewControls()
            addSliderControl(attribute: modelAttribute)
            highlight(viewNamed: modelAttribute.attributeName!)
             // enable the slider
@@ -819,12 +819,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
                 highlight(viewNamed: modelAttribute.attributeName!)
             addTextChangeNotification(textAttributeName: modelAttribute.attributeName!)
-            parmSlider?.isHidden = true
-            hideSliders()
+
+            hideParmControls()
 
         case AttrUIType.fontUI :
             parmSlider?.isHidden = true
-            hideSliders()
+            hideParmControls()
             showFontPicker(self)
 
         case AttrUIType.timerSliderUI:
@@ -952,7 +952,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //                        NSLog("ImageController removeParmControls on textField -- end editing?")
 //                    textInputField.endEditing(true)
                     // end editing should cause resignFirstResponder and keyboard disappears
-//                   textInputField.resignFirstResponder()
+                   textInputField.resignFirstResponder()
                     }
                 }
                 parmView?.removeFromSuperview()
@@ -1035,7 +1035,9 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         //
         let textValue = attribute.getValue() as? String // need to put implementations in the above classes
         // put in the center of the control
-        let centerPoint = (view.center)
+        var centerPoint = (view.center)
+        centerPoint.y = centerPoint.y / 3
+        centerPoint.x = centerPoint.x - (centerPoint.x / 3)
         let boxSize = CGSize(width: 250, height: 40)
         let boxFrame = CGRect(origin: centerPoint, size: boxSize)
 
@@ -1047,9 +1049,12 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         inputView.delegate = parmController
         view.addSubview(inputView)
         appStack.parmControls[attribute.attributeName!] = inputView
+            // on iPHone need to move up to avoid getting hidden by the keyboad
+        let margins = view.layoutMarginsGuide
          NSLayoutConstraint.activate([
-            inputView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            inputView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            inputView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            inputView.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: margins.topAnchor, multiplier: 0.0),
+            inputView.topAnchor.constraint(lessThanOrEqualTo: margins.topAnchor, constant: 60) ,
             inputView.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, multiplier: 0.66, constant: 0)
                                     ])
         inputView.isHidden = true

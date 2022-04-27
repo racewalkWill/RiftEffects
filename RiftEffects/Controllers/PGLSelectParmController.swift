@@ -630,8 +630,9 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                     Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UImageView \(aParmControlTuple.key)")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
                     NSLog("highlight END TextField editing \(aParmControlTuple.key)")
+
                     viewControl.endEditing(true)
-                    viewControl.resignFirstResponder()
+                    viewControl.resignFirstResponder()  // dismiss the keyboard
                     viewControl.isHidden = true
                     viewControl.isHighlighted = false
                     Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UIControl \(aParmControlTuple.key)")
@@ -724,6 +725,16 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     }
 
 // MARK: UITextFieldDelegate
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
+        textField.resignFirstResponder()
+        return true
+    }
+
+    internal func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+
     // called from the textFields of the ImageController
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
 
@@ -740,13 +751,55 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
+    @objc func handleKeyboardNotification(_ notification: Notification) {
+        // from UIKitCatalog  TextViewController example
+        guard let userInfo = notification.userInfo else { return }
+
+        // Get the animation duration.
+        var animationDuration: TimeInterval = 0
+        if let value = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber {
+           animationDuration = value.doubleValue
+        }
+
+        // Convert the keyboard frame from screen to view coordinates.
+        var keyboardScreenBeginFrame = CGRect()
+        if let value = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue) {
+            keyboardScreenBeginFrame = value.cgRectValue
+        }
+
+        var keyboardScreenEndFrame = CGRect()
+        if let value = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue) {
+            keyboardScreenEndFrame = value.cgRectValue
+        }
+
+        let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
+
+        // The text view should be adjusted, update the constant for this constraint.
+//        bottomLayoutGuideConstraint.constant -= originDelta
+//        topLayoutGuideConstraint.constant  += originDelta
+        // Inform the view that its autolayout constraints have changed and the layout should be updated.
+//        view.setNeedsUpdateConstraints()
+
+        // Animate updating the view's layout by calling layoutIfNeeded inside a `UIViewPropertyAnimator` animation block.
+//        let textViewAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeIn, animations: { [weak self] in
+//            self?.view.layoutIfNeeded()
+//        })
+//        textViewAnimator.startAnimation()
+//        scrollView.
+
+    }
+
+
 
 
     // add listener for notification of text change
 
     func addTextChangeNotification(textAttributeName: String) {
 
-//        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
+       NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
         guard let textField = parmControl(named: textAttributeName) as? UITextField else
@@ -755,7 +808,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-//            NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
+           NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
             if let target = self.tappedAttribute {
                 if target.isTextInputUI()  {
                     // shows changes as they are typed.. no commit reason
@@ -772,14 +825,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
     }
 
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // the return button is pressed
-        return true
-    }
 
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
 
     // MARK: - UITableViewDataSource
 
