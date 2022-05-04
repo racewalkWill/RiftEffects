@@ -39,7 +39,7 @@ let ExportAlbum = "ExportAlbum"
 
 let showHelpPageAtStartupKey = "displayStartHelp"
 
-class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, UIAdaptivePresentationControllerDelegate, UIPopoverPresentationControllerDelegate {
+class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, UIAdaptivePresentationControllerDelegate, UIPopoverPresentationControllerDelegate, UITextFieldDelegate {
 
 
     // controller in detail view - shows the image as filtered - knows the current filter
@@ -750,22 +750,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
                 }
 
-            } else { // hide other views
-
-                if let imageControl = (aParmControlTuple.value) as? UIImageView {
-                    imageControl.isHidden = true
-                    imageControl.isHighlighted = false
-                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UImageView \(aParmControlTuple.key)")
-                } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
-                    NSLog("highlight END TextField editing \(aParmControlTuple.key)")
-                    viewControl.endEditing(true)
-                    viewControl.resignFirstResponder()
-                    viewControl.isHidden = true
-                    viewControl.isHighlighted = false
-                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UIControl \(aParmControlTuple.key)")
-                    }
-                }
             }
+
         }
     }
 
@@ -781,16 +767,15 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
         switch modelAttribute.attributeUIType() {
         case AttrUIType.pointUI , AttrUIType.rectUI:
-//            var croppingFilter: PGLRectangleFilter?
 
+            hideParmControls()
             panner?.isEnabled = true
-                guard let thisAttributeControlView = appStack.parmControls[modelAttribute.attributeName ?? "forceReturn"] else
-                { return }
+            guard let thisAttributeControlView = appStack.parmControls[modelAttribute.attributeName ?? "forceReturn"] else
+            { return }
              selectedParmControlView = thisAttributeControlView
             if let thisAttributeName = modelAttribute.attributeName {
                 highlight(viewNamed: thisAttributeName)
-                parmSlider?.isHidden = true
-                hideSliders()
+
                 if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
                     else { return }
@@ -808,32 +793,28 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
       case AttrUIType.sliderUI , AttrUIType.integerUI  :
             // replaced by the slider in the tablePaneCell
             // do not show the slider in the image
-            hideViewControls()
-           addSliderControl(attribute: modelAttribute)
+           hideParmControls()
+           showSliderControl(attribute: modelAttribute)
            highlight(viewNamed: modelAttribute.attributeName!)
             // enable the slider
 
         case AttrUIType.textInputUI :
-//                imageController!.addTextInputControl(attribute:  modelAttribute)
-            // added already in updateParmControls
-
+                hideParmControls()
                 highlight(viewNamed: modelAttribute.attributeName!)
-            addTextChangeNotification(textAttributeName: modelAttribute.attributeName!)
 
-            hideParmControls()
 
         case AttrUIType.fontUI :
-            parmSlider?.isHidden = true
+
             hideParmControls()
             showFontPicker(self)
 
         case AttrUIType.timerSliderUI:
             // the PGLFilterAttributeNumber has to answer the sliderCell for this to run.. currently commented out 5/16/19
-
+                hideSliders()
             if let selectedSliderCell = tableView.cellForRow(at: indexPath) as? PGLTableCellSlider {
                 selectedSliderCell.sliderControl.isEnabled = true
             }
-            hideSliders()
+
 //        case AttrUIType.imagePickUI :
             // did the photo or filter cell get touched?
           //  pickImage(tappedAttribute!)
@@ -853,6 +834,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         let queue = OperationQueue.main
         guard let textField = appStack.parmControls[ textAttributeName ] as? UITextField else
             {return }
+
         let textNotifier = myCenter.addObserver(forName: UITextField.textDidChangeNotification, object: textField , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
@@ -1046,7 +1028,13 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         inputView.placeholder = textValue
         inputView.backgroundColor = UIColor.systemBackground
 //        inputView.isOpaque = true
-        inputView.delegate = parmController
+        if traitCollection.userInterfaceIdiom == .phone {
+            // on the iPHone layout
+            inputView.delegate = self
+        } else {
+            inputView.delegate = parmController }
+//        NSLog("addTextInputControl textDelegate = \(String(describing: inputView.delegate))")
+
         view.addSubview(inputView)
         appStack.parmControls[attribute.attributeName!] = inputView
             // on iPHone need to move up to avoid getting hidden by the keyboad
@@ -1059,6 +1047,8 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
                                     ])
         inputView.isHidden = true
 //        NSLog("addTextInputControl attributeValue = \(textValue)")
+
+        addTextChangeNotification(textAttributeName: attribute.attributeName!)
     }
 
     func addBooleanInputSwitch(attribute: PGLFilterAttribute){
@@ -1204,7 +1194,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     }
 
 
-    func addSliderControl(attribute: PGLFilterAttribute)  {
+    func showSliderControl(attribute: PGLFilterAttribute)  {
         hideSliders() // start with all hidden
 
         switch attribute {
@@ -1499,15 +1489,26 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
             // are there any senders of this?
 
             // input text from the imageController
-    //        NSLog("ParmController textFieldDidEndEditing ")
+//           NSLog("PGLImageController textFieldDidEndEditing ")
             if let target = appStack.targetAttribute {
                 if target.isTextInputUI() && reason == .committed {
                 // put the new value into the parm
                 target.set(textField.text as Any)
-
+                textField.isHidden = true
             }
             }
         }
+
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
+        textField.resignFirstResponder()
+        return true
+    }
+
+    internal func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+
 
 }
 

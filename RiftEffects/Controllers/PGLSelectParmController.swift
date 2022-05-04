@@ -622,23 +622,8 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
                 }
 
-            } else { // hide other views
-
-                if let imageControl = (aParmControlTuple.value) as? UIImageView {
-                    imageControl.isHidden = true
-                    imageControl.isHighlighted = false
-                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UImageView \(aParmControlTuple.key)")
-                } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
-                    NSLog("highlight END TextField editing \(aParmControlTuple.key)")
-
-                    viewControl.endEditing(true)
-                    viewControl.resignFirstResponder()  // dismiss the keyboard
-                    viewControl.isHidden = true
-                    viewControl.isHighlighted = false
-                    Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight HIDE UIControl \(aParmControlTuple.key)")
-                    }
-                }
             }
+
         }
     }
 
@@ -746,51 +731,13 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
             if target.isTextInputUI() && reason == .committed {
             // put the new value into the parm
             target.set(textField.text as Any)
+            textField.isHidden = true  //editing is done hide..
 
         }
         }
     }
 
-    @objc func handleKeyboardNotification(_ notification: Notification) {
-        // from UIKitCatalog  TextViewController example
-        guard let userInfo = notification.userInfo else { return }
 
-        // Get the animation duration.
-        var animationDuration: TimeInterval = 0
-        if let value = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber {
-           animationDuration = value.doubleValue
-        }
-
-        // Convert the keyboard frame from screen to view coordinates.
-        var keyboardScreenBeginFrame = CGRect()
-        if let value = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue) {
-            keyboardScreenBeginFrame = value.cgRectValue
-        }
-
-        var keyboardScreenEndFrame = CGRect()
-        if let value = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue) {
-            keyboardScreenEndFrame = value.cgRectValue
-        }
-
-        let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-
-        let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
-
-        // The text view should be adjusted, update the constant for this constraint.
-//        bottomLayoutGuideConstraint.constant -= originDelta
-//        topLayoutGuideConstraint.constant  += originDelta
-        // Inform the view that its autolayout constraints have changed and the layout should be updated.
-//        view.setNeedsUpdateConstraints()
-
-        // Animate updating the view's layout by calling layoutIfNeeded inside a `UIViewPropertyAnimator` animation block.
-//        let textViewAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeIn, animations: { [weak self] in
-//            self?.view.layoutIfNeeded()
-//        })
-//        textViewAnimator.startAnimation()
-//        scrollView.
-
-    }
 
 
 
@@ -989,18 +936,16 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         switch tappedAttribute!.attributeUIType() {
         case AttrUIType.pointUI , AttrUIType.rectUI:
-//            var croppingFilter: PGLRectangleFilter?
+            imageController?.hideParmControls()
+            if let myPanner = imageController?.panner {
+                myPanner.isEnabled = true
+            }
 
-//            panner?.isEnabled = true
-                if let myPanner = imageController?.panner {
-                    myPanner.isEnabled = true
-                }
             selectedParmControlView = parmControl(named: (tappedAttribute!.attributeName)!)
                 imageController?.selectedParmControlView = selectedParmControlView
             if let thisAttributeName = tappedAttribute!.attributeName {
                 highlight(viewNamed: thisAttributeName)
-                imageController?.parmSlider.isHidden = true
-                imageController?.hideSliders()
+
                 if let thisCropAttribute = tappedAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = currentFilter as? PGLRectangleFilter
                     else { return }
@@ -1018,19 +963,17 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
       case AttrUIType.sliderUI , AttrUIType.integerUI  :
             // replaced by the slider in the tablePaneCell
             // do not show the slider in the image
+            imageController?.hideParmControls()
+           imageController!.showSliderControl(attribute: tappedAttribute!)
 
-           imageController!.addSliderControl(attribute: tappedAttribute!)
-           highlight(viewNamed: tappedAttribute!.attributeName!)
-            // enable the slider
 
         case AttrUIType.textInputUI :
-//                imageController!.addTextInputControl(attribute:  tappedAttribute!)
-            // added already in updateParmControls
 
-                highlight(viewNamed: tappedAttribute!.attributeName!)
-            addTextChangeNotification(textAttributeName: tappedAttribute!.attributeName!)
-            imageController?.parmSlider.isHidden = true
-            imageController?.hideSliders()
+            imageController?.hideParmControls()
+            highlight(viewNamed: tappedAttribute!.attributeName!)
+
+
+
 
         case AttrUIType.fontUI :
             imageController?.parmSlider.isHidden = true
