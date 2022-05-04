@@ -1464,11 +1464,27 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
         // MARK:  UIFontPickerViewControllerDelegate
             func showFontPicker(_ sender: Any) {
 
-                    let fontConfig = UIFontPickerViewController.Configuration()
-                    fontConfig.includeFaces = false
-                    let fontPicker = UIFontPickerViewController(configuration: fontConfig)
-                    fontPicker.delegate = self
-                    self.present(fontPicker, animated: true, completion: nil)
+                let fontConfig = UIFontPickerViewController.Configuration()
+                fontConfig.includeFaces = false
+                let fontPicker = UIFontPickerViewController(configuration: fontConfig)
+                fontPicker.delegate = self
+
+                if traitCollection.userInterfaceIdiom == .phone {
+                    fontPicker.modalPresentationStyle = .popover
+                    fontPicker.preferredContentSize = CGSize(width: 200, height: 350.0)
+                    // specify anchor point?
+                    guard let popOverPresenter = fontPicker.popoverPresentationController
+                    else { return }
+//                    popOverPresenter.sourceView = filterCell
+                    let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+                    sheet.detents = [.medium(), .large()]
+            //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                    sheet.prefersEdgeAttachedInCompactHeight = true
+                    sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
+
+                    }
+                self.present(fontPicker, animated: true, completion: nil)
                 }
 
         func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
@@ -1481,6 +1497,8 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
 
             }
         }
+
+
 
     // MARK: UITextFieldDelegate
         // called from the textFields of the ImageController

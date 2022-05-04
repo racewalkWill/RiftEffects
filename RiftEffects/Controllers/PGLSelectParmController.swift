@@ -34,7 +34,14 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //    var parmStackData: () -> PGLFilterStack?  = { PGLFilterStack() }
     // a function is assigned to this var that answers the filterStack
 //    var myMasterSplitController: PGLSplitViewController?
-    var appStack: PGLAppStack!
+    var appStack: PGLAppStack! {
+        // now a computed property
+        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewDidLoad fatalError(AppDelegate not loaded")
+            fatalError("PGLSelectParmController could not access the AppDelegate")
+        }
+       return  myAppDelegate.appStack
+    }
 
     var currentFilter: PGLSourceFilter?  {
         didSet {
@@ -150,11 +157,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         splitViewController?.delegate = self
 
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewDidLoad fatalError(AppDelegate not loaded")
-            return
-        }
-        appStack = myAppDelegate.appStack
+
         navigationItem.title = "Parms"//viewerStack.stackName
 
 
@@ -299,7 +302,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
         view = nil
 //        currentFilter = nil
         tappedAttribute = nil
-        appStack = nil
+
         // don't update the model targetAttribute.. the imageController needs it.
 
     }
@@ -695,12 +698,29 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
                 fontConfig.includeFaces = false
                 let fontPicker = UIFontPickerViewController(configuration: fontConfig)
                 fontPicker.delegate = self
+
+            if traitCollection.userInterfaceIdiom == .phone {
+                    fontPicker.modalPresentationStyle = .popover
+                    fontPicker.preferredContentSize = CGSize(width: 200, height: 350.0)
+                    // specify anchor point?
+                    guard let popOverPresenter = fontPicker.popoverPresentationController
+                    else { return }
+//                    popOverPresenter.sourceView = filterCell
+                    let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+                    sheet.detents = [.medium(), .large()]
+            //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                    sheet.prefersEdgeAttachedInCompactHeight = true
+                    sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
+
+                    }
                 self.present(fontPicker, animated: true, completion: nil)
             }
 
+
     func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
 
-        if let target = tappedAttribute {
+        if let target = appStack.targetAttribute {
             if target.isFontUI() {
                 let theFont = viewController.selectedFontDescriptor
                 target.set(theFont?.postscriptName as Any)
@@ -708,6 +728,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
         }
     }
+
 
 // MARK: UITextFieldDelegate
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
