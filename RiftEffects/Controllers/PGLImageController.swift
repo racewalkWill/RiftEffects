@@ -39,7 +39,7 @@ let ExportAlbum = "ExportAlbum"
 
 let showHelpPageAtStartupKey = "displayStartHelp"
 
-class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, UIAdaptivePresentationControllerDelegate, UIPopoverPresentationControllerDelegate, UITextFieldDelegate {
+class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate {
 
 
     // controller in detail view - shows the image as filtered - knows the current filter
@@ -55,7 +55,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     var myScaleTransform: CGAffineTransform = CGAffineTransform.identity
 
     var filterStack: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
-    var appStack: PGLAppStack!
+
 
 
     var parmController: PGLSelectParmController?
@@ -65,7 +65,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     let crossPoint = UIImage(systemName: "plus.circle.fill")
 //    let reverseCrossPoint = UIImage(systemName: "plus.circle")
 
-    var notifications = [Any]() // an opaque type is returned from addObservor
+
 
     // MARK: control Vars
 
@@ -452,13 +452,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 //        and the view assigned in the setter of effectView var
 
 
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault( "PGLImageController viewDidLoad fatalError(AppDelegate not loaded")
-                return
-        }
-
-        appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
 
 //        NSLog("PGLImageController #viewdidLoad")
@@ -728,32 +721,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
     // the Parm controller may not be loaded in
     // the secondaryViewOnly mode - only the imageController is loaded
 
-    func highlight(viewNamed: String) {
 
-        // a switch statement might be cleaner
-        // both UIImageView and UIControls need to be hidden or shown
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight viewNamed \(viewNamed)")
-        for aParmControlTuple in appStack.parmControls {
-            if aParmControlTuple.key == viewNamed {
-                // show this view
-                Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight view isHidden = false, hightlight = true")
-                if let imageControl = (aParmControlTuple.value) as? UIImageView {
-                    imageControl.isHidden = false
-                    imageControl.isHighlighted = true
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UIImageView isHidden = false, hightlight = true")
-                } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
-                    viewControl.isHidden = false
-                    viewControl.isHighlighted = true
-                    viewControl.becomeFirstResponder()
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UITextField isHidden = false, hightlight = true")
-                    }
-
-                }
-
-            }
-
-        }
-    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -827,33 +795,6 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
         // updates need to be invoked in the completion routines
     }
 
-    func addTextChangeNotification(textAttributeName: String) {
-
-//        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
-        let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-        guard let textField = appStack.parmControls[ textAttributeName ] as? UITextField else
-            {return }
-
-        let textNotifier = myCenter.addObserver(forName: UITextField.textDidChangeNotification, object: textField , queue: queue) {[weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-//            NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
-            if let target = self.appStack.targetAttribute {
-                if target.isTextInputUI()  {
-                    // shows changes as they are typed.. no commit reason
-                // put the new value into the parm
-                    target.set(textField.text as Any)
-
-            }
-        }
-
-        }
-        notifications.append(textNotifier)
-        // this notification is removed with all the notifications in viewWillDisappear
-
-    }
 
 // MARK: MTKViewDelegate drawing
 
@@ -1269,7 +1210,7 @@ class PGLImageController: UIViewController, UIDynamicAnimatorDelegate, UINavigat
 
 }
 
-extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewControllerDelegate {
+extension PGLImageController: UIGestureRecognizerDelegate {
 
     // MARK: Sliders
 //    @IBAction func parmSliderChange(_ sender: UISlider) {
@@ -1461,71 +1402,6 @@ extension PGLImageController: UIGestureRecognizerDelegate, UIFontPickerViewContr
         }
     }
 
-        // MARK:  UIFontPickerViewControllerDelegate
-            func showFontPicker(_ sender: Any) {
-
-                let fontConfig = UIFontPickerViewController.Configuration()
-                fontConfig.includeFaces = false
-                let fontPicker = UIFontPickerViewController(configuration: fontConfig)
-                fontPicker.delegate = self
-
-                if traitCollection.userInterfaceIdiom == .phone {
-                    fontPicker.modalPresentationStyle = .popover
-                    fontPicker.preferredContentSize = CGSize(width: 200, height: 350.0)
-                    // specify anchor point?
-                    guard let popOverPresenter = fontPicker.popoverPresentationController
-                    else { return }
-//                    popOverPresenter.sourceView = filterCell
-                    let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
-                    sheet.detents = [.medium(), .large()]
-            //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                    sheet.prefersEdgeAttachedInCompactHeight = true
-                    sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-
-
-                    }
-                self.present(fontPicker, animated: true, completion: nil)
-                }
-
-        func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
-
-            if let target = appStack.targetAttribute {
-                if target.isFontUI() {
-                    let theFont = viewController.selectedFontDescriptor
-                    target.set(theFont?.postscriptName as Any)
-                }
-
-            }
-        }
-
-
-
-    // MARK: UITextFieldDelegate
-        // called from the textFields of the ImageController
-        func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-
-            // are there any senders of this?
-
-            // input text from the imageController
-//           NSLog("PGLImageController textFieldDidEndEditing ")
-            if let target = appStack.targetAttribute {
-                if target.isTextInputUI() && reason == .committed {
-                // put the new value into the parm
-                target.set(textField.text as Any)
-                textField.isHidden = true
-            }
-            }
-        }
-
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
-        textField.resignFirstResponder()
-        return true
-    }
-
-    internal func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
 
 
 }

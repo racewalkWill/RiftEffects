@@ -24,9 +24,12 @@ enum ImageParm: Int {
 let  PGLAttributeAnimationChange = NSNotification.Name(rawValue: "PGLAttributeAnimationChange")
 let  PGLReloadParmCell = NSNotification.Name(rawValue: "PGLReloadParmCell")
 
-class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableViewDataSource,
-             UINavigationControllerDelegate , UIGestureRecognizerDelegate, UISplitViewControllerDelegate, UITextFieldDelegate,
-                               UIFontPickerViewControllerDelegate, PHPickerViewControllerDelegate
+class PGLSelectParmController: PGLCommonController,
+            UITableViewDelegate, UITableViewDataSource,
+             UINavigationControllerDelegate ,
+             UIGestureRecognizerDelegate,
+             UISplitViewControllerDelegate,
+            PHPickerViewControllerDelegate
 
 {
 
@@ -34,14 +37,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //    var parmStackData: () -> PGLFilterStack?  = { PGLFilterStack() }
     // a function is assigned to this var that answers the filterStack
 //    var myMasterSplitController: PGLSplitViewController?
-    var appStack: PGLAppStack! {
-        // now a computed property
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewDidLoad fatalError(AppDelegate not loaded")
-            fatalError("PGLSelectParmController could not access the AppDelegate")
-        }
-       return  myAppDelegate.appStack
-    }
+
 
     var currentFilter: PGLSourceFilter?  {
         didSet {
@@ -129,7 +125,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
     }
     
-    var notifications = [Any]() // an opaque type is returned from addObservor
+
 
 
     // MARK: View change
@@ -603,32 +599,7 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 //
 //
 //    }
-    func highlight(viewNamed: String) {
 
-        // a switch statement might be cleaner
-        // both UIImageView and UIControls need to be hidden or shown
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice("highlight viewNamed \(viewNamed)")
-        for aParmControlTuple in imageViewParmControls() {
-            if aParmControlTuple.key == viewNamed {
-                // show this view
-                Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight view isHidden = false, hightlight = true")
-                if let imageControl = (aParmControlTuple.value) as? UIImageView {
-                    imageControl.isHidden = false
-                    imageControl.isHighlighted = true
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UIImageView isHidden = false, hightlight = true")
-                } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
-                    viewControl.isHidden = false
-                    viewControl.isHighlighted = true
-                    viewControl.becomeFirstResponder()
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UITextField isHidden = false, hightlight = true")
-                    }
-
-                }
-
-            }
-
-        }
-    }
 
     @IBAction func parmSliderChange(_ sender: UISlider) {
 
@@ -690,106 +661,6 @@ class PGLSelectParmController: UIViewController, UITableViewDelegate, UITableVie
 
 //        attributeValueChanged()
         imageController?.view.setNeedsDisplay()
-    }
-    // MARK:  UIFontPickerViewControllerDelegate
-        func showFontPicker(_ sender: Any) {
-
-                let fontConfig = UIFontPickerViewController.Configuration()
-                fontConfig.includeFaces = false
-                let fontPicker = UIFontPickerViewController(configuration: fontConfig)
-                fontPicker.delegate = self
-
-            if traitCollection.userInterfaceIdiom == .phone {
-                    fontPicker.modalPresentationStyle = .popover
-                    fontPicker.preferredContentSize = CGSize(width: 200, height: 350.0)
-                    // specify anchor point?
-                    guard let popOverPresenter = fontPicker.popoverPresentationController
-                    else { return }
-//                    popOverPresenter.sourceView = filterCell
-                    let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
-                    sheet.detents = [.medium(), .large()]
-            //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                    sheet.prefersEdgeAttachedInCompactHeight = true
-                    sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-
-
-                    }
-                self.present(fontPicker, animated: true, completion: nil)
-            }
-
-
-    func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
-
-        if let target = appStack.targetAttribute {
-            if target.isFontUI() {
-                let theFont = viewController.selectedFontDescriptor
-                target.set(theFont?.postscriptName as Any)
-            }
-
-        }
-    }
-
-
-// MARK: UITextFieldDelegate
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
-        textField.resignFirstResponder()
-        return true
-    }
-
-    internal func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-
-    // called from the textFields of the ImageController
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-
-        // are there any senders of this?
-
-        // input text from the imageController
-//        NSLog("ParmController textFieldDidEndEditing ")
-        if let target = tappedAttribute {
-            if target.isTextInputUI() && reason == .committed {
-            // put the new value into the parm
-            target.set(textField.text as Any)
-            textField.isHidden = true  //editing is done hide..
-
-        }
-        }
-    }
-
-
-
-
-
-
-    // add listener for notification of text change
-
-    func addTextChangeNotification(textAttributeName: String) {
-
-       NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
-        let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-        guard let textField = parmControl(named: textAttributeName) as? UITextField else
-            {return }
-        let textNotifier = myCenter.addObserver(forName: UITextField.textDidChangeNotification, object: textField , queue: queue) {[weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-           NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
-            if let target = self.tappedAttribute {
-                if target.isTextInputUI()  {
-                    // shows changes as they are typed.. no commit reason
-                // put the new value into the parm
-                    target.set(textField.text as Any)
-
-            }
-        }
-
-        }
-        notifications.append(textNotifier)
-        // this notification is removed with all the notifications in viewWillDisappear
-
     }
 
 
