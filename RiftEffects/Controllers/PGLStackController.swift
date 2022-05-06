@@ -327,7 +327,13 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         let cellIndent = appStack.cellFilters[indexPath.row]
         appStack.moveTo(filterIndent: cellIndent)
             // sets the appStack viewerStack and the current filter of the viewerStac,
-
+        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
+                            (traitCollection.horizontalSizeClass == .compact)
+        if iPhoneCompact {
+            performSegue(withIdentifier: "twoContainers", sender: self)
+        } else {
+            performSegue(withIdentifier: "ParmSettings", sender: self)
+        }
 
     
     }
@@ -539,7 +545,30 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("shouldPerformSegue \(identifier)")
          segueStarted = true
         // don't open a popOverController seque is starting
-        return true
+        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
+                            (traitCollection.horizontalSizeClass == .compact)
+        switch identifier {
+            case "ParmSettings":
+                if iPhoneCompact {
+                    return false
+                } else
+                { return true }
+
+            case "showFilterController" :
+                if iPhoneCompact {
+                    return false
+                } else
+                { return true }
+
+            case "iPhoneTwoContainers" :
+                if iPhoneCompact  {
+                    return true
+                } else
+                { return false }
+            default:
+                return true
+        }
+
     }
     func removeFilter(indexPath: IndexPath) {
 
