@@ -96,8 +96,25 @@ class PGLSelectParmController: PGLCommonController,
     @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
 //        let actionAccepted = Notification(name: PGLImageNavigationBack )
 //               NotificationCenter.default.post(actionAccepted)
+        if (traitCollection.horizontalSizeClass == .compact)
+        { // now in the twoContainer mode on the iphone
+            // navigation pop needs to trigger the parent popViewController
+            // so that it moves back to the stack controller
+            guard let myNav = self.navigationController else { return }
 
-               self.navigationController?.popViewController(animated: true)
+            guard let myParent = myNav.topViewController as? PGLTwoContainerController
+                else { myNav.popViewController(animated: true )
+                        return
+            }
+            guard let myStackController = myNav.viewControllers[1] as? PGLStackController else {
+                myNav.popViewController(animated: true )
+                return
+            }
+            self.navigationController?.popToViewController(myStackController, animated: true)
+        }
+        else {
+            // move back to the stack controller
+            self.navigationController?.popViewController(animated: true) }
 
     }
     @IBOutlet weak var shiftBtn: UIBarButtonItem!
@@ -898,7 +915,13 @@ class PGLSelectParmController: PGLCommonController,
             if tappedAttribute!.attributeUIType() != AttrUIType.timerSliderUI {
                 // timerSliderUI is on the parm controller not on the image controller
                 // if not timerSliderUI then show the imageController so the parm value can be set
-                splitViewController?.show(.secondary) }
+
+//                splitViewController?.show(.secondary)
+                // with the TwoContainer controller do not need to go to imageController
+                // it is already showing.
+                // 
+                
+            }
         }
 
     }
