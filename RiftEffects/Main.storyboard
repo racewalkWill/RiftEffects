@@ -983,18 +983,18 @@
                                         <rect key="frame" x="0.0" y="263.0000057220459" width="267" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qN1-S3-tGq" id="qjw-tx-KJe">
-                                            <rect key="frame" x="0.0" y="0.0" width="267" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7qB-yU-b0X">
-                                                    <rect key="frame" x="8" y="11.999999999999998" width="33" height="20.333333333333332"/>
+                                                    <rect key="frame" x="-8" y="11.999999999999998" width="16" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mDD-17-duv">
-                                                    <rect key="frame" x="221.66666666666666" y="15" width="37.333333333333336" height="17"/>
+                                                    <rect key="frame" x="-8" y="15" width="0.0" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>

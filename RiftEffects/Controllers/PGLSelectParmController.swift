@@ -1283,7 +1283,12 @@ class PGLSelectParmController: PGLCommonController,
         // gets the parm cell icon updated for an input image
         else { self.parmsTableView.reloadData() }
 
-        splitViewController?.show(.secondary)
+        if (traitCollection.userInterfaceIdiom) == .phone &&
+            (traitCollection.horizontalSizeClass == .compact) {
+                // this case just go back to the twoContainer view
+        } else {
+            // ipad three column
+            splitViewController?.show(.secondary)  }
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
 
         // clean up.. do not keep  ref to the picker
