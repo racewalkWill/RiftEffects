@@ -149,9 +149,16 @@ class PGLSelectParmController: PGLCommonController,
     fileprivate func setImageController() {
 //        let primaryController  = splitViewController?.viewController(for: .primary)
 //        let supplementaryController =  splitViewController?.viewController(for: .supplementary)
-        let secondaryController  = splitViewController?.viewController(for: .secondary)
-        let navController = secondaryController as? UINavigationController
-        imageController = navController?.visibleViewController as? PGLImageController
+        if let myTwoContainerParent = parent as? PGLTwoContainerController {
+            // an iPhone layout where there are two imageControllers one in the twoContainer
+            // the other in the splitView secondary column
+            imageController = myTwoContainerParent.containerImageController
+
+        } else {
+            let secondaryController  = splitViewController?.viewController(for: .secondary)
+            let navController = secondaryController as? UINavigationController
+            imageController = navController?.visibleViewController as? PGLImageController
+        }
 
         if imageController != nil {
                 imageController!.parmController = self
@@ -172,9 +179,6 @@ class PGLSelectParmController: PGLCommonController,
 
 
         navigationItem.title = "Parms"//viewerStack.stackName
-
-
-        setImageController()
 
 //        NSLog ("PGLSelectParmController #viewDidLoad completed")
         if traitCollection.userInterfaceIdiom == .pad {

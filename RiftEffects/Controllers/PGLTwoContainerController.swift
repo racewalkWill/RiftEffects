@@ -13,6 +13,8 @@ class PGLTwoContainerController: UIViewController {
     // iPad does not use the two container view
     // iPhone shows parm and image controlls inside the two containers of the view
 
+    var containerImageController: PGLImageController?
+    var containerParmController: PGLSelectParmController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,14 +23,30 @@ class PGLTwoContainerController: UIViewController {
     }
     
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        let segueId = segue.identifier
+        switch segueId {
+            case "embedImageController" :
+
+                guard let destination = segue.destination  as? PGLImageController
+                    else { return  }
+                containerImageController = destination
+
+            case "embedParmController" :
+                guard let parmDestination = segue.destination as? PGLSelectParmController
+                    else { return }
+                containerParmController = parmDestination
+
+            default: return
+        }
+
     }
-    */
+
 
 }
