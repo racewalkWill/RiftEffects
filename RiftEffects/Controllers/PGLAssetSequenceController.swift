@@ -359,7 +359,7 @@ extension PGLAssetSequenceController: UICollectionViewDelegate {
 
                 let thumbnailSize = CGSize(width: 100.0, height: 100.0)
 
-            self.imageManager.requestImage(for: asset.asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+            self.imageManager.requestImage(for: asset.asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { image, _ in
                     // The cell may have been recycled by the time this handler gets called;
                     // set the cell's thumbnail image only if it's still showing the same asset.
                     // resetAfterReuse should take care of this??
