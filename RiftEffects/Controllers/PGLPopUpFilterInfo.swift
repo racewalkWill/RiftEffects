@@ -7,13 +7,14 @@
 //
 
 import UIKit
-
+import os
 class PGLPopUpFilterInfo: UIViewController {
 
     var filterName: String!
     var textInfo: String!
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
         // Do any additional setup after loading the view.
     }

@@ -135,6 +135,8 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        
         // if the tappedAttribute has an input then highlight and show it
 //        NSLog("PGLImageCollectionMasterController viewDidLoad")
 //        PHPhotoLibrary.shared().register(self)

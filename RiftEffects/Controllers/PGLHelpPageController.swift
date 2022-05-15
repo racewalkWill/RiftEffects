@@ -37,6 +37,7 @@
 import Foundation
 
 import UIKit
+import os
 
 class PGLHelpPageController: UIPageViewController {
     // pop up modal 4 pages intro pics with comments
@@ -67,6 +68,7 @@ class PGLHelpPageController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         if let viewController = viewPhotoCommentController(currentIndex ?? 0) {
           let viewControllers = [viewController]
 

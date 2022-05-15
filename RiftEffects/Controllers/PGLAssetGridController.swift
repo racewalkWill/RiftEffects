@@ -68,8 +68,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
         configureDataSource()
 
         applyDataSource()
-
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetGridController #viewDidLoad FINISH")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 //        NSLog("PGLAssetGridController #viewDidLoad controller = \(self)")
 
 
@@ -265,20 +264,19 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         let segueId = segue.identifier
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
         switch segueId {
+            case "showImageDetail" :
 
+                guard let destination = segue.destination  as? PGLAssetController
+                    else { return  }
+                if let theHeaderCell = sender as? TitleSupplementaryView {
+                    destination.userAssetSelection = self.userAssetSelection
+                    destination.selectedAlbumId = theHeaderCell.headerAlbumId
+                }
 
-        case "showImageDetail" :
-
-            guard let destination = segue.destination  as? PGLAssetController
-                else { return  }
-            if let theHeaderCell = sender as? TitleSupplementaryView {
-                destination.userAssetSelection = self.userAssetSelection
-                destination.selectedAlbumId = theHeaderCell.headerAlbumId
+            default: return
             }
-
-        default: return
-        }
 
     }
 }

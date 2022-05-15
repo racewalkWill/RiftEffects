@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 class PGLTwoContainerController: UIViewController {
     // handles segues for iPad/iPhone segue paths
@@ -17,6 +18,7 @@ class PGLTwoContainerController: UIViewController {
     var containerParmController: PGLSelectParmController?
 
     override func viewDidLoad() {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -31,6 +33,9 @@ class PGLTwoContainerController: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         let segueId = segue.identifier
+        
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+
         switch segueId {
             case "embedImageController" :
 

@@ -54,6 +54,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 //        collectionView.allowsSelection = true
 //        collectionView.allowsMultipleSelection = true
 
@@ -114,6 +115,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
             let segueId = segue.identifier
+         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
             switch segueId {
 
 

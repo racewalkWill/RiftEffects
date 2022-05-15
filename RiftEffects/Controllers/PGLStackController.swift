@@ -32,6 +32,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
             Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
@@ -506,8 +507,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 //            }
 //
 //        }
+        let segueId = segue.identifier
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
 
-        switch segue.identifier {
+        switch segueId {
             case "showImageController":
                 let controller = segue.destination as! PGLImageController
 

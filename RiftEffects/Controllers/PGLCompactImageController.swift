@@ -7,12 +7,12 @@
 //
 
 import UIKit
-
+import os
 class PGLCompactImageController: PGLImageController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
     }
 

@@ -181,6 +181,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 // MARK: View Load TableView config
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
             Logger(subsystem: LogSubsystem, category: LogCategory).fault( "PGLSaveDialogController viewDidLoad fatalError(AppDelegate not loaded")

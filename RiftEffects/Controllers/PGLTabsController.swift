@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import os
 
 class PGLTabsController: UITabBarController {
     // coordinates the parm settings controller and the filter view manager
@@ -20,6 +20,7 @@ let parmsViewMgrIndex = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // set the viewFilter
         // pass the filter object into the two tabs
 //        NSLog("PGLParmsFilterTabsController->viewDidLoad has viewControllers = \(String(describing: viewControllers))")
@@ -50,6 +51,9 @@ let parmsViewMgrIndex = 1
 //        NSLog("PGLParmsFilterTabsController prepare for segue \(String(describing: segue.identifier)) ")
 //         Get the new view controller using segue.destinationViewController.
 //         Pass the selected object to the new view controller.
+        let segueId = segue.identifier
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+
     }
 
 

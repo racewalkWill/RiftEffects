@@ -16,7 +16,7 @@ import CoreData
 class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
     override func viewDidLoad() {
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
         delegate = self
 //       navigationItem.leftBarButtonItem = self.displayModeButtonItem

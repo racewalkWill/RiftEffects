@@ -14,6 +14,7 @@ import os
 let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.RiftEffects"
 let LogSubsystem = "L-BSoftwareArtist.RiftEffects"
 var LogCategory = "PGL"
+var LogNavigation = "Nav"
 var LogMigration = "PGL_Migration"
 // change in areas as needed.
 // caution on changes it is a GLOBAL
@@ -64,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //       PGLFaceCIFilter.register()
 //        PGLFilterCategory.allFilterCategories()
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice( "start didFinishLaunchingWithOptions")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).notice( "start didFinishLaunchingWithOptions")
         PGLFilterCIAbstract.register()
         WarpItMetalFilter.register()
 

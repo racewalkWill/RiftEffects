@@ -35,7 +35,7 @@
 /// THE SOFTWARE.
 
 import UIKit
-
+import os
 class PGLHelpSinglePage: UIViewController {
 
     var instructionText: String!
@@ -53,6 +53,7 @@ class PGLHelpSinglePage: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+      Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
     if let photoName = photoName {
         imageView.image = UIImage(named: photoName)
     }

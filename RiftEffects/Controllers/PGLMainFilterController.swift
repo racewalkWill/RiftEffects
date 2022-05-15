@@ -161,7 +161,7 @@ class PGLMainFilterController: PGLFilterTableController {
     // MARK: - View Life Cycle
        override func viewDidLoad() {
            super.viewDidLoad()
-
+           Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
            resultsTableController = PGLResultsController()
 
            resultsTableController.tableView.delegate = self

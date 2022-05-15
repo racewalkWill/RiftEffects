@@ -14,6 +14,7 @@ class PGLInfoPrivacyController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         PrivacyText.attributedText = readPrivacyPolicy()
         self.navigationItem.title = "https:\\\\willsfiltertool.photo"
 

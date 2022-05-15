@@ -172,7 +172,7 @@ class PGLSelectParmController: PGLCommonController,
 
     // MARK: View Lifecycle
     override func viewDidLoad() {
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice ("PGLSelectParmController #viewDidLoad start")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
 
         splitViewController?.delegate = self
@@ -1091,10 +1091,11 @@ class PGLSelectParmController: PGLCommonController,
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-//        NSLog("segue from \(segue.identifier)")
 
-        if segue.identifier == "goToImageCollection" {
+        let segueId = segue.identifier
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+
+        if segueId == "goToImageCollection" {
             guard let targetImageParm = sender as? PGLFilterAttributeImage
             else {return}
             tappedAttribute = targetImageParm
@@ -1110,7 +1111,7 @@ class PGLSelectParmController: PGLCommonController,
             }
 
         }
-        if segue.identifier == "goToFilterViewBranchStack" {
+        if segueId == "goToFilterViewBranchStack" {
 //            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
             if segue.destination is PGLFilterTableController
                 {

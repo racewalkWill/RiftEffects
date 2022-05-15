@@ -60,6 +60,9 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
     // MARK: View Load/unload
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         let nib = UINib(nibName: PGLFilterTableController.nibName, bundle: nil)
 
         // Required if our subclasses are to use `dequeueReusableCellWithIdentifier(_:forIndexPath:)`.

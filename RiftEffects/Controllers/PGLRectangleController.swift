@@ -84,6 +84,7 @@ class PGLRectangleController: UIViewController {
 
     // view lifecycle
     override func viewDidLoad() {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         view.translatesAutoresizingMaskIntoConstraints = true
          // this turns on error notice in the log of UIViewAlertForUnsatisfiableConstraints on one constraint
         // but value of false and the whole crop rectangle does not work..

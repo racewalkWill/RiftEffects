@@ -386,7 +386,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "showCollection" {
+        let segueId = segue.identifier
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+            if segueId == "showCollection" {
                 if let info = sender as? PGLAlbumSource {
                     if let pictureGrid = segue.destination as? PGLImagesSelectContainer {
                         if let aUserAssetSelection = info.filterParm?.getUserAssetSelection() {
@@ -448,13 +450,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreImaging/ci_tasks/ci_tasks.html#//apple_ref/doc/uid/TP30001185-CH3-SW5
         // see Listing 1-7  Setting up a Metal view for Core Image rendering
         super.viewDidLoad()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 //      view has been typed as MTKView in the PGLView subclass
 //        and the view assigned in the setter of effectView var
 
-
         filterStack = { self.appStack.outputFilterStack() }
 
-//        NSLog("PGLImageController #viewdidLoad")
 
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main

@@ -7,12 +7,12 @@
 //
 
 import UIKit
-
+import os
 class PGLResultsController: PGLFilterTableController {
 
     var segueToParmController: UIStoryboardSegue!
     override func viewDidLoad() {
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super .viewDidLoad()
         mode = .Flat
     }

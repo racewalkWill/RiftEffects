@@ -45,7 +45,7 @@ class PGLImagesSelectContainer: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // pass vars to childerntr
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
                                  else {
@@ -201,6 +201,8 @@ class PGLImagesSelectContainer: UIViewController {
         //  both share the same model object - userAssetSelection
 
         let segueId = segue.identifier
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        
             switch segueId {
             case "lowerAssetGridSegue":
                         if let pictureGrid = segue.destination as? PGLAssetGridController {

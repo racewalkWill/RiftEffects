@@ -40,7 +40,7 @@ class PGLAssetController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         asset = userAssetSelection.asset(position: assetIndex,albumId: selectedAlbumId)
             // selectedAlbumId may be nil - uses selectedAssets
 //        NSLog("PGLAssetController #viewDidLoad")
