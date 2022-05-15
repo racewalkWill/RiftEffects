@@ -264,6 +264,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
                 // requestReview is deprecated in iOS 14.0
                 // assuming that change to WindowScene will take
                 // a long time as there is a huge library of apps using the AppDelegate protocols
+                // should be requestReview(in windowScene: UIWindowScene)
 
                 AppUserDefaults.set(currentVersion, forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
 

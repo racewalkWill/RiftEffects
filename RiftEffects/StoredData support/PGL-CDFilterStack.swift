@@ -458,10 +458,11 @@ extension PGLFilterAttributeImage {
                 case .success(let success):
                     let newValue = success.stringValue
                     mappedIdentifiers.append(newValue)
-                case .failure(let failure):
+                case .failure(_):
                     // do error notify to user
-                    let iCloudError = savePhotoError.otherSaveError
+//                    let iCloudError = savePhotoError.otherSaveError
 //                    userSaveErrorAlert(withError: iCloudError)
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error("iCloud Error occurred in localId2CloudId" )
             }
         }
         return mappedIdentifiers
@@ -553,7 +554,7 @@ extension PGLAppStack {
             // with the new or updated stack
             // send only the objectID to the main UI process
 
-            let stackHasSavedNotification = Notification(name: PGLStackHasSavedNotification, object: nil, userInfo: [ "stackObjectID": myCDStack.objectID, "stackType" : myCDStack.type])
+            let stackHasSavedNotification = Notification(name: PGLStackHasSavedNotification, object: nil, userInfo: [ "stackObjectID": myCDStack.objectID, "stackType" : myCDStack.type as Any])
             NotificationCenter.default.post(stackHasSavedNotification)
             }
 

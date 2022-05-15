@@ -77,10 +77,10 @@ class PGLBumpFaceCIFilter: PGLFilterCIAbstract {
 //            if inputFeatureSelect < 0 {return inputImage}
 
 
-            var bumpDistortFilter = CIFilter(
+            let bumpDistortFilter = CIFilter(
                 name: "CIBumpDistortion",
                 parameters: [ kCIInputRadiusKey: inputRadius,
-                   kCIInputImageKey: inputImage,
+                   kCIInputImageKey: inputImage as Any,
                    kCIInputScaleKey: inputScale,
                    kCIInputRadiusKey: inputRadius
 

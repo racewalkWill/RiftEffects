@@ -191,7 +191,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
                 return
             }
             longPressStart = longPressIndexPath // assign to var
-           let isS = collectionView.beginInteractiveMovementForItem(at: longPressIndexPath)
+                _ = collectionView.beginInteractiveMovementForItem(at: longPressIndexPath)
 //            NSLog("PGLAssetSequenceController #longPressAction begins \(isS) path \(String(describing: longPressStart))")
 
         case .changed:

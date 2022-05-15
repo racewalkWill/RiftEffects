@@ -369,9 +369,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     func doImageCollectionOpen(assetInfo: PGLAlbumSource) {
 
-      if let theTop = navigationController?.topViewController {
-//        NSLog("PGLImageController #doImageCollectionOpen on \(theTop) ")
-        }
+//      if let theTop = navigationController?.topViewController {
+////        NSLog("PGLImageController #doImageCollectionOpen on \(theTop) ")
+//        }
         if appStack.isImageControllerOpen {
 
         performSegue(withIdentifier: "showCollection", sender: assetInfo)

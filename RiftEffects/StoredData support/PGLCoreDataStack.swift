@@ -295,7 +295,7 @@ extension CoreDataWrapper {
                 pglStack.on(cdStack: aStack)
                 // now everything is connected
 
-                let myCDStack = pglStack.writeCDStack(moContext: backgroundContext)
+                _ = pglStack.writeCDStack(moContext: backgroundContext)
                 // filter images are moved to a cache before the save
                 backgroundContext.perform {
                     try? backgroundContext.save()
@@ -325,7 +325,7 @@ extension CoreDataWrapper {
         // all child stacks
         // Does not seem to find orphan child stacks in development..
         // Not needed?
-        let startingCount =  countStackTable()
+//        let startingCount =  countStackTable()
 
         let backgroundContext = persistentContainer.backgroundContext()
         backgroundContext.performAndWait {
@@ -372,7 +372,7 @@ extension CoreDataWrapper {
             NSLog("deleteOrphanStacks count = \(orphanStackIDs.count)")
             batchDelete(deleteIds: orphanStackIDs, aContext: backgroundContext)
         }
-        let endingCount =  countStackTable()
+//        let endingCount =  countStackTable()
         return true  // no errors
     }
 

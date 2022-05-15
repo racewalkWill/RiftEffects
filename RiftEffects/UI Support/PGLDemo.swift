@@ -76,7 +76,7 @@ class PGLDemo {
 
 
 //        for aGroup in PGLDemo.SingleFilterGroups {
-        for filterIndex in 0..<NumOfFilters {
+        for _ in 0..<NumOfFilters {
             let groupIndex = Int.random(in: 0 ..< PGLDemo.SingleFilterGroups.count)
             let aGroup = PGLDemo.SingleFilterGroups[groupIndex]
             let aFilterIndex = Int.random(in: 0 ..< aGroup.count)

@@ -25,7 +25,7 @@ class PGLOffScreenRender {
 
 
          let ciOutput = filterStack.stackOutputImage(false)
-            let outputRect = (ciOutput.extent)
+//            let outputRect = (ciOutput.extent)
 //            let clampedOutput = ciOutput.clamped(to: outputRect)
 //            NSLog("PGLOffScreenRender getOffScreenHEIF outputRect = \(outputRect)")
             let rgbSpace = CGColorSpaceCreateDeviceRGB()

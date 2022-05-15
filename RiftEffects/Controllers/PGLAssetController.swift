@@ -47,9 +47,7 @@ class PGLAssetController: UIViewController {
         if asset == nil { return }
         navigationItem.title = userAssetSelection.headerTitle(albumId: selectedAlbumId)
         navigationController?.isToolbarHidden = false
-        let badgeInsets = UIEdgeInsets(top: -10,left: -10,bottom: -10,right: -10)
-            // negative values expand the inset
-        badgeBtn.imageEdgeInsets = badgeInsets
+ 
 
         setLeftRightBtns(enableOn: ( userAssetSelection.isFetchMultiple() ) )
 
