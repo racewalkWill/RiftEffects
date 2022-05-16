@@ -103,6 +103,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         let updateLibraryObservor = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLOpenStackViewController  notificationBlock PGLUpdateLibraryMenu")
             let deviceIdom = self.traitCollection.userInterfaceIdiom
                     if deviceIdom == .phone {
                         if self.traitCollection.horizontalSizeClass == .compact {
@@ -121,6 +122,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         let remoteChangeObservor = myCenter.addObserver(forName: PGLRemoteChange , object: nil , queue: queue) { [weak self ]
         myUpdate in
         guard let self = self else { return}
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLOpenStackViewController  notificationBlock PGLRemoteChange")
         let snapshot = self.initialSnapShot()
         self.dataSource.apply(snapshot, animatingDifferences: false)
      }

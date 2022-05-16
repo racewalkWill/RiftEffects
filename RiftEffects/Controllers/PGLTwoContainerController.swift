@@ -34,7 +34,7 @@ class PGLTwoContainerController: UIViewController {
         // Pass the selected object to the new view controller.
         let segueId = segue.identifier
         
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
 
         switch segueId {
             case "embedImageController" :

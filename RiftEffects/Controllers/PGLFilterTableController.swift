@@ -87,6 +87,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
         let queue = OperationQueue.main
        myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
             myUpdate in
+           Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterTableController  notificationBlock PGLLoadedDataStack")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             self.navigationController?.popViewController(animated: true)

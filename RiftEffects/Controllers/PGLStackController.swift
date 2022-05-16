@@ -54,14 +54,16 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectFilterController  notificationBlock PGLCurrentFilterChange")
+
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLCurrentFilterChange")
+
             self.updateDisplay()
 
         }
 
         myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) { [weak self]
             myUpdate in
-            //            NSLog("PGLImageController  notificationBlock PGLStackChange")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLStackChange")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             self.appStack = myAppDelegate.appStack
@@ -70,7 +72,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
         myCenter.addObserver(forName: PGLSelectActiveStackRow, object: nil , queue: queue) { [weak self]
             myUpdate in
-            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLImageController  notificationBlock PGLSelectActiveStackRow")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock PGLSelectActiveStackRow")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             self.selectActiveFilterRow()
@@ -508,7 +510,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 //
 //        }
         let segueId = segue.identifier
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
 
         switch segueId {
             case "showImageController":

@@ -91,7 +91,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
                 myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetSequenceController notification receieved PGLImageSelectUpdate ")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLAssetSequenceController notification PGLImageSelectUpdate ")
             self.applyDataSource()
         }
         notifications.append(aNotification)
@@ -115,7 +115,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
             let segueId = segue.identifier
-         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
             switch segueId {
 
 

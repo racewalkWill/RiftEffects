@@ -387,7 +387,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let segueId = segue.identifier
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
             if segueId == "showCollection" {
                 if let info = sender as? PGLAlbumSource {
                     if let pictureGrid = segue.destination as? PGLImagesSelectContainer {
@@ -464,7 +464,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-//            NSLog("PGLImageController  notificationBlock PGLStackChange")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackChange")
 
 
             self.updateNavigationBar()
@@ -482,6 +482,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLCurrentFilterChange")
             self.filterValuesHaveChanged = true
             if !self.keepParmSlidersVisible {
                 self.hideParmControls()
@@ -498,7 +499,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                      // the guard is based upon the apple sample app 'Conference-Diffable'
-//           NSLog("PGLImageController  notification PGLOutputImageChange")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLOutputImageChange")
             self.filterValuesHaveChanged = true
             //            self.hideParmControls()
             //this causes parm controls to disseapear during imageUpdate.. at 60 fps.. not good :)
@@ -510,7 +511,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            //           NSLog("PGLImageController  notification PGLAttributeAnimationChange")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLAttributeAnimationChange")
             self.filterValuesHaveChanged = true
 
         }
@@ -519,6 +520,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
             if let userDataDict = myUpdate.userInfo {
                 if let anAlertController = userDataDict["alertController"] as? UIAlertController {
                     self.displayUser(alert: anAlertController)
@@ -530,6 +532,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackSaveNotification")
             if let userDataDict = myUpdate.userInfo {
                 if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
                     // put the new names into the stack
@@ -557,6 +560,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
             self.updateLibraryMenu()
 
         }
@@ -566,6 +570,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLImageCollectionOpen")
             if (self.view.isHidden)
                 {self.view.isHidden = false }
                 // needed to refresh the view after the trash creates a new stack.
@@ -577,8 +582,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in
             guard let self = self else { return }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideParmUIControls")
             self.hideParmControls()
         }
+        notifications.append(aNotification)
 
         if let myMetalControllerView = storyboard!.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController {
             // does the metalView extend under the navigation bar?? change constraints???
@@ -592,7 +599,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             //            myScaleTransform = CGAffineTransform.identity
             }
         }
-        notifications.append(aNotification)
+
 
 
 

@@ -180,6 +180,11 @@ class Renderer: NSObject {
 extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
 //        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
+        if !(size.width > 0) {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault("Renderer #drawableSizeWillChange size.width = 0 error")
+            // this will cause Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view
+            // and [CAMetalLayer nextDrawable] returning nil because allocation failed.
+        }
          mtkViewSize = size
         TargetSize = size
         appStack.resetDrawableSize()

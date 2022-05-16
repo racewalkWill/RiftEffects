@@ -104,7 +104,7 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-//            NSLog("PGLSelectParmController  notificationBlock UITextField.textDidChangeNotification")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLCommonController  notificationBlock UITextField.textDidChangeNotification")
             if let target = self.appStack.targetAttribute {
                 if target.isTextInputUI()  {
                     // shows changes as they are typed.. no commit reason

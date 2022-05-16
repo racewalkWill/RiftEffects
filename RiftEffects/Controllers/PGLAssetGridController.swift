@@ -104,7 +104,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
         var aNotification = myCenter.addObserver(forName: PGLSequenceSelectUpdate , object: nil , queue: queue) {[weak self]
                   myUpdate in
                       // now make the sequence show this too
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLAssetGridController notification PGLSequenceSelectUpdate")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLAssetGridController notification PGLSequenceSelectUpdate")
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
                     self.applyDataSource()
@@ -117,6 +117,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
                              // now make the sequence show this too
                            guard let self = self else { return } // a released object sometimes receives the notification
                                          // the guard is based upon the apple sample app 'Conference-Diffable'
+                            Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLAssetGridController notification PGLSequenceAssetChanged")
                             self.applyDataSource() // new state of the userAssetSelection will be loade
                             }
         notifications.append(aNotification)
@@ -125,6 +126,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
+              Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLAssetGridController notification PGLImageAlbumAdded")
                     if let newAlbumSource = ( myUpdate.userInfo?["newSource"]) as?  PGLAlbumSource {
 //                        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLAssetGridController = \(self) notification PGLImageAlbumAdded for newAlbumSourse = \(newAlbumSource)")
                         self.applyDataSource()
@@ -139,6 +141,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
                        guard let self = self else { return }
                         // a released object sometimes receives the notification
                         // the guard is based upon the apple sample app 'Conference-Diffable'
+               Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLAssetGridController notification PGLImageAlbumSelectionRemoved")
                     if let albumId = ( myUpdate.userInfo?["albumId"]) as?  String{
 
                         self.removeAlbum(albumId: albumId)
@@ -264,7 +267,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         let segueId = segue.identifier
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
         switch segueId {
             case "showImageDetail" :
 

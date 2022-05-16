@@ -230,7 +230,7 @@ class PGLSelectParmController: PGLCommonController,
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-//                    NSLog("PGLSelectParmController  notificationBlock PGLCurrentFilterChange")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLCurrentFilterChange")
                     self.updateDisplay()
                 }
         notifications.append(aNotification)
@@ -239,6 +239,7 @@ class PGLSelectParmController: PGLCommonController,
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLLoadedDataStack")
             self.navigationController?.popViewController(animated: true)
 
         }
@@ -250,7 +251,7 @@ class PGLSelectParmController: PGLCommonController,
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-//                   NSLog("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
+                  Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
                     if let attribute = myUpdate.object as? PGLFilterAttribute {
                         // find the cell for the attribute and update the display
                         // is the attribute for the current filter?
@@ -270,6 +271,7 @@ class PGLSelectParmController: PGLCommonController,
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLReloadParmCell")
             if let attribute = myUpdate.object as? PGLFilterAttribute {
                 if let cellPath = attribute.uiIndexPath {
                     self.parmsTableView.reloadRows(at: [cellPath], with: .automatic)
@@ -1093,7 +1095,7 @@ class PGLSelectParmController: PGLCommonController,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         let segueId = segue.identifier
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
 
         if segueId == "goToImageCollection" {
             guard let targetImageParm = sender as? PGLFilterAttributeImage

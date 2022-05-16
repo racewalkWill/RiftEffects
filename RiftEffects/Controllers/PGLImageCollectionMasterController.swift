@@ -183,7 +183,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
             guard let self = self else { return } // a released object sometimes receives the notification
                 // the guard is based upon the apple sample app 'Conference-Diffable'
                  // navigate back here too
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLImageCollectionMasterController \(self) PGLSelectImageBack notification received - viewDidLoad")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLImageCollectionMasterController  notificationBlock PGLSelectImageBack")
                 self.navigationController?.popViewController(animated: true)
                 }
 
@@ -192,7 +192,8 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                    myUpdate in
                 guard let self = self else { return } // a released object sometimes receives the notification
                               // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLImageCollectionMasterController  notificationBlock PGLImageAccepted viewDidAppear  ")
+               Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLImageCollectionMasterController  notificationBlock PGLImageAccepted")
+
                 self.navigationController?.popViewController(animated: true)
 
                }

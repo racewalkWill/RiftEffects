@@ -61,7 +61,7 @@ class PGLResultsController: PGLFilterTableController {
 //            case .Flat :
 //                setBookmarksFlatMode()
 //        }
-         performFilterPick(descriptor: descriptor)
+//         performFilterPick(descriptor: descriptor)
 
     }
 

@@ -78,7 +78,7 @@ class CoreDataWrapper {
         NotificationCenter.default.addObserver(
             self, selector: #selector(type(of: self).storeRemoteChange(_:)),
             name: .NSPersistentStoreRemoteChange, object: container)
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("CoreDataWrapper  notificationBlock storeRemoteChange")
         return container
     }()
 

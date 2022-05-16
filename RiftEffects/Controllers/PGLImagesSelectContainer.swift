@@ -85,6 +85,7 @@ class PGLImagesSelectContainer: UIViewController {
                    myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImagesSelectContainer  notificationBlock PGLImageNavigationBack")
             // PGLImageCollectionMasterController in the master section is navigating back.
             // navigate back here too
             self.navigationController?.popViewController(animated: true)
@@ -97,7 +98,7 @@ class PGLImagesSelectContainer: UIViewController {
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImagesSelectContainer PGLImageCollectionOpen call setActionButtons ")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImagesSelectContainer  notificationBlock PGLImageCollectionOpen")
             self.setActionButtons()
                    }
          notifications.append(aNotification)
@@ -106,7 +107,7 @@ class PGLImagesSelectContainer: UIViewController {
                    myUpdate in
                    guard let self = self else { return } // a released object sometimes receives the notification
                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImagesSelectContainer  notificationBlock PGLReplaceFilterEvent")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).debug("PGLImagesSelectContainer  notificationBlock PGLReplaceFilterEvent")
                    // pull out the changed filterAttribute and assign to the userAssetSelection object
 
                 let currentFilter = self.appStack.outputStack.currentFilter()
@@ -119,11 +120,12 @@ class PGLImagesSelectContainer: UIViewController {
         myUpdate in
         guard let self = self else { return } // a released object sometimes receives the notification
                       // the guard is based upon the apple sample app 'Conference-Diffable'
+        Logger(subsystem: LogSubsystem, category: LogNavigation).debug("PGLImagesSelectContainer  notificationBlock PGLImageCollectionChange")
         if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
             let userSelectionInfo = PGLUserAssetSelection(assetSources: assetInfo)
             if let newSource = self.userAssetSelection.merge(newAssetSource: userSelectionInfo)
                 {
-                Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImagesSelectContainter observer for PGLImageCollectionChange is triggering PGLImageAlbumAdded")
+                Logger(subsystem: LogSubsystem, category: LogNavigation).debug("PGLImagesSelectContainter observer for PGLImageCollectionChange is triggering PGLImageAlbumAdded")
                     let changeAlbumNotification = Notification(name:PGLImageAlbumAdded)
                     NotificationCenter.default.post(name: changeAlbumNotification.name, object: nil, userInfo: ["newSource": newSource as Any])
                 }
@@ -201,7 +203,7 @@ class PGLImagesSelectContainer: UIViewController {
         //  both share the same model object - userAssetSelection
 
         let segueId = segue.identifier
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + String(describing: segueId)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
         
             switch segueId {
             case "lowerAssetGridSegue":

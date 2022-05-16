@@ -72,6 +72,7 @@ class PGLAssetController: UIViewController {
         myUpdate in
         guard let self = self else { return } // a released object sometimes receives the notification
                       // the guard is based upon the apple sample app 'Conference-Diffable'
+        Logger(subsystem: LogSubsystem, category: LogNavigation).debug("PGLAssetController  notificationBlock PGLImageCollectionChange")
         if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
             let userSelectionInfo = PGLUserAssetSelection(assetSources: assetInfo)
             if self.userAssetSelection.merge(newAssetSource: userSelectionInfo) != nil {
@@ -92,7 +93,7 @@ class PGLAssetController: UIViewController {
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             // PGLImageCollectionMasterController in the master section is navigating back.
             // navigate back here too
-            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLAssetController received notification PGLImageNavigationBack ")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).debug("PGLAssetController  notificationBlock PGLImageNavigationBack")
 //            NSLog("PGLAssetController navigationController.viewControllers = \(self.navigationController?.viewControllers)")
             if let imageController = self.navigationController?.viewControllers.first {
 
