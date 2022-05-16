@@ -306,6 +306,36 @@ class PGLMainFilterController: PGLFilterTableController {
 
     }
 
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        // manual segue to either the ParmSettings iPad layout or the TwoContainer  iPhone compact layout
+        // assumes that didSelectRow has run to set the filterPick into the appStack
+        //  therefore indexPath is not used.
+
+        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
+                                && (traitCollection.horizontalSizeClass == .compact)
+
+        if iPhoneCompact {
+           if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLTwoContainerController") as? PGLTwoContainerController
+            {
+               navigationController?.pushViewController(twoContainerController, animated: true)
+           }
+            else {
+                return
+            }
+        } else {
+            if let iPadParmController = storyboard?.instantiateViewController(withIdentifier: "ParmSettingsViewController") as? PGLSelectParmController
+            {
+                navigationController?.pushViewController(iPadParmController, animated: true)
+            }
+            else {
+                return
+            }
+
+        }
+
+        // present not needed with segue
+    }
+
 //    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
     // this causes an index side list to be added
 //       return categories.map({$0.categoryName})

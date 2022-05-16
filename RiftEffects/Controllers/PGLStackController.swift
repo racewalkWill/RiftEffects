@@ -565,7 +565,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
                 } else
                 { return true }
 
-            case "iPhoneTwoContainers" :
+            case "twoContainers" :
                 if iPhoneCompact  {
                     return true
                 } else

@@ -33,9 +33,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="j8f-0k-czJ" kind="show" identifier="twoContainer" trigger="accessoryAction" id="RMZ-kG-kSH"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1217,7 +1214,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JWJ-cy-nyZ"/>
         <segue reference="0cv-0d-dNh"/>
         <segue reference="upL-2v-qbI"/>
         <segue reference="aHq-rv-Ltt"/>
