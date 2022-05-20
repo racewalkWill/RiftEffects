@@ -111,9 +111,9 @@ class PGLFaceTransitionFilter: PGLFeatureTransitionFilter {
             Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLFaceTransitionFilter init did not load AppDelegate")
             return
         }
-        guard let appStack = myAppDelegate.appStack
-            else {return }
-        detectorFilter?.setCIContext(detectorContext: appStack.getViewerStack().imageCIContext)
+        let myAppStack = myAppDelegate.appStack
+
+        detectorFilter?.setCIContext(detectorContext: myAppStack.getViewerStack().imageCIContext)
 
     }
 

@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     var window: UIWindow?
-    var appStack: PGLAppStack!
+    var appStack = PGLAppStack()
     lazy var dataWrapper: CoreDataWrapper = { return CoreDataWrapper() }()
 
 
@@ -65,6 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //       PGLFaceCIFilter.register()
 //        PGLFilterCategory.allFilterCategories()
+
+        _ = dataWrapper.persistentContainer  // get lazy vars setup now
+
         Logger(subsystem: LogSubsystem, category: LogNavigation).notice( "start didFinishLaunchingWithOptions")
         PGLFilterCIAbstract.register()
         WarpItMetalFilter.register()
@@ -73,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLSaliencyBlurFilter.register()
         PGLImageCIFilter.register()
         PGLRandomFilterAction.register()
-       appStack = PGLAppStack()
+
         Logger(subsystem: LogSubsystem, category: LogCategory).notice( " didFinishLaunchingWithOptions appStack created")
         checkVersion()
        return true

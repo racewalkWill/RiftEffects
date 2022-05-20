@@ -395,16 +395,20 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                 // pick and show this row
                 // even if in edit mode
                 if let object = itemIdentifier(for: indexPath) {
+                    guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+                        else {
+                        Logger(subsystem: LogSubsystem, category: LogNavigation).fault("\( String(describing: self) + "-" + #function) appDelegate not assigned")
+                        return
+                    }
+                    let theAppStack = myAppDelegate.appStack
 
-                    if let theAppStack = (UIApplication.shared.delegate as? AppDelegate)!.appStack {
-
-                        let userPickedStack = PGLFilterStack.init()
-                        userPickedStack.on(cdStack: object)
-                        theAppStack.resetToTopStack(newStack: userPickedStack)
+                    let userPickedStack = PGLFilterStack.init()
+                    userPickedStack.on(cdStack: object)
+                    theAppStack.resetToTopStack(newStack: userPickedStack)
 
 //                        postStackChange()
                         // this is called in the resetToTopStack.. don't call a second time
-                    }
+
                 }
         }
 

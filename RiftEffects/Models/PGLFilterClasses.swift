@@ -202,7 +202,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     func setInput(image: CIImage?, source: String?) {
 
         if hasImageInput {
-            if oldImageInput !== image  && ( image != nil) { // same condition used in subclass PGLDetectorFilter.setInput
+            if ((oldImageInput !== image)  && ( image != nil) ) { // same condition used in subclass PGLDetectorFilter.setInput
                 // ignore changes in the image input for successive frames.
                 oldImageInput = image
 // uncomment this logging to see the frame by frame .. also lists the kernel in the filter... for CIDepthOfField it's more than you would think.
