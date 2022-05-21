@@ -39,6 +39,9 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
             preferredPrimaryColumnWidthFraction = 0.3
             preferredSupplementaryColumnWidthFraction = 0.3
 
+            let stackImageController = self.storyboard?.instantiateViewController(withIdentifier: "StackImageContainer")
+            setViewController(stackImageController, for: .supplementary)
+
         }
 
         // Do any additional setup after loading the view.
@@ -49,7 +52,7 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
 
     func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
-        NSLog("Did Collapse splitView ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("\( String(describing: self) + "-" + #function)")
     }
 
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
@@ -57,22 +60,27 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
 //        let horizontalSize = traitCollection.horizontalSizeClass
 //        if horizontalSize == .compact {
+//
 //             return .supplementary
+        // .supplementary has a controller with nav bar/buttons on the iPhone
+        
 //            // supplementary shows the effects col - on small screens this is full size
 //            // but navigation works and the pict icon navigation works to see the
 //            // image controller view
 //        }
 //        else { return proposedTopColumn}
-        if proposedTopColumn == .compact {
-            // change the to a single ImageController and use popup detent to show the other controllers
-            let stackImageController = self.storyboard?.instantiateViewController(withIdentifier: "StackImageContainer")
-            svc.setViewController(stackImageController, for: .compact)
 
-            return .compact
-        } else {
-            return proposedTopColumn
-        }
+//        if proposedTopColumn == .compact {
+//            // change the to a single ImageController and use popup detent to show the other controllers
+//            let stackImageController = self.storyboard?.instantiateViewController(withIdentifier: "StackImageContainer")
+//            svc.setViewController(stackImageController, for: .compact)
+//
+//            return .compact
+//        } else {
+//            return proposedTopColumn
+//        }
 
+        return proposedTopColumn
 
     }
 
