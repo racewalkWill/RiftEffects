@@ -39,8 +39,13 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
             preferredPrimaryColumnWidthFraction = 0.3
             preferredSupplementaryColumnWidthFraction = 0.3
 
-            let stackImageController = self.storyboard?.instantiateViewController(withIdentifier: "StackImageContainer")
-            setViewController(stackImageController, for: .supplementary)
+//            guard let stackImageController = self.storyboard?.instantiateViewController(withIdentifier: "StackImageContainer")
+//            else { checkPhotoLibraryAccess()
+//                    return
+//            }
+//            if let supplementaryNav = viewController(for: .supplementary) as? UINavigationController {
+//                supplementaryNav.setViewControllers([stackImageController], animated: true)
+//            }
 
         }
 

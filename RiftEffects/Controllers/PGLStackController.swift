@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import os
 
+let PGLShowStackImageContainer = NSNotification.Name(rawValue: "PGLShowStackImageContainer")
 
 class PGLStackController: UITableViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate {
     // tableview of the filters in the stack
@@ -78,21 +79,59 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             self.selectActiveFilterRow()
         }
 
-          configureNavigationItem()
+        configureNavigationItem()
         navigationController?.isToolbarHidden = false
 
         addToolBarButtons()
         updateNavigationBar()
         setLongPressGesture()
-        if appStack.outputStack.isEmptyStack() {
-            let verticalSize = traitCollection.verticalSizeClass
-            if verticalSize != .compact {
-                self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
-        }
+
         if traitCollection.userInterfaceIdiom == .phone {
             postPGLHideParmUIControls()
 
         }
+        
+
+        let showStackImageNotification = Notification(name:PGLShowStackImageContainer)
+        NotificationCenter.default.post(showStackImageNotification)
+        let didLoadStackImageContainer = pushStackImageContainer()
+        if !didLoadStackImageContainer && appStack.outputStack.isEmptyStack() {
+            // should this be run if inside the container ?
+            // should this be run if iPhone compact?
+
+//            let verticalSize = traitCollection.verticalSizeClass
+//            if verticalSize != .compact {
+//                self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock emptyStack segue to filter controller")
+            self.performSegue(withIdentifier: "showFilterController" , sender: nil)
+        }
+
+    }
+
+    func pushStackImageContainer() -> Bool {
+
+        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
+                                && (traitCollection.horizontalSizeClass == .compact)
+
+        if iPhoneCompact {
+            // either loaded by the supplementary nav controller OR
+            // loaded as a content area in the two content container for stack & image controller
+//            let isInsideContainer = parent is PGLStackImageContainerController
+            let hasLoadedStackController = parent is PGLStackImageContainerController
+
+            if !hasLoadedStackController {
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+                if let  stackImageController = storyboard?.instantiateViewController(withIdentifier: "StackImageContainer") as? PGLStackImageContainerController {
+                    navigationController?.pushViewController(stackImageController, animated: true)
+                    return true
+                }
+            else {
+                return false
+                }
+            }
+        }
+        return false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +143,15 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        Logger(subsystem: LogSubsystem, category: LogCategory).notice("\( String(describing: self) + "-" + #function)")
+        super.viewDidAppear(animated)
+        appStack.resetViewStack()
+        segueStarted = false  // reset flag
+
+
+
+    }
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         if traitCollection.verticalSizeClass == .compact {
             return .none }
@@ -119,11 +167,6 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         NotificationCenter.default.removeObserver(self, name: PGLSelectActiveStackRow, object: self)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice("\( String(describing: self) + "-" + #function)")
-        appStack.resetViewStack()
-        segueStarted = false  // reset flag
-    }
 
     fileprivate func updateDisplay() {
         // called by the action buttons
@@ -561,7 +604,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
             case "showFilterController" :
                 if iPhoneCompact {
-                    return false
+                    return true
                 } else
                 { return true }
 

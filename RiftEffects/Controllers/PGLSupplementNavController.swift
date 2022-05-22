@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 class PGLSupplementNavController: UINavigationController {
 
@@ -14,8 +15,61 @@ class PGLSupplementNavController: UINavigationController {
         super.viewDidLoad()
 //        setRoot()
         // Do any additional setup after loading the view.
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+        myCenter.addObserver(forName: PGLShowStackImageContainer, object: nil , queue: queue) { [weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLSupplementNavController  notificationBlock PGLSupplementNavController")
+
+//            let pushedNewContainer = self.pushStackImageContainer()
+
+        }
+
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super .viewDidDisappear(animated)
+//        NSLog("PGLSelectFilterController #viewDidDisappear removing notification observor")
+
+        NotificationCenter.default.removeObserver(self, name: PGLShowStackImageContainer, object: self)
+    }
+
+        /// push StackImageController in the iPhone compact mode
+    func pushStackImageContainer() -> Bool {
+        // now moved back to the PGLStackController viewDidLoad...
+        // remove this implementation?
+        
+        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
+                                && (traitCollection.horizontalSizeClass == .compact)
+
+        if iPhoneCompact {
+            // either loaded by the supplementary nav controller OR
+            // loaded as a content area in the two content container for stack & image controller
+//            let isInsideContainer = parent is PGLStackImageContainerController
+            let hasLoadedStackController = topViewController is PGLStackController
+
+            if hasLoadedStackController {
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+                if let  stackImageController = storyboard?.instantiateViewController(withIdentifier: "StackImageContainer") as? PGLStackImageContainerController {
+                    navigationController?.pushViewController(stackImageController, animated: true)
+                    return true
+                }
+            else {
+                return false
+                }
+            }
+        }
+        return false
+    }
+
+
+/// remove old method setRoot()
     func setRoot() {
         //  root view will be Stack controller
         // OR the StackImageController in the iPhone compact mode
