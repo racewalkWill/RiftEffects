@@ -102,7 +102,7 @@ class PGLSelectParmController: PGLCommonController,
             // so that it moves back to the stack controller
             guard let myNav = self.navigationController else { return }
 
-            guard let myParent = myNav.topViewController as? PGLTwoContainerController
+            guard let myParent = myNav.topViewController as? PGLParmImageController
                 else { myNav.popViewController(animated: true )
                         return
             }
@@ -149,7 +149,7 @@ class PGLSelectParmController: PGLCommonController,
     fileprivate func setImageController() {
 //        let primaryController  = splitViewController?.viewController(for: .primary)
 //        let supplementaryController =  splitViewController?.viewController(for: .supplementary)
-        if let myTwoContainerParent = parent as? PGLTwoContainerController {
+        if let myTwoContainerParent = parent as? PGLParmImageController {
             // an iPhone layout where there are two imageControllers one in the twoContainer
             // the other in the splitView secondary column
             imageController = myTwoContainerParent.containerImageController

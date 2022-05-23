@@ -1,5 +1,5 @@
 //
-//  PGLTwoContainerController.swift
+//  PGLParmImageController.swift
 //  RiftEffects
 //
 //  Created by Will on 5/6/22.
@@ -9,7 +9,7 @@
 import UIKit
 import os
 
-class PGLTwoContainerController: UIViewController {
+class PGLParmImageController: UIViewController {
     // handles segues for iPad/iPhone segue paths
     // iPad does not use the two container view
     // iPhone shows parm and image controlls inside the two containers of the view

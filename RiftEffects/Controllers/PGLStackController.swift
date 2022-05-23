@@ -122,7 +122,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             if !hasLoadedStackController {
                 Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
-                if let  stackImageController = storyboard?.instantiateViewController(withIdentifier: "StackImageContainer") as? PGLStackImageContainerController {
+                if let  stackImageController = storyboard?.instantiateViewController(withIdentifier: "PGLStackImageContainerController") as? PGLStackImageContainerController {
                     navigationController?.pushViewController(stackImageController, animated: true)
                     return true
                 }

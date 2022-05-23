@@ -315,7 +315,7 @@ class PGLMainFilterController: PGLFilterTableController {
                                 && (traitCollection.horizontalSizeClass == .compact)
 
         if iPhoneCompact {
-           if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLTwoContainerController") as? PGLTwoContainerController
+           if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLParmImageController") as? PGLParmImageController
             {
                navigationController?.pushViewController(twoContainerController, animated: true)
            }

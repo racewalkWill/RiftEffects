@@ -98,7 +98,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32V-xd-xgV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1078" y="4210"/>
+            <point key="canvasLocation" x="-697" y="2547"/>
         </scene>
         <!--Save Dialog Controller-->
         <scene sceneID="5eV-23-rJZ">
@@ -320,11 +320,11 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="302"/>
+                        <rect key="frame" x="0.0" y="0.0" width="410" height="337"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
-                                <rect key="frame" x="318" y="242" width="246" height="31"/>
+                                <rect key="frame" x="318" y="277" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Alpha" identifier="Parm0" label="Alpha"/>
                                 <constraints>
@@ -335,7 +335,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xpj-gS-MzU" userLabel="Blue">
-                                <rect key="frame" x="318" y="190" width="246" height="31"/>
+                                <rect key="frame" x="318" y="225" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Blue" identifier="Parm1" label="Blue"/>
                                 <connections>
@@ -343,7 +343,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
-                                <rect key="frame" x="318" y="138" width="246" height="31"/>
+                                <rect key="frame" x="318" y="173" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Green" identifier="Parm2" label="Green"/>
                                 <connections>
@@ -351,7 +351,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="erC-X2-Dkg" userLabel="Red">
-                                <rect key="frame" x="318" y="86" width="246" height="31"/>
+                                <rect key="frame" x="318" y="121" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Red" identifier="Parm3" label="Red"/>
                                 <connections>
@@ -359,19 +359,19 @@
                                 </connections>
                             </slider>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIG-ES-l8C" userLabel="topTintView">
-                                <rect key="frame" x="0.0" y="44" width="417" height="128"/>
+                                <rect key="frame" x="40" y="44" width="764" height="128"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="400" verticalCompressionResistancePriority="400" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wa4-VM-jqe" userLabel="leftTintView">
-                                <rect key="frame" x="0.0" y="0.0" width="96" height="302"/>
+                                <rect key="frame" x="0.0" y="0.0" width="96" height="337"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ki-pV-gkl" userLabel="rightTintView">
-                                <rect key="frame" x="451" y="0.0" width="100" height="302"/>
+                                <rect key="frame" x="451" y="0.0" width="100" height="337"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sNy-RU-13Z" userLabel="bottomTintView">
-                                <rect key="frame" x="0.0" y="656" width="417" height="128"/>
+                                <rect key="frame" x="40" y="656" width="764" height="128"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                         </subviews>
@@ -444,7 +444,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dvD-Gb-Q5q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1523" y="1216"/>
+            <point key="canvasLocation" x="735" y="1350"/>
         </scene>
         <!--Rectangle Controller-->
         <scene sceneID="Rbc-Iu-llg">
@@ -523,17 +523,17 @@
                         <viewControllerLayoutGuide type="bottom" id="Tg7-pC-Cny"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XUw-wD-ESd">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="334"/>
+                        <rect key="frame" x="0.0" y="0.0" width="410" height="369"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLw-aW-l5j">
-                                <rect key="frame" x="20" y="245" width="350" height="57"/>
+                                <rect key="frame" x="20" y="245" width="370" height="92"/>
                                 <connections>
                                     <segue destination="0Eu-a7-58l" kind="embed" identifier="lowerAssetGridSegue" id="swi-V6-4OA"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-hy-dK1">
-                                <rect key="frame" x="20" y="10" width="350" height="225"/>
+                                <rect key="frame" x="20" y="10" width="370" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="225" id="vEE-Uw-L6Y"/>
                                 </constraints>
@@ -629,15 +629,15 @@
                         <viewControllerLayoutGuide type="bottom" id="VLb-a3-ytY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YGP-pA-aiW">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="25"/>
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="60"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BeI-dm-W4b">
-                                <rect key="frame" x="0.0" y="54" width="350" height="107"/>
+                                <rect key="frame" x="0.0" y="54" width="370" height="107"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="259" y="74" width="71" height="54"/>
+                                <rect key="frame" x="279" y="74" width="71" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -652,7 +652,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGG-2u-BuS" userLabel="gestureView">
-                                <rect key="frame" x="40" y="74" width="270" height="67"/>
+                                <rect key="frame" x="40" y="74" width="290" height="67"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -774,7 +774,7 @@
                         <viewControllerLayoutGuide type="bottom" id="noZ-c1-sxH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="59X-KM-19h">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="225"/>
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="225"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -795,7 +795,7 @@
                         <viewControllerLayoutGuide type="bottom" id="RMh-Hm-vBq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bua-CM-r0T">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="57"/>
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -1041,12 +1041,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ePr-y9-pb9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1078" y="3160"/>
+            <point key="canvasLocation" x="-1321" y="3321"/>
         </scene>
-        <!--Two Container Controller-->
+        <!--Parm Image Controller-->
         <scene sceneID="eGr-7V-u1k">
             <objects>
-                <viewController storyboardIdentifier="PGLTwoContainerController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="j8f-0k-czJ" customClass="PGLTwoContainerController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLParmImageController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="j8f-0k-czJ" customClass="PGLParmImageController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ndb-SX-0cA"/>
                         <viewControllerLayoutGuide type="bottom" id="LCb-0n-p2P"/>
@@ -1086,12 +1086,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bkL-n9-ln5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-78" y="2459"/>
+            <point key="canvasLocation" x="-120" y="2710"/>
         </scene>
-        <!--Stack Image Container Controller-->
+        <!--Filter Image Container Controller-->
         <scene sceneID="Dvs-Ry-Zbi">
             <objects>
-                <viewController storyboardIdentifier="StackImageContainer" id="rQx-tc-9ix" customClass="PGLStackImageContainerController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLFilterImageContainerController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rQx-tc-9ix" customClass="PGLFilterImageContainerController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Kca-yX-rIM"/>
                         <viewControllerLayoutGuide type="bottom" id="j3d-oc-3aS"/>
@@ -1211,10 +1211,10 @@
             </objects>
             <point key="canvasLocation" x="-1099" y="382"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Nav Secondary Controller-->
         <scene sceneID="j2a-dY-cGs">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" id="sz9-Js-XAp" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="PGLNavSecondaryController" automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" id="sz9-Js-XAp" customClass="PGLNavSecondaryController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kFL-fi-S8n">
@@ -1249,10 +1249,10 @@
             </objects>
             <point key="canvasLocation" x="-1986" y="1530"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Nav Primary Controller-->
         <scene sceneID="OG0-oh-es9">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="r9v-Qy-C7F" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="PGLNavPrimaryController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="r9v-Qy-C7F" customClass="PGLNavPrimaryController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hIS-0d-fCX">
                         <rect key="frame" x="0.0" y="0.0" width="844" height="32"/>
@@ -1267,10 +1267,10 @@
             </objects>
             <point key="canvasLocation" x="-1986" y="383"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Nav Stack Image Controller-->
         <scene sceneID="CEg-1t-K8H">
             <objects>
-                <navigationController storyboardIdentifier="iPhoneSupplementaryNav" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qp2-Wt-cln" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="PGLNavStackImageController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qp2-Wt-cln" customClass="PGLNavStackImageController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fsG-Ba-jlb">
                         <rect key="frame" x="0.0" y="0.0" width="844" height="32"/>
@@ -1285,10 +1285,10 @@
             </objects>
             <point key="canvasLocation" x="532" y="-770"/>
         </scene>
-        <!--Two Container Controller-->
+        <!--Stack Image Container Controller-->
         <scene sceneID="JiY-5e-ACe">
             <objects>
-                <viewController storyboardIdentifier="PGLStackImageController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="z1U-K0-aGb" customClass="PGLTwoContainerController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PGLStackImageContainerController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="z1U-K0-aGb" customClass="PGLStackImageContainerController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lL5-9S-nDj"/>
                         <viewControllerLayoutGuide type="bottom" id="saJ-3B-Hdt"/>
@@ -1336,7 +1336,7 @@
         <segue reference="Az7-gC-F8C"/>
         <segue reference="0cv-0d-dNh"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="6v8-JT-r5t"/>
+        <segue reference="qrw-Ae-XRc"/>
         <segue reference="HqE-Mm-gGN"/>
     </inferredMetricsTieBreakers>
     <resources>
