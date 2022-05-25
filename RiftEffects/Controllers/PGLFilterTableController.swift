@@ -206,6 +206,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
             updateFilterLabel()
             postImageChange()
             postCurrentFilterChange()
+            appStack.resetCellFilters()
             let replaceFilterEvent = Notification(name: PGLReplaceFilterEvent)
              NotificationCenter.default.post(replaceFilterEvent)
 

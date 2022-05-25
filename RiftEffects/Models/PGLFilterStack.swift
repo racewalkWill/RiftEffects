@@ -326,6 +326,7 @@ class PGLFilterStack  {
         }
         newFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
         append(newFilter)
+        
      
 
     }
@@ -659,7 +660,9 @@ class PGLFilterStack  {
         return  currentFilter().outputImage() ??
             CIImage.empty()
     }
-    func updateFilterList() {}
+    func updateFilterList() {
+
+    }
 
     // MARK: flattened Filters
 

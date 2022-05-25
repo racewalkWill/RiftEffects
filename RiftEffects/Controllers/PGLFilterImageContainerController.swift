@@ -19,8 +19,24 @@ class PGLFilterImageContainerController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func addFilterBtn(_ sender: UIBarButtonItem) {
+        // Segue back to the stackController
+    }
 
+    @IBAction func showImageControllerBtn(_ sender: UIBarButtonItem) {
+        // go full screen with the ImageController
+        // segue to imageController
+    }
 
+    @IBAction func newStackBtn(_ sender: UIBarButtonItem) {
+    }
+    @IBAction func randomBtn(_ sender: UIBarButtonItem) {
+    }
+    @IBAction func moreBtn(_ sender: UIBarButtonItem) {
+    }
+
+    @IBAction func helpBtn(_ sender: UIBarButtonItem) {
+    }
     /*
     // MARK: - Navigation
 

@@ -91,11 +91,15 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
         }
         
+   // following is duplicate of the loading in the button segue
 
-        let showStackImageNotification = Notification(name:PGLShowStackImageContainer)
-        NotificationCenter.default.post(showStackImageNotification)
-        let didLoadStackImageContainer = pushStackImageContainer()
-        if !didLoadStackImageContainer && appStack.outputStack.isEmptyStack() {
+//        let showStackImageNotification = Notification(name:PGLShowStackImageContainer)
+//        NotificationCenter.default.post(showStackImageNotification)
+//        let didLoadStackImageContainer = pushStackImageContainer()
+//        if !didLoadStackImageContainer && appStack.outputStack.isEmptyStack() {
+
+        if appStack.outputStack.isEmptyStack() {
+                // just skip ahead to the filter controller since there is no filter now
             // should this be run if inside the container ?
             // should this be run if iPhone compact?
 
@@ -117,6 +121,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             // either loaded by the supplementary nav controller OR
             // loaded as a content area in the two content container for stack & image controller
 //            let isInsideContainer = parent is PGLStackImageContainerController
+
             let hasLoadedStackController = parent is PGLStackImageContainerController
 
             if !hasLoadedStackController {
@@ -563,6 +568,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
                 controller.navigationItem.leftItemsSupplementBackButton = true
             case "showParmSettings" :
                     // didSelectRowAt has set the appStack model
+                return
+            case "showFilterController" :
+                // iPhone compact
                 return
             default:
                 return
