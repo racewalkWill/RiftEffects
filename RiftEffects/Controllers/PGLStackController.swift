@@ -404,10 +404,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     }
 
 
-
     @IBAction func addFilter(_ sender: UIBarButtonItem) {
         // hideParmControls()
-        self.appStack.viewerStack.stackMode =  FilterChangeMode.add
+        self.appStack.setFilterChangeModeToAdd()
 
         postFilterNavigationChange()
         performSegue(withIdentifier: "showFilterController", sender: self)

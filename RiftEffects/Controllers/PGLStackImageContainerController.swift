@@ -10,12 +10,40 @@ import UIKit
 import os
 class PGLStackImageContainerController: UIViewController {
 
+    var containerImageController: PGLCompactImageController?
+    var containerStackController: PGLStackController?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // Do any additional setup after loading the view.
+
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        super.viewDidLoad()
+        if let indexImage = self.children.firstIndex(where: { $0 is PGLCompactImageController }) {
+            containerImageController = self.children[indexImage] as? PGLCompactImageController
+        }
+        if let indexFilter = self.children.firstIndex(where: { $0 is PGLStackController }) {
+            containerStackController = self.children[indexFilter] as? PGLStackController
+        }
+
     }
     
+    @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {
+
+        containerStackController?.addFilter(sender)
+
+
+    }
+//    func addFilter() {
+//            // hideParmControls()
+//            self.appStack.viewerStack.stackMode =  FilterChangeMode.add
+//
+//            postFilterNavigationChange()
+//            performSegue(withIdentifier: "showFilterController", sender: self)
+//                // chooses new filter
+//    }
+
 
     /*
     // MARK: - Navigation

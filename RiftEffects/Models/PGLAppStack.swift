@@ -221,6 +221,14 @@ class PGLAppStack {
         }
     }
 
+    func setFilterChangeModeToAdd() {
+        viewerStack.stackMode = FilterChangeMode.add
+    }
+
+    func setFilterChangeModeToReplace() {
+        viewerStack.stackMode = FilterChangeMode.replace
+    }
+
     // MARK: Child Stack push/pop
 
     func moveActiveAhead() {

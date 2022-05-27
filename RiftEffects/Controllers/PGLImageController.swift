@@ -445,6 +445,54 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //        updateParmControls() // restore removed position & text controls
     }
 
+    func setMoreBtnMenu() {
+            //      if traitCollection.userInterfaceIdiom == .phone {
+        let libraryMenu = UIAction.init(title: "Library..", image: UIImage(systemName: "folder"), identifier: PGLImageController.LibraryMenuIdentifier, discoverabilityTitle: "Library", attributes: [], state: UIMenuElement.State.off) {
+            action in
+            self.openStackActionBtn(self.moreBtn)
+        }
+
+        if let mySplitView =  splitViewController as? PGLSplitViewController {
+                //                if traitCollection.userInterfaceIdiom == .pad {
+                //                    libraryMenu.attributes = [.disabled] // always disabled on iPad
+                //                } else {
+            if !mySplitView.stackProviderHasRows() {
+                libraryMenu.attributes = [.disabled]
+                    //                    }
+            }
+
+        }
+
+
+        let contextMenu = UIMenu(title: "",
+                                 children: [ libraryMenu
+                                             ,
+                                             UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
+            action in
+                // self.saveStackAlert(self.moreBtn)
+            self.saveStackActionBtn(self.moreBtn)
+        },
+                                             UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
+            action in
+            self.saveStackAsActionBtn(self.moreBtn)
+        },
+                                             UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
+            action in
+            self.displayPrivacyPolicy(self.moreBtn)
+        }
+                                             //                                ,
+                                             //                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
+                                             //                            action in
+                                             //                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                                             //                            else { return }
+                                             //                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
+                                             //                                    }
+
+
+                                           ])
+        moreBtn.menu = contextMenu
+    }
+
     override func viewDidLoad() {
         // conversion to Metal based on Core Image Programming Guide
         // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreImaging/ci_tasks/ci_tasks.html#//apple_ref/doc/uid/TP30001185-CH3-SW5
@@ -609,51 +657,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         tintViews.append(contentsOf: [topTintView, bottomTintView, leftTintView, rightTintView])
 
-//      if traitCollection.userInterfaceIdiom == .phone {
-            let libraryMenu = UIAction.init(title: "Library..", image: UIImage(systemName: "folder"), identifier: PGLImageController.LibraryMenuIdentifier, discoverabilityTitle: "Library", attributes: [], state: UIMenuElement.State.off) {
-                action in
-                self.openStackActionBtn(self.moreBtn)
-                    }
-
-            if let mySplitView =  splitViewController as? PGLSplitViewController {
-//                if traitCollection.userInterfaceIdiom == .pad {
-//                    libraryMenu.attributes = [.disabled] // always disabled on iPad
-//                } else {
-                if !mySplitView.stackProviderHasRows() {
-                    libraryMenu.attributes = [.disabled]
-    //                    }
-                }
-
-            }
-
-
-        let contextMenu = UIMenu(title: "",
-                    children: [ libraryMenu
-                                ,
-                        UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
-                            action in
-                                // self.saveStackAlert(self.moreBtn)
-                            self.saveStackActionBtn(self.moreBtn)
-                                    },
-                        UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
-                            action in
-                            self.saveStackAsActionBtn(self.moreBtn)
-                                    },
-                        UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
-                            action in
-                            self.displayPrivacyPolicy(self.moreBtn)
-                                    }
-//                                ,
-//                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
-//                            action in
-//                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
-//                            else { return }
-//                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
-//                                    }
-
-
-        ])
-            moreBtn.menu = contextMenu
+        setMoreBtnMenu()
 
         let theShowHelp =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
         if theShowHelp {

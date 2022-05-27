@@ -424,7 +424,9 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         // test changing all inputs to the same extent
         
         localFilter.setValue( newValue, forKey: keyName)
-        postImageChange()
+
+        // postImageChange is duplicative call.. too many updates to image triggered
+//        postImageChange()
     }
 
     func removeImageValue(keyName: String) {
@@ -747,7 +749,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
            let cellObject = stackController.appStack.cellFilters[indexPath.row]
 
             stackController.appStack.moveTo(filterIndent: cellObject) // this is also setting the activeFilterIndes..
-            stackController.appStack.viewerStack.stackMode =  FilterChangeMode.replace
+            stackController.appStack.setFilterChangeModeToReplace()
                // this is passed to the filterController
                // in the segue
             stackController.performSegue(withIdentifier: "showFilterController" , sender: nil)
