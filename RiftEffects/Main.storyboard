@@ -1151,11 +1151,7 @@
                                     <action selector="helpBtnClick:" destination="rQx-tc-9ix" id="mLh-7n-ij6"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="HAf-fe-yaR">
-                                <connections>
-                                    <action selector="moreBtnClick:" destination="rQx-tc-9ix" id="ugH-iO-6rm"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="HAf-fe-yaR"/>
                             <barButtonItem title="Random" id="yo5-KQ-1xv">
                                 <connections>
                                     <action selector="randomBtnClick:" destination="rQx-tc-9ix" id="ikc-WC-rpU"/>
