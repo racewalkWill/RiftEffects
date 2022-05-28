@@ -291,8 +291,28 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         let infoPrivacyController = storyboard!.instantiateViewController(
             withIdentifier: "infoPrivacy") as! PGLInfoPrivacyController
 
-        let navController = UINavigationController(rootViewController: infoPrivacyController)
+        if ( parent is PGLStackImageContainerController ) {
+            infoPrivacyController.modalPresentationStyle = .popover
+            // specify anchor point?
+            guard let popOverPresenter = infoPrivacyController.popoverPresentationController
+            else { return }
+            popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
+            // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+    //        popOverPresenter.sourceView = view
+
+            let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+            sheet.detents = [.medium(), .large()]
+    //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
+            popOverPresenter.barButtonItem = moreBtn
+            present(infoPrivacyController, animated: true )
+        } else {
+            // on the iPad.. just present full size
+            let navController = UINavigationController(rootViewController: infoPrivacyController)
                                  present(navController, animated: true)
+        }
     }
 
     // MARK: trash button action

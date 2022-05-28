@@ -320,11 +320,11 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="409" height="337"/>
+                        <rect key="frame" x="0.0" y="0.0" width="410" height="292"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
-                                <rect key="frame" x="318" y="277" width="246" height="31"/>
+                                <rect key="frame" x="318" y="232" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Alpha" identifier="Parm0" label="Alpha"/>
                                 <constraints>
@@ -335,7 +335,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xpj-gS-MzU" userLabel="Blue">
-                                <rect key="frame" x="318" y="225" width="246" height="31"/>
+                                <rect key="frame" x="318" y="180" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Blue" identifier="Parm1" label="Blue"/>
                                 <connections>
@@ -343,7 +343,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
-                                <rect key="frame" x="318" y="173" width="246" height="31"/>
+                                <rect key="frame" x="318" y="128" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Green" identifier="Parm2" label="Green"/>
                                 <connections>
@@ -351,7 +351,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="erC-X2-Dkg" userLabel="Red">
-                                <rect key="frame" x="318" y="121" width="246" height="31"/>
+                                <rect key="frame" x="318" y="76" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Red" identifier="Parm3" label="Red"/>
                                 <connections>
@@ -363,11 +363,11 @@
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="400" verticalCompressionResistancePriority="400" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wa4-VM-jqe" userLabel="leftTintView">
-                                <rect key="frame" x="0.0" y="0.0" width="96" height="337"/>
+                                <rect key="frame" x="0.0" y="0.0" width="96" height="292"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ki-pV-gkl" userLabel="rightTintView">
-                                <rect key="frame" x="451" y="0.0" width="100" height="337"/>
+                                <rect key="frame" x="451" y="0.0" width="100" height="292"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sNy-RU-13Z" userLabel="bottomTintView">
@@ -523,17 +523,17 @@
                         <viewControllerLayoutGuide type="bottom" id="Tg7-pC-Cny"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XUw-wD-ESd">
-                        <rect key="frame" x="0.0" y="0.0" width="409" height="369"/>
+                        <rect key="frame" x="0.0" y="0.0" width="410" height="324"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLw-aW-l5j">
-                                <rect key="frame" x="20" y="245" width="369" height="92"/>
+                                <rect key="frame" x="20" y="245" width="370" height="47"/>
                                 <connections>
                                     <segue destination="0Eu-a7-58l" kind="embed" identifier="lowerAssetGridSegue" id="swi-V6-4OA"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-hy-dK1">
-                                <rect key="frame" x="20" y="10" width="369" height="225"/>
+                                <rect key="frame" x="20" y="10" width="370" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="225" id="vEE-Uw-L6Y"/>
                                 </constraints>
@@ -630,15 +630,15 @@
                         <viewControllerLayoutGuide type="bottom" id="VLb-a3-ytY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YGP-pA-aiW">
-                        <rect key="frame" x="0.0" y="0.0" width="369" height="60"/>
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="15"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BeI-dm-W4b">
-                                <rect key="frame" x="0.0" y="54" width="369" height="107"/>
+                                <rect key="frame" x="0.0" y="54" width="370" height="107"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="277" y="74" width="71" height="54"/>
+                                <rect key="frame" x="278" y="74" width="71" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -653,7 +653,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGG-2u-BuS" userLabel="gestureView">
-                                <rect key="frame" x="40" y="74" width="289" height="67"/>
+                                <rect key="frame" x="40" y="74" width="290" height="67"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -740,9 +740,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="844" height="390"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GCd-EU-ad0">
-                                <rect key="frame" x="20" y="48" width="611" height="766"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GCd-EU-ad0">
+                                <rect key="frame" x="117" y="20" width="612" height="341"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Privacy Policy">
@@ -757,6 +756,12 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GCd-EU-ad0" firstAttribute="leading" secondItem="0fZ-8j-UZl" secondAttribute="leading" constant="117" id="eDU-q1-xZp"/>
+                            <constraint firstItem="ob8-yd-AlQ" firstAttribute="top" secondItem="GCd-EU-ad0" secondAttribute="bottom" constant="8" symbolic="YES" id="qbs-Ze-nGB"/>
+                            <constraint firstAttribute="trailing" secondItem="GCd-EU-ad0" secondAttribute="trailing" constant="115" id="saQ-3h-6yj"/>
+                            <constraint firstItem="GCd-EU-ad0" firstAttribute="top" secondItem="6FL-Ff-X7c" secondAttribute="bottom" constant="20" id="xeG-Tb-wcd"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="PrivacyText" destination="GCd-EU-ad0" id="3ck-fn-hpf"/>
@@ -764,7 +769,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A77-WO-W8v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3622" y="-297"/>
+            <point key="canvasLocation" x="3621.3270142180095" y="-298.46153846153845"/>
         </scene>
         <!--Asset Sequence Controller-->
         <scene sceneID="021-HB-tph">
@@ -775,7 +780,7 @@
                         <viewControllerLayoutGuide type="bottom" id="noZ-c1-sxH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="59X-KM-19h">
-                        <rect key="frame" x="0.0" y="0.0" width="369" height="225"/>
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="225"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -796,7 +801,7 @@
                         <viewControllerLayoutGuide type="bottom" id="RMh-Hm-vBq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bua-CM-r0T">
-                        <rect key="frame" x="0.0" y="0.0" width="369" height="92"/>
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="47"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -1382,8 +1387,29 @@
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="Cgl-oe-TKV" userLabel="Help">
+                                <connections>
+                                    <action selector="helpBtnClick:" destination="z1U-K0-aGb" id="jIY-uB-cJ5"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="More Btn" image="ellipsis.circle" catalog="system" id="X6h-Dm-yVE"/>
+                            <barButtonItem title="Random" id="0Zt-QC-w2E">
+                                <connections>
+                                    <action selector="randomBtnClick:" destination="z1U-K0-aGb" id="phg-u0-ed9"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="New" image="trash" catalog="system" id="pEQ-Uh-ooY">
+                                <connections>
+                                    <action selector="newTrashBtnAction:" destination="z1U-K0-aGb" id="x9H-dK-0aK"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="moreBtn" destination="X6h-Dm-yVE" id="xPk-mE-gvb"/>
+                        <outlet property="newTrashBtn" destination="pEQ-Uh-ooY" id="LYx-ax-Q7i"/>
+                        <outlet property="randomBtn" destination="0Zt-QC-w2E" id="VFd-iB-3sL"/>
                         <segue destination="rQx-tc-9ix" kind="show" identifier="showFilterImageContainer" id="4FJ-we-3bf"/>
                     </connections>
                 </viewController>
@@ -1398,7 +1424,7 @@
         <segue reference="4FJ-we-3bf"/>
         <segue reference="7je-js-ORP"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="6v8-JT-r5t"/>
+        <segue reference="qrw-Ae-XRc"/>
         <segue reference="HqE-Mm-gGN"/>
     </inferredMetricsTieBreakers>
     <resources>
