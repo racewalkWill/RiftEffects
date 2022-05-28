@@ -27,6 +27,8 @@ class PGLStackImageContainerController: UIViewController {
             containerStackController = self.children[indexFilter] as? PGLStackController
         }
 
+        navigationItem.title = "Effects"//viewerStack.stackName
+
     }
     
     @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {

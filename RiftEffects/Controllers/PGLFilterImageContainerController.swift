@@ -27,6 +27,8 @@ class PGLFilterImageContainerController: UIViewController {
 
         setMoreBtnMenu()
 
+        navigationItem.title = "Filters"//viewerStack.stackName
+
         // Do any additional setup after loading the view.
     }
 

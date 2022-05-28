@@ -320,7 +320,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="410" height="337"/>
+                        <rect key="frame" x="0.0" y="0.0" width="409" height="337"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
@@ -523,17 +523,17 @@
                         <viewControllerLayoutGuide type="bottom" id="Tg7-pC-Cny"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XUw-wD-ESd">
-                        <rect key="frame" x="0.0" y="0.0" width="410" height="369"/>
+                        <rect key="frame" x="0.0" y="0.0" width="409" height="369"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLw-aW-l5j">
-                                <rect key="frame" x="20" y="245" width="370" height="92"/>
+                                <rect key="frame" x="20" y="245" width="369" height="92"/>
                                 <connections>
                                     <segue destination="0Eu-a7-58l" kind="embed" identifier="lowerAssetGridSegue" id="swi-V6-4OA"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-hy-dK1">
-                                <rect key="frame" x="20" y="10" width="370" height="225"/>
+                                <rect key="frame" x="20" y="10" width="369" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="225" id="vEE-Uw-L6Y"/>
                                 </constraints>
@@ -630,15 +630,15 @@
                         <viewControllerLayoutGuide type="bottom" id="VLb-a3-ytY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YGP-pA-aiW">
-                        <rect key="frame" x="0.0" y="0.0" width="370" height="60"/>
+                        <rect key="frame" x="0.0" y="0.0" width="369" height="60"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BeI-dm-W4b">
-                                <rect key="frame" x="0.0" y="54" width="370" height="107"/>
+                                <rect key="frame" x="0.0" y="54" width="369" height="107"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="278" y="74" width="71" height="54"/>
+                                <rect key="frame" x="277" y="74" width="71" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -653,7 +653,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGG-2u-BuS" userLabel="gestureView">
-                                <rect key="frame" x="40" y="74" width="290" height="67"/>
+                                <rect key="frame" x="40" y="74" width="289" height="67"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -775,7 +775,7 @@
                         <viewControllerLayoutGuide type="bottom" id="noZ-c1-sxH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="59X-KM-19h">
-                        <rect key="frame" x="0.0" y="0.0" width="370" height="225"/>
+                        <rect key="frame" x="0.0" y="0.0" width="369" height="225"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -796,7 +796,7 @@
                         <viewControllerLayoutGuide type="bottom" id="RMh-Hm-vBq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bua-CM-r0T">
-                        <rect key="frame" x="0.0" y="0.0" width="370" height="92"/>
+                        <rect key="frame" x="0.0" y="0.0" width="369" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -1132,7 +1132,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="jtF-en-p9N">
                         <leftBarButtonItems>
-                            <barButtonItem title="Effects" image="square.and.arrow.up.on.square" catalog="system" id="Oh7-g5-CYC">
+                            <barButtonItem title="Effects" id="Oh7-g5-CYC">
                                 <connections>
                                     <action selector="addFilterBtn:" destination="rQx-tc-9ix" id="ce8-lC-dXb"/>
                                     <segue destination="z1U-K0-aGb" kind="show" id="Q8R-MU-xpB"/>
@@ -1345,7 +1345,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0zT-sz-lF2">
-                                <rect key="frame" x="60" y="0.0" width="306" height="324"/>
+                                <rect key="frame" x="64" y="37" width="306" height="324"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="0zT-sz-lF2" secondAttribute="height" multiplier="267:322" id="baY-Hd-uH6"/>
                                 </constraints>
@@ -1353,8 +1353,8 @@
                                     <segue destination="dDm-tJ-e98" kind="embed" id="qOY-ip-WfD"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5M5-fj-Voz">
-                                <rect key="frame" x="374" y="0.0" width="410" height="369"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5M5-fj-Voz">
+                                <rect key="frame" x="370" y="37" width="410" height="324"/>
                                 <connections>
                                     <segue destination="Cot-0o-SSg" kind="embed" id="qrw-Ae-XRc"/>
                                 </connections>
@@ -1393,7 +1393,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kKr-2k-Iwd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-343" y="632"/>
+            <point key="canvasLocation" x="-343.3649289099526" y="630.76923076923072"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -1402,7 +1402,7 @@
         <segue reference="4FJ-we-3bf"/>
         <segue reference="7je-js-ORP"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="qrw-Ae-XRc"/>
+        <segue reference="6v8-JT-r5t"/>
         <segue reference="HqE-Mm-gGN"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -1416,7 +1416,6 @@
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="questionmark.square.dashed" catalog="system" width="128" height="114"/>
         <image name="rectangle.grid.1x2" catalog="system" width="128" height="101"/>
-        <image name="square.and.arrow.up.on.square" catalog="system" width="117" height="128"/>
         <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
