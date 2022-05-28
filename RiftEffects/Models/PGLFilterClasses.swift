@@ -752,7 +752,15 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             stackController.appStack.setFilterChangeModeToReplace()
                // this is passed to the filterController
                // in the segue
-            stackController.performSegue(withIdentifier: "showFilterController" , sender: nil)
+
+            // if StackController is in the container then the container should
+            // perform the segue to the filterImageContainer..
+            //
+            var filterSegue  = "showFilterController"
+            if stackController.parent is PGLStackImageContainerController {
+                filterSegue = "showFilterImageContainer"
+            }
+            stackController.performSegue(withIdentifier: filterSegue , sender: nil)
                  // show segue showFilterController opens the PGLFilterTableController
                  // set the stack activeFilter
 

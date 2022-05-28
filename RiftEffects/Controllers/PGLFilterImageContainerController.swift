@@ -41,18 +41,20 @@ class PGLFilterImageContainerController: UIViewController {
 
     @IBAction func showImageControllerBtn(_ sender: UIBarButtonItem) {
         // go full screen with the ImageController
-        // segue to imageController
+        // segue to imageController does the work
     }
 
     @IBAction func newStackBtnClick(_ sender: UIBarButtonItem) {
-
+        // trash icon to start a new stack
+        containerImageController?.newStackActionBtn(sender)
     }
     
     @IBAction func randomBtnClick(_ sender: UIBarButtonItem) {
+        containerImageController?.randomBtnAction(sender)
 
     }
     @IBAction func moreBtnClick(_ sender: UIBarButtonItem) {
-
+        // see the setMoreBtnMenu()
 
     }
 

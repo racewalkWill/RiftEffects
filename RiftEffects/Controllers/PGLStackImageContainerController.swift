@@ -31,8 +31,15 @@ class PGLStackImageContainerController: UIViewController {
     
     @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {
 
-        containerStackController?.addFilter(sender)
+//        containerStackController?.addFilter(sender)
 
+        containerStackController?.appStack.setFilterChangeModeToAdd()
+
+//        postFilterNavigationChange()
+        // do not need to reloaddata or resetCellFilters
+
+        performSegue(withIdentifier: "showFilterImageContainer", sender: self)
+        // chooses new filter
 
     }
 //    func addFilter() {
