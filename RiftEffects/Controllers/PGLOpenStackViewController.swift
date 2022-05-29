@@ -406,8 +406,9 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                     userPickedStack.on(cdStack: object)
                     theAppStack.resetToTopStack(newStack: userPickedStack)
 
-//                        postStackChange()
-                        // this is called in the resetToTopStack.. don't call a second time
+                    postStackChange()
+                        // trigger the image controller to show the stack
+
 
                 }
         }
