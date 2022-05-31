@@ -324,7 +324,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
-                                <rect key="frame" x="318" y="232" width="246" height="31"/>
+                                <rect key="frame" x="102" y="229" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Alpha" identifier="Parm0" label="Alpha"/>
                                 <constraints>
@@ -335,15 +335,15 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xpj-gS-MzU" userLabel="Blue">
-                                <rect key="frame" x="318" y="180" width="246" height="31"/>
+                                <rect key="frame" x="102" y="180" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Blue" identifier="Parm1" label="Blue"/>
                                 <connections>
                                     <action selector="sliderValueEvent:" destination="Cot-0o-SSg" eventType="valueChanged" id="e5P-4p-mrI"/>
                                 </connections>
                             </slider>
-                            <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
-                                <rect key="frame" x="318" y="128" width="246" height="31"/>
+                            <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
+                                <rect key="frame" x="102" y="131" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Green" identifier="Parm2" label="Green"/>
                                 <connections>
@@ -351,7 +351,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="erC-X2-Dkg" userLabel="Red">
-                                <rect key="frame" x="318" y="76" width="246" height="31"/>
+                                <rect key="frame" x="102" y="76" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Red" identifier="Parm3" label="Red"/>
                                 <connections>
@@ -359,7 +359,7 @@
                                 </connections>
                             </slider>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIG-ES-l8C" userLabel="topTintView">
-                                <rect key="frame" x="44" y="44" width="756" height="128"/>
+                                <rect key="frame" x="44" y="8" width="756" height="54"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="400" verticalCompressionResistancePriority="400" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wa4-VM-jqe" userLabel="leftTintView">
@@ -371,7 +371,7 @@
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sNy-RU-13Z" userLabel="bottomTintView">
-                                <rect key="frame" x="44" y="656" width="756" height="128"/>
+                                <rect key="frame" x="44" y="224" width="346" height="60"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                         </subviews>
@@ -383,7 +383,7 @@
                             <constraint firstItem="zCg-lU-rqI" firstAttribute="trailing" secondItem="a5o-Sr-vCZ" secondAttribute="trailing" id="BUK-hR-ePM"/>
                             <constraint firstItem="wa4-VM-jqe" firstAttribute="centerY" secondItem="FIa-oA-7jC" secondAttribute="centerY" id="Bqo-kR-Mun"/>
                             <constraint firstItem="CVu-JS-I30" firstAttribute="top" secondItem="wa4-VM-jqe" secondAttribute="bottom" id="Ctd-C8-NNm"/>
-                            <constraint firstItem="zCg-lU-rqI" firstAttribute="top" secondItem="xpj-gS-MzU" secondAttribute="bottom" constant="22" id="ELx-ch-3qT"/>
+                            <constraint firstItem="zCg-lU-rqI" firstAttribute="top" secondItem="xpj-gS-MzU" secondAttribute="bottom" constant="19" id="ELx-ch-3qT"/>
                             <constraint firstItem="zCg-lU-rqI" firstAttribute="trailing" secondItem="erC-X2-Dkg" secondAttribute="trailing" id="Ghi-eo-HKr"/>
                             <constraint firstItem="zCg-lU-rqI" firstAttribute="leading" secondItem="erC-X2-Dkg" secondAttribute="leading" id="M8J-up-HEg"/>
                             <constraint firstItem="wa4-VM-jqe" firstAttribute="leading" secondItem="WIG-ES-l8C" secondAttribute="leading" id="Mdz-FT-qQg"/>
@@ -392,14 +392,14 @@
                             <constraint firstItem="WIG-ES-l8C" firstAttribute="top" secondItem="FIa-oA-7jC" secondAttribute="topMargin" constant="-6" id="b3A-Cz-ljk"/>
                             <constraint firstItem="WIG-ES-l8C" firstAttribute="centerX" secondItem="FIa-oA-7jC" secondAttribute="centerX" id="gOI-mf-feq"/>
                             <constraint firstItem="sNy-RU-13Z" firstAttribute="leading" secondItem="WIG-ES-l8C" secondAttribute="leading" id="jN3-gj-UBX"/>
-                            <constraint firstItem="zCg-lU-rqI" firstAttribute="leading" secondItem="FIa-oA-7jC" secondAttribute="leading" constant="320" id="l3s-cV-ZQD"/>
+                            <constraint firstItem="zCg-lU-rqI" firstAttribute="leading" secondItem="FIa-oA-7jC" secondAttribute="leading" constant="104" id="l3s-cV-ZQD"/>
                             <constraint firstItem="xpj-gS-MzU" firstAttribute="top" secondItem="a5o-Sr-vCZ" secondAttribute="bottom" constant="22" id="oAL-5X-mm3"/>
                             <constraint firstItem="zCg-lU-rqI" firstAttribute="leading" secondItem="a5o-Sr-vCZ" secondAttribute="leading" id="ofy-m9-Y1Z"/>
                             <constraint firstItem="WIG-ES-l8C" firstAttribute="leading" secondItem="FIa-oA-7jC" secondAttribute="leadingMargin" constant="-20" id="r48-bE-Ho0"/>
                             <constraint firstItem="zCg-lU-rqI" firstAttribute="trailing" secondItem="xpj-gS-MzU" secondAttribute="trailing" id="uAv-Hv-1tF"/>
                             <constraint firstItem="a5o-Sr-vCZ" firstAttribute="top" secondItem="erC-X2-Dkg" secondAttribute="bottom" constant="22" id="wmb-eI-wW4"/>
                             <constraint firstItem="6Ki-pV-gkl" firstAttribute="top" secondItem="wa4-VM-jqe" secondAttribute="top" id="yMh-Me-MJz"/>
-                            <constraint firstItem="CVu-JS-I30" firstAttribute="top" secondItem="zCg-lU-rqI" secondAttribute="bottom" constant="30" id="ya5-IQ-naW"/>
+                            <constraint firstItem="CVu-JS-I30" firstAttribute="top" secondItem="zCg-lU-rqI" secondAttribute="bottom" constant="33" id="ya5-IQ-naW"/>
                             <constraint firstItem="6Ki-pV-gkl" firstAttribute="leading" secondItem="wa4-VM-jqe" secondAttribute="trailing" constant="355" id="zIk-ld-CeB"/>
                         </constraints>
                     </view>
@@ -444,7 +444,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dvD-Gb-Q5q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="725" y="1563"/>
+            <point key="canvasLocation" x="724.4075829383886" y="1561.5384615384614"/>
         </scene>
         <!--Rectangle Controller-->
         <scene sceneID="Rbc-Iu-llg">

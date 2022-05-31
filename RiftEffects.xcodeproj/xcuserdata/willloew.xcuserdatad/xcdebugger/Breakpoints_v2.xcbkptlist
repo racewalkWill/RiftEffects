@@ -375,22 +375,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F07B231A-0551-469C-BB9A-F48196DB9614"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLFilterClasses.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "763"
-            endingLineNumber = "763"
-            landmarkName = "cellFilterAction(stackController:indexPath:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "83F532CD-D848-4054-A625-944729F3C729"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -464,7 +448,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "125"
                   endingLineNumber = "125"
-                  offsetFromSymbolStart = "740">
+                  offsetFromSymbolStart = "792">
                </Location>
                <Location
                   uuid = "59063C66-074D-410B-824C-4D5F13EFC987 - cf14244391247ee8"
@@ -479,7 +463,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "125"
                   endingLineNumber = "125"
-                  offsetFromSymbolStart = "844">
+                  offsetFromSymbolStart = "896">
                </Location>
             </Locations>
          </BreakpointContent>
