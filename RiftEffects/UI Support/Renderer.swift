@@ -81,7 +81,6 @@ class Renderer: NSObject {
 
         metalView.device = device
 
-        
         ciContext = CIContext(mtlDevice: device,
                                 options: [CIContextOption.workingFormat: CIFormat.RGBAh,
                                           .cacheIntermediates : true,
@@ -98,8 +97,6 @@ class Renderer: NSObject {
         
         metalView.autoResizeDrawable = true
 
-
-
         metalView.clearColor = MTLClearColor(red: 1.0, green: 1.0,
                                              blue: 0.8, alpha: 1)
         metalView.delegate = self
@@ -107,20 +104,15 @@ class Renderer: NSObject {
             else {
             Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer init(metalView fatalError( AppDelegate not loaded")
             return
-
         }
 
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
 
-//        let fileType = UserDefaults.init().string(forKey:  "photosFileType")
-            // above works..
-        
         let fileType = AppUserDefaults.string(forKey:  "photosFileType")
         currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "HEIF")
 
-
-        NSLog("Renderer init currentPhotoFileFormat \(String(describing: currentPhotoFileFormat))")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info ("Renderer init currentPhotoFileFormat \(String(describing: self.currentPhotoFileFormat))")
     }
 
     func captureImage() throws -> UIImage? {
@@ -180,8 +172,8 @@ class Renderer: NSObject {
 extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
 //        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
-        if !(size.width > 0) {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault("Renderer #drawableSizeWillChange size.width = 0 error")
+        if !((size.width > 0) && (size.height > 0)) {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault("Renderer #drawableSizeWillChange size.width or height = 0 error")
             // this will cause Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view
             // and [CAMetalLayer nextDrawable] returning nil because allocation failed.
         }
