@@ -414,8 +414,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     // MARK: value double dispatch
 
      func postImageChange() {
-        let outputImageUpdate = Notification(name:PGLOutputImageChange)
-        NotificationCenter.default.post(outputImageUpdate)
+//        let outputImageUpdate = Notification(name:PGLOutputImageChange)
+//        NotificationCenter.default.post(outputImageUpdate)
     }
     
     func setImageValue(newValue: CIImage, keyName: String) {

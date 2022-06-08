@@ -62,7 +62,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
         super.viewDidLoad()
 
 
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+//        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         let nib = UINib(nibName: PGLFilterTableController.nibName, bundle: nil)
 
         // Required if our subclasses are to use `dequeueReusableCellWithIdentifier(_:forIndexPath:)`.
@@ -361,8 +361,8 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
 // MARK: Notification
  func postImageChange() {
-    let updateFilterNotification = Notification(name:PGLOutputImageChange)
-    NotificationCenter.default.post(updateFilterNotification)
+//    let updateFilterNotification = Notification(name:PGLOutputImageChange)
+//    NotificationCenter.default.post(updateFilterNotification)
 }
 
  func postCurrentFilterChange() {

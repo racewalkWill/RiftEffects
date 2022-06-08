@@ -1096,8 +1096,8 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
 
 func postImageChange() {
-           let outputImageUpdate = Notification(name:PGLOutputImageChange)
-           NotificationCenter.default.post(outputImageUpdate)
+//           let outputImageUpdate = Notification(name:PGLOutputImageChange)
+//           NotificationCenter.default.post(outputImageUpdate)
        }
 } // end PGLFilterAttributeImage
 

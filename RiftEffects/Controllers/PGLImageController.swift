@@ -29,7 +29,7 @@ enum SliderColor: Int {
 }
 
 let  PGLCurrentFilterChange = NSNotification.Name(rawValue: "PGLCurrentFilterChangeNotification")
-let  PGLOutputImageChange = NSNotification.Name(rawValue: "PGLOutputImageChange")
+//let  PGLOutputImageChange = NSNotification.Name(rawValue: "PGLOutputImageChange")
 let  PGLUserAlertNotice = NSNotification.Name(rawValue: "PGLUserAlertNotice")
 let  PGLUpdateLibraryMenu = NSNotification.Name(rawValue: "PGLUpdateLibraryMenu")
 let PGLHideParmUIControls = NSNotification.Name(rawValue: "PGLHideParmUIControls")
@@ -47,7 +47,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 // MARK: Property vars
 
     static var LibraryMenuIdentifier = UIAction.Identifier("Library")
-    var filterValuesHaveChanged = false
+//    var filterValuesHaveChanged = false
 
     var videoPreviewViewBounds = CGRect.init()
     var myScale: CGFloat = 1.0
@@ -551,7 +551,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLCurrentFilterChange")
-            self.filterValuesHaveChanged = true
+//            self.filterValuesHaveChanged = true
             if !self.keepParmSlidersVisible {
                 self.hideParmControls()
 
@@ -563,24 +563,24 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
         notifications.append(aNotification)
 
-        aNotification = myCenter.addObserver(forName: PGLOutputImageChange, object: nil , queue: queue) { [weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                                     // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLOutputImageChange")
-            self.filterValuesHaveChanged = true
-            //            self.hideParmControls()
-            //this causes parm controls to disseapear during imageUpdate.. at 60 fps.. not good :)
-
-        }
-        notifications.append(aNotification)
+//        aNotification = myCenter.addObserver(forName: PGLOutputImageChange, object: nil , queue: queue) { [weak self]
+//            myUpdate in
+//            guard let self = self else { return } // a released object sometimes receives the notification
+//                                     // the guard is based upon the apple sample app 'Conference-Diffable'
+//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLOutputImageChange")
+//            self.filterValuesHaveChanged = true
+//            //            self.hideParmControls()
+//            //this causes parm controls to disseapear during imageUpdate.. at 60 fps.. not good :)
+//
+//        }
+//        notifications.append(aNotification)
 
         aNotification = myCenter.addObserver(forName: PGLAttributeAnimationChange , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLAttributeAnimationChange")
-            self.filterValuesHaveChanged = true
+//            self.filterValuesHaveChanged = true
 
         }
         notifications.append(aNotification)
@@ -691,7 +691,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
 
 
-        filterValuesHaveChanged = true
+//        filterValuesHaveChanged = true
 //        updateDisplay()
 
 
