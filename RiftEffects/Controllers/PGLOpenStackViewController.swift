@@ -418,7 +418,8 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             let stackNotification = Notification(name:PGLLoadedDataStack)
             NotificationCenter.default.post(stackNotification)
             let filterNotification = Notification(name: PGLCurrentFilterChange) // turns on the filter cell detailDisclosure button even on cancels
-            NotificationCenter.default.post(filterNotification)
+//            NotificationCenter.default.post(filterNotification)
+            NotificationCenter.default.post(name: filterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
             
         }
     } // end internal class DataSource

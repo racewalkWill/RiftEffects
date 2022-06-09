@@ -24,7 +24,7 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
        return  myAppDelegate.appStack
     }
 
-    var notifications = [Any]() // an opaque type is returned from addObservor
+    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
 
 
         // MARK:  UIFontPickerViewControllerDelegate
@@ -115,7 +115,7 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
         }
 
         }
-        notifications.append(textNotifier)
+        notifications[UITextField.textDidChangeNotification] = textNotifier
         // this notification is removed with all the notifications in viewWillDisappear
 
     }

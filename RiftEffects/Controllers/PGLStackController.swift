@@ -55,7 +55,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-
+            if  !self.isBeingPresented {
+                return
+            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLCurrentFilterChange")
 
             self.updateDisplay()
@@ -65,8 +67,12 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) { [weak self]
             myUpdate in
             Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLStackChange")
+
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            if  !self.isBeingPresented {
+                return
+            }
             self.appStack = myAppDelegate.appStack
             self.updateDisplay()
         }
@@ -76,6 +82,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock PGLSelectActiveStackRow")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+            if  !self.isBeingPresented {
+                return
+            }
             self.selectActiveFilterRow()
         }
 
@@ -527,8 +536,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     }
 
     fileprivate func postFilterNavigationChange() {
-        let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
-        NotificationCenter.default.post(updateFilterNotification)
+        postCurrentFilterChange()  // should only have one sender
+
     }
 
     func postPGLHideParmUIControls(){
@@ -538,7 +547,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
     func postCurrentFilterChange() {
         let updateFilterNotification = Notification(name: PGLCurrentFilterChange)
-        NotificationCenter.default.post(updateFilterNotification)
+
+        NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
     }
 
     //PGLSelectActiveStackRow

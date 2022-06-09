@@ -233,7 +233,7 @@ class PGLSelectParmController: PGLCommonController,
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLCurrentFilterChange")
                     self.updateDisplay()
                 }
-        notifications.append(aNotification)
+        notifications[PGLCurrentFilterChange] = aNotification
 
         aNotification = myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
             myUpdate in
@@ -244,7 +244,7 @@ class PGLSelectParmController: PGLCommonController,
 
         }
         
-        notifications.append(aNotification)
+        notifications[PGLLoadedDataStack] = aNotification
 
                 //PGLAttributeAnimationChange
               aNotification =  myCenter.addObserver(forName: PGLAttributeAnimationChange, object: nil, queue: queue) { [weak self]
@@ -265,7 +265,7 @@ class PGLSelectParmController: PGLCommonController,
                         }
                     }
                 }
-            notifications.append(aNotification)
+            notifications[PGLAttributeAnimationChange] = aNotification
 
         aNotification = myCenter.addObserver(forName: PGLReloadParmCell, object: nil , queue: queue) {[weak self]
             myUpdate in
@@ -278,7 +278,7 @@ class PGLSelectParmController: PGLCommonController,
                     }
             }
         }
-        notifications.append(aNotification)
+        notifications[PGLReloadParmCell] = aNotification
 
         updateDisplay()
         setChevronState()
@@ -309,10 +309,10 @@ class PGLSelectParmController: PGLCommonController,
             // manipulation of the parm values with a slider or point.
 
         }
-        for anObserver in  notifications {
-                       NotificationCenter.default.removeObserver(anObserver)
+        for (name , observer) in  notifications {
+                       NotificationCenter.default.removeObserver(observer, name: name, object: nil)
                    }
-        notifications = [Any]() // reset
+        notifications = [:] // reset
         navigationController?.isToolbarHidden = false
 
     }
@@ -527,7 +527,8 @@ class PGLSelectParmController: PGLCommonController,
     // MARK: ImageController actions
     fileprivate func postCurrentFilterChange() {
         let updateFilterNotification = Notification(name: PGLCurrentFilterChange)
-        NotificationCenter.default.post(updateFilterNotification)
+//        NotificationCenter.default.post(updateFilterNotification)
+        NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
     }
 
 //    func panEnded( endingPoint: CGPoint, parm: PGLFilterAttribute) {

@@ -31,6 +31,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
 
     var matchFilters = [PGLFilterDescriptor]()
 
+    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
 
     let frequentCategoryPath = IndexPath(row:0,section: 0)
 
@@ -85,7 +86,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
                            forHeaderFooterViewReuseIdentifier: "HeaderRenderer")
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
-       myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
+      let aNotification =  myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
             myUpdate in
            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterTableController  notificationBlock PGLLoadedDataStack")
             guard let self = self else { return } // a released object sometimes receives the notification
@@ -93,6 +94,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
             self.navigationController?.popViewController(animated: true)
 
         }
+        notifications[PGLLoadedDataStack] = aNotification
 
  
     }
@@ -102,8 +104,11 @@ override func viewDidDisappear(_ animated: Bool) {
     super .viewDidDisappear(animated)
     Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController #viewDidDisappear removing notification observor")
 
-//    NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange, object: self)
-   NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)
+    for (name , observer) in  notifications {
+                   NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+
+               }
+    notifications = [:] // reset
 }
 
 // MARK: SplitView
@@ -367,7 +372,8 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
  func postCurrentFilterChange() {
     let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
-    NotificationCenter.default.post(updateFilterNotification)
+
+     NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
 }
 
     // MARK: unwind segue code. Triggered from PGLSelectParm

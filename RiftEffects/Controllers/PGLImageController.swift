@@ -47,7 +47,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 // MARK: Property vars
 
     static var LibraryMenuIdentifier = UIAction.Identifier("Library")
-//    var filterValuesHaveChanged = false
+//
 
     var videoPreviewViewBounds = CGRect.init()
     var myScale: CGFloat = 1.0
@@ -371,7 +371,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     fileprivate func postCurrentFilterChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
-        NotificationCenter.default.post(updateFilterNotification)
+        NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
     }
 
     func postStackChange() {
@@ -513,6 +513,148 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         moreBtn.menu = contextMenu
     }
 
+    fileprivate func registerImageControllerNotifications() {
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+
+        var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackChange")
+
+
+            self.updateNavigationBar()
+            if !self.keepParmSlidersVisible {
+                self.hideParmControls()
+            }
+            self.view.isHidden = true
+                // makes the image go blank after the trash button loads a new stack.
+                // set visible again when new images are selected
+
+        }
+        notifications[PGLStackChange] = aNotification
+
+        aNotification =  myCenter.addObserver(forName: PGLCurrentFilterChange , object: nil , queue: queue) { [weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLCurrentFilterChange")
+                //            self.filterValuesHaveChanged = true
+
+            if !self.keepParmSlidersVisible {
+                self.hideParmControls()
+
+            }
+            if (self.view.isHidden ) {
+                self.view.isHidden = false }
+                // needed to refresh the view after the trash creates a new stack.
+
+        }
+        notifications[PGLCurrentFilterChange] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLAttributeAnimationChange , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLAttributeAnimationChange")
+                //            self.filterValuesHaveChanged = true
+
+        }
+        notifications[PGLAttributeAnimationChange] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
+            if let userDataDict = myUpdate.userInfo {
+                if let anAlertController = userDataDict["alertController"] as? UIAlertController {
+                    self.displayUser(alert: anAlertController)
+                }
+            }
+        }
+        notifications[PGLUserAlertNotice] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackSaveNotification")
+            if let userDataDict = myUpdate.userInfo {
+                if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
+                        // put the new names into the stack
+                    guard let targetStack = self.appStack.firstStack()
+                    else { return }
+                    targetStack.stackName = userValues.stackName!
+                    targetStack.stackType = userValues.stackType!
+                    targetStack.exportAlbumName = userValues.albumName
+                    targetStack.shouldExportToPhotos = userValues.storeToPhoto
+                        //                    DispatchQueue.main.async {
+                        //                        NSLog("PGLImageController notification PGLStackSaveNotification start in main sync ")
+                    self.saveStack(newSaveAs: userValues.shouldSaveAs)
+                        // save stack will create a utility queue to execute.. but should not
+                        // kill the utility queue process when this notification callback process ends.
+                        //                    }
+                    self.updateLibraryMenu()
+                    self.updateNavigationBar()
+
+
+                }
+            }
+        }
+        notifications[PGLStackSaveNotification] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
+            self.updateLibraryMenu()
+
+        }
+        notifications[PGLUpdateLibraryMenu] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLImageCollectionOpen")
+            if (self.view.isHidden)
+            {self.view.isHidden = false }
+                // needed to refresh the view after the trash creates a new stack.
+            if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
+                self.doImageCollectionOpen(assetInfo: assetInfo) }
+        }
+        notifications[PGLImageCollectionOpen] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
+            myUpdate in
+            guard let self = self else { return }
+            if  !self.isBeingPresented {
+                return
+            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideParmUIControls")
+            self.hideParmControls()
+        }
+        notifications[PGLHideParmUIControls] = aNotification
+    }
+
     override func viewDidLoad() {
         // conversion to Metal based on Core Image Programming Guide
         // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreImaging/ci_tasks/ci_tasks.html#//apple_ref/doc/uid/TP30001185-CH3-SW5
@@ -523,137 +665,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //        and the view assigned in the setter of effectView var
 
         filterStack = { self.appStack.outputFilterStack() }
-
-
-        let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-
-        var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackChange")
-
-
-            self.updateNavigationBar()
-            if !self.keepParmSlidersVisible {
-                self.hideParmControls()
-            }
-            self.view.isHidden = true
-            // makes the image go blank after the trash button loads a new stack.
-            // set visible again when new images are selected
-
-        }
-        notifications.append(aNotification)
-
-        aNotification =  myCenter.addObserver(forName: PGLCurrentFilterChange , object: nil , queue: queue) { [weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLCurrentFilterChange")
-//            self.filterValuesHaveChanged = true
-            if !self.keepParmSlidersVisible {
-                self.hideParmControls()
-
-            }
-            if (self.view.isHidden ) {
-                    self.view.isHidden = false }
-                       // needed to refresh the view after the trash creates a new stack.
-
-        }
-        notifications.append(aNotification)
-
-//        aNotification = myCenter.addObserver(forName: PGLOutputImageChange, object: nil , queue: queue) { [weak self]
-//            myUpdate in
-//            guard let self = self else { return } // a released object sometimes receives the notification
-//                                     // the guard is based upon the apple sample app 'Conference-Diffable'
-//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLOutputImageChange")
-//            self.filterValuesHaveChanged = true
-//            //            self.hideParmControls()
-//            //this causes parm controls to disseapear during imageUpdate.. at 60 fps.. not good :)
-//
-//        }
-//        notifications.append(aNotification)
-
-        aNotification = myCenter.addObserver(forName: PGLAttributeAnimationChange , object: nil , queue: queue) { [weak self ]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLAttributeAnimationChange")
-//            self.filterValuesHaveChanged = true
-
-        }
-        notifications.append(aNotification)
-
-        aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
-            if let userDataDict = myUpdate.userInfo {
-                if let anAlertController = userDataDict["alertController"] as? UIAlertController {
-                    self.displayUser(alert: anAlertController)
-                }
-            }
-        }
-        notifications.append(aNotification)
-
-        aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
-            myUpdate in
-            guard let self = self else { return}
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackSaveNotification")
-            if let userDataDict = myUpdate.userInfo {
-                if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
-                    // put the new names into the stack
-                    guard let targetStack = self.appStack.firstStack()
-                        else { return }
-                    targetStack.stackName = userValues.stackName!
-                    targetStack.stackType = userValues.stackType!
-                    targetStack.exportAlbumName = userValues.albumName
-                    targetStack.shouldExportToPhotos = userValues.storeToPhoto
-//                    DispatchQueue.main.async {
-//                        NSLog("PGLImageController notification PGLStackSaveNotification start in main sync ")
-                        self.saveStack(newSaveAs: userValues.shouldSaveAs)
-                        // save stack will create a utility queue to execute.. but should not
-                        // kill the utility queue process when this notification callback process ends.
-//                    }
-                    self.updateLibraryMenu()
-                    self.updateNavigationBar()
-
-
-                }
-            }
-        }
-        notifications.append(aNotification)
-
-        aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
-            myUpdate in
-            guard let self = self else { return}
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
-            self.updateLibraryMenu()
-
-        }
-        notifications.append(aNotification)
-
-        aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
-        myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLImageCollectionOpen")
-            if (self.view.isHidden)
-                {self.view.isHidden = false }
-                // needed to refresh the view after the trash creates a new stack.
-            if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
-                self.doImageCollectionOpen(assetInfo: assetInfo) }
-        }
-        notifications.append(aNotification)
-
-        aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
-            myUpdate in
-            guard let self = self else { return }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideParmUIControls")
-            self.hideParmControls()
-        }
-        notifications.append(aNotification)
 
         if let myMetalControllerView = storyboard!.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController {
             // does the metalView extend under the navigation bar?? change constraints???
@@ -687,13 +698,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             }
 
         }
-
-
-
-
-//        filterValuesHaveChanged = true
-//        updateDisplay()
-
+        registerImageControllerNotifications()
 
         tintViews.append(contentsOf: [topTintView, bottomTintView, leftTintView, rightTintView])
 
@@ -711,7 +716,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
          appStack.isImageControllerOpen = true
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
     }
 
@@ -720,11 +727,16 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         removeGestureRecogniziers()
         super.viewDidDisappear(animated)
 
-        for anObserver in  notifications {
-                       NotificationCenter.default.removeObserver(anObserver)
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+        for (name , observer) in  notifications {
+                       NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+
                    }
-        notifications = [Any]() // reset
+        notifications = [:] // reset
     }
+
+
 
     func updateLibraryMenu() {
         // from open stack delete command or the saveActionBtns
