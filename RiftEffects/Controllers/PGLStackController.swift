@@ -535,7 +535,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         setNeedsStatusBarAppearanceUpdate()
     }
 
-    fileprivate func postFilterNavigationChange() {
+    func postFilterNavigationChange() {
         postCurrentFilterChange()  // should only have one sender
 
     }

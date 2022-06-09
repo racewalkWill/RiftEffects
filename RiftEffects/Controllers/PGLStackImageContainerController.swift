@@ -35,6 +35,8 @@ class PGLStackImageContainerController: UIViewController {
     
     @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {
 
+        containerStackController?.appStack.setFilterChangeModeToAdd()
+        containerStackController?.postFilterNavigationChange()
         performSegue(withIdentifier: "showFilterImageContainer", sender: self)
         // chooses new filter
 
