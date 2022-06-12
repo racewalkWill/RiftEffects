@@ -521,7 +521,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackChange")
@@ -542,7 +542,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLCurrentFilterChange")
@@ -572,7 +572,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
@@ -587,7 +587,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackSaveNotification")
@@ -618,7 +618,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
@@ -631,7 +631,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLImageCollectionOpen")
@@ -646,7 +646,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in
             guard let self = self else { return }
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideParmUIControls")

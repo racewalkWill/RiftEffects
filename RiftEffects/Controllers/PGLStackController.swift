@@ -55,7 +55,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLCurrentFilterChange")
@@ -70,7 +70,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             self.appStack = myAppDelegate.appStack
@@ -82,7 +82,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock PGLSelectActiveStackRow")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  !self.isBeingPresented {
+            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
                 return
             }
             self.selectActiveFilterRow()
