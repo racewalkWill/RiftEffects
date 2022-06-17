@@ -8,14 +8,23 @@
 
 import UIKit
 import os
-class PGLNavStackImageController: UINavigationController {
+class PGLNavStackImageController: UINavigationController, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // Do any additional setup after loading the view.
+        delegate = self
+        
     }
+   func navigationController(_ navigationController: UINavigationController,
+                             willShow viewController: UIViewController,
+                             animated: Bool) {
+       Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+       Logger(subsystem: LogSubsystem, category: LogNavigation).info("    willShow \(viewController) " )
+
+   }
     
 
     /*

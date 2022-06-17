@@ -516,7 +516,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     fileprivate func registerImageControllerNotifications() {
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        
         var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
@@ -730,6 +731,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
         for (name , observer) in  notifications {
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
                        NotificationCenter.default.removeObserver(observer, name: name, object: nil)
 
                    }

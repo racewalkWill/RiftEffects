@@ -115,6 +115,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 //            let verticalSize = traitCollection.verticalSizeClass
 //            if verticalSize != .compact {
 //                self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
+
+            // does this cause two loads of PGLStackImageContainerController in the iPhone mode ??
+            // No.. still two loads without this showFilterController segue
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock emptyStack segue to filter controller")
             self.performSegue(withIdentifier: "showFilterController" , sender: nil)
         }
@@ -239,13 +242,15 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     }
 
     func setShiftBtnState() {
-        filterShiftBtn.isEnabled = (appStack.flatRowCount() > 1)
-        filterShiftImage.isEnabled = filterShiftBtn.isEnabled
-        setChevronState()
-        if (appStack.showFilterImage) {
-            filterShiftBtn.title  = StackDisplayMode.Single.rawValue
-        } else {
-            filterShiftBtn.title  = StackDisplayMode.All.rawValue
+        if filterShiftBtn != nil {
+            filterShiftBtn.isEnabled = (appStack.flatRowCount() > 1)
+            filterShiftImage.isEnabled = filterShiftBtn.isEnabled
+            setChevronState()
+            if (appStack.showFilterImage) {
+                filterShiftBtn.title  = StackDisplayMode.Single.rawValue
+            } else {
+                filterShiftBtn.title  = StackDisplayMode.All.rawValue
+            }
         }
 
     }
@@ -699,8 +704,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
         navigationItem.rightBarButtonItems = [editingItem]
 
+//        navigationController?.isToolbarHidden = false
         navigationController?.isToolbarHidden = false
-
 
     }
 

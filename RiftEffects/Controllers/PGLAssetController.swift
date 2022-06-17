@@ -117,13 +117,13 @@ class PGLAssetController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-           for anObserver in  notifications {
-               NotificationCenter.default.removeObserver(anObserver)
-           }
-           notifications = [Any]() // reset
-//           NSLog("PGLImagesSelectContainer #viewDidDisappear ...")
-            navigationController?.isToolbarHidden = true
+        super.viewWillDisappear(animated)
+       for anObserver in  notifications {
+           NotificationCenter.default.removeObserver(anObserver)
+       }
+       notifications = [Any]() // reset
+        navigationController?.isToolbarHidden = true
+
         removeSwipe()
     }
 

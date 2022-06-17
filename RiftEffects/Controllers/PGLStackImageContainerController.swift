@@ -18,8 +18,7 @@ class PGLStackImageContainerController: UIViewController {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // Do any additional setup after loading the view.
 
-        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
-        super.viewDidLoad()
+
         if let indexImage = self.children.firstIndex(where: { $0 is PGLCompactImageController }) {
             containerImageController = self.children[indexImage] as? PGLCompactImageController
         }

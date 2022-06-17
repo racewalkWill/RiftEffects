@@ -313,7 +313,7 @@ class PGLSelectParmController: PGLCommonController,
                        NotificationCenter.default.removeObserver(observer, name: name, object: nil)
                    }
         notifications = [:] // reset
-        navigationController?.isToolbarHidden = false
+//        navigationController?.isToolbarHidden = false
 
     }
 
@@ -1298,7 +1298,7 @@ class PGLSelectParmController: PGLCommonController,
             // ipad three column
             splitViewController?.show(.secondary)  }
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
-
+        
         // clean up.. do not keep  ref to the picker
         picker.delegate = nil
 

@@ -185,7 +185,6 @@ class PGLMainFilterController: PGLFilterTableController {
 //           navigationItem.hidesSearchBarWhenScrolling = (mode == .Grouped) // flat mode searches
            navigationController?.isToolbarHidden = false
 
-
            searchController.hidesNavigationBarDuringPresentation = false
 
 
