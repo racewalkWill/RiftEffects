@@ -58,9 +58,12 @@ class PGLMainFilterController: PGLFilterTableController {
 
     @IBAction func searchModeAction(_ sender: Any) {
         // set mode to flat and show search controller
+
         searchController.isActive = true
         mode = .Flat
-        modeToolBarBtn.image = ABCSymbol
+        if let theSearchModeBtn = sender as? UIBarButtonItem {
+            theSearchModeBtn.image = ABCSymbol
+        }
         navigationItem.hidesSearchBarWhenScrolling = false
         didPresentSearchController( searchController)
     }
@@ -76,11 +79,11 @@ class PGLMainFilterController: PGLFilterTableController {
         if mode == .Flat {
             mode = .Grouped
 //            hideSearchBar()
-            modeToolBarBtn.image = GroupSymbol
+            sender.image = GroupSymbol
         } else {
             // mode is Grouped so change
             mode = .Flat // change mode
-            modeToolBarBtn.image = ABCSymbol
+            sender.image = ABCSymbol
 
         }
 
@@ -128,8 +131,9 @@ class PGLMainFilterController: PGLFilterTableController {
                 // tableView.reloadRows(at: [frequentCategoryPath], with: .automatic)
                 // frequent category is first
              tableView.reloadSections(IndexSet(integer: 0), with: UITableView.RowAnimation.automatic)
-            frequentBtnAction(addToFrequentBtn) // so the frequent cateogry is shown
-
+            if let theFrequentBtn = sender as? UIBarButtonItem {
+                frequentBtnAction(theFrequentBtn) // so the frequent cateogry is shown
+            }
         }
 
     }

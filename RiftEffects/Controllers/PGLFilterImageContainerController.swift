@@ -70,8 +70,40 @@ class PGLFilterImageContainerController: UIViewController {
         
     }
     @IBOutlet weak var randomBtn: UIBarButtonItem!
+
+        //MARK: Toolbar buttons actions
+    @IBAction func modeToolBarBtn(_ sender: UIBarButtonItem) {
+        containerFilterController?.groupModeAction(sender)
+    }
+
+    @IBOutlet weak var modeToolBarBtn: UIBarButtonItem!
+
+    @IBAction func searchToolBarBtn(_ sender: UIBarButtonItem) {
+        containerFilterController?.searchModeAction(sender)
+    }
+
+    @IBOutlet weak var searchBarBtn: UIBarButtonItem!
+
+    @IBAction func addToFrequentBtn(_ sender: UIBarButtonItem) {
+        containerFilterController?.addToFrequentAction(sender)
+
+    }
+    @IBOutlet weak var addToFrequentBtn: UIBarButtonItem!
     
-    // MARK: Menu
+    @IBAction func bookMarkRemoveBtn(_ sender: UIBarButtonItem) {
+        containerFilterController?.bookmarkRemoveAction(sender)
+
+    }
+
+    @IBOutlet weak var bookMarkRemoveBtn: UIBarButtonItem!
+    
+    @IBAction func frequentBtnAction(_ sender: UIBarButtonItem) {
+        containerFilterController?.frequentBtnAction(sender)
+    }
+
+    @IBOutlet weak var frequentBtn: UIBarButtonItem!
+
+        // MARK: Menu
     func setMoreBtnMenu() {
             //      if traitCollection.userInterfaceIdiom == .phone {
         let libraryMenu = UIAction.init(title: "Library..", image: UIImage(systemName: "folder"), identifier: PGLImageController.LibraryMenuIdentifier, discoverabilityTitle: "Library", attributes: [], state: UIMenuElement.State.off) {
