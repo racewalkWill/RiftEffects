@@ -15,9 +15,16 @@ class PGLFilterImageContainerController: UIViewController {
     var containerImageController: PGLCompactImageController?
     var containerFilterController: PGLMainFilterController?
 
+        // an opaque type is returned from addObservor
+    var notifications: [NSNotification.Name : Any] = [:]
+
+
     override func viewDidLoad() {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+
         if let indexImage = self.children.firstIndex(where: { $0 is PGLCompactImageController }) {
             containerImageController = self.children[indexImage] as? PGLCompactImageController
         }
@@ -26,10 +33,32 @@ class PGLFilterImageContainerController: UIViewController {
         }
 
         setMoreBtnMenu()
-
+        containerFilterController?.groupModeAction(modeToolBarBtn)
         navigationItem.title = "Filters"//viewerStack.stackName
 
-        // Do any additional setup after loading the view.
+       var aNotification = myCenter.addObserver(forName: PGLFilterBookMarksModeChange, object: nil , queue: queue) {[weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterImageContainerController  notificationBlock PGLFilterBookMarksModeChange")
+           if let theIndex = myUpdate.userInfo?["indexSectionValue"] as? Int {
+               self.setBookmarksGroupMode(indexSection: theIndex )
+           }
+        }
+        notifications[PGLFilterBookMarksModeChange] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLFilterBookMarksSetFlat, object: nil , queue: queue) {[weak self]
+             myUpdate in
+             guard let self = self else { return } // a released object sometimes receives the notification
+           
+             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterImageContainerController  notificationBlock PGLFilterBookMarksSetFlat")
+
+            self.setBookmarksFlatMode()
+
+         }
+         notifications[PGLFilterBookMarksModeChange] = aNotification
+
+
     }
 
 
@@ -103,6 +132,21 @@ class PGLFilterImageContainerController: UIViewController {
 
     @IBOutlet weak var frequentBtn: UIBarButtonItem!
 
+    func setBookmarksGroupMode(indexSection: Int) {
+         if indexSection == 0 {
+             // frequent bookmarks section is section 0
+             bookMarkRemoveBtn.isEnabled = true
+             addToFrequentBtn.isEnabled = false
+         } else {
+             bookMarkRemoveBtn.isEnabled = false
+             addToFrequentBtn.isEnabled = true
+         }
+     }
+
+     func setBookmarksFlatMode() {
+         bookMarkRemoveBtn.isEnabled = false
+         addToFrequentBtn.isEnabled = true
+     }
         // MARK: Menu
     func setMoreBtnMenu() {
             //      if traitCollection.userInterfaceIdiom == .phone {

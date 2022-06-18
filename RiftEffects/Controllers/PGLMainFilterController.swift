@@ -9,6 +9,10 @@
 import UIKit
 import os
 
+let PGLFilterBookMarksModeChange = NSNotification.Name(rawValue: "PGLFilterBookMarksModeChange")
+
+let PGLFilterBookMarksSetFlat = NSNotification.Name(rawValue: "PGLFilterBookMarksSetFlat")
+
 class PGLMainFilterController: PGLFilterTableController {
 
     // MARK: - Types
@@ -128,8 +132,7 @@ class PGLMainFilterController: PGLFilterTableController {
     @IBAction func bookmarkRemoveAction(_ sender: Any) {
         if let theDescriptor = selectedFilterDescriptor(inTable: tableView) {
             categories.first?.removeDescriptor(theDescriptor)
-                // tableView.reloadRows(at: [frequentCategoryPath], with: .automatic)
-                // frequent category is first
+
              tableView.reloadSections(IndexSet(integer: 0), with: UITableView.RowAnimation.automatic)
             if let theFrequentBtn = sender as? UIBarButtonItem {
                 frequentBtnAction(theFrequentBtn) // so the frequent cateogry is shown
@@ -258,6 +261,14 @@ class PGLMainFilterController: PGLFilterTableController {
     }
 
    func setBookmarksGroupMode(indexSection: Int) {
+       if (splitViewController?.isCollapsed ?? false) {
+           // parent container PGLFilterImageContainerController has the toolbar with the mode buttons
+           let bookmarkModeNotification = Notification(name:PGLFilterBookMarksModeChange)
+           NotificationCenter.default.post(name: bookmarkModeNotification.name, object: nil, userInfo:  ["indexSectionValue": indexSection as Any])
+           return
+           // PGLFilterImageContainerController will set buttons on its toolbar
+       }
+
         if indexSection == 0 {
             // frequent bookmarks section is section 0
             bookmarkRemove.isEnabled = true
@@ -269,6 +280,13 @@ class PGLMainFilterController: PGLFilterTableController {
     }
 
     func setBookmarksFlatMode() {
+        if (splitViewController?.isCollapsed ?? false) {
+            // parent container PGLFilterImageContainerController has the toolbar with the mode buttons
+            let bookmarkModeNotification = Notification(name:PGLFilterBookMarksSetFlat)
+            NotificationCenter.default.post(bookmarkModeNotification)
+            return
+            // PGLFilterImageContainerController will set buttons on its toolbar
+        }
         bookmarkRemove.isEnabled = false
         addToFrequentBtn.isEnabled = true
     }
