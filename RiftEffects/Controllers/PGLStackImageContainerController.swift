@@ -31,7 +31,7 @@ class PGLStackImageContainerController: UIViewController {
         navigationItem.title = "Effects"//viewerStack.stackName
 
     }
-    
+
     @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {
 
         containerStackController?.appStack.setFilterChangeModeToAdd()
@@ -49,6 +49,7 @@ class PGLStackImageContainerController: UIViewController {
 
     @IBAction func randomBtnClick(_ sender: UIBarButtonItem) {
         containerImageController?.randomBtnAction(sender)
+        containerStackController?.updateDisplay()
     }
 
     @IBOutlet weak var moreBtn: UIBarButtonItem!

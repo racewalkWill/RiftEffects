@@ -522,10 +522,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackChange")
+//            if  (!self.isBeingPresented)  {
+                // && (self.splitViewController?.isCollapsed ?? false)
+//                return
+//            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackChange") ")
 
 
             self.updateNavigationBar()
@@ -543,10 +544,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLCurrentFilterChange")
+//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+//                return
+//            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "notificationBlock PGLCurrentFilterChange") " )
                 //            self.filterValuesHaveChanged = true
 
             if !self.keepParmSlidersVisible {
@@ -573,9 +574,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
+//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+//                return
+//            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
             if let userDataDict = myUpdate.userInfo {
                 if let anAlertController = userDataDict["alertController"] as? UIAlertController {
@@ -588,10 +589,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLStackSaveNotification")
+//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+//                return
+//            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackSaveNotification") ")
             if let userDataDict = myUpdate.userInfo {
                 if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
                         // put the new names into the stack
@@ -619,9 +620,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
+//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+//                return
+//            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
             self.updateLibraryMenu()
 
@@ -632,10 +633,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLImageCollectionOpen")
+//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+//                return
+//            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLImageCollectionOpen")" )
             if (self.view.isHidden)
             {self.view.isHidden = false }
                 // needed to refresh the view after the trash creates a new stack.
@@ -647,10 +648,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in
             guard let self = self else { return }
-            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-                return
-            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideParmUIControls")
+//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+//                return
+//            }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLHideParmUIControls") " )
             self.hideParmControls()
         }
         notifications[PGLHideParmUIControls] = aNotification
@@ -768,10 +769,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     func hideParmControls() {
 
-        hideSliders()
-        panner?.isEnabled = false
-        hideViewControls()
-        parmSlider?.isHidden = true
 
     }
 
@@ -924,7 +921,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                         hideRectControl()
                 }
             }
-        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController hideViewControls completed")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
+
         }
     }
 

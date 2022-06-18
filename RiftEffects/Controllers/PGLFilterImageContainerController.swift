@@ -50,7 +50,7 @@ class PGLFilterImageContainerController: UIViewController {
         aNotification = myCenter.addObserver(forName: PGLFilterBookMarksSetFlat, object: nil , queue: queue) {[weak self]
              myUpdate in
              guard let self = self else { return } // a released object sometimes receives the notification
-           
+
              Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterImageContainerController  notificationBlock PGLFilterBookMarksSetFlat")
 
             self.setBookmarksFlatMode()
