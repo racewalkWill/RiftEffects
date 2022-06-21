@@ -90,42 +90,28 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         }
 
         configureNavigationItem()
-        navigationController?.isToolbarHidden = false
-
-        addToolBarButtons()
         updateNavigationBar()
         setLongPressGesture()
 
-        if traitCollection.userInterfaceIdiom == .phone {
-            postPGLHideParmUIControls()
+        if !(splitViewController?.isCollapsed ?? false) {
+            navigationController?.isToolbarHidden = false
+            addToolBarButtons(toController: self)
 
-        }
-        
-   // following is duplicate of the loading in the button segue
+            if traitCollection.userInterfaceIdiom == .phone {
+                postPGLHideParmUIControls()
+            }
 
-//        let showStackImageNotification = Notification(name:PGLShowStackImageContainer)
-//        NotificationCenter.default.post(showStackImageNotification)
-//        let didLoadStackImageContainer = pushStackImageContainer()
-//        if !didLoadStackImageContainer && appStack.outputStack.isEmptyStack() {
-
-        if appStack.outputStack.isEmptyStack() {
-                // just skip ahead to the filter controller since there is no filter now
-            // should this be run if inside the container ?
-            // should this be run if iPhone compact?
-
-//            let verticalSize = traitCollection.verticalSizeClass
-//            if verticalSize != .compact {
-//                self.performSegue(withIdentifier: "showFilterController" , sender: nil) }
-
-            // does this cause two loads of PGLStackImageContainerController in the iPhone mode ??
-            // No.. still two loads without this showFilterController segue
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock emptyStack segue to filter controller")
-            self.performSegue(withIdentifier: "showFilterController" , sender: nil)
+            if appStack.outputStack.isEmptyStack() {
+                    // just skip ahead to the filter controller since there is no filter now
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock emptyStack segue to filter controller")
+                self.performSegue(withIdentifier: "showFilterController" , sender: nil)
+            }
         }
 
     }
 
     func pushStackImageContainer() -> Bool {
+        // NOT called - Remove
 
         let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
                                 && (traitCollection.horizontalSizeClass == .compact)
@@ -203,7 +189,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     }
 
     // MARK: ToolBar
-    fileprivate func addToolBarButtons() {
+    func addToolBarButtons(toController: UIViewController) {
 
 
         let verticalSize = traitCollection.verticalSizeClass
@@ -225,8 +211,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         upChevronBtn.image = UIImage(systemName:"chevron.up")
         downChevronBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(downChevronAction))
         downChevronBtn.image = UIImage(systemName:"chevron.down")
-        toolBarSpacer = UIBarButtonItem.flexibleSpace()
-      setToolbarItems([filterShiftImage, filterShiftBtn,  toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
+        toolBarSpacer = UIBarButtonItem.fixedSpace(15.0)
+        toController.setToolbarItems([filterShiftImage, filterShiftBtn,  toolBarSpacer, upChevronBtn, downChevronBtn], animated: true)
         setShiftBtnState()
         setChevronState()
     }

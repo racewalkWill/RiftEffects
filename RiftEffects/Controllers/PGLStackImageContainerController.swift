@@ -18,19 +18,56 @@ class PGLStackImageContainerController: UIViewController {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // Do any additional setup after loading the view.
 
-
-        if let indexImage = self.children.firstIndex(where: { $0 is PGLCompactImageController }) {
-            containerImageController = self.children[indexImage] as? PGLCompactImageController
-        }
-        if let indexFilter = self.children.firstIndex(where: { $0 is PGLStackController }) {
-            containerStackController = self.children[indexFilter] as? PGLStackController
-        }
-
         setMoreBtnMenu() 
 
-        navigationItem.title = "Effects"//viewerStack.stackName
+        navigationItem.title = "Effects"  //viewerStack.stackName
+
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        containerStackController = storyboard.instantiateViewController(withIdentifier: "StackController") as? PGLStackController
+
+        containerImageController = storyboard.instantiateViewController(withIdentifier: "PGLImageController") as? PGLCompactImageController
+        if (containerImageController == nil) || (containerStackController == nil) {
+            return // give up no controller
+        }
+
+        addChild(containerImageController!)
+        addChild(containerStackController!)
+
+        guard let stackContainerView = containerStackController!.view else
+            {return     }
+        guard let imageContainerView = containerImageController!.view else
+            {return     }
+
+        stackContainerView.translatesAutoresizingMaskIntoConstraints = false
+        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(imageContainerView)
+        view.addSubview(stackContainerView)
+
+
+//        let spacer = -5.0
+        NSLayoutConstraint.activate([
+            imageContainerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3),
+                // width to height 4:3 ratio
+            stackContainerView.rightAnchor.constraint(equalTo:imageContainerView.leftAnchor, constant:  -30.0),
+//            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
+            stackContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            stackContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+//            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
+            ] )
+
+            // Notify the child view controller that the move is complete.
+        containerStackController?.didMove(toParent: self)
+        containerImageController?.didMove(toParent: self)
+
+        containerStackController?.addToolBarButtons(toController: self)
 
     }
+
 
     @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {
 

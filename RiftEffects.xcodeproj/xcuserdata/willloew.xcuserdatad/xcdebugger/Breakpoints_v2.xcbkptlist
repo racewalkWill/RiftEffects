@@ -172,7 +172,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F5571030-88D8-40B7-B666-34313278329A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
@@ -194,8 +194,8 @@
             filePath = "RiftEffects/Controllers/PGLStackController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "setShiftBtnState()"
             landmarkType = "7">
          </BreakpointContent>
@@ -274,8 +274,8 @@
             filePath = "RiftEffects/Controllers/PGLStackController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "708"
-            endingLineNumber = "708"
+            startingLineNumber = "694"
+            endingLineNumber = "694"
             landmarkName = "configureNavigationItem()"
             landmarkType = "7">
          </BreakpointContent>
@@ -373,6 +373,22 @@
             startingLineNumber = "525"
             endingLineNumber = "525"
             landmarkName = "registerImageControllerNotifications()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EFEA9892-A2C0-43D0-940D-DE38D1EA4C52"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/UI Support/Renderer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "mtkView(_:drawableSizeWillChange:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
