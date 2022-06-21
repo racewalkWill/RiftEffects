@@ -380,18 +380,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         NotificationCenter.default.post(stackNotification)
     }
 
-//@objc func updateDisplay() {
-//
-//
-//    }
+
 
 
 
     func doImageCollectionOpen(assetInfo: PGLAlbumSource) {
 
-//      if let theTop = navigationController?.topViewController {
-////        NSLog("PGLImageController #doImageCollectionOpen on \(theTop) ")
-//        }
         if appStack.isImageControllerOpen {
 
         performSegue(withIdentifier: "showCollection", sender: assetInfo)
@@ -670,32 +664,25 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         if let myMetalControllerView = storyboard!.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController {
             // does the metalView extend under the navigation bar?? change constraints???
-            myMetalControllerView.view.frame = self.view.bounds
-//            if (splitViewController?.isCollapsed ?? false ){
-//                // set 4:3 ratio from the height
-//                let myHeight = self.view.bounds.height
-//                let myWidth = myHeight * (4/3)
-//
-//                let mySize = CGSize(width: myWidth, height: myHeight)
-//                let leftSide = (self.view.bounds.width - myWidth) / 2
-//                let myOrigin = CGPoint(x: leftSide, y: 0.0)
-//
-//                let insetRect = CGRect(origin: myOrigin, size: mySize)
-//                myMetalControllerView.view.frame = insetRect
-//            } else  {
-//                myMetalControllerView.view.frame = self.view.bounds
-//            }
+//            myMetalControllerView.view.frame = self.view.bounds
 
-
-
+            addChild(myMetalControllerView)
                 // tried to use NSLayoutConstraint instead of setting the frame..
             if let theMetalView = myMetalControllerView.view {
-//                theMetalView.translatesAutoresizingMaskIntoConstraints = false
+               theMetalView.translatesAutoresizingMaskIntoConstraints = false
                 view.addSubview(theMetalView)
                 view.bringSubviewToFront(theMetalView)
                 metalController = myMetalControllerView  // hold the ref
+                NSLayoutConstraint.activate([
+                    theMetalView.topAnchor.constraint(equalTo: view.topAnchor),
+                    theMetalView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                    theMetalView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    theMetalView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                    theMetalView.widthAnchor.constraint(equalTo: view.heightAnchor , multiplier: 4/3),
+                ])
                 myScaleFactor = theMetalView.contentScaleFactor
                 myScaleTransform = CGAffineTransform(scaleX: myScaleFactor, y: myScaleFactor )
+                myMetalControllerView.didMove(toParent: self)
 
             }
 
