@@ -1065,33 +1065,7 @@
                     <view key="view" contentMode="scaleToFill" id="ufz-uZ-e8H">
                         <rect key="frame" x="0.0" y="0.0" width="844" height="390"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eP4-zi-ZUJ">
-                                <rect key="frame" x="60" y="32" width="279.33333333333331" height="337"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="eP4-zi-ZUJ" secondAttribute="height" multiplier="267:322" id="Dzb-nx-pna"/>
-                                </constraints>
-                                <connections>
-                                    <segue destination="VjG-Q1-3mN" kind="embed" identifier="embedParmController" id="0cv-0d-dNh"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5k-eg-9QB">
-                                <rect key="frame" x="347.33333333333326" y="32" width="436.66666666666674" height="337"/>
-                                <connections>
-                                    <segue destination="Cot-0o-SSg" kind="embed" identifier="embedImageController" id="aHq-rv-Ltt"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="m5k-eg-9QB" secondAttribute="trailing" constant="60" id="6cR-yW-gwR"/>
-                            <constraint firstItem="m5k-eg-9QB" firstAttribute="leading" secondItem="eP4-zi-ZUJ" secondAttribute="trailing" constant="8" symbolic="YES" id="6zT-14-4we"/>
-                            <constraint firstItem="eP4-zi-ZUJ" firstAttribute="leading" secondItem="ufz-uZ-e8H" secondAttribute="leading" constant="60" id="9H3-5e-R8c"/>
-                            <constraint firstItem="eP4-zi-ZUJ" firstAttribute="top" secondItem="ndb-SX-0cA" secondAttribute="bottom" id="LQH-Q5-flF"/>
-                            <constraint firstItem="m5k-eg-9QB" firstAttribute="top" secondItem="ndb-SX-0cA" secondAttribute="bottom" id="TQq-Zu-gKN"/>
-                            <constraint firstItem="LCb-0n-p2P" firstAttribute="top" secondItem="eP4-zi-ZUJ" secondAttribute="bottom" id="kat-fp-8F3"/>
-                            <constraint firstItem="LCb-0n-p2P" firstAttribute="top" secondItem="m5k-eg-9QB" secondAttribute="bottom" id="xFn-XH-MgC"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="giQ-op-HWu"/>
                 </viewController>
@@ -1111,21 +1085,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="844" height="390"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rqn-1e-2vU">
-                                <rect key="frame" x="375" y="0.0" width="409" height="369"/>
-                                <connections>
-                                    <segue destination="Cot-0o-SSg" kind="embed" identifier="embedImageController" id="6v8-JT-r5t"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U3M-Ur-d98">
-                                <rect key="frame" x="60" y="0.0" width="301" height="337"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="U3M-Ur-d98" secondAttribute="height" multiplier="137:161" id="bGu-QV-5fu"/>
-                                </constraints>
-                                <connections>
-                                    <segue destination="VNd-gL-KQM" kind="embed" identifier="embedMainFilterController" id="HqE-Mm-gGN"/>
-                                </connections>
-                            </containerView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
                                 <rect key="frame" x="0.0" y="346" width="844" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -1161,15 +1120,6 @@
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="rqn-1e-2vU" secondAttribute="trailing" constant="60" id="75K-sd-ve1"/>
-                            <constraint firstItem="rqn-1e-2vU" firstAttribute="leading" secondItem="U3M-Ur-d98" secondAttribute="trailing" constant="1" id="7gI-Sd-sZM"/>
-                            <constraint firstItem="j3d-oc-3aS" firstAttribute="top" secondItem="rqn-1e-2vU" secondAttribute="bottom" id="IuI-dj-1Dk"/>
-                            <constraint firstItem="U3M-Ur-d98" firstAttribute="top" secondItem="Kca-yX-rIM" secondAttribute="bottom" id="Tr6-Xt-MwK"/>
-                            <constraint firstItem="U3M-Ur-d98" firstAttribute="leading" secondItem="vua-Lu-kpo" secondAttribute="leading" constant="60" id="XE3-ai-zNj"/>
-                            <constraint firstItem="j3d-oc-3aS" firstAttribute="top" secondItem="U3M-Ur-d98" secondAttribute="bottom" id="Zi5-2L-q5G"/>
-                            <constraint firstItem="rqn-1e-2vU" firstAttribute="top" secondItem="Kca-yX-rIM" secondAttribute="bottom" id="hKd-nI-MEl"/>
-                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
@@ -1210,8 +1160,6 @@
                     <connections>
                         <outlet property="addToFrequentBtn" destination="pu0-0t-HEN" id="saH-js-mnh"/>
                         <outlet property="bookMarkRemoveBtn" destination="DXq-Td-7nf" id="roO-ky-HZu"/>
-                        <outlet property="embeddedFilterView" destination="U3M-Ur-d98" id="3kE-o3-nxu"/>
-                        <outlet property="embeddedImageView" destination="rqn-1e-2vU" id="ITb-Zi-asM"/>
                         <outlet property="frequentBtn" destination="Y7I-YH-mrh" id="OeF-yg-6p5"/>
                         <outlet property="modeToolBarBtn" destination="wgX-bj-pqm" id="Ket-mZ-9h0"/>
                         <outlet property="moreBtn" destination="HAf-fe-yaR" id="LdN-K3-I4g"/>
@@ -1222,7 +1170,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dWz-4E-TcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-761" y="1614"/>
+            <point key="canvasLocation" x="-527" y="1614"/>
         </scene>
         <!--Stack-->
         <scene sceneID="dfj-In-sbB">
@@ -1441,10 +1389,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="Q8R-MU-xpB"/>
         <segue reference="4FJ-we-3bf"/>
-        <segue reference="7je-js-ORP"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="HUk-NN-bR8"/>
-        <segue reference="Xyz-2Z-Q4q"/>
+        <segue reference="zWl-eA-30q"/>
+        <segue reference="q90-Vk-s0q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>

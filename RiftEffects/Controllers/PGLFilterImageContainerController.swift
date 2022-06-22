@@ -25,16 +25,56 @@ class PGLFilterImageContainerController: UIViewController {
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
 
-        if let indexImage = self.children.firstIndex(where: { $0 is PGLCompactImageController }) {
-            containerImageController = self.children[indexImage] as? PGLCompactImageController
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        containerFilterController = storyboard.instantiateViewController(withIdentifier: "FilterTable") as? PGLMainFilterController
+
+        containerImageController = storyboard.instantiateViewController(withIdentifier: "PGLImageController") as? PGLCompactImageController
+        if (containerImageController == nil) || (containerFilterController == nil) {
+            return // give up no controller
         }
-        if let indexFilter = self.children.firstIndex(where: { $0 is PGLMainFilterController }) {
-            containerFilterController = self.children[indexFilter] as? PGLMainFilterController
-        }
+
+        addChild(containerImageController!)
+        addChild(containerFilterController!)
+
+        guard let filterContainerView = containerFilterController!.view else
+            {return     }
+        guard let imageContainerView = containerImageController!.view else
+            {return     }
+
+        filterContainerView.translatesAutoresizingMaskIntoConstraints = false
+        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(imageContainerView)
+        view.addSubview(filterContainerView)
+
+//        let spacer = -5.0
+        NSLayoutConstraint.activate([
+            imageContainerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3),
+                // width to height 4:3 ratio
+            filterContainerView.rightAnchor.constraint(equalTo:imageContainerView.leftAnchor, constant:  -30.0),
+//            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
+            filterContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            filterContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30.0),
+                // -30 to make room for the bottom toolbar
+            filterContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+//            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
+            ] )
+
+            // Notify the child view controller that the move is complete.
+        containerFilterController?.didMove(toParent: self)
+        containerImageController?.didMove(toParent: self)
+
 
         setMoreBtnMenu()
         containerFilterController?.groupModeAction(modeToolBarBtn)
         navigationItem.title = "Filters"//viewerStack.stackName
+
+        navigationController?.isToolbarHidden = true
+        // should make the buttons on the filter controller toolbar visible
+        // because this controller isToolbarHidden
 
        var aNotification = myCenter.addObserver(forName: PGLFilterBookMarksModeChange, object: nil , queue: queue) {[weak self]
             myUpdate in
@@ -61,10 +101,6 @@ class PGLFilterImageContainerController: UIViewController {
 
     }
 
-
-    @IBOutlet weak var embeddedFilterView: UIView!
-
-    @IBOutlet weak var embeddedImageView: UIView!
 
     @IBAction func addFilterBtn(_ sender: UIBarButtonItem) {
         // Segue back to the stackController
@@ -204,21 +240,6 @@ class PGLFilterImageContainerController: UIViewController {
             let segueId = segue.identifier
 
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
-
-            switch segueId {
-                case "embedImageController" :
-
-                    guard let destination = segue.destination  as? PGLCompactImageController
-                        else { return  }
-                    containerImageController = destination
-
-                case "embedMainFilterController" :
-                    guard let parmDestination = segue.destination as? PGLMainFilterController
-                        else { return }
-                    containerFilterController = parmDestination
-
-                default: return
-            }
 
         }
 
