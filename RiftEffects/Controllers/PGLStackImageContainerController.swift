@@ -66,6 +66,9 @@ class PGLStackImageContainerController: UIViewController {
 
         containerStackController?.addToolBarButtons(toController: self)
 
+        configureNavigationItem()
+//        setNeedsStatusBarAppearanceUpdate()
+
     }
 
 
@@ -143,6 +146,46 @@ class PGLStackImageContainerController: UIViewController {
 
                                            ])
         moreBtn.menu = contextMenu
+    }
+
+    func configureNavigationItem() {
+
+
+        guard let stackTarget = containerStackController else {
+            return
+        }
+        var currentLeftButtons = navigationItem.leftBarButtonItems
+        guard let leftButtonCount = currentLeftButtons?.count
+        else { return }
+        switch leftButtonCount {
+            case 2:
+                let editingItem = UIBarButtonItem(title: stackTarget.tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+                currentLeftButtons?.append(editingItem)
+                navigationItem.leftBarButtonItems = currentLeftButtons
+
+                navigationController?.isToolbarHidden = false
+            case 3:
+                if (stackTarget.tableView.isEditing) {
+                    // change to "Done"
+                    currentLeftButtons?[2].title = "Done"
+                } else {
+                    currentLeftButtons?[2].title = "Edit"
+                }
+            default:
+                return
+        }
+    }
+
+    @objc
+    func toggleEditing() {
+        guard let myStackTarget = containerStackController else {
+            return
+        }
+        guard let myTableView = myStackTarget.tableView else {
+            return
+        }
+        myTableView.setEditing(!myTableView.isEditing, animated: true)
+        configureNavigationItem()
     }
 
     /*

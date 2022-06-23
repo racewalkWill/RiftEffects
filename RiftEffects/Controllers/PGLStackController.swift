@@ -687,12 +687,26 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
 
     func configureNavigationItem() {
-//        navigationItem.title = "UITableView: Editing"
-        let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
-        navigationItem.rightBarButtonItems = [editingItem]
+        var currentLeftButtons = navigationItem.leftBarButtonItems
+        guard let leftButtonCount = currentLeftButtons?.count
+        else { return }
+        switch leftButtonCount {
+            case 2:
+                let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+                currentLeftButtons?.append(editingItem)
+                navigationItem.leftBarButtonItems = currentLeftButtons
 
-//        navigationController?.isToolbarHidden = false
-        navigationController?.isToolbarHidden = false
+                navigationController?.isToolbarHidden = false
+            case 3:
+                if (tableView.isEditing) {
+                    // change to "Done"
+                    currentLeftButtons?[2].title = "Done"
+                } else {
+                    currentLeftButtons?[2].title = "Edit"
+                }
+            default:
+                return
+        }
 
     }
 
