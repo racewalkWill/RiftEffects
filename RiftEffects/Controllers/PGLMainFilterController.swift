@@ -332,8 +332,9 @@ class PGLMainFilterController: PGLFilterTableController {
         // assumes that didSelectRow has run to set the filterPick into the appStack
         //  therefore indexPath is not used.
 
-        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
-                                && (traitCollection.horizontalSizeClass == .compact)
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+        let iPhoneCompact =  splitViewController?.isCollapsed ?? false
 
         if iPhoneCompact {
            if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLParmImageController") as? PGLParmImageController

@@ -46,7 +46,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
          self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+
 
 
         let myCenter =  NotificationCenter.default
@@ -89,7 +89,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             self.selectActiveFilterRow()
         }
 
-        configureNavigationItem()
+        setUpdateEditButton()
         updateNavigationBar()
         setLongPressGesture()
 
@@ -191,14 +191,6 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     // MARK: ToolBar
     func addToolBarButtons(toController: UIViewController) {
 
-
-        let verticalSize = traitCollection.verticalSizeClass
-        if verticalSize != .compact {
-            var theButtons = navigationItem.leftBarButtonItems
-            theButtons?.removeLast(1)  // removes the openImageController button
-            navigationItem.setLeftBarButtonItems(theButtons, animated: false)
-
-        }
 
         filterShiftBtn = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
         filterShiftImage = UIBarButtonItem(title: "", style: .plain, target: self , action: #selector(singleFilterOutput))
@@ -379,9 +371,9 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         let cellIndent = appStack.cellFilters[indexPath.row]
         appStack.moveTo(filterIndent: cellIndent)
             // sets the appStack viewerStack and the current filter of the viewerStac,
-        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
-                            (traitCollection.horizontalSizeClass == .compact)
-        if iPhoneCompact {
+//        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
+//                            (traitCollection.horizontalSizeClass == .compact)
+        if splitViewController?.isCollapsed ?? false {
             performSegue(withIdentifier: "twoContainers", sender: self)
         } else {
             performSegue(withIdentifier: "ParmSettings", sender: self)
@@ -416,7 +408,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
     @IBAction func showImageControllerAction(_ sender: UIBarButtonItem) {
 
-
+        // if splitViewController.isCollapsed then show(.secondary) does nothing
         splitViewController?.show(.secondary)
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
             // show the new results !
@@ -602,8 +594,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("shouldPerformSegue \(identifier)")
          segueStarted = true
         // don't open a popOverController seque is starting
-        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
-                            (traitCollection.horizontalSizeClass == .compact)
+//        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
+//                            (traitCollection.horizontalSizeClass == .compact)
+        let iPhoneCompact = splitViewController?.isCollapsed ?? false
+
         switch identifier {
             case "ParmSettings":
                 if iPhoneCompact {
@@ -685,35 +679,35 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         appStack.moveFilter(fromSourceRow: sourceIndexPath, destinationRow: destinationIndexPath )
     }
 
+        // MARK: - Navigation
 
-    func configureNavigationItem() {
+    func setUpdateEditButton() {
         var currentLeftButtons = navigationItem.leftBarButtonItems
-        guard let leftButtonCount = currentLeftButtons?.count
-        else { return }
-        switch leftButtonCount {
-            case 2:
+        let editButton = currentLeftButtons?.first(where: {$0.action == #selector(toggleEditing)})
+
+       if editButton == nil {
+
                 let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
                 currentLeftButtons?.append(editingItem)
                 navigationItem.leftBarButtonItems = currentLeftButtons
 
                 navigationController?.isToolbarHidden = false
-            case 3:
+       } else {
                 if (tableView.isEditing) {
                     // change to "Done"
-                    currentLeftButtons?[2].title = "Done"
+                    editButton!.title = "Done"
                 } else {
-                    currentLeftButtons?[2].title = "Edit"
+                    editButton!.title = "Edit"
+
                 }
-            default:
-                return
-        }
+       }
 
     }
 
     @objc
     func toggleEditing() {
         tableView.setEditing(!tableView.isEditing, animated: true)
-        configureNavigationItem()
+        setUpdateEditButton()
     }
     /*
     // Override to support conditional editing of the table view.
@@ -751,7 +745,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     */
 
     /*
-    // MARK: - Navigation
+
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

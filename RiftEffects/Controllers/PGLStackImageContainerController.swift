@@ -66,7 +66,7 @@ class PGLStackImageContainerController: UIViewController {
 
         containerStackController?.addToolBarButtons(toController: self)
 
-        configureNavigationItem()
+        setUpdateEditButton()
 //        setNeedsStatusBarAppearanceUpdate()
 
     }
@@ -148,32 +148,32 @@ class PGLStackImageContainerController: UIViewController {
         moreBtn.menu = contextMenu
     }
 
-    func configureNavigationItem() {
-
+    func setUpdateEditButton() {
 
         guard let stackTarget = containerStackController else {
             return
         }
         var currentLeftButtons = navigationItem.leftBarButtonItems
-        guard let leftButtonCount = currentLeftButtons?.count
-        else { return }
-        switch leftButtonCount {
-            case 2:
-                let editingItem = UIBarButtonItem(title: stackTarget.tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+        let editButton = currentLeftButtons?.first(where: {$0.action == #selector(toggleEditing)})
+
+       if editButton == nil {
+           // add the editButton
+           let editingItem = UIBarButtonItem(title: stackTarget.tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
                 currentLeftButtons?.append(editingItem)
                 navigationItem.leftBarButtonItems = currentLeftButtons
 
                 navigationController?.isToolbarHidden = false
-            case 3:
-                if (stackTarget.tableView.isEditing) {
+       } else {
+           // update the edit button
+           if (stackTarget.tableView.isEditing) {
                     // change to "Done"
-                    currentLeftButtons?[2].title = "Done"
+                    editButton!.title = "Done"
                 } else {
-                    currentLeftButtons?[2].title = "Edit"
+                    editButton!.title = "Edit"
+
                 }
-            default:
-                return
-        }
+       }
+
     }
 
     @objc
@@ -185,7 +185,7 @@ class PGLStackImageContainerController: UIViewController {
             return
         }
         myTableView.setEditing(!myTableView.isEditing, animated: true)
-        configureNavigationItem()
+        setUpdateEditButton()
     }
 
     /*
