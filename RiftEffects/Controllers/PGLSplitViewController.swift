@@ -23,7 +23,9 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         let stackProviderCanOpen = stackProviderHasRows()
             
         if stackProviderCanOpen {
-            preferredDisplayMode = UISplitViewController.DisplayMode.twoOverSecondary }
+            preferredDisplayMode = UISplitViewController.DisplayMode.twoDisplaceSecondary
+            // was UISplitViewController.DisplayMode.twoOverSecondary
+        }
         else {
             preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
         // if the smaller iPhone is compact then should be the two column where the columns are controlled by buttons
@@ -36,8 +38,8 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         let horizontalSize = traitCollection.horizontalSizeClass
         if horizontalSize == .compact {
 
-            preferredPrimaryColumnWidthFraction = 0.3
-            preferredSupplementaryColumnWidthFraction = 0.3
+//            preferredPrimaryColumnWidthFraction = 0.3
+//            preferredSupplementaryColumnWidthFraction = 0.3
 
 //            guard let stackImageController = self.storyboard?.instantiateViewController(withIdentifier: "StackImageContainer")
 //            else { checkPhotoLibraryAccess()

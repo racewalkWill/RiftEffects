@@ -755,7 +755,15 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
     func hideParmControls() {
+        // restore from delete in R83.07
+        // was it a testing change that was committed??
 
+        //  R83.07 removed blank toolbar after filter pick on the iPhone. Storyboard changes: Main Filter Controller setting hidesBottomBarWhenPushed="YES". Same on ParmSettingsViewController, Parm Image Controller, Filter Image Controller, Stack Image Container Controller. Logging changes to track navigation
+
+        hideSliders()
+        panner?.isEnabled = false
+        hideViewControls()
+        parmSlider?.isHidden = true
 
     }
 

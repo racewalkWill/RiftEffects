@@ -97,10 +97,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             navigationController?.isToolbarHidden = false
             addToolBarButtons(toController: self)
 
-            if traitCollection.userInterfaceIdiom == .phone {
-                postPGLHideParmUIControls()
-            }
-
+//            if traitCollection.userInterfaceIdiom == .phone {
+//                postPGLHideParmUIControls()
+//            }
+            postPGLHideParmUIControls()
             if appStack.outputStack.isEmptyStack() {
                     // just skip ahead to the filter controller since there is no filter now
                 Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock emptyStack segue to filter controller")
