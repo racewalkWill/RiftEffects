@@ -380,7 +380,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "CF0BF114-2F0F-4EFB-9DDC-5D6A16632C44"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
@@ -517,6 +517,22 @@
             startingLineNumber = "412"
             endingLineNumber = "412"
             landmarkName = "showImageControllerAction(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F45A3356-AB7D-4FD2-BF86-6AFCF0F3EFC7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/PGLImageController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1026"
+            endingLineNumber = "1026"
+            landmarkName = "addTextInputControl(attribute:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

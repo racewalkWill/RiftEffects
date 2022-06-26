@@ -1015,12 +1015,20 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             // CIQRCodeGenerator  inputMessage
             // CITextImageGenerator inputText inputFontName
         //
+        let fieldWidth = 200.0
+        let fieldHeight = 30.0
+
+        var centerPoint: CGPoint
         let textValue = attribute.getValue() as? String // need to put implementations in the above classes
         // put in the center of the control
-        var centerPoint = (view.center)
-        centerPoint.y = centerPoint.y / 3
-        centerPoint.x = centerPoint.x - (centerPoint.x / 3)
-        let boxSize = CGSize(width: 250, height: 40)
+        let imageControllerView = view
+
+
+        centerPoint = (imageControllerView!.center)
+
+        centerPoint.y = (centerPoint.y / 2) - (fieldHeight/2.0)
+        centerPoint.x = (centerPoint.x / 2) - (fieldWidth/2.0)
+        let boxSize = CGSize(width: fieldWidth, height: fieldHeight)
         let boxFrame = CGRect(origin: centerPoint, size: boxSize)
 
         let inputView = UITextField(frame: boxFrame)
@@ -1035,7 +1043,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             inputView.delegate = parmController }
 //        NSLog("addTextInputControl textDelegate = \(String(describing: inputView.delegate))")
 
-        view.addSubview(inputView)
+        imageControllerView!.addSubview(inputView)
         appStack.parmControls[attribute.attributeName!] = inputView
             // on iPHone need to move up to avoid getting hidden by the keyboad
         let margins = view.layoutMarginsGuide
