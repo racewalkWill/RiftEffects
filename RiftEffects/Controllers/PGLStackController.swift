@@ -489,12 +489,14 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             return
         }
         helpController.modalPresentationStyle = .popover
-//        helpController.preferredContentSize = CGSize(width: 200, height: 350.0)
-        // specify anchor point?
+        let popUpWidth = view.frame.width * 0.8
+        let popUpHeight = view.frame.height * 0.6
+       helpController.preferredContentSize = CGSize(width: popUpWidth, height: popUpHeight)
+
         guard let popOverPresenter = helpController.popoverPresentationController
         else { return }
         popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
-        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+//        popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
        popOverPresenter.sourceView = filterCell
 
         let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
