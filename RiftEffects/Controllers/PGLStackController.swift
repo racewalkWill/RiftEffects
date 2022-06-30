@@ -150,7 +150,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     override func viewDidAppear(_ animated: Bool) {
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("\( String(describing: self) + "-" + #function)")
         super.viewDidAppear(animated)
-        appStack.resetViewStack()
+//        appStack.resetViewStack()
         segueStarted = false  // reset flag
 
 

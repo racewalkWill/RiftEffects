@@ -182,7 +182,10 @@ class PGLSelectParmController: PGLCommonController,
 
 //        NSLog ("PGLSelectParmController #viewDidLoad completed")
         if traitCollection.userInterfaceIdiom == .pad {
-            navigationController?.isToolbarHidden = true } // was true
+//            navigationController?.isToolbarHidden = true
+            // commented out because this makes the stackController toolbar
+            // hidden.. for some strange reason!
+        } // was true
         // don't hide if iPhone
      
 

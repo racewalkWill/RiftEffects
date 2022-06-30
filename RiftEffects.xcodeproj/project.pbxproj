@@ -318,6 +318,7 @@
 		A35FF77A26DC320400D78252 /* License */ = {
 			isa = PBXGroup;
 			children = (
+				A3BF509924D32A3400CD5114 /* AppDelegate.swift */,
 				A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */,
 			);
 			path = License;
@@ -348,12 +349,11 @@
 			isa = PBXGroup;
 			children = (
 				A341185E25C3008100587590 /* RiftEffects.entitlements */,
-				A35FF77A26DC320400D78252 /* License */,
 				A3BF507624D32A3400CD5114 /* Main.storyboard */,
+				A35FF77A26DC320400D78252 /* License */,
 				A3E6243C2691261A0017372F /* Settings.bundle */,
 				A308939E251E977400F244D6 /* Launch Screen.storyboard */,
 				A3BF50A624D32A3400CD5114 /* Info.plist */,
-				A3BF509924D32A3400CD5114 /* AppDelegate.swift */,
 				A3C71701255C3DCB005C2CAD /* Filters */,
 				A3BF504224D32A3400CD5114 /* ImportedFilters */,
 				A3BF507E24D32A3400CD5114 /* MetalFilters - Unused */,

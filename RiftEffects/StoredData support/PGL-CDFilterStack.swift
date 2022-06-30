@@ -90,8 +90,11 @@ extension PGLFilterStack {
             storedStack?.exportAlbumName = exportAlbumName
             storedStack?.exportAlbumIdentifier = exportAlbumIdentifier
 
+            // only on the top level stack should a thumbnail be saved
+            // skip child stack thumbnails
+        if parentAttribute == nil {
             storedStack?.thumbnail = stackThumbnail()  // data format of small png image
-
+        }
     //        for aFilter in activeFilters {
             for filterIndex in 0..<activeFilters.count {
                 let aFilter = activeFilters[filterIndex]
