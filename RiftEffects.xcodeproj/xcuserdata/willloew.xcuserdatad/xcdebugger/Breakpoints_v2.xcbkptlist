@@ -348,7 +348,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9DE0B84A-3A16-4434-80A1-BE576B39A51A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/UI Support/CIImage.swift"
@@ -379,33 +379,43 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D204B41A-CEB8-4231-B6BB-D714D2EC5D15"
-            shouldBeEnabled = "Yes"
+            uuid = "35310CC7-E893-48C2-9130-010F79B0CF3A"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLAppStack.swift"
+            filePath = "RiftEffects/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "resetViewStack()"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
+            landmarkName = "moveImageInputsToCache()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F6AD1BB3-1E84-46E3-AB75-F953F75FE7E7"
+            uuid = "7D3B9129-C775-4E68-97D6-7AC372571288"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLAppStack.swift"
+            filePath = "RiftEffects/StoredData support/PGL-CDFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "resetToTopStack(newStack:)"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
+            landmarkName = "userSaveErrorAlert(withError:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.IDETestFailureBreakpoint">
+         <BreakpointContent
+            uuid = "53364957-4221-474B-B209-B842911E64C9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

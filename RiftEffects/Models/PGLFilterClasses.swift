@@ -227,8 +227,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return (imageInputAttributeKeys.count)
     }
     
-    var imageInputAttributeKeys: [String] {
-        //computed property
+    fileprivate func setImageInputAttributKeys() -> [String] {
+
         var imageKeyFound = false
         var addingArray = [String]()
         for key in localFilter.inputKeys {
@@ -239,30 +239,30 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                     if attributeType == kCIAttributeTypeImage {
                         addingArray.append(key)
                         imageKeyFound = true
-                        }
+                    }
                 }
                 else { // no attributeType entry found
-                     if let attributeClass = thisDict[kCIAttributeClass] as? String {
-                            if !imageKeyFound && (attributeClass == "CIImage") {
+                    if let attributeClass = thisDict[kCIAttributeClass] as? String {
+                        if !imageKeyFound && (attributeClass == "CIImage") {
                                 // don't add twice if both attributeClass and attributeType are listed
-                                addingArray.append(key)
-                                imageKeyFound = true
-                            }
+                            addingArray.append(key)
+                            imageKeyFound = true
                         }
+                    }
 
                 }
 
                 if !imageKeyFound {
-                    // case for another attribute type ..
-                    // such as inputGradientImage in CIColorMap
-                    // which has attibuteClass of CIImage
+                        // case for another attribute type ..
+                        // such as inputGradientImage in CIColorMap
+                        // which has attibuteClass of CIImage
                     if let attributeClass = thisDict[kCIAttributeClass] as? String {
-                           if (attributeClass == "CIImage") {
-                               // don't add twice if both attributeClass and attributeType are listed
-                               addingArray.append(key)
-                               imageKeyFound = true
-                           }
-                       }
+                        if (attributeClass == "CIImage") {
+                                // don't add twice if both attributeClass and attributeType are listed
+                            addingArray.append(key)
+                            imageKeyFound = true
+                        }
+                    }
 
                 }
             } // attributes of this key
@@ -270,8 +270,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return  addingArray
     }
 
-
-
+   lazy var imageInputAttributeKeys = setImageInputAttributKeys()
 
      func otherImageInputKeys() -> [String] {
             // answers other image inputs
