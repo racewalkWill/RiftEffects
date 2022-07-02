@@ -16,6 +16,7 @@ Extensions for Core Data classes to add convenience methods.
 
 import UIKit
 import CoreData
+import os
 
 // MARK: - Creating Contexts
 
@@ -63,13 +64,16 @@ extension NSManagedObjectContext {
      Handles save error by presenting an alert.
      */
     private func handleSavingError(_ error: Error, contextualInfo: ContextSaveContextualInfo) {
-        print("Context saving error: \(error)")
+
+//        Logger(subsystem: LogSubsystem, category: LogCategory).error("\(String(describing: error) )" )
+
 
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.delegate?.window,
                 let viewController = window?.rootViewController else { return }
+            let theUserInfo = error.localizedDescription
 
-            let message = "Failed to save the context when \(contextualInfo.rawValue)."
+            let message = "\(theUserInfo). Failed to save the context when \(contextualInfo.rawValue) ."
 
             // Append message to existing alert if present
             if let currentAlert = viewController.presentedViewController as? UIAlertController {
