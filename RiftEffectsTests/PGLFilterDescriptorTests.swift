@@ -82,7 +82,7 @@ class PGLFilterDescriptorTests: XCTestCase {
                 XCTAssertNotNil(thisFilterDescriptor?.pglSourceFilter(), "CIFilter did not create pglSourceFilter /(aFilterName) from category \(aCategory.categoryConstant)")
             }
             //            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("all filters by category \(aCategory) = \(allFilters)")
-
+            
 
         }
     }
