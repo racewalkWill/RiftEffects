@@ -53,7 +53,25 @@ class PGLExcludeFilters {
         "CITextImageGenerator" ,
         "CIDepthToDisparity",
         "CIDisparityToDepth",
-        "CIColorClamp"   // see note N73.7.3 CIColorClamp for how to implement interface at later time
+        "CIColorClamp" ,  // see note N73.7.3 CIColorClamp for how to implement interface at later time
+
+        // 2022-07-10 exclude failing for beta tests
+        "CIAccordionFoldTransition" ,
+        "CIAffineClamp",  // needs transform parm setup
+        "CIAffineTile",  // ditto
+        "CIAffineTransform",
+        "CIAttributedTextImageGenerator",
+        "CIAztecCodeGenerator",
+        "CILabDeltaE",
+        "CIQRCodeGenerator",
+        "CIRoundedRectangleGenerator",
+        "CIPDF417BarcodeGenerator",
+        "CISourceAtopCompositing",
+        "CISourceInCompositing",
+        "CISourceOutCompositing",
+        "CISourceOverCompositing"
+
+
 
         // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
 //        "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",
