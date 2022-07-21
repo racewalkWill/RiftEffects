@@ -16,7 +16,7 @@ class PGLInfoPrivacyController: UIViewController {
         super.viewDidLoad()
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         PrivacyText.attributedText = readPrivacyPolicy()
-        self.navigationItem.title = "https:\\\\willsfiltertool.photo"
+        self.navigationItem.title = "https:\\\\rifteffex.com"
 
         // Do any additional setup after loading the view.
     }

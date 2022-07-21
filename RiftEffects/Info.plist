@@ -22,6 +22,8 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app will display your photos and apply visual effect filters to the display.</string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

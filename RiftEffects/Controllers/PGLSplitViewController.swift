@@ -52,7 +52,7 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         }
 
         // Do any additional setup after loading the view.
-        checkPhotoLibraryAccess()
+
 
     }
 
@@ -145,34 +145,6 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer)
         let stackRowCount = provider.filterStackCount()
         return stackRowCount > 0
-    }
-
-    // MARK: PhotoLib
-    func checkPhotoLibraryAccess() {
-        let requiredAccessLevel: PHAccessLevel = .readWrite // or .addOnly
-        PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
-            switch authorizationStatus {
-                case .notDetermined , .denied:
-                    Logger(subsystem: LogSubsystem, category: LogCategory).error("PhotoLibrary.requestAuthorization status notDetermined or denied)")
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Photo Library access denied", message: "You may allow access to the Photo Library in Settings -> Privacy -> Photos -> Wills Filter Tool", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-
-                        }))
-                        guard let  myAppDelegate = UIApplication.shared.delegate as? AppDelegate
-                        else {return
-                                //can't do anything give up
-                        }
-                        myAppDelegate.displayUser(alert: alert)
-                    }
-
-
-                default:
-                    // case of case .authorized, .restricted , .limited :
-                    // user has made a setting.. the app can run
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PhotoLibrary.requestAuthorization status is authorized or .restricted or .limited ")
-            }
-        }
     }
 
 

@@ -1,7 +1,7 @@
 //
 //  CoreDataSampleLicense.txt
 //  for PGLCoreDataStack.swift
-//  WillsFilterTool
+//  
 //
 //  Created by Will on 8/29/21.
 //

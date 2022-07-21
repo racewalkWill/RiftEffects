@@ -188,7 +188,7 @@ class PGLSelectParmController: PGLCommonController,
         } // was true
         // don't hide if iPhone
      
-
+        let lib = PHAsset.fetchAssets(withLocalIdentifiers: ["empty"], options: nil)
     }
 
 
@@ -1166,6 +1166,31 @@ class PGLSelectParmController: PGLCommonController,
         // "Show" segue
         // goToImageCollection
 
+        let readWriteStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        switch readWriteStatus {
+            case .notDetermined, .denied, .restricted:
+
+                userPhotoAccessAlert()
+                return
+//            case .limited :
+//                    // Present the limited-library selection user interface with a callback.
+//                    let viewController = self // The UIViewController from which to present the picker.
+//                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: viewController) { identifiers in
+//                        for newlySelectedAssetIdentifier in identifiers {
+//                            // Stage asset for app interaction.
+//
+//                        }
+//                    }
+//                return
+            case .authorized, .limited :
+                // continue to open the picker
+                break
+            default:
+                Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLSelectParmController pickImage fails for unknown authorization status")
+                return
+                    // unknown new status may be added in a later iOS release
+
+        }
 
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickImage")
         if usePGLImagePicker {
@@ -1173,9 +1198,7 @@ class PGLSelectParmController: PGLCommonController,
         }
         else {
 //             waiting for improvments in PHPickerViewController to use albumId to
-//             show last user selection
-//            if picker == nil
-//                { picker = initPHPickerView() }
+
             let picker = initPHPickerView()
 
             //PHPickerViewController documentation says 'You can present a picker object only once; you can’t reuse it across sessions'
@@ -1189,6 +1212,16 @@ class PGLSelectParmController: PGLCommonController,
 
 
         }
+    }
+
+    func userPhotoAccessAlert() {
+        let alert = UIAlertController(title: "Rift-Effex Photo Access", message: "Rift-Effex does not have Photo Library access permission. The app is unable to display photos. To change the Photo permission go to Settings -> Privacy -> Photos -> Rift-Effex", preferredStyle: .alert)
+        // how to open the settings to this??? Other apps are doing it...
+
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+
+        }))
+        self.present(alert, animated: true )
     }
 
     func initPHPickerView() -> PHPickerViewController? {
@@ -1221,7 +1254,28 @@ class PGLSelectParmController: PGLCommonController,
         return myPicker
     }
 
+    func isFullPhotoLibraryAccess() -> Bool {
+        var isFullLibraryAccess = false
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+            switch status {
+                case .authorized:
+                    // The user authorized this app to access Photos data.
+                    isFullLibraryAccess = true
+                case .notDetermined ,.restricted ,.denied, .limited :
+                // one of the following conditions
+                // The user hasn't determined this app's access.
+                // The system restricted this app's access.
+                // The user explicitly denied this app's access.
+                // The user authorized this app for limited Photos access.
 
+                    isFullLibraryAccess = false
+
+            @unknown default:
+                    isFullLibraryAccess = false
+            }
+        }
+        return isFullLibraryAccess
+    }
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         // waiting for improvments in PHPickerViewController to use albumId to
@@ -1234,12 +1288,90 @@ class PGLSelectParmController: PGLCommonController,
         // for each object in the fetchResult  execute the  PHImageManager.default().requestImage
         // then create the PGLAsset and the PGLImageList
         // creating PGLAsset and PGLImageList first and using the asset has the failure
+        var selectedImageList: PGLImageList
+
+        if isFullPhotoLibraryAccess() {
+            selectedImageList = loadImageListFromPicker(results: results)
+        } else
+        {
+            selectedImageList = loadLimitedImageList(results: results)
+        }
+
+        guard let targetAttribute = self.tappedAttribute
+            else {  return }
+        self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
+
+
+        if let cellPath = targetAttribute.uiIndexPath {
+            self.parmsTableView.reloadRows(at: [cellPath], with: .automatic) }
+        // gets the parm cell icon updated for an input image
+        else { self.parmsTableView.reloadData() }
+
+        if (traitCollection.userInterfaceIdiom) == .phone &&
+            (traitCollection.horizontalSizeClass == .compact) {
+                // this case just go back to the twoContainer view
+        } else {
+            // ipad three column
+            splitViewController?.show(.secondary)  }
+        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
+        
+        // clean up.. do not keep  ref to the picker
+        picker.delegate = nil
 
 
 
+    }
+
+    func loadLimitedImageList(results: [PHPickerResult]) -> PGLImageList {
+        // can not use fetchResults from identifiers in limited library mode
+        // assets can not be loaded into the PGLImageList
+        // just load a PGLImageList with the images and the identifiers
+
+        // following code based on Apple example app PHPickerDemo
+        let identifiers = results.compactMap(\.assetIdentifier)
+        let itemProviders = results.map(\.itemProvider)
+
+        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)")
+
+        var pickedCIImage: CIImage?
+
+        let selectedImageList = PGLImageList(localIdentifiers: identifiers)
+
+        for item in itemProviders {
+            pickedCIImage = nil // reset on each loop
+            if item.canLoadObject(ofClass: UIImage.self)  {
+                item.loadObject(ofClass: UIImage.self) {[weak self] image, error in
+//                    DispatchQueue.main.sync {
+                    if let theImage = image as? UIImage {
+                        if let convertedImage = CoreImage.CIImage(image: theImage ) {
+                            let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+                            if PGLImageList.isDeviceASimulator() {
+                                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+                                } else {
+
+                                    pickedCIImage = convertedImage.oriented(theOrientation) }
+                            }
+                        if pickedCIImage != nil {
+                            selectedImageList.appendImage(aCiImage: pickedCIImage!)
+                            Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
+                        }
+                    }
+
+//                    }  // Dispatch Queue  process
+                }
+
+            }
+        }
+        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)  \(selectedImageList)")
+        selectedImageList.validateLoad()
+        return selectedImageList
+    }
+
+    func loadImageListFromPicker(results: [PHPickerResult]) -> PGLImageList {
         let identifiers = results.compactMap(\.assetIdentifier)
 //        let itemProviders = results.map(\.itemProvider)
 
+        // start full access mode
         let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
         NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchResult)")
 
@@ -1253,6 +1385,7 @@ class PGLSelectParmController: PGLCommonController,
         options.isSynchronous = true
 
         for aFetchedImageObject in fetchResult.objects {
+            pickedCIImage = nil // reset on each loop
             PHImageManager.default().requestImage(for: aFetchedImageObject  , targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
                     if let error =  info?[PHImageErrorKey]
                      { NSLog( "PGLImageList imageFrom error = \(error)") }
@@ -1277,41 +1410,23 @@ class PGLSelectParmController: PGLCommonController,
             let anNewPGLAsset = PGLAsset(sourceAsset: fetchResult.object(at: index))
             assets.append(anNewPGLAsset)
             }
-        guard let targetAttribute = self.tappedAttribute
-            else {  return }
+
+
 
         let selectedImageList = PGLImageList(localPGLAssets: assets)
             // with the PKPickerViewController.. the asset.LocalIdentifier gets niled on the second use
             // it should have carried into the localPGLAssets assigment but .. something happens internally
             // also set the imageList assetIDs directly to match the images array
+
+    // end full access mode
+
+        // here assign the images & identifiers into the imageList
         selectedImageList.assetIDs = identifiers
         selectedImageList.setImages(ciImageArray: images)
 
-        self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
-
-
-        if let cellPath = targetAttribute.uiIndexPath {
-            self.parmsTableView.reloadRows(at: [cellPath], with: .automatic) }
-        // gets the parm cell icon updated for an input image
-        else { self.parmsTableView.reloadData() }
-
-        if (traitCollection.userInterfaceIdiom) == .phone &&
-            (traitCollection.horizontalSizeClass == .compact) {
-                // this case just go back to the twoContainer view
-        } else {
-            // ipad three column
-            splitViewController?.show(.secondary)  }
-        postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
-        
-        // clean up.. do not keep  ref to the picker
-        picker.delegate = nil
-
-
+        return selectedImageList
 
     }
-
-
-
 
 
     func finishAndUpdate() {

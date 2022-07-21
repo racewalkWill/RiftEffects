@@ -350,6 +350,9 @@ extension PGLFilterAttributeImage {
 
                 let localAlbums = cloudId2LocalId(assetCloudIdentifiers: cloudAlbumIDs)
                 let newImageList = PGLImageList(localAssetIDs: (localIds),albumIds: (localAlbums) )
+                    // in limited Library mode some photos may not load
+                newImageList.validateLoad()
+                
                 newImageList.on(imageParm: self)
 
             }

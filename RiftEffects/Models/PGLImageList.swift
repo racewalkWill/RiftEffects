@@ -18,7 +18,7 @@ enum NextElement {
     case each
 }
 
-class PGLImageList {
+class PGLImageList: CustomStringConvertible {
     // array of CIImage with current position
     // increment will move forward and on the end reverse in opposite direction
     // holds the source of each image in the photoLibrary
@@ -118,7 +118,12 @@ class PGLImageList {
         }
         return DeviceIsSimulator ?? false
     }
+ // MARK: CustomStringConvertible
+    var description: String {
+           return "\(assetIDs), \(images)"
+       }
 
+    // MARK: setSelection
     func setUserSelection(toAttribute: PGLFilterAttribute  ){
         // create a PGLUserSelection object from
         // the imageAssets
@@ -144,6 +149,30 @@ class PGLImageList {
     }
 
 // MARK: State
+    func validateLoad() {
+        // raise user message if the identifier and image count is not equal
+        // in limitedLibrary mode the image may not be obtained but the identifier is set
+        if !isAssetList {
+            // no images but imageAssets exist - should load okay
+            let imageCount = images.count
+            let identifierCount = assetIDs.count
+
+            if imageCount != identifierCount {
+                // raise user message.. some images will be blank
+                DispatchQueue.main.async {
+                    guard let window = UIApplication.shared.delegate?.window,
+                        let viewController = window?.rootViewController else { return }
+
+                    let message = "The chosen photos are not in 'Selected Photos' in Settings > Privacy > Photos > Rift-Effex. Change the Selected Photos and retry"
+
+                    //  present a new alert
+                    let alert = UIAlertController(title: "Photos Not Loaded", message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    viewController.present(alert, animated: true)
+                }
+            }
+        }
+    }
     func hasImageStack() -> Bool {
         // will return image from the stack instead of the objects
         return inputStack != nil
@@ -521,6 +550,10 @@ class PGLImageList {
     func setImage(aCiImage : CIImage, position: Int ) {
         images.insert( aCiImage, at: position)  // this adjusts the arrary size as needed.
 
+    }
+
+    func appendImage(aCiImage: CIImage) {
+        images.append(aCiImage)
     }
 
 
