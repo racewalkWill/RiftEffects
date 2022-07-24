@@ -596,12 +596,20 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                     targetStack.stackType = userValues.stackType!
                     targetStack.exportAlbumName = userValues.albumName
                     targetStack.shouldExportToPhotos = userValues.storeToPhoto
-                        //                    DispatchQueue.main.async {
-                        //                        NSLog("PGLImageController notification PGLStackSaveNotification start in main sync ")
-                    self.saveStack(newSaveAs: userValues.shouldSaveAs)
-                        // save stack will create a utility queue to execute.. but should not
-                        // kill the utility queue process when this notification callback process ends.
-                        //                    }
+
+                    // in iPhone there are multiple imageControllers getting the same
+                    // notification. If the stack already has the same save data object
+                    // then don't reprocess again. Uses object identity to test
+
+                    if userValues.saveSessionUUID != targetStack.saveSessionUUID {
+                        self.saveStack(newSaveAs: userValues.shouldSaveAs)
+                            // save stack will create a utility queue to execute.. but should not
+                            // kill the utility queue process when this notification callback process ends.
+                        
+                        // store this saveData object to guard against other redunant notifications
+                        targetStack.saveSessionUUID = userValues.saveSessionUUID
+                    }
+
                     self.updateLibraryMenu()
                     self.updateNavigationBar()
 

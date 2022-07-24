@@ -618,6 +618,9 @@ extension PGLAppStack {
             }
 //           NSLog("PGLAppStack #saveStack calls writeCDStacks")
         }
+        // there is a guard for unsaved changes in
+        // the moContext save
+        // okay if writeCDStacks is called from multiple imageControllers
         self.writeCDStacks()
     }
 

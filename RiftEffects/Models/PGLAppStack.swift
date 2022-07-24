@@ -113,6 +113,10 @@ class PGLAppStack {
 
        rollbackStack()
             // removes unsaved changes from the NSManagedObjectContext
+        // disconnect the cdStack from the old selected stack..
+        //  release the old pglStack
+//        outputStack.storedStack = nil
+        // 2022-07-23  the line to set to nil did not fix memory
 
         viewerStack = newStack
         outputStack = viewerStack // same as init

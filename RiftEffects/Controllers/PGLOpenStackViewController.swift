@@ -524,18 +524,23 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
       tableView.beginUpdates()
     }
 
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-      switch type {
-      case .insert:
-//        tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-              self.dataSource.postStackChange()
-      case .delete:
-//        tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-              self.dataSource.postStackChange()
-      default:
-        return
-      }
-    }
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+//            // this causes filterManager to pop the view controller on every data change
+//            // comment out 7/23/22
+//
+//      switch type {
+//      case .insert:
+////        tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+//
+//              self.dataSource.postStackChange()
+//      case .delete:
+////        tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+//              self.dataSource.postStackChange()
+//      default:
+//        return
+//      }
+//    }
+
     // swiftlint:disable force_unwrapping
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
       switch type {
@@ -557,11 +562,19 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
         guard let myCDFilterStack = anObject as? CDFilterStack
               else { return }
         configureCell(thisCell,  withCDFilterStack: myCDFilterStack)
-      case .move:
-//        tableView.deleteRows(at: [indexPath!], with: .fade)
-//        tableView.insertRows(at: [newIndexPath!], with: .fade)
+//      case .move:
 
-         self.dataSource.postStackChange()
+        // a delete then insert
+//          guard let myNewStack = anObject as? CDFilterStack
+//                else { return }
+//          guard let myDeletedRowPath = indexPath
+//            else { return}
+//          removeDeletedFromSnapshot(deletedRows: [myDeletedRowPath])
+//          self.dataSource.insertStack(self, theCDStack: myNewStack)
+
+
+//         self.dataSource.postStackChange()
+              // this triggers popViewController to the filter or parm controllers
       @unknown default:
         return
       }

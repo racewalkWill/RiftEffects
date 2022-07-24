@@ -55,7 +55,7 @@ class PGLImageList: CustomStringConvertible {
     }
     private var images = [CIImage?]()
     let doResize = true  // working on scaling... boolean switch here
-    var userSelection: PGLUserAssetSelection?
+    weak var userSelection: PGLUserAssetSelection?
 
     // MARK: Init
     init(){

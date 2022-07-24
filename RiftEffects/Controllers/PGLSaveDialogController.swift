@@ -23,6 +23,7 @@ struct PGLStackSaveData {
     var albumName: String?
     var storeToPhoto = false
     var shouldSaveAs = false
+    var saveSessionUUID = UUID()
 
 }
 
@@ -190,6 +191,8 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
         appStack = myAppDelegate.appStack
          let targetStack =  appStack.outputFilterStack()
+        // a new save session reset the saveSessionUUID
+        targetStack.saveSessionUUID = nil
         stackName.text  = targetStack.stackName
         stackType.text  =  targetStack.stackType
 //        albumName.text  = targetStack.exportAlbumName
@@ -257,7 +260,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
         let lastVersionPromptedForReview = AppUserDefaults.string(forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
 
-        if saveCount >= 15 && currentVersion != lastVersionPromptedForReview {
+        if saveCount >= 5 && currentVersion != lastVersionPromptedForReview {
             let twoSecondsFromNow = DispatchTime.now() + 2.0
             DispatchQueue.main.asyncAfter(deadline: twoSecondsFromNow) {
 

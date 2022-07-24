@@ -47,7 +47,7 @@ class PGLFilterStack  {
     }
 
     var activeFilterIndex = 0
-
+    var saveSessionUUID: UUID?
 
     var stackName:String = ""  // Date().description(with: Locale.current)
     var parentAttribute: PGLFilterAttribute?
