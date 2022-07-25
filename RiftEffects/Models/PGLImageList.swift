@@ -68,6 +68,9 @@ class PGLImageList: CustomStringConvertible {
 
     }
 
+    deinit {
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
 
     convenience init(localAssetIDs: [String],albumIds: [String]) {
         // this init assumes two matching arrays of same size localId and albumid
@@ -105,6 +108,19 @@ class PGLImageList: CustomStringConvertible {
 
     }
 
+
+    func releaseVars() {
+        // assetsIDs = [String]()
+        for anAsset in imageAssets {
+            anAsset.releaseVars()
+        }
+        images = [CIImage?]()
+        userSelection?.releaseVars()
+
+        inputStack?.releaseVars()
+
+
+    }
     static var DeviceIsSimulator: Bool?
 
     static func isDeviceASimulator() -> Bool {

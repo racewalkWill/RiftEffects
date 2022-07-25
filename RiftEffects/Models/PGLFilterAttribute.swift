@@ -210,6 +210,17 @@ class PGLFilterAttribute {
 //        keyPathString = \self.class + "." + "myFilter" + "." + attributeName
         }
 
+    func releaseVars() {
+        inputCollection?.releaseVars()
+        inputCollection = nil
+        inputStack = nil
+
+
+    }
+
+    deinit {
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
 
     func movingCorner(atCorner: Vertex, startPoint: CGPoint, newPoint: CGPoint) {
            // implemented by rectangle subclass
@@ -952,6 +963,11 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     var storedParmImage: CDParmImage?
 
+    override func releaseVars() {
+        storedParmImage = nil
+        super.releaseVars()
+        
+    }
     override func uiCellIdentifier() -> String {
         return  "Image"
     }
@@ -966,6 +982,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
             }
     }
     // answer a filter type subUI parm cell
+
 
   override func hasImageInput() -> Bool? {
     

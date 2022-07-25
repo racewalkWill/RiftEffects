@@ -91,8 +91,8 @@ class PGLUserAssetSelection {
         // this will regen the sections to the new filterParm
     }
    }
-    var selectedAssets = [PGLAsset]()  // [PHAsset]()  // replaces userAssetCollection array
-    var sections = [String: PGLAlbumSource ]() // Dict key is album localIdentifier
+     var selectedAssets = [PGLAsset]()  // [PHAsset]()  // replaces userAssetCollection array
+     var sections = [String: PGLAlbumSource ]() // Dict key is album localIdentifier
     var lastTouchedAssetIndex = 0 // the last touched asset
 
 
@@ -104,6 +104,15 @@ class PGLUserAssetSelection {
 
 
     }
+
+    func releaseVars() {
+        myTargetFilterAttribute = nil
+
+    }
+    deinit {
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
+
 
     func resetSections() {
         // when the filter changes then the cached attribute filterParm

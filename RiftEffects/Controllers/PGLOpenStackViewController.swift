@@ -562,8 +562,8 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
         guard let myCDFilterStack = anObject as? CDFilterStack
               else { return }
         configureCell(thisCell,  withCDFilterStack: myCDFilterStack)
-//      case .move:
-
+        case .move:
+              return
         // a delete then insert
 //          guard let myNewStack = anObject as? CDFilterStack
 //                else { return }

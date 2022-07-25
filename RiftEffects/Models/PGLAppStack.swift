@@ -117,7 +117,9 @@ class PGLAppStack {
         //  release the old pglStack
 //        outputStack.storedStack = nil
         // 2022-07-23  the line to set to nil did not fix memory
-
+        outputStack.releaseVars()
+            // nil out refs so the memory is released
+        
         viewerStack = newStack
         outputStack = viewerStack // same as init
         pushedStacks = [PGLFilterStack]()

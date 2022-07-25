@@ -15,6 +15,7 @@ let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.RiftEffects"
 let LogSubsystem = "L-BSoftwareArtist.RiftEffects"
 var LogCategory = "PGL"
 var LogNavigation = "Nav"
+var LogMemoryRelease = "Mem"
 var LogMigration = "PGL_Migration"
 // change in areas as needed.
 // caution on changes it is a GLOBAL

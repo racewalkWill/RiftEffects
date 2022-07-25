@@ -39,6 +39,7 @@ class PGLFilterStack  {
     let  kFilterOrderKey = "FilterOrder"
 
     var activeFilters = [PGLSourceFilter]()  // make private?
+        // should be unowned? a stack will always have a filter list
    
     var cropRect: CGRect { get
     {   return CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height)
@@ -50,7 +51,7 @@ class PGLFilterStack  {
     var saveSessionUUID: UUID?
 
     var stackName:String = ""  // Date().description(with: Locale.current)
-    var parentAttribute: PGLFilterAttribute?
+    weak var parentAttribute: PGLFilterAttribute?
 
 //    var parentStack: PGLFilterStack?
     lazy var imageCIContext: CIContext = { () -> CIContext in
@@ -61,7 +62,7 @@ class PGLFilterStack  {
 
 
     var frameValueDeltas = PGLFilterChange()
-    var storedStack: CDFilterStack? // managedObject write/read to Core Data
+    weak var storedStack: CDFilterStack? // managedObject write/read to Core Data
     var thumbnail: UIImage? //  for Core Data store
 
     var stackType = "type"
@@ -121,6 +122,15 @@ class PGLFilterStack  {
 
     }
 
+    deinit {
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
+
+    func releaseVars() {
+        for aFilter in activeFilters {
+            aFilter.releaseVars()
+        }
+    }
 
     // MARK: Filter access/move
     func hasAnimationFilter() -> Bool {

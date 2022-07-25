@@ -54,12 +54,12 @@ class PGLSourceFilter :  PGLAnimation  {
     var descriptorDisplayName: String? // not the same as the ciFilter name
 
 
-    var localFilter: CIFilter 
+    unowned var localFilter: CIFilter
     var attributes = [PGLFilterAttribute]() // may have subclasses
     var filterCategories = [String]()
     var uiPosition: PGLFilterCategoryIndex
     var hasImageInput = false
-    var oldImageInput: CIImage?
+    weak var oldImageInput: CIImage?
     var storedFilter: CDStoredFilter? // managedObject - write/read to Core Data
     var imageInputCache: [String :CIImage?] = [:]
 
@@ -82,7 +82,7 @@ class PGLSourceFilter :  PGLAnimation  {
     }
     var detectors = [PGLDetection]()
     lazy var thumbNail = getThumbnail() // only set when referenced need to reset on changes..
-    var wrapper: PGLDissolveWrapperFilter?
+    unowned var wrapper: PGLDissolveWrapperFilter?
 private  var userDescription: String?
 
 @IBInspectable var debugOutputImage = false
@@ -147,6 +147,18 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     convenience init?(filter: String) {
        self.init(filter: filter, position: PGLFilterCategoryIndex()) // default index with zeros, empty values
+
+    }
+
+    deinit {
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
+
+    func releaseVars() {
+        for anAttribute in attributes {
+            anAttribute.releaseVars()
+        }
+        storedFilter = nil
 
     }
 
