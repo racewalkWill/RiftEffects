@@ -83,11 +83,12 @@ class Renderer: NSObject {
 
         ciContext = CIContext(mtlDevice: device,
                                 options: [CIContextOption.workingFormat: CIFormat.RGBAh,
-                                          .cacheIntermediates : true,
+                                          .cacheIntermediates : false,
                                           .name : "metalView"] )
             //.cacheIntermediates : should be false if showing video per WWDC "Optimize the Core Image pipeline"
-            // but this app is NOT video !! and  value = false causes memory growth
-            // therefore use .cacheIntermediates : true 2020-10-16
+                    // but this app is NOT video !! and  value = false causes memory growth
+                    // therefore use .cacheIntermediates : true 2020-10-16
+            // changed to false 2022-07-27 the old buffer showing is fixed with the value false
 
         // set to half float intermediates for CIDepthBlurEffect as suggested in WWDC 2017
          // Editing with Depth 508
@@ -210,7 +211,7 @@ extension Renderer: MTKViewDelegate {
 
 
         if let currentDrawable = view.currentDrawable {
-            
+
             if let commandBuffer = Renderer.commandQueue.makeCommandBuffer() {
                 if view.currentRenderPassDescriptor != nil {
             ciContext?.render(sizedciOutputImage ,

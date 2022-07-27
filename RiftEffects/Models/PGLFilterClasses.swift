@@ -54,7 +54,7 @@ class PGLSourceFilter :  PGLAnimation  {
     var descriptorDisplayName: String? // not the same as the ciFilter name
 
 
-    unowned var localFilter: CIFilter
+    var localFilter: CIFilter // do not make unowned
     var attributes = [PGLFilterAttribute]() // may have subclasses
     var filterCategories = [String]()
     var uiPosition: PGLFilterCategoryIndex
