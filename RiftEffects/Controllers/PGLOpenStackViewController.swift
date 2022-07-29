@@ -156,9 +156,9 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        let snapshot = initialSnapShot()
-        dataSource.apply(snapshot, animatingDifferences: false)
-        dataSource.dataProvider = dataProvider
+//        let snapshot = initialSnapShot()
+//        dataSource.apply(snapshot, animatingDifferences: false)
+//        dataSource.dataProvider = dataProvider
         tableView.reloadData()
     }
     override func viewWillLayoutSubviews() {

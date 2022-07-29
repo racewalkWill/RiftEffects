@@ -60,7 +60,7 @@ class CoreDataWrapper {
 //                myAppDelegate.displayUser(alert: alert)
 //            }
         })
-
+        container.viewContext.retainsRegisteredObjects = false
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.transactionAuthor = appTransactionAuthorName
         container.viewContext.undoManager = nil // We don't need undo so set it to nil.

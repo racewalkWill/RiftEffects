@@ -538,6 +538,7 @@ extension PGLAppStack {
     func rollbackStack() {
         // removes unsaved changes from the NSManagedObjectContext
         let moContext = dataProvider.persistentContainer.viewContext
+//        moContext.retainsRegisteredObjects = false
         moContext.rollback()
 
     }
