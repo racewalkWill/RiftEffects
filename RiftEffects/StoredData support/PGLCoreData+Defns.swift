@@ -49,7 +49,7 @@ enum ContextSaveContextualInfo: String {
     case addPost = "adding a stack"
     case deletePost = "deleting a stack"
     case batchAddPosts = "adding a batch of stacks"
-    case deduplicate = "deduplicating tags"
+    case deduplicate = "cloud sync"
     case updatePost = "saving stack details"
     case addTag = "adding a version"
     case deleteTag = "deleting a version"

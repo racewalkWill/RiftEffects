@@ -184,7 +184,7 @@ class CoreDataWrapper {
     init() {
         // Load the last token from the token file.
         let dbTokenFileURL = tokenFile
-        if let tokenData = try? Data(contentsOf: dbTokenFileURL) {
+        if let tokenData = try? Data(contentsOf: tokenFile) {
             do {
                 lastHistoryToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSPersistentHistoryToken.self, from: tokenData)
             } catch {
@@ -506,19 +506,20 @@ extension CoreDataWrapper {
                 NotificationCenter.default.post(name: .didFindRelevantTransactions, object: self, userInfo: ["transactions": transactions])
             }
 
-            // Deduplicate the new tags.
-//            var newTagObjectIDs = [NSManagedObjectID]()
-//            let tagEntityName = PGLTag.entity().name
 
-//            for transaction in transactions where transaction.changes != nil {
-//                for change in transaction.changes!
-//                    where change.changedObjectID.entity.name == tagEntityName && change.changeType == .insert {
-//                        newTagObjectIDs.append(change.changedObjectID)
-//                }
-//            }
-//            if !newTagObjectIDs.isEmpty {
-//                deduplicateAndWait(tagObjectIDs: newTagObjectIDs)
-//            }
+            var newObjectIDs = [NSManagedObjectID]()
+
+
+            for transaction in transactions where transaction.changes != nil {
+                for change in transaction.changes!
+//                    where change.changedObjectID.entity.name == tagEntityName && change.changeType == .insert
+                {
+                    newObjectIDs.append(change.changedObjectID)
+                }
+            }
+            if !newObjectIDs.isEmpty {
+                processStoreChange(objectIDs: newObjectIDs)
+            }
 
             // Update the history token using the last transaction.
             lastHistoryToken = transactions.last!.token
@@ -534,19 +535,19 @@ extension CoreDataWrapper {
 
      All peers should eventually reach the same result with no coordination or communication.
      */
-//    private func deduplicateAndWait(tagObjectIDs: [NSManagedObjectID]) {
-//        // Make any store changes on a background context
-//        let taskContext = persistentContainer.backgroundContext()
-//
-//        // Use performAndWait because each step relies on the sequence. Since historyQueue runs in the background, waiting won’t block the main queue.
-//        taskContext.performAndWait {
-//            tagObjectIDs.forEach { tagObjectID in
-//                self.deduplicate(tagObjectID: tagObjectID, performingContext: taskContext)
+    private func processStoreChange(objectIDs: [NSManagedObjectID]) {
+        // Make any store changes on a background context
+        let taskContext = persistentContainer.backgroundContext()
+
+        // Use performAndWait because each step relies on the sequence. Since historyQueue runs in the background, waiting won’t block the main queue.
+        taskContext.performAndWait {
+//            objectIDs.forEach { anID in
+//                self.deduplicate(tagObjectID: anID, performingContext: taskContext)
 //            }
-//            // Save the background context to trigger a notification and merge the result into the viewContext.
-//            taskContext.save(with: .deduplicate)
-//        }
-//    }
+            // Save the background context to trigger a notification and merge the result into the viewContext.
+            taskContext.save(with: .deduplicate)
+        }
+    }
 
     /**
      Deduplicate a single tag.
