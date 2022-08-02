@@ -524,6 +524,7 @@ extension CoreDataWrapper {
             // Update the history token using the last transaction.
             lastHistoryToken = transactions.last!.token
         }
+        taskContext.reset()
     }
 }
 
@@ -547,6 +548,7 @@ extension CoreDataWrapper {
             // Save the background context to trigger a notification and merge the result into the viewContext.
             taskContext.save(with: .deduplicate)
         }
+        taskContext.reset()
     }
 
     /**

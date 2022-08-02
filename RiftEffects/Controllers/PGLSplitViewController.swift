@@ -143,7 +143,9 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
     func stackProviderHasRows() -> Bool {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer)
+        provider.setFetchControllerForBackgroundContext()
         let stackRowCount = provider.filterStackCount()
+        provider.reset()
         return stackRowCount > 0
     }
 

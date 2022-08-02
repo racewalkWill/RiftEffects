@@ -321,9 +321,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         let discardAction = UIAlertAction(title: "Discard",
                   style: .destructive) { (action) in
                     // Respond to user selection of the action
+
+                    self.appStack.releaseTopStack()
                     let newStack = PGLFilterStack()
 
-                    self.appStack.resetToTopStack(newStack: newStack)
+                    self.appStack.resetOutputAppStack(newStack)
 
                     self.updateNavigationBar()
             // next back out of the parm controller since the filter is removed

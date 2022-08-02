@@ -32,9 +32,15 @@ class PGLAppStack {
 
     var showFilterImage = false
 
-     lazy var dataProvider: PGLStackProvider = {
+    lazy var dataProvider: PGLStackProvider = {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
+
         let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer )
+        // set the provider with a background context
+
+         provider.setFetchControllerForBackgroundContext()
+            // use background becuase this is for the imageController, filter, parms controllers
+        
         return provider
     }()
 
@@ -106,26 +112,56 @@ class PGLAppStack {
         NotificationCenter.default.post(rowChange)
     }
 
-    func resetToTopStack(newStack: PGLFilterStack) {
-        // new stack loaded from the data store
-        // replace current data
-        // clear persistentContext of the old context - so that it reloads from data in saved state
-
-       rollbackStack()
-            // removes unsaved changes from the NSManagedObjectContext
-        // disconnect the cdStack from the old selected stack..
-        //  release the old pglStack
-//        outputStack.storedStack = nil
-        // 2022-07-23  the line to set to nil did not fix memory
-        outputStack.releaseVars()
-            // nil out refs so the memory is released
-        
-        viewerStack = newStack
+     func resetOutputAppStack(_ userPickedStack: PGLFilterStack) {
+        viewerStack = userPickedStack
         outputStack = viewerStack // same as init
         pushedStacks = [PGLFilterStack]()
         postStackChange()
     }
 
+    func resetToTopStack(newStackId: NSManagedObjectID) {
+        // new stack loaded from the data store
+        // replace current data
+        // clear persistentContext of the old context - so that it reloads from data in saved state
+        var cdStack: CDFilterStack!
+        releaseTopStack()
+        let userPickedStack = PGLFilterStack.init()
+        guard let currentBackgroundContext = dataProvider.providerManagedObjectContext
+        else { return }
+        do {  cdStack =  try currentBackgroundContext.existingObject(with: newStackId) as? CDFilterStack
+
+        } catch {
+            Logger(subsystem: LogSubsystem, category: LogCategory).error("resetToTopStack error  \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                // put back on the main UI loop for the user alert
+                let alert = UIAlertController(title: "Data Error", message: "PGLFilterStack resetToTopStack() \(error.localizedDescription). ", preferredStyle: .alert)
+
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+
+                }))
+
+                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                myAppDelegate.displayUser(alert: alert)
+
+            }
+            return // on error
+        }
+        userPickedStack.on(cdStack: cdStack)
+        
+        resetOutputAppStack(userPickedStack)
+    }
+
+    func releaseTopStack() {
+        rollbackStack()
+             // removes unsaved changes from the NSManagedObjectContext
+         // disconnect the cdStack from the old selected stack..
+         //  release the old pglStack
+ //        outputStack.storedStack = nil
+         // 2022-07-23  the line to set to nil did not fix memory
+         outputStack.releaseVars()
+        dataProvider.reset()
+             // nil out refs so the memory is released
+    }
     
     func removeDefaultEmptyFilter() {
         if outputStack.isEmptyDefaultStack() {

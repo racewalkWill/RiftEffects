@@ -11,13 +11,18 @@ import CoreData
 
 class PGLStackProvider {
     private(set) var persistentContainer: NSPersistentContainer
-
+    var fetchedResultsController: NSFetchedResultsController<CDFilterStack>!
+    var providerManagedObjectContext: NSManagedObjectContext!
 
     init(with persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
+
     }
 
-    lazy var fetchedResultsController: NSFetchedResultsController<CDFilterStack> = {
+    lazy var fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 ) })
+
+    func setFetchControllerForStackViewContext() {
+        providerManagedObjectContext = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
 //        fetchRequest.predicate = NSPredicate(format: "outputToParm = null")  // only parent stacks
         fetchRequest.predicate = NSPredicate(value: true) // return all stacks
@@ -32,24 +37,53 @@ class PGLStackProvider {
 
         fetchRequest.sortDescriptors = sortArray
 
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                    managedObjectContext: persistentContainer.viewContext,
-                                                    sectionNameKeyPath: "type" , cacheName: "StackType")
+         fetchedResultsController = NSFetchedResultsController(
+                                        fetchRequest: fetchRequest,
+                                        managedObjectContext: providerManagedObjectContext,
+                                        sectionNameKeyPath: "type" ,
+                                        cacheName: "StackType")
 //        controller.delegate = fetchedResultsControllerDelegate
             // Full persistent tracking: the delegate and the file cache name are non-nil. The controller monitors objects in its result set
             // and updates section and ordering information in response
             // to relevant changes. The controller maintains a persistent cache of the results of its computation.
+            do {
+                try fetchedResultsController.performFetch()
+            } catch {
+                fatalError("###\(#function): Failed to performFetch: \(error)")
+            }
+    }
 
-        do {
-            try controller.performFetch()
-        } catch {
-            fatalError("###\(#function): Failed to performFetch: \(error)")
+        func setFetchControllerForBackgroundContext() {
+            providerManagedObjectContext = persistentContainer.backgroundContext()
+            let fetchRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
+    //        fetchRequest.predicate = NSPredicate(format: "outputToParm = null")  // only parent stacks
+            fetchRequest.predicate = NSPredicate(value: true) // return all stacks
+            fetchRequest.fetchBatchSize = 15  // usually 12 rows visible -
+                // breaks up the full object fetch into view sized chunks
+
+                // only CDFilterStacks with outputToParm = null.. ie it is not a child stack)
+            var sortArray = [NSSortDescriptor]()
+            sortArray.append(NSSortDescriptor(key: "type", ascending: true))
+            sortArray.append(NSSortDescriptor(key: "created", ascending: false))
+
+
+            fetchRequest.sortDescriptors = sortArray
+
+             fetchedResultsController = NSFetchedResultsController(
+                                            fetchRequest: fetchRequest,
+                                             managedObjectContext: providerManagedObjectContext,
+                                             sectionNameKeyPath: "type" ,
+                                             cacheName: "backgroundStack")
+
+    //        controller.delegate = fetchedResultsControllerDelegate
+                // Full persistent tracking: the delegate and the file cache name are non-nil. The controller monitors objects in its result set
+                // and updates section and ordering information in response
+                // to relevant changes. The controller maintains a persistent cache of the results of its computation.
+            do {
+                    try fetchedResultsController.performFetch()
+            } catch {
+                    fatalError("###\(#function): Failed to performFetch: \(error)") }
         }
-
-        return controller
-    }()
-
-    lazy var fetchedStacks = fetchedResultsController.fetchedObjects?.map({ ($0 ) })
 
     func delete(stack: CDFilterStack, shouldSave: Bool = true, completionHandler: (() -> Void)? = nil) {
         guard let context = stack.managedObjectContext else {
@@ -65,6 +99,14 @@ class PGLStackProvider {
         }
     }
 
+    func rollback() {
+            providerManagedObjectContext.rollback()
+    }
+
+    func reset() {
+        providerManagedObjectContext.reset()
+    }
+        
     func batchDelete(deleteIds: [NSManagedObjectID]) {
         let taskContext = persistentContainer.viewContext
         let batchDelete = NSBatchDeleteRequest(objectIDs: deleteIds)

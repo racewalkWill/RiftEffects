@@ -25,6 +25,7 @@ class PGLFilterStackTests: XCTestCase {
     lazy var dataProvider: PGLStackProvider = {
        let appDelegate = UIApplication.shared.delegate as? AppDelegate
        let provider = PGLStackProvider(with: appDelegate!.dataWrapper.persistentContainer)
+        provider.setFetchControllerForBackgroundContext()
        return provider
    }()
 
@@ -67,9 +68,10 @@ class PGLFilterStackTests: XCTestCase {
     override  func tearDown() {
 //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
 //        myAppDelegate.saveContext()
+        self.appStack.releaseTopStack()
         let newStack = PGLFilterStack()
         newStack.setStartupDefault() // not sent in the init.. need a starting point
-        testAppStack.resetToTopStack(newStack: newStack)
+        testAppStack.resetToTopStack(newStackId: newStack)
         super.tearDown()
     }
 
