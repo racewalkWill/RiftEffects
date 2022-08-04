@@ -211,6 +211,10 @@ class PGLSelectParmController: PGLCommonController,
 
 
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        reloadImageCellIcons()
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController#viewWillAppear start ")
@@ -1321,6 +1325,15 @@ class PGLSelectParmController: PGLCommonController,
 
 
     }
+
+        func reloadImageCellIcons() {
+            var imageParmCellPaths = [IndexPath]()
+            for index in 0..<filterParms[sectionImages].count {
+                imageParmCellPaths.append(IndexPath(row: index,section: sectionImages))
+            }
+            self.parmsTableView.reloadRows(at: imageParmCellPaths, with: .automatic)
+
+        }
 
     func loadLimitedImageList(results: [PHPickerResult]) -> PGLImageList {
         // can not use fetchResults from identifiers in limited library mode
