@@ -10,6 +10,16 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Show child filter stacks</string>
+			<key>Key</key>
+			<string>showChildStack</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Show Help Page at startup</string>
 			<key>Key</key>
 			<string>displayStartHelp</string>

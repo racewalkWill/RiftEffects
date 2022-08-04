@@ -487,8 +487,8 @@
 		A3C71700255C3D1F005C2CAD /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A3BF507A24D32A3400CD5114 /* PGLSplitViewController.swift */,
 				A3BF505324D32A3400CD5114 /* PGLStackController.swift */,
+				A3BF507A24D32A3400CD5114 /* PGLSplitViewController.swift */,
 				A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */,
 				A3BF506024D32A3400CD5114 /* PGLMainFilterController.swift */,
 				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,

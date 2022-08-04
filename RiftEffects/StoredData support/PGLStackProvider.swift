@@ -14,6 +14,8 @@ class PGLStackProvider {
     var fetchedResultsController: NSFetchedResultsController<CDFilterStack>!
     var providerManagedObjectContext: NSManagedObjectContext!
 
+    var showChildStack = AppUserDefaults.bool(forKey:  "showChildStack")  // userDefault setting
+
     init(with persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
 
@@ -24,8 +26,13 @@ class PGLStackProvider {
     func setFetchControllerForStackViewContext() {
         providerManagedObjectContext = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<CDFilterStack> = CDFilterStack.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "outputToParm = null")  // only parent stacks
-        fetchRequest.predicate = NSPredicate(value: true) // return all stacks
+        if showChildStack {
+            fetchRequest.predicate = NSPredicate(value: true) // return all stacks
+        }
+        else {
+            fetchRequest.predicate = NSPredicate(format: "outputToParm = null")
+                // only parent stacks
+        }
         fetchRequest.fetchBatchSize = 15  // usually 12 rows visible -
             // breaks up the full object fetch into view sized chunks
 
