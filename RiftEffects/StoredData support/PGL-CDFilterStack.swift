@@ -552,7 +552,10 @@ extension PGLAppStack {
         
 
         if let initialStack = self.firstStack() {
-            let dataViewContext = dataProvider.persistentContainer.viewContext
+            guard let dataViewContext = dataProvider.providerManagedObjectContext
+                else { userSaveErrorAlert(withError: (savePhotoError.nilReturn))
+                return
+            }
             let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
             // filter images are moved to a cache before the save
             dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
