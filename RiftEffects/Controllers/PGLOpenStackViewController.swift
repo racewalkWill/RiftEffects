@@ -84,17 +84,18 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
         let stackSaveObservor = myCenter.addObserver(forName: PGLStackHasSavedNotification , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
-            // commented out.. this causes a UIDiffableDataSource crash on
-            //  BUG_IN_CLIENT_OF_DIFFABLE_DATA_SOURCE__IDENTIFIER_ALREADY_EXISTS
-//            if let userDataDict = myUpdate.userInfo {
-//                if let newStackId = userDataDict["stackObjectID"] as? NSManagedObjectID {
-//                    // read the stack and insert into the data source
-//                    if let theCDStack = self.dataProvider.persistentContainer.viewContext.object(with: newStackId) as? CDFilterStack {
-//                        self.dataSource.insertStack(self, theCDStack: theCDStack)
-//
-//                    }
-//                }
-//            }
+//             commented out.. this causes a UIDiffableDataSource crash on
+//              BUG_IN_CLIENT_OF_DIFFABLE_DATA_SOURCE__IDENTIFIER_ALREADY_EXISTS
+            // this is OK after the data context changes
+            if let userDataDict = myUpdate.userInfo {
+                if let newStackId = userDataDict["stackObjectID"] as? NSManagedObjectID {
+                    // read the stack and insert into the data source
+                    if let theCDStack = self.dataProvider.persistentContainer.viewContext.object(with: newStackId) as? CDFilterStack {
+                        self.dataSource.insertStack(self, theCDStack: theCDStack)
+
+                    }
+                }
+            }
 
 
         }
