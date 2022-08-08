@@ -179,16 +179,25 @@ class PGLImageList: CustomStringConvertible {
                     guard let window = UIApplication.shared.delegate?.window,
                         let viewController = window?.rootViewController else { return }
 
-                    let message = "The chosen photos are not in 'Selected Photos' in Settings > Privacy > Photos > Rift-Effex. Change the Selected Photos and retry"
+                    let message = "The saved photos are not in 'Selected Photos'. Open Settings for Rift-Effex 'Selected Photos' and retry "
 
                     //  present a new alert
+
                     let alert = UIAlertController(title: "Photos Not Loaded", message: message, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
-                    viewController.present(alert, animated: true)
+                    let openSettingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            // Ask the system to open that URL.
+                            UIApplication.shared.open(url, options: [:])
+                            }
+                        }
+                    alert.addAction(openSettingsAction)
+                   viewController.present(alert, animated: true)
                 }
             }
         }
     }
+
     func hasImageStack() -> Bool {
         // will return image from the stack instead of the objects
         return inputStack != nil
