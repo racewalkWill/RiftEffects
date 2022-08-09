@@ -1225,6 +1225,13 @@ class PGLSelectParmController: PGLCommonController,
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
 
         }))
+        let openSettingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                // Ask the system to open that URL.
+                UIApplication.shared.open(url, options: [:])
+                }
+            }
+        alert.addAction(openSettingsAction)
         self.present(alert, animated: true )
     }
 

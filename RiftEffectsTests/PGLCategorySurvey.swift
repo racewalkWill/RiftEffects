@@ -44,9 +44,9 @@ class PGLCategorySurvey: XCTestCase {
 //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
 //               myAppDelegate.saveContext() // checks if context has changes
         self.appStack.releaseTopStack()
-        let newStack = PGLFilterStack()
-        newStack.setStartupDefault() // not sent in the init.. need a starting point
-        self.appStack.resetToTopStack(newStackId: newStack)
+//        let newStack = PGLFilterStack()
+//        newStack.setStartupDefault() // not sent in the init.. need a starting point
+//        self.appStack.resetToTopStack(newStackId: newStack)
         dataProvider.batchDelete(deleteIds: deleteStackIds)
 
         super.tearDown()
@@ -205,9 +205,9 @@ class PGLCategorySurvey: XCTestCase {
         category2Index = -1
         while category1Index < group1.count {
             self.appStack.releaseTopStack()
-            let newStack = PGLFilterStack()
-            newStack.setStartupDefault() // not sent in the init.. need a starting point
-            self.appStack.resetToTopStack(newStackId: newStack)
+//            let newStack = PGLFilterStack()
+//            newStack.setStartupDefault() // not sent in the init.. need a starting point
+//            self.appStack.resetToTopStack(newStackId: newStack)
             
             let testFilterStack = appStack.viewerStack
                 // should use the appStack to supply the filterStack
@@ -282,9 +282,9 @@ class PGLCategorySurvey: XCTestCase {
 
             while category1Index < group1.count {
                 self.appStack.releaseTopStack()
-                let newStack = PGLFilterStack()
-                newStack.setStartupDefault() // not sent in the init.. need a starting point
-                self.appStack.resetToTopStack(newStackId: newStack)
+//                let newStack = PGLFilterStack()
+//                newStack.setStartupDefault() // not sent in the init.. need a starting point
+//                self.appStack.resetToTopStack(newStackId: newStack)
 
                 let testFilterStack = appStack.viewerStack
                     // should use the appStack to supply the filterStack
@@ -353,9 +353,9 @@ class PGLCategorySurvey: XCTestCase {
         let constructedCategory = PGLFilterCategory("constructedCategory")!
         let descriptors = constructedCategory.buildCategoryFilterDescriptors(filterNames: testGroupFilters)
         self.appStack.releaseTopStack()
-        let newStack = PGLFilterStack()
-        newStack.setStartupDefault() // not sent in the init.. need a starting point
-        self.appStack.resetToTopStack(newStackId: newStack)
+//        let newStack = PGLFilterStack()
+//        newStack.setStartupDefault() // not sent in the init.. need a starting point
+//        self.appStack.resetToTopStack(newStackId: newStack)
         let testFilterStack = appStack.viewerStack
             // should use the appStack to supply the filterStack
 
@@ -444,8 +444,8 @@ class PGLCategorySurvey: XCTestCase {
         for ios13FilterDescriptor in descriptors {
             self.appStack.releaseTopStack()
             let newStack = PGLFilterStack()
-              newStack.setStartupDefault() // not sent in the init.. need a starting point
-              self.appStack.resetToTopStack(newStackId: newStack)
+//              newStack.setStartupDefault() // not sent in the init.. need a starting point
+//              self.appStack.resetToTopStack(newStackId: newStack)
               let testFilterStack = appStack.viewerStack
                   // should use the appStack to supply the filterStack
             _ = testFilterStack.removeLastFilter() // only one at start
@@ -495,9 +495,9 @@ class PGLCategorySurvey: XCTestCase {
 
         for filterIndex in (0..<testSize) {
                     self.appStack.releaseTopStack()
-                   let newStack = PGLFilterStack()
-                   newStack.setStartupDefault() // not sent in the init.. need a starting point
-                   self.appStack.resetToTopStack(newStackId: newStack)
+//                   let newStack = PGLFilterStack()
+//                   newStack.setStartupDefault() // not sent in the init.. need a starting point
+//                   self.appStack.resetToTopStack(newStackId: newStack)
 
                    let testFilterStack = appStack.viewerStack
                        // should use the appStack to supply the filterStack
@@ -579,9 +579,9 @@ class PGLCategorySurvey: XCTestCase {
 //        while category1Index <  testSize {
         for filterIndex in ( 0..<testSize) {
                     self.appStack.releaseTopStack()
-                   let newStack = PGLFilterStack()
-                   newStack.setStartupDefault() // not sent in the init.. need a starting point
-                   self.appStack.resetToTopStack(newStackId: newStack)
+//                   let newStack = PGLFilterStack()
+//                   newStack.setStartupDefault() // not sent in the init.. need a starting point
+//                   self.appStack.resetToTopStack(newStackId: newStack)
 
                    let testFilterStack = appStack.viewerStack
                        // should use the appStack to supply the filterStack
@@ -720,8 +720,8 @@ class PGLCategorySurvey: XCTestCase {
                 self.appStack.releaseTopStack()
                 let newStack = PGLFilterStack()
                   newStack.setStartupDefault() // not sent in the init.. need a starting point
-                  newStack.removeDefaultFilter()
-                  self.appStack.resetToTopStack(newStackId: newStack)
+//                  newStack.removeDefaultFilter()
+//                  self.appStack.resetToTopStack(newStackId: newStack)
                   let testFilterStack = appStack.viewerStack
                       // should use the appStack to supply the filterStack
 //                _ = testFilterStack.removeLastFilter() // only one at start

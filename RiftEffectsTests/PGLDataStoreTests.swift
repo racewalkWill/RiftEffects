@@ -67,10 +67,10 @@ class PGLDataStoreTests: XCTestCase {
             // Put teardown code here. This method is called after the invocation of each test method in the class.
     //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
     //               myAppDelegate.saveContext() // checks if context has changes
-            self.appStack.releaseTopStack() 
-            let newStack = PGLFilterStack()
-            newStack.setStartupDefault() // not sent in the init.. need a starting point
-            self.appStack.resetToTopStack(newStackId: newStack)
+//            self.appStack.releaseTopStack() 
+//            let newStack = PGLFilterStack()
+//            newStack.setStartupDefault() // not sent in the init.. need a starting point
+//            self.appStack.resetToTopStack(newStackId: newStack)
             super.tearDown()
 
 

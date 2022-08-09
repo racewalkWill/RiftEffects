@@ -41,9 +41,10 @@ class PGLSourceFilterTests: XCTestCase {
 //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
 //        myAppDelegate.saveContext() // checks if context has changes
         self.appStack.releaseTopStack()
-        let newStack = PGLFilterStack()
-        newStack.setStartupDefault() // not sent in the init.. need a starting point
-        self.appStack.resetToTopStack(newStackId: newStack)
+//        let newStack = PGLFilterStack()
+//        newStack.setStartupDefault() // not sent in the init.. need a starting point
+//        
+//        self.appStack.resetToTopStack(newStackId: newStack)
 
         super.tearDown()
     }
