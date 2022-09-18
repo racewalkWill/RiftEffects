@@ -128,6 +128,7 @@
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
 		A3E6243D2691261A0017372F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A3E6243C2691261A0017372F /* Settings.bundle */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
+		A3FB765C28D7AF6500595461 /* PGLWindowSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB765B28D7AF6500595461 /* PGLWindowSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -279,6 +280,7 @@
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
 		A3E6243C2691261A0017372F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
+		A3FB765B28D7AF6500595461 /* PGLWindowSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLWindowSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -567,6 +569,7 @@
 				A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */,
 				A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */,
 				A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */,
+				A3FB765B28D7AF6500595461 /* PGLWindowSceneDelegate.swift */,
 			);
 			path = "UI Support";
 			sourceTree = "<group>";
@@ -643,7 +646,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Will Loew-Blosser";
 				TargetAttributes = {
 					A3BF500824D3298F00CD5114 = {
@@ -789,6 +792,7 @@
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,
 				A3BF513624D32A3400CD5114 /* PGLAssetCollection.swift in Sources */,
 				A3BF514824D32A3400CD5114 /* PGLTabsController.swift in Sources */,
+				A3FB765C28D7AF6500595461 /* PGLWindowSceneDelegate.swift in Sources */,
 				A3BF50D524D32A3400CD5114 /* OldeFilm.m in Sources */,
 				A3BF512A24D32A3400CD5114 /* PGLTransitionFilter.swift in Sources */,
 				A3BF50D924D32A3400CD5114 /* PixellateTransition.m in Sources */,
@@ -895,7 +899,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -959,7 +962,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -990,6 +992,7 @@
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 39;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
@@ -1017,6 +1020,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 39;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
@@ -1043,6 +1047,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
@@ -1065,6 +1070,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
@@ -1086,6 +1092,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEfffectsUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
@@ -1107,6 +1114,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEfffectsUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
