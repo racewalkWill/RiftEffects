@@ -260,15 +260,13 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
         let lastVersionPromptedForReview = AppUserDefaults.string(forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
 
-        if saveCount >= 5 && currentVersion != lastVersionPromptedForReview {
+        if saveCount >= 2 && currentVersion != lastVersionPromptedForReview {
             let twoSecondsFromNow = DispatchTime.now() + 2.0
             DispatchQueue.main.asyncAfter(deadline: twoSecondsFromNow) {
 
-                SKStoreReviewController.requestReview()
-                // requestReview is deprecated in iOS 14.0
-                // assuming that change to WindowScene will take
-                // a long time as there is a huge library of apps using the AppDelegate protocols
-                // should be requestReview(in windowScene: UIWindowScene)
+                if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                    SKStoreReviewController.requestReview(in: scene)
+                }
 
                 AppUserDefaults.set(currentVersion, forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
 

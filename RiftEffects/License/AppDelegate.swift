@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     var window: UIWindow?
+    var windowSceneDelegate: PGLWindowSceneDelegate?
+
     var appStack = PGLAppStack()
     lazy var dataWrapper: CoreDataWrapper = { return CoreDataWrapper() }()
 
@@ -128,9 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // informs user to try again with 'Save As'
 
 
-        guard let lastWindow = UIApplication.shared.windows.last(where: {!$0.isKeyWindow })
-                // don't use the keywindow - they have error with the alert of
-                //  "Keyboard cannot present view controllers (attempted to present <UIAlertController: 0x131893600>)"
+        guard let lastWindow = windowSceneDelegate?.window
         else { return
                 // need a window to present an alert.. give up
         }

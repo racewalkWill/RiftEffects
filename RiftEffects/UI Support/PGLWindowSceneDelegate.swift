@@ -22,5 +22,8 @@ final class PGLWindowSceneDelegate: UIResponder, UIWindowSceneDelegate {
       self.window = window
 
       window.makeKeyAndVisible()
+        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+        else { return }
+        myAppDelegate.windowSceneDelegate = self
     }
 }
