@@ -380,7 +380,10 @@ extension PGLFilterAttributeImage {
                 return
             }
             newCDImageParm.parmName = self.attributeName
-            newCDImageParm.filter = self.aSourceFilter.storedFilter // creates relationship
+            if self.aSourceFilter.storedFilter != nil {
+                // production fix in version 2.1
+                newCDImageParm.filter = self.aSourceFilter.storedFilter // creates relationship
+            }
             self.storedParmImage = newCDImageParm
         }
 

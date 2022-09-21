@@ -190,7 +190,14 @@ class PGLAssetController: UIViewController {
     }
 
     @IBAction func badgeBtnToggle(_ sender: UIButton) {
+            // production error ver 2.1  Unexpectedly found nil while implicitly unwrapping an Optional value ()
+        // check optionals userAssetSelection and asset
+        if (userAssetSelection == nil) || (asset == nil ) {
+            // do nothing
+            return
+        }
         let imageWasSelected = userAssetSelection.contains(localIdentifier: asset.localIdentifier)
+
           // if the image is in the userSelection then it can be removed
         if imageWasSelected {
             userAssetSelection.remove(asset)

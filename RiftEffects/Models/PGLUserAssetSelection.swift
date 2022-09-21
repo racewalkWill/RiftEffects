@@ -58,16 +58,28 @@ class PGLAlbumSource: Hashable {
 
         }
 
-   fileprivate func asset(position: Int) -> PGLAsset? {
+    fileprivate func errorCleanup()  {
+            // error do cleanup
+            // caller answers nil
+        assetFetch = nil // on error  clean up vars
+        identifier = PGLAlbumErrorString
+        sectionSource = nil
+
+    }
+
+    fileprivate func asset(position: Int) -> PGLAsset? {
          // why not return an array of PGLAsset for the PGLAssetController??
-        if let theAsset = assetFetch?.object(at: position) {
-          let  newPGLAsset = PGLAsset(theAsset, collectionId: identifier, collectionLocalTitle: albumTitle)
-             return newPGLAsset
-            }
-            else { // error do cleanup
-                assetFetch = nil // on error  clean up vars
-                identifier = PGLAlbumErrorString
-                sectionSource = nil
+       if position < assetFetch?.count ?? 0 {
+           // fix for rangeException in production version 2.1
+
+           if let theAsset = assetFetch?.object(at: position) {
+               let  newPGLAsset = PGLAsset(theAsset, collectionId: identifier, collectionLocalTitle: albumTitle)
+               return newPGLAsset
+           }
+           else { errorCleanup()
+                   return nil}
+       }
+        else { errorCleanup()
                 return nil}
         }
     
