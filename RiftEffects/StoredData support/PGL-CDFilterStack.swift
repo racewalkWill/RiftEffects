@@ -105,7 +105,7 @@ extension PGLFilterStack {
                     // storedStack?.addToFilters(theFilterStoredObject)
                     // add at the correct position !
                     storedStack?.addToFilters(theFilterStoredObject)
-                    //storedStack?.insertIntoFilters(theFilterStoredObject, at: filterIndex)
+
 
                 } else {
                     // further check on the relationship
@@ -126,13 +126,13 @@ extension PGLFilterStack {
             return storedStack!  // force error if not set
     }
 
-    func restoreCDstackImageCache() {
-        // drill to all the filters and restoreImageCache after the moContext.save()
-        for aFilter in activeFilters {
-            aFilter.restoreImageInputsFromCache()
-        }
-
-    }
+//    func restoreCDstackImageCache() {
+//        // drill to all the filters and restoreImageCache after the moContext.save()
+//        for aFilter in activeFilters {
+//            aFilter.restoreImageInputsFromCache()
+//        }
+//
+//    }
 
   
     func stackThumbnail() -> Data? {
@@ -158,7 +158,9 @@ extension PGLSourceFilter {
              else { return nil}
 
         newSource.localFilter = myCDFilter.ciFilter!
-        newSource.storedFilter = myCDFilter
+        // the ciFilter is no longer stored.. it is rebuilt with values from the CDParmValues table
+//        newSource.storedFilter = myCDFilter
+
         newSource.resetAttributesToLocalFilter()
         if let parmImages = myCDFilter.input?.allObjects as? [CDParmImage] {
             // attach the cdParmImage to the matching filter attribute
@@ -168,6 +170,9 @@ extension PGLSourceFilter {
                 }
             }
         }
+        // now read the saved non image parm values if they exist
+        
+
         return newSource
 
     }
@@ -187,58 +192,35 @@ extension PGLSourceFilter {
                 storedFilter =  NSEntityDescription.insertNewObject(forEntityName: "CDStoredFilter", into: moContext) as? CDStoredFilter
 
             }
-            storedFilter?.stackPosition = stackPosition
-            storedFilter!.ciFilter = self.localFilter
-            storedFilter!.ciFilterName = self.filterName
-            storedFilter!.pglSourceFilterClass = self.classStringName()
+            let newStoredFilter = storedFilter!
 
-            return storedFilter!
+            newStoredFilter.stackPosition = stackPosition
+//            storedFilter!.ciFilter = self.localFilter
+              /// values used by the filter will be stored into CDParmValue row
+            /// do not store the filter
+            newStoredFilter.ciFilter = nil
+
+            newStoredFilter.ciFilterName = self.filterName
+            newStoredFilter.pglSourceFilterClass = self.classStringName()
+
+            return newStoredFilter
             // moContext save at the stack save
 
     }
 
     func writeFilter(moContext: NSManagedObjectContext) {
-        // prepare image cache
+
         // create imageList
         // assumes createCDFilterObject has created the storedFilter if needed
 //        NSLog("PGLSourceFilter #writeFilter filter \(String(describing: filterName))")
-        imageInputCache = moveImageInputsToCache()
-        createCDImageList(moContext: moContext) // creates for all the input parms
+
+            /// creates for all the image input parms
+        createCDImageList(moContext: moContext)
+        storeParmValue(moContext: moContext)
 
     }
 
-    func moveImageInputsToCache() -> [String :CIImage?] {
-        var localCache = [String : CIImage?]()
-//        NSLog("PGLSourceFilter #moveImageInputsToCache filter \(String(describing: filterName))")
 
-
-        for aImageKey in imageInputAttributeKeys {
-//            NSLog("PGLSourceFilter #moveImageInputsToCache on \(aImageKey)")
-            localCache[aImageKey] = valueFor(keyName: aImageKey) as? CIImage
-            self.removeImageValue(keyName: aImageKey)
-        }
-
-        return localCache
-    }
-
-    func restoreImageInputsFromCache() {
-        // from the filter var imageInputCache
-//       NSLog("PGLSourceFilter #restoreImageInputsFromCache filter \(String(describing: filterName))")
-        for (attributeName, image ) in imageInputCache {
-            if let aCIImage = image {
-                setImageValue(newValue: aCIImage, keyName: attributeName)
-            }
-            if let parm = attribute(nameKey: attributeName){
-                if parm.hasFilterStackInput() {
-                    // drill down to restore child stack filters too
-                    let childStack = parm.inputStack
-                    childStack?.restoreCDstackImageCache()
-                }
-            }
-
-        }
-        imageInputCache = [String :CIImage?]() // clear the cache
-    }
 
 
 
@@ -283,6 +265,15 @@ extension PGLSourceFilter {
 
     }
 
+    func storeParmValue(moContext: NSManagedObjectContext) {
+            // 4EntityModel
+            /// create a CDParmValue for every parm that is not an image parm
+        for aParm in nonImageParms() {
+            aParm.storeParmValue(moContext: moContext)
+        }
+
+    }
+
     func readCDParmImages() -> [CDParmImage] {
         // 4EntityModel
         // load all the cdParmImages
@@ -318,6 +309,9 @@ extension PGLSourceFilter {
         return imageAttributes
     }
 
+    func nonImageParms() -> [PGLFilterAttribute] {
+        return attributes.filter({$0 is PGLFilterAttributeImage } )
+    }
 }  // ================ end extension PGLSourceFilter =========================
 
 extension PGLFilterAttributeImage {
@@ -358,6 +352,8 @@ extension PGLFilterAttributeImage {
             }
         }
     }
+
+
 
     func createNewCDImageParm(moContext: NSManagedObjectContext) {
         // 4EntityModel
@@ -560,7 +556,7 @@ extension PGLAppStack {
                 return
             }
             let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
-            // filter images are moved to a cache before the save
+
             dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
             // post notification to update PGLOpenStackViewController
             // with the new or updated stack
@@ -572,10 +568,10 @@ extension PGLAppStack {
 
 
       // now restore all the cached input images
-        if let initialStack = firstStack() {
-         initialStack.restoreCDstackImageCache()
-            // bring back the image cache to filter inputs after save runs
-            }
+//        if let initialStack = firstStack() {
+//         initialStack.restoreCDstackImageCache()
+//            // bring back the image cache to filter inputs after save runs
+//            }
     }
 
 
@@ -780,3 +776,292 @@ extension PGLAppStack {
 
 }
 // ================ end extension PGLAppStack =========================
+
+extension PGLFilterAttribute {
+    @objc func storeParmValue(moContext: NSManagedObjectContext) {
+            // abstract super class implementation
+            // all subclasses should call this super first
+        if storedParmValue == nil {
+            let storedParmValue =  NSEntityDescription.insertNewObject(forEntityName: "CDParmValue", into: moContext) as? CDParmValue
+            if storedParmValue == nil {
+                    // raise error message in the UI
+                Logger(subsystem: LogSubsystem, category: LogCategory).fault("CoreData error storeParmValue failed to insert new object into moContext" )
+            }
+        }
+
+        storeParmValue() // moContext not needed for value assignmement
+
+        // any further message to the moContext after the values are updated?
+
+    }
+
+    @objc func storeParmValue() {
+        // all subclasses should call this super method
+        guard let parmValue = storedParmValue
+            else { return }
+        parmValue.attributeName = attributeName
+            // redudant assignement since the relationship to the attribute parm exists.
+            // just checking ....
+        parmValue.pglParmClass = String(describing: (type(of:self).self))
+            // this is the runtime self - a subclass of PGLFilterAttribute
+    }
+}
+
+//================== PGLFilterAttribute extension ====================
+
+extension PGLAttributeRectangle {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        parmValue.xPoint = filterRect.minX
+        parmValue.yPoint = filterRect.minY
+        parmValue.widthValue = filterRect.width
+        parmValue.heightValue = filterRect.height
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeAffine {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        parmValue.vectorAngle = rotation
+        parmValue.vectorX = Float(scale.x)
+        parmValue.vectorY = Float(scale.y)
+        parmValue.vectorZ = Float(translate.x)
+        parmValue.vectorLength = Float(translate.y)
+
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeAngle {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        parmValue.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeAttributedString {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        parmValue.stringValue = getStringValue() as String?
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeColor {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myColor = getColorValue()
+        else { return }
+        parmValue.redValue = Float(myColor.red)
+        parmValue.greenValue = Float(myColor.green)
+        parmValue.blueValue = Float(myColor.blue)
+        parmValue.alphaValue = Float(myColor.alpha)
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeData {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myData = getDataValue()
+            else { return }
+        parmValue.binaryValue = Data(myData)
+
+
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeImage {
+
+    @objc override func storeParmValue() {
+        // do nothing. images are stored into the imageList table
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeNumber {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myNum = getNumberValue()
+        else { return }
+
+        parmValue.doubleValue = myNum.doubleValue
+            // double used to preserve precision.
+
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeString {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myString = getStringValue()
+        else { return }
+
+        parmValue.stringValue = String(myString)
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeTime {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myTime = getNumberValue()
+        else { return }
+
+        parmValue.floatValue = myTime.floatValue
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeVector {
+
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myVector = getVectorValue()
+            else { return }
+
+        parmValue.vectorX = Float(myVector.x)
+        parmValue.vectorY = Float(myVector.y)
+
+        if let myEndPoint = endPoint {
+            // endpoint used in the vary scenerio
+            parmValue.vectorLength = Float(myEndPoint.x)
+                // not a good name but just using an available column
+            parmValue.vectorAngle = Float(myEndPoint.y)
+        }
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLRotateAffineUI {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myRotation = getValue() as? PGLFilterAttributeAffine
+        else { return }
+
+        parmValue.vectorAngle = Float(myRotation.rotation)
+            // affines do not have a rotation accesssor..
+            // this should never work right.. it is intialized as zero
+            // and will stay zero in the current implementation
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLScaleAffineUI {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myRotation = getValue() as? PGLFilterAttributeAffine
+        else { return }
+
+        parmValue.vectorX = Float(myRotation.scale.x)
+        parmValue.vectorY = Float(myRotation.scale.y)
+            // affines do not have a scale accesssor..
+            // this should never work right.. it is intialized as zero
+            // and will stay zero in the current implementation
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLTimerRateAttributeUI {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        
+        parmValue.floatValue = getTimerDt()
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLTranslateAffineUI {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        guard let myTranslate = getValue() as? CIVector
+        else { return }
+
+        parmValue.vectorX = Float(myTranslate.x)
+        parmValue.vectorY = Float(myTranslate.y)
+
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLFilterAttributeVector3 {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+            else { return }
+
+        parmValue.floatValue = Float(zValue)
+    }
+    // now store this instance values into the storedParmValue
+}
+
+extension PGLVectorNumeric3UI {
+    @objc override func storeParmValue() {
+        super.storeParmValue()
+        guard let parmValue = storedParmValue
+        else { return }
+
+        guard let parentVectorAttribute = zValueParent
+        else { return }
+
+        parmValue.floatValue = Float(parentVectorAttribute.zValue)
+    }
+}
+
+
