@@ -14,6 +14,7 @@ enum Stack { case begin, middle, end }
 
 // constants for custom filter creation / loading
 
+let kPSequencedFilter = "Sequenced Filters"
 let kPFaceFilter = "FaceFilter"
 let kPBumpBlend = "BumpBlend"
 let kPBumpFace = "BumpFace"
@@ -48,6 +49,7 @@ extension CIFilter {
             ],
             kPImages : [PGLTransitionFilter.self ],
             kPRandom : [PGLRandomFilterMaker.self ],
+          kPSequencedFilter : [PGLTransitionFilter.self ] ,
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],
             "CIBarsSwipeTransition" : [PGLTransitionFilter.self] ,
             "CICopyMachineTransition" : [PGLTransitionFilter.self ],

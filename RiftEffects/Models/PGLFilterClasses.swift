@@ -1125,6 +1125,9 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
     func filter(withName: String) -> CIFilter? {
 
         switch withName {
+            case kPSequencedFilter :
+                return PGLSequencedFilters()
+
             case kPBumpBlend :
                 return PGLBumpBlendCI()
 

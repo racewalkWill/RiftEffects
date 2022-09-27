@@ -22,6 +22,7 @@
 		A349E85F26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */; };
 		A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */; };
 		A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */; };
+		A353130F28E31BD5001F2C87 /* PGLSequencedFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A353130E28E31BD5001F2C87 /* PGLSequencedFilters.swift */; };
 		A35506EC26BF376A00BAC9BD /* PGLUserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */; };
 		A35BADAC2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */; };
 		A35FF77926DC316400D78252 /* PGLCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35FF77826DC316400D78252 /* PGLCoreDataStack.swift */; };
@@ -165,6 +166,7 @@
 		A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
+		A353130E28E31BD5001F2C87 /* PGLSequencedFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequencedFilters.swift; sourceTree = "<group>"; };
 		A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLUserDefaultKeys.swift; sourceTree = "<group>"; };
 		A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPopUpFilterInfo.swift; sourceTree = "<group>"; };
 		A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */,
 				A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */,
 				A3BF508424D32A3400CD5114 /* PGLImageCIFilter.swift */,
+				A353130E28E31BD5001F2C87 /* PGLSequencedFilters.swift */,
 				A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */,
 				A3BF508724D32A3400CD5114 /* PGLFaceCIFilter.swift */,
 				A3BF508824D32A3400CD5114 /* PGLFeatureTransitionFilter.swift */,
@@ -726,6 +729,7 @@
 				A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */,
 				A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */,
 				A3BF513424D32A3400CD5114 /* PGLPhotoLists.swift in Sources */,
+				A353130F28E31BD5001F2C87 /* PGLSequencedFilters.swift in Sources */,
 				A3BF510A24D32A3400CD5114 /* MetalFilter.swift in Sources */,
 				A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */,
 				A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */,
