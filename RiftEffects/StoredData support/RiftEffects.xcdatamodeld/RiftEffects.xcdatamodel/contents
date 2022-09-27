@@ -24,7 +24,7 @@
         <relationship name="inputAssets" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDImageList" inverseName="parm" inverseEntity="CDImageList"/>
         <relationship name="inputStack" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDFilterStack" inverseName="outputToParm" inverseEntity="CDFilterStack"/>
     </entity>
-    <entity name="CDParmValue" representedClassName="CDParmValue" syncable="YES" codeGenerationType="category">
+    <entity name="CDParmValue" representedClassName="CDParmValue" syncable="YES">
         <attribute name="alphaValue" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="attributeName" attributeType="String" defaultValueString="empty"/>
         <attribute name="binaryValue" optional="YES" attributeType="Binary"/>

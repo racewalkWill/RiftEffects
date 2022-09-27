@@ -268,10 +268,14 @@ extension PGLSourceFilter {
     func storeParmValue(moContext: NSManagedObjectContext) {
             // 4EntityModel
             /// create a CDParmValue for every parm that is not an image parm
+        let parmValues = [CDParmValue]()
         for aParm in nonImageParms() {
-            aParm.storeParmValue(moContext: moContext)
+//            parmValues.append(  aParm.storeParmValue(moContext: moContext))
         }
+//        storedFilter?.values = parmValues
+        // MARK: add relationship
 
+            // store the relationship
     }
 
     func readCDParmImages() -> [CDParmImage] {
@@ -778,7 +782,7 @@ extension PGLAppStack {
 // ================ end extension PGLAppStack =========================
 
 extension PGLFilterAttribute {
-    @objc func storeParmValue(moContext: NSManagedObjectContext) {
+    @objc func storeParmValue(moContext: NSManagedObjectContext) -> CDParmValue? {
             // abstract super class implementation
             // all subclasses should call this super first
         if storedParmValue == nil {
@@ -792,6 +796,9 @@ extension PGLFilterAttribute {
         storeParmValue() // moContext not needed for value assignmement
 
         // any further message to the moContext after the values are updated?
+
+        // save the relationship
+        return storedParmValue
 
     }
 
