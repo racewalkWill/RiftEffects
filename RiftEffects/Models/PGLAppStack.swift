@@ -188,24 +188,35 @@ class PGLAppStack {
 
     }
 
+    func addChildSequenceStackTo(parm: PGLFilterAttribute) {
+        // same as addChildStackTo(parm: PGLFilterAttribute)
+        // but with different stack class
+        let newSequenceStack = PGLFilterSequence()
+        addChildStackBasic(newSequenceStack, parm)
+    }
+    
+    fileprivate func addChildStackBasic(_ newStack: PGLFilterStack, _ parm: PGLFilterAttribute) {
+            //        newStack.setStartupDefault() // Images null filter is starting filter
+        newStack.stackName = viewerStack.nextStackName()
+        newStack.stackType = "input"
+            //        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")
+        newStack.parentAttribute = parm
+            //        newStack.parentStack = viewerStack
+        pushChildStack(newStack)  // make newStack as the current masterDataStack
+
+        parm.inputStack = newStack
+        parm.setImageParmState(newState: ImageParm.inputChildStack)
+            // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
+            //        resetCellFilters() // the flattened filter list needs update for the new stack
+        postStackChange()
+    }
+
     func addChildStackTo(parm: PGLFilterAttribute) {
         // the parm takes the output of a set of filters in a filterStack
         // as the visual input
         let  newStack = PGLFilterStack()
        
-//        newStack.setStartupDefault() // Images null filter is starting filter
-        newStack.stackName = viewerStack.nextStackName()
-        newStack.stackType = "input"
-//        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")
-        newStack.parentAttribute = parm
-//        newStack.parentStack = viewerStack
-        pushChildStack(newStack)  // make newStack as the current masterDataStack
-
-        parm.inputStack = newStack
-        parm.setImageParmState(newState: ImageParm.inputChildStack)
-         // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
-//        resetCellFilters() // the flattened filter list needs update for the new stack
-        postStackChange() // causes resetCellFilters too
+        addChildStackBasic(newStack, parm) // causes resetCellFilters too
     }
 
     func pushChildStack(_ child: PGLFilterStack) {

@@ -13,7 +13,10 @@ class PGLSequencedFilters: CIFilter {
 
     @objc dynamic   var inputImage: CIImage?
     @objc dynamic   var inputTime: NSNumber = 10.0
+    var myFilterSequence: PGLFilterSequence!
 
+    // need to set input of myFilterSequence as the inputImage
+    
     class func register() {
         //       let attr: [String: AnyObject] = [:]
 //        NSLog("PGLSequencedFilters #register()")
@@ -46,6 +49,9 @@ class PGLSequencedFilters: CIFilter {
 
 
     override var outputImage: CIImage? {
-        get { return inputImage }
+
+        get { let sequenceInputImage = inputImage
+            myFilterSequence.imageUpdate(sequenceInputImage, true)
+            return myFilterSequence.outputImage() }
     }
 }

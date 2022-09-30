@@ -343,6 +343,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return detectors.first
     }
     func outputImageBasic() -> CIImage? {
+        //MARK: Review Needed
+        // assumes addStepTime() but calls addStepTime()
         // assumes addStepTime() is called before this
 
         // wrapper may call this to produce wrapper effects on the basicImage
