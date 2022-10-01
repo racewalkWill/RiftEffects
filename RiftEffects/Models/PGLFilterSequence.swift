@@ -30,7 +30,7 @@ class PGLFilterSequence: PGLFilterStack {
         // See PGLAppStack #addChildStackTo(parm:...)
         // this stack has the var .parentAttribute set
         // the parentAttribute refers to this as parm.inputStack
-
+        
         return imageUpdate(nil, showCurrentFilterImage)
 
     }

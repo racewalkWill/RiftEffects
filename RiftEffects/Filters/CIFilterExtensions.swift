@@ -49,7 +49,7 @@ extension CIFilter {
             ],
             kPImages : [PGLTransitionFilter.self ],
             kPRandom : [PGLRandomFilterMaker.self ],
-          kPSequencedFilter : [PGLTransitionFilter.self ] ,
+          kPSequencedFilter : [PGLSequencedFilters.self ] ,
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],
             "CIBarsSwipeTransition" : [PGLTransitionFilter.self] ,
             "CICopyMachineTransition" : [PGLTransitionFilter.self ],

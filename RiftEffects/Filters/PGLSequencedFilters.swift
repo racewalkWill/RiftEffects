@@ -2,56 +2,43 @@
 //  PGLSequencedFilters.swift
 //  RiftEffects
 //
-//  Created by Will on 9/27/22.
+//  Created by Will on 10/1/22.
 //  Copyright © 2022 Will Loew-Blosser. All rights reserved.
 //
 
+import Foundation
+import CoreImage
+import simd
 import UIKit
+import os
 
-class PGLSequencedFilters: CIFilter {
-    // just return an image.. NO EFFECTS.. Starts the filter chain..
+class PGLSequencedFilters: PGLTransitionFilter {
 
-    @objc dynamic   var inputImage: CIImage?
-    @objc dynamic   var inputTime: NSNumber = 10.0
-    var myFilterSequence: PGLFilterSequence!
-
-    // need to set input of myFilterSequence as the inputImage
-    
-    class func register() {
-        //       let attr: [String: AnyObject] = [:]
-//        NSLog("PGLSequencedFilters #register()")
-        CIFilter.registerName(kPSequencedFilter, constructor: PGLFilterConstructor(), classAttributes: PGLSequencedFilters.customAttributes())
+    override func addChildSequenceStack(appStack: PGLAppStack) {
+        // actually do the add
+        if let myImageParm = getInputImageAttribute() {
+            appStack.addChildSequenceStackTo(parm: myImageParm)
+        }
     }
 
-    class override var supportsSecureCoding: Bool { get {
-        // subclasses must  implement this
-        // Core Data requires secureCoding to store the filter
-        return true
-    }}
+    override  func outputImageBasic() -> CIImage? {
+        // assign input to the child sequence stack
+        // return the outpput of the child sequence stack
+
+        // instead of returning empty on errors.. return the output same as
+        // images??
+        guard let myImage = inputImage()
+            else { return CIImage.empty()}
+
+        guard let imageAttribute = getInputImageAttribute()
+            else { return CIImage.empty()}
+
+        guard let mySequenceStack = imageAttribute.inputStack as? PGLFilterSequence
+        else { return  CIImage.empty()}
+
+       return mySequenceStack.imageUpdate(myImage, true)
 
 
-    @objc class func customAttributes() -> [String: Any] {
-        let customDict:[String: Any] = [
-            kCIAttributeFilterDisplayName : kPSequencedFilter,
-
-            kCIAttributeFilterCategories :
-                [kCICategoryTransition, kCICategoryStillImage],
-
-            "inputTime" :  [
-
-                kCIAttributeDefault   : 0.00,
-                kCIAttributeIdentity  :  0.0,
-                kCIAttributeType      : kCIAttributeTypeTime
-                ]
-        ]
-        return customDict
     }
 
-
-    override var outputImage: CIImage? {
-
-        get { let sequenceInputImage = inputImage
-            myFilterSequence.imageUpdate(sequenceInputImage, true)
-            return myFilterSequence.outputImage() }
-    }
 }

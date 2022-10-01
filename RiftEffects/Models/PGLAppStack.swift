@@ -192,7 +192,11 @@ class PGLAppStack {
         // same as addChildStackTo(parm: PGLFilterAttribute)
         // but with different stack class
         let newSequenceStack = PGLFilterSequence()
-        addChildStackBasic(newSequenceStack, parm)
+        if let ciFilterSequence = parm.myFilter as? PGLCISequenced {
+            ciFilterSequence.myFilterSequence = newSequenceStack
+
+            addChildStackBasic(newSequenceStack, parm)
+        }
     }
     
     fileprivate func addChildStackBasic(_ newStack: PGLFilterStack, _ parm: PGLFilterAttribute) {

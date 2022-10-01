@@ -504,6 +504,11 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             return CIImage.empty()}
     }
 
+    func addChildSequenceStack(appStack: PGLAppStack) {
+       // over ride in PGLSequencedFilters
+
+    }
+
 // MARK: flattened Filters
     func stackRowCount() -> Int {
         // answer 1 plus the count of filters in the input parm stacks
@@ -1128,7 +1133,7 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
 
         switch withName {
             case kPSequencedFilter :
-                return PGLSequencedFilters()
+                return PGLCISequenced()
 
             case kPBumpBlend :
                 return PGLBumpBlendCI()

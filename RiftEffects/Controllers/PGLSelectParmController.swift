@@ -976,9 +976,15 @@ class PGLSelectParmController: PGLCommonController,
                     self.tappedAttribute = cellDataAttribute
                     Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController trailingSwipeActionsConfigurationForRowAt tappedAttribute = \(String(describing: self.tappedAttribute))")
                     self.imageController?.hideSliders()
+
+                    // MARK: NEEDS REVIEW
+                    // if inputStack is nil then the following does nothing
+                    // trace this - it can be removed
                     if self.tappedAttribute?.inputParmType() == ImageParm.inputChildStack {
                         self.appStack.pushChildStack((self.tappedAttribute?.inputStack)!)
                     }
+                    // end Needs Review
+
                     self.performSegue(withIdentifier: cellDataAttribute.segueName() ?? "NoSegue", sender: cellDataAttribute)
                     // this will segue to the filter Stack...should go stackControler.
 

@@ -203,7 +203,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         if let selectedFilter = descriptor.pglSourceFilter() {
             stackData()?.performFilterPick(selectedFilter: selectedFilter)
                 // depending on mode will replace or add to the stack
-
+            selectedFilter.addChildSequenceStack(appStack: appStack) // usually empty method except for the PGLSequencedFilters
             Logger(subsystem: LogSubsystem, category: LogCategory).notice("filter set = \(String(describing: selectedFilter.filterName))")
 
             // post notification that filter is changed. The parmSettings manager should listen
@@ -212,6 +212,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
             postImageChange()
             postCurrentFilterChange()
             appStack.resetCellFilters()
+
 //            selectedFilter(addChild: appStack,)
                 // tell the appStack to do the addChildSequence with this filter
             // use super class empty method

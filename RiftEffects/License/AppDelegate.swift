@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLSaliencyBlurFilter.register()
         PGLImageCIFilter.register()
         PGLRandomFilterAction.register()
-        PGLSequencedFilters.register()
+        PGLCISequenced.register()
 
         Logger(subsystem: LogSubsystem, category: LogCategory).notice( " didFinishLaunchingWithOptions appStack created")
         checkVersion()
