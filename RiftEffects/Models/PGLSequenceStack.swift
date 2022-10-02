@@ -1,5 +1,5 @@
 //
-//  PGLFilterSequence.swift
+//  PGLSequenceStack.swift
 //  RiftEffects
 //
 //  Created by Will on 9/27/22.
@@ -16,7 +16,7 @@ import os
 /// PGLFilterSequence stack shows only one filter at a time using stack input and outputs just the single current filter output
 ///  for SequencedFilters of any number of filters
 ///    always a child stack
-class PGLFilterSequence: PGLFilterStack {
+class PGLSequenceStack: PGLFilterStack {
 
    override init(){
         super.init()
@@ -83,6 +83,15 @@ class PGLFilterSequence: PGLFilterStack {
                 }
             }
         return thisImage ?? CIImage.empty()
+    }
+
+    func increment() {
+        // always circle around .. back to first
+        if activeFilterIndex >= (activeFilters.count - 1) {
+            // zero based array
+            activeFilterIndex = 0
+        } else {
+            moveActiveAhead() }
     }
 
 }

@@ -58,7 +58,7 @@ class PGLSourceFilter :  PGLAnimation  {
     var attributes = [PGLFilterAttribute]() // may have subclasses
     var filterCategories = [String]()
     var uiPosition: PGLFilterCategoryIndex
-    var hasImageInput = false
+    var isImageInputType = false
     weak var oldImageInput: CIImage?
     var storedFilter: CDStoredFilter? // managedObject - write/read to Core Data
     var imageInputCache: [String :CIImage?] = [:]
@@ -124,7 +124,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                         }
                 }
 
-                hasImageInput =  attributes.contains { (attribute: PGLFilterAttribute ) -> Bool in
+                isImageInputType =  attributes.contains { (attribute: PGLFilterAttribute ) -> Bool in
                     attribute.isImageInput()
                 }
 //            if !hasImageInput  {
@@ -213,7 +213,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     func setInput(image: CIImage?, source: String?) {
 
-        if hasImageInput {
+        if isImageInputType {
             if ((oldImageInput !== image)  && ( image != nil) ) { // same condition used in subclass PGLDetectorFilter.setInput
                 // ignore changes in the image input for successive frames.
                 oldImageInput = image
@@ -497,7 +497,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     func inputImage() -> CIImage?  {
-        if hasImageInput {
+        if isImageInputType {
             return valueFor(keyName: kCIInputImageKey) as? CIImage
         }
         else {

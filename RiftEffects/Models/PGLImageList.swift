@@ -525,7 +525,13 @@ class PGLImageList: CustomStringConvertible {
         assetIDs.append(newImage.localIdentifier)
     }
 
-
+    func getCurrentImage() -> CIImage {
+        if let myCurrentImage =  image(atIndex: position) {
+            return myCurrentImage
+        } else {
+            return CIImage.empty()
+        }
+    }
     func increment() -> CIImage? {
         if hasImageStack() { return inputStack?.stackOutputImage(false)} // needs scaleToFrame??
         if isEmpty() {return nil } // guard

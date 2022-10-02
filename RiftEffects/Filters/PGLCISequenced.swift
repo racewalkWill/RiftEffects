@@ -13,7 +13,7 @@ class PGLCISequenced: CIFilter {
 
     @objc dynamic   var inputImage: CIImage?
     @objc dynamic   var inputTime: NSNumber = 10.0
-    var myFilterSequence: PGLFilterSequence!
+    var myFilterSequence: PGLSequenceStack!
 
     // need to set input of myFilterSequence as the inputImage
     

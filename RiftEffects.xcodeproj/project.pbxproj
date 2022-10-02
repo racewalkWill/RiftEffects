@@ -24,7 +24,7 @@
 		A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */; };
 		A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */; };
 		A353130F28E31BD5001F2C87 /* PGLCISequenced.swift in Sources */ = {isa = PBXBuildFile; fileRef = A353130E28E31BD5001F2C87 /* PGLCISequenced.swift */; };
-		A353131128E37613001F2C87 /* PGLFilterSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A353131028E37613001F2C87 /* PGLFilterSequence.swift */; };
+		A353131128E37613001F2C87 /* PGLSequenceStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A353131028E37613001F2C87 /* PGLSequenceStack.swift */; };
 		A35506EC26BF376A00BAC9BD /* PGLUserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */; };
 		A35BADAC2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */; };
 		A35FF77926DC316400D78252 /* PGLCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35FF77826DC316400D78252 /* PGLCoreDataStack.swift */; };
@@ -170,7 +170,7 @@
 		A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
 		A353130E28E31BD5001F2C87 /* PGLCISequenced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCISequenced.swift; sourceTree = "<group>"; };
-		A353131028E37613001F2C87 /* PGLFilterSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterSequence.swift; sourceTree = "<group>"; };
+		A353131028E37613001F2C87 /* PGLSequenceStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequenceStack.swift; sourceTree = "<group>"; };
 		A35506EB26BF376A00BAC9BD /* PGLUserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLUserDefaultKeys.swift; sourceTree = "<group>"; };
 		A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPopUpFilterInfo.swift; sourceTree = "<group>"; };
 		A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
@@ -476,7 +476,7 @@
 				A3BF50A724D32A3400CD5114 /* PGLFilterAttribute.swift */,
 				A3BF505424D32A3400CD5114 /* PGLFilterAttributeNumber.swift */,
 				A3BF50A024D32A3400CD5114 /* PGLFilterStack.swift */,
-				A353131028E37613001F2C87 /* PGLFilterSequence.swift */,
+				A353131028E37613001F2C87 /* PGLSequenceStack.swift */,
 				A3BF508624D32A3400CD5114 /* PGLAppStack.swift */,
 				A3BF509C24D32A3400CD5114 /* PGLImageList.swift */,
 				A3BF50B624D32A3400CD5114 /* PGLUserAssetSelection.swift */,
@@ -814,7 +814,7 @@
 				A3BF50F824D32A3400CD5114 /* StackDataCell.swift in Sources */,
 				A32F2139283BBA83006C026F /* PGLNavSecondaryController.swift in Sources */,
 				A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */,
-				A353131128E37613001F2C87 /* PGLFilterSequence.swift in Sources */,
+				A353131128E37613001F2C87 /* PGLSequenceStack.swift in Sources */,
 				A3BF50D824D32A3400CD5114 /* PixellatedPeople.m in Sources */,
 				A3BF50D624D32A3400CD5114 /* TiltShift.m in Sources */,
 				A32F213D283BBF3A006C026F /* PGLFilterImageContainerController.swift in Sources */,

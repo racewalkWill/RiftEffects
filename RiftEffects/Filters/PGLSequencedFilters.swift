@@ -27,18 +27,63 @@ class PGLSequencedFilters: PGLTransitionFilter {
 
         // instead of returning empty on errors.. return the output same as
         // images??
-        guard let myImage = inputImage()
+        addStepTime()
+        guard let myInputAttribute = getInputImageAttribute()
             else { return CIImage.empty()}
 
-        guard let imageAttribute = getInputImageAttribute()
+        guard let myImage = myInputAttribute.getCurrentImage()
             else { return CIImage.empty()}
 
-        guard let mySequenceStack = imageAttribute.inputStack as? PGLFilterSequence
-        else { return  CIImage.empty()}
+
+        guard let mySequenceStack = filterSequence()
+        else { return  myImage}
+
 
        return mySequenceStack.imageUpdate(myImage, true)
-
-
     }
 
+    func filterSequence() -> PGLSequenceStack? {
+        return getInputImageAttribute()?.inputStack as? PGLSequenceStack
+    }
+
+    override func addStepTime() {
+        // in this overridden method
+        // just advance the StackSequence current index
+        // no need to get attributes
+        var doIncrement = false
+
+        if (stepTime > 1.0)   {
+            stepTime = 1.0 // bring it back in range
+            doIncrement = true
+            dt = dt * -1 // past end so toggle
+
+        }
+        else if (stepTime < 0.0) {
+            stepTime = 0.0 // bring it back in range
+            doIncrement = true
+            dt = dt * -1 // past end so toggle
+
+        }
+        if doIncrement {
+            filterSequence()?.increment()
+                // advances to the next image in the input imageList
+        }
+
+        // go back and forth between 0 and 1.0
+        // toggle dt either neg or positive
+        stepTime += dt
+        let inputTime = simd_smoothstep(0, 1, stepTime)
+
+    }
+}
+
+extension PGLFilterAttributeImage {
+    func getCurrentImage() -> CIImage? {
+        // current image from the inputCollection
+        // or empty ciImage
+        if inputCollection == nil {
+            return nil
+        }
+        return inputCollection!.getCurrentImage()
+    }
 }

@@ -191,7 +191,7 @@ class PGLAppStack {
     func addChildSequenceStackTo(parm: PGLFilterAttribute) {
         // same as addChildStackTo(parm: PGLFilterAttribute)
         // but with different stack class
-        let newSequenceStack = PGLFilterSequence()
+        let newSequenceStack = PGLSequenceStack()
         if let ciFilterSequence = parm.myFilter as? PGLCISequenced {
             ciFilterSequence.myFilterSequence = newSequenceStack
 
