@@ -29,7 +29,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
         hasAnimation = true }
 
 
-    override func addStepTime() {
+    override func addFilterStepTime() {
         // PGLTransitionFilters do not increment or send time to the
         // detectors.. They are incrementing imageList inputs
         // stepTime for transition Filters range is 0 - 1.0

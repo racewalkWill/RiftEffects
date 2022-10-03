@@ -250,7 +250,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
 
     }
 
-    override  func addStepTime() {
+    override  func addAnimationStepTime() {
         // called on every frame
         // if animationTime is nil then animation is not running
         // adds the delta value (currentDt) to the parm
@@ -294,7 +294,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         }
 
     }
-    override func setTimerDt(lengthSeconds: Float){
+    override func setAnimationTimerDt(lengthSeconds: Float){
          // user has moved the rate of change control
          // value is 0...30
          // real step timing varies from min to max  from 0 sec to 30 sec
@@ -417,7 +417,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         if varyState == .VaryPt1 {
             varyState = .VaryPt1Pt2 // move to next state for both from and to points set
             // set UI vary values
-            setTimerDt(lengthSeconds: 5.0)
+            setAnimationTimerDt(lengthSeconds: 5.0)
 
         }
     }

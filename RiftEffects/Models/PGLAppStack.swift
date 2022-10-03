@@ -30,6 +30,7 @@ class PGLAppStack {
     lazy var cellFilters = self.flattenFilters()
         // flat array of filters in the stack trees
 
+        /// display just the current filter if true
     var showFilterImage = false
 
     lazy var dataProvider: PGLStackProvider = {

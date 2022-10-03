@@ -384,7 +384,7 @@ class PGLTimerRateAttributeUI: PGLFilterAttribute {
 //        NSLog("PGLTimerRateAttributeUI #set value = \(value)")
         if let newRate = value as? Float {
 
-            timerParent?.setTimerDt(lengthSeconds: newRate ) // was newRate / 100
+            timerParent?.setAnimationTimerDt(lengthSeconds: newRate ) // was newRate / 100
         }
     }
     

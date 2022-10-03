@@ -172,7 +172,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
            // runs on all animation attributes where self is a wrapper filter
            for anAttribute in animationAttributes {
 //               anAttribute.attributeValueDelta  = nil
-            anAttribute.setTimerDt(lengthSeconds: 0.0 )
+            anAttribute.setAnimationTimerDt(lengthSeconds: 0.0 )
 
            }
            animationAttributes = [PGLFilterAttribute]()
@@ -204,7 +204,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
             // internal filter
             // assumes that inputImage set with prior stack filter outputs
 
-            addStepTime()  // if animation then move time forward
+            addFilterStepTime()  // if animation then move time forward
 
 
             let thisOutput = localFilter.outputImage
@@ -230,7 +230,7 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
     
 
 
-     override func addStepTime() {
+     override func addFilterStepTime() {
             // PGLDissolveWrapper
         // the inputs are updated on every frame
         // No imageList to increment

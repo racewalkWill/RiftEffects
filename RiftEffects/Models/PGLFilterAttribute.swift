@@ -583,7 +583,7 @@ class PGLFilterAttribute {
         return attributeValueDelta  != nil
     }
 
-    func addStepTime() {
+    func addAnimationStepTime() {
         // called on every frame
         // if animationTime is nil then animation is not running
         // adds the delta value (currentDt) to the parm
@@ -609,7 +609,7 @@ class PGLFilterAttribute {
     }
     
 
-    func setTimerDt(lengthSeconds: Float){
+    func setAnimationTimerDt(lengthSeconds: Float){
         // user has moved the rate of change control
         // value is 0...30
         // real step timing varies from min to max  from 0 sec to 30 sec

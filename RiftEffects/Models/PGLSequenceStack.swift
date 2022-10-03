@@ -18,9 +18,19 @@ import os
 ///    always a child stack
 class PGLSequenceStack: PGLFilterStack {
 
-   override init(){
+        /// use the appstack to stop filter incrments if showFilterImage = true
+    var appStack: PGLAppStack!
+
+    override init(){
         super.init()
         setStartupDefault()
+       guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+           else {
+           Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
+           return
+       }
+
+       appStack = myAppDelegate.appStack
     }
     //MARK: single output
     override func stackOutputImage(_ showCurrentFilterImage: Bool) -> CIImage {
@@ -86,9 +96,15 @@ class PGLSequenceStack: PGLFilterStack {
     }
 
     func increment() {
+
+        if appStack.showFilterImage {
+            // don't increment.. just stay
+            return
+        }
         // always circle around .. back to first
         if activeFilterIndex >= (activeFilters.count - 1) {
             // zero based array
+            // back to the beginning
             activeFilterIndex = 0
         } else {
             moveActiveAhead() }

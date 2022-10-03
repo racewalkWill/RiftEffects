@@ -27,18 +27,16 @@ class PGLSequencedFilters: PGLTransitionFilter {
 
         // instead of returning empty on errors.. return the output same as
         // images??
-        addStepTime()
+        addFilterStepTime()
         guard let myInputAttribute = getInputImageAttribute()
             else { return CIImage.empty()}
 
         guard let myImage = myInputAttribute.getCurrentImage()
             else { return CIImage.empty()}
 
-
         guard let mySequenceStack = filterSequence()
-        else { return  myImage}
-
-
+            else { return  myImage}
+        
        return mySequenceStack.imageUpdate(myImage, true)
     }
 
@@ -46,7 +44,7 @@ class PGLSequencedFilters: PGLTransitionFilter {
         return getInputImageAttribute()?.inputStack as? PGLSequenceStack
     }
 
-    override func addStepTime() {
+    override func addFilterStepTime() {
         // in this overridden method
         // just advance the StackSequence current index
         // no need to get attributes

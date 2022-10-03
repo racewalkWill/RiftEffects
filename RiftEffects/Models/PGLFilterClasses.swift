@@ -16,7 +16,7 @@ import os
 
 
 protocol PGLAnimation {
-    func addStepTime()
+    func addFilterStepTime()
 }
 
 
@@ -327,7 +327,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     func outputImage() -> CIImage? {
         // if any inputs are from another filter then they should be updated first
 
-        addStepTime()  // if animation then move time forward
+        addFilterStepTime()  // if animation then move time forward
         // increments this filter detectors 
         if wrapper != nil {
 
@@ -348,7 +348,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         // assumes addStepTime() is called before this
 
         // wrapper may call this to produce wrapper effects on the basicImage
-        addStepTime()  // if animation then move time forward
+        addFilterStepTime()  // if animation then move time forward
         for anAttribute in attributes {
                     anAttribute.updateFromInputStack()
                 }
@@ -691,7 +691,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             // keep the var and the lower level animationAttributes in sync
     }
 
-    func addStepTime() {
+    func addFilterStepTime() {
         // called on every frame
         // this does not send the increment message to the inputImage parm.
         // use PGLTransitionFilter for imageList image increment .
@@ -720,7 +720,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                 aDetector.setInputTime(time: Double(inputTime)) 
             }
             for parm in animationAttributes {
-                parm.addStepTime()
+                parm.addAnimationStepTime()
 
         }
     }
