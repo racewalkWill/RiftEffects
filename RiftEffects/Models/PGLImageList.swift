@@ -370,9 +370,9 @@ class PGLImageList: CustomStringConvertible {
          // commented out pixelWidth is zero
             let matchingSize = TargetSize  //global
 
-         options.progressHandler = {  (progress, error, stop, info) in
-             NSLog("PGLImageList imageFrom: progressHandler  \(progress) info = \(String(describing: info))")
-            }
+//         options.progressHandler = {  (progress, error, stop, info) in
+//             NSLog("PGLImageList imageFrom: progressHandler  \(progress) info = \(String(describing: info))")
+//            }
          options.resizeMode = PHImageRequestOptionsResizeMode.fast
 
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: matchingSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in

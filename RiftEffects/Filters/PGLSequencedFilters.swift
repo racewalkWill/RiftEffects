@@ -12,7 +12,7 @@ import simd
 import UIKit
 import os
 
-class PGLSequencedFilters: PGLTransitionFilter {
+class PGLSequencedFilters: PGLSourceFilter {
 
     override func addChildSequenceStack(appStack: PGLAppStack) {
         // actually do the add
