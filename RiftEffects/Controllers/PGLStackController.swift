@@ -332,24 +332,29 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         let cell = tableView.dequeueReusableCell(withIdentifier: "filterRowCell", for: indexPath)
         let aFilterIndent = appStack.filterAt(indexPath: indexPath)
 
-
-
         cell.textLabel?.text = aFilterIndent.descriptorDisplayName  // same text as the filterController cell
         cell.indentationLevel = aFilterIndent.level
 
-        switch aFilterIndent.level {
-            case 0:
-                cell.imageView?.image = PGLFilterAttribute.TopStackSymbol
-            default:
-                cell.imageView?.image = PGLFilterAttribute.ChildStackSymbol
+        if aFilterIndent.stack is PGLSequenceStack {
+            cell.imageView?.image = PGLFilterAttribute.SequenceSymbol }
+
+            else {
+                switch aFilterIndent.level {
+                    case 0:
+                        cell.imageView?.image = PGLFilterAttribute.TopStackSymbol
+                    default:
+                        cell.imageView?.image = PGLFilterAttribute.ChildStackSymbol
+                }
             }
-
-
 
         if aFilterIndent.stack === appStack.viewerStack {
             if appStack.showFilterImage {
                 // single filter mode
-                cell.imageView?.image = PGLFilterAttribute.CurrentStackSymbol
+                if aFilterIndent.stack is PGLSequenceStack {
+                    cell.imageView?.image = PGLFilterAttribute.SequenceSymbolFilled
+                }
+                else {
+                    cell.imageView?.image = PGLFilterAttribute.CurrentStackSymbol }
             }
         }
 

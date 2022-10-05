@@ -81,6 +81,9 @@ class PGLFilterAttribute {
     static let ChildStackSymbol = UIImage(systemName: "bubble.middle.top")
     static let ParentStackSymbol = UIImage(systemName: "arrow.down.doc")
     static let TopStackSymbol = UIImage(systemName: "square.stack.3d.up")
+    static let SequenceSymbol = UIImage(systemName: "rectangle.portrait.arrowtriangle.2.outward")
+    static let SequenceSymbolFilled = UIImage(systemName: "rectangle.portrait.on.rectangle.portrait.fill")
+
             // arrow.down.doc
             // or
                 //    doc.plaintext
