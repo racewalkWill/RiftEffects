@@ -40,8 +40,16 @@ class PGLSequenceStack: PGLFilterStack {
         // See PGLAppStack #addChildStackTo(parm:...)
         // this stack has the var .parentAttribute set
         // the parentAttribute refers to this as parm.inputStack
-        
-        return imageUpdate(nil, showCurrentFilterImage)
+
+        // in 'Single' filter display PGLSequenceStack is the viewer stack
+        // therefore must get the input image from the parent
+        // compared to the 'All' display where the SequencedFilters is creating the image
+        // with the similar PGLSequencedFilters.#outputImageBasic()
+         let myInputAttribute = parentAttribute as? PGLFilterAttributeImage
+         let myImage =  myInputAttribute?.getCurrentImage()
+            // may answer nil.. which is ok..
+
+        return imageUpdate(myImage, showCurrentFilterImage)
 
     }
 
