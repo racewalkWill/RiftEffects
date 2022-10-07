@@ -80,7 +80,9 @@ extension PGLFilterAttributeImage {
         // current image from the inputCollection
         // or empty ciImage
         if inputCollection == nil {
-            return nil
+           // get the input held by the filter
+            // it is being set from the stack on each render loop
+            return aSourceFilter.inputImage()
         }
         return inputCollection!.getCurrentImage()
     }

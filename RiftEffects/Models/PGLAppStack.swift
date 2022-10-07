@@ -213,7 +213,8 @@ class PGLAppStack {
         parm.setImageParmState(newState: ImageParm.inputChildStack)
             // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
             //        resetCellFilters() // the flattened filter list needs update for the new stack
-        postStackChange()
+        postStackChange() // causes imageController view.isHidden = true
+            // hides the visual output.
     }
 
     func addChildStackTo(parm: PGLFilterAttribute) {

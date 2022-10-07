@@ -376,11 +376,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
     }
 
-    func postStackChange() {
 
-        let stackNotification = Notification(name:PGLStackChange)
-        NotificationCenter.default.post(stackNotification)
-    }
 
 
 

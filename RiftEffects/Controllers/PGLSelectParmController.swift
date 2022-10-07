@@ -337,12 +337,7 @@ class PGLSelectParmController: PGLCommonController,
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func postStackChange() {
 
-           let stackNotification = Notification(name:PGLStackChange)
-           NotificationCenter.default.post(stackNotification)
-       }
 
     // MARK: NavigationBar
 
