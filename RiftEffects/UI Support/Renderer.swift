@@ -193,10 +193,10 @@ extension Renderer: MTKViewDelegate {
                 return
         }
         if let currentStack = filterStack()  {
-            if currentStack.activeFilters.isEmpty {
-                renderEncoder.endEncoding()
-                return
-            }
+//            if currentStack.activeFilters.isEmpty {
+//                renderEncoder.endEncoding()
+//                return
+//            }
             let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
 
             if mainViewImageResize {
@@ -216,7 +216,7 @@ extension Renderer: MTKViewDelegate {
                 if view.currentRenderPassDescriptor != nil {
             ciContext?.render(sizedciOutputImage ,
                 to: currentDrawable.texture,
-                commandBuffer: commandBuffer , // nil , commandBuffer   // a command buffer that is not nil is used again. this is the old images coming in..
+                commandBuffer:  nil , // commandBuffer   // a command buffer that is not nil is used again. this is the old images coming in..
                 bounds: sizedciOutputImage.extent , // ciOutputImage.extent,
                 colorSpace: colorSpace)
 

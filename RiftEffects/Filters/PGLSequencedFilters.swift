@@ -73,6 +73,25 @@ class PGLSequencedFilters: PGLSourceFilter {
         let inputTime = simd_smoothstep(0, 1, stepTime)
 
     }
+
+    override func setTimerDt(lengthSeconds: Float) {
+            // Super class does not use this
+            // timer is 0..1 range
+            // dt should be the amount of change to add to the input time
+            // to make the dissolve in lenghtSeconds total. This is also the incrment time
+            // from one image to another.
+
+            // set the dt (deltaTime) for use by addStepTime() on each frame
+
+        let framesPerSec: Float = 60.0 // later read actual framerate from UI
+        let varyTotalFrames = framesPerSec * lengthSeconds
+
+        let attributeValueRange = 1.0 // transition range is 0..1
+        if varyTotalFrames > 0.0 {
+                // division by zero is nan
+            dt = attributeValueRange / Double(varyTotalFrames)
+        }
+    }
 }
 
 extension PGLFilterAttributeImage {
