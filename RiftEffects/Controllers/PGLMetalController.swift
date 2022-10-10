@@ -48,29 +48,4 @@ class PGLMetalController: UIViewController {
 
     }
 
-    func reloadMetalView() {
-        // reloadMetalView is attempt to make the saved coredata  record images show in the full size.
-        // did not work.  2020-02-17
-        // still showing quarter view
-        guard let metalView = view as? MTKView else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController reloadMetalView fatalError(metal view not set up in storyboard")
-            return
-              }
-        metalRender = Renderer(metalView: metalView)
-    }
-
-    func metalLayer() -> CAMetalLayer? {
-        if let metalView = view as? MTKView {
-            return metalView.currentDrawable?.layer
-        } else {
-            return nil
-        }
-    }
-
-
-
-
-
-
-
 }

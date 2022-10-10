@@ -28,6 +28,13 @@ class PGLTransitionFilter: PGLRectangleFilter {
         super.init(filter: filter, position: position)
         hasAnimation = true }
 
+    override func scaleOutput(ciOutput: CIImage, stackCropRect: CGRect) -> CIImage {
+            // empty implementation answers the input
+            // subclassses such as PGLRectangleFilter which crops implement
+            // only the superclass PGLRectangle needs this method..
+        
+            return ciOutput
+        }
 
     override func addFilterStepTime() {
         // PGLTransitionFilters do not increment or send time to the
