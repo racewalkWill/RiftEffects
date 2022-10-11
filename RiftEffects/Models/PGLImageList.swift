@@ -55,8 +55,9 @@ class PGLImageList: CustomStringConvertible {
     }
     private var images = [CIImage?]()
     let doResize = false  // working on scaling... boolean switch here
-    weak var userSelection: PGLUserAssetSelection?
-
+     var userSelection: PGLUserAssetSelection?
+     // was weak var userSelection...
+    
     // MARK: Init
     init(){
 
@@ -69,6 +70,7 @@ class PGLImageList: CustomStringConvertible {
     }
 
     deinit {
+        releaseVars()
         Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
     }
 

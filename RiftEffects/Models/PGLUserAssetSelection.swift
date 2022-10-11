@@ -95,7 +95,7 @@ class PGLUserAssetSelection {
     // 3/2/2020 replaces the array userAssetCollection and supporting vars
     // answer array of all the assetSourceCollections in the assets.
 
-   var myTargetFilterAttribute: PGLFilterAttribute?  // model object
+  weak var myTargetFilterAttribute: PGLFilterAttribute?  // model object
    {
     didSet{
         // keep sections in sync.. the the PGLAlbumSource has a filter parm reference
@@ -118,7 +118,7 @@ class PGLUserAssetSelection {
     }
 
     func releaseVars() {
-        myTargetFilterAttribute = nil
+//        myTargetFilterAttribute = nil
 
     }
     deinit {
