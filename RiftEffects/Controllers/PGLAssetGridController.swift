@@ -232,9 +232,11 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 
 
 
-            guard let albumAssets = albumSource.assets()
+            guard let albumAssets = albumSource.assets()?.sorted(by: {$0.asset.creationDate ?? Date.distantPast >= $1.asset.creationDate ?? Date.distantPast })
                 else { continue }
-           
+           // sort so the newest ones are first
+            // sort by aPglAsset.asset.creationDate
+
             snapshot.appendSections([albumSource])
             snapshot.appendItems(albumAssets, toSection: albumSource)
 
