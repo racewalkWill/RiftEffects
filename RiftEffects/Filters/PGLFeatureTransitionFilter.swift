@@ -149,16 +149,6 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
     }
 
 
-
-
-//    func setWrapper(detector: PGLDetector){
-//        // 12/21/19... not entirely clear why
-//        // there are two vars for detectors.
-//        // set up both.
-//        self.detectors.append(detector)
-//        detectorFilter = detector
-//    }
-
     func releaseWrapper() {
         // reverses setWrapper
         stopWrapperAnimation()

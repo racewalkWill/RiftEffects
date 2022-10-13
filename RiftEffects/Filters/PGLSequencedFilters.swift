@@ -14,11 +14,34 @@ import os
 
 class PGLSequencedFilters: PGLSourceFilter {
 
+    private var dissolve: PGLSequenceDissolve!
+
+    fileprivate func setDissolveWrapper() {
+        // install a detector input to the tappedAttribute.
+        // needs input image of this filter and a detector
+        // detector holds the parm to set point values
+        // this filter should also keep the detectors for forwarding of increment and dt time changes
+        //                let detector = PGLDetector(ciFilter: PGLFaceCIFilter())
+        // create the wrapper filter
+//        "PGLSelectParmController #setDissolveWrapper start"
+       
+        let wrapperDesc = PGLFilterDescriptor("CIDissolveTransition", PGLSequenceDissolve.self)!
+        let wrapperFilter = wrapperDesc.pglSourceFilter() as! PGLSequenceDissolve
+
+        wrapperFilter.sequenceFilter = self
+        wrapperFilter.sequenceStack = filterSequence()
+        dissolve = wrapperFilter
+        
+        self.hasAnimation = false  //  current filter is NOT animating. The wrapper is
+
+    }
+
     override func addChildSequenceStack(appStack: PGLAppStack) {
         // actually do the add
         if let myImageParm = getInputImageAttribute() {
             appStack.addChildSequenceStackTo(parm: myImageParm)
         }
+        setDissolveWrapper()
     }
 
     override  func outputImageBasic() -> CIImage? {
@@ -28,16 +51,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         // instead of returning empty on errors.. return the output same as
         // images??
         addFilterStepTime()
-        guard let myInputAttribute = getInputImageAttribute()
-            else { return CIImage.empty()}
+       let dissolvedImage =  dissolve.dissolveOutput()
+        return dissolvedImage
 
-        guard let myImage = myInputAttribute.getCurrentImage()
-            else { return CIImage.empty()}
-
-        guard let mySequenceStack = filterSequence()
-            else { return  myImage}
-        
-       return mySequenceStack.imageUpdate(myImage, true)
     }
 
     func filterSequence() -> PGLSequenceStack? {
@@ -71,6 +87,8 @@ class PGLSequencedFilters: PGLSourceFilter {
         // toggle dt either neg or positive
         stepTime += dt
         let inputTime = simd_smoothstep(0, 1, stepTime)
+        dissolve.setDissolveTime(inputTime: inputTime)
+        
 
     }
 
