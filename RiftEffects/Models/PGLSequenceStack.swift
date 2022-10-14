@@ -16,10 +16,15 @@ import os
 /// PGLFilterSequence stack shows only one filter at a time using stack input and outputs just the single current filter output
 ///  for SequencedFilters of any number of filters
 ///    always a child stack
+///    Must always have at least one filter, defaults to image filter
 class PGLSequenceStack: PGLFilterStack {
 
         /// use the appstack to stop filter incrments if showFilterImage = true
     var appStack: PGLAppStack!
+    lazy var inputFilter: PGLSourceFilter = currentFilter()
+    lazy var targetFilter: PGLSourceFilter = nextFilter()
+
+
 
 
     override init(){
@@ -49,61 +54,45 @@ class PGLSequenceStack: PGLFilterStack {
     func setInputToStack()  {
         let myInputAttribute = parentAttribute as? PGLFilterAttributeImage
         let myImage =  myInputAttribute?.getCurrentImage()
-       currentFilter().setInput(image: myImage, source: "parent")
-       nextFilter().setInput(image: myImage, source: "parent")
+        inputFilter.setInput(image: myImage, source: "parent")
+        targetFilter.setInput(image: myImage, source: "parent")
     }
 
     func currentInputFilter() -> PGLSourceFilter {
 
-        if isEvenFilter() {
-            NSLog("\( String(describing: self) + "-" + #function)" + "isEVEN return  currentFilter")
-            return currentFilter()
-        } else
-        {
-            NSLog("\( String(describing: self) + "-" + #function)" + "isOdd return  nextFilter")
-            return nextFilter()
-        }
+       return inputFilter
     }
 
     func currentTargetFilter() -> PGLSourceFilter {
 
-        if isEvenFilter() {
-            NSLog("\( String(describing: self) + "-" + #function)" + "isEVEN return  nextFilter")
-
-            return nextFilter()
-        } else
-        {
-            NSLog("\( String(describing: self) + "-" + #function)" + "isOdd return  currentFilter")
-            return currentFilter()
-        }
+        return targetFilter
     }
 
-    func increment() {
+    func increment(hidden: OffScreen) {
+        // where hidden is dissolve .input or .target parm
+        // only change the hidden parm
+
         NSLog("\( String(describing: self) + "-" + #function)" + " start activeFilterIndex = \(activeFilterIndex)")
         if appStack.showFilterImage {
             // don't increment.. just stay
             return
         }
-        // always circle around .. back to first
+        
         if activeFilterIndex >= (activeFilters.count - 1) {
             // zero based array
             // back to the beginning
             activeFilterIndex = 0
-
         } else {
             moveActiveAhead() }
-        NSLog("\( String(describing: self) + "-" + #function)" + " end activeFilterIndex = \(activeFilterIndex)")
 
+        switch hidden {
+            case .input:
+                inputFilter = currentFilter()
+            case .target:
+                targetFilter = currentFilter()
+        }
     }
 
-    func isEvenFilter() -> Bool {
-        // answer true if the activeFilterIndex is even
-        // zero is considered even
-        return activeFilterIndex.isEven()
-    }
-
-    func isOddFilter() -> Bool {
-        return !isEvenFilter()
-    }
+   
 
 }

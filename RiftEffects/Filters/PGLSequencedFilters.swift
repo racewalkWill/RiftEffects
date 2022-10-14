@@ -12,6 +12,11 @@ import simd
 import UIKit
 import os
 
+enum OffScreen {
+    case input
+    case target
+}
+
 class PGLSequencedFilters: PGLSourceFilter {
 
     private var dissolve: PGLSequenceDissolve!
@@ -62,39 +67,24 @@ class PGLSequencedFilters: PGLSourceFilter {
 
     override func addFilterStepTime() {
         // in this overridden method
-        // just advance the StackSequence current index
-        // no need to get attributes
-        var doIncrement = false
+        // just advance the SequenceStack on the hidden dissolve parm
 
         guard let theSequenceStack = filterSequence()
             else { return }
         if (stepTime > 1.0)   {
             stepTime = 1.0 // bring it back in range
-            if theSequenceStack.isOddFilter() {
+
                 // when current filter is odd
                 // and dissolve = one then the currentTarget is nextFilter
-                theSequenceStack.increment()
-            } // else skip an increment to resync
-
+            theSequenceStack.increment(hidden: .input )
             dt = dt * -1 // past end so toggle
 
         }
         else if (stepTime < 0.0) {
             stepTime = 0.0 // bring it back in range
-            if theSequenceStack.isEvenFilter() {
-                theSequenceStack.increment()
-            }
-            
-
+            theSequenceStack.increment(hidden: .target )
             dt = dt * -1 // past end so toggle
-
         }
-//        if doIncrement {
-//            NSLog("\( String(describing: self) + "-" + #function)" + "increments at stepTime  = \(stepTime)")
-//
-//            theSequenceStack.increment()
-//                // advances to the next image in the input imageList
-//        }
 
         // go back and forth between 0 and 1.0
         // toggle dt either neg or positive

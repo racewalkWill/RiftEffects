@@ -46,6 +46,10 @@ class PGLSequenceDissolve: PGLTransitionFilter {
         // passed to both current and nextFilter
 
         sequenceStack.setInputToStack()
+            // assigns input image to both
+            // dissolve parms
+            // input image may be changing on each
+            // render frame.
 
         let currentImage = sequenceStack.currentInputFilter().outputImage()
         localFilter.setValue(currentImage, forKey: kCIInputImageKey)
