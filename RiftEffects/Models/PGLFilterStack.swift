@@ -601,6 +601,7 @@ class PGLFilterStack  {
 
 
     func currentFilter() -> PGLSourceFilter {
+        NSLog("\( String(describing: self) + "-" + #function)" + " activeFilterIndex = \(activeFilterIndex)")
          return filterAt(tabIndex: activeFilterIndex)
     }
 //    func nextFilter()  -> PGLSourceFilter? {

@@ -50,7 +50,7 @@ class PGLSequencedFilters: PGLSourceFilter {
 
         // instead of returning empty on errors.. return the output same as
         // images??
-        addFilterStepTime()
+//        addFilterStepTime()
        let dissolvedImage =  dissolve.dissolveOutput()
         return dissolvedImage
 
@@ -66,29 +66,43 @@ class PGLSequencedFilters: PGLSourceFilter {
         // no need to get attributes
         var doIncrement = false
 
+        guard let theSequenceStack = filterSequence()
+            else { return }
         if (stepTime > 1.0)   {
             stepTime = 1.0 // bring it back in range
-            doIncrement = true
+            if theSequenceStack.isOddFilter() {
+                // when current filter is odd
+                // and dissolve = one then the currentTarget is nextFilter
+                theSequenceStack.increment()
+            } // else skip an increment to resync
+
             dt = dt * -1 // past end so toggle
 
         }
         else if (stepTime < 0.0) {
             stepTime = 0.0 // bring it back in range
-            doIncrement = true
+            if theSequenceStack.isEvenFilter() {
+                theSequenceStack.increment()
+            }
+            
+
             dt = dt * -1 // past end so toggle
 
         }
-        if doIncrement {
-            filterSequence()?.increment()
-                // advances to the next image in the input imageList
-        }
+//        if doIncrement {
+//            NSLog("\( String(describing: self) + "-" + #function)" + "increments at stepTime  = \(stepTime)")
+//
+//            theSequenceStack.increment()
+//                // advances to the next image in the input imageList
+//        }
 
         // go back and forth between 0 and 1.0
         // toggle dt either neg or positive
         stepTime += dt
         let inputTime = simd_smoothstep(0, 1, stepTime)
         dissolve.setDissolveTime(inputTime: inputTime)
-        
+
+
 
     }
 

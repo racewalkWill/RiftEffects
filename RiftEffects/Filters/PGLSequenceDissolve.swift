@@ -44,12 +44,14 @@ class PGLSequenceDissolve: PGLTransitionFilter {
 
         // the current input to the parent sequence filter is
         // passed to both current and nextFilter
+
         sequenceStack.setInputToStack()
-        let currentImage = sequenceStack.currentFilter().outputImage()
+
+        let currentImage = sequenceStack.currentInputFilter().outputImage()
         localFilter.setValue(currentImage, forKey: kCIInputImageKey)
         
-        if let nextImage = sequenceStack.nextFilter()?.outputImage() {
-            localFilter.setValue(nextImage, forKey: kCIInputTargetImageKey) }
+        let nextImage = sequenceStack.currentTargetFilter().outputImage()
+        localFilter.setValue(nextImage, forKey: kCIInputTargetImageKey) 
 
         return localFilter.outputImage
 
