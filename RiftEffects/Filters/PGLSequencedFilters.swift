@@ -20,6 +20,9 @@ enum OffScreen {
 class PGLSequencedFilters: PGLSourceFilter {
 
     private var dissolve: PGLSequenceDissolve!
+    var dissolveDT: Double = (1/120)  // should be 2 sec dissolve
+    var pauseForFramesCount = 300 // initial 5 secs * 60 fps
+    var frameCount = 0
 
     fileprivate func setDissolveWrapper() {
         // install a detector input to the tappedAttribute.
@@ -69,6 +72,10 @@ class PGLSequencedFilters: PGLSourceFilter {
         // in this overridden method
         // just advance the SequenceStack on the hidden dissolve parm
 
+        frameCount += 1
+        if frameCount < pauseForFramesCount {
+            return
+        }
         guard let theSequenceStack = filterSequence()
             else { return }
         if (stepTime > 1.0)   {
@@ -77,18 +84,20 @@ class PGLSequencedFilters: PGLSourceFilter {
                 // when current filter is odd
                 // and dissolve = one then the currentTarget is nextFilter
             theSequenceStack.increment(hidden: .input )
-            dt = dt * -1 // past end so toggle
+            dissolveDT = dissolveDT * -1 // past end so toggle
+            frameCount = 0
 
         }
         else if (stepTime < 0.0) {
             stepTime = 0.0 // bring it back in range
             theSequenceStack.increment(hidden: .target )
-            dt = dt * -1 // past end so toggle
+            dissolveDT = dissolveDT * -1 // past end so toggle
+            frameCount = 0
         }
 
         // go back and forth between 0 and 1.0
         // toggle dt either neg or positive
-        stepTime += dt
+        stepTime += dissolveDT
         let inputTime = simd_smoothstep(0, 1, stepTime)
         dissolve.setDissolveTime(inputTime: inputTime)
 
@@ -103,16 +112,13 @@ class PGLSequencedFilters: PGLSourceFilter {
             // to make the dissolve in lenghtSeconds total. This is also the incrment time
             // from one image to another.
 
-            // set the dt (deltaTime) for use by addStepTime() on each frame
+            // set the pauseForFramesCount (deltaTime)
+            // min lengthSeconds = 0.001 or no pause just the dissolve
+            // max lengthSeconds = 10 seconds
+//        NSLog("PGLSequencedFilters #setTimerDt lengthSeconds = \(lengthSeconds)")
+        let framesPerSec = 60 // later read actual framerate from UI
+        pauseForFramesCount = framesPerSec * Int(lengthSeconds)
 
-        let framesPerSec: Float = 60.0 // later read actual framerate from UI
-        let varyTotalFrames = framesPerSec * lengthSeconds
-
-        let attributeValueRange = 1.0 // transition range is 0..1
-        if varyTotalFrames > 0.0 {
-                // division by zero is nan
-            dt = attributeValueRange / Double(varyTotalFrames)
-        }
     }
 }
 

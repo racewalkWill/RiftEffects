@@ -47,7 +47,7 @@ class PGLSequenceStack: PGLFilterStack {
             // not on last.. move ahead
             nextFilter = activeFilterIndex + 1
         } // else back to zero for next
-        NSLog("\( String(describing: self) + "-" + #function)" + " nextFilter = \(nextFilter)")
+//        NSLog("\( String(describing: self) + "-" + #function)" + " nextFilter = \(nextFilter)")
         return filterAt(tabIndex: nextFilter)
     }
 
@@ -72,7 +72,7 @@ class PGLSequenceStack: PGLFilterStack {
         // where hidden is dissolve .input or .target parm
         // only change the hidden parm
 
-        NSLog("\( String(describing: self) + "-" + #function)" + " start activeFilterIndex = \(activeFilterIndex)")
+//        NSLog("\( String(describing: self) + "-" + #function)" + " start activeFilterIndex = \(activeFilterIndex)")
         if appStack.showFilterImage {
             // don't increment.. just stay
             return
