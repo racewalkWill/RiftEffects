@@ -477,7 +477,7 @@ class PGLFilterStack  {
                 continue // stack changed by up/down navigation so bail
             }
             filter = activeFilters[index]
-            if filter.imageInputIsEmpty() {
+            if imageInputIsEmpty(atFilterIndex: index) {
                 if thisImage == nil {
                     // don't render from filter with no input.
                     continue
@@ -570,6 +570,14 @@ class PGLFilterStack  {
     }
     func updateFilterList() {
 
+    }
+
+    func imageInputIsEmpty(atFilterIndex: Int) -> Bool {
+        // empty implementation
+        // the sequence stack filters get input from the
+        // parent SequencedFilters
+        let thisfilter = activeFilters[atFilterIndex]
+        return thisfilter.imageInputIsEmpty()
     }
 
     // MARK: flattened Filters

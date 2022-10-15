@@ -93,6 +93,11 @@ class PGLSequenceStack: PGLFilterStack {
         }
     }
 
-   
+   override func imageInputIsEmpty(atFilterIndex: Int) -> Bool {
+        // empty implementation
+        // the sequence stack filters get input from the
+        // parent SequencedFilters
+        return false
+    }
 
 }
