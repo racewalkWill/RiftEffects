@@ -268,11 +268,11 @@ extension PGLSourceFilter {
     func storeParmValue(moContext: NSManagedObjectContext) {
             // 4EntityModel
             /// create a CDParmValue for every parm that is not an image parm
-        let parmValues = [CDParmValue]()
+        let parmValues = NSSet()
         for aParm in nonImageParms() {
 //            parmValues.append(  aParm.storeParmValue(moContext: moContext))
         }
-//        storedFilter?.values = parmValues
+        storedFilter?.values = parmValues
         // MARK: add relationship
 
             // store the relationship
@@ -811,6 +811,7 @@ extension PGLFilterAttribute {
             // just checking ....
         parmValue.pglParmClass = String(describing: (type(of:self).self))
             // this is the runtime self - a subclass of PGLFilterAttribute
+        
     }
 }
 
@@ -822,12 +823,13 @@ extension PGLAttributeRectangle {
         guard let parmValue = storedParmValue
             else { return }
 
-        parmValue.xPoint = filterRect.minX
-        parmValue.yPoint = filterRect.minY
-        parmValue.widthValue = filterRect.width
-        parmValue.heightValue = filterRect.height
+//        parmValue.xPoint = filterRect.minX
+//        parmValue.yPoint = filterRect.minY
+//        parmValue.widthValue = filterRect.width
+//        parmValue.heightValue = filterRect.height
     }
     // now store this instance values into the storedParmValue
+
 }
 
 extension PGLFilterAttributeAffine {
@@ -836,11 +838,11 @@ extension PGLFilterAttributeAffine {
         guard let parmValue = storedParmValue
             else { return }
 
-        parmValue.vectorAngle = rotation
-        parmValue.vectorX = Float(scale.x)
-        parmValue.vectorY = Float(scale.y)
-        parmValue.vectorZ = Float(translate.x)
-        parmValue.vectorLength = Float(translate.y)
+//        parmValue.vectorAngle = rotation
+//        parmValue.vectorX = Float(scale.x)
+//        parmValue.vectorY = Float(scale.y)
+//        parmValue.vectorZ = Float(translate.x)
+//        parmValue.vectorLength = Float(translate.y)
 
 
     }
@@ -853,7 +855,7 @@ extension PGLFilterAttributeAngle {
         guard let parmValue = storedParmValue
             else { return }
 
-        parmValue.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
+//        parmValue.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
     }
     // now store this instance values into the storedParmValue
 }
@@ -864,7 +866,8 @@ extension PGLFilterAttributeAttributedString {
         guard let parmValue = storedParmValue
             else { return }
 
-        parmValue.stringValue = getStringValue() as String?
+//        parmValue.stringValue = getStringValue() as String?
+        // parmValue.attribute = some format data - font/size/family
 
     }
     // now store this instance values into the storedParmValue
@@ -878,10 +881,10 @@ extension PGLFilterAttributeColor {
 
         guard let myColor = getColorValue()
         else { return }
-        parmValue.redValue = Float(myColor.red)
-        parmValue.greenValue = Float(myColor.green)
-        parmValue.blueValue = Float(myColor.blue)
-        parmValue.alphaValue = Float(myColor.alpha)
+//        parmValue.redValue = Float(myColor.red)
+//        parmValue.greenValue = Float(myColor.green)
+//        parmValue.blueValue = Float(myColor.blue)
+//        parmValue.alphaValue = Float(myColor.alpha)
     }
     // now store this instance values into the storedParmValue
 }
@@ -894,7 +897,7 @@ extension PGLFilterAttributeData {
 
         guard let myData = getDataValue()
             else { return }
-        parmValue.binaryValue = Data(myData)
+//        parmValue.binaryValue = Data(myData)
 
 
 
@@ -919,7 +922,7 @@ extension PGLFilterAttributeNumber {
         guard let myNum = getNumberValue()
         else { return }
 
-        parmValue.doubleValue = myNum.doubleValue
+//        parmValue.doubleValue = myNum.doubleValue
             // double used to preserve precision.
 
 
@@ -936,7 +939,7 @@ extension PGLFilterAttributeString {
         guard let myString = getStringValue()
         else { return }
 
-        parmValue.stringValue = String(myString)
+//        parmValue.stringValue = String(myString)
 
     }
     // now store this instance values into the storedParmValue
@@ -951,7 +954,7 @@ extension PGLFilterAttributeTime {
         guard let myTime = getNumberValue()
         else { return }
 
-        parmValue.floatValue = myTime.floatValue
+//        parmValue.floatValue = myTime.floatValue
 
     }
     // now store this instance values into the storedParmValue
@@ -967,14 +970,14 @@ extension PGLFilterAttributeVector {
         guard let myVector = getVectorValue()
             else { return }
 
-        parmValue.vectorX = Float(myVector.x)
-        parmValue.vectorY = Float(myVector.y)
+//        parmValue.vectorX = Float(myVector.x)
+//        parmValue.vectorY = Float(myVector.y)
 
         if let myEndPoint = endPoint {
             // endpoint used in the vary scenerio
-            parmValue.vectorLength = Float(myEndPoint.x)
+//            parmValue.vectorLength = Float(myEndPoint.x)
                 // not a good name but just using an available column
-            parmValue.vectorAngle = Float(myEndPoint.y)
+//            parmValue.vectorAngle = Float(myEndPoint.y)
         }
 
     }
@@ -990,7 +993,7 @@ extension PGLRotateAffineUI {
         guard let myRotation = getValue() as? PGLFilterAttributeAffine
         else { return }
 
-        parmValue.vectorAngle = Float(myRotation.rotation)
+//        parmValue.vectorAngle = Float(myRotation.rotation)
             // affines do not have a rotation accesssor..
             // this should never work right.. it is intialized as zero
             // and will stay zero in the current implementation
@@ -1008,8 +1011,8 @@ extension PGLScaleAffineUI {
         guard let myRotation = getValue() as? PGLFilterAttributeAffine
         else { return }
 
-        parmValue.vectorX = Float(myRotation.scale.x)
-        parmValue.vectorY = Float(myRotation.scale.y)
+//        parmValue.vectorX = Float(myRotation.scale.x)
+//        parmValue.vectorY = Float(myRotation.scale.y)
             // affines do not have a scale accesssor..
             // this should never work right.. it is intialized as zero
             // and will stay zero in the current implementation
@@ -1025,7 +1028,7 @@ extension PGLTimerRateAttributeUI {
             else { return }
 
         
-        parmValue.floatValue = getTimerDt()
+//        parmValue.floatValue = getTimerDt()
 
     }
     // now store this instance values into the storedParmValue
@@ -1040,8 +1043,8 @@ extension PGLTranslateAffineUI {
         guard let myTranslate = getValue() as? CIVector
         else { return }
 
-        parmValue.vectorX = Float(myTranslate.x)
-        parmValue.vectorY = Float(myTranslate.y)
+//        parmValue.vectorX = Float(myTranslate.x)
+//        parmValue.vectorY = Float(myTranslate.y)
 
     }
     // now store this instance values into the storedParmValue
@@ -1053,7 +1056,7 @@ extension PGLFilterAttributeVector3 {
         guard let parmValue = storedParmValue
             else { return }
 
-        parmValue.floatValue = Float(zValue)
+//        parmValue.floatValue = Float(zValue)
     }
     // now store this instance values into the storedParmValue
 }
@@ -1067,7 +1070,7 @@ extension PGLVectorNumeric3UI {
         guard let parentVectorAttribute = zValueParent
         else { return }
 
-        parmValue.floatValue = Float(parentVectorAttribute.zValue)
+//        parmValue.floatValue = Float(parentVectorAttribute.zValue)
     }
 }
 

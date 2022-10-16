@@ -23,6 +23,7 @@ extension CDStoredFilter {
     @NSManaged public var stackPosition: Int16
     @NSManaged public var input: NSSet?
     @NSManaged public var stack: CDFilterStack?
+    @NSManaged public var values: NSSet?
 
 }
 
@@ -40,6 +41,18 @@ extension CDStoredFilter {
 
     @objc(removeInput:)
     @NSManaged public func removeFromInput(_ values: NSSet)
+
+    @objc(addValuesObject:)
+    @NSManaged public func addToValues(_ value: CDParmValue)
+
+    @objc(removeValuesObject:)
+    @NSManaged public func removeFromValues(_ value: CDParmValue)
+
+    @objc(addValues:)
+    @NSManaged public func addToValues(_ values: NSSet)
+
+    @objc(removeValues:)
+    @NSManaged public func removeFromValues(_ values: NSSet)
 
 }
 
