@@ -167,7 +167,7 @@ extension PGLSourceFilter {
         // the ciFilter is no longer stored.. it is rebuilt with values from the CDParmValues table
 //        newSource.storedFilter = myCDFilter
 
-        newSource.resetAttributesToLocalFilter()
+//        newSource.resetAttributesToLocalFilter()
         if let parmImages = myCDFilter.input?.allObjects as? [CDParmImage] {
             // attach the cdParmImage to the matching filter attribute
             for aCDParmImage in parmImages {
@@ -177,7 +177,16 @@ extension PGLSourceFilter {
             }
         }
         // now read the saved non image parm values if they exist
-        
+        guard let myStoredValues = myCDFilter.input
+            else { return newSource}
+        for aParmValue in myStoredValues {
+            guard let typedValue = aParmValue as? CDParmValue
+            else { continue }
+            if let parmAttribute = newSource.attribute(nameKey: typedValue.attributeName!) {
+                parmAttribute.setStoredValue(typedValue)
+            }
+
+        }
 
         return newSource
 
@@ -794,6 +803,13 @@ extension PGLFilterAttribute {
 
     }
 
+    @objc func setStoredValue(_ value: CDParmValue)   {
+            // abstract super class implementation
+            // all subclasses should implement
+
+    }
+
+
     @objc func setCDParmValueRelation() {
         // all subclasses should call this super method
         // assumes that NSEntityDescription.insertNewObject has already created the coreData entity
@@ -834,6 +850,12 @@ extension PGLAttributeRectangle {
         cdRectangle.height = filterRect.height
 
     }
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeRectangle
+            else { return }
+        filterRect = CGRect(x: storedValue.xPoint, y: storedValue.yPoint, width: storedValue.width, height: storedValue.height)
+    }
 }
 
 extension PGLFilterAttributeAffine {
@@ -854,10 +876,20 @@ extension PGLFilterAttributeAffine {
         cdAffine.vectorY = Float(scale.y)
         cdAffine.vectorZ = Float(translate.x)
         cdAffine.vectorLength = Float(translate.y)
+        // reusing the vectorZ and vectorLength to store the translate vector
 
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeAffine
+            else { return }
+        setRotation(radians: storedValue.vectorAngle)
+        setScale(vector: CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY)))
+        setTranslation(moveBy: CIVector(x: CGFloat(storedValue.vectorZ), y: CGFloat(storedValue.vectorLength)))
+            // reusing the vectorZ and vectorLength to store the translate vector
+
+    }
 }
 
 extension PGLFilterAttributeAngle {
@@ -874,7 +906,14 @@ extension PGLFilterAttributeAngle {
 
         cd.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeAngle
+            else { return }
+
+        set(storedValue.doubleValue)
+    }
+
 }
 
 extension PGLFilterAttributeAttributedString {
@@ -894,7 +933,13 @@ extension PGLFilterAttributeAttributedString {
         // parmValue.attribute = some format data - font/size/family
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeAttributedString
+            else { return }
+
+        set( storedValue.stringValue)
+    }
 }
 
 extension PGLFilterAttributeColor {
@@ -915,7 +960,16 @@ extension PGLFilterAttributeColor {
             cd.alphaValue = Float(myColor.alpha)
         }
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeColor
+            else { return }
+
+        red = CGFloat(storedValue.redValue)
+        green = CGFloat(storedValue.greenValue)
+        blue = CGFloat(storedValue.blueValue)
+        alpha = CGFloat(storedValue.alphaValue)
+    }
 }
 
 extension PGLFilterAttributeData {
@@ -936,7 +990,13 @@ extension PGLFilterAttributeData {
 
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeData
+            else { return }
+
+        set(storedValue.binaryValue)
+    }
 }
 
 extension PGLFilterAttributeImage {
@@ -967,7 +1027,13 @@ extension PGLFilterAttributeNumber {
 
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeNumber
+            else { return }
+
+        set(storedValue.doubleValue)
+    }
 }
 
 extension PGLFilterAttributeString {
@@ -988,7 +1054,14 @@ extension PGLFilterAttributeString {
         cd.stringValue = String(myString)
 
     }
-    // now store this instance values into the storedParmValue
+
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeString
+            else { return }
+
+        set(storedValue.stringValue)
+    }
 }
 
 extension PGLFilterAttributeTime {
@@ -1009,7 +1082,13 @@ extension PGLFilterAttributeTime {
         cd.floatValue = myTime.floatValue
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeTime
+            else { return }
+
+        set(storedValue.floatValue)
+    }
 }
 
 extension PGLFilterAttributeVector {
@@ -1039,7 +1118,21 @@ extension PGLFilterAttributeVector {
         }
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeVector
+            else { return }
+
+        let startVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
+
+        set(startVector)
+        startPoint = startVector
+
+        let endVector = CIVector(x: CGFloat(storedValue.vectorEndX), y: CGFloat(storedValue.vectorEndY))
+        endPoint = endVector
+        // did not call setVectorEndPoint.. not clear on this
+
+    }
 }
 
 extension PGLRotateAffineUI {
@@ -1064,7 +1157,15 @@ extension PGLRotateAffineUI {
             // and will stay zero in the current implementation
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeRotateAffine
+            else { return }
+
+        set(storedValue.rotationAngle)
+
+    }
+
 }
 
 extension PGLScaleAffineUI {
@@ -1089,7 +1190,15 @@ extension PGLScaleAffineUI {
             // and will stay zero in the current implementation
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeScaleAffine
+            else { return }
+        let scaleVector = CIVector(x: CGFloat(storedValue.scaleX), y: CGFloat(storedValue.scaleY))
+
+        scale = scaleVector
+
+    }
 }
 
 extension PGLTimerRateAttributeUI {
@@ -1108,7 +1217,15 @@ extension PGLTimerRateAttributeUI {
         cd.floatValue = getTimerDt()
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeTime
+            else { return }
+
+        set(storedValue.floatValue)
+
+    }
+    
 }
 
 extension PGLTranslateAffineUI {
@@ -1130,7 +1247,17 @@ extension PGLTranslateAffineUI {
         cd.vectorY = Float(myTranslate.y)
 
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeVector
+            else { return }
+
+        let storedVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
+
+        translate = storedVector
+
+    }
+
 }
 
 extension PGLFilterAttributeVector3 {
@@ -1145,11 +1272,22 @@ extension PGLFilterAttributeVector3 {
             cd = storedParmValue as! CDAttributeVector3
         }
 
-//        cd.vectorY = Float()
-//        cd.vectorX = Float()
+        cd.vectorY = Float(startPoint?.y ?? 0.0)
+        cd.vectorX = Float(startPoint?.x ?? 0.0)
        cd.vectorZ = Float(zValue)
     }
-    // now store this instance values into the storedParmValue
+
+    @objc override func setStoredValue(_ value: CDParmValue)   {
+        guard let storedValue = value as? CDAttributeVector3
+            else { return }
+
+        let storedVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
+
+        let startVector = storedVector
+        let zValue = storedValue.vectorZ
+
+    }
+
 }
 
 //extension PGLVectorNumeric3UI {
