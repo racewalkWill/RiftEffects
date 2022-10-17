@@ -156,8 +156,14 @@ extension PGLSourceFilter {
             else { return nil }
          guard let newSource = filterBuilder.pglSourceFilter()
              else { return nil}
+        if let aStoredCIFilter = myCDFilter.ciFilter {
+            // old format before ParmTable added
+            newSource.localFilter = aStoredCIFilter }
+        else {
+            // new format new filter from the filterBuilder
+            // below - add stored values
 
-        newSource.localFilter = myCDFilter.ciFilter!
+        }
         // the ciFilter is no longer stored.. it is rebuilt with values from the CDParmValues table
 //        newSource.storedFilter = myCDFilter
 
@@ -268,14 +274,14 @@ extension PGLSourceFilter {
     func storeParmValue(moContext: NSManagedObjectContext) {
             // 4EntityModel
             /// create a CDParmValue for every parm that is not an image parm
-        let parmValues = NSSet()
+//        let parmValues = NSMutableSet()
         for aParm in nonImageParms() {
-//            parmValues.append(  aParm.storeParmValue(moContext: moContext))
+          aParm.storeParmValue(moContext: moContext)
+
         }
-        storedFilter?.values = parmValues
+        // storedFilter?.values = parmValues
         // MARK: add relationship
 
-            // store the relationship
     }
 
     func readCDParmImages() -> [CDParmImage] {
@@ -314,7 +320,7 @@ extension PGLSourceFilter {
     }
 
     func nonImageParms() -> [PGLFilterAttribute] {
-        return attributes.filter({$0 is PGLFilterAttributeImage } )
+        return attributes.filter({!($0 is PGLFilterAttributeImage )} )
     }
 }  // ================ end extension PGLSourceFilter =========================
 
@@ -782,28 +788,16 @@ extension PGLAppStack {
 // ================ end extension PGLAppStack =========================
 
 extension PGLFilterAttribute {
-    @objc func storeParmValue(moContext: NSManagedObjectContext) -> CDParmValue? {
+    @objc func storeParmValue(moContext: NSManagedObjectContext)   {
             // abstract super class implementation
             // all subclasses should call this super first
-        if storedParmValue == nil {
-            let storedParmValue =  NSEntityDescription.insertNewObject(forEntityName: "CDParmValue", into: moContext) as? CDParmValue
-            if storedParmValue == nil {
-                    // raise error message in the UI
-                Logger(subsystem: LogSubsystem, category: LogCategory).fault("CoreData error storeParmValue failed to insert new object into moContext" )
-            }
-        }
-
-        storeParmValue() // moContext not needed for value assignmement
-
-        // any further message to the moContext after the values are updated?
-
-        // save the relationship
-        return storedParmValue
 
     }
 
-    @objc func storeParmValue() {
+    @objc func setCDParmValueRelation() {
         // all subclasses should call this super method
+        // assumes that NSEntityDescription.insertNewObject has already created the coreData entity
+
         guard let parmValue = storedParmValue
             else { return }
         parmValue.attributeName = attributeName
@@ -811,6 +805,10 @@ extension PGLFilterAttribute {
             // just checking ....
         parmValue.pglParmClass = String(describing: (type(of:self).self))
             // this is the runtime self - a subclass of PGLFilterAttribute
+        parmValue.storedFilter = aSourceFilter.storedFilter // creates relationship
+            // creates relation of many to 1 from the many side.
+            // storedFilter may have many parmValues
+
         
     }
 }
@@ -818,31 +816,44 @@ extension PGLFilterAttribute {
 //================== PGLFilterAttribute extension ====================
 
 extension PGLAttributeRectangle {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
 
-//        parmValue.xPoint = filterRect.minX
-//        parmValue.yPoint = filterRect.minY
-//        parmValue.widthValue = filterRect.width
-//        parmValue.heightValue = filterRect.height
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cdRectangle: CDAttributeRectangle
+        if storedParmValue == nil {
+            cdRectangle =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeRectangle", into: moContext)) as! CDAttributeRectangle)
+            storedParmValue = cdRectangle
+            setCDParmValueRelation()
+
+        } else {
+            cdRectangle = storedParmValue as! CDAttributeRectangle
+        }
+        // assign current values for coreData
+        cdRectangle.xPoint = filterRect.minX
+        cdRectangle.yPoint = filterRect.minY
+        cdRectangle.width = filterRect.width
+        cdRectangle.height = filterRect.height
+
     }
-    // now store this instance values into the storedParmValue
-
 }
 
 extension PGLFilterAttributeAffine {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cdAffine: CDAttributeAffine
+        if storedParmValue == nil {
+            cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
+            storedParmValue = cdAffine
+            setCDParmValueRelation()
 
-//        parmValue.vectorAngle = rotation
-//        parmValue.vectorX = Float(scale.x)
-//        parmValue.vectorY = Float(scale.y)
-//        parmValue.vectorZ = Float(translate.x)
-//        parmValue.vectorLength = Float(translate.y)
+        } else {
+            cdAffine = storedParmValue as! CDAttributeAffine
+        }
+
+        // assign current values for coreData
+        cdAffine.vectorAngle = rotation
+        cdAffine.vectorX = Float(scale.x)
+        cdAffine.vectorY = Float(scale.y)
+        cdAffine.vectorZ = Float(translate.x)
+        cdAffine.vectorLength = Float(translate.y)
 
 
     }
@@ -850,23 +861,36 @@ extension PGLFilterAttributeAffine {
 }
 
 extension PGLFilterAttributeAngle {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeAngle
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAngle", into: moContext)) as! CDAttributeAngle)
+            storedParmValue = cd
+            setCDParmValueRelation()
 
-//        parmValue.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
+        } else {
+            cd = storedParmValue as! CDAttributeAngle
+        }
+
+        cd.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
     }
     // now store this instance values into the storedParmValue
 }
 
 extension PGLFilterAttributeAttributedString {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeAttributedString
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAttributedString", into: moContext)) as! CDAttributeAttributedString)
+            storedParmValue = cd
+            setCDParmValueRelation()
 
-//        parmValue.stringValue = getStringValue() as String?
+        } else {
+            cd = storedParmValue as! CDAttributeAttributedString
+        }
+
+
+      cd.stringValue = getStringValue() as String?
         // parmValue.attribute = some format data - font/size/family
 
     }
@@ -874,30 +898,40 @@ extension PGLFilterAttributeAttributedString {
 }
 
 extension PGLFilterAttributeColor {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeColor
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeColor", into: moContext)) as! CDAttributeColor)
+            storedParmValue = cd
+            setCDParmValueRelation()
 
-        guard let myColor = getColorValue()
-        else { return }
-//        parmValue.redValue = Float(myColor.red)
-//        parmValue.greenValue = Float(myColor.green)
-//        parmValue.blueValue = Float(myColor.blue)
-//        parmValue.alphaValue = Float(myColor.alpha)
+        } else {
+            cd = storedParmValue as! CDAttributeColor
+        }
+        if let myColor = getColorValue() {
+            cd.redValue = Float(myColor.red)
+            cd.greenValue = Float(myColor.green)
+            cd.blueValue = Float(myColor.blue)
+            cd.alphaValue = Float(myColor.alpha)
+        }
     }
     // now store this instance values into the storedParmValue
 }
 
 extension PGLFilterAttributeData {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeData
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeData", into: moContext)) as! CDAttributeData)
+            storedParmValue = cd
+            setCDParmValueRelation()
 
+        } else {
+            cd = storedParmValue as! CDAttributeData
+        }
         guard let myData = getDataValue()
             else { return }
-//        parmValue.binaryValue = Data(myData)
+        cd.binaryValue = Data(myData)
 
 
 
@@ -907,22 +941,28 @@ extension PGLFilterAttributeData {
 
 extension PGLFilterAttributeImage {
 
-    @objc override func storeParmValue() {
-        // do nothing. images are stored into the imageList table
-    }
+//    @objc override func storeParmValue() {
+//        // do nothing. images are stored into the imageList table
+//    }
     // now store this instance values into the storedParmValue
 }
 
 extension PGLFilterAttributeNumber {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeNumber
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeNumber", into: moContext)) as! CDAttributeNumber)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeNumber
+        }
 
         guard let myNum = getNumberValue()
         else { return }
 
-//        parmValue.doubleValue = myNum.doubleValue
+        cd.doubleValue = myNum.doubleValue
             // double used to preserve precision.
 
 
@@ -931,30 +971,42 @@ extension PGLFilterAttributeNumber {
 }
 
 extension PGLFilterAttributeString {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeString
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeString", into: moContext)) as! CDAttributeString)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeString
+        }
 
         guard let myString = getStringValue()
         else { return }
 
-//        parmValue.stringValue = String(myString)
+        cd.stringValue = String(myString)
 
     }
     // now store this instance values into the storedParmValue
 }
 
 extension PGLFilterAttributeTime {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeTime
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeTime", into: moContext)) as! CDAttributeTime)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeTime
+        }
 
         guard let myTime = getNumberValue()
         else { return }
 
-//        parmValue.floatValue = myTime.floatValue
+        cd.floatValue = myTime.floatValue
 
     }
     // now store this instance values into the storedParmValue
@@ -962,22 +1014,28 @@ extension PGLFilterAttributeTime {
 
 extension PGLFilterAttributeVector {
 
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeVector
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector", into: moContext)) as! CDAttributeVector)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeVector
+        }
+
 
         guard let myVector = getVectorValue()
             else { return }
 
-//        parmValue.vectorX = Float(myVector.x)
-//        parmValue.vectorY = Float(myVector.y)
+        cd.vectorX = Float(myVector.x)
+        cd.vectorY = Float(myVector.y)
 
         if let myEndPoint = endPoint {
             // endpoint used in the vary scenerio
-//            parmValue.vectorLength = Float(myEndPoint.x)
-                // not a good name but just using an available column
-//            parmValue.vectorAngle = Float(myEndPoint.y)
+            cd.vectorEndX = Float(myEndPoint.x)
+            cd.vectorEndY = Float(myEndPoint.y)
         }
 
     }
@@ -985,15 +1043,22 @@ extension PGLFilterAttributeVector {
 }
 
 extension PGLRotateAffineUI {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeRotateAffine
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeRotateAffine", into: moContext)) as! CDAttributeRotateAffine)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeRotateAffine
+        }
+
 
         guard let myRotation = getValue() as? PGLFilterAttributeAffine
         else { return }
 
-//        parmValue.vectorAngle = Float(myRotation.rotation)
+        cd.rotationAngle = Float(myRotation.rotation)
             // affines do not have a rotation accesssor..
             // this should never work right.. it is intialized as zero
             // and will stay zero in the current implementation
@@ -1003,16 +1068,22 @@ extension PGLRotateAffineUI {
 }
 
 extension PGLScaleAffineUI {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeScaleAffine
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeScaleAffine", into: moContext)) as! CDAttributeScaleAffine)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeScaleAffine
+        }
 
         guard let myRotation = getValue() as? PGLFilterAttributeAffine
         else { return }
 
-//        parmValue.vectorX = Float(myRotation.scale.x)
-//        parmValue.vectorY = Float(myRotation.scale.y)
+        cd.scaleX = Float(myRotation.scale.x)
+        cd.scaleY = Float(myRotation.scale.y)
             // affines do not have a scale accesssor..
             // this should never work right.. it is intialized as zero
             // and will stay zero in the current implementation
@@ -1022,56 +1093,77 @@ extension PGLScaleAffineUI {
 }
 
 extension PGLTimerRateAttributeUI {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeTime
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeTime", into: moContext)) as! CDAttributeTime)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeTime
+        }
 
         
-//        parmValue.floatValue = getTimerDt()
+        cd.floatValue = getTimerDt()
 
     }
     // now store this instance values into the storedParmValue
 }
 
 extension PGLTranslateAffineUI {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeVector
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector", into: moContext)) as! CDAttributeVector)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeVector
+        }
 
         guard let myTranslate = getValue() as? CIVector
         else { return }
 
-//        parmValue.vectorX = Float(myTranslate.x)
-//        parmValue.vectorY = Float(myTranslate.y)
+        cd.vectorX = Float(myTranslate.x)
+        cd.vectorY = Float(myTranslate.y)
 
     }
     // now store this instance values into the storedParmValue
 }
 
 extension PGLFilterAttributeVector3 {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-            else { return }
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeVector3
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector3", into: moContext)) as! CDAttributeVector3)
+            storedParmValue = cd
+            setCDParmValueRelation()
 
-//        parmValue.floatValue = Float(zValue)
+        } else {
+            cd = storedParmValue as! CDAttributeVector3
+        }
+
+//        cd.vectorY = Float()
+//        cd.vectorX = Float()
+       cd.vectorZ = Float(zValue)
     }
     // now store this instance values into the storedParmValue
 }
 
-extension PGLVectorNumeric3UI {
-    @objc override func storeParmValue() {
-        super.storeParmValue()
-        guard let parmValue = storedParmValue
-        else { return }
-
-        guard let parentVectorAttribute = zValueParent
-        else { return }
+//extension PGLVectorNumeric3UI {
+//   this can be stored as PGLFilterAttibuteVector3..?
+//    @objc override func storeParmValue() {
+//        super.storeParmValue()
+//        guard let parmValue = storedParmValue
+//        else { return }
+//
+//        guard let parentVectorAttribute = zValueParent
+//        else { return }
 
 //        parmValue.floatValue = Float(parentVectorAttribute.zValue)
-    }
-}
+//    }
+//}
 
 

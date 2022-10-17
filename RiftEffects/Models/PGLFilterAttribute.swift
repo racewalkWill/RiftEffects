@@ -1332,7 +1332,7 @@ class PGLFilterAttributeColor: PGLFilterAttribute {
 class PGLAttributeRectangle: PGLFilterAttribute {
     // where attributeType= "CIAttributeTypeRectangle"
     //  & attributeClass= AttrClass.Vector.rawValue
-
+   
     var filterRect: CGRect =  CGRect(x: 0, y: 0, width: 300, height: 300)
 //    {didSet {
 ////        NSLog("PGLAttributeRectangle didSet filterRect = \(filterRect)")
