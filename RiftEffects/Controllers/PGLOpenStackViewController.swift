@@ -350,18 +350,18 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
             if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
             { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
-                currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
-                    // puts into the matching section..
-
-                self.apply(currentSnapshot ,animatingDifferences: true)
+                if (currentSnapshot.indexOfItem(theCDStack)) == nil  {
+                    currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
+                        // puts into the matching section..
+                    self.apply(currentSnapshot ,animatingDifferences: true)}
 
             } else {
                     // read it all back in the correct section
-//                try? dataProvider?.fetchedResultsController.performFetch()
-//                let allStacks =  myController.initialSnapShot()
-//                showHeaderText = true
-//                    // show header titles
-//                apply(allStacks, animatingDifferences: true)
+                try? dataProvider?.fetchedResultsController.performFetch()
+                let allStacks =  myController.initialSnapShot()
+                showHeaderText = true
+                    // show header titles
+                apply(allStacks, animatingDifferences: true)
                 
             }
         }

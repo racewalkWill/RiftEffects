@@ -165,9 +165,14 @@ extension PGLSourceFilter {
 
         }
         // the ciFilter is no longer stored.. it is rebuilt with values from the CDParmValues table
-//        newSource.storedFilter = myCDFilter
+        newSource.storedFilter = myCDFilter
 
 //        newSource.resetAttributesToLocalFilter()
+        // reset is not needed because filterbuilder has installed a
+        // ciFilter per the name
+        // the parm setting methods all put the values into the local ciFilter
+        // don't confuse the local ciFilter with the cdFilter record object
+        
         if let parmImages = myCDFilter.input?.allObjects as? [CDParmImage] {
             // attach the cdParmImage to the matching filter attribute
             for aCDParmImage in parmImages {
@@ -337,6 +342,8 @@ extension PGLFilterAttributeImage {
 
     func readCDParmImage(cdImageParm: CDParmImage) {
         // load relationships to the imageParm either input stack or Image List
+        storedParmImage = cdImageParm
+
         if let childStack = cdImageParm.inputStack  {
             let newPGLChildStack = PGLFilterStack()
             newPGLChildStack.on(cdStack: childStack)
