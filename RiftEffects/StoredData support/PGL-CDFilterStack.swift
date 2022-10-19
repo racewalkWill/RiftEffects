@@ -1093,11 +1093,7 @@ extension PGLFilterAttributeTime {
         } else {
             cd = storedParmValue as! CDAttributeTime
         }
-
-        guard let myTime = getNumberValue()
-        else { return }
-
-        cd.floatValue = myTime.floatValue
+        cd.floatValue = uiSliderValue
 
     }
 

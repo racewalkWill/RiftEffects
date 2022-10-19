@@ -68,6 +68,8 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
     // numeric or vector attribute
 
     let timeDivisor: Float = 25.0
+    var uiSliderValue: Float = 0
+        // a holder of the ui input for db store
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
@@ -82,11 +84,16 @@ class PGLFilterAttributeTime: PGLFilterAttribute {
            let newRate = myNumber.floatValue
                 //simd_smoothstep is not called here
                 // see addStepTime on the Transition filter
+            uiSliderValue = newRate
+
             aSourceFilter.setTimerDt(lengthSeconds: newRate )
         }
 
     }
 
+    override func getNumberValue() -> NSNumber? {
+        return uiSliderValue as NSNumber
+    }
     override func valueString() -> String {
         // remove obsolete?
         let parmNumber = getTimerDt() * timeDivisor
