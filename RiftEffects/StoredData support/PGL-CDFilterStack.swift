@@ -182,7 +182,7 @@ extension PGLSourceFilter {
             }
         }
         // now read the saved non image parm values if they exist
-        guard let myStoredValues = myCDFilter.input
+        guard let myStoredValues = myCDFilter.values
             else { return newSource}
         for aParmValue in myStoredValues {
             guard let typedValue = aParmValue as? CDParmValue
@@ -813,6 +813,8 @@ extension PGLFilterAttribute {
     @objc func setStoredValue(_ value: CDParmValue)   {
             // abstract super class implementation
             // all subclasses should implement
+            storedParmValue = value
+                // keep ref to stored object
 
     }
 
@@ -832,6 +834,7 @@ extension PGLFilterAttribute {
             // creates relation of many to 1 from the many side.
             // storedFilter may have many parmValues
 
+
         
     }
 }
@@ -844,7 +847,7 @@ extension PGLAttributeRectangle {
         var cdRectangle: CDAttributeRectangle
         if storedParmValue == nil {
             cdRectangle =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeRectangle", into: moContext)) as! CDAttributeRectangle)
-            storedParmValue = cdRectangle
+
             setCDParmValueRelation()
 
         } else {
@@ -859,6 +862,7 @@ extension PGLAttributeRectangle {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeRectangle
             else { return }
         filterRect = CGRect(x: storedValue.xPoint, y: storedValue.yPoint, width: storedValue.width, height: storedValue.height)
@@ -889,6 +893,7 @@ extension PGLFilterAttributeAffine {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeAffine
             else { return }
         setRotation(radians: storedValue.vectorAngle)
@@ -915,6 +920,7 @@ extension PGLFilterAttributeAngle {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeAngle
             else { return }
 
@@ -942,6 +948,7 @@ extension PGLFilterAttributeAttributedString {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeAttributedString
             else { return }
 
@@ -969,6 +976,7 @@ extension PGLFilterAttributeColor {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeColor
             else { return }
 
@@ -999,6 +1007,7 @@ extension PGLFilterAttributeData {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeData
             else { return }
 
@@ -1036,6 +1045,7 @@ extension PGLFilterAttributeNumber {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeNumber
             else { return }
 
@@ -1064,6 +1074,7 @@ extension PGLFilterAttributeString {
 
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeString
             else { return }
 
@@ -1091,6 +1102,7 @@ extension PGLFilterAttributeTime {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeTime
             else { return }
 
@@ -1127,6 +1139,7 @@ extension PGLFilterAttributeVector {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeVector
             else { return }
 
@@ -1166,6 +1179,7 @@ extension PGLRotateAffineUI {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeRotateAffine
             else { return }
 
@@ -1199,6 +1213,7 @@ extension PGLScaleAffineUI {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeScaleAffine
             else { return }
         let scaleVector = CIVector(x: CGFloat(storedValue.scaleX), y: CGFloat(storedValue.scaleY))
@@ -1226,6 +1241,7 @@ extension PGLTimerRateAttributeUI {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeTime
             else { return }
 
@@ -1256,6 +1272,7 @@ extension PGLTranslateAffineUI {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeVector
             else { return }
 
@@ -1285,13 +1302,14 @@ extension PGLFilterAttributeVector3 {
     }
 
     @objc override func setStoredValue(_ value: CDParmValue)   {
+        super.setStoredValue(value)
         guard let storedValue = value as? CDAttributeVector3
             else { return }
 
         let storedVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
 
-        let startVector = storedVector
-        let zValue = storedValue.vectorZ
+        startPoint = storedVector
+        zValue = CGFloat(storedValue.vectorZ)
 
     }
 
