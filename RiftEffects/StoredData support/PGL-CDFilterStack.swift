@@ -847,7 +847,7 @@ extension PGLAttributeRectangle {
         var cdRectangle: CDAttributeRectangle
         if storedParmValue == nil {
             cdRectangle =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeRectangle", into: moContext)) as! CDAttributeRectangle)
-
+            storedParmValue = cdRectangle
             setCDParmValueRelation()
 
         } else {
@@ -866,6 +866,8 @@ extension PGLAttributeRectangle {
         guard let storedValue = value as? CDAttributeRectangle
             else { return }
         filterRect = CGRect(x: storedValue.xPoint, y: storedValue.yPoint, width: storedValue.width, height: storedValue.height)
+        applyCropRect(mappedCropRect: filterRect)
+        isCropped = true //var for Vary/Cancel swipe cells on the UI
     }
 }
 
