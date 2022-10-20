@@ -66,7 +66,7 @@ class PGLFilterCategory {
     static let Bookmark = "Bookmark"  // also described as "Frequent" "Bookmark" in code
     static var filterDescriptors = allFilterDescriptors()
     private static var filterCategories: [PGLFilterCategory]?
-
+    static var FilterUIPositionDict = [String:PGLFilterCategoryIndex]()
 
     fileprivate static func setDescriptorsUIPosition(_ thisNewbie: PGLFilterCategory, _ i: Int, _ catIndex: Int) {
         let newbiePosition = thisNewbie.filterDescriptors[i].uiPosition
@@ -74,6 +74,7 @@ class PGLFilterCategory {
         newbiePosition.categoryCodeName = classCategories[catIndex]
         newbiePosition.filterIndex = i
         newbiePosition.filterCodeName = thisNewbie.filterDescriptors[i].filterName
+        FilterUIPositionDict[newbiePosition.filterCodeName] = newbiePosition
     }
 
     static func allFilterCategories() -> [PGLFilterCategory] {
@@ -150,6 +151,7 @@ class PGLFilterCategory {
             // dissolve with have the nil case as the 'normal'
           answerDescriptor =  PGLFilterDescriptor(aFilterName,nil)
         }
+        answerDescriptor?.uiPosition = FilterUIPositionDict[aFilterName] ?? PGLFilterCategoryIndex()
         return answerDescriptor
     }
 
