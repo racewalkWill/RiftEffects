@@ -986,6 +986,8 @@ extension PGLFilterAttributeColor {
         green = CGFloat(storedValue.greenValue)
         blue = CGFloat(storedValue.blueValue)
         alpha = CGFloat(storedValue.alphaValue)
+        let storedColor = CIColor(red: red, green: green, blue: blue, alpha: alpha)
+        aSourceFilter.setColorValue(newValue: storedColor, keyName: attributeName!)
     }
 }
 
