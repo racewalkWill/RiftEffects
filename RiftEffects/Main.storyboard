@@ -342,14 +342,6 @@
                                     <action selector="sliderValueEvent:" destination="Cot-0o-SSg" eventType="valueChanged" id="e5P-4p-mrI"/>
                                 </connections>
                             </slider>
-                            <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
-                                <rect key="frame" x="102" y="131" width="246" height="31"/>
-                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                                <accessibility key="accessibilityConfiguration" hint="Green" identifier="Parm2" label="Green"/>
-                                <connections>
-                                    <action selector="sliderValueEvent:" destination="Cot-0o-SSg" eventType="valueChanged" id="5ih-ka-Bmy"/>
-                                </connections>
-                            </slider>
                             <slider hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="erC-X2-Dkg" userLabel="Red">
                                 <rect key="frame" x="102" y="479" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
@@ -378,6 +370,14 @@
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bottomCroppingArea" label="bottomCroppingArea"/>
                             </view>
+                            <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
+                                <rect key="frame" x="102" y="531" width="246" height="31"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <accessibility key="accessibilityConfiguration" hint="Green" identifier="Parm2" label="Green"/>
+                                <connections>
+                                    <action selector="sliderValueEvent:" destination="Cot-0o-SSg" eventType="valueChanged" id="5ih-ka-Bmy"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <accessibility key="accessibilityConfiguration" identifier="ParmHolderView" label="ParmHolderView"/>
                         <constraints>
@@ -463,7 +463,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.69999999999999996" tag="3" contentMode="scaleToFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YX1-Ej-LHn">
-                                <rect key="frame" x="1153" y="793" width="40" height="40"/>
+                                <rect key="frame" x="1152" y="793" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <color key="tintColor" systemColor="systemGray6Color"/>
@@ -490,7 +490,7 @@
                                 </accessibility>
                             </view>
                             <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.69999999999999996" tag="1" contentMode="scaleToFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gr-eB-KpT">
-                                <rect key="frame" x="1153" y="0.0" width="40" height="40"/>
+                                <rect key="frame" x="1152" y="0.0" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <color key="tintColor" systemColor="systemGray6Color"/>
@@ -642,7 +642,7 @@
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="107" y="74" width="71" height="54"/>
+                                <rect key="frame" x="107" y="74" width="70" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -831,7 +831,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="OEz-3T-9Rf">
-                                <rect key="frame" x="0.0" y="709" width="239" height="44"/>
+                                <rect key="frame" x="0.0" y="708" width="239" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
@@ -865,7 +865,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="770" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qzX-VM-dr8">
-                                <rect key="frame" x="0.0" y="18" width="239" height="691"/>
+                                <rect key="frame" x="0.0" y="18" width="239" height="690"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="parmSectionHeader" editingAccessoryType="disclosureIndicator" textLabel="ea4-B7-xyI" detailTextLabel="S19-xP-cfG" style="IBUITableViewCellStyleValue1" id="wng-mG-QUf">
@@ -1089,7 +1089,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
-                                <rect key="frame" x="0.0" y="716" width="239" height="44"/>
+                                <rect key="frame" x="-1" y="716" width="239" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Mode Tool Bar Btn" image="rectangle.grid.1x2" catalog="system" id="wgX-bj-pqm">
