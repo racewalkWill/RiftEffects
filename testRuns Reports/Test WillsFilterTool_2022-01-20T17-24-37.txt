@@ -1,0 +1,349 @@
+
+Showing All Errors Only
+2022-01-20 17:24:38.682028-0600 RiftEffects[8976:392100] [PGL] start didFinishLaunchingWithOptions
+2022-01-20 17:24:38.682352-0600 RiftEffects[8976:392100] CompositeTextPositionFilter #register()
+2022-01-20 17:24:38.682421-0600 RiftEffects[8976:392100] [PGL]  didFinishLaunchingWithOptions appStack created
+2022-01-20 17:24:38.682459-0600 RiftEffects[8976:392100] [PGL] completed checkVersion
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitOptionsValidator validateOptions:andStoreOptions:error:](36): Validating options: <NSCloudKitMirroringDelegateOptions: 0x6000023e5290> containerIdentifier:iCloud.L-BSoftwareArtist.WillsFilterTool databaseScope:Private ckAssetThresholdBytes:<null> operationMemoryThresholdBytes:<null> useEncryptedStorage:NO useDeviceToDeviceEncryption:NO automaticallyDownloadFileBackedFutures:NO automaticallyScheduleImportAndExportOperations:YES skipCloudKitSetup:NO preserveLegacyRecordMetadataBehavior:NO useDaemon:YES apsConnectionMachServiceName:<null> containerProvider:<PFCloudKitContainerProvider: 0x6000013e0f90> storeMonitorProvider:<PFCloudKitStoreMonitorProvider: 0x6000013e0fa0> metricsClient:<PFCloudKitMetricsClient: 0x6000013e0fb0> metadataPurger:<PFCloudKitMetadataPurger: 0x6000013e0fc0> scheduler:<null> notificationListener:<null> containerOptions:<null> defaultOperationConfiguration:<null> progressProvider:<NSPersistentCloudKitContainer: 0x6000004ab140> test_useLegacySavePolicy:YES archivingUtilities:<PFCloudKitArchivingUtilities: 0x6000013e0fd0>
+storeOptions: {
+    NSInferMappingModelAutomaticallyOption = 1;
+    NSMigratePersistentStoresAutomaticallyOption = 1;
+    NSPersistentCloudKitContainerOptionsKey = "<NSPersistentCloudKitContainerOptions: 0x600001f6ca80>";
+    NSPersistentHistoryTrackingKey = 1;
+    NSPersistentStoreMirroringOptionsKey =     {
+        NSPersistentStoreMirroringDelegateOptionKey = "<NSCloudKitMirroringDelegate: 0x600002abe700>";
+    };
+    NSPersistentStoreRemoteChangeNotificationOptionKey = 1;
+}
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate observeChangesForStore:inPersistentStoreCoordinator:](385): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observing store: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _setUpCloudKitIntegration](530): <NSCloudKitMirroringDelegate: 0x600002abe700>: Successfully enqueued setup request.
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+2022-01-20 17:24:38.721616-0600 RiftEffects[8976:392302] [PGL] PhotoLibrary.requestAuthorization status is authorized or .restricted or .limited
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2853): <NSCloudKitMirroringDelegate: 0x600002abe700>: Executing: <NSCloudKitMirroringDelegateSetupRequest: 0x60000048c800> 2A334C15-745A-462D-857D-0F6FE73670B4
+2022-01-20 17:24:38.724649-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController viewWillAppear
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](446): Skipping migration for 'ANSCKDATABASEMETADATA' because it already has a column named 'ZLASTFETCHDATE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](503): Skipping migration for 'ANSCKMETADATAENTRY' because it already has a column named 'ZDATEVALUE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](446): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZLASTFETCHDATE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSFETCHCHANGES'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSATOMICCHANGES'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSRECORDSHARING'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSZONESHARING'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSIMPORT'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSRECOVERYFROMZONEDELETE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSRECOVERYFROMUSERPURGE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZENCODEDSHAREDATA'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSSHAREUPDATE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSSHAREDELETE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSRECOVERYFROMIDENTITYLOSS'
+2022-01-20 17:24:38.733251-0600 RiftEffects[8976:392100] SplitViewController display mode change 
+2022-01-20 17:24:38.733401-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController willShow
+2022-01-20 17:24:38.733445-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController willShow
+2022-01-20 17:24:38.733481-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController willShow
+CoreData: CloudKit: CoreData+CloudKit: -[PFCloudKitSetupAssistant _checkUserIdentity:]_block_invoke(1257): <PFCloudKitSetupAssistant: 0x6000035e2a60>: CKIdentity record matches store: <CKRecordID: 0x600001191160; recordName=_be9a4b88d3e9f5d33ddacf19cfd924cb, zoneID=_defaultZone:__defaultOwner__>
+CoreData: warning: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _performSetupRequest:]_block_invoke(1032): <NSCloudKitMirroringDelegate: 0x600002abe700>: Successfully set up CloudKit integration for store: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _beginWatchingForChanges:](724): <NSCloudKitMirroringDelegate: 0x600002abe700>: Scheduling post-setup export
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _finishedRequest:withResult:](2871): Finished request: <NSCloudKitMirroringDelegateSetupRequest: 0x60000048c800> 2A334C15-745A-462D-857D-0F6FE73670B4 with result: <NSCloudKitMirroringResult: 0x6000011915e0> success: 1 madeChanges: 0 error: (null)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+2022-01-20 17:24:38.788559-0600 RiftEffects[8976:392100] The filter 'CIPortraitEffectSpillCorrection' is not implemented in the bundle at /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/System/Library/CoreImage/PortraitFilters.cifilter.
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate managedObjectContextSaved:](2504): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed context save: <NSPersistentStoreCoordinator: 0x600003aebbf0> - <NSManagedObjectContext: 0x600002af8000>
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _scheduleAutomatedExportWithLabel:activity:completionHandler:](2958): <NSCloudKitMirroringDelegate: 0x600002abe700> - Beginning automated export - SandboxExport:
+(null)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate executeMirroringRequest:error:](884): <NSCloudKitMirroringDelegate: 0x600002abe700>: Asked to execute request: <NSCloudKitMirroringExportRequest: 0x600000495e00> 23911C83-70F0-4E1E-9B79-F9916987A67C
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _scheduleAutomatedImportWithLabel:activity:completionHandler:](2922): <NSCloudKitMirroringDelegate: 0x600002abe700> - Beginning automated import - SandboxImport - in response to activity:
+(null)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate executeMirroringRequest:error:](884): <NSCloudKitMirroringDelegate: 0x600002abe700>: Asked to execute request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2856): <NSCloudKitMirroringDelegate: 0x600002abe700>: No more requests to execute.
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke(918): <NSCloudKitMirroringDelegate: 0x600002abe700>: enqueuing request: <NSCloudKitMirroringExportRequest: 0x600000495e00> 23911C83-70F0-4E1E-9B79-F9916987A67C
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke_2(927): Enqueued request: <NSCloudKitMirroringExportRequest: 0x600000495e00> 23911C83-70F0-4E1E-9B79-F9916987A67C
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:](2547): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed remote store notification: <NSPersistentStoreCoordinator: 0x600003aebbf0> - C1F1E690-54C0-4930-8DBC-6864EEA15B8D - (null) - file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke(918): <NSCloudKitMirroringDelegate: 0x600002abe700>: enqueuing request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke_2(927): Enqueued request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2853): <NSCloudKitMirroringDelegate: 0x600002abe700>: Executing: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2849): <NSCloudKitMirroringDelegate: 0x600002abe700>: Deferring additional work. There is still an active request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate managedObjectContextSaved:](2504): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed context save: <NSPersistentStoreCoordinator: 0x600003aebbf0> - <NSManagedObjectContext: 0x600002abfb50>
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:]_block_invoke(2597): <NSCloudKitMirroringDelegate: 0x600002abe700> - Ignoring remote change notification because it didn't change any entities tracked by persistent history: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:](2547): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed remote store notification: <NSPersistentStoreCoordinator: 0x600003aebbf0> - C1F1E690-54C0-4930-8DBC-6864EEA15B8D - (null) - file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:]_block_invoke(2597): <NSCloudKitMirroringDelegate: 0x600002abe700> - Ignoring remote change notification because it didn't change any entities tracked by persistent history: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+2022-01-20 17:24:38.820977-0600 RiftEffects[8976:392100] [PGL] PGLImageController  notificationBlock PGLSelectActiveStackRow
+2022-01-20 17:24:38.896609-0600 RiftEffects[8976:392100] Renderer init currentPhotoFileFormat Optional(RiftEffects.PhotoLibSaveFormat.JPEG)
+2022-01-20 17:24:38.897794-0600 RiftEffects[8976:392100] PGLImageController #setGestureRecogniziers
+Test Suite 'Selected tests' started at 2022-01-20 17:24:38.938
+Test Suite 'RiftEffectsTests.xctest' started at 2022-01-20 17:24:38.938
+Test Suite 'PGLSourceFilterTests' started at 2022-01-20 17:24:38.938
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testBlurFilters]' started.
+2022-01-20 17:24:39.006030-0600 RiftEffects[8976:392337] [error] error: CoreData+CloudKit: -[PFCloudKitImporter databaseFetchFinishWithContext:error:completion:](245): <PFCloudKitImporter: 0x6000004402c0>: Database fetch for request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51 failed with error: <CKError 0x600001eac270: "Account Temporarily Unavailable" (36/1028); "Account temporarily unavailable due to bad or missing auth token">
+CoreData: error: CoreData+CloudKit: -[PFCloudKitImporter databaseFetchFinishWithContext:error:completion:](245): <PFCloudKitImporter: 0x6000004402c0>: Database fetch for request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51 failed with error: <CKError 0x600001eac270: "Account Temporarily Unavailable" (36/1028); "Account temporarily unavailable due to bad or missing auth token">
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:](2547): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed remote store notification: <NSPersistentStoreCoordinator: 0x600003aebbf0> - C1F1E690-54C0-4930-8DBC-6864EEA15B8D - (null) - file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate managedObjectContextSaved:](2504): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed context save: <NSPersistentStoreCoordinator: 0x600003aebbf0> - <NSManagedObjectContext: 0x600002af4000>
+2022-01-20 17:24:39.215615-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter BumpFace
+2022-01-20 17:24:39.324748-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _scheduleAutomatedExportWithLabel:activity:completionHandler:](2958): <NSCloudKitMirroringDelegate: 0x600002abe700> - Beginning automated export - ExportActivity:
+<CKSchedulerActivity: 0x6000032d4500; containerID=<CKContainerID: 0x600001f806c0; containerIdentifier=iCloud.L-BSoftwareArtist.WillsFilterTool, containerEnvironment="Sandbox">, identifier=com.apple.coredata.cloudkit.activity.export.C1F1E690-54C0-4930-8DBC-6864EEA15B8D, priority=2, xpcActivityCriteriaOverrides={ Priority=Utility }>
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate executeMirroringRequest:error:](884): <NSCloudKitMirroringDelegate: 0x600002abe700>: Asked to execute request: <NSCloudKitMirroringExportRequest: 0x6000004b01c0> BECEEFA2-99D6-416D-853F-A0701F9449EA
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter BumpFace
+2022-01-20 17:25:13.039732-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Bokeh Blur
+2022-01-20 17:25:13.065439-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Bokeh Blur
+2022-01-20 17:25:36.808568-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Box Blur
+2022-01-20 17:25:36.830310-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Box Blur
+2022-01-20 17:25:41.592671-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Depth Blur Effect
+2022-01-20 17:25:41.617743-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.633009-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.646427-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.657892-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.667894-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.675887-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Depth Blur Effect
+2022-01-20 17:25:48.825066-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Disc Blur
+2022-01-20 17:25:48.846310-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Disc Blur
+2022-01-20 17:25:50.522630-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Gaussian Blur
+2022-01-20 17:25:50.544951-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Gaussian Blur
+2022-01-20 17:25:52.072239-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Masked Variable Blur
+2022-01-20 17:25:52.093825-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:52.108300-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Masked Variable Blur
+2022-01-20 17:25:53.704466-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Median
+2022-01-20 17:25:53.726372-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Median
+2022-01-20 17:25:55.691085-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Gradient
+2022-01-20 17:25:55.713811-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Morphology Gradient
+2022-01-20 17:25:57.725693-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Maximum
+2022-01-20 17:25:57.746824-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Morphology Maximum
+2022-01-20 17:26:01.709086-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Minimum
+2022-01-20 17:26:01.731904-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Morphology Minimum
+2022-01-20 17:26:02.909199-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Rectangle Maximum
+2022-01-20 17:26:02.931362-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Morphology Rectangle Maximum
+2022-01-20 17:26:04.523778-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Rectangle Minimum
+2022-01-20 17:26:04.546410-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Morphology Rectangle Minimum
+2022-01-20 17:26:12.442299-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Motion Blur
+2022-01-20 17:26:12.464045-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Motion Blur
+2022-01-20 17:26:15.424976-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Noise Reduction
+2022-01-20 17:26:15.447195-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Noise Reduction
+2022-01-20 17:26:21.059258-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Zoom Blur
+2022-01-20 17:26:21.080900-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Zoom Blur
+2022-01-20 17:26:23.475671-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter FaceFilter
+2022-01-20 17:26:23.497531-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter FaceFilter
+2022-01-20 17:26:25.107325-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Saliency Blur
+2022-01-20 17:26:25.129090-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Saliency Blur
+2022-01-20 17:26:26.623468-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter TiltShift
+2022-01-20 17:26:26.645647-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter TiltShift
+2022-01-20 17:26:28.108306-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter WarpItMetal
+2022-01-20 17:26:28.132753-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter WarpItMetal
+2022-01-20 17:26:29.614446-0600 RiftEffects[8976:392100] [PGL] PGLImageController removeParmControls completed
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testBlurFilters]' failed (110.677 seconds).
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testCISpotColorFilter]' started.
+2022-01-20 17:26:29.621981-0600 RiftEffects[8976:392100] [PGL] testCISpotColorFilter color1 = Optional(<CIColor 0x600001f8c060 (0.0784 0.0627 0.0706 1) devicergb>)
+2022-01-20 17:26:29.622931-0600 RiftEffects[8976:392100] [PGL] PGLImageController removeParmControls completed
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testCISpotColorFilter]' passed (0.008 seconds).
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testColorAdjFilters]' started.
+2022-01-20 17:26:29.876143-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testColorAdjFilters() testing filter Color Absolute Difference
+2022-01-20 17:26:29.886012-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:26:29.893527-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+testColorAdjFilters() encountered an error (Test operation was canceled. If you believe this error represents a bug, please attach the result bundle at /Users/willloew/Library/Developer/Xcode/DerivedData/RiftEffects-bolxjwyqnwrlzjbqbznhspbgyzpb/Logs/Test/Test-WillsFilterTool-2022.01.20_17-24-37--0600.xcresult)2022-01-20 17:24:38.682028-0600 RiftEffects[8976:392100] [PGL] start didFinishLaunchingWithOptions
+2022-01-20 17:24:38.682352-0600 RiftEffects[8976:392100] CompositeTextPositionFilter #register()
+2022-01-20 17:24:38.682421-0600 RiftEffects[8976:392100] [PGL]  didFinishLaunchingWithOptions appStack created
+2022-01-20 17:24:38.682459-0600 RiftEffects[8976:392100] [PGL] completed checkVersion
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitOptionsValidator validateOptions:andStoreOptions:error:](36): Validating options: <NSCloudKitMirroringDelegateOptions: 0x6000023e5290> containerIdentifier:iCloud.L-BSoftwareArtist.WillsFilterTool databaseScope:Private ckAssetThresholdBytes:<null> operationMemoryThresholdBytes:<null> useEncryptedStorage:NO useDeviceToDeviceEncryption:NO automaticallyDownloadFileBackedFutures:NO automaticallyScheduleImportAndExportOperations:YES skipCloudKitSetup:NO preserveLegacyRecordMetadataBehavior:NO useDaemon:YES apsConnectionMachServiceName:<null> containerProvider:<PFCloudKitContainerProvider: 0x6000013e0f90> storeMonitorProvider:<PFCloudKitStoreMonitorProvider: 0x6000013e0fa0> metricsClient:<PFCloudKitMetricsClient: 0x6000013e0fb0> metadataPurger:<PFCloudKitMetadataPurger: 0x6000013e0fc0> scheduler:<null> notificationListener:<null> containerOptions:<null> defaultOperationConfiguration:<null> progressProvider:<NSPersistentCloudKitContainer: 0x6000004ab140> test_useLegacySavePolicy:YES archivingUtilities:<PFCloudKitArchivingUtilities: 0x6000013e0fd0>
+storeOptions: {
+    NSInferMappingModelAutomaticallyOption = 1;
+    NSMigratePersistentStoresAutomaticallyOption = 1;
+    NSPersistentCloudKitContainerOptionsKey = "<NSPersistentCloudKitContainerOptions: 0x600001f6ca80>";
+    NSPersistentHistoryTrackingKey = 1;
+    NSPersistentStoreMirroringOptionsKey =     {
+        NSPersistentStoreMirroringDelegateOptionKey = "<NSCloudKitMirroringDelegate: 0x600002abe700>";
+    };
+    NSPersistentStoreRemoteChangeNotificationOptionKey = 1;
+}
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate observeChangesForStore:inPersistentStoreCoordinator:](385): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observing store: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _setUpCloudKitIntegration](530): <NSCloudKitMirroringDelegate: 0x600002abe700>: Successfully enqueued setup request.
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+2022-01-20 17:24:38.721616-0600 RiftEffects[8976:392302] [PGL] PhotoLibrary.requestAuthorization status is authorized or .restricted or .limited
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2853): <NSCloudKitMirroringDelegate: 0x600002abe700>: Executing: <NSCloudKitMirroringDelegateSetupRequest: 0x60000048c800> 2A334C15-745A-462D-857D-0F6FE73670B4
+2022-01-20 17:24:38.724649-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController viewWillAppear
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](446): Skipping migration for 'ANSCKDATABASEMETADATA' because it already has a column named 'ZLASTFETCHDATE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](503): Skipping migration for 'ANSCKMETADATAENTRY' because it already has a column named 'ZDATEVALUE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](446): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZLASTFETCHDATE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSFETCHCHANGES'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSATOMICCHANGES'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSRECORDSHARING'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](462): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZSUPPORTSZONESHARING'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSIMPORT'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSRECOVERYFROMZONEDELETE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSRECOVERYFROMUSERPURGE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZENCODEDSHAREDATA'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSSHAREUPDATE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSSHAREDELETE'
+CoreData: debug: CoreData+CloudKit: -[PFCloudKitMetadataModelMigrator calculateMigrationStepsWithConnection:error:](479): Skipping migration for 'ANSCKRECORDZONEMETADATA' because it already has a column named 'ZNEEDSRECOVERYFROMIDENTITYLOSS'
+2022-01-20 17:24:38.733251-0600 RiftEffects[8976:392100] SplitViewController display mode change 
+2022-01-20 17:24:38.733401-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController willShow
+2022-01-20 17:24:38.733445-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController willShow
+2022-01-20 17:24:38.733481-0600 RiftEffects[8976:392100] [PGL] PGLSplitViewController willShow
+CoreData: CloudKit: CoreData+CloudKit: -[PFCloudKitSetupAssistant _checkUserIdentity:]_block_invoke(1257): <PFCloudKitSetupAssistant: 0x6000035e2a60>: CKIdentity record matches store: <CKRecordID: 0x600001191160; recordName=_be9a4b88d3e9f5d33ddacf19cfd924cb, zoneID=_defaultZone:__defaultOwner__>
+CoreData: warning: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _performSetupRequest:]_block_invoke(1032): <NSCloudKitMirroringDelegate: 0x600002abe700>: Successfully set up CloudKit integration for store: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _beginWatchingForChanges:](724): <NSCloudKitMirroringDelegate: 0x600002abe700>: Scheduling post-setup export
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _finishedRequest:withResult:](2871): Finished request: <NSCloudKitMirroringDelegateSetupRequest: 0x60000048c800> 2A334C15-745A-462D-857D-0F6FE73670B4 with result: <NSCloudKitMirroringResult: 0x6000011915e0> success: 1 madeChanges: 0 error: (null)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+2022-01-20 17:24:38.788559-0600 RiftEffects[8976:392100] The filter 'CIPortraitEffectSpillCorrection' is not implemented in the bundle at /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/System/Library/CoreImage/PortraitFilters.cifilter.
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate managedObjectContextSaved:](2504): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed context save: <NSPersistentStoreCoordinator: 0x600003aebbf0> - <NSManagedObjectContext: 0x600002af8000>
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _scheduleAutomatedExportWithLabel:activity:completionHandler:](2958): <NSCloudKitMirroringDelegate: 0x600002abe700> - Beginning automated export - SandboxExport:
+(null)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate executeMirroringRequest:error:](884): <NSCloudKitMirroringDelegate: 0x600002abe700>: Asked to execute request: <NSCloudKitMirroringExportRequest: 0x600000495e00> 23911C83-70F0-4E1E-9B79-F9916987A67C
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _scheduleAutomatedImportWithLabel:activity:completionHandler:](2922): <NSCloudKitMirroringDelegate: 0x600002abe700> - Beginning automated import - SandboxImport - in response to activity:
+(null)
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate executeMirroringRequest:error:](884): <NSCloudKitMirroringDelegate: 0x600002abe700>: Asked to execute request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2856): <NSCloudKitMirroringDelegate: 0x600002abe700>: No more requests to execute.
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke(918): <NSCloudKitMirroringDelegate: 0x600002abe700>: enqueuing request: <NSCloudKitMirroringExportRequest: 0x600000495e00> 23911C83-70F0-4E1E-9B79-F9916987A67C
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke_2(927): Enqueued request: <NSCloudKitMirroringExportRequest: 0x600000495e00> 23911C83-70F0-4E1E-9B79-F9916987A67C
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:](2547): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed remote store notification: <NSPersistentStoreCoordinator: 0x600003aebbf0> - C1F1E690-54C0-4930-8DBC-6864EEA15B8D - (null) - file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke(918): <NSCloudKitMirroringDelegate: 0x600002abe700>: enqueuing request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _enqueueRequest:]_block_invoke_2(927): Enqueued request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest](2840): <NSCloudKitMirroringDelegate: 0x600002abe700>: Checking for pending requests.
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2853): <NSCloudKitMirroringDelegate: 0x600002abe700>: Executing: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2849): <NSCloudKitMirroringDelegate: 0x600002abe700>: Deferring additional work. There is still an active request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate managedObjectContextSaved:](2504): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed context save: <NSPersistentStoreCoordinator: 0x600003aebbf0> - <NSManagedObjectContext: 0x600002abfb50>
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:]_block_invoke(2597): <NSCloudKitMirroringDelegate: 0x600002abe700> - Ignoring remote change notification because it didn't change any entities tracked by persistent history: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:](2547): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed remote store notification: <NSPersistentStoreCoordinator: 0x600003aebbf0> - C1F1E690-54C0-4930-8DBC-6864EEA15B8D - (null) - file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:]_block_invoke(2597): <NSCloudKitMirroringDelegate: 0x600002abe700> - Ignoring remote change notification because it didn't change any entities tracked by persistent history: <NSSQLCore: 0x134e1d870> (URL: file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite)
+2022-01-20 17:24:38.820977-0600 RiftEffects[8976:392100] [PGL] PGLImageController  notificationBlock PGLSelectActiveStackRow
+2022-01-20 17:24:38.896609-0600 RiftEffects[8976:392100] Renderer init currentPhotoFileFormat Optional(RiftEffects.PhotoLibSaveFormat.JPEG)
+2022-01-20 17:24:38.897794-0600 RiftEffects[8976:392100] PGLImageController #setGestureRecogniziers
+Test Suite 'Selected tests' started at 2022-01-20 17:24:38.938
+Test Suite 'RiftEffectsTests.xctest' started at 2022-01-20 17:24:38.938
+Test Suite 'PGLSourceFilterTests' started at 2022-01-20 17:24:38.938
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testBlurFilters]' started.
+2022-01-20 17:24:39.006030-0600 RiftEffects[8976:392337] [error] error: CoreData+CloudKit: -[PFCloudKitImporter databaseFetchFinishWithContext:error:completion:](245): <PFCloudKitImporter: 0x6000004402c0>: Database fetch for request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51 failed with error: <CKError 0x600001eac270: "Account Temporarily Unavailable" (36/1028); "Account temporarily unavailable due to bad or missing auth token">
+CoreData: error: CoreData+CloudKit: -[PFCloudKitImporter databaseFetchFinishWithContext:error:completion:](245): <PFCloudKitImporter: 0x6000004402c0>: Database fetch for request: <NSCloudKitMirroringImportRequest: 0x600000473600> 6CCCC422-4D94-443B-9D24-A361D36C0F51 failed with error: <CKError 0x600001eac270: "Account Temporarily Unavailable" (36/1028); "Account temporarily unavailable due to bad or missing auth token">
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate remoteStoreDidChange:](2547): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed remote store notification: <NSPersistentStoreCoordinator: 0x600003aebbf0> - C1F1E690-54C0-4930-8DBC-6864EEA15B8D - (null) - file:///Users/willloew/Library/Developer/CoreSimulator/Devices/A246AD33-7FE8-4209-8C13-6300F50AF3AC/data/Containers/Data/Application/C753F03E-4F6F-4513-B071-B6DA4155F28E/Library/Application%20Support/WillsFilterTool.sqlite
+CoreData: debug: CoreData+CloudKit: -[NSCloudKitMirroringDelegate managedObjectContextSaved:](2504): <NSCloudKitMirroringDelegate: 0x600002abe700>: Observed context save: <NSPersistentStoreCoordinator: 0x600003aebbf0> - <NSManagedObjectContext: 0x600002af4000>
+2022-01-20 17:24:39.215615-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter BumpFace
+2022-01-20 17:24:39.324748-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate _scheduleAutomatedExportWithLabel:activity:completionHandler:](2958): <NSCloudKitMirroringDelegate: 0x600002abe700> - Beginning automated export - ExportActivity:
+<CKSchedulerActivity: 0x6000032d4500; containerID=<CKContainerID: 0x600001f806c0; containerIdentifier=iCloud.L-BSoftwareArtist.WillsFilterTool, containerEnvironment="Sandbox">, identifier=com.apple.coredata.cloudkit.activity.export.C1F1E690-54C0-4930-8DBC-6864EEA15B8D, priority=2, xpcActivityCriteriaOverrides={ Priority=Utility }>
+CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate executeMirroringRequest:error:](884): <NSCloudKitMirroringDelegate: 0x600002abe700>: Asked to execute request: <NSCloudKitMirroringExportRequest: 0x6000004b01c0> BECEEFA2-99D6-416D-853F-A0701F9449EA
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter BumpFace
+2022-01-20 17:25:13.039732-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Bokeh Blur
+2022-01-20 17:25:13.065439-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Bokeh Blur
+2022-01-20 17:25:36.808568-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Box Blur
+2022-01-20 17:25:36.830310-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Box Blur
+2022-01-20 17:25:41.592671-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Depth Blur Effect
+2022-01-20 17:25:41.617743-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.633009-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.646427-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.657892-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.667894-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:41.675887-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Depth Blur Effect
+2022-01-20 17:25:48.825066-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Disc Blur
+2022-01-20 17:25:48.846310-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Disc Blur
+2022-01-20 17:25:50.522630-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Gaussian Blur
+2022-01-20 17:25:50.544951-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Gaussian Blur
+2022-01-20 17:25:52.072239-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Masked Variable Blur
+2022-01-20 17:25:52.093825-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:25:52.108300-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Masked Variable Blur
+2022-01-20 17:25:53.704466-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Median
+2022-01-20 17:25:53.726372-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Median
+2022-01-20 17:25:55.691085-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Gradient
+2022-01-20 17:25:55.713811-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Morphology Gradient
+2022-01-20 17:25:57.725693-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Maximum
+2022-01-20 17:25:57.746824-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Morphology Maximum
+2022-01-20 17:26:01.709086-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Minimum
+2022-01-20 17:26:01.731904-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:449: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - no output image filter Blur Morphology Minimum
+2022-01-20 17:26:02.909199-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Rectangle Maximum
+2022-01-20 17:26:02.931362-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Morphology Rectangle Maximum
+2022-01-20 17:26:04.523778-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Morphology Rectangle Minimum
+2022-01-20 17:26:04.546410-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Morphology Rectangle Minimum
+2022-01-20 17:26:12.442299-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Motion Blur
+2022-01-20 17:26:12.464045-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Motion Blur
+2022-01-20 17:26:15.424976-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Noise Reduction
+2022-01-20 17:26:15.447195-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Noise Reduction
+2022-01-20 17:26:21.059258-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Zoom Blur
+2022-01-20 17:26:21.080900-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Zoom Blur
+2022-01-20 17:26:23.475671-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter FaceFilter
+2022-01-20 17:26:23.497531-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter FaceFilter
+2022-01-20 17:26:25.107325-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter Saliency Blur
+2022-01-20 17:26:25.129090-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter Saliency Blur
+2022-01-20 17:26:26.623468-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter TiltShift
+2022-01-20 17:26:26.645647-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter TiltShift
+2022-01-20 17:26:28.108306-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testBlurFilters() testing filter WarpItMetal
+2022-01-20 17:26:28.132753-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:433: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : XCTAssertTrue failed - result extent is zero width/height
+/Users/willloew/Developer/RiftEffects/RiftEffectsTests/PGLSourceFilterTests.swift:436: error: -[RiftEffectsTests.PGLSourceFilterTests testBlurFilters] : failed - failed CGImage creation from result filter WarpItMetal
+2022-01-20 17:26:29.614446-0600 RiftEffects[8976:392100] [PGL] PGLImageController removeParmControls completed
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testBlurFilters]' failed (110.677 seconds).
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testCISpotColorFilter]' started.
+2022-01-20 17:26:29.621981-0600 RiftEffects[8976:392100] [PGL] testCISpotColorFilter color1 = Optional(<CIColor 0x600001f8c060 (0.0784 0.0627 0.0706 1) devicergb>)
+2022-01-20 17:26:29.622931-0600 RiftEffects[8976:392100] [PGL] PGLImageController removeParmControls completed
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testCISpotColorFilter]' passed (0.008 seconds).
+Test Case '-[RiftEffectsTests.PGLSourceFilterTests testColorAdjFilters]' started.
+2022-01-20 17:26:29.876143-0600 RiftEffects[8976:392100] [PGL] PGLSourceFilterTests testColorAdjFilters() testing filter Color Absolute Difference
+2022-01-20 17:26:29.886012-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+2022-01-20 17:26:29.893527-0600 RiftEffects[8976:392100] PGLImageList imageFrom error = Error Domain=CloudPhotoLibraryErrorDomain Code=1006 "(null)"
+testColorAdjFilters() encountered an error (Test operation was canceled. If you believe this error represents a bug, please attach the result bundle at /Users/willloew/Library/Developer/Xcode/DerivedData/RiftEffects-bolxjwyqnwrlzjbqbznhspbgyzpb/Logs/Test/Test-WillsFilterTool-2022.01.20_17-24-37--0600.xcresult)
+
+Testing Complete    1/20/22, 5:27 PM    156.6 seconds

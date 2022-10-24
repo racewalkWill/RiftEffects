@@ -350,18 +350,18 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
             if let matchingSection = currentSnapshot.sectionIdentifier(containingItem: theCDStack)
             { sectionIndex = currentSnapshot.indexOfSection(matchingSection) ?? 0
-                currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
-                    // puts into the matching section..
-
-                self.apply(currentSnapshot ,animatingDifferences: true)
+                if (currentSnapshot.indexOfItem(theCDStack)) == nil  {
+                    currentSnapshot.appendItems([theCDStack], toSection: sectionIndex)
+                        // puts into the matching section..
+                    self.apply(currentSnapshot ,animatingDifferences: true)}
 
             } else {
                     // read it all back in the correct section
-//                try? dataProvider?.fetchedResultsController.performFetch()
-//                let allStacks =  myController.initialSnapShot()
-//                showHeaderText = true
-//                    // show header titles
-//                apply(allStacks, animatingDifferences: true)
+                try? dataProvider?.fetchedResultsController.performFetch()
+                let allStacks =  myController.initialSnapShot()
+                showHeaderText = true
+                    // show header titles
+                apply(allStacks, animatingDifferences: true)
                 
             }
         }
@@ -382,10 +382,15 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
                 if let identifierToDelete = itemIdentifier(for: indexPath) {
                     var snapshot = self.snapshot()
+                    let matchingSection = snapshot.sectionIdentifier(containingItem: identifierToDelete)
                     snapshot.deleteItems([identifierToDelete])
                     apply(snapshot)
+
                     delete(cdStack: identifierToDelete) //need to remove from the datastore too
                         // is identifierToDelete a CDFilterStack?
+                    if let sectionToReload = matchingSection {
+                        snapshot.reloadSections([sectionToReload])
+                    }
                 }
             }
         }

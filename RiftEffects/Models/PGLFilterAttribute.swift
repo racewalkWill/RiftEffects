@@ -115,6 +115,7 @@ class PGLFilterAttribute {
 //    var attributeFrameDelta: Float = 0.0
     var varyStepCounter = 0
     var varyTotalFrames = 600 // 10 secs @ 60 fps
+    var storedParmValue: CDParmValue?
 
 
     var uiIndexPath: IndexPath?
@@ -206,7 +207,7 @@ class PGLFilterAttribute {
             // // cache at init time aSourceFilter is unowned var and may  be dereferenced
 
         if attributeClass != nil {
-            classForAttribute = NSClassFromString(("Glance." + attributeClass!)) }
+            classForAttribute = NSClassFromString(("RiftEffects." + attributeClass!)) }
     
 //        inputSourceDescription = attributeDisplayName ?? "blank"
 
@@ -1334,7 +1335,7 @@ class PGLFilterAttributeColor: PGLFilterAttribute {
 class PGLAttributeRectangle: PGLFilterAttribute {
     // where attributeType= "CIAttributeTypeRectangle"
     //  & attributeClass= AttrClass.Vector.rawValue
-
+   
     var filterRect: CGRect =  CGRect(x: 0, y: 0, width: 300, height: 300)
 //    {didSet {
 ////        NSLog("PGLAttributeRectangle didSet filterRect = \(filterRect)")

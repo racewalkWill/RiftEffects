@@ -93,9 +93,13 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         // MARK: Navigation Buttons
 
-    @IBOutlet var sliders: [UISlider]!
+    @IBOutlet var sliders: [UISlider]! { didSet {
+        for aSlider in sliders {
+            taggedSliders[aSlider.tag] = aSlider
+        }
+    }}
 
-
+    var taggedSliders = [Int:UISlider]()
 
     @IBOutlet weak var helpBtn: UIBarButtonItem!
     
@@ -1214,10 +1218,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         switch attribute {
             case let aColorAttribute as PGLFilterAttributeColor:
 
-                sliders[SliderColor.Alpha.rawValue].setValue(Float(aColorAttribute.alpha), animated: false )
-                sliders[SliderColor.Blue.rawValue].setValue(Float(aColorAttribute.blue ), animated: false )
-                sliders[SliderColor.Green.rawValue].setValue(Float(aColorAttribute.green), animated: false )
-                sliders[SliderColor.Red.rawValue].setValue(Float(aColorAttribute.red), animated: false )
+                taggedSliders[SliderColor.Alpha.rawValue]?.setValue(Float(aColorAttribute.alpha), animated: false )
+                taggedSliders[SliderColor.Blue.rawValue]?.setValue(Float(aColorAttribute.blue ), animated: false )
+                taggedSliders[SliderColor.Green.rawValue]?.setValue(Float(aColorAttribute.green), animated: false )
+                taggedSliders[SliderColor.Red.rawValue]?.setValue(Float(aColorAttribute.red), animated: false )
 
                 for aSlider in sliders {
                     aSlider.isHidden = false
