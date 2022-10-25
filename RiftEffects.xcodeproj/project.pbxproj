@@ -21,8 +21,6 @@
 		A33C441D28E8D4E50096E7EE /* PGLSequencedFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33C441C28E8D4E50096E7EE /* PGLSequencedFilters.swift */; };
 		A341186425C300F300587590 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A341186325C300F300587590 /* CloudKit.framework */; };
 		A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */; };
-		A349E85F26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */; };
-		A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */; };
 		A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */; };
 		A353130F28E31BD5001F2C87 /* PGLCISequenced.swift in Sources */ = {isa = PBXBuildFile; fileRef = A353130E28E31BD5001F2C87 /* PGLCISequenced.swift */; };
 		A353131128E37613001F2C87 /* PGLSequenceStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A353131028E37613001F2C87 /* PGLSequenceStack.swift */; };
@@ -32,6 +30,8 @@
 		A35FF77C26DC324E00D78252 /* CoreDataSampleLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */; };
 		A35FF77E26DC346200D78252 /* PGLCoreData+Defns.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35FF77D26DC346200D78252 /* PGLCoreData+Defns.swift */; };
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
+		A3712BFD2908628400993C5E /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */; };
+		A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */; };
 		A375F25F26DFE47E00721D3A /* PGLStackProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */; };
 		A37D23AE2825C27D00EE3723 /* PGLTwoContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37D23AD2825C27D00EE3723 /* PGLTwoContainerController.swift */; };
@@ -168,8 +168,6 @@
 		A341185E25C3008100587590 /* RiftEffects.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RiftEffects.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterAction.swift; sourceTree = "<group>"; };
-		A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
-		A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLHelpSinglePage.swift; sourceTree = "<group>"; };
 		A353130E28E31BD5001F2C87 /* PGLCISequenced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCISequenced.swift; sourceTree = "<group>"; };
 		A353131028E37613001F2C87 /* PGLSequenceStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequenceStack.swift; sourceTree = "<group>"; };
@@ -180,6 +178,8 @@
 		A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoreDataSampleLicense.txt; sourceTree = "<group>"; };
 		A35FF77D26DC346200D78252 /* PGLCoreData+Defns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PGLCoreData+Defns.swift"; sourceTree = "<group>"; };
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
+		A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataClass.swift"; path = "RiftEffects/StoredData support/CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "RiftEffects/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCommonParmController.swift; sourceTree = "<group>"; };
 		A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackProvider.swift; sourceTree = "<group>"; };
 		A37D23AD2825C27D00EE3723 /* PGLTwoContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLTwoContainerController.swift; sourceTree = "<group>"; };
@@ -337,6 +337,8 @@
 		A3BF500024D3298F00CD5114 = {
 			isa = PBXGroup;
 			children = (
+				A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */,
+				A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF500B24D3298F00CD5114 /* RiftEffects */,
 				A3BF502524D3299100CD5114 /* RiftEffectsTests */,
 				A3BF503024D3299100CD5114 /* RiftEffectsUITests */,
@@ -444,8 +446,6 @@
 		A3BF508B24D32A3400CD5114 /* StoredData support */ = {
 			isa = PBXGroup;
 			children = (
-				A349E85D26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift */,
-				A349E85E26E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
 				A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */,
 				A35FF77826DC316400D78252 /* PGLCoreDataStack.swift */,
@@ -658,7 +658,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = "Will Loew-Blosser";
 				TargetAttributes = {
 					A3BF500824D3298F00CD5114 = {
@@ -742,6 +742,7 @@
 				A3BF510A24D32A3400CD5114 /* MetalFilter.swift in Sources */,
 				A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */,
 				A3BF513D24D32A3400CD5114 /* PGLImageCollectionMasterController.swift in Sources */,
+				A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A392D5EE26C3EBDA00688952 /* PGLRandomFilterMaker.swift in Sources */,
 				A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */,
 				A33C441D28E8D4E50096E7EE /* PGLSequencedFilters.swift in Sources */,
@@ -760,7 +761,6 @@
 				A3BF513524D32A3400CD5114 /* PGLImagesSelectContainer.swift in Sources */,
 				A3BF50EF24D32A3400CD5114 /* PGLMainFilterController.swift in Sources */,
 				A3BF50E924D32A3400CD5114 /* PGLTableCellAction.swift in Sources */,
-				A349E86026E8ED2E0017D77F /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A3BF50DB24D32A3400CD5114 /* PGL-CDFilterStack.swift in Sources */,
 				A3BF513724D32A3400CD5114 /* PGLDiffableDataSource.swift in Sources */,
 				A3BF510124D32A3400CD5114 /* PGLFaceTiltShift.swift in Sources */,
@@ -784,7 +784,6 @@
 				A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */,
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3BF513224D32A3400CD5114 /* PGLDataSource.swift in Sources */,
-				A349E85F26E8ED2E0017D77F /* CDStoredFilter+CoreDataClass.swift in Sources */,
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
 				A32F213B283BBAF1006C026F /* PGLNavPrimaryController.swift in Sources */,
 				A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */,
@@ -798,6 +797,7 @@
 				A3BF510C24D32A3400CD5114 /* MetalCIFilters.swift in Sources */,
 				A3BF513C24D32A3400CD5114 /* PGLAssetSequenceController.swift in Sources */,
 				A3BF510724D32A3400CD5114 /* PGLTextFilter.swift in Sources */,
+				A3712BFD2908628400993C5E /* CDStoredFilter+CoreDataClass.swift in Sources */,
 				A31FAF9F28F5E619002DCFEA /* PGLSequenceDissolve.swift in Sources */,
 				A3BF50EA24D32A3400CD5114 /* PGLFilterChange.swift in Sources */,
 				A3BF511224D32A3400CD5114 /* PGLFeatureTransitionFilter.swift in Sources */,
@@ -1007,17 +1007,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				MTLLINKER_FLAGS = "-fcikernel";
 				MTL_COMPILER_FLAGS = "-fcikernel";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
@@ -1035,17 +1035,17 @@
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				MTLLINKER_FLAGS = "-fcikernel";
 				MTL_COMPILER_FLAGS = "-fcikernel";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";

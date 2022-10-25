@@ -1,15 +1,16 @@
 //
 //  CDStoredFilter+CoreDataProperties.swift
-//  WillsFilterTool
+//  RiftEffects
 //
-//  Created by Will on 9/8/21.
-//  Copyright © 2021 Will Loew-Blosser. All rights reserved.
+//  Created by Will on 10/25/22.
+//  Copyright © 2022 Will Loew-Blosser. All rights reserved.
 //
 //
 
 import Foundation
 import CoreData
 import CoreImage
+
 
 extension CDStoredFilter {
 
@@ -41,6 +42,11 @@ extension CDStoredFilter {
 
     @objc(removeInput:)
     @NSManaged public func removeFromInput(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for values
+extension CDStoredFilter {
 
     @objc(addValuesObject:)
     @NSManaged public func addToValues(_ value: CDParmValue)

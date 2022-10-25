@@ -20,7 +20,7 @@ var LogMigration = "PGL_Migration"
 // change in areas as needed.
 // caution on changes it is a GLOBAL
 
-var mainViewImageResize = false
+var mainViewImageResize = true
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn
 // should be a user setting
 // 2/12/2020 leave as false - makes the cropped produce an empty image if in single filter edit mode.
