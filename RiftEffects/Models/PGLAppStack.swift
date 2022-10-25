@@ -192,6 +192,10 @@ class PGLAppStack {
     func addChildSequenceStackTo(parm: PGLFilterAttribute) {
         // same as addChildStackTo(parm: PGLFilterAttribute)
         // but with different stack class
+
+        // see also for loading sequence from coredata
+        // PGLFilterAttributeImage sets up the sequenceStack
+        // in #readCDParmImage(..) with the #setUpStack(onParentImageParm:..)
         let newSequenceStack = PGLSequenceStack()
         if let ciFilterSequence = parm.myFilter as? PGLCISequenced {
             ciFilterSequence.myFilterSequence = newSequenceStack

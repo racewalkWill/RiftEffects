@@ -31,22 +31,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1B0129CB-1ECD-421B-8150-A846B4797811"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/StoredData support/PGL-CDFilterStack.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
-            landmarkName = "localId2CloudId(localIdentifiers:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "DAC4AA51-4222-49C4-8505-709E0EDE01DB"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -134,8 +118,8 @@
             filePath = "RiftEffects/Filters/PGLSequencedFilters.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "outputImageBasic()"
             landmarkType = "7">
          </BreakpointContent>
@@ -150,8 +134,8 @@
             filePath = "RiftEffects/Filters/PGLSequencedFilters.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "addFilterStepTime()"
             landmarkType = "7">
          </BreakpointContent>
@@ -230,25 +214,9 @@
             filePath = "RiftEffects/Filters/PGLSequencedFilters.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "setTimerDt(lengthSeconds:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A0CC7A67-E107-4950-B827-54A6465E8264"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/StoredData support/PGL-CDFilterStack.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "readPGLFilter(myCDFilter:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

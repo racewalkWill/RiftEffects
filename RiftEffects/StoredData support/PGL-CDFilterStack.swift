@@ -344,8 +344,13 @@ extension PGLFilterAttributeImage {
         // load relationships to the imageParm either input stack or Image List
         storedParmImage = cdImageParm
 
+//       in the UI sequencedFilter is handled by
+        // aSourceFilter.addChildSequenceStack(appStack: <#T##PGLAppStack#>)
+
         if let childStack = cdImageParm.inputStack  {
-            let newPGLChildStack = PGLFilterStack()
+
+            let newPGLChildStack = aSourceFilter.setUpStack(onParentImageParm: self)
+
             newPGLChildStack.on(cdStack: childStack)
             newPGLChildStack.parentAttribute = self
             self.inputStack = newPGLChildStack

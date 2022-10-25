@@ -196,6 +196,15 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
     }
 
+    func setUpStack(onParentImageParm: PGLFilterAttributeImage) -> PGLFilterStack {
+        // super class answers normal stack
+        // the sourceFilter subclass PGLSequencedFilters
+        // connects the PGLSequenceStack with the ciFilter
+
+       return PGLFilterStack()
+
+    }
+
  
 
     // MARK: input/output

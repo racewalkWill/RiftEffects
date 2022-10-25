@@ -52,6 +52,25 @@ class PGLSequencedFilters: PGLSourceFilter {
         setDissolveWrapper()
     }
 
+    override func setUpStack(onParentImageParm: PGLFilterAttributeImage) -> PGLFilterStack {
+        // super class answers the PGLFilterStack
+        // sequencedFilters need a special stack PGLSequenceStack
+        // connect the ciFilter into the sequenceStack
+        // similar to PGLAppStack UI setup in addChildSequenceStackTo(parm: PGLFilterAttribute)
+        
+       let newSequenceStack =  PGLSequenceStack()
+        if let ciFilterSequence = onParentImageParm.myFilter as? PGLCISequenced {
+            ciFilterSequence.myFilterSequence = newSequenceStack
+        }
+        newSequenceStack.stackType = "input"
+        newSequenceStack.parentAttribute = onParentImageParm
+        onParentImageParm.inputStack = newSequenceStack
+        onParentImageParm.setImageParmState(newState: ImageParm.inputChildStack)
+        setDissolveWrapper()
+        return newSequenceStack
+
+    }
+
     override  func outputImageBasic() -> CIImage? {
         // assign input to the child sequence stack
         // return the outpput of the child sequence stack
