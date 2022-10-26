@@ -350,41 +350,55 @@ extension PGLFilterAttributeImage {
         if let childStack = cdImageParm.inputStack  {
 
             let newPGLChildStack = aSourceFilter.setUpStack(onParentImageParm: self)
-
+//                 aSourceFilter that is a SequencedFilters will create a PGLSequenceStack
+//                 all other filters create a normal PGLFilterStack
             newPGLChildStack.on(cdStack: childStack)
             newPGLChildStack.parentAttribute = self
-            self.inputStack = newPGLChildStack
-                // in the UI inputStack is set with the PGLAppStack.addChildStackTo:(parm:)
-                // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
-            setImageParmState(newState: ImageParm.inputChildStack)
-        } else {
-            // load relation inputAssets and attach an ImageList as input
-            if let inputImageList = cdImageParm.inputAssets {
-                // convert the stored cloudIDs in the cdImageParm to localIdentifiers
-//                let aCloudID = PHCloudIdentifier(stringValue: "thisisATest")
-                let storedCloudStrings = inputImageList.assetIDs ?? [String]()
-                let cloudIDs: [PHCloudIdentifier] = storedCloudStrings.map({ (cloudString: String )
-                        in  PHCloudIdentifier(stringValue: cloudString )})
 
-                let localIds = cloudId2LocalId(assetCloudIdentifiers: cloudIDs)
+            loadInputAssets(cdImageParm: cdImageParm)
+                // need to read the parent sequencedFilter imageList too.
 
-                let cloudAlbums = inputImageList.albumIds ?? [String]()
-
-                let cloudAlbumIDs: [PHCloudIdentifier] = cloudAlbums.map({ (cloudString: String )
-                    in  PHCloudIdentifier(stringValue: cloudString )})
-
-                let localAlbums = cloudId2LocalId(assetCloudIdentifiers: cloudAlbumIDs)
-                let newImageList = PGLImageList(localAssetIDs: (localIds),albumIds: (localAlbums) )
-                    // in limited Library mode some photos may not load
-                newImageList.validateLoad()
-                
-                newImageList.on(imageParm: self)
-
+            if cdImageParm.inputAssets != nil {
+                    // for ONLY the SequencedFilter redo the input stack and parmState
+                    // sequenceFilters will also have inputAssets
+                self.inputStack = newPGLChildStack
+                    // in the UI inputStack is set with the PGLAppStack.addChildStackTo:(parm:)
+                    // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
+                setImageParmState(newState: ImageParm.inputChildStack)
             }
+
+        } else {
+            // normal branch for all filters except sequencedFilters
+            // load relation inputAssets and attach an ImageList as input
+            // handles childStacks that are not sequence stacks
+            loadInputAssets(cdImageParm: cdImageParm)
         }
     }
 
+    func loadInputAssets(cdImageParm: CDParmImage) {
+        if let inputImageList = cdImageParm.inputAssets {
+            // convert the stored cloudIDs in the cdImageParm to localIdentifiers
+//                let aCloudID = PHCloudIdentifier(stringValue: "thisisATest")
+            let storedCloudStrings = inputImageList.assetIDs ?? [String]()
+            let cloudIDs: [PHCloudIdentifier] = storedCloudStrings.map({ (cloudString: String )
+                    in  PHCloudIdentifier(stringValue: cloudString )})
 
+            let localIds = cloudId2LocalId(assetCloudIdentifiers: cloudIDs)
+
+            let cloudAlbums = inputImageList.albumIds ?? [String]()
+
+            let cloudAlbumIDs: [PHCloudIdentifier] = cloudAlbums.map({ (cloudString: String )
+                in  PHCloudIdentifier(stringValue: cloudString )})
+
+            let localAlbums = cloudId2LocalId(assetCloudIdentifiers: cloudAlbumIDs)
+            let newImageList = PGLImageList(localAssetIDs: (localIds),albumIds: (localAlbums) )
+                // in limited Library mode some photos may not load
+            newImageList.validateLoad()
+
+            newImageList.on(imageParm: self)
+
+        }
+    }
 
     func createNewCDImageParm(moContext: NSManagedObjectContext) {
         // 4EntityModel

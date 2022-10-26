@@ -29,7 +29,7 @@ class PGLSequenceStack: PGLFilterStack {
 
     override init(){
         super.init()
-        setStartupDefault()
+
        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
            else {
            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")

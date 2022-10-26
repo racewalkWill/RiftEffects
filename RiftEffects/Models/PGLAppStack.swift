@@ -197,6 +197,7 @@ class PGLAppStack {
         // PGLFilterAttributeImage sets up the sequenceStack
         // in #readCDParmImage(..) with the #setUpStack(onParentImageParm:..)
         let newSequenceStack = PGLSequenceStack()
+        newSequenceStack.setStartupDefault()  // puts in the 'Images' empty filter as first child filter
         if let ciFilterSequence = parm.myFilter as? PGLCISequenced {
             ciFilterSequence.myFilterSequence = newSequenceStack
 
