@@ -358,14 +358,11 @@ extension PGLFilterAttributeImage {
             loadInputAssets(cdImageParm: cdImageParm)
                 // need to read the parent sequencedFilter imageList too.
 
-            if cdImageParm.inputAssets != nil {
-                    // for ONLY the SequencedFilter redo the input stack and parmState
-                    // sequenceFilters will also have inputAssets
-                self.inputStack = newPGLChildStack
-                    // in the UI inputStack is set with the PGLAppStack.addChildStackTo:(parm:)
-                    // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
-                setImageParmState(newState: ImageParm.inputChildStack)
-            }
+            self.inputStack = newPGLChildStack
+                // in the UI inputStack is set with the PGLAppStack.addChildStackTo:(parm:)
+                // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
+            setImageParmState(newState: ImageParm.inputChildStack)
+
 
         } else {
             // normal branch for all filters except sequencedFilters
