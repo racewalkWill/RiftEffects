@@ -245,6 +245,7 @@ extension PGLSourceFilter {
 
 
     func removeOldImageList(imageParmName: String) {
+  
         // 4EntityModel
         let myCDParmImages = readCDParmImages()
         // does not use the getCDParmImage(attribute:) method - that creates CDImageList if none exists..

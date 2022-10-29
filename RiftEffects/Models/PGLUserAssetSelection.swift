@@ -16,7 +16,7 @@ class PGLAlbumSource: Hashable {
     var sectionSource: PHAssetCollection?
     var  assetFetch:  PHFetchResult<PHAsset>?
     var identifier: String
-    var filterParm: PGLFilterAttribute?
+    unowned var filterParm: PGLFilterAttribute?
 
     lazy var albumTitle = sectionSource?.localizedTitle
 

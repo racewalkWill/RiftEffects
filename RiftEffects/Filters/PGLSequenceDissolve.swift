@@ -21,7 +21,7 @@ import os
 class PGLSequenceDissolve: PGLTransitionFilter {
 
 
-    var sequenceFilter: PGLSequencedFilters!
+    unowned var sequenceFilter: PGLSequencedFilters!
     var sequenceStack: PGLSequenceStack!
 
     override class func displayName() -> String? {

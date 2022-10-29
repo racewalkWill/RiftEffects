@@ -127,7 +127,7 @@ class PGLFilterAttribute {
         didSet {
             if oldValue != nil {
                 // delete the old stored imageList
-                aSourceFilter.removeOldImageList(imageParmName: attributeName!)
+//                aSourceFilter.removeOldImageList(imageParmName: attributeName!)
 //                if let oldStoredList = aSourceFilter.getImageList(imageParmName: attributeName!) {
 //                    aSourceFilter.storedFilter?.removeFromImages(oldStoredList)
 //                NSLog("PGLFilterAttribute inputCollection changed.. old stored value removed") }
