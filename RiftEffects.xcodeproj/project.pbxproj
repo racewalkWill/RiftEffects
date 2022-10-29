@@ -190,6 +190,7 @@
 		A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDisparityFilter.swift; sourceTree = "<group>"; };
 		A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialogController.swift; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
+		A3BDD3CC290D95D000842B51 /* RiftEffects 2.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RiftEffects 2.2.xcdatamodel"; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* RiftEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiftEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* RiftEffectsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiftEffectsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502824D3299100CD5114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1192,9 +1193,10 @@
 		A3BF509024D32A3400CD5114 /* RiftEffects.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A3BDD3CC290D95D000842B51 /* RiftEffects 2.2.xcdatamodel */,
 				A3BF509124D32A3400CD5114 /* RiftEffects.xcdatamodel */,
 			);
-			currentVersion = A3BF509124D32A3400CD5114 /* RiftEffects.xcdatamodel */;
+			currentVersion = A3BDD3CC290D95D000842B51 /* RiftEffects 2.2.xcdatamodel */;
 			path = RiftEffects.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
