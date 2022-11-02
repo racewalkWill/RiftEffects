@@ -772,7 +772,7 @@ class PGLFilterAttribute {
 //        var a = A()
 //        a.selectorClosure = { println("Selector called") }
 //        a.invoke()
-
+        // user has selected swipe cell action 'Vary'
         aSourceFilter.animate(attributeTarget: self)
     }
     func performActionOff() {

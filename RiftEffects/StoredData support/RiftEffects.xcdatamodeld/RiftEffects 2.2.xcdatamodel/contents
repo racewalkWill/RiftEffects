@@ -80,7 +80,10 @@
     </entity>
     <entity name="CDParmValue" representedClassName="CDParmValue" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="attributeName" attributeType="String" defaultValueString="empty"/>
+        <attribute name="attributeValueDelta" optional="YES" attributeType="Float" usesScalarValueType="NO"/>
         <attribute name="pglParmClass" attributeType="String" defaultValueString="PGLFilterAttribute"/>
+        <attribute name="varyStepCounter" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="varyTotalFrames" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="storedFilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDStoredFilter" inverseName="values" inverseEntity="CDStoredFilter"/>
     </entity>
     <entity name="CDStoredFilter" representedClassName="CDStoredFilter" syncable="YES">

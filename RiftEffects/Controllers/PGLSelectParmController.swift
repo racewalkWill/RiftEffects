@@ -45,8 +45,15 @@ class PGLSelectParmController: PGLCommonController,
             filterLabel.text = appStack.getViewerStack().filterNumLabel(maxLen: nil) // don't truncate
 
             filterParms[sectionImages] = allAttributes.filter{ $0.isImageUI() }  //isImageInput
-            filterParms[sectionParms]  = allAttributes.filter{ !($0.isImageUI()) } //isImageInput
-//            filterParms[sectionOther] = [PGLFilterAttribute]()  // no constructor for others
+            var nonImageParms = allAttributes.filter{ !($0.isImageUI()) } //isImageInput
+
+            loadTimerCells(parms: &nonImageParms)
+                // adds a timerUICell for any parm running animation
+
+            filterParms[sectionParms] = nonImageParms
+            // filterParms[sectionOther] = [PGLFilterAttribute]()
+                // other section is currently not used
+
             if !(currentFilter === appStack.currentFilter)  {
                 // identity test not value compare
                 parmsListHasChanged()
@@ -180,6 +187,7 @@ class PGLSelectParmController: PGLCommonController,
 
         navigationItem.title = "Parms"//viewerStack.stackName
 
+
 //        NSLog ("PGLSelectParmController #viewDidLoad completed")
         if traitCollection.userInterfaceIdiom == .pad {
 //            navigationController?.isToolbarHidden = true
@@ -188,7 +196,8 @@ class PGLSelectParmController: PGLCommonController,
         } // was true
         // don't hide if iPhone
      
-        let lib = PHAsset.fetchAssets(withLocalIdentifiers: ["empty"], options: nil)
+//        let lib = PHAsset.fetchAssets(withLocalIdentifiers: ["empty"], options: nil)
+
     }
 
 
@@ -258,7 +267,7 @@ class PGLSelectParmController: PGLCommonController,
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-                  Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
+//                  Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
                     if let attribute = myUpdate.object as? PGLFilterAttribute {
                         // find the cell for the attribute and update the display
                         // is the attribute for the current filter?
@@ -785,6 +794,26 @@ class PGLSelectParmController: PGLCommonController,
 
     }
 
+    func loadTimerCells( parms: inout [PGLFilterAttribute]) {
+        // look for cells attributes that have animation running
+        // perform the .addCell from the trailingSwipeActionsConfigurationForRowAt
+        var timerRowsCount = 0
+        for rowIndex in ( 0..<parms.count) {
+            let aParm = parms[rowIndex]
+            if ( aParm.hasAnimation()) {
+                if let newVaryAttribute = aParm.varyTimerAttribute() {
+                    let aParmRow = rowIndex + timerRowsCount
+                        // may have added other timer rows too
+                    let newRow = (aParmRow + 1)
+                    parms.insert(newVaryAttribute, at: newRow )
+
+                    timerRowsCount += timerRowsCount
+
+                }
+            }
+        }
+    }
+
     // MARK: UITableViewDelegate
 
 
@@ -914,6 +943,7 @@ class PGLSelectParmController: PGLCommonController,
         default:
             highlight(viewNamed: "")
         }
+
        // this method completes before the processses invoked above run..
         // updates need to be invoked in the completion routines
 
