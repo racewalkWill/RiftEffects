@@ -46,10 +46,10 @@
         <attribute name="floatValue" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <entity name="CDAttributeVector" representedClassName="CDAttributeVector" parentEntity="CDParmValue" syncable="YES" codeGenerationType="class">
-        <attribute name="vectorEndX" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="vectorEndY" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="vectorX" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="vectorY" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="vectorEndX" optional="YES" attributeType="Float" usesScalarValueType="NO"/>
+        <attribute name="vectorEndY" optional="YES" attributeType="Float" usesScalarValueType="NO"/>
+        <attribute name="vectorX" optional="YES" attributeType="Float" usesScalarValueType="NO"/>
+        <attribute name="vectorY" optional="YES" attributeType="Float" usesScalarValueType="NO"/>
     </entity>
     <entity name="CDAttributeVector3" representedClassName="CDAttributeVector3" parentEntity="CDAttributeVector" syncable="YES" codeGenerationType="class">
         <attribute name="vectorZ" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>

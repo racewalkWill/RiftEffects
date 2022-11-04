@@ -1162,13 +1162,12 @@ extension PGLFilterAttributeVector {
         guard let myVector = getVectorValue()
             else { return }
 
-        cd.vectorX = Float(myVector.x)
-        cd.vectorY = Float(myVector.y)
-
+        cd.vectorX = (myVector.x) as? NSNumber
+        cd.vectorY = (myVector.y) as? NSNumber
         if let myEndPoint = endPoint {
             // endpoint used in the vary scenerio
-            cd.vectorEndX = Float(myEndPoint.x)
-            cd.vectorEndY = Float(myEndPoint.y)
+            cd.vectorEndX = (myEndPoint.x) as? NSNumber
+            cd.vectorEndY = (myEndPoint.y) as? NSNumber
         }
 
     }
@@ -1178,12 +1177,23 @@ extension PGLFilterAttributeVector {
         guard let storedValue = value as? CDAttributeVector
             else { return }
 
-        let startVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
+        if let theVaryDelta = attributeValueDelta
+            { storedValue.attributeValueDelta = ((theVaryDelta) as NSNumber) }
+        else { storedValue.attributeValueDelta = nil}
+        guard let vectorX = (storedValue.vectorX)
+            else { return }
+        guard let vectorY = storedValue.vectorY
+            else { return }
+        let startVector = CIVector(x: CGFloat(truncating: vectorX), y: CGFloat( truncating: vectorY))
 
         set(startVector)
         startPoint = startVector
+        guard let vectorEndX = (storedValue.vectorEndX)
+            else { return }
+        guard let vectorEndY = storedValue.vectorEndY
+            else { return }
 
-        let endVector = CIVector(x: CGFloat(storedValue.vectorEndX), y: CGFloat(storedValue.vectorEndY))
+        let endVector = CIVector(x: CGFloat(truncating: vectorEndX), y: CGFloat(truncating: vectorEndY))
         endPoint = endVector
         // did not call setVectorEndPoint.. not clear on this
 
@@ -1301,8 +1311,8 @@ extension PGLTranslateAffineUI {
         guard let myTranslate = getValue() as? CIVector
         else { return }
 
-        cd.vectorX = Float(myTranslate.x)
-        cd.vectorY = Float(myTranslate.y)
+        cd.vectorX = myTranslate.x as? NSNumber
+        cd.vectorY = myTranslate.y as? NSNumber
 
     }
 
@@ -1311,7 +1321,11 @@ extension PGLTranslateAffineUI {
         guard let storedValue = value as? CDAttributeVector
             else { return }
 
-        let storedVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
+        guard let vectorX = (storedValue.vectorX)
+            else { return }
+        guard let vectorY = storedValue.vectorY
+            else { return }
+        let storedVector = CIVector(x: CGFloat(truncating: vectorX), y: CGFloat(truncating: vectorY))
 
         translate = storedVector
 
@@ -1331,8 +1345,8 @@ extension PGLFilterAttributeVector3 {
             cd = storedParmValue as! CDAttributeVector3
         }
 
-        cd.vectorY = Float(startPoint?.y ?? 0.0)
-        cd.vectorX = Float(startPoint?.x ?? 0.0)
+        cd.vectorY = startPoint?.y as? NSNumber
+        cd.vectorX = startPoint?.x as? NSNumber
        cd.vectorZ = Float(zValue)
     }
 
@@ -1340,8 +1354,11 @@ extension PGLFilterAttributeVector3 {
         super.setStoredValueToAttribute(value)
         guard let storedValue = value as? CDAttributeVector3
             else { return }
-
-        let storedVector = CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY))
+        guard let vectorX = (storedValue.vectorX)
+            else { return }
+        guard let vectorY = storedValue.vectorY
+            else { return }
+        let storedVector = CIVector(x: CGFloat(truncating: vectorX), y: CGFloat(truncating: vectorY))
 
         startPoint = storedVector
         zValue = CGFloat(storedValue.vectorZ)

@@ -199,7 +199,7 @@ extension Renderer: MTKViewDelegate {
 //            }
             let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
 
-            if mainViewImageResize {
+            if MainViewImageResize {
             // var mainViewImageResize defined globally in AppDelegate.swift
                  sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
             else

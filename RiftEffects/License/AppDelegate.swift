@@ -20,7 +20,7 @@ var LogMigration = "PGL_Migration"
 // change in areas as needed.
 // caution on changes it is a GLOBAL
 
-var mainViewImageResize = true
+var MainViewImageResize = false
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn
 // should be a user setting
 // 2/12/2020 leave as false - makes the cropped produce an empty image if in single filter edit mode.
@@ -39,36 +39,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             // Override point for customization after application launch.
-            //******* START ONLY One time to push schema to cloudKit
-        // adding the CDPARMVALUES table  2022-10-29
+    //******* START ONLY One time to push schema to cloudKit
+
         // trigger lightweight migration
 
+        if (false ) {
+                // only true when migrating data model change to iCloud
+            guard let description = dataWrapper.persistentContainer.persistentStoreDescriptions.first
+            else { fatalError("Could not retrieve a persistent store description.")
+            }
+                //        // initialize the CloudKit schema
+                //
+                //            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
+                //            //        options.shouldInitializeSchema = true // toggle to false when done
+                //            //        description.cloudKitContainerOptions = options
+            NSLog("initializeCloudKitSchema  START " )
+            let theContainer =  dataWrapper.persistentContainer
 
-//             get the store description
-//                    guard let description = dataWrapper.persistentContainer.persistentStoreDescriptions.first else {
-//                        fatalError("Could not retrieve a persistent store description.")
-//                    }
-            ////        // initialize the CloudKit schema
-            ////
-            ////            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
-            ////            //        options.shouldInitializeSchema = true // toggle to false when done
-            ////            //        description.cloudKitContainerOptions = options
-//                    NSLog("initializeCloudKitSchema  START " )
-//                 let theContainer =  dataWrapper.persistentContainer
-//
-//                if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
-//                    do {
-//                            try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
-//                        }
-//                    catch {
-//                            NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
-//
-//                    }
-//
-//                }
-//                    NSLog("initializeCloudKitSchema  END " )
+            if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
+                do {
+                    try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
+                }
+                catch {
+                    NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
 
-            //******* END ONLY One time to push schema to cloudKit
+                }
+
+            }
+            NSLog("initializeCloudKitSchema  END " )
+        }
+//            ******* END ONLY One time to push schema to cloudKit
 
             //       PGLFaceCIFilter.register()
             //        PGLFilterCategory.allFilterCategories()
@@ -87,6 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Logger(subsystem: LogSubsystem, category: LogCategory).notice( " didFinishLaunchingWithOptions appStack created")
         checkVersion()
+        MainViewImageResize = AppUserDefaults.bool(forKey: "MainViewImageResize")
         return true
     }
 

@@ -110,7 +110,7 @@ class PGLFilterAttribute {
     var sliderMaxValue: Float?
     var defaultValue: Float?
     var identityValue: Float?
-    var attributeStartValue: Float!
+//    var attributeStartValue: Float!
     var attributeValueDelta: Float? // usually nil, when nil parent filter timer controls the rate of change
 //    var attributeFrameDelta: Float = 0.0
     var varyStepCounter = 0
