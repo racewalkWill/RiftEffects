@@ -318,12 +318,13 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
 
      // Override to support editing the table view.
-     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        dataSource.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+        dataSource.tableView(tableView, commit: editingStyle, forRowAt: indexPath) }
         // dataSource deletes from the UITableViewDiffableDataSource
         // then deletes from the database
 
-     }
+     
 
     class DataSource: UITableViewDiffableDataSource<Int, CDFilterStack> {
 
@@ -370,7 +371,9 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
             dataProvider?.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
             let stackNotification = Notification(name:PGLUpdateLibraryMenu)
             NotificationCenter.default.post(stackNotification)
-            
+            let hideNotification = Notification(name: PGLHideImageViewReleaseStack)
+            NotificationCenter.default.post(hideNotification)
+
         }
 
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

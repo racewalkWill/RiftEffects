@@ -135,6 +135,8 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
     var xSign: Float = 1.0
     var xDelta: Float = 0.0
     var incrementDirection = 1 // changes sign on end of variation range 1 or -1
+
+    //MARK: vary from to
     var startPoint: CIVector?
     var endPoint: CIVector? {
         didSet {  // setting the endpoint implies that startPoint is the current position
@@ -208,7 +210,7 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
     }
 
 
-
+//MARK: Vary vector start end
     func setVectorEndPoint() {
         if startPoint != nil
            {endPoint = getVectorValue() }
@@ -222,6 +224,8 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         startPoint = nil
         endPoint = nil
     }
+
+ // MARK: set
     override func set(_ value: Any) {
         if attributeName != nil {
             if let newVectorValue = value as? CIVector {
@@ -267,6 +271,8 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         if (varyStepCounter > varyTotalFrames) || (varyStepCounter < 0) {
 //          NSLog("PGLFilterAttribute addStepTime resetting from varyStepCounter = \(varyStepCounter)")
             // attributeValueDelta is not used for the vector increment
+
+            // if random new point when the endPoint is set.. this the place to implement
             incrementDirection = incrementDirection * -1
             if attributeValueDelta != nil
                 { attributeValueDelta = attributeValueDelta! * -1 }

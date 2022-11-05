@@ -32,6 +32,7 @@ let  PGLCurrentFilterChange = NSNotification.Name(rawValue: "PGLCurrentFilterCha
 //let  PGLOutputImageChange = NSNotification.Name(rawValue: "PGLOutputImageChange")
 let  PGLUserAlertNotice = NSNotification.Name(rawValue: "PGLUserAlertNotice")
 let  PGLUpdateLibraryMenu = NSNotification.Name(rawValue: "PGLUpdateLibraryMenu")
+let  PGLHideImageViewReleaseStack = NSNotification.Name(rawValue: "PGLHideImageViewReleaseStack")
 let PGLHideParmUIControls = NSNotification.Name(rawValue: "PGLHideParmUIControls")
 
 let ExportAlbumId = "ExportAlbumId"
@@ -172,18 +173,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
    func openStackActionBtn(_ sender: UIBarButtonItem) {
-//        let showOpenStackView = true  // change for old or new openDialog
-//        if showOpenStackView {
+
             let pickStoredStackViewController = storyboard!.instantiateViewController(
                 withIdentifier: "OpenStackController")
-//        pickStoredStackViewController.modalPresentationStyle = UIModalPresentationStyle.automatic
-//                // tried some of the other ones .pageSheet .formSheet .currentContext.. all seem to be the same
-//            let navController = UINavigationController(rootViewController: pickStoredStackViewController)
-//                                     present(navController, animated: true)
+
 
        pickStoredStackViewController.modalPresentationStyle = .popover
-//       pickStoredStackViewController.preferredContentSize = CGSize(width: 350, height: 300.0)
-        // contentSize does not matter in iPhone compact.. system goes to full screen...
 
        guard let popOverPresenter = pickStoredStackViewController.popoverPresentationController
        else { return }
@@ -285,7 +280,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         // from the trash action button -
         // new means the old one is discarded
 
-        confirmReplaceFilterInput(sender)
+        confirmTrashDisplayStack(sender)
 
         }
 
@@ -320,25 +315,27 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
     // MARK: trash button action
-    func confirmReplaceFilterInput(_ sender: UIBarButtonItem)  {
+    fileprivate func hideViewReleaseStack() {
+            // Respond to user selection of the action
+        DoNotDraw = true
+        self.metalController?.view.isHidden = true
+            // makes the image go blank after the trash button loads a new stack.
+            // set visible again when new images are selected
+        self.appStack.releaseTopStack()
+        let newStack = PGLFilterStack()
+
+        self.appStack.resetOutputAppStack(newStack)
+    }
+
+    func confirmTrashDisplayStack(_ sender: UIBarButtonItem)  {
 
         let discardAction = UIAlertAction(title: "Discard",
                   style: .destructive) { (action) in
-                    // Respond to user selection of the action
-                    DoNotDraw = true
-                    self.metalController?.view.isHidden = true
-                        // makes the image go blank after the trash button loads a new stack.
-                        // set visible again when new images are selected
-                    self.appStack.releaseTopStack()
-                    let newStack = PGLFilterStack()
-
-                    self.appStack.resetOutputAppStack(newStack)
-
-                    self.updateNavigationBar()
+            self.hideViewReleaseStack()
+            self.updateNavigationBar()
             // next back out of the parm controller since the filter is removed
 
-            if ( self.parmController?.isViewLoaded ?? false ) {
-                // or .isBeingPresented?
+            if ( self.parmController?.isViewLoaded ?? false ) {  // or .isBeingPresented?
                 self.parmController?.navigationController?.popViewController(animated: true)
                 // parmController in the master section of the splitView has a different navigation stack
                 // from the PGLImageController
@@ -625,14 +622,28 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
             guard let self = self else { return}
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
+
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
+            // if the popup openStackController called a delete
+
             self.updateLibraryMenu()
+
 
         }
         notifications[PGLUpdateLibraryMenu] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLHideImageViewReleaseStack , object: nil , queue: queue) { [weak self ]
+            myUpdate in
+            guard let self = self else { return}
+
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideImageViewReleaseStack")
+            // if the popup openStackController called a delete
+            self.hideViewReleaseStack()
+
+
+        }
+        notifications[PGLHideImageViewReleaseStack] = aNotification
+
 
         aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in
