@@ -325,7 +325,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         let discardAction = UIAlertAction(title: "Discard",
                   style: .destructive) { (action) in
                     // Respond to user selection of the action
-
+                    DoNotDraw = true
+                    self.metalController?.view.isHidden = true
+                        // makes the image go blank after the trash button loads a new stack.
+                        // set visible again when new images are selected
                     self.appStack.releaseTopStack()
                     let newStack = PGLFilterStack()
 
@@ -529,9 +532,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             if !self.keepParmSlidersVisible {
                 self.hideParmControls()
             }
-            self.view.isHidden = true
-                // makes the image go blank after the trash button loads a new stack.
-                // set visible again when new images are selected
+
+
 
         }
         notifications[PGLStackChange] = aNotification
@@ -548,12 +550,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
             if !self.keepParmSlidersVisible {
                 self.hideParmControls()
-
             }
-            if (self.view.isHidden ) {
-                self.view.isHidden = false }
-                // needed to refresh the view after the trash creates a new stack.
-
+            if DoNotDraw {
+                DoNotDraw = false
+            }
+            // needed to refresh the view after the trash creates a new stack.
         }
         notifications[PGLCurrentFilterChange] = aNotification
 

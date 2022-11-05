@@ -650,9 +650,9 @@ extension PGLAppStack {
 //        serialQueue.async {
         let targetStack = self.firstStack()!
 //            NSLog("PGLAppStack #saveStack serialQueue execution start")
-        DoNotDrawWhileSave = true
+        DoNotDraw = true
         defer {
-            DoNotDrawWhileSave = false } // executes at the end of this function
+            DoNotDraw = false } // executes at the end of this function
         if targetStack.shouldExportToPhotos {
             switch metalRender.currentPhotoFileFormat {
                 case .JPEG:

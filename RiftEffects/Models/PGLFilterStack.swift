@@ -705,9 +705,9 @@ class PGLFilterStack  {
     func saveTestStackImage(stackProvider: PGLStackProvider)  {
         // TEST method for saving... not called from the UI
 
-        DoNotDrawWhileSave = true
+        DoNotDraw = true
            _ = self.saveTestToPhotosLibrary(stack: self, stackProvider: stackProvider)
-        do { DoNotDrawWhileSave = false } // executes at the end of this function
+        do { DoNotDraw = false } // executes at the end of this function
 
 //        }
     }
