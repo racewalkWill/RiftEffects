@@ -557,7 +557,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification = myCenter.addObserver(forName: PGLAttributeAnimationChange , object: nil , queue: queue) { [weak self ]
             myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
+            guard self != nil else { return } // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
 //            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLAttributeAnimationChange")
                 //            self.filterValuesHaveChanged = true
@@ -1268,7 +1268,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                     }
 
                 parmSlider?.isHidden = false
-                guard let theParmSlider = parmSlider
+                guard parmSlider != nil
                     else {return}
                 view.bringSubviewToFront(parmSlider)
 //            NSLog("PGLImageController addSliderControl \(attribute.description)")
@@ -1292,7 +1292,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         if let buttonIndex = appStack.parmControls.firstIndex(where: { $0.value.tag == sender.tag } )
        {
             let matchedAttributeName = appStack.parmControls[buttonIndex].key
-            let matchedAttribute = appStack.parms[matchedAttributeName]
+            _ = appStack.parms[matchedAttributeName]
 //        NSLog("PGLImageController #buttonWasPressed attribute = \(String(describing: matchedAttribute))")
         }
     }

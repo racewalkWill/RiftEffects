@@ -989,7 +989,7 @@ extension PGLFilterAttributeAttributedString {
         guard let storedValue = value as? CDAttributeAttributedString
             else { return }
 
-        set( storedValue.stringValue)
+        set( storedValue.stringValue as Any)
     }
 }
 
@@ -1050,7 +1050,7 @@ extension PGLFilterAttributeData {
         guard let storedValue = value as? CDAttributeData
             else { return }
 
-        set(storedValue.binaryValue)
+        set(storedValue.binaryValue as Any)
     }
 }
 
@@ -1117,7 +1117,7 @@ extension PGLFilterAttributeString {
         guard let storedValue = value as? CDAttributeString
             else { return }
 
-        set(storedValue.stringValue)
+        set(storedValue.stringValue as Any)
     }
 }
 
@@ -1162,12 +1162,12 @@ extension PGLFilterAttributeVector {
         guard let myVector = getVectorValue()
             else { return }
 
-        cd.vectorX = (myVector.x) as? NSNumber
-        cd.vectorY = (myVector.y) as? NSNumber
+        cd.vectorX = (myVector.x) as NSNumber
+        cd.vectorY = (myVector.y) as NSNumber
         if let myEndPoint = endPoint {
             // endpoint used in the vary scenerio
-            cd.vectorEndX = (myEndPoint.x) as? NSNumber
-            cd.vectorEndY = (myEndPoint.y) as? NSNumber
+            cd.vectorEndX = (myEndPoint.x) as NSNumber
+            cd.vectorEndY = (myEndPoint.y) as NSNumber
         }
 
     }
@@ -1311,8 +1311,8 @@ extension PGLTranslateAffineUI {
         guard let myTranslate = getValue() as? CIVector
         else { return }
 
-        cd.vectorX = myTranslate.x as? NSNumber
-        cd.vectorY = myTranslate.y as? NSNumber
+        cd.vectorX = myTranslate.x as NSNumber
+        cd.vectorY = myTranslate.y as NSNumber
 
     }
 

@@ -771,7 +771,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         var myAction: UIContextualAction!
 
         myAction = UIContextualAction(style: .normal, title: "Change") { [weak self] (_, _, completion) in
-           guard let self = self
+            guard self != nil
                else { return  }
 
             stackController.appStack.viewerStack.activeFilterIndex = indexPath.row
@@ -804,7 +804,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
 
         myAction = UIContextualAction(style: .normal, title: "Delete") { [weak self] (_, _, completion) in
-                   guard let self = self
+            guard self != nil
                        else { return  }
            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLStackController trailingSwipeActionsConfigurationForRowAt Delete")
                 stackController.removeFilter(indexPath: indexPath)

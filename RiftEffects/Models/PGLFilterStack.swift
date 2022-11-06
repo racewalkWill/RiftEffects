@@ -759,25 +759,25 @@ class PGLFilterStack  {
             return false }
 
 //        PHPhotoLibrary.shared().performChanges({
-          if let savedOk =  try? PHPhotoLibrary.shared().performChangesAndWait({
+        if (try? PHPhotoLibrary.shared().performChangesAndWait({
 
-           let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
-//           heif from  creationRequest.addResource(with: .fullSizePhoto, data: heifImageData, options: nil)
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: uiImageOutput)
+                //           heif from  creationRequest.addResource(with: .fullSizePhoto, data: heifImageData, options: nil)
 
             if exportCollection == nil {
-                // new collection
+                    // new collection
                 let assetCollectionRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: stack.exportAlbumName ?? "exportAlbum")
 
                 assetCollectionRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
                 stack.exportAlbumIdentifier = assetCollectionRequest.placeholderForCreatedAssetCollection.localIdentifier
 
             } else {
-                // asset collection exists
+                    // asset collection exists
                 let addAssetRequest = PHAssetCollectionChangeRequest(for: exportCollection!)
                 addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
             }
 
-        })
+        })) != nil
           {  // savedOk = true
             self.writeTestCDStacks(stackProvider: dataProvider)
             return true }

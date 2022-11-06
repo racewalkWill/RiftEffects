@@ -386,8 +386,11 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                 if let identifierToDelete = itemIdentifier(for: indexPath) {
                     var snapshot = self.snapshot()
                     let matchingSection = snapshot.sectionIdentifier(containingItem: identifierToDelete)
-                    snapshot.deleteItems([identifierToDelete])
-                    apply(snapshot)
+
+                    // this #snapshot.deleteItems is not needed because the #delete(cdStack:..) to the dataProvider
+                    // causes the snapshot to load correctly.
+//                    snapshot.deleteItems([identifierToDelete])
+//                    apply(snapshot)
 
                     delete(cdStack: identifierToDelete) //need to remove from the datastore too
                         // is identifierToDelete a CDFilterStack?

@@ -109,7 +109,7 @@ class PGLSelectParmController: PGLCommonController,
             // so that it moves back to the stack controller
             guard let myNav = self.navigationController else { return }
 
-            guard let myParent = myNav.topViewController as? PGLParmImageController
+            guard myNav.topViewController is PGLParmImageController
                 else { myNav.popViewController(animated: true )
                         return
             }
