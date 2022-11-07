@@ -55,7 +55,7 @@
 		A3BF50DB24D32A3400CD5114 /* PGL-CDFilterStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */; };
 		A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */; };
 		A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505024D32A3400CD5114 /* TiltShift.swift */; };
-		A3BF50E124D32A3400CD5114 /* PGLOpenStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */; };
+		A3BF50E124D32A3400CD5114 /* PGLOpenStackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505124D32A3400CD5114 /* PGLOpenStackController.swift */; };
 		A3BF50E224D32A3400CD5114 /* PGLRectangleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */; };
 		A3BF50E324D32A3400CD5114 /* PGLStackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505324D32A3400CD5114 /* PGLStackController.swift */; };
 		A3BF50E424D32A3400CD5114 /* PGLFilterAttributeNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF505424D32A3400CD5114 /* PGLFilterAttributeNumber.swift */; };
@@ -127,6 +127,7 @@
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
 		A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC264E2698FD83003E48C2 /* PGLImageController.swift */; };
 		A3DC3DE227B17EF500E4C111 /* PGLCompactImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */; };
+		A3DD2BD82919964700295DF1 /* PGLPopUpOpenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */; };
 		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
 		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
@@ -209,7 +210,7 @@
 		A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PGL-CDFilterStack.swift"; sourceTree = "<group>"; };
 		A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLBumpBlend.swift; sourceTree = "<group>"; };
 		A3BF505024D32A3400CD5114 /* TiltShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiltShift.swift; sourceTree = "<group>"; };
-		A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLOpenStackViewController.swift; sourceTree = "<group>"; };
+		A3BF505124D32A3400CD5114 /* PGLOpenStackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLOpenStackController.swift; sourceTree = "<group>"; };
 		A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLRectangleController.swift; sourceTree = "<group>"; };
 		A3BF505324D32A3400CD5114 /* PGLStackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLStackController.swift; sourceTree = "<group>"; };
 		A3BF505424D32A3400CD5114 /* PGLFilterAttributeNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterAttributeNumber.swift; sourceTree = "<group>"; };
@@ -284,6 +285,7 @@
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
 		A3DC264E2698FD83003E48C2 /* PGLImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageController.swift; sourceTree = "<group>"; };
 		A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCompactImageController.swift; sourceTree = "<group>"; };
+		A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPopUpOpenStack.swift; sourceTree = "<group>"; };
 		A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLHelpPageController.swift; sourceTree = "<group>"; };
 		A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLScalingFilter.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
@@ -504,7 +506,8 @@
 				A3BF504A24D32A3400CD5114 /* PGLFilterTableController.swift */,
 				A3BF506024D32A3400CD5114 /* PGLMainFilterController.swift */,
 				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,
-				A3BF505124D32A3400CD5114 /* PGLOpenStackViewController.swift */,
+				A3BF505124D32A3400CD5114 /* PGLOpenStackController.swift */,
+				A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */,
 				A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */,
 				A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */,
 				A32F213C283BBF3A006C026F /* PGLFilterImageContainerController.swift */,
@@ -793,7 +796,7 @@
 				A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */,
 				A3BF512B24D32A3400CD5114 /* PGLSelectParmController.swift in Sources */,
 				A3BF512D24D32A3400CD5114 /* PGLImageSourcePath.swift in Sources */,
-				A3BF50E124D32A3400CD5114 /* PGLOpenStackViewController.swift in Sources */,
+				A3BF50E124D32A3400CD5114 /* PGLOpenStackController.swift in Sources */,
 				A3BF512924D32A3400CD5114 /* PGLSourceMetalFilter.swift in Sources */,
 				A3BF510C24D32A3400CD5114 /* MetalCIFilters.swift in Sources */,
 				A3BF513C24D32A3400CD5114 /* PGLAssetSequenceController.swift in Sources */,
@@ -827,6 +830,7 @@
 				A3BF511124D32A3400CD5114 /* PGLFaceCIFilter.swift in Sources */,
 				A35FF77926DC316400D78252 /* PGLCoreDataStack.swift in Sources */,
 				A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */,
+				A3DD2BD82919964700295DF1 /* PGLPopUpOpenStack.swift in Sources */,
 				A3BF50EE24D32A3400CD5114 /* PGLFilterDescriptor.swift in Sources */,
 				A3BF510924D32A3400CD5114 /* CIImage.swift in Sources */,
 				A3BF50F524D32A3400CD5114 /* OutlineItemCell.swift in Sources */,

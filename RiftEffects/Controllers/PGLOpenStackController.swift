@@ -14,7 +14,7 @@ let  PGLLoadedDataStack = NSNotification.Name(rawValue: "PGLLoadedDataStack")
 let PGLStackHasSavedNotification = NSNotification.Name(rawValue: "PGLStackHasSavedNotification")
 let PGLRemoteChange = NSNotification.Name(rawValue: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
-class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
+class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
 
 
     // this is the current controller to open stacks 7/15/20
@@ -161,7 +161,12 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 //        let snapshot = initialSnapShot()
 //        dataSource.apply(snapshot, animatingDifferences: false)
 //        dataSource.dataProvider = dataProvider
-        tableView.reloadData()
+//        tableView.reloadData()
+
+       dataSource.performNewFetch(self)
+        // need to check if the underlying data has changed and update the display
+
+
     }
     override func viewWillLayoutSubviews() {
         let deviceIdom = traitCollection.userInterfaceIdiom
@@ -344,7 +349,23 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 
         // MARK: editing support
         
-        func insertStack(_ myController: PGLOpenStackViewController, theCDStack: CDFilterStack) {
+         func performNewFetch(_ myController: PGLOpenStackController) {
+                // read it all back in the correct section
+            try? dataProvider?.fetchedResultsController.performFetch()
+             // not really as bad as it looks
+             // the fetchedResultsController is checking for changes
+             // and only fetching again what is needed.
+             // if it finds a cache with the same name, the controller tests the cache
+             //   to determine whether its contents are still valid.
+             // the UI on the other hand is updating the whole list..
+
+            let allStacks =  myController.initialSnapShot()
+            showHeaderText = true
+                // show header titles
+            apply(allStacks, animatingDifferences: true)
+        }
+
+        func insertStack(_ myController: PGLOpenStackController, theCDStack: CDFilterStack) {
             var currentSnapshot = snapshot()
             var sectionIndex = 0
                 // now get the type for the section
@@ -357,12 +378,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
                     self.apply(currentSnapshot ,animatingDifferences: true)}
 
             } else {
-                    // read it all back in the correct section
-                try? dataProvider?.fetchedResultsController.performFetch()
-                let allStacks =  myController.initialSnapShot()
-                showHeaderText = true
-                    // show header titles
-                apply(allStacks, animatingDifferences: true)
+                performNewFetch(myController)
                 
             }
         }
@@ -441,7 +457,7 @@ class PGLOpenStackViewController: UIViewController , UITableViewDelegate, UITabl
 }
 
 
-extension PGLOpenStackViewController {
+extension PGLOpenStackController {
     // MARK: DiffableDataSource
     func configureHierarchy() {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
@@ -459,8 +475,8 @@ extension PGLOpenStackViewController {
         tableView.delegate = self
         // or make the dataSource the delegate??
         // the controller needs to pass message to the dataSource otherwise
-        let nib = UINib(nibName: PGLOpenStackViewController.nibName, bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: PGLOpenStackViewController.tableViewCellIdentifier)
+        let nib = UINib(nibName: PGLOpenStackController.nibName, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: PGLOpenStackController.tableViewCellIdentifier)
 
 
 
@@ -532,7 +548,7 @@ extension PGLOpenStackViewController {
 
 // MARK: NSFetchedResultsControllerDelegate
 
-extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
+extension PGLOpenStackController: NSFetchedResultsControllerDelegate {
     // see example in RayWenderlich course 'cdt materials' CampgroundManager unit 07 unit testing
     // /Users/willloew/Developer/raywenderlich courses/cdt-materials/07-unit-testing/projects/final
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -615,7 +631,7 @@ extension PGLOpenStackViewController: NSFetchedResultsControllerDelegate {
 } // end  extension NSFetchedResultsControllerDelegate
 
     // MARK: UISearchBarDelegate
-extension PGLOpenStackViewController: UISearchBarDelegate {
+extension PGLOpenStackController: UISearchBarDelegate {
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             if searchText.count == 0 {
                let allStacks =  initialSnapShot()
