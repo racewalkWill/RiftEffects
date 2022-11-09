@@ -286,7 +286,7 @@ class MetalFilter: CIFilter, MetalRenderable
     let device: MTLDevice = MTLCreateSystemDefaultDevice()!
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
-    lazy var ciContext: CIContext =
+    lazy var ciMetalContext: CIContext =
     {
         [unowned self] in
         
@@ -418,7 +418,7 @@ class MetalFilter: CIFilter, MetalRenderable
         if let imageFilter = self as? MetalImageFilter,
             let inputImage = imageFilter.inputImage
         {
-            ciContext.render(inputImage,
+            ciMetalContext.render(inputImage,
                              to: kernelInputTexture!,
                 commandBuffer: commandBuffer,
                 bounds: inputImage.extent,

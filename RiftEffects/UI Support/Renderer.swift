@@ -48,7 +48,7 @@ class Renderer: NSObject {
     static var ciContext: CIContext!  // global for filter detectors
 
     var pipelineState: MTLRenderPipelineState!
-    var ciContext: CIContext!
+    var ciMetalContext: CIContext!
     let colorSpace = CGColorSpaceCreateDeviceRGB() // or CGColorSpaceCreateDeviceCMYK() ?
     var mtkViewSize: CGSize!
 
@@ -81,7 +81,7 @@ class Renderer: NSObject {
 
         metalView.device = device
 
-        ciContext = CIContext(mtlDevice: device,
+        ciMetalContext = CIContext(mtlDevice: device,
                                 options: [CIContextOption.workingFormat: CIFormat.RGBAh,
                                           .cacheIntermediates : false,
                                           .name : "metalView"] )
@@ -94,12 +94,12 @@ class Renderer: NSObject {
          // Editing with Depth 508
         //          https://developer.apple.com/videos/play/wwdc2017/508
 
-        Renderer.ciContext = ciContext
+        Renderer.ciContext = ciMetalContext
         
         metalView.autoResizeDrawable = true
 
-        metalView.clearColor = MTLClearColor(red: 1.0, green: 1.0,
-                                             blue: 0.8, alpha: 1)
+        metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
+                                             blue: 0.8, alpha: 0.5)
         metalView.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
@@ -125,7 +125,7 @@ class Renderer: NSObject {
             let currentRect = filterStack()!.cropRect
             Logger(subsystem: LogSubsystem, category: LogCategory).debug ("Renderer #captureImage currentRect ")
             let croppedOutput = ciOutput.cropped(to: currentRect)
-            guard let currentOutputImage = ciContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
+            guard let currentOutputImage = ciMetalContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
 
            
 
@@ -151,7 +151,7 @@ class Renderer: NSObject {
 
             let rgbSpace = CGColorSpaceCreateDeviceRGB()
             let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
-            guard let heifData =  ciContext.heifRepresentation(of: ciOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
+            guard let heifData =  ciMetalContext.heifRepresentation(of: ciOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
             else {
                     throw savePhotoError.nilReturn
             }
@@ -186,23 +186,13 @@ extension Renderer: MTKViewDelegate {
     func draw(in view: MTKView) {
         var sizedciOutputImage: CIImage
         if DoNotDraw { return }
-        guard let descriptor = view.currentRenderPassDescriptor,
-            let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
-            let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
-                return
-        }
+
         if let currentStack = filterStack()  {
-//            if currentStack.activeFilters.isEmpty {
-//                renderEncoder.endEncoding()
-//                return
-//            }
             let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
             if view.isHidden {
                 // check if there is now an image to show
                if ciOutputImage == CIImage.empty() {
                     // skip the render on empty image
-                    renderEncoder.endEncoding()
                     return
                 } else {
                     // there is an image to show..
@@ -210,21 +200,23 @@ extension Renderer: MTKViewDelegate {
                 }
             }
             if MainViewImageResize {
-            // var mainViewImageResize defined globally in AppDelegate.swift
+            // var MainViewImageResize defined globally in AppDelegate.swift
+                // userSettings control the value
                  sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
             else
                 { sizedciOutputImage = ciOutputImage }
 
-            if sizedciOutputImage.extent.isInfinite {
-//                           NSLog("Renderer  #draw has output image infinite extent")
-                       }
-
-
+        guard let descriptor = view.currentRenderPassDescriptor,
+            let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+            let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
+                return
+        }
         if let currentDrawable = view.currentDrawable {
 
             if let commandBuffer = Renderer.commandQueue.makeCommandBuffer() {
                 if view.currentRenderPassDescriptor != nil {
-            ciContext?.render(sizedciOutputImage ,
+            ciMetalContext?.render(sizedciOutputImage ,
                 to: currentDrawable.texture,
                 commandBuffer:  nil , // commandBuffer   // a command buffer that is not nil is used again. this is the old images coming in..
                 bounds: sizedciOutputImage.extent , // ciOutputImage.extent,
@@ -235,14 +227,6 @@ extension Renderer: MTKViewDelegate {
 
             commandBuffer.present(currentDrawable)
             commandBuffer.commit()
-
-            // possible metal refs that are not released
-            // compare to the allocations listing
-//            NSLog("draw descriptor \(descriptor)")
-//            NSLog("draw commandBuffer \(commandBuffer)")
-//            NSLog("draw renderEncoder \(renderEncoder)")
-//            NSLog("draw currentDrawable \(currentDrawable)")
-
                 }
                 else {
                     Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
