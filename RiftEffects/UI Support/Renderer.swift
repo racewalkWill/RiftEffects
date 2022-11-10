@@ -187,57 +187,76 @@ extension Renderer: MTKViewDelegate {
         var sizedciOutputImage: CIImage
         if DoNotDraw { return }
 
-        if let currentStack = filterStack()  {
-            let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
-            if view.isHidden {
+        guard let currentStack = filterStack()
+        else { return }
+        let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
+        if view.isHidden {
                 // check if there is now an image to show
-               if ciOutputImage == CIImage.empty() {
+            if ciOutputImage == CIImage.empty() {
                     // skip the render on empty image
-                    return
-                } else {
+                return
+            } else {
                     // there is an image to show..
-                    view.isHidden = false
-                }
+                view.isHidden = false
             }
-            if MainViewImageResize {
-            // var MainViewImageResize defined globally in AppDelegate.swift
+        }
+        if MainViewImageResize {
+                // var MainViewImageResize defined globally in AppDelegate.swift
                 // userSettings control the value
-                 sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
-            else
-                { sizedciOutputImage = ciOutputImage }
+            sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
+        else
+            { sizedciOutputImage = ciOutputImage }
+
+        // PASS 1  set the clear color
+        guard var commandBuffer = Renderer.commandQueue.makeCommandBuffer()
+        else { return }
+        if  let currentRenderDescriptor1 =  view.currentRenderPassDescriptor  {
+
+            guard let renderEncoder1 = commandBuffer.makeRenderCommandEncoder(descriptor: currentRenderDescriptor1) else {
+                return
+            }
+            if view.currentDrawable != nil {
+                renderEncoder1.endEncoding()
+                    // this sets the clear color..
+            }
+        }
+        guard view.currentDrawable != nil
+        else {
+                //                commandBuffer.present(currentDrawable)
+            commandBuffer.commit()
+            return
+        }
+
+        // PASS 2 for the image
+        guard let currentDrawable = view.currentDrawable
+        else { return }
 
         guard let descriptor = view.currentRenderPassDescriptor,
-            let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
-            let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
+//              var commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+              let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor)
+        else {
             Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
-                return
+            return
         }
-        if let currentDrawable = view.currentDrawable {
+        commandBuffer = Renderer.commandQueue.makeCommandBuffer()!
+        // Must use a second command buffer to make the image show..
+        // WHY????
 
-            if let commandBuffer = Renderer.commandQueue.makeCommandBuffer() {
-                if view.currentRenderPassDescriptor != nil {
+        if view.currentRenderPassDescriptor != nil {
             ciMetalContext?.render(sizedciOutputImage ,
-                to: currentDrawable.texture,
-                commandBuffer:  nil , // commandBuffer   // a command buffer that is not nil is used again. this is the old images coming in..
-                bounds: sizedciOutputImage.extent , // ciOutputImage.extent,
-                colorSpace: colorSpace)
-
-
+                                   to: currentDrawable.texture,
+                                   commandBuffer:  commandBuffer , // commandBuffer   // a command buffer that is not nil is used again. this is the old images coming in..
+                                   bounds: sizedciOutputImage.extent , // ciOutputImage.extent,
+                                   colorSpace: colorSpace)
             renderEncoder.endEncoding()
-
-            commandBuffer.present(currentDrawable)
-            commandBuffer.commit()
-                }
-                else {
-                    Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
-            }
-            else {Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( fatalError(Render did not get the current view.commandBuffer - draw(in: view")}
         }
-        else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer drawfatalError( Render did not get the current view.currentDrawable - draw(in: view") }
-        }
-        else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError(Render did not get the current filterStack - draw(in: view")}
+        else {
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
 
+    commandBuffer.present(view.currentDrawable!)
+    commandBuffer.commit()
     }
+       
 }
 
 class Primitive {
