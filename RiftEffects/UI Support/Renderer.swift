@@ -4,62 +4,65 @@
 //
 //  Created by Will on 2/27/19.
 //  Copyright © 2019 Will Loew-Blosser. All rights reserved.
-//  Based on Metal By Tutorials, Caroline Begbie & Marius Horga
+//  Based on Apple Sample App "BasicTexturing"
 
-/**
- * Copyright (c) 2018 Razeware LLC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
- * distribute, sublicense, create a derivative work, and/or sell copies of the
- * Software in any work that is designed, intended, or marketed for pedagogical or
- * instructional purposes related to programming, coding, application development,
- * or information technology.  Permission for such use, copying, modification,
- * merger, publication, distribution, sublicensing, creation of derivative works,
- * or sale is expressly withheld.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 
 import MetalKit
 import os
 var TargetSize = CGSize(width: 1040, height: 768)
 var DoNotDraw = false
 
+enum VertexInputIndex : Int {
+    case vertices = 0 
+    case viewportSize = 1
+}
+
+enum TextureIndex : Int {
+    case baseColor = 0
+}
+struct RenderVertex {
+    var position: simd_float2
+        //  A vector of two 32-bit floating-point numbers.
+    var textureCoordinate: simd_float2
+}
+
 class Renderer: NSObject {
 
     static var device: MTLDevice!
     static var commandQueue: MTLCommandQueue!
-    static var ciContext: CIContext!  // global for filter detectors
+    static var colorPixelFormat: MTLPixelFormat!
 
+
+
+    static var ciContext: CIContext!  // global for filter detectors
+    static let QuadVertices: [RenderVertex] = [
+        RenderVertex(position: simd_float2(x: 250.0, y: -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+        RenderVertex(position: simd_float2(x: -250.0, y: -250.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+        RenderVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+
+        RenderVertex(position: simd_float2(x: 250.0, y:  -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+        RenderVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+        RenderVertex(position: simd_float2(x: 250.0, y:  250.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+    ]
     var pipelineState: MTLRenderPipelineState!
     var ciMetalContext: CIContext!
     let colorSpace = CGColorSpaceCreateDeviceRGB() // or CGColorSpaceCreateDeviceCMYK() ?
     var mtkViewSize: CGSize!
+    var viewportSize: vector_uint2!
 
     var appStack: PGLAppStack! = nil  // model object
     var filterStack: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
-
     let debugRender = false
 
     var currentPhotoFileFormat: PhotoLibSaveFormat!
-
-
+    var offScreenRender: PGLOffScreenRender = PGLOffScreenRender()
+    var library: MTLLibrary!
+    var textureLoader: MTKTextureLoader!
+    var vertexFunction: MTLFunction!
+    var fragmentFunction: MTLFunction!
+    var pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+    var vertices: MTLBuffer?
+    var numVertices: Int!
 
     init(metalView: MTKView) {
         super.init()
@@ -77,7 +80,10 @@ class Renderer: NSObject {
 //        mesh = try! MTKMesh(mesh: mdlMesh, device: device)
 //        vertexBuffer = mesh.vertexBuffers[0].buffer
 
-        _ = device.makeDefaultLibrary()
+        Renderer.colorPixelFormat = metalView.colorPixelFormat
+       library = device.makeDefaultLibrary()
+        vertexFunction = library.makeFunction(name: "vertex_main")
+        fragmentFunction = library.makeFunction(name: "sampling")
 
         metalView.device = device
 
@@ -101,6 +107,37 @@ class Renderer: NSObject {
         metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
                                              blue: 0.8, alpha: 0.5)
         metalView.delegate = self
+        textureLoader = MTKTextureLoader(device: device)
+        // makeBuffer(bytes pointer: UnsafeRawPointer, length: Int, options: MTLResourceOptions = []) -> MTLBuffer?
+        // make a buffer and bind to the vertex shader
+
+        let quadVerticesCount = Renderer.QuadVertices.count
+        let bufferBytes =  quadVerticesCount * MemoryLayout<RenderVertex>.stride
+
+        vertices = metalView.device?.makeBuffer(bytes: Renderer.QuadVertices,
+                                                    length: bufferBytes,
+                                                    options: MTLResourceOptions.storageModeShared)
+        numVertices = quadVerticesCount
+
+        //load shaders from default library
+
+
+        // setup descriptor for creating a pipeline
+        pipelineStateDescriptor.label = "Texturing Pipeline"
+        pipelineStateDescriptor.vertexFunction = vertexFunction
+        pipelineStateDescriptor.fragmentFunction = fragmentFunction
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
+
+        do {
+            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
+        }
+        catch { return }
+        do {
+            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
+        }
+        catch { return }
+
+
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
             Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer init(metalView fatalError( AppDelegate not loaded")
@@ -185,6 +222,7 @@ extension Renderer: MTKViewDelegate {
 
     func draw(in view: MTKView) {
         var sizedciOutputImage: CIImage
+        var imageTexture: MTLTexture
         if DoNotDraw { return }
 
         guard let currentStack = filterStack()
@@ -205,57 +243,59 @@ extension Renderer: MTKViewDelegate {
                 // userSettings control the value
             sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
         else
-            { sizedciOutputImage = ciOutputImage }
+        { sizedciOutputImage = ciOutputImage }
 
-        // PASS 1  set the clear color
-        guard var commandBuffer = Renderer.commandQueue.makeCommandBuffer()
-        else { return }
-        if  let currentRenderDescriptor1 =  view.currentRenderPassDescriptor  {
-
-            guard let renderEncoder1 = commandBuffer.makeRenderCommandEncoder(descriptor: currentRenderDescriptor1) else {
-                return
-            }
-            if view.currentDrawable != nil {
-                renderEncoder1.endEncoding()
-                    // this sets the clear color..
-            }
-        }
-        guard view.currentDrawable != nil
-        else {
-                //                commandBuffer.present(currentDrawable)
-            commandBuffer.commit()
-            return
-        }
-
-        // PASS 2 for the image
-        guard let currentDrawable = view.currentDrawable
-        else { return }
-
+        // start render logic
         guard let descriptor = view.currentRenderPassDescriptor,
-//              var commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
-              let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor)
-        else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view")
+          let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+          let renderEncoder =
+          commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
             return
         }
-        commandBuffer = Renderer.commandQueue.makeCommandBuffer()!
-        // Must use a second command buffer to make the image show..
-        // WHY????
+        commandBuffer.label = "RiftCommandBuffer"
+        renderEncoder.label = "RiftRenderEncoder"
 
-        if view.currentRenderPassDescriptor != nil {
-            ciMetalContext?.render(sizedciOutputImage ,
-                                   to: currentDrawable.texture,
-                                   commandBuffer:  commandBuffer , // commandBuffer   // a command buffer that is not nil is used again. this is the old images coming in..
-                                   bounds: sizedciOutputImage.extent , // ciOutputImage.extent,
-                                   colorSpace: colorSpace)
-            renderEncoder.endEncoding()
-        }
-        else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer draw fatalError( Render did not get the current currentRenderPassDescriptor - draw(in: view")}
+            // Set the region of the drawable to draw into.
+        let viewport = MTLViewport(originX: 0.0, originY: 0.0, width: sizedciOutputImage.extent.width, height: sizedciOutputImage.extent.height, znear: -1.0, zfar: 1.0 )
+        renderEncoder.setViewport(viewport)
 
-    commandBuffer.present(view.currentDrawable!)
-    commandBuffer.commit()
+
+
+        renderEncoder.setRenderPipelineState(pipelineState)
+
+
+
+        renderEncoder.setVertexBuffer(vertices, offset: 0, index: VertexInputIndex.vertices.rawValue)
+
+        renderEncoder.setVertexBytes( &viewportSize!,
+                                      length: MemoryLayout<vector_uint2>.size,
+                                      index: VertexInputIndex.viewportSize.rawValue)
+
+            // Set the texture object.  The AAPLTextureIndexBaseColor enum value corresponds
+            //  to the 'colorMap' argument in the 'samplingShader' function because its
+            //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index.
+
+            // image section
+            guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
+            else { return } // no image to show }
+            do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
+            catch { return }
+            // end image section
+
+        renderEncoder.setFragmentTexture(imageTexture, index: TextureIndex.baseColor.rawValue)
+        renderEncoder.drawPrimitives(type: MTLPrimitiveType.triangle, vertexStart: 0, vertexCount: numVertices )
+
+
+
+
+            // [MTKTextureLoader.Option : Any]? MTKTextureLoader.Option must be added)
+            // release cgOutputImage after loading into texture
+
+
+            //    commandBuffer.present(view.currentDrawable!)
+            //    commandBuffer.commit()
     }
+
        
 }
 

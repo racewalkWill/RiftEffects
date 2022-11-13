@@ -69,6 +69,12 @@ class PGLOffScreenRender {
 
     }
 
+    func basicRenderCGImage(source: CIImage) -> CGImage? {
+
+        //  returns A Quartz 2D image. You are responsible for releasing the returned image when you no longer need it.
+       return offScreenContext.createCGImage(source, from: source.extent)
+    }
+
 
 
 }
