@@ -6,8 +6,11 @@
 //  Copyright © 2019 Will Loew-Blosser. All rights reserved.
 //
 
-import Foundation
+
 import MetalKit
+import CoreGraphics
+import UIKit
+import simd
 import os
 
 class PGLMetalController: UIViewController {
@@ -32,6 +35,13 @@ class PGLMetalController: UIViewController {
             Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController viewDidLoad fatalError(metal view not set up in storyboard")
             return
         }
+
+        guard let device  = MTLCreateSystemDefaultDevice() else {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer init(metalView fatalError( GPU not available")
+            return
+        }
+        metalView.device = device
+
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else { Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController viewDidLoad fatalError AppDelegate not loaded")
                 return

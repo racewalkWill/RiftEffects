@@ -9,11 +9,12 @@
 
 import MetalKit
 import os
+
 var TargetSize = CGSize(width: 1040, height: 768)
 var DoNotDraw = false
 
 enum VertexInputIndex : Int {
-    case vertices = 0 
+    case vertices = 0
     case viewportSize = 1
 }
 
@@ -28,64 +29,86 @@ struct RenderVertex {
 
 class Renderer: NSObject {
 
-    static var device: MTLDevice!
-    static var commandQueue: MTLCommandQueue!
-    static var colorPixelFormat: MTLPixelFormat!
+     var device: MTLDevice!
+     var commandQueue: MTLCommandQueue!
+     var colorPixelFormat: MTLPixelFormat!
+    var texture: MTLTexture!
 
+    static let quadVertices: [AAPLVertex] = [
+        AAPLVertex(position: simd_float2(x: 250.0, y: -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+        AAPLVertex(position: simd_float2(x: -250.0, y: -250.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+        AAPLVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
 
-
-    static var ciContext: CIContext!  // global for filter detectors
-    static let QuadVertices: [RenderVertex] = [
-        RenderVertex(position: simd_float2(x: 250.0, y: -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-        RenderVertex(position: simd_float2(x: -250.0, y: -250.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-        RenderVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-
-        RenderVertex(position: simd_float2(x: 250.0, y:  -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-        RenderVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-        RenderVertex(position: simd_float2(x: 250.0, y:  250.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+        AAPLVertex(position: simd_float2(x: 250.0, y:  -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+        AAPLVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+        AAPLVertex(position: simd_float2(x: 250.0, y:  250.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
     ]
     var pipelineState: MTLRenderPipelineState!
-    var ciMetalContext: CIContext!
+
     let colorSpace = CGColorSpaceCreateDeviceRGB() // or CGColorSpaceCreateDeviceCMYK() ?
     var mtkViewSize: CGSize!
     var viewportSize: vector_uint2!
 
+    var library: MTLLibrary!
+    var textureLoader: MTKTextureLoader!
+    var vertexFunction: MTLFunction!
+    var fragmentFunction: MTLFunction!
+    var pipelineStateDescriptor: MTLRenderPipelineDescriptor! = MTLRenderPipelineDescriptor()
+    var vertices: MTLBuffer?
+    var numVertices: UInt32!
+
+    var ciMetalContext: CIContext!
+    static var ciContext: CIContext!  // global for filter detectors
     var appStack: PGLAppStack! = nil  // model object
     var filterStack: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
     let debugRender = false
 
     var currentPhotoFileFormat: PhotoLibSaveFormat!
     var offScreenRender: PGLOffScreenRender = PGLOffScreenRender()
-    var library: MTLLibrary!
-    var textureLoader: MTKTextureLoader!
-    var vertexFunction: MTLFunction!
-    var fragmentFunction: MTLFunction!
-    var pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-    var vertices: MTLBuffer?
-    var numVertices: Int!
+    var numVerticesInt: Int!
 
     init(metalView: MTKView) {
         super.init()
-        guard let device = MTLCreateSystemDefaultDevice() else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer init(metalView fatalError( GPU not available")
-            return
-        }
-        metalView.device = device
+
+        device = metalView.device
         metalView.framebufferOnly = false // from WWDC 2020 "Optimize the Core Image pipeline for your video app"
             // see code at 7:24
-        Renderer.device = device
-        Renderer.commandQueue = device.makeCommandQueue()!
 
-//        let mdlMesh = Primitive.cube(device: device, size: 1.0)
-//        mesh = try! MTKMesh(mesh: mdlMesh, device: device)
-//        vertexBuffer = mesh.vertexBuffers[0].buffer
 
-        Renderer.colorPixelFormat = metalView.colorPixelFormat
-       library = device.makeDefaultLibrary()
-        vertexFunction = library.makeFunction(name: "vertex_main")
-        fragmentFunction = library.makeFunction(name: "sampling")
+        let bufferBytes =  Renderer.quadVertices.count * MemoryLayout<AAPLVertex>.stride
 
-        metalView.device = device
+        vertices = metalView.device?.makeBuffer(bytes: Renderer.quadVertices,
+                                                    length: bufferBytes,
+                                                    options: MTLResourceOptions.storageModeShared)
+        numVertices = UInt32(Renderer.quadVertices.count)
+        numVerticesInt = Renderer.quadVertices.count
+
+        library = device.makeDefaultLibrary()
+        vertexFunction = library.makeFunction(name: "vertexShader")
+        fragmentFunction = library.makeFunction(name: "samplingShader")
+
+        colorPixelFormat = metalView.colorPixelFormat
+        // setup descriptor for creating a pipeline
+        pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+        pipelineStateDescriptor.label = "Texturing Pipeline"
+        pipelineStateDescriptor.vertexFunction = vertexFunction
+        pipelineStateDescriptor.fragmentFunction = fragmentFunction
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
+
+        do {
+            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
+        }
+        catch { return }
+        do {
+            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
+        }
+        catch { return }
+
+        commandQueue = device.makeCommandQueue()!
+
+// Rift related init
+        metalView.delegate = self
+        textureLoader = MTKTextureLoader(device: device)
 
         ciMetalContext = CIContext(mtlDevice: device,
                                 options: [CIContextOption.workingFormat: CIFormat.RGBAh,
@@ -101,43 +124,11 @@ class Renderer: NSObject {
         //          https://developer.apple.com/videos/play/wwdc2017/508
 
         Renderer.ciContext = ciMetalContext
-        
+
         metalView.autoResizeDrawable = true
 
         metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
                                              blue: 0.8, alpha: 0.5)
-        metalView.delegate = self
-        textureLoader = MTKTextureLoader(device: device)
-        // makeBuffer(bytes pointer: UnsafeRawPointer, length: Int, options: MTLResourceOptions = []) -> MTLBuffer?
-        // make a buffer and bind to the vertex shader
-
-        let quadVerticesCount = Renderer.QuadVertices.count
-        let bufferBytes =  quadVerticesCount * MemoryLayout<RenderVertex>.stride
-
-        vertices = metalView.device?.makeBuffer(bytes: Renderer.QuadVertices,
-                                                    length: bufferBytes,
-                                                    options: MTLResourceOptions.storageModeShared)
-        numVertices = quadVerticesCount
-
-        //load shaders from default library
-
-
-        // setup descriptor for creating a pipeline
-        pipelineStateDescriptor.label = "Texturing Pipeline"
-        pipelineStateDescriptor.vertexFunction = vertexFunction
-        pipelineStateDescriptor.fragmentFunction = fragmentFunction
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
-
-        do {
-            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-        }
-        catch { return }
-        do {
-            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-        }
-        catch { return }
-
-
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
             Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer init(metalView fatalError( AppDelegate not loaded")
@@ -247,7 +238,7 @@ extension Renderer: MTKViewDelegate {
 
         // start render logic
         guard let descriptor = view.currentRenderPassDescriptor,
-          let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+          let commandBuffer = commandQueue.makeCommandBuffer(),
           let renderEncoder =
           commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
             return
@@ -263,8 +254,6 @@ extension Renderer: MTKViewDelegate {
 
         renderEncoder.setRenderPipelineState(pipelineState)
 
-
-
         renderEncoder.setVertexBuffer(vertices, offset: 0, index: VertexInputIndex.vertices.rawValue)
 
         renderEncoder.setVertexBytes( &viewportSize!,
@@ -276,24 +265,25 @@ extension Renderer: MTKViewDelegate {
             //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index.
 
             // image section
-            guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
+            guard var cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
             else { return } // no image to show }
             do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
             catch { return }
             // end image section
 
         renderEncoder.setFragmentTexture(imageTexture, index: TextureIndex.baseColor.rawValue)
-        renderEncoder.drawPrimitives(type: MTLPrimitiveType.triangle, vertexStart: 0, vertexCount: numVertices )
+        renderEncoder.drawPrimitives(type: MTLPrimitiveType.triangle, vertexStart: 0, vertexCount: numVerticesInt )
 
 
 
 
             // [MTKTextureLoader.Option : Any]? MTKTextureLoader.Option must be added)
             // release cgOutputImage after loading into texture
+            // NOT clear how to do a release...
 
 
-            //    commandBuffer.present(view.currentDrawable!)
-            //    commandBuffer.commit()
+        commandBuffer.present(view.currentDrawable!)
+        commandBuffer.commit()
     }
 
        
