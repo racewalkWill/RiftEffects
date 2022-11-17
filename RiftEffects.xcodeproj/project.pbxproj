@@ -965,8 +965,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				MTLLINKER_FLAGS = "-fcikernel";
-				MTL_COMPILER_FLAGS = "-fcikernel";
+				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = RiftEffects/AAPLShaderTypes.h;
@@ -993,8 +992,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				MTLLINKER_FLAGS = "-fcikernel";
-				MTL_COMPILER_FLAGS = "-fcikernel";
+				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
