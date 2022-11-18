@@ -53,6 +53,7 @@ class PGLMetalController: UIViewController {
 //        filterStack()?.setStartupDefault()
 
         metalRender = Renderer(metalView: metalView)
+        metalRender.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
 
 
 

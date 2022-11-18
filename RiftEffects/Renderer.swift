@@ -208,6 +208,7 @@ extension Renderer: MTKViewDelegate {
         }
          mtkViewSize = size
         TargetSize = size
+        viewportSize = vector_uint2(x: UInt32(size.width), y: UInt32(size.height))
         appStack.resetDrawableSize()
     }
 
@@ -247,15 +248,15 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.label = "RiftRenderEncoder"
 
             // Set the region of the drawable to draw into.
-        let viewport = MTLViewport(originX: 0.0, originY: 0.0, width: sizedciOutputImage.extent.width, height: sizedciOutputImage.extent.height, znear: -1.0, zfar: 1.0 )
+        let viewport = MTLViewport(originX: 0.0, originY: 0.0,
+                                   width: sizedciOutputImage.extent.width,
+                                   height: sizedciOutputImage.extent.height,
+                                   znear: -1.0, zfar: 1.0 )
         renderEncoder.setViewport(viewport)
 
-
-
         renderEncoder.setRenderPipelineState(pipelineState)
-
-        renderEncoder.setVertexBuffer(vertices, offset: 0, index: VertexInputIndex.vertices.rawValue)
-
+        renderEncoder.setVertexBuffer(vertices, offset: 0,
+                                      index: VertexInputIndex.vertices.rawValue)
         renderEncoder.setVertexBytes( &viewportSize!,
                                       length: MemoryLayout<vector_uint2>.size,
                                       index: VertexInputIndex.viewportSize.rawValue)
@@ -265,8 +266,9 @@ extension Renderer: MTKViewDelegate {
             //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index.
 
             // image section
-            guard var cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
-            else { return } // no image to show }
+            guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
+        else {  renderEncoder.endEncoding()
+                    return } // no image to show }
             do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
             catch { return }
             // end image section
@@ -274,14 +276,12 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.setFragmentTexture(imageTexture, index: TextureIndex.baseColor.rawValue)
         renderEncoder.drawPrimitives(type: MTLPrimitiveType.triangle, vertexStart: 0, vertexCount: numVerticesInt )
 
-
-
-
             // [MTKTextureLoader.Option : Any]? MTKTextureLoader.Option must be added)
             // release cgOutputImage after loading into texture
             // NOT clear how to do a release...
 
-
+        renderEncoder.endEncoding()
+        
         commandBuffer.present(view.currentDrawable!)
         commandBuffer.commit()
     }
