@@ -1196,6 +1196,18 @@ class PGLSelectParmController: PGLCommonController,
 //
 //    }
 
+    func requestAccessReadWrite() -> PHAuthorizationStatus? {
+        var myPhotoAccessAuthority: PHAuthorizationStatus?
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+            myPhotoAccessAuthority = status
+
+//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+            }
+            // .notDetermined, .denied, .authorized:. .limited:
+        return myPhotoAccessAuthority
+        }
+    
     func pickImage( _ attribute: PGLFilterAttribute) {
         // triggers segue to detail of the collection.
         // "Show" segue
@@ -1203,20 +1215,26 @@ class PGLSelectParmController: PGLCommonController,
 
         let readWriteStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
         switch readWriteStatus {
-            case .notDetermined, .denied, .restricted:
+            case .notDetermined:
+                guard let userPermission = requestAccessReadWrite()
+                else {
+//                    userPhotoAccessAlert()
+                       return }
+                switch userPermission {
+                    case .authorized, .limited :
+                        return  // user must open the image pick again
+                    // continue to the open picker
+                    default:
+                        // .notDetermined, .denied, .restricted:
+//                        userPhotoAccessAlert()
+                        // user must open the image pick again
+                    return
+                }
+            case .denied, .restricted:
 
                 userPhotoAccessAlert()
                 return
-//            case .limited :
-//                    // Present the limited-library selection user interface with a callback.
-//                    let viewController = self // The UIViewController from which to present the picker.
-//                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: viewController) { identifiers in
-//                        for newlySelectedAssetIdentifier in identifiers {
-//                            // Stage asset for app interaction.
-//
-//                        }
-//                    }
-//                return
+
             case .authorized, .limited :
                 // continue to open the picker
                 break
@@ -1251,7 +1269,7 @@ class PGLSelectParmController: PGLCommonController,
 
     func userPhotoAccessAlert() {
         let alert = UIAlertController(title: "Rift-Effex Photo Access", message: "Rift-Effex does not have Photo Library access permission. The app is unable to display photos. To change the Photo permission go to Settings -> Privacy -> Photos -> Rift-Effex", preferredStyle: .alert)
-        // how to open the settings to this??? Other apps are doing it...
+        // should set up translation string area
 
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
 
