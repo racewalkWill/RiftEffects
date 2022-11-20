@@ -34,14 +34,16 @@ class Renderer: NSObject {
      var colorPixelFormat: MTLPixelFormat!
     var texture: MTLTexture!
 
-    static let quadVertices: [AAPLVertex] = [
-        AAPLVertex(position: simd_float2(x: 250.0, y: -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-        AAPLVertex(position: simd_float2(x: -250.0, y: -250.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-        AAPLVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+     // 250.0
 
-        AAPLVertex(position: simd_float2(x: 250.0, y:  -250.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-        AAPLVertex(position: simd_float2(x: -250.0, y:  250.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-        AAPLVertex(position: simd_float2(x: 250.0, y:  250.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+    static let quadVertices: [AAPLVertex] = [
+        AAPLVertex(position: simd_float2(x: 1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+        AAPLVertex(position: simd_float2(x: -1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+
+        AAPLVertex(position: simd_float2(x: 1000.0, y:  -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+        AAPLVertex(position: simd_float2(x: 1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
     ]
     var pipelineState: MTLRenderPipelineState!
 
