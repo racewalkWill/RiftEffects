@@ -546,9 +546,9 @@
 		A3D9FF07292A9EE300BAE158 /* Metal Render */ = {
 			isa = PBXGroup;
 			children = (
+				A3B5A13F2922753B003DBE92 /* AAPLShaderTypes.h */,
 				A3D9FF0A292A9F1400BAE158 /* Quad.swift */,
 				A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */,
-				A3B5A13F2922753B003DBE92 /* AAPLShaderTypes.h */,
 				A3B5A1402922753B003DBE92 /* AAPLShaders.metal */,
 				A3BF50A924D32A3400CD5114 /* Renderer.swift */,
 			);
@@ -899,7 +899,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = RiftEffects/AAPLShaderTypes.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "RiftEffects/Metal Render/AAPLShaderTypes.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = NO;
@@ -957,7 +957,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = RiftEffects/AAPLShaderTypes.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "RiftEffects/Metal Render/AAPLShaderTypes.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
@@ -984,7 +984,7 @@
 				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = RiftEffects/AAPLShaderTypes.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "RiftEffects/Metal Render/AAPLShaderTypes.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1012,7 +1012,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = RiftEffects/AAPLShaderTypes.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "RiftEffects/Metal Render/AAPLShaderTypes.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
