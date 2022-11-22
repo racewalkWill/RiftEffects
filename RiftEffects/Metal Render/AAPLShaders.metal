@@ -34,7 +34,8 @@ typedef struct
 vertex RasterizerData
 vertexShader(uint vertexID [[ vertex_id ]],
              constant AAPLVertex *vertexArray [[ buffer(AAPLVertexInputIndexVertices) ]],
-             constant vector_uint2 *viewportSizePointer  [[ buffer(AAPLVertexInputIndexViewportSize) ]])
+             constant vector_uint2 *viewportSizePointer  [[ buffer(AAPLVertexInputIndexViewportSize) ]],
+             constant float4x4 &matrix [[buffer(11)]])
 
 {
 
@@ -43,8 +44,9 @@ vertexShader(uint vertexID [[ vertex_id ]],
     // Index into our array of positions to get the current vertex
     //   Our positions are specified in pixel dimensions (i.e. a value of 100 is 100 pixels from
     //   the origin)
-    float2 pixelSpacePosition = vertexArray[vertexID].position.xy;
-
+//    float2 pixelSpacePosition = vertexArray[vertexID].position.xy;
+    float2 pixelSpacePosition = vertexArray[vertexID].position;
+    
     // Get the size of the drawable so that we can convert to normalized device coordinates,
     float2 viewportSize = float2(*viewportSizePointer);
 
@@ -55,7 +57,11 @@ vertexShader(uint vertexID [[ vertex_id ]],
 
     // In order to convert from positions in pixel space to positions in clip space we divide the
     //   pixel coordinates by half the size of the viewport.
-    out.clipSpacePosition.xy = pixelSpacePosition / (viewportSize / 2.0);
+//  OLD  out.clipSpacePosition.xy = pixelSpacePosition / (viewportSize / 2.0);
+// in spaces this is float4
+    simd_float4 pixelSpace4Position = (pixelSpacePosition.x, pixelSpacePosition.y, 0.0, 0.0);
+    float4 translation = matrix * pixelSpace4Position;
+    out.clipSpacePosition.xy = translation.xy / (viewportSize / 2.0);
 
     // Set the z component of our clip space position 0 (since we're only rendering in
     //   2-Dimensions for this sample)

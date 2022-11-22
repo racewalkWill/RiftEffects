@@ -27,6 +27,7 @@ struct RenderVertex {
     var textureCoordinate: simd_float2
 }
 
+
 class Renderer: NSObject {
 
      var device: MTLDevice!
@@ -45,6 +46,9 @@ class Renderer: NSObject {
         AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
         AAPLVertex(position: simd_float2(x: 1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
     ]
+    var translation: matrix_float4x4
+
+
     var pipelineState: MTLRenderPipelineState!
 
     let colorSpace = CGColorSpaceCreateDeviceRGB() // or CGColorSpaceCreateDeviceCMYK() ?
@@ -70,6 +74,13 @@ class Renderer: NSObject {
     var numVerticesInt: Int!
 
     init(metalView: MTKView) {
+
+        translation = matrix_float4x4()
+        translation.columns.0 = [1, 0, 0, 0]
+        translation.columns.1 = [0, 1, 0, 0]
+        translation.columns.2 = [0, 0, 1, 0]
+        translation.columns.3 = [0, 0, 0, 1]
+        
         super.init()
 
         device = metalView.device
@@ -262,6 +273,35 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.setVertexBytes( &viewportSize!,
                                       length: MemoryLayout<vector_uint2>.size,
                                       index: VertexInputIndex.viewportSize.rawValue)
+
+            // create the transform matrix
+            var matrix = translation // identity matrix
+            //assumes struct is copied. matrix has different identity from translation
+
+            var xOrigin: Float = 0.0
+            var yOrigin:Float = 0.0
+            let position = simd_float3(xOrigin, yOrigin, 0)
+            matrix.columns.3.x = position.x
+            matrix.columns.3.y = position.y
+            matrix.columns.3.z = position.z
+
+            let scaleX: Float = 0.9 //  0.7
+            let scaleY: Float = 0.9 // 0.5
+            let scaleMatrix = float4x4(
+              [scaleX, 0,   0,   0],
+              [0, scaleY,   0,   0],
+              [0,      0,   1,   0],
+              [0,      0,   0,   1])
+
+      //      matrix = scaleMatrix
+
+            matrix = translation * scaleMatrix
+
+            // set the transform matrix
+            renderEncoder.setVertexBytes(
+              &matrix,
+              length: MemoryLayout<matrix_float4x4>.stride,
+              index: 11)
 
             // Set the texture object.  The AAPLTextureIndexBaseColor enum value corresponds
             //  to the 'colorMap' argument in the 'samplingShader' function because its
