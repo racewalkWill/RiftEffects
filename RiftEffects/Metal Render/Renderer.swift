@@ -261,13 +261,32 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.label = "RiftRenderEncoder"
 
             // Set the region of the drawable to draw into.
-        let viewport = MTLViewport(originX: 0.0, originY: 0.0,
-                                   width: sizedciOutputImage.extent.width,
-                                   height: sizedciOutputImage.extent.height,
+        let viewport = MTLViewport(originX: 100, originY: 100,
+                                   width: sizedciOutputImage.extent.width * 0.95 ,
+                                   height: sizedciOutputImage.extent.height * 0.95,
                                    znear: -1.0, zfar: 1.0 )
         renderEncoder.setViewport(viewport)
 
         renderEncoder.setRenderPipelineState(pipelineState)
+
+
+        let quadVertices: [AAPLVertex] = [
+            AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+            AAPLVertex(position: simd_float2(x: -Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+                  AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+
+                  AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+                  AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+                  AAPLVertex(position: simd_float2(x:Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+              ]
+
+        let bufferBytes =  quadVertices.count * MemoryLayout<AAPLVertex>.stride
+
+        vertices = view.device?.makeBuffer(bytes: Renderer.quadVertices,
+                                                    length: bufferBytes,
+                                                    options: MTLResourceOptions.storageModeShared)
+        numVertices = UInt32(Renderer.quadVertices.count)
+        numVerticesInt = Renderer.quadVertices.count
         renderEncoder.setVertexBuffer(vertices, offset: 0,
                                       index: VertexInputIndex.vertices.rawValue)
         renderEncoder.setVertexBytes( &viewportSize!,
