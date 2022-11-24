@@ -261,11 +261,15 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.label = "RiftRenderEncoder"
 
             // Set the region of the drawable to draw into.
-        let viewport = MTLViewport(originX: 100, originY: 100,
-                                   width: sizedciOutputImage.extent.width * 0.95 ,
-                                   height: sizedciOutputImage.extent.height * 0.95,
+        // origin is upper left corner, width,height are pixels
+        let viewport = MTLViewport(originX: view.frame.origin.x, originY: view.frame.origin.y,
+                                   width: sizedciOutputImage.extent.width * 1.0 ,
+                                   height: sizedciOutputImage.extent.height * 1.0,
                                    znear: -1.0, zfar: 1.0 )
-        renderEncoder.setViewport(viewport)
+//        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("Renderer draw(in:) viewport = \(String(describing:viewport))")
+//
+//        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("Renderer draw(in:) view = \(view)")
+//        renderEncoder.setViewport(viewport)
 
         renderEncoder.setRenderPipelineState(pipelineState)
 
@@ -273,12 +277,16 @@ extension Renderer: MTKViewDelegate {
         let quadVertices: [AAPLVertex] = [
             AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
             AAPLVertex(position: simd_float2(x: -Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-                  AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
 
-                  AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-                  AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-                  AAPLVertex(position: simd_float2(x:Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x:Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
               ]
+            // The output position of every vertex shader is in clip space (also known as normalized device
+            //   coordinate space, or NDC). A value of (-1.0, -1.0) in clip-space represents the
+            //   lower-left corner of the viewport whereas (1.0, 1.0) represents the upper-right corner of
+            //   the viewport.
 
         let bufferBytes =  quadVertices.count * MemoryLayout<AAPLVertex>.stride
 
