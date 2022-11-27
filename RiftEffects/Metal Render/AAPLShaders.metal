@@ -42,24 +42,8 @@ vertexShader(uint vertexID [[ vertex_id ]],
 
     RasterizerData out;
 
-    // Index into our array of positions to get the current vertex
-    //   Our positions are specified in pixel dimensions (i.e. a value of 100 is 100 pixels from
-    //   the origin)
-    float2 pixelSpacePosition = vertexArray[vertexID].position.xy;
-//    float2 pixelSpacePosition = vertexArray[vertexID].position;
-    
-    // Get the size of the drawable so that we can convert to normalized device coordinates,
-    float2 viewportSize = float2(*viewportSizePointer);
 
-    // The output position of every vertex shader is in clip space (also known as normalized device
-    //   coordinate space, or NDC). A value of (-1.0, -1.0) in clip-space represents the
-    //   lower-left corner of the viewport whereas (1.0, 1.0) represents the upper-right corner of
-    //   the viewport.
-
-    // In order to convert from positions in pixel space to positions in clip space we divide the
-    //   pixel coordinates by half the size of the viewport.
     out.clipSpacePosition.xy = vertexArray[vertexID].position.xy;
-
 
     // Set the z component of our clip space position 0 (since we're only rendering in
     //   2-Dimensions for this sample)

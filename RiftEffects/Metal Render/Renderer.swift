@@ -80,16 +80,7 @@ class Renderer: NSObject {
         device = metalView.device
         metalView.framebufferOnly = false // from WWDC 2020 "Optimize the Core Image pipeline for your video app"
             // see code at 7:24
-        let scale: Float = 0.8
-        let mappedVertices = Renderer.quadVertices.map{$0 * scale}
 
-        let bufferBytes = mappedVertices.count * MemoryLayout<Float>.stride
-
-        vertices = metalView.device?.makeBuffer(bytes: Renderer.quadVertices,
-                                                    length: bufferBytes,
-                                                    options: MTLResourceOptions.storageModeShared)
-        numVertices = UInt32(mappedVertices.count)
-        numVerticesInt = mappedVertices.count
 
         library = device.makeDefaultLibrary()
         vertexFunction = library.makeFunction(name: "vertexShader")
@@ -272,14 +263,15 @@ extension Renderer: MTKViewDelegate {
 
 
         // move vertices back to class? only changes on size change
+        let scalar: Float32 = 0.6
         let quadVertices: [AAPLVertex] = [
-            AAPLVertex(position: simd_float2(x: 1, y: -1), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-            AAPLVertex(position: simd_float2(x: -1, y: -1), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-          AAPLVertex(position: simd_float2(x: -1, y:  1), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+            AAPLVertex(position: simd_float2(x: scalar, y: -scalar), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+            AAPLVertex(position: simd_float2(x: -scalar, y: -scalar), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -scalar, y:  scalar), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
 
-          AAPLVertex(position: simd_float2(x: 1, y: -1), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-          AAPLVertex(position: simd_float2(x: -1, y:  1), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-          AAPLVertex(position: simd_float2(x:1, y: 1), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x: scalar, y: -scalar), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -scalar, y:  scalar), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x:scalar, y: scalar), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
               ]
 
 
