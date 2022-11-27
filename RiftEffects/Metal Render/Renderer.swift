@@ -292,15 +292,15 @@ extension Renderer: MTKViewDelegate {
 
 
         // move vertices back to class? only changes on size change
-//        let quadVertices: [AAPLVertex] = [
-//            AAPLVertex(position: simd_float2(x: 250, y: -250), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//            AAPLVertex(position: simd_float2(x: -250, y: -250), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-//          AAPLVertex(position: simd_float2(x: -250, y:  250), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//
-//          AAPLVertex(position: simd_float2(x: 250, y: -250), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//          AAPLVertex(position: simd_float2(x: -250, y:  250), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//          AAPLVertex(position: simd_float2(x:250, y: 250), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
-//              ]
+        let quadVertices: [AAPLVertex] = [
+            AAPLVertex(position: simd_float2(x: 1, y: -1), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+            AAPLVertex(position: simd_float2(x: -1, y: -1), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -1, y:  1), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+
+          AAPLVertex(position: simd_float2(x: 1, y: -1), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -1, y:  1), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x:1, y: 1), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+              ]
 
 //            let quadVertices: [AAPLVertex] = [
 //                AAPLVertex(position: simd_float2(x: Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
@@ -316,13 +316,13 @@ extension Renderer: MTKViewDelegate {
             //   lower-left corner of the viewport whereas (1.0, 1.0) represents the upper-right corner of
             //   the viewport.
 
-        let bufferBytes =  Renderer.quadVertices.count * MemoryLayout<Float>.stride
+        let bufferBytes =  quadVertices.count * MemoryLayout<AAPLVertex>.stride
 
-        vertices = view.device?.makeBuffer(bytes: Renderer.quadVertices,
+        vertices = view.device?.makeBuffer(bytes: quadVertices,
                                                     length: bufferBytes,
                                                     options: MTLResourceOptions.storageModeShared)
-        numVertices = UInt32(Renderer.quadVertices.count)
-        numVerticesInt = Renderer.quadVertices.count
+        numVertices = UInt32(quadVertices.count)
+        numVerticesInt = quadVertices.count
         renderEncoder.setVertexBuffer(vertices, offset: 0,
                                       index: VertexInputIndex.vertices.rawValue)
         renderEncoder.setVertexBytes( &viewportSize!,
