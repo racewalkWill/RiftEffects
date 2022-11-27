@@ -263,15 +263,23 @@ extension Renderer: MTKViewDelegate {
 
 
         // move vertices back to class? only changes on size change
-        let scalar: Float32 = 0.6
-        let quadVertices: [AAPLVertex] = [
-            AAPLVertex(position: simd_float2(x: scalar, y: -scalar), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-            AAPLVertex(position: simd_float2(x: -scalar, y: -scalar), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-          AAPLVertex(position: simd_float2(x: -scalar, y:  scalar), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+        let scalar: Float32 = 0.8
+        var scalarX = scalar
+        var scalarY = scalar
 
-          AAPLVertex(position: simd_float2(x: scalar, y: -scalar), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-          AAPLVertex(position: simd_float2(x: -scalar, y:  scalar), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-          AAPLVertex(position: simd_float2(x:scalar, y: scalar), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+        if sizedciOutputImage.extent.width < sizedciOutputImage.extent.height {
+            scalarY = scalar * Float((sizedciOutputImage.extent.height/sizedciOutputImage.extent.width))
+            scalarX = scalar * Float((sizedciOutputImage.extent.width/sizedciOutputImage.extent.height)) // the inverse..
+        }
+
+        let quadVertices: [AAPLVertex] = [
+            AAPLVertex(position: simd_float2(x: scalarX, y: -scalarY), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+            AAPLVertex(position: simd_float2(x: -scalarX, y: -scalarY), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -scalarX, y:  scalarY), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+
+          AAPLVertex(position: simd_float2(x: scalarX, y: -scalarY), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+          AAPLVertex(position: simd_float2(x: -scalarX, y:  scalarY), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+          AAPLVertex(position: simd_float2(x:scalarX, y: scalarY), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
               ]
 
 
