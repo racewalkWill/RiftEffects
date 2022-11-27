@@ -37,15 +37,25 @@ class Renderer: NSObject {
 
      // 250.0
 
-    static let quadVertices: [AAPLVertex] = [
-        AAPLVertex(position: simd_float2(x: 1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-        AAPLVertex(position: simd_float2(x: -1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//    static let quadVertices: [AAPLVertex] = [
+//        AAPLVertex(position: simd_float2(x: 1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+//        AAPLVertex(position: simd_float2(x: -1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+//        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//
+//        AAPLVertex(position: simd_float2(x: 1000.0, y:  -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+//        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//        AAPLVertex(position: simd_float2(x: 1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+//    ]
 
-        AAPLVertex(position: simd_float2(x: 1000.0, y:  -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-        AAPLVertex(position: simd_float2(x: 1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
-    ]
+    static let quadVertices: [Float] = [
+        -1,  1,  0,    // triangle 1
+         1, -1,  0,
+        -1, -1,  0,
+        -1,  1,  0,    // triangle 2
+         1,  1,  0,
+         1, -1,  0
+      ]
+
     var translation: matrix_float4x4
 
 
@@ -86,15 +96,16 @@ class Renderer: NSObject {
         device = metalView.device
         metalView.framebufferOnly = false // from WWDC 2020 "Optimize the Core Image pipeline for your video app"
             // see code at 7:24
+        let scale: Float = 0.8
+        let mappedVertices = Renderer.quadVertices.map{$0 * scale}
 
-
-        let bufferBytes =  Renderer.quadVertices.count * MemoryLayout<AAPLVertex>.stride
+        let bufferBytes = mappedVertices.count * MemoryLayout<Float>.stride
 
         vertices = metalView.device?.makeBuffer(bytes: Renderer.quadVertices,
                                                     length: bufferBytes,
                                                     options: MTLResourceOptions.storageModeShared)
-        numVertices = UInt32(Renderer.quadVertices.count)
-        numVerticesInt = Renderer.quadVertices.count
+        numVertices = UInt32(mappedVertices.count)
+        numVerticesInt = mappedVertices.count
 
         library = device.makeDefaultLibrary()
         vertexFunction = library.makeFunction(name: "vertexShader")
@@ -262,33 +273,50 @@ extension Renderer: MTKViewDelegate {
 
             // Set the region of the drawable to draw into.
         // origin is upper left corner, width,height are pixels
-        let viewport = MTLViewport(originX: view.frame.origin.x, originY: view.frame.origin.y,
-                                   width: sizedciOutputImage.extent.width * 1.0 ,
-                                   height: sizedciOutputImage.extent.height * 1.0,
-                                   znear: -1.0, zfar: 1.0 )
+        // scale for aspectFit
+
+//        let aspectFitViewportRect = aspectFitTransform(viewFrame: view.bounds, imageExtent: sizedciOutputImage.extent)
+
+        let viewport = MTLViewport(originX: 0, originY: 0,
+                                   width: view.bounds.width ,
+                                   height: view.bounds.height,
+                                   znear: 0.0, zfar: 1.0 ) // znear: -1.0, zfar: 1.0
 //        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("Renderer draw(in:) viewport = \(String(describing:viewport))")
 //
 //        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("Renderer draw(in:) view = \(view)")
 //        renderEncoder.setViewport(viewport)
 
+        // consider renderEncoder.setScissorRect(_:) to further trim
+        // The rendering pipeline discards fragments that lie outside the scissor rectangle
         renderEncoder.setRenderPipelineState(pipelineState)
 
 
-        let quadVertices: [AAPLVertex] = [
-            AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-            AAPLVertex(position: simd_float2(x: -Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-          AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+        // move vertices back to class? only changes on size change
+//        let quadVertices: [AAPLVertex] = [
+//            AAPLVertex(position: simd_float2(x: 250, y: -250), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+//            AAPLVertex(position: simd_float2(x: -250, y: -250), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+//          AAPLVertex(position: simd_float2(x: -250, y:  250), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//
+//          AAPLVertex(position: simd_float2(x: 250, y: -250), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+//          AAPLVertex(position: simd_float2(x: -250, y:  250), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//          AAPLVertex(position: simd_float2(x:250, y: 250), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+//              ]
 
-          AAPLVertex(position: simd_float2(x: Float(viewport.width), y: -Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-          AAPLVertex(position: simd_float2(x: -Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-          AAPLVertex(position: simd_float2(x:Float(viewport.width), y:  Float(viewport.height)), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
-              ]
+//            let quadVertices: [AAPLVertex] = [
+//                AAPLVertex(position: simd_float2(x: Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+//                AAPLVertex(position: simd_float2(x: -Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
+//              AAPLVertex(position: simd_float2(x: -Float(aspectFitViewportRect.width), y:  Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//
+//              AAPLVertex(position: simd_float2(x: Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
+//              AAPLVertex(position: simd_float2(x: -Float(aspectFitViewportRect.width), y:  Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
+//              AAPLVertex(position: simd_float2(x:Float(aspectFitViewportRect.width), y:  Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
+//                  ]
             // The output position of every vertex shader is in clip space (also known as normalized device
             //   coordinate space, or NDC). A value of (-1.0, -1.0) in clip-space represents the
             //   lower-left corner of the viewport whereas (1.0, 1.0) represents the upper-right corner of
             //   the viewport.
 
-        let bufferBytes =  quadVertices.count * MemoryLayout<AAPLVertex>.stride
+        let bufferBytes =  Renderer.quadVertices.count * MemoryLayout<Float>.stride
 
         vertices = view.device?.makeBuffer(bytes: Renderer.quadVertices,
                                                     length: bufferBytes,
@@ -302,38 +330,6 @@ extension Renderer: MTKViewDelegate {
                                       index: VertexInputIndex.viewportSize.rawValue)
 
             // create the transform matrix
-// START reverting back to version 103.6 renderer
-//            var matrix = translation // identity matrix
-//            //assumes struct is copied. matrix has different identity from translation
-//
-//            var xOrigin: Float = 0.0
-//            var yOrigin:Float = 0.0
-//            let position = simd_float3(xOrigin, yOrigin, 0)
-//            matrix.columns.3.x = position.x
-//            matrix.columns.3.y = position.y
-//            matrix.columns.3.z = position.z
-//
-//            let scaleX: Float = 0.9 //  0.7
-//            let scaleY: Float = 0.9 // 0.5
-//            let scaleMatrix = float4x4(
-//              [scaleX, 0,   0,   0],
-//              [0, scaleY,   0,   0],
-//              [0,      0,   1,   0],
-//              [0,      0,   0,   1])
-//
-//      //      matrix = scaleMatrix
-//
-//            matrix = translation * scaleMatrix
-//
-//            // set the transform matrix
-//            renderEncoder.setVertexBytes(
-//              &matrix,
-//              length: MemoryLayout<matrix_float4x4>.stride,
-//              index: 11)
-// END reverting back to version 103.6 renderer
-            // Set the texture object.  The AAPLTextureIndexBaseColor enum value corresponds
-            //  to the 'colorMap' argument in the 'samplingShader' function because its
-            //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index.
 
             // image section
             guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
@@ -356,7 +352,32 @@ extension Renderer: MTKViewDelegate {
         commandBuffer.commit()
     }
 
-       
+    func aspectFitTransform(viewFrame: CGRect, imageExtent: CGRect) -> CGRect {
+            //  the transform from the viewFrame to set the viewPort for the image
+        //  as centered with aspectFit  scale so the largest dimension will fit
+        // answer viewPort rect
+
+
+        let widthScale = viewFrame.width / imageExtent.width  //CGFloat
+        let heightScale = viewFrame.height / imageExtent.height
+
+        let scale = min(widthScale,heightScale)  // this is aspectFit
+                // aspectFill use max instead of min
+        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+
+        let newExent =   imageExtent.applying(scaleTransform)
+            // now center
+        let midX = newExent.width/2
+        let midY = newExent.height/2
+
+        let frameMidX = viewFrame.width/2
+        let frameMidY = viewFrame.height/2
+
+        let centerTransform = CGAffineTransform(translationX: frameMidX - midX, y: frameMidY - midY)
+//        let centerTransform = CGAffineTransform(translationX:  (midX - frameMidX), y: ( midY - frameMidY))
+        let transformRect =  newExent.applying(centerTransform)
+        return transformRect.insetBy(dx: 30.0, dy: 100.0) // positive values make the rect smaller
+    }
 }
 
 class Primitive {
