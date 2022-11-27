@@ -35,17 +35,6 @@ class Renderer: NSObject {
      var colorPixelFormat: MTLPixelFormat!
     var texture: MTLTexture!
 
-     // 250.0
-
-//    static let quadVertices: [AAPLVertex] = [
-//        AAPLVertex(position: simd_float2(x: 1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//        AAPLVertex(position: simd_float2(x: -1000.0, y: -1000.0), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-//        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//
-//        AAPLVertex(position: simd_float2(x: 1000.0, y:  -1000.0), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//        AAPLVertex(position: simd_float2(x: -1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//        AAPLVertex(position: simd_float2(x: 1000.0, y:  1000.0), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
-//    ]
 
     static let quadVertices: [Float] = [
         -1,  1,  0,    // triangle 1
@@ -56,7 +45,7 @@ class Renderer: NSObject {
          1, -1,  0
       ]
 
-    var translation: matrix_float4x4
+//    var translation: matrix_float4x4
 
 
     var pipelineState: MTLRenderPipelineState!
@@ -85,11 +74,6 @@ class Renderer: NSObject {
 
     init(metalView: MTKView) {
 
-        translation = matrix_float4x4()
-        translation.columns.0 = [1, 0, 0, 0]
-        translation.columns.1 = [0, 1, 0, 0]
-        translation.columns.2 = [0, 0, 1, 0]
-        translation.columns.3 = [0, 0, 0, 1]
         
         super.init()
 
@@ -153,6 +137,9 @@ class Renderer: NSObject {
 
         metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
                                              blue: 0.8, alpha: 0.5)
+
+
+
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else {
             Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer init(metalView fatalError( AppDelegate not loaded")
@@ -277,14 +264,7 @@ extension Renderer: MTKViewDelegate {
 
 //        let aspectFitViewportRect = aspectFitTransform(viewFrame: view.bounds, imageExtent: sizedciOutputImage.extent)
 
-        let viewport = MTLViewport(originX: 0, originY: 0,
-                                   width: view.bounds.width ,
-                                   height: view.bounds.height,
-                                   znear: 0.0, zfar: 1.0 ) // znear: -1.0, zfar: 1.0
-//        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("Renderer draw(in:) viewport = \(String(describing:viewport))")
-//
-//        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("Renderer draw(in:) view = \(view)")
-//        renderEncoder.setViewport(viewport)
+
 
         // consider renderEncoder.setScissorRect(_:) to further trim
         // The rendering pipeline discards fragments that lie outside the scissor rectangle
@@ -302,15 +282,7 @@ extension Renderer: MTKViewDelegate {
           AAPLVertex(position: simd_float2(x:1, y: 1), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
               ]
 
-//            let quadVertices: [AAPLVertex] = [
-//                AAPLVertex(position: simd_float2(x: Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//                AAPLVertex(position: simd_float2(x: -Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-//              AAPLVertex(position: simd_float2(x: -Float(aspectFitViewportRect.width), y:  Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//
-//              AAPLVertex(position: simd_float2(x: Float(aspectFitViewportRect.width), y: -Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//              AAPLVertex(position: simd_float2(x: -Float(aspectFitViewportRect.width), y:  Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//              AAPLVertex(position: simd_float2(x:Float(aspectFitViewportRect.width), y:  Float(aspectFitViewportRect.height)), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
-//                  ]
+
             // The output position of every vertex shader is in clip space (also known as normalized device
             //   coordinate space, or NDC). A value of (-1.0, -1.0) in clip-space represents the
             //   lower-left corner of the viewport whereas (1.0, 1.0) represents the upper-right corner of
