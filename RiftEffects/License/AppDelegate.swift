@@ -20,7 +20,7 @@ var LogMigration = "PGL_Migration"
 // change in areas as needed.
 // caution on changes it is a GLOBAL
 
-var RendererScale:Float32 = 0.9
+var RendererScale:Float32 = 0.98
 var MainViewImageResize = false
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn
 // should be a user setting
