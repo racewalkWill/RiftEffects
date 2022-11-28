@@ -263,7 +263,7 @@ extension Renderer: MTKViewDelegate {
 
 
         // move vertices back to class? only changes on size change
-        let scalar: Float32 = 0.8
+        let scalar: Float32 = RendererScale
         var scalarX = scalar
         var scalarY = scalar
 
