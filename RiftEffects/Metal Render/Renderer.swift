@@ -324,32 +324,7 @@ extension Renderer: MTKViewDelegate {
         commandBuffer.commit()
     }
 
-    func aspectFitTransform(viewFrame: CGRect, imageExtent: CGRect) -> CGRect {
-            //  the transform from the viewFrame to set the viewPort for the image
-        //  as centered with aspectFit  scale so the largest dimension will fit
-        // answer viewPort rect
 
-
-        let widthScale = viewFrame.width / imageExtent.width  //CGFloat
-        let heightScale = viewFrame.height / imageExtent.height
-
-        let scale = min(widthScale,heightScale)  // this is aspectFit
-                // aspectFill use max instead of min
-        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-
-        let newExent =   imageExtent.applying(scaleTransform)
-            // now center
-        let midX = newExent.width/2
-        let midY = newExent.height/2
-
-        let frameMidX = viewFrame.width/2
-        let frameMidY = viewFrame.height/2
-
-        let centerTransform = CGAffineTransform(translationX: frameMidX - midX, y: frameMidY - midY)
-//        let centerTransform = CGAffineTransform(translationX:  (midX - frameMidX), y: ( midY - frameMidY))
-        let transformRect =  newExent.applying(centerTransform)
-        return transformRect.insetBy(dx: 30.0, dy: 100.0) // positive values make the rect smaller
-    }
 }
 
 class Primitive {
