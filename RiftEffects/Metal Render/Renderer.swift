@@ -308,7 +308,8 @@ extension Renderer: MTKViewDelegate {
         else {  renderEncoder.endEncoding()
                     return } // no image to show }
             do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
-            catch { return }
+            catch {renderEncoder.endEncoding()
+                    return }
             // end image section
 
         renderEncoder.setFragmentTexture(imageTexture, index: TextureIndex.baseColor.rawValue)
