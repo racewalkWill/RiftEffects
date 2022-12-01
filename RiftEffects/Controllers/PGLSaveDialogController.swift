@@ -249,16 +249,16 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     func incrementSaveCountForAppReview() {
         // based on Apple sample StoreKitReviewRequest example code
 
-        var saveCount = AppUserDefaults.integer(forKey: PGLUserDefaultKeys.processCompletedCountKey)
+        var saveCount = UserDefaults.standard.integer(forKey: PGLUserDefaultKeys.processCompletedCountKey)
         saveCount += 1
-        AppUserDefaults.set(saveCount, forKey: PGLUserDefaultKeys.processCompletedCountKey)
+        UserDefaults.standard.set(saveCount, forKey: PGLUserDefaultKeys.processCompletedCountKey)
 
         // Get the current bundle version for the app
         let infoDictionaryKey = kCFBundleVersionKey as String
         guard let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
             else { fatalError("Expected to find a bundle version in the info dictionary") }
 
-        let lastVersionPromptedForReview = AppUserDefaults.string(forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
+        let lastVersionPromptedForReview = UserDefaults.standard.string(forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
 
         if saveCount >= 2 && currentVersion != lastVersionPromptedForReview {
             let twoSecondsFromNow = DispatchTime.now() + 2.0
@@ -268,7 +268,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
                     SKStoreReviewController.requestReview(in: scene)
                 }
 
-                AppUserDefaults.set(currentVersion, forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
+                UserDefaults.standard.set(currentVersion, forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
 
             }
         }

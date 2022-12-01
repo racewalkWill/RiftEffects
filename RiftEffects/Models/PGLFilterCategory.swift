@@ -25,7 +25,7 @@ import os
 //    //"SobelEdgeH" , "SobelEdgeV"
 //]
 
-let AppUserDefaults = UserDefaults.init()
+
 
 class PGLFilterCategory {
     // holds the filterDescriptors for a category
@@ -88,18 +88,18 @@ class PGLFilterCategory {
 //
 //       
 //        WarpItMetalFilter.register()
-        if AppUserDefaults.stringArray(forKey: Bookmark) == nil
+        if UserDefaults.standard.stringArray(forKey: Bookmark) == nil
         {
             let newFrequentFilters = [ "Random Filters"] // CIFilter name, not the display name
             // removed "CIDissolveTransition",  it also pulls in the Face dissolve and Bump Dissolve
-            AppUserDefaults.set(newFrequentFilters, forKey: Bookmark)
+            UserDefaults.standard.set(newFrequentFilters, forKey: Bookmark)
         }
        
         
         // kuwahara & Perlin not working WL-B 3/7/19
 //        MetalKuwaharaFilter.register()
 //        MetalPerlinNoise.register()
-        if let frequentFilters = AppUserDefaults.stringArray(forKey: Bookmark) {
+        if let frequentFilters = UserDefaults.standard.stringArray(forKey: Bookmark) {
             let frequentCategory = PGLFilterCategory(specialCategory: Bookmark, filterNames: frequentFilters )
             answerArray.append(frequentCategory) // frequent category is position zero
         }
@@ -217,21 +217,21 @@ class PGLFilterCategory {
         filterDescriptors.append( sourceDescriptor.copy() )
 
         //save into userDefaults
-        var myDefaults = AppUserDefaults.stringArray(forKey: categoryName) ?? [String]()
+        var myDefaults = UserDefaults.standard.stringArray(forKey: categoryName) ?? [String]()
 //        myDefaults.append(sourceDescriptor.displayName)
         myDefaults.append(sourceDescriptor.filterName)
-        AppUserDefaults.set(myDefaults, forKey: categoryName)
+        UserDefaults.standard.set(myDefaults, forKey: categoryName)
 
     }
 
     func removeDescriptor( _ trashDescriptor: PGLFilterDescriptor) {
         // remove from the UI array and the stored defaults array
 
-          var myDefaults = AppUserDefaults.stringArray(forKey: categoryName) ?? [String]()
+          var myDefaults = UserDefaults.standard.stringArray(forKey: categoryName) ?? [String]()
 
         filterDescriptors.removeAll(where: {$0.displayName == trashDescriptor.displayName })
         myDefaults.removeAll(where: {$0 == trashDescriptor.filterName })
-         AppUserDefaults.set(myDefaults, forKey: categoryName)
+        UserDefaults.standard.set(myDefaults, forKey: categoryName)
 
     }
 

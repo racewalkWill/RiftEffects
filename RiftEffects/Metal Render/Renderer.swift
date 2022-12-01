@@ -140,7 +140,7 @@ class Renderer: NSObject {
         appStack = myAppDelegate.appStack
         filterStack = { self.appStack.outputFilterStack() }
 
-        let fileType = AppUserDefaults.string(forKey:  "photosFileType")
+        let fileType = UserDefaults.standard.string(forKey:  "photosFileType")
         currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "HEIF")
 
         Logger(subsystem: LogSubsystem, category: LogCategory).info ("Renderer init currentPhotoFileFormat \(String(describing: self.currentPhotoFileFormat))")

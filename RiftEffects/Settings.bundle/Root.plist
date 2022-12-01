@@ -30,9 +30,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Show Help Page at startup</string>
+			<string>DisplayStartHelp</string>
 			<key>Key</key>
-			<string>displayStartHelp</string>
+			<string>DisplayStartHelp</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>

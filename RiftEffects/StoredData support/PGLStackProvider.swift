@@ -14,7 +14,7 @@ class PGLStackProvider {
     var fetchedResultsController: NSFetchedResultsController<CDFilterStack>!
     var providerManagedObjectContext: NSManagedObjectContext!
 
-    var showChildStack = AppUserDefaults.bool(forKey:  "showChildStack")  // userDefault setting
+    var showChildStack = UserDefaults.standard.bool(forKey:  "showChildStack")  // userDefault setting
 
     init(with persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer

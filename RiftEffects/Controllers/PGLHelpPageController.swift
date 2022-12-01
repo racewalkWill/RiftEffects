@@ -85,8 +85,8 @@ class PGLHelpPageController: UIPageViewController {
       }
 
     override func viewWillDisappear(_ animated: Bool) {
-        let turnOnSwitch =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
-        if turnOnSwitch { AppUserDefaults.setValue(false, forKey: showHelpPageAtStartupKey)}
+
+        if ShowHelpOnOpen { UserDefaults.standard.setValue(false, forKey: ShowHelpPageAtStartupKey)}
             // set to false after first time true (startup)
             // only show once on first startup... then user should use the ? button for help
 

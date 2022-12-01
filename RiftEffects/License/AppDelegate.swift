@@ -13,6 +13,8 @@ import os
 
 let iCloudDataContainerName = "iCloud.L-BSoftwareArtist.RiftEffects"
 let LogSubsystem = "L-BSoftwareArtist.RiftEffects"
+
+
 var LogCategory = "PGL"
 var LogNavigation = "Nav"
 var LogMemoryRelease = "Mem"
@@ -22,10 +24,11 @@ var LogMigration = "PGL_Migration"
 
 var RendererScale:Float32 = 0.98
 var MainViewImageResize = false
+
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn
 // should be a user setting
 // 2/12/2020 leave as false - makes the cropped produce an empty image if in single filter edit mode.
-
+var ShowHelpOnOpen = false
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -87,10 +90,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLRandomFilterAction.register()
         PGLCISequenced.register()
 
+
+
         Logger(subsystem: LogSubsystem, category: LogCategory).notice( " didFinishLaunchingWithOptions appStack created")
         checkVersion()
-        MainViewImageResize = AppUserDefaults.bool(forKey: "MainViewImageResize")
-//        RendererScale = AppUserDefaults.float(forKey: "RendererScale")
+        MainViewImageResize = UserDefaults.standard.bool(forKey: "MainViewImageResize")
+//        RendererScale = UserDefaults.standard.float(forKey: "RendererScale")
+        ShowHelpOnOpen =   UserDefaults.standard.bool(forKey: ShowHelpPageAtStartupKey)
         return true
     }
 

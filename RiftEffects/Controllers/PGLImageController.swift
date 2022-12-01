@@ -38,7 +38,7 @@ let PGLHideParmUIControls = NSNotification.Name(rawValue: "PGLHideParmUIControls
 let ExportAlbumId = "ExportAlbumId"
 let ExportAlbum = "ExportAlbum"
 
-let showHelpPageAtStartupKey = "displayStartHelp"
+let ShowHelpPageAtStartupKey = "DisplayStartHelp"
 
 class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate {
 
@@ -715,8 +715,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         setMoreBtnMenu()
 
-        let theShowHelp =  AppUserDefaults.bool(forKey: showHelpPageAtStartupKey)
-        if theShowHelp {
+       
+        if ShowHelpOnOpen {
             // if the key does not exist then bool answers false
             helpBtnAction(helpBtn)
             // PGLHelpPageController will set to false after showing help

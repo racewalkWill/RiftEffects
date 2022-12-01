@@ -187,6 +187,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLHelpPageController.viewPhotoCommentController(_:):PGLHelpPageController.swift">
+      </ContextState>
+      <ContextState
          contextName = "PGLImageList.__allocating_init(localAssetIDs:albumIds:):PGLImageList.swift">
       </ContextState>
       <ContextState
@@ -446,10 +449,10 @@
                value = "primaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
-               value = "supplementaryController as? PGLImageController">
+               value = "splitViewController">
             </PersistentString>
             <PersistentString
-               value = "splitViewController">
+               value = "supplementaryController as? PGLImageController">
             </PersistentString>
             <PersistentString
                value = "(secondaryController as? UINavigationController).visibleViewController">
@@ -615,22 +618,7 @@
          contextName = "PGLImageController.viewDidLoad():PGLImageController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "view.frame">
-            </PersistentString>
-            <PersistentString
-               value = "view.safeAreaLayoutGuide">
-            </PersistentString>
-            <PersistentString
-               value = "view.bounds">
-            </PersistentString>
-            <PersistentString
-               value = "view">
-            </PersistentString>
-            <PersistentString
-               value = "Renderer.device">
-            </PersistentString>
-            <PersistentString
-               value = "Renderer.commandQueue">
+               value = "ShowHelpOnOpen">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -729,6 +717,9 @@
                value = "thisDevice.model">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLHelpSinglePage.helpText.didset:PGLHelpSinglePage.swift">
       </ContextState>
       <ContextState
          contextName = "PGLFilterStack.writeCDStack():PGL-CDFilterStack.swift">
@@ -1043,10 +1034,10 @@
          contextName = "PGLSelectParmController.sliderValueDidChange(_:):PGLSelectParmController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "target.uiIndexTag">
+               value = "sender.value">
             </PersistentString>
             <PersistentString
-               value = "sender.value">
+               value = "target.uiIndexTag">
             </PersistentString>
             <PersistentString
                value = "sender.tag">
@@ -1631,13 +1622,13 @@
          contextName = "PGLFilterStack.imageUpdate(_:_:):PGLFilterStack.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.doPrintCropClamp = false">
-            </PersistentString>
-            <PersistentString
                value = "thisImage?.extent">
             </PersistentString>
             <PersistentString
                value = "cropRect">
+            </PersistentString>
+            <PersistentString
+               value = "self.doPrintCropClamp = false">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
