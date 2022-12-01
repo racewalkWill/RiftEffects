@@ -276,29 +276,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Help is here" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wSZ-Tb-zzU">
-                                <rect key="frame" x="20" y="8" width="511" height="83"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zlx-Lb-TWU">
+                                <rect key="frame" x="20" y="106" width="511" height="688"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Help is here" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wSZ-Tb-zzU">
+                                <rect key="frame" x="20" y="24" width="511" height="74"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="83" id="1fK-cg-gZB"/>
+                                    <constraint firstAttribute="width" constant="511" id="OWd-xn-HUr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zlx-Lb-TWU">
-                                <rect key="frame" x="20" y="120" width="511" height="694"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="wSZ-Tb-zzU" firstAttribute="trailing" secondItem="PdK-IK-SwM" secondAttribute="trailingMargin" id="4i0-MV-yhj"/>
-                            <constraint firstItem="Zlx-Lb-TWU" firstAttribute="centerY" secondItem="PdK-IK-SwM" secondAttribute="centerY" id="NRO-gT-qD2"/>
-                            <constraint firstItem="Zlx-Lb-TWU" firstAttribute="leading" secondItem="PdK-IK-SwM" secondAttribute="leading" constant="20" symbolic="YES" id="U2v-6p-pyL"/>
-                            <constraint firstAttribute="trailing" secondItem="Zlx-Lb-TWU" secondAttribute="trailing" constant="20" symbolic="YES" id="i2K-zz-ACQ"/>
-                            <constraint firstAttribute="bottom" secondItem="Zlx-Lb-TWU" secondAttribute="bottom" constant="20" symbolic="YES" id="nbA-x2-Tma"/>
-                            <constraint firstItem="wSZ-Tb-zzU" firstAttribute="leading" secondItem="PdK-IK-SwM" secondAttribute="leadingMargin" id="rEG-b4-Czm"/>
-                            <constraint firstItem="wSZ-Tb-zzU" firstAttribute="top" secondItem="PdK-IK-SwM" secondAttribute="top" constant="20" symbolic="YES" id="tqN-SW-Cer"/>
-                            <constraint firstItem="Zlx-Lb-TWU" firstAttribute="top" secondItem="wSZ-Tb-zzU" secondAttribute="bottom" constant="29" id="vSI-PZ-fwX"/>
+                            <constraint firstItem="Zlx-Lb-TWU" firstAttribute="centerX" secondItem="PdK-IK-SwM" secondAttribute="centerX" id="3h5-qA-XNw"/>
+                            <constraint firstItem="Zlx-Lb-TWU" firstAttribute="top" secondItem="wSZ-Tb-zzU" secondAttribute="bottom" constant="-1" id="NlA-c5-40P"/>
+                            <constraint firstItem="wSZ-Tb-zzU" firstAttribute="leading" secondItem="PdK-IK-SwM" secondAttribute="leadingMargin" id="X3S-ZZ-1K7"/>
+                            <constraint firstItem="Whs-gL-mdt" firstAttribute="top" secondItem="Zlx-Lb-TWU" secondAttribute="bottom" id="sIE-NZ-pmS"/>
+                            <constraint firstItem="wSZ-Tb-zzU" firstAttribute="top" secondItem="PdK-IK-SwM" secondAttribute="topMargin" id="sMW-4B-foe"/>
+                            <constraint firstItem="wSZ-Tb-zzU" firstAttribute="centerX" secondItem="PdK-IK-SwM" secondAttribute="centerX" id="uq6-iu-S1N"/>
                         </constraints>
                     </view>
                     <connections>
@@ -308,7 +306,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pwx-e6-foM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2045" y="-919"/>
+            <point key="canvasLocation" x="2044.7236180904522" y="-919.42446043165478"/>
         </scene>
         <!--Compact Image Controller-->
         <scene sceneID="8Cz-fE-dCl">
