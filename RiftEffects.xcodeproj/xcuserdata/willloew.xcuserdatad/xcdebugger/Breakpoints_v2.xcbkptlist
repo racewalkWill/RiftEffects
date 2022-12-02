@@ -7,64 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BD24E01A-8C89-4E22-AEAA-D48C8BEB8BB7"
+            uuid = "D1AAD9F5-E699-4C66-B4D6-E393491F5138"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Controllers/PGLSaveDialogController.swift"
+            filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
-            landmarkName = "incrementSaveCountForAppReview()"
+            startingLineNumber = "990"
+            endingLineNumber = "990"
+            landmarkName = "addPositionControl(attribute:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8FB5EA5D-9ED9-4CF4-B3D0-75F0861B4005"
+            uuid = "F54702CA-EF57-405B-93DD-74B1372C869C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/License/AppDelegate.swift"
+            filePath = "RiftEffects/Controllers/PGLCommonParmController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "highlight(viewNamed:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0259AB6E-71F3-4F64-A982-78E43A429213"
+            uuid = "E1E11F17-EDA1-428F-AE1E-7B20E95AAEE4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/License/AppDelegate.swift"
+            filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AF543C06-C786-4AC0-B56E-0F238D5E0071"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Controllers/PGLHelpPageController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "viewWillDisappear(_:)"
+            startingLineNumber = "1474"
+            endingLineNumber = "1474"
+            landmarkName = "panAction(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
