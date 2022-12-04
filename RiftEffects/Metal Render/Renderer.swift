@@ -33,7 +33,7 @@ class Renderer: NSObject {
      var device: MTLDevice!
      var commandQueue: MTLCommandQueue!
      var colorPixelFormat: MTLPixelFormat!
-    var texture: MTLTexture!
+//    var texture: MTLTexture!
 
 
     static let quadVertices: [Float] = [
@@ -78,7 +78,11 @@ class Renderer: NSObject {
         super.init()
 
         device = metalView.device
-        metalView.framebufferOnly = false // from WWDC 2020 "Optimize the Core Image pipeline for your video app"
+        metalView.framebufferOnly = true
+            // "To optimize a drawable from an MTKView for GPU access, set the view’s framebufferOnly
+            // property to true. This property configures the texture exclusively
+            //  as a render target and displayable resource."
+            // in WWDC 2020 "Optimize the Core Image pipeline for your video app" suggest false setting
             // see code at 7:24
 
 
@@ -108,6 +112,7 @@ class Renderer: NSObject {
 // Rift related init
         metalView.delegate = self
         textureLoader = MTKTextureLoader(device: device)
+
 
         ciMetalContext = CIContext(mtlDevice: device,
                                 options: [CIContextOption.workingFormat: CIFormat.RGBAh,
@@ -217,7 +222,14 @@ extension Renderer: MTKViewDelegate {
     func draw(in view: MTKView) {
         var sizedciOutputImage: CIImage
         var imageTexture: MTLTexture
-        if DoNotDraw { return }
+        if DoNotDraw {
+            view.isHidden = DoNotDraw
+            // view.isHidden for iPhone navigation to different mtkViews
+            // view.isHidden = true so both mktViews are black.
+            // reset to false if there is an image to show from the stack.. see below
+            // and notification PGLImageCollectionOpen
+
+            return }
 
         guard let currentStack = filterStack()
         else { return }
@@ -238,6 +250,18 @@ extension Renderer: MTKViewDelegate {
             sizedciOutputImage = ciOutputImage.cropped(to: currentStack.cropRect) }
         else
         { sizedciOutputImage = ciOutputImage }
+
+            // image section
+        guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
+        else {
+                return }
+//        let loaderOptions = [ MTKTextureLoader.Option.textureStorageMode: MTLStorageMode.private ]
+        
+        do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
+        catch {
+            return
+        }
+
 
         // start render logic
         guard let descriptor = view.currentRenderPassDescriptor,
@@ -303,13 +327,13 @@ extension Renderer: MTKViewDelegate {
 
             // create the transform matrix
 
-            // image section
-            guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
-        else {  renderEncoder.endEncoding()
-                    return } // no image to show }
-            do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
-            catch {renderEncoder.endEncoding()
-                    return }
+//            // image section
+//            guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
+//        else {  renderEncoder.endEncoding()
+//                    return } // no image to show }
+//            do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
+//            catch {renderEncoder.endEncoding()
+//                    return }
             // end image section
 
         renderEncoder.setFragmentTexture(imageTexture, index: TextureIndex.baseColor.rawValue)

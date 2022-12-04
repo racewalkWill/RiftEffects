@@ -320,7 +320,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         DoNotDraw = true
         self.metalController?.view.isHidden = true
             // makes the image go blank after the trash button loads a new stack.
-            // set visible again when new images are selected
+            // set visible again when new images are selected in
+            //        notification PGLCurrentFilterChange
+
         self.appStack.releaseTopStack()
         let newStack = PGLFilterStack()
 
