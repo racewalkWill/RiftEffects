@@ -143,7 +143,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
 
-        let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
+        _ = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
 
         // The text view should be adjusted, update the constant for this constraint.
 //        bottomLayoutGuideConstraint.constant -= originDelta

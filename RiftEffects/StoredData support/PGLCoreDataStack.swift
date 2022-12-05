@@ -183,7 +183,7 @@ class CoreDataWrapper {
 
     init() {
         // Load the last token from the token file.
-        let dbTokenFileURL = tokenFile
+//        let dbTokenFileURL = tokenFile
         if let tokenData = try? Data(contentsOf: tokenFile) {
             do {
                 lastHistoryToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSPersistentHistoryToken.self, from: tokenData)

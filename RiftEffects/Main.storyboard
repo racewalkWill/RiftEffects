@@ -110,7 +110,7 @@
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XQ0-Te-ZA5">
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="czb-Qh-xUv">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="czb-Qh-xUv">
                                 <rect key="frame" x="256" y="8" width="300" height="154.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="kx7-hf-tjz">
@@ -185,14 +185,14 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rxm-hp-Xow" firstAttribute="leading" secondItem="AO9-l8-IAb" secondAttribute="leading" id="Boh-Cp-m2N"/>
-                                    <constraint firstAttribute="width" constant="300" id="sOI-tZ-HBl"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="czb-Qh-xUv" firstAttribute="top" secondItem="dSV-Fg-Wru" secondAttribute="bottom" constant="20" id="9gc-Gg-AKb"/>
-                            <constraint firstItem="czb-Qh-xUv" firstAttribute="centerX" secondItem="XQ0-Te-ZA5" secondAttribute="centerX" id="Gy4-1H-z6Y"/>
+                            <constraint firstItem="eMG-JX-enb" firstAttribute="top" secondItem="czb-Qh-xUv" secondAttribute="bottom" constant="651.5" id="8iR-pF-PN1"/>
+                            <constraint firstItem="czb-Qh-xUv" firstAttribute="leading" secondItem="XQ0-Te-ZA5" secondAttribute="leading" constant="256" id="a3d-6q-fRb"/>
+                            <constraint firstAttribute="trailing" secondItem="czb-Qh-xUv" secondAttribute="trailing" constant="638" id="t0X-mL-DVQ"/>
                         </constraints>
                     </view>
                     <connections>
@@ -461,7 +461,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.69999999999999996" tag="3" contentMode="scaleToFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YX1-Ej-LHn">
-                                <rect key="frame" x="1152" y="792" width="40" height="40"/>
+                                <rect key="frame" x="1152" y="791" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <color key="tintColor" systemColor="systemGray6Color"/>
@@ -470,7 +470,7 @@
                                 </accessibility>
                             </view>
                             <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.69999999999999996" tag="2" contentMode="scaleToFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QWb-As-B2t">
-                                <rect key="frame" x="0.0" y="792" width="40" height="40"/>
+                                <rect key="frame" x="0.0" y="791" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <color key="tintColor" systemColor="systemGray6Color"/>
@@ -640,7 +640,7 @@
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="609" y="74" width="71" height="54"/>
+                                <rect key="frame" x="608" y="74" width="70" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -828,7 +828,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="OEz-3T-9Rf">
-                                <rect key="frame" x="-1" y="708" width="237" height="44"/>
+                                <rect key="frame" x="-2" y="708" width="237" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
@@ -1086,7 +1086,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
-                                <rect key="frame" x="-2" y="716" width="237" height="44"/>
+                                <rect key="frame" x="-3" y="716" width="237" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Mode Tool Bar Btn" image="rectangle.grid.1x2" catalog="system" id="wgX-bj-pqm">
