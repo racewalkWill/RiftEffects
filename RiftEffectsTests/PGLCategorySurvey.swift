@@ -47,7 +47,9 @@ class PGLCategorySurvey: XCTestCase {
 //        let newStack = PGLFilterStack()
 //        newStack.setStartupDefault() // not sent in the init.. need a starting point
 //        self.appStack.resetToTopStack(newStackId: newStack)
-        dataProvider.batchDelete(deleteIds: deleteStackIds)
+        if deleteStackIds.isEmpty { return } else {
+            dataProvider.batchDelete(deleteIds: deleteStackIds) }
+        
 
         super.tearDown()
     }
@@ -204,10 +206,7 @@ class PGLCategorySurvey: XCTestCase {
         let group2 = PGLCategorySurvey.SingleFilterGroups[i + 1]
         category2Index = -1
         while category1Index < group1.count {
-            self.appStack.releaseTopStack()
-//            let newStack = PGLFilterStack()
-//            newStack.setStartupDefault() // not sent in the init.. need a starting point
-//            self.appStack.resetToTopStack(newStackId: newStack)
+             resetToNewTopStack()
             
             let testFilterStack = appStack.viewerStack
                 // should use the appStack to supply the filterStack
@@ -374,7 +373,7 @@ class PGLCategorySurvey: XCTestCase {
 
         testFilterStack.append(category1Filter!)
 
-        for filterNameIndex in 1 ..< testGroupFilters.count {
+        for filterNameIndex in 1 ..< (testGroupFilters.count - 1){
             let newFilter = descriptors[filterNameIndex].pglSourceFilter()
             XCTAssertNotNil(newFilter)
             newFilter!.setDefaults()
@@ -561,6 +560,13 @@ class PGLCategorySurvey: XCTestCase {
 
     }
 
+    fileprivate func resetToNewTopStack() {
+        self.appStack.releaseTopStack()
+        let newStack = PGLFilterStack()
+        newStack.setStartupDefault() // not sent in the init.. need a starting point
+        appStack.resetOutputAppStack(newStack)
+    }
+
     func testTransitionChildStacks() {
         // put a transition on a child stack
         // static var CompositeGroups = [CompositeFilters, TransistionFilters]
@@ -573,15 +579,16 @@ class PGLCategorySurvey: XCTestCase {
 //        for i in 0 ..< PGLCategorySurvey.CompositeGroups.count {
 
 
-        let group1 = PGLCategorySurvey.TransistionFilters
+        var group1 = PGLCategorySurvey.TransistionFilters
+        // remove PGLSequenceFilter from group.. it
+        // does not support adding image image inputs that others support
+        // it adds filters.. needs it's own test case
+        group1 = group1.dropLast()
          let testSize =  group1.count
 
 //        while category1Index <  testSize {
         for filterIndex in ( 0..<testSize) {
-                    self.appStack.releaseTopStack()
-//                   let newStack = PGLFilterStack()
-//                   newStack.setStartupDefault() // not sent in the init.. need a starting point
-//                   self.appStack.resetToTopStack(newStackId: newStack)
+                    resetToNewTopStack()
 
                    let testFilterStack = appStack.viewerStack
                        // should use the appStack to supply the filterStack
@@ -651,7 +658,7 @@ class PGLCategorySurvey: XCTestCase {
                 // XCTAssertTrue failed -  RiftEffects.PGLFilterStack outputImage extent is zero width/height
                 // 4/9/22  now passing
                 "CIMaximumCompositing" ,
-                "WarpItMetal" ,
+         
                 "CIColorControls" ,
                 "CIColorMap" ,
                 "CIGaborGradients" ,
@@ -717,11 +724,7 @@ class PGLCategorySurvey: XCTestCase {
             let descriptors = constructedCategory.buildCategoryFilterDescriptors(filterNames: filterNames)
 
             for aFilterDescriptor in descriptors {
-                self.appStack.releaseTopStack()
-                let newStack = PGLFilterStack()
-                  newStack.setStartupDefault() // not sent in the init.. need a starting point
-//                  newStack.removeDefaultFilter()
-//                  self.appStack.resetToTopStack(newStackId: newStack)
+                resetToNewTopStack()
                   let testFilterStack = appStack.viewerStack
                       // should use the appStack to supply the filterStack
 //                _ = testFilterStack.removeLastFilter() // only one at start
