@@ -30,16 +30,16 @@ enum PhotoId: String {
 }
 
 
-class PGLDataStoreTests: XCTestCase {
-    let ciTestFilterName = "CIDiscBlur"
-    var fdsAppDelegate = UIApplication.shared.delegate as! AppDelegate
-    var dataContainer: NSPersistentContainer?
-    var appStack: PGLAppStack!
+//class PGLDataStoreTests: XCTestCase {
+//    let ciTestFilterName = "CIDiscBlur"
+//    var fdsAppDelegate = UIApplication.shared.delegate as! AppDelegate
+//    var dataContainer: NSPersistentContainer?
+//    var appStack: PGLAppStack!
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        appStack = myAppDelegate.appStack
+//    override func setUp() {
+//        // Put setup code here. This method is called before the invocation of each test method in the class.
+//        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+//        appStack = myAppDelegate.appStack
 
         // init schema on CloudKit
         // see https://developer.apple.com/documentation/coredata/mirroring_a_core_data_store_with_cloudkit/creating_a_core_data_model_for_cloudkit#3191035
@@ -60,21 +60,21 @@ class PGLDataStoreTests: XCTestCase {
 
 
 
-    }
-
-    override func tearDown() {
-
-            // Put teardown code here. This method is called after the invocation of each test method in the class.
-    //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-    //               myAppDelegate.saveContext() // checks if context has changes
-//            self.appStack.releaseTopStack() 
-//            let newStack = PGLFilterStack()
-//            newStack.setStartupDefault() // not sent in the init.. need a starting point
-//            self.appStack.resetToTopStack(newStackId: newStack)
-            super.tearDown()
-
-
-    }
+//    }
+//
+//    override func tearDown() {
+//
+//            // Put teardown code here. This method is called after the invocation of each test method in the class.
+//    //        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+//    //               myAppDelegate.saveContext() // checks if context has changes
+////            self.appStack.releaseTopStack()
+////            let newStack = PGLFilterStack()
+////            newStack.setStartupDefault() // not sent in the init.. need a starting point
+////            self.appStack.resetToTopStack(newStackId: newStack)
+//            super.tearDown()
+//
+//
+//    }
 
    
 
@@ -82,50 +82,50 @@ class PGLDataStoreTests: XCTestCase {
 
     // MARK: TestSupport
 
-   static func imageListTestObject() -> PGLImageList {
-        let assetIDs = [PhotoId.burst1.rawValue, PhotoId.burst2.rawValue , PhotoId.timeLapse1.rawValue, PhotoId.timeLapse2.rawValue, PhotoId.timeLapse3.rawValue, PhotoId.timeLapse4.rawValue]
-        // create a Cycle stack
-    let albumIDs = [PhotoId.burstAlbum.rawValue, PhotoId.burstAlbum.rawValue,PhotoId.burstAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,]
-// matching assetId and albumId arrays
-        return PGLImageList(localAssetIDs: assetIDs, albumIds: albumIDs)
-    }
-
-    func defaultCIImage() -> CIImage {
-        let aPhotoId = [PhotoId.selfie.rawValue]
-        var resizeImage: CIImage?
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.isSynchronous = true
-
-        let photoFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: aPhotoId, options: nil)
-        let photoAsset = photoFetchResult.firstObject
-        let targetSize = CGSize(width: 640.0, height: 480.0)
-        PHImageManager.default().requestImage(for: photoAsset!, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
-            guard let theImage = image else { return  }
-            if let convertedImage = CoreImage.CIImage(image: theImage ) {
-                let theOrientation = CGImagePropertyOrientation.up
-                let pickedCIImage = convertedImage.oriented(theOrientation)
-                resizeImage = self.scaleToFrame(ciImage: pickedCIImage, newSize: targetSize)
-            }
-        })
-        return resizeImage!
-    }
-    fileprivate func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
-        // make all the images scale to the same size
-        let sourceExtent = ciImage.extent
-        let xScale = newSize.width / sourceExtent.width
-        let yScale =  newSize.height / sourceExtent.height
-        let scaleTransform = CGAffineTransform.init(scaleX: xScale, y: yScale)
-        return ciImage.transformed(by: scaleTransform)
-    }
-
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
-}
+//   static func imageListTestObject() -> PGLImageList {
+//        let assetIDs = [PhotoId.burst1.rawValue, PhotoId.burst2.rawValue , PhotoId.timeLapse1.rawValue, PhotoId.timeLapse2.rawValue, PhotoId.timeLapse3.rawValue, PhotoId.timeLapse4.rawValue]
+//        // create a Cycle stack
+//    let albumIDs = [PhotoId.burstAlbum.rawValue, PhotoId.burstAlbum.rawValue,PhotoId.burstAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,]
+//// matching assetId and albumId arrays
+//        return PGLImageList(localAssetIDs: assetIDs, albumIds: albumIDs)
+//    }
+//
+//    func defaultCIImage() -> CIImage {
+//        let aPhotoId = [PhotoId.selfie.rawValue]
+//        var resizeImage: CIImage?
+//        let options = PHImageRequestOptions()
+//        options.deliveryMode = .highQualityFormat
+//        options.isNetworkAccessAllowed = true
+//        options.isSynchronous = true
+//
+//        let photoFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: aPhotoId, options: nil)
+//        let photoAsset = photoFetchResult.firstObject
+//        let targetSize = CGSize(width: 640.0, height: 480.0)
+//        PHImageManager.default().requestImage(for: photoAsset!, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+//            guard let theImage = image else { return  }
+//            if let convertedImage = CoreImage.CIImage(image: theImage ) {
+//                let theOrientation = CGImagePropertyOrientation.up
+//                let pickedCIImage = convertedImage.oriented(theOrientation)
+//                resizeImage = self.scaleToFrame(ciImage: pickedCIImage, newSize: targetSize)
+//            }
+//        })
+//        return resizeImage!
+//    }
+//    fileprivate func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
+//        // make all the images scale to the same size
+//        let sourceExtent = ciImage.extent
+//        let xScale = newSize.width / sourceExtent.width
+//        let yScale =  newSize.height / sourceExtent.height
+//        let scaleTransform = CGAffineTransform.init(scaleX: xScale, y: yScale)
+//        return ciImage.transformed(by: scaleTransform)
+//    }
+//
+//
+//    func testPerformanceExample() {
+//        // This is an example of a performance test case.
+//        self.measure {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
+//
+//}

@@ -153,8 +153,12 @@ class PGLSourceFilterTests: XCTestCase {
         let context = CIContext()
         let favoritesAlbumList = fetchFavoritesList()
         // get the category to create correct pglsourceFilter
-        let transitionCategory = PGLFilterCategory("CICategoryTransition")!
-        for aTransitionDescriptor in transitionCategory.filterDescriptors {
+        var transitionCategory = PGLFilterCategory("CICategoryTransition")!
+        var transitionDescriptors = transitionCategory.filterDescriptors
+        transitionDescriptors = transitionDescriptors.dropLast() // drop the 'SequencedFilter'.. needs independent test
+            // sequenceFilters adds filters, not images so setup fails.
+        
+        for aTransitionDescriptor in transitionDescriptors {
 //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
             Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aTransitionDescriptor.displayName)")
             let timerFilter = aTransitionDescriptor.pglSourceFilter()!
@@ -802,6 +806,38 @@ class PGLSourceFilterTests: XCTestCase {
             XCTAssert(attributeRed > 0.0) } else {XCTAssertNotNil(colorAttribute?.red) }
 
         Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testCISpotColorFilter color1 = \(String(describing: color1))")
+    }
+
+    func testSequenceFilter() {
+        // SequencedFilter omitted from other tests
+        // test here for the process of adding filters, not images
+        let favoritesAlbumList = fetchFavoritesList()
+
+        let theDescriptor = PGLFilterCategory.getFilterDescriptor(aFilterName: kPSequencedFilter, cdFilterClass: "PGLSequencedFilters")
+        let theSequenceFilter = theDescriptor?.pglSourceFilter() as? PGLSequencedFilters
+        appStack.viewerStack.appendFilter(theSequenceFilter!)
+        theSequenceFilter!.addChildSequenceStack(appStack: appStack)
+        let inputAttribute = theSequenceFilter!.getInputImageAttribute()!
+
+        theSequenceFilter!.setUserPick(attribute: inputAttribute, imageList: favoritesAlbumList)
+//        let theSequenceStack = theSequenceFilter!.filterSequence()
+
+        appStack.moveActiveAhead() // to the child sequence stack
+        if let filter2 = PGLSourceFilter(filter: "CIPhotoEffectMono") {
+            filter2.setDefaults()
+            appStack.viewerStack.appendFilter(filter2)
+        }
+
+        if let filter3 = PGLSourceFilter(filter: "CIPhotoEffectTonal") {
+            filter3.setDefaults()
+            appStack.viewerStack.appendFilter(filter3)
+        }
+
+        let stackResultImage = appStack.outputStack.stackOutputImage(false)
+
+        // check the output
+        XCTAssertNotNil(stackResultImage)
+        XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
     }
     
 //    func testPerformanceExample() {

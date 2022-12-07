@@ -759,6 +759,23 @@ class PGLCategorySurvey: XCTestCase {
 
            }
 
+    func testSequenceFilter() {
+        // SequencedFilter omitted from other tests
+        // test here for the process of adding filters, not images
+        resetToNewTopStack()
+        let testFilterStack = appStack.viewerStack
+        let favoritesAlbumList = fetchFavoritesList()
 
+        let theSequenceFilter = PGLSourceFilter(filter: kPSequencedFilter) as! PGLSequencedFilters
+            //fails if no filter
+
+        let inputAttribute = theSequenceFilter.getInputImageAttribute()!
+        setInputTo(imageParm: inputAttribute)
+
+        theSequenceFilter.addChildSequenceStack(appStack: appStack)
+        // assign two child filters
+
+        // check the output
+    }
 
 }
