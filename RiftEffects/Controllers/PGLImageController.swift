@@ -1006,7 +1006,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             // move mappedOrigin for size of the image
             // mappedOrigin point is ULO upper Left origin
             mappedOrigin.x = mappedOrigin.x + newSize.width/2 // shift to right
-            mappedOrigin.y = mappedOrigin.y + newSize.height/2 // shift up in ULO
+            mappedOrigin.y = mappedOrigin.y - newSize.height/2 // shift up in ULO
 
             let controlFrame = CGRect(origin: mappedOrigin, size: newSize)
             // newOrigin should be the center of the controlFrame
