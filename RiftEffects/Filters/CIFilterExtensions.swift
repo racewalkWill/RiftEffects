@@ -44,7 +44,7 @@ extension CIFilter {
           kPFaceFilter : [PGLDetectorFilter.self],
            kPBumpFace : [PGLDetectorFilter.self],
            kPBumpBlend : [PGLBumpBlend.self] ,
-            "CIDissolveTransition" : [ PGLFaceTransitionFilter.self, PGLTransitionFilter.self ,
+            "CIDissolveTransition" : [ PGLFaceTransitionFilter.self, PGLTransitionFilter.self
 //              PGLBumpTransitionFilter.self  , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
             ],
             kPImages : [PGLTransitionFilter.self ],
@@ -64,7 +64,11 @@ extension CIFilter {
             "CIAztecCodeGenerator" : [PGLCIAztecCodeGenerator.self],
             "CIDepthBlurEffect" : [PGLDisparityFilter.self],
 
-            kCompositeTextPositionFilter: [PGLTextImageGenerator.self]
+          kCompositeTextPositionFilter: [PGLTextImageGenerator.self],
+          "CIColorMatrix": [PGLColorVectorNumeric.self],
+          "CIColorPolynomial": [PGLColorVectorNumeric.self],
+          "CIToneCurve": [PGLColorVectorNumeric.self],
+          "CIColorCrossPolynomial": [PGLColorVectorNumeric.self]
             
         ]
         return answerDict
