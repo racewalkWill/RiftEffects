@@ -9,9 +9,6 @@
 import Foundation
 import CoreImage
 
-/// slider interface to color adjustment vector parms
-class PGLAttributeVectorNumericUI: PGLFilterAttribute {
-
     ///  which element of the 4 part vector to update..
     ///   values 0..3
     enum ColorVector: Int {
@@ -22,12 +19,23 @@ class PGLAttributeVectorNumericUI: PGLFilterAttribute {
         case inputBiasVector = 4
     }
 
-   static let ColorDict = [
-    "inputRVector" : ColorVector.inputRVector,
-    "inputGVector" : ColorVector.inputGVector,
-    "inputBVector" : ColorVector.inputBVector,
-    "inputAVector" : ColorVector.inputAVector,
-    "inputBiasVector" : ColorVector.inputBiasVector
+/// slider interface to color adjustment vector parms
+class PGLAttributeVectorNumericUI: PGLFilterAttribute {
+
+
+
+    var colorDict = [
+//    "inputRVector" : ColorVector.inputRVector,
+//    "inputGVector" : ColorVector.inputGVector,
+//    "inputBVector" : ColorVector.inputBVector,
+//    "inputAVector" : ColorVector.inputAVector,
+//    "inputBiasVector" : ColorVector.inputBiasVector
+        "R" : ColorVector.inputRVector,
+        "G" : ColorVector.inputGVector,
+        "B" : ColorVector.inputBVector,
+        "A" : ColorVector.inputAVector,
+        "inputBiasVector" : ColorVector.inputBiasVector
+
     ]
 
     /// index of the attribute color in the 4 element vector RGBA
@@ -37,14 +45,28 @@ class PGLAttributeVectorNumericUI: PGLFilterAttribute {
     var parentVectorAttribute: PGLAttributeVectorNumeric? {
         didSet {
             // lookup the vector position by the attribute name
-            guard let vectorColorPosition =  PGLAttributeVectorNumericUI.ColorDict[parentVectorAttribute?.attributeName ?? "missingAttributeName"]
-            else {
-                fatalError("PGLAttributeVectorNumericUI has unexpected attribute")
-            }
-            vectorOffset = vectorColorPosition.rawValue
+            guard let sourceAttributeName = parentVectorAttribute?.attributeName
+            else { return }
             attributeDisplayName = parentVectorAttribute?.attributeDisplayName
-            attributeName = parentVectorAttribute?.attributeName
+            attributeName = sourceAttributeName
             attributeType = AttrType.Scalar.rawValue
+
+            if sourceAttributeName == "inputBiasVector" {
+                vectorOffset = ColorVector.inputBiasVector.rawValue
+            }
+            let theColorLetter = String((sourceAttributeName.dropFirst(5).first)! )
+                // CIColorPolynomial & CIColorCrossPolynomial format "inputRedCoefficients"
+                // CIColorMatrix has format "inputRVector"
+                // use the 6th letter R,G,B,A for identification
+
+
+           guard let vectorColorPosition =  colorDict[theColorLetter]
+                else {
+                    fatalError("PGLAttributeVectorNumericUI has unexpected attribute")
+                }
+
+            vectorOffset = vectorColorPosition.rawValue
+
         }
     }
 
