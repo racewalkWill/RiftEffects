@@ -1200,6 +1200,73 @@ extension PGLFilterAttributeVector {
     }
 }
 
+extension PGLAttributeVectorNumericUI {
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        self.parentVectorAttribute?.storeParmValue(moContext: moContext)
+    }
+
+    @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
+        // not expected to invoke this ... the UI instance would only be
+        // built from the User Interface level
+        self.parentVectorAttribute?.setStoredValueToAttribute(value)
+        // need to copy from parent to this UI
+
+
+    }
+}
+
+extension PGLAttributeVectorNumeric {
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeVector
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector", into: moContext)) as! CDAttributeVector)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeVector
+        }
+
+
+        guard let myVector = getVectorValue()
+            else { return }
+
+        cd.vectorX = (myVector.x) as NSNumber
+        cd.vectorY = (myVector.y) as NSNumber
+
+        cd.vectorEndX = (myVector.z) as NSNumber
+        cd.vectorEndY = (myVector.w) as NSNumber
+//        NSLog("PGLAttributeVectorNumeric storeParmValue \(cd)")
+
+    }
+
+    @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
+        // not expected to invoke this ... the UI instance would only be
+        // built from the User Interface level
+        super.setStoredValueToAttribute(value)
+        guard let storedValue = value as? CDAttributeVector
+            else { return }
+
+        if let theVaryDelta = attributeValueDelta
+            { storedValue.attributeValueDelta = ((theVaryDelta) as NSNumber) }
+        else { storedValue.attributeValueDelta = nil}
+
+         let vectorX = CGFloat(truncating: (storedValue.vectorX ?? 0.0))
+         let vectorY = CGFloat(truncating: (storedValue.vectorY ?? 0.0))
+         let vectorEndX = CGFloat(truncating: (storedValue.vectorEndX ?? 0.0))
+         let vectorEndY = CGFloat(truncating: (storedValue.vectorEndY ?? 0.0))
+
+        let colorVector = CIVector(x: vectorX,
+                                   y: vectorY,
+                                   z: vectorEndX,
+                                   w: vectorEndY)
+//        NSLog("PGLAttributeVectorNumeric setStoredValueToAttribute \(colorVector)")
+        set(colorVector)
+
+    }
+}
+
+
 extension PGLRotateAffineUI {
     @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
         var cd: CDAttributeRotateAffine

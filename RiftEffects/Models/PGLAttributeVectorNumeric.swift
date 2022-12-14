@@ -20,5 +20,7 @@ class PGLAttributeVectorNumeric: PGLFilterAttribute {
         return [ newSliderParm ]
 
 
-}
+    }
+
+
 }
