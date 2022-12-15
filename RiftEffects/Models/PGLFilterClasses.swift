@@ -105,7 +105,6 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
             {
             uiPosition = position
-//            thisFilter.setDefaults()  // in iOS this is set automatically - macOS needs explicit setDefaults()
             filterCategories = thisFilter.attributes[kCIAttributeFilterCategories] as! [String]
 
             self.localFilter = thisFilter
@@ -114,7 +113,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             for anAttributeKey in thisFilter.inputKeys {
                 let inputParmDict = (thisFilter.attributes[anAttributeKey]) as! [String : Any]
 
-                let parmAttributeClass = PGLFilterAttribute.parmClass(parmDict: inputParmDict)
+                let parmAttributeClass = parmClass(parmDict: inputParmDict)
                 if let thisParmAttribute = parmAttributeClass.init(pglFilter: self, attributeDict: inputParmDict, inputKey: anAttributeKey  )
                     {
                         for valueAttribute in thisParmAttribute.valueInterface() {
@@ -123,24 +122,11 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                             attributes.append( valueAttribute )
                         }
                 }
-
                 isImageInputType =  attributes.contains { (attribute: PGLFilterAttribute ) -> Bool in
                     attribute.isImageInput()
                 }
-//            if !hasImageInput  {
-//                if !attributes.isEmpty {
-//                    hasImageInput = (attributes.last?.isImageInput())! }
-//                }
-                //   see also the imageInputCount computed property
             }
-//            filterName = thisFilter.name  // directly set a var so the debuggers shows the name - get var does not show in the debugger
-            // 6/2/19  thisFilter.name had the value  key : "CIAttributeFilterName"  value : Glance.PGLImageCIFilter
-            // could not see why the ImageCIFilter was registered with the app.class name as the filter name..
-            // no other filters including the other subclasses of CIFilterAbstract seemed to do this..
-            // weird...
-
             filterName = filter // string name in the method call
-
         } else
             { return nil }
     }
@@ -148,6 +134,12 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     convenience init?(filter: String) {
        self.init(filter: filter, position: PGLFilterCategoryIndex()) // default index with zeros, empty values
 
+    }
+    
+    func parmClass(parmDict: [String : Any ]) -> PGLFilterAttribute.Type  {
+        // override in PGLSourceFilter subclasses..
+        // most will do a lookup in the class method
+        return PGLFilterAttribute.parmClass(parmDict: parmDict)
     }
 
     deinit {

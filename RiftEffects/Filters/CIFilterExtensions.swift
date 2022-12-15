@@ -67,8 +67,9 @@ extension CIFilter {
           kCompositeTextPositionFilter: [PGLTextImageGenerator.self],
           "CIColorMatrix": [PGLColorVectorNumeric.self],
           "CIColorPolynomial": [PGLColorVectorNumeric.self],
-          "CIToneCurve": [PGLColorVectorNumeric.self],
-          "CIColorCrossPolynomial": [PGLColorVectorNumeric.self]
+          "CIColorCrossPolynomial": [PGLColorVectorNumeric.self],
+
+          "CIToneCurve": [PGLVectorBasedFilter.self]
             
         ]
         return answerDict

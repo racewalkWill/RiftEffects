@@ -352,12 +352,10 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
                     // endPoint is nil
                     if let newVaryAttribute = varyTimerAttribute(){
                     let point2Action = PGLTableCellAction(action: "To", newAttribute: newVaryAttribute, canPerformAction: true, targetAttribute: self)
-//                    point2Action.performAction2 = true  //  will setVectorEndPoint in the method performAction2
                     allActions.append(point2Action)
                     }
                 }
                 addCancelAction(&allActions)
-
 
             case .VaryPt1Pt2:
 
@@ -372,51 +370,22 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
     }
 
     override  func performAction(_ controller: PGLSelectParmController?) {
-//        if hasAnimation() { // animation is running so STOP
-//            endVectorPan() }
-//        else {
-//            NSLog("PGLFilterAttributeVector #performAction does setVectorStartPoint")
-//            setVectorStartPoint()
-//            if varyState == .Initial {
-//                varyState = .VaryPt1 // From point is set
-//            }
-//        }
-//        super.performAction(controller)
-//            // sends aSourceFilter.attribute(animateTarget: self)
+
         switch varyState {
             case .Initial:
                     setVectorStartPoint()
                     varyState = .VaryPt1
-//                    aSourceFilter.startAnimation(attributeTarget: self)
-
 
             case .VaryPt1:
-
                 setVectorEndPoint()
                 aSourceFilter.startAnimation(attributeTarget: self)
 
                 varyState = .VaryPt1Pt2 // move to next state for both from and to points set
-//                if hasAnimation() { Makes cancel work if animation is running
-//                    endVectorPan()
-//                    attributeValueDelta = nil
-//                        // stops animation
-//
-//                     varyState = .Initial
-//                } else {
-                    // must be starting the vary in sender see performAction2
-                   // varyState = .VaryPt1Pt2
-                    // or is this setin performAction2?
-
-//            }
             case .VaryPt1Pt2:
                 aSourceFilter.stopAnimation(attributeTarget: self)
                  varyState = .Initial
 
-
             case .DissolveWrapper:
-
-//                aSourceFilter.stopAnimation(attributeTarget: self)
-                // attribute targets for dissolve should be the dissolve wrapper input and target images??
                 removeWrapperFilter()
                 varyState = .Initial
         }
