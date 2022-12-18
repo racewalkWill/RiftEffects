@@ -136,13 +136,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
 
-    func showStackControllerAction() {
-        // other part of split should navigate back to the stack controller
-        // after the Random button is clicked
-        let goToStack = Notification(name: PGLLoadedDataStack)
-        NotificationCenter.default.post(goToStack)
 
-    }
 
     // MARK: save btn Actions
 
@@ -376,7 +370,86 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
 
+// MARK:  Navigation
+    func showStackControllerAction() {
+        // other part of split should navigate back to the stack controller
+        // after the Random button is clicked
+        let goToStack = Notification(name: PGLLoadedDataStack)
+        NotificationCenter.default.post(goToStack)
 
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        // moved to  PGLImageController -
+         panner?.isEnabled = false // only enable pan gesture on certain cases
+
+//        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
+        guard let modelAttribute = appStack.targetAttribute else
+            { return }
+
+
+        switch modelAttribute.attributeUIType() {
+        case AttrUIType.pointUI , AttrUIType.rectUI:
+
+            hideParmControls()
+            panner?.isEnabled = true
+            guard let thisAttributeControlView = appStack.parmControls[modelAttribute.attributeName ?? "forceReturn"] else
+            { return }
+             selectedParmControlView = thisAttributeControlView
+            if let thisAttributeName = modelAttribute.attributeName {
+                highlight(viewNamed: thisAttributeName)
+
+                if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
+                    guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
+                    else { return }
+
+                    croppingFilter.cropAttribute = thisCropAttribute
+                    guard let activeRectController = rectController
+                        else {return }
+                    activeRectController.thisCropAttribute = thisCropAttribute
+                    showRectInput(aRectInputFilter: croppingFilter)
+
+
+                    }
+
+            }
+      case AttrUIType.sliderUI , AttrUIType.integerUI  :
+            // replaced by the slider in the tablePaneCell
+            // do not show the slider in the image
+           hideParmControls()
+           showSliderControl(attribute: modelAttribute)
+           highlight(viewNamed: modelAttribute.attributeName!)
+            // enable the slider
+
+        case AttrUIType.textInputUI :
+                hideParmControls()
+                highlight(viewNamed: modelAttribute.attributeName!)
+
+
+        case AttrUIType.fontUI :
+
+            hideParmControls()
+            showFontPicker(self)
+
+        case AttrUIType.timerSliderUI:
+            // the PGLFilterAttributeNumber has to answer the sliderCell for this to run.. currently commented out 5/16/19
+                hideSliders()
+            if let selectedSliderCell = tableView.cellForRow(at: indexPath) as? PGLTableCellSlider {
+                selectedSliderCell.sliderControl.isEnabled = true
+            }
+
+//        case AttrUIType.imagePickUI :
+            // did the photo or filter cell get touched?
+          //  pickImage(tappedAttribute!)
+            // now called by swipe action "Pick"
+
+        default:
+            highlight(viewNamed: "")
+        }
+       // this method completes before the processses invoked above run..
+        // updates need to be invoked in the completion routines
+    }
     fileprivate func postCurrentFilterChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
         NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
@@ -778,110 +851,15 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
     }
 
-    func hideParmControls() {
-        // restore from delete in R83.07
-        // was it a testing change that was committed??
 
-        //  R83.07 removed blank toolbar after filter pick on the iPhone. Storyboard changes: Main Filter Controller setting hidesBottomBarWhenPushed="YES". Same on ParmSettingsViewController, Parm Image Controller, Filter Image Controller, Stack Image Container Controller. Logging changes to track navigation
-
-        hideSliders()
-        panner?.isEnabled = false
-        hideViewControls()
-        parmSlider?.isHidden = true
-
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: public protocol to vars
 
 
-    // moved or new method for iPhone
-    // the Parm controller may not be loaded in
-    // the secondaryViewOnly mode - only the imageController is loaded
-
-
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // moved to  PGLImageController -
-         panner?.isEnabled = false // only enable pan gesture on certain cases
-
-//        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
-        guard let modelAttribute = appStack.targetAttribute else
-            { return }
-
-
-        switch modelAttribute.attributeUIType() {
-        case AttrUIType.pointUI , AttrUIType.rectUI:
-
-            hideParmControls()
-            panner?.isEnabled = true
-            guard let thisAttributeControlView = appStack.parmControls[modelAttribute.attributeName ?? "forceReturn"] else
-            { return }
-             selectedParmControlView = thisAttributeControlView
-            if let thisAttributeName = modelAttribute.attributeName {
-                highlight(viewNamed: thisAttributeName)
-
-                if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
-                    guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
-                    else { return }
-
-                    croppingFilter.cropAttribute = thisCropAttribute
-                    guard let activeRectController = rectController
-                        else {return }
-                    activeRectController.thisCropAttribute = thisCropAttribute
-                    showRectInput(aRectInputFilter: croppingFilter)
-
-
-                    }
-
-            }
-      case AttrUIType.sliderUI , AttrUIType.integerUI  :
-            // replaced by the slider in the tablePaneCell
-            // do not show the slider in the image
-           hideParmControls()
-           showSliderControl(attribute: modelAttribute)
-           highlight(viewNamed: modelAttribute.attributeName!)
-            // enable the slider
-
-        case AttrUIType.textInputUI :
-                hideParmControls()
-                highlight(viewNamed: modelAttribute.attributeName!)
-
-
-        case AttrUIType.fontUI :
-
-            hideParmControls()
-            showFontPicker(self)
-
-        case AttrUIType.timerSliderUI:
-            // the PGLFilterAttributeNumber has to answer the sliderCell for this to run.. currently commented out 5/16/19
-                hideSliders()
-            if let selectedSliderCell = tableView.cellForRow(at: indexPath) as? PGLTableCellSlider {
-                selectedSliderCell.sliderControl.isEnabled = true
-            }
-
-//        case AttrUIType.imagePickUI :
-            // did the photo or filter cell get touched?
-          //  pickImage(tappedAttribute!)
-            // now called by swipe action "Pick"
-
-        default:
-            highlight(viewNamed: "")
-        }
-       // this method completes before the processses invoked above run..
-        // updates need to be invoked in the completion routines
-    }
-
-
-// MARK: MTKViewDelegate drawing
-
- 
-// MARK: - GLKViewDelegate and GLKViewController delegate methods
 
 
 
@@ -915,6 +893,19 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 addTextInputControl(attribute: parmAttribute)
             }
         }
+    }
+
+    func hideParmControls() {
+        // restore from delete in R83.07
+        // was it a testing change that was committed??
+
+        //  R83.07 removed blank toolbar after filter pick on the iPhone. Storyboard changes: Main Filter Controller setting hidesBottomBarWhenPushed="YES". Same on ParmSettingsViewController, Parm Image Controller, Filter Image Controller, Stack Image Container Controller. Logging changes to track navigation
+
+        hideSliders()
+        panner?.isEnabled = false
+        hideViewControls()
+        parmSlider?.isHidden = true
+
     }
 
     func showRectInput(aRectInputFilter: PGLRectangleFilter) {
@@ -1110,6 +1101,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
 
+    // MARK: rectangle
     var rectController: PGLRectangleController?
 
     @IBOutlet weak var topTintView: UIView!
@@ -1228,7 +1220,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         return fromRect.insetBy(dx: inset, dy: inset)
     }
 
-
+// MARK: Sliders
     func showSliderControl(attribute: PGLFilterAttribute)  {
         hideSliders() // start with all hidden
 
@@ -1307,29 +1299,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 extension PGLImageController: UIGestureRecognizerDelegate {
 
     // MARK: Sliders
-//    @IBAction func parmSliderChange(_ sender: UISlider) {
-//
-//        // later move the logic of sliderValueDidChange to here..
-////        sliderValueDidChange(sender)
-//        // slider in the parmController tableView cell
-//        // Need to ensure that the cell containing the slider control is highlighted
-//        // i.e. tappedAttribute is the parmSliderInputCell
-//        // timer slider is enabled when the cell is selected
-//        // see DidSelectRowAt for the TimerSliderUI case where it is enable
-//
-//        if let target = appStack.targetAttribute {
-//            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController #parmSliderChange  value = \(sender.value)")
-//            target.uiIndexTag = Int(sender.tag)
-//                // multiple controls for attribute distinguished by tag
-//                // color red,green,blue for single setColor usage
-//            let adjustedRate = sender.value //  / 1000
-//            target.set(adjustedRate)
-//        } else {
-//            Logger(subsystem: LogSubsystem, category: LogCategory).error( "PGLSelectParmController parmSliderChange fatalError( tappedAttribute is nil, value can not be changed")
-//            return
-//        }
-//        view.setNeedsDisplay()
-//    }
+
 
     func colorSliderValueDidChange(_ sender: UISlider) {
 

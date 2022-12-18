@@ -310,21 +310,6 @@ class PGLSelectParmController: PGLCommonController,
     override func viewWillDisappear(_ animated: Bool) {
         // remove the parm views and the gesture recogniziers
 
-
-//        let deviceIdom = traitCollection.userInterfaceIdiom
-//        if deviceIdom == .pad {
-////            imageController?.removeGestureRecogniziers()
-//            // the imageController may have pan controls showing.
-//
-//            imageController?.hideParmControls() // just hides the UI controls
-//        } else {
-//
-////                imageController?.keepParmSlidersVisible = true
-//            // this is now controlled by the highlight action and the select
-//            // which triggers navigation to the imageController for
-//            // manipulation of the parm values with a slider or point.
-//
-//        }
         imageController?.hideParmControls() // just hides the UI controls
         for (name , observer) in  notifications {
                        NotificationCenter.default.removeObserver(observer, name: name, object: nil)

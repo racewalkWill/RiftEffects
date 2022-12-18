@@ -121,6 +121,26 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
     }
 
     //MARK: hide/show parm controls
+
+    func togglePosition(theControlView: UIView, enable: Bool) {
+        guard let thePositionView = theControlView as? UIImageView
+        else { return }
+        if enable {
+            thePositionView.isOpaque = true
+                //newView.alpha = 0.6 alpha not used when isOpaque == true
+            thePositionView.tintColor = .systemFill
+            thePositionView.backgroundColor = .systemBackground
+        }
+        else
+        {   thePositionView.isOpaque = false
+            thePositionView.alpha = 0.5
+            thePositionView.tintColor = .systemBackground
+            thePositionView.backgroundColor = .secondarySystemBackground
+
+        }
+        theControlView.setNeedsDisplay()
+    }
+
     func highlight(viewNamed: String) {
 
         // a switch statement might be cleaner
@@ -131,7 +151,8 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
                 // show this view
                 Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight view isHidden = false, hightlight = true")
                 if let imageControl = (aParmControlTuple.value) as? UIImageView {
-                    imageControl.isHidden = false
+//                    imageControl.isHidden = false
+                    togglePosition(theControlView: imageControl, enable: true)
                     imageControl.isHighlighted = true
                     Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UIImageView isHidden = false, hightlight = true")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
