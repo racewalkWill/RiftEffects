@@ -127,15 +127,17 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
         else { return }
         if enable {
             thePositionView.isOpaque = true
-                //newView.alpha = 0.6 alpha not used when isOpaque == true
-            thePositionView.tintColor = .systemFill
-            thePositionView.backgroundColor = .systemBackground
+            thePositionView.alpha = 1.0
+            thePositionView.tintColor = .systemBlue
+//            thePositionView.backgroundColor = nil
+
         }
         else
         {   thePositionView.isOpaque = false
             thePositionView.alpha = 0.5
             thePositionView.tintColor = .systemBackground
-            thePositionView.backgroundColor = .secondarySystemBackground
+//            thePositionView.backgroundColor = nil
+
 
         }
         theControlView.setNeedsDisplay()
@@ -164,6 +166,12 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
 
                 }
 
+            }
+            else {
+                // turn off highlight on other positionControls (UIImageViews)
+                if let viewToDim = (aParmControlTuple.value) as? UIImageView {
+                    togglePosition(theControlView: viewToDim, enable: false)
+                }
             }
 
         }

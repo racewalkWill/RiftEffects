@@ -586,7 +586,7 @@ class PGLSelectParmController: PGLCommonController,
 
         appStack.currentFilter = currentFilter
         appStack.setParms(newFilterParms: filterParms[sectionParms])
-       imageController?.updateParmControls()
+       imageController?.addParmControls()
             // MARK: appStackParmRefactor
            
 
@@ -869,7 +869,7 @@ class PGLSelectParmController: PGLCommonController,
 
         switch tappedAttribute!.attributeUIType() {
         case AttrUIType.pointUI , AttrUIType.rectUI:
-            imageController?.hideParmControls()
+
             if let myPanner = imageController?.panner {
                 myPanner.isEnabled = true
             }

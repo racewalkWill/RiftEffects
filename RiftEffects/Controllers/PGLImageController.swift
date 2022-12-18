@@ -533,7 +533,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setGestureRecogniziers()
-//        updateParmControls() // restore removed position & text controls
+        toggleViewControls(hide: false ) // restore removed position & text controls
     }
 
     func setMoreBtnMenu() {
@@ -864,7 +864,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
 
     // MARK: parmUI
-    func updateParmControls() {
+    func addParmControls() {
         if appStack.parmControls.count > 0 {
 //            NSLog("PGLImageController should remove old parm buttons")
             removeParmControls()
@@ -903,9 +903,14 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         hideSliders()
         panner?.isEnabled = false
-        hideViewControls()
+        toggleViewControls(hide: true)
         parmSlider?.isHidden = true
 
+    }
+
+    func showParmControls() {
+        // unhide viewControls
+        toggleViewControls(hide: false)
     }
 
     func showRectInput(aRectInputFilter: PGLRectangleFilter) {
@@ -918,13 +923,13 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         
     }
 
-    func hideViewControls() {
+    func toggleViewControls(hide: Bool) {
         // should use the attribute methods isPointUI() or isRectUI()..
         for nameAttribute in appStack.parms {
             let parmAttribute = nameAttribute.value
             if parmAttribute.isPointUI() || parmAttribute.isTextInputUI() {
                 let parmView = appStack.parmControls[nameAttribute.key]
-                parmView?.isHidden = true
+                parmView?.isHidden = hide
                 }
             if parmAttribute.isRectUI() {
                 if parmAttribute is PGLAttributeRectangle {
@@ -1009,16 +1014,18 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             newView.frame =  controlFrame
             newView.center = mappedOrigin
 
-            newView.isOpaque = true
-//            newView.alpha = 0.6 alpha not used when isOpaque == true
-//            newView.tintColor = .systemFill
-//            newView.backgroundColor = .systemBackground
+            // initial disabled look
+            // changed in #togglePosition(theControlView:
+            // to enabled look
+            newView.isOpaque = false
+            newView.alpha = 0.5
+            newView.tintColor = .systemBackground
             newView.isUserInteractionEnabled = true
 
 
             view.addSubview(newView)
             appStack.parmControls[attribute.attributeName!] = newView
-            newView.isHidden = true
+//            newView.isHidden = true
         }
         else {
             Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLImageController #addPositionControl fails on no vector value ")}
