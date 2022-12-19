@@ -66,12 +66,7 @@ class PGLExcludeFilters {
         "CIQRCodeGenerator",
         "CIRoundedRectangleGenerator",
         "CIPDF417BarcodeGenerator",
-        "CISourceAtopCompositing",
-        "CISourceInCompositing",
-        "CISourceOutCompositing",
-        "CISourceOverCompositing"
-
-
+        
 
         // 2020-10-18 test run failed filters mostly in testMultipleInputTransitionFilters
 //        "CIDroste", "CIHeightFieldFromMask", "CIColorCrossPolynomial", "CIEdges",

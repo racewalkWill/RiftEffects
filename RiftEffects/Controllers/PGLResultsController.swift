@@ -49,21 +49,13 @@ class PGLResultsController: PGLFilterTableController {
         return shouldHighlight
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var descriptor: PGLFilterDescriptor
-
-        descriptor = matchFilters[indexPath.row]
-//                NSLog("resultsTableController \(#function) mode = Flat")
-
-//        switch mode {
-//            case .Grouped:
-//                setBookmarksGroupMode(indexSection: indexPath.section)
-//            case .Flat :
-//                setBookmarksFlatMode()
-//        }
-//         performFilterPick(descriptor: descriptor)
-
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        var descriptor: PGLFilterDescriptor
+//
+//        descriptor = matchFilters[indexPath.row]
+//
+//
+//    }
 
     
 
