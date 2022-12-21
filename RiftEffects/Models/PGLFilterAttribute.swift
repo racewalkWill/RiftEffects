@@ -1186,9 +1186,20 @@ class PGLFilterAttributeAngle: PGLFilterAttribute {
 
 
 class PGLFilterAttributeAffine: PGLFilterAttribute {
+
+    // the affine itself does not really hold vars to change.
+    // these var, rotation, scale and translate will produce or change
+    // the affine.
+    // the initial values will be defaults
+    // store the rotation, scale and translate vars
+    // the affine becomes a runtime generated value from the stored
+    // rotation, scale & translate
+    // this is in contrast to most other filters where the UI components
+    // update.display the underlying  values from the stored filter
+
+
     var affine = CGAffineTransform.identity
     var rotation: Float = 0.0
-    var oldRotation: Float = 0.0
     var scale = CIVector(x: 1.0, y: 1.0)
     var translate = CIVector(x: 0.0, y: 0.0)
     var valueParms = [PGLFilterAttribute]()
@@ -1208,15 +1219,15 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
         }
         // for reasons that are not clear the translate and scale operations on the affine do not seem to change the image
 
-//        if let translateParm = PGLTranslateAffineUI(pglFilter: aSourceFilter, attributeDict: initDict, inputKey: attributeName!)
-//        {   translateParm.affine(parent: self)
-//            valueParms.append(translateParm) // add translate & scale here
-//        }
-//
-//        if let scaleParm = PGLScaleAffineUI(pglFilter: aSourceFilter, attributeDict: initDict, inputKey: attributeName!)
-//        {   scaleParm.affine(parent: self)
-//            valueParms.append(scaleParm) // add translate & scale here
-//        }
+        if let translateParm = PGLTranslateAffineUI(pglFilter: aSourceFilter, attributeDict: initDict, inputKey: attributeName!)
+        {   translateParm.affine(parent: self)
+            valueParms.append(translateParm) // add translate & scale here
+        }
+
+        if let scaleParm = PGLScaleAffineUI(pglFilter: aSourceFilter, attributeDict: initDict, inputKey: attributeName!)
+        {   scaleParm.affine(parent: self)
+            valueParms.append(scaleParm) // add translate & scale here
+        }
 
         return valueParms
     }
@@ -1234,32 +1245,36 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
 //        NSLog("PGLFilterAttributeAffine setScale NOW affine = \(affine)")
     }
 
-    func setRotation(radians: Float) {
-        let rotationChange = radians - oldRotation
-//        NSLog("setRotation by \(rotationChange)")
-        affine = affine.rotated(by: CGFloat(rotationChange))
-        setAffine()
-        oldRotation = radians
-    }
 
+    func setRotation(radians: Float) {
+
+        affine = affine.rotated(by: CGFloat(radians))
+        rotation = radians
+        setAffine()
+
+    }
 
 
     func setTranslation(moveBy: CIVector) {
 //        NSLog ("setTranslation by: \(moveBy)")
         affine = affine.translatedBy(x: CGFloat(moveBy.x), y: CGFloat(moveBy.y))
+        translate = moveBy
         setAffine()
     }
 
+
+
     override func set(_ value: Any ) {
-        if let newValue = value as? Float {
-            setRotation(radians: newValue)
-        } else { Logger(subsystem: LogSubsystem, category: LogCategory).error ("PGLFilterAttributeAffine set value not converted")}
+        if let newAffine = value as? CGAffineTransform {
+            affine = newAffine
+            setAffine()
+        }
+
     }
     override func incrementValueDelta() {
         // animation time range 0.0 to 1.0
 
-
-            setRotation(radians: oldRotation + attributeValueDelta! )
+            setRotation(radians: attributeValueDelta! )
             postUIChange(attribute: self)
 
     }

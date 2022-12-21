@@ -57,9 +57,9 @@ class PGLExcludeFilters {
 
         // 2022-07-10 exclude failing for beta tests
         "CIAccordionFoldTransition" ,
-        "CIAffineClamp",  // needs transform parm setup
-        "CIAffineTile",  // ditto
-        "CIAffineTransform",
+//        "CIAffineClamp",  // needs transform parm setup
+//        "CIAffineTile",  // ditto
+//        "CIAffineTransform",
         "CIAttributedTextImageGenerator",
         "CIAztecCodeGenerator",
         "CILabDeltaE",

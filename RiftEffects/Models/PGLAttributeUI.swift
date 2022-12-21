@@ -14,12 +14,9 @@ class PGLRotateAffineUI: PGLFilterAttribute {
 
 
     var affineParent: PGLFilterAttributeAffine?
-    var rotation: Float = 0.0
+//    var rotation: Float = 0.0
 
     // MARK: PGLAttributeUI protocol
-
-
-
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
 
@@ -49,7 +46,7 @@ class PGLRotateAffineUI: PGLFilterAttribute {
     }
 
   override  func getValue() -> Any? {
-    return affineParent?.affine
+      return affineParent?.rotation
     }
 
    override func okActionToSetValue() -> Bool {
@@ -118,7 +115,7 @@ class PGLTranslateAffineUI: PGLFilterAttribute {
 
 
     var affineParent: PGLFilterAttributeAffine?
-    var translate = CIVector(x: 0.0, y: 0.0)
+//    var translate = CIVector(x: 0.0, y: 0.0)
 
     // MARK: PGLAttributeUI protocol
 
@@ -146,18 +143,17 @@ class PGLTranslateAffineUI: PGLFilterAttribute {
     }
     override func set(_ value: Any) {
         if let newTranslationVector = value as? CIVector {
-//            let fixedVector = CIVector(x: -1, y: 1)
+
             affineParent?.setTranslation(moveBy: newTranslationVector )  //newTranslationVector
         }
     }
 
     override  func getValue() -> Any? {
-        return affineParent?.affine
+        let parentValue = affineParent?.translate
+       return parentValue
+
     }
     
-   override func getVectorValue() -> CIVector? {
-        return translate
-    }
 
     override func okActionToSetValue() -> Bool {
         return false
@@ -233,7 +229,7 @@ class PGLScaleAffineUI: PGLFilterAttribute {
 
 
     var affineParent: PGLFilterAttributeAffine?
-    var scale = CIVector(x: 0.0, y: 0.0)
+//    var scale = CIVector(x: 0.0, y: 0.0)
 
     // MARK: PGLAttributeUI protocol
 
@@ -258,19 +254,18 @@ class PGLScaleAffineUI: PGLFilterAttribute {
     }
     override func set(_ value: Any) {
         if let newScaleVector = value as? CIVector {
-//            let fixedVector = CIVector(x: 1.01, y: 1.01)
-//            NSLog("set scale newScaleVector = \(newScaleVector)")
-            affineParent?.setScale(vector: newScaleVector) //newTranslationVector
+
+        affineParent?.setScale(vector: newScaleVector)
         }
     }
 
     override  func getValue() -> Any? {
-        return affineParent?.affine
+        return affineParent?.scale
     }
 
-    override func getVectorValue() -> CIVector? {
-        return scale
-    }
+//    override func getVectorValue() -> CIVector? {
+//        return scale
+//    }
 
     override func okActionToSetValue() -> Bool {
         return false

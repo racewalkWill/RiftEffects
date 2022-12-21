@@ -1330,7 +1330,7 @@ extension PGLScaleAffineUI {
             else { return }
         let scaleVector = CIVector(x: CGFloat(storedValue.scaleX), y: CGFloat(storedValue.scaleY))
 
-        scale = scaleVector
+        affineParent?.scale = scaleVector
 
     }
 }
@@ -1394,7 +1394,7 @@ extension PGLTranslateAffineUI {
             else { return }
         let storedVector = CIVector(x: CGFloat(truncating: vectorX), y: CGFloat(truncating: vectorY))
 
-        translate = storedVector
+        affineParent?.translate = storedVector
 
     }
 
