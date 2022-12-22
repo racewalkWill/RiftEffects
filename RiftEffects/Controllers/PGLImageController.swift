@@ -381,6 +381,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        fatalError("remove this method PGLImageController #tableView(_ tableView:didSelectRowAt:")
         // moved to  PGLImageController -
          panner?.isEnabled = false // only enable pan gesture on certain cases
 
@@ -398,8 +399,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             { return }
              selectedParmControlView = thisAttributeControlView
             if let thisAttributeName = modelAttribute.attributeName {
+                toggleViewControls(hide: false)
                 highlight(viewNamed: thisAttributeName)
-                showViewControls()
+
                 if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
                     else { return }
@@ -533,7 +535,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setGestureRecogniziers()
-        toggleViewControls(hide: false ) // restore removed position & text controls
+//        toggleViewControls(hide: false ) // restore removed position & text controls
     }
 
     func setMoreBtnMenu() {
@@ -908,10 +910,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
 
-    func showViewControls() {
-        // unhide viewControls
-        toggleViewControls(hide: false)
-    }
+
 
     func showRectInput(aRectInputFilter: PGLRectangleFilter) {
         guard let thisRectController = rectController
@@ -1025,7 +1024,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
             view.addSubview(newView)
             appStack.parmControls[attribute.attributeName!] = newView
-//            newView.isHidden = true
+            newView.isHidden = true
         }
         else {
             Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLImageController #addPositionControl fails on no vector value ")}

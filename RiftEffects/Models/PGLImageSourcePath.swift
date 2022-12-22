@@ -65,9 +65,6 @@ class PGLAsset: Hashable, Equatable  {
         self.init(sourceAsset, collectionId: nil, collectionLocalTitle: nil)
     }
 
-    deinit {
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
-    }
 
     func releaseVars() {
         sourceInfo = nil

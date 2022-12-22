@@ -870,16 +870,12 @@ class PGLSelectParmController: PGLCommonController,
         switch tappedAttribute!.attributeUIType() {
         case AttrUIType.pointUI , AttrUIType.rectUI:
 
-            if let myPanner = imageController?.panner {
-                myPanner.isEnabled = true
-            }
-
             selectedParmControlView = parmControl(named: (tappedAttribute!.attributeName)!)
                 imageController?.selectedParmControlView = selectedParmControlView
             if let thisAttributeName = tappedAttribute!.attributeName {
                 imageController?.hideParmControls()
                 highlight(viewNamed: thisAttributeName)
-                imageController?.showViewControls()
+                imageController?.toggleViewControls(hide: false)
                 if let thisCropAttribute = tappedAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = currentFilter as? PGLRectangleFilter
                     else { return }
@@ -892,6 +888,9 @@ class PGLSelectParmController: PGLCommonController,
 
 
                     }
+            if let myPanner = imageController?.panner {
+                myPanner.isEnabled = true
+            }
 
             }
       case AttrUIType.sliderUI , AttrUIType.integerUI  :

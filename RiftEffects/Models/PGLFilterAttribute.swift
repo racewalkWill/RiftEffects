@@ -1201,7 +1201,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     var affine = CGAffineTransform.identity
     var rotation: Float = 0.0
     var scale = CIVector(x: 0.0, y: 0.0)
-    var translate = CIVector(x: 0.0, y: 0.0)
+    var translate = CIVector(x: 50.0, y: 50.0)
     var valueParms = [PGLFilterAttribute]()
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {

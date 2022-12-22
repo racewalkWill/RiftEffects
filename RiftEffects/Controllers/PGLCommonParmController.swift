@@ -157,6 +157,7 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
                     
                     togglePosition(theControlView: imageControl, enable: true)
                     imageControl.isHighlighted = true
+                    imageControl.superview?.bringSubviewToFront(imageControl)
 
                     Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UIImageView isHidden = false, hightlight = true")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
