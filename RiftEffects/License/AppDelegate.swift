@@ -95,6 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Logger(subsystem: LogSubsystem, category: LogCategory).notice( " didFinishLaunchingWithOptions appStack created")
         checkVersion()
         MainViewImageResize = UserDefaults.standard.bool(forKey: "MainViewImageResize")
+            // If the specified key doesn‘t exist, this method returns false.
+        
 //        RendererScale = UserDefaults.standard.float(forKey: "RendererScale")
         ShowHelpOnOpen =   UserDefaults.standard.bool(forKey: ShowHelpPageAtStartupKey)
         return true

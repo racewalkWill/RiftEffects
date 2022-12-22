@@ -399,7 +399,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
              selectedParmControlView = thisAttributeControlView
             if let thisAttributeName = modelAttribute.attributeName {
                 highlight(viewNamed: thisAttributeName)
-
+                showViewControls()
                 if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
                     else { return }
@@ -900,7 +900,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         // was it a testing change that was committed??
 
         //  R83.07 removed blank toolbar after filter pick on the iPhone. Storyboard changes: Main Filter Controller setting hidesBottomBarWhenPushed="YES". Same on ParmSettingsViewController, Parm Image Controller, Filter Image Controller, Stack Image Container Controller. Logging changes to track navigation
-
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
         hideSliders()
         panner?.isEnabled = false
         toggleViewControls(hide: true)
@@ -908,7 +908,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
 
-    func showParmControls() {
+    func showViewControls() {
         // unhide viewControls
         toggleViewControls(hide: false)
     }

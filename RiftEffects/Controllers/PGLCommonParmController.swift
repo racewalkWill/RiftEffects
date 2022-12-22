@@ -125,6 +125,7 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
     func togglePosition(theControlView: UIView, enable: Bool) {
         guard let thePositionView = theControlView as? UIImageView
         else { return }
+        // does NOT hide or show.. just changes appearance of UIImageView
         if enable {
             thePositionView.isOpaque = true
             thePositionView.alpha = 1.0
@@ -153,9 +154,10 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
                 // show this view
                 Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight view isHidden = false, hightlight = true")
                 if let imageControl = (aParmControlTuple.value) as? UIImageView {
-//                    imageControl.isHidden = false
+                    
                     togglePosition(theControlView: imageControl, enable: true)
                     imageControl.isHighlighted = true
+
                     Logger(subsystem: LogSubsystem, category: LogCategory).debug("highlight UIImageView isHidden = false, hightlight = true")
                 } else {if let viewControl = (aParmControlTuple.value) as? UITextField {
                     viewControl.isHidden = false

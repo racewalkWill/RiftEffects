@@ -877,8 +877,9 @@ class PGLSelectParmController: PGLCommonController,
             selectedParmControlView = parmControl(named: (tappedAttribute!.attributeName)!)
                 imageController?.selectedParmControlView = selectedParmControlView
             if let thisAttributeName = tappedAttribute!.attributeName {
+                imageController?.hideParmControls()
                 highlight(viewNamed: thisAttributeName)
-
+                imageController?.showViewControls()
                 if let thisCropAttribute = tappedAttribute as? PGLAttributeRectangle {
                     guard let croppingFilter = currentFilter as? PGLRectangleFilter
                     else { return }
