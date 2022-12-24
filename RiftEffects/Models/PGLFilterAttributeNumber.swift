@@ -408,6 +408,21 @@ class PGLFilterAttributeVector: PGLFilterAttribute {
         aSourceFilter.removeWrapperFilter()
     }
 
+// MARK: Vector Scaling
+            func scaleVector(inputVector: CIVector, scaleBy: CGAffineTransform, divideScale: Bool) -> CIVector {
+                var vectorFactor: CGAffineTransform!
+                let newVectorPoint = inputVector.cgPointValue
+                if divideScale {
+                    vectorFactor = scaleBy.inverted()
+                    // divide to smaller
+                } else {
+                    vectorFactor = scaleBy
+                        // multiply to larger
+                }
+                let scaledPoint = newVectorPoint.applying(vectorFactor)
+                let scaledVectorValue = CIVector.init(cgPoint: scaledPoint)
+                return scaledVectorValue
+            }
 
 }
 

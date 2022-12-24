@@ -14,21 +14,14 @@ import CoreImage
 
 class PGLAttributeVectorExpand: PGLFilterAttributeVector {
 
-    var scaler = CGAffineTransform(scaleX: 1000.0, y: 1000.0) {
-        didSet {
-            invertScaler = scaler.inverted()
-        }
-    }
-    var invertScaler = CGAffineTransform(scaleX: 1000.0, y: 1000.0).inverted()
+    var scaler = CGAffineTransform(scaleX: 1000.0, y: 1000.0)
 
     override func set(_ value: Any) {
         // divide by the scaler
         if attributeName != nil {
             if let newVectorValue = value as? CIVector {
 
-                let newVectorPoint = newVectorValue.cgPointValue
-                let scaledPoint = newVectorPoint.applying(invertScaler)
-                let scaledVectorValue = CIVector.init(cgPoint: scaledPoint)
+                let scaledVectorValue = scaleVector(inputVector: newVectorValue, scaleBy: scaler, divideScale: true)
 
                 aSourceFilter.setVectorValue(newValue: scaledVectorValue, keyName: attributeName!) }
         }
@@ -40,11 +33,11 @@ class PGLAttributeVectorExpand: PGLFilterAttributeVector {
        guard let filterValue = getValue() as? CIVector
         else { return CIVector.init(cgPoint: CGPoint.zero)}
 
-        let newVectorPoint = filterValue.cgPointValue
-        let scaledPoint = newVectorPoint.applying(scaler)
-        let scaledVectorValue = CIVector.init(cgPoint: scaledPoint)
+        let scaledVectorValue = scaleVector(inputVector: filterValue, scaleBy: scaler, divideScale: false)
+
         return scaledVectorValue
     }
+
 
 
 }

@@ -1201,7 +1201,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     var affine = CGAffineTransform.identity
     var rotation: Float = 0.0
     var scale = CIVector(x: 0.0, y: 0.0)
-    var translate = CIVector(x: 50.0, y: 50.0)
+    var translate = CIVector(x: 0.0, y: 0.0)
     var valueParms = [PGLFilterAttribute]()
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
@@ -1248,6 +1248,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
 
 
     func setRotation(radians: Float) {
+        // should radians be normalized to a 0..1.0 range?
 
         affine = affine.rotated(by: CGFloat(radians))
         rotation = radians
