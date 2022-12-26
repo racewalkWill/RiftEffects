@@ -288,6 +288,7 @@ extension Renderer: MTKViewDelegate {
 
         // move vertices back to class? only changes on size change
         let scalar: Float32 = RendererScale
+            // controls the size of the background color frame around the image area in mtkView
         var scalarX = scalar
         var scalarY = scalar
 

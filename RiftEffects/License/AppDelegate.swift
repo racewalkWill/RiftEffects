@@ -23,6 +23,8 @@ var LogMigration = "PGL_Migration"
 // caution on changes it is a GLOBAL
 
 var RendererScale:Float32 = 0.98
+// controls the size of the background color frame around the image area in mtkView
+
 var MainViewImageResize = false
 
 // or false to not perform ciOutputImage.cropped(to: currentStack.cropRect) in Render #drawIn

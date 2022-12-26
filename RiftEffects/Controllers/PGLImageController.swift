@@ -772,13 +772,29 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 view.addSubview(theMetalView)
                 view.bringSubviewToFront(theMetalView)
                 metalController = myMetalControllerView  // hold the ref
-                NSLayoutConstraint.activate([
-                    theMetalView.topAnchor.constraint(equalTo: view.topAnchor),
-                    theMetalView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                    theMetalView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    theMetalView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                    theMetalView.widthAnchor.constraint(equalTo: view.heightAnchor , multiplier: 4/3),
-                ])
+                let iPhoneCompact =  splitViewController?.isCollapsed ?? false
+
+                if iPhoneCompact {  // iPhone case
+                    NSLayoutConstraint.activate([
+                        theMetalView.topAnchor.constraint(equalTo: view.topAnchor),
+                        theMetalView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                        theMetalView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                        theMetalView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
+                        theMetalView.widthAnchor.constraint(equalTo: view.heightAnchor , multiplier: 4/3),
+                        // iphone width constraint
+                    ]) }
+                else {  // iPad case
+                    NSLayoutConstraint.activate([
+                        theMetalView.topAnchor.constraint(equalTo: view.topAnchor),
+                        theMetalView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                        theMetalView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                        theMetalView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
+                        theMetalView.widthAnchor.constraint(equalTo: view.widthAnchor ),
+                        // iPad width constraint
+                    ])
+                }
                 myScaleFactor = theMetalView.contentScaleFactor
                 myScaleTransform = CGAffineTransform(scaleX: myScaleFactor, y: myScaleFactor )
                 myMetalControllerView.didMove(toParent: self)
