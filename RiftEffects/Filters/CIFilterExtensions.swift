@@ -69,7 +69,18 @@ extension CIFilter {
           "CIColorPolynomial": [PGLColorVectorNumeric.self],
           "CIColorCrossPolynomial": [PGLColorVectorNumeric.self],
 
-          "CIToneCurve": [PGLVectorBasedFilter.self]
+          "CIToneCurve": [PGLVectorBasedFilter.self],
+
+          "CIConvolution3X3" : [PGLConvolutionFilter.self],
+          "CIConvolution5X5" : [PGLConvolutionFilter.self],
+          "CIConvolution7X7" : [PGLConvolutionFilter.self],
+          "CIConvolution9X9Horizontal" : [PGLConvolutionFilter.self],
+          "CIConvolution9X9Vertical" : [PGLConvolutionFilter.self],
+          "CIConvolutionRGB3X3" : [PGLConvolutionFilter.self],
+          "CIConvolutionRGB5X5" : [PGLConvolutionFilter.self],
+          "CIConvolutionRGB7X7" : [PGLConvolutionFilter.self],
+          "CIConvolutionRGB9X9Horizontal" : [PGLConvolutionFilter.self],
+          "CIConvolutionRGB9X9Vertical" : [PGLConvolutionFilter.self]
             
         ]
         return answerDict

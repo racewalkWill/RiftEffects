@@ -1218,7 +1218,6 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
         {   rotateParm.affine(parent: self)
             valueParms.append(rotateParm) // add translate & scale here
         }
-        // for reasons that are not clear the translate and scale operations on the affine do not seem to change the image
 
         if let translateParm = PGLTranslateAffineUI(pglFilter: aSourceFilter, attributeDict: initDict, inputKey: attributeName!)
         {   translateParm.affine(parent: self)
