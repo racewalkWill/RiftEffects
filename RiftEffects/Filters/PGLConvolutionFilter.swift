@@ -79,6 +79,15 @@ class PGLConvolutionFilter: PGLSourceFilter {
             return PGLFilterAttribute.parmClass(parmDict: parmDict) }
        }
 
+    func weightsAttributeName() -> String {
+        return "Weights"
+    }
+
+    func weightsParmDict() -> [String : Any] {
+
+        return (localFilter.attributes[weightsAttributeName()]) as! [String : Any]
+    }
+
 }
 
 

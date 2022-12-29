@@ -131,6 +131,7 @@
 		A3E6243D2691261A0017372F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A3E6243C2691261A0017372F /* Settings.bundle */; };
 		A3EF3EF4294AA3A900AD0B10 /* PGLAttributeVectorExpand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF3EF3294AA3A900AD0B10 /* PGLAttributeVectorExpand.swift */; };
 		A3F64FCE24E85ACB00BB38BD /* PGLOffScreenRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */; };
+		A3F8E97D295B55B900A1E014 /* PGLNumericSliderUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F8E97C295B55B900A1E014 /* PGLNumericSliderUI.swift */; };
 		A3FB765C28D7AF6500595461 /* PGLWindowSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB765B28D7AF6500595461 /* PGLWindowSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -287,6 +288,7 @@
 		A3E6243C2691261A0017372F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A3EF3EF3294AA3A900AD0B10 /* PGLAttributeVectorExpand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLAttributeVectorExpand.swift; sourceTree = "<group>"; };
 		A3F64FCD24E85ACB00BB38BD /* PGLOffScreenRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLOffScreenRender.swift; sourceTree = "<group>"; };
+		A3F8E97C295B55B900A1E014 /* PGLNumericSliderUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLNumericSliderUI.swift; sourceTree = "<group>"; };
 		A3FB765B28D7AF6500595461 /* PGLWindowSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLWindowSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -464,6 +466,7 @@
 				A3BF505D24D32A3400CD5114 /* PGLVisionProtocol.swift */,
 				A3BF50B124D32A3400CD5114 /* PGLPhotoLists.swift */,
 				A3BF507324D32A3400CD5114 /* PGLAttributeUI.swift */,
+				A3F8E97C295B55B900A1E014 /* PGLNumericSliderUI.swift */,
 				A3552BEB29463C10002FBC72 /* PGLAttributeVectorNumericUI.swift */,
 				A3552BED2946AA7D002FBC72 /* PGLAttributeVectorNumeric.swift */,
 				A3EF3EF3294AA3A900AD0B10 /* PGLAttributeVectorExpand.swift */,
@@ -783,6 +786,7 @@
 				A3BF513C24D32A3400CD5114 /* PGLAssetSequenceController.swift in Sources */,
 				A3BF510724D32A3400CD5114 /* PGLTextFilter.swift in Sources */,
 				A3712BFD2908628400993C5E /* CDStoredFilter+CoreDataClass.swift in Sources */,
+				A3F8E97D295B55B900A1E014 /* PGLNumericSliderUI.swift in Sources */,
 				A31FAF9F28F5E619002DCFEA /* PGLSequenceDissolve.swift in Sources */,
 				A3BF50EA24D32A3400CD5114 /* PGLFilterChange.swift in Sources */,
 				A35D412D294B678B00EDEB4E /* PGLVectorBasedFilter.swift in Sources */,
