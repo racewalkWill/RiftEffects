@@ -17,6 +17,17 @@ struct Matrix {
 
     let rows: Int, columns: Int
     var grid: [Double]
+
+    static func FromVector(baseSize: Int, vector: CIVector) -> Matrix {
+        var vectorMatrix = Matrix(rows: baseSize, columns: baseSize)
+        for thisRow in 0..<baseSize {
+            for thisColumn in 0..<baseSize {
+                let rowOffset = thisRow * baseSize
+                vectorMatrix[thisRow , thisColumn ] = vector.value(at: rowOffset + thisColumn)
+            }
+        }
+        return vectorMatrix
+    }
     init(rows: Int, columns: Int) {
         self.rows = rows
         self.columns = columns
@@ -73,7 +84,7 @@ class PGLConvolutionFilter: PGLSourceFilter {
 
         if  (parmDict[kCIAttributeClass] as! String == AttrClass.Vector.rawValue)
         {
-           return PGLAttributeVectorExpand.self }
+           return PGLAttributeWeightsVector.self }
         else {
                 // not a vector parm... return a normal lookup.. usually the imageParm
             return PGLFilterAttribute.parmClass(parmDict: parmDict) }
