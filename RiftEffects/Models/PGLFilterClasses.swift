@@ -116,11 +116,9 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                 let parmAttributeClass = parmClass(parmDict: inputParmDict)
                 if let thisParmAttribute = parmAttributeClass.init(pglFilter: self, attributeDict: inputParmDict, inputKey: anAttributeKey  )
                     {
-                        for valueAttribute in thisParmAttribute.valueInterface() {
-                            // some parmAttributes have multitple value settings (AffineTransform etc)
-                            // most just answer themselves for the value UI (slider, position...)
-                            attributes.append( valueAttribute )
-                        }
+                    attributes.append(contentsOf: thisParmAttribute.valueInterface())
+                           // some parmAttributes have multitple value settings (AffineTransform etc)
+                           // most just answer themselves for the value UI (slider, position...)
                 }
                 isImageInputType =  attributes.contains { (attribute: PGLFilterAttribute ) -> Bool in
                     attribute.isImageInput()

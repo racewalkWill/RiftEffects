@@ -18,11 +18,11 @@ struct Matrix {
     let rows: Int, columns: Int
     var grid: [Double]
 
-    static func FromVector(baseSize: Int, vector: CIVector) -> Matrix {
-        var vectorMatrix = Matrix(rows: baseSize, columns: baseSize)
-        for thisRow in 0..<baseSize {
-            for thisColumn in 0..<baseSize {
-                let rowOffset = thisRow * baseSize
+    static func FromVector(baseRows: Int, baseColumns: Int ,  vector: CIVector) -> Matrix {
+        var vectorMatrix = Matrix(rows: baseRows, columns: baseColumns)
+        for thisRow in 0..<baseRows {
+            for thisColumn in 0..<baseColumns {
+                let rowOffset = thisRow * baseRows
                 vectorMatrix[thisRow , thisColumn ] = vector.value(at: rowOffset + thisColumn)
             }
         }
@@ -55,25 +55,41 @@ class PGLConvolutionFilter: PGLSourceFilter {
     //  "CIConvolution3X3", or "CIConvolution9Horizontal"
 
     var matrixSize = 0
-    var isOneRow = false
+    var isSquareMatrix = true
     // set matrixSize from the filter name
     var filterMatrix = Matrix(rows: 0, columns: 0)
+    var weightsParmDict: [String : Any ]!
 
     required init?(filter: String, position: PGLFilterCategoryIndex) {
-        super.init(filter: filter, position: position)
 
-        matrixSize = Int(filterName) ?? 0
             // assumes that the size char is in the name..
-
-        if matrixSize == 9 {
-            // not a full matrix.. just 1 x 9 size
-            isOneRow = true
-            filterMatrix = Matrix(rows: 1, columns: matrixSize)
+        if filter.firstIndex(of: "3") != nil {
+            matrixSize = 3
         }
-        else {
-            isOneRow = false
+        else { if filter.firstIndex(of: "5") != nil {
+            matrixSize = 5
+            }
+            else { if filter.firstIndex(of: "7") != nil {
+                matrixSize = 7
+                }
+                else { if filter.firstIndex(of: "9") != nil {
+                    // one of the CIConvolution9Horizontal or CIConvolution9Vertical
+                    matrixSize = 9
+                    isSquareMatrix = false
+                    }
+                }
+            }
+        }
+        if isSquareMatrix {
             filterMatrix = Matrix(rows: matrixSize, columns: matrixSize)
         }
+        else { filterMatrix = Matrix(rows: 1, columns: matrixSize)
+                // 1x9  CIConvolution9Horizontal or CIConvolution9Vertical
+        }
+
+        super.init(filter: filter, position: position)
+
+
 
 
     }
@@ -84,6 +100,7 @@ class PGLConvolutionFilter: PGLSourceFilter {
 
         if  (parmDict[kCIAttributeClass] as! String == AttrClass.Vector.rawValue)
         {
+            weightsParmDict = parmDict
            return PGLAttributeWeightsVector.self }
         else {
                 // not a vector parm... return a normal lookup.. usually the imageParm
@@ -94,10 +111,6 @@ class PGLConvolutionFilter: PGLSourceFilter {
         return "Weights"
     }
 
-    func weightsParmDict() -> [String : Any] {
-
-        return (localFilter.attributes[weightsAttributeName()]) as! [String : Any]
-    }
 
 }
 

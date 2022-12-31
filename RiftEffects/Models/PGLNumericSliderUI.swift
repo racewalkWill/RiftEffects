@@ -17,15 +17,16 @@ class PGLNumericSliderUI: PGLFilterAttribute {
     var row = 0
     var column = 0
 
-    var convolutionParent: PGLConvolutionFilter!
+    var convolutionWeights: PGLAttributeWeightsVector!
 
-    init?(convolution: PGLConvolutionFilter, matrixRow: Int, matrixColumn: Int) {
+    init?(convolution: PGLAttributeWeightsVector, matrixRow: Int, matrixColumn: Int) {
 
-        convolutionParent = convolution
+        convolutionWeights = convolution
         row = matrixRow
         column = matrixColumn
 
-        super.init(pglFilter: convolution, attributeDict: convolution.weightsParmDict(), inputKey: convolution.weightsAttributeName())
+        
+        super.init(pglFilter: convolution.aSourceFilter, attributeDict: convolution.initDict, inputKey: convolution.attributeName!)
 
 
         attributeDisplayName = "Point"
@@ -46,7 +47,16 @@ class PGLNumericSliderUI: PGLFilterAttribute {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
     }
 
+    override  func getValue() -> Any? {
+        if attributeName != nil {
+            let generic = convolutionWeights.getValue(row: row, column: column)
+            return generic
+            }
+        else { return nil }
 
+
+
+    }
 
 
 }
