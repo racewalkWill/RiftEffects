@@ -29,8 +29,8 @@ class PGLNumericSliderUI: PGLFilterAttribute {
         super.init(pglFilter: convolution.aSourceFilter, attributeDict: convolution.initDict, inputKey: convolution.attributeName!)
 
 
-        attributeDisplayName = "row"
-        attributeName = attributeDisplayName! + " \(row)x\(column)"
+        attributeDisplayName = "\(row)x\(column)"
+        attributeName = attributeDisplayName! + "weight"
             // attributeName is index for parm controls must be unique
 
         attributeType = AttrType.Scalar.rawValue
@@ -59,9 +59,9 @@ class PGLNumericSliderUI: PGLFilterAttribute {
     }
 
     override func set(_ value: Any) {
-        if let newWeight = value as? CGFloat {
-            convolutionWeights.setWeight(newValue: newWeight, row: row, column: column)
-        }
+         let newWeight = CGFloat(value as? Float ?? 0.0)
+        convolutionWeights.setWeight(newValue: newWeight, row: row, column: column)
+
     }
 
 // MARK: UI sliders
@@ -74,6 +74,7 @@ class PGLNumericSliderUI: PGLFilterAttribute {
     override func setUICellDescription(_ uiCell: UITableViewCell) {
         guard let cell = (uiCell as? PGLTableCellSlider?)
             else { return super.setUICellDescription(uiCell) }
+        cell!.textLabel?.text = attributeDisplayName
 
         guard let slider = cell?.sliderControl
             else { return super.setUICellDescription(uiCell)  }

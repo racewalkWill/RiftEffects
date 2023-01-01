@@ -108,7 +108,7 @@ class PGLConvolutionFilter: PGLSourceFilter {
        }
 
     func weightsAttributeName() -> String {
-        return "Weights"
+        return "inputWeights"
     }
 
     func setWeights(weightMatrix: Matrix) {
