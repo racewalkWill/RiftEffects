@@ -29,7 +29,7 @@ class PGLNumericSliderUI: PGLFilterAttribute {
         super.init(pglFilter: convolution.aSourceFilter, attributeDict: convolution.initDict, inputKey: convolution.attributeName!)
 
 
-        attributeDisplayName = "Point"
+        attributeDisplayName = "row"
         attributeName = attributeDisplayName! + " \(row)x\(column)"
             // attributeName is index for parm controls must be unique
 
@@ -47,16 +47,53 @@ class PGLNumericSliderUI: PGLFilterAttribute {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
     }
 
-    override  func getValue() -> Any? {
-        if attributeName != nil {
-            let generic = convolutionWeights.getValue(row: row, column: column)
-            return generic
-            }
-        else { return nil }
 
+
+    override  func getValue() -> Any? {
+        return getWeightValue()
+    }
+
+    func getWeightValue() -> CGFloat? {
+          return convolutionWeights.getValue(row: row, column: column)
+
+    }
+
+    override func set(_ value: Any) {
+        if let newWeight = value as? CGFloat {
+            convolutionWeights.setWeight(newValue: newWeight, row: row, column: column)
+        }
+    }
+
+// MARK: UI sliders
+    override func uiCellIdentifier() -> String {
+     // uncomment this to have the number slider appear in the parm cell
+     // otherwise it appears in the image
+            return  "parmSliderInputCell"
+        }
+
+    override func setUICellDescription(_ uiCell: UITableViewCell) {
+        guard let cell = (uiCell as? PGLTableCellSlider?)
+            else { return super.setUICellDescription(uiCell) }
+
+        guard let slider = cell?.sliderControl
+            else { return super.setUICellDescription(uiCell)  }
+
+        slider.minimumValue = sliderMinValue ?? 0.0
+        slider.maximumValue = sliderMaxValue ?? 1.0
+
+        slider.value = Float(getWeightValue() ?? 0.0 )
 
 
     }
+
+    override    func isSliderUI() -> Bool {
+        return true
+    }
+
+    override   func attributeUIType() -> AttrUIType {
+        return AttrUIType.timerSliderUI
+    }
+
 
 
 }

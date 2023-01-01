@@ -20,12 +20,20 @@ class PGLAttributeWeightsVector: PGLFilterAttributeVector {
 
     lazy var localMatrix: Matrix = getMatrixValue()
 
-    override func set(_ value: Any) {
-        guard let newValue = (value as? CIVector)
-        else { return }
-            // from the parent ConvlustionFilter get the
-            // matrix
-        fatalError("call the filter set with the attribute name")
+//    override func set(_ value: Any) {
+//        guard let newValue = (value as? CIVector)
+//        else { return }
+//            // from the parent ConvlustionFilter get the
+//            // matrix
+//        fatalError("call the filter set with the attribute name")
+//    }
+
+    func setWeight(newValue: Double, row: Int, column: Int) {
+        localMatrix[row, column] = newValue
+        // update matrix into the filter vector
+       guard let parentConvolutionFilter =  aSourceFilter as? PGLConvolutionFilter
+        else { return  }
+        parentConvolutionFilter.setWeights(weightMatrix: localMatrix)
     }
 
      func getMatrixValue() -> Matrix {
@@ -61,7 +69,7 @@ class PGLAttributeWeightsVector: PGLFilterAttributeVector {
         return vectorMatrix
     }
 
-    func getValue(row: Int, column: Int) -> Double {
+    func getValue(row: Int, column: Int) -> CGFloat {
         return localMatrix[row, column]
     }
 

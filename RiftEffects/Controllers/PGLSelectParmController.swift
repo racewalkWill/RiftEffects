@@ -920,6 +920,7 @@ class PGLSelectParmController: PGLCommonController,
                 selectedSliderCell.sliderControl.isEnabled = true
             }
             imageController?.hideSliders()
+
 //        case AttrUIType.imagePickUI :
             // did the photo or filter cell get touched?
           //  pickImage(tappedAttribute!)

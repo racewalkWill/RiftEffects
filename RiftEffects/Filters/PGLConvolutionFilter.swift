@@ -16,7 +16,7 @@ struct Matrix {
     */
 
     let rows: Int, columns: Int
-    var grid: [Double]
+    var grid: [CGFloat]
 
     static func FromVector(baseRows: Int, baseColumns: Int ,  vector: CIVector) -> Matrix {
         var vectorMatrix = Matrix(rows: baseRows, columns: baseColumns)
@@ -109,6 +109,12 @@ class PGLConvolutionFilter: PGLSourceFilter {
 
     func weightsAttributeName() -> String {
         return "Weights"
+    }
+
+    func setWeights(weightMatrix: Matrix) {
+        //
+        let newVector = CIVector(values: weightMatrix.grid, count: weightMatrix.grid.count)
+        setVectorValue(newValue: newVector, keyName: weightsAttributeName())
     }
 
 
