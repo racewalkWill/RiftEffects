@@ -22,14 +22,7 @@ class PGLResultsController: PGLFilterTableController {
         return matchFilters.count
     }
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        switch mode {
-//        case .Flat:
-//            return 1
-//        case .Grouped
-//            return categories.count
-//        }
-//    }
+
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PGLFilterTableController.tableViewCellIdentifier, for: indexPath)
@@ -48,19 +41,4 @@ class PGLResultsController: PGLFilterTableController {
         }
         return shouldHighlight
     }
-
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        var descriptor: PGLFilterDescriptor
-//
-//        descriptor = matchFilters[indexPath.row]
-//
-//
-//    }
-
-    
-
-
-
-
-   
 }

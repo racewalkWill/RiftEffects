@@ -29,14 +29,14 @@ class PGLNumericSliderUI: PGLFilterAttribute {
         super.init(pglFilter: convolution.aSourceFilter, attributeDict: convolution.initDict, inputKey: convolution.attributeName!)
 
 
-        attributeDisplayName = "\(row)x\(column)"
+        attributeDisplayName = "\(row),\(column)"
         attributeName = attributeDisplayName! + "weight"
             // attributeName is index for parm controls must be unique
 
         attributeType = AttrType.Scalar.rawValue
             // Interface Builder slider max attribute controls these setting
-        sliderMaxValue = 1.0
-        sliderMinValue = 0.0
+        sliderMaxValue = 2.0
+        sliderMinValue = -2.0
         defaultValue = 0.0
         identityValue = 0.0
         indentLevel = 1
@@ -60,6 +60,7 @@ class PGLNumericSliderUI: PGLFilterAttribute {
 
     override func set(_ value: Any) {
          let newWeight = CGFloat(value as? Float ?? 0.0)
+        
         convolutionWeights.setWeight(newValue: newWeight, row: row, column: column)
 
     }
@@ -76,13 +77,15 @@ class PGLNumericSliderUI: PGLFilterAttribute {
             else { return super.setUICellDescription(uiCell) }
         cell!.textLabel?.text = attributeDisplayName
 
+
         guard let slider = cell?.sliderControl
             else { return super.setUICellDescription(uiCell)  }
 
-        slider.minimumValue = sliderMinValue ?? 0.0
-        slider.maximumValue = sliderMaxValue ?? 1.0
+        slider.minimumValue = sliderMinValue ?? -2.0
+        slider.maximumValue = sliderMaxValue ?? +2.0
 
         slider.value = Float(getWeightValue() ?? 0.0 )
+//        cell?.showTextValueInCell()
 
 
     }

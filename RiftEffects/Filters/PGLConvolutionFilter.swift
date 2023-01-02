@@ -46,6 +46,16 @@ struct Matrix {
             grid[(row * columns) + column] = newValue
         }
     }
+
+    mutating func normalize() {
+        // normalize it grid dividing each element by the sum of all elements
+        var gridSum: CGFloat = 0.0
+        for i in 0..<grid.count {
+            gridSum += grid[i]
+        }
+        let newGrid = grid.map{ $0/gridSum}
+        grid = newGrid
+    }
 }
 
 
@@ -88,7 +98,10 @@ class PGLConvolutionFilter: PGLSourceFilter {
         }
 
         super.init(filter: filter, position: position)
-
+        if let normalizeButtonAttribute = PGLButtonCellUI(pglFilter: self, attributeDict: [String : Any]() , inputKey: "")  {
+           attributes.append(normalizeButtonAttribute )
+            
+        }
 
 
 
@@ -115,6 +128,17 @@ class PGLConvolutionFilter: PGLSourceFilter {
         //
         let newVector = CIVector(values: weightMatrix.grid, count: weightMatrix.grid.count)
         setVectorValue(newValue: newVector, keyName: weightsAttributeName())
+    }
+
+    func normalizeWeights() {
+        // per documentation
+        /*If you want to preserve the overall brightness of the image, ensure that the sum of all values in the weight matrix is 1.0. You may find it convenient to devise a weight matrix without this constraint and then normalize it by dividing each element by the sum of all elements, as shown in the figure below
+         */
+        filterMatrix.normalize()
+        setWeights(weightMatrix: filterMatrix)
+            // converts to CIVector and assigns normalized values to filter weights attribute
+
+        
     }
 
 

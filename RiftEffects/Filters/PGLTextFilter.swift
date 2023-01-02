@@ -21,7 +21,7 @@ class PGLTextFilter: PGLSourceFilter {
         // CIQRCodeGenerator  inputMessage 
         // CITextImageGenerator inputText
 
-    // see the PGLSelectParmController methods for UITextFieldDelegate
+    // see the PGLCommonController methods for UITextFieldDelegate
 
 }
 
