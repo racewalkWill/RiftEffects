@@ -8,7 +8,7 @@
 
 import CoreImage
 
-struct Matrix {
+class Matrix {
     /* from p 277
         The Swift Programming Language (Swift 5.6)
         Apple Inc.
@@ -18,7 +18,7 @@ struct Matrix {
     let rows: Int, columns: Int
     var grid: [CGFloat]
 
-    static func FromVector(baseRows: Int, baseColumns: Int ,  vector: CIVector) -> Matrix {
+    class func FromVector(baseRows: Int, baseColumns: Int ,  vector: CIVector) -> Matrix {
         var vectorMatrix = Matrix(rows: baseRows, columns: baseColumns)
         for thisRow in 0..<baseRows {
             for thisColumn in 0..<baseColumns {
@@ -47,14 +47,16 @@ struct Matrix {
         }
     }
 
-    mutating func normalize() {
+     func normalize() {
         // normalize it grid dividing each element by the sum of all elements
         var gridSum: CGFloat = 0.0
         for i in 0..<grid.count {
             gridSum += grid[i]
         }
+        NSLog("matrix normalize start \(grid)")
         let newGrid = grid.map{ $0/gridSum}
         grid = newGrid
+        NSLog("matrix normalize end \(grid)")
     }
 }
 
@@ -102,6 +104,12 @@ class PGLConvolutionFilter: PGLSourceFilter {
            attributes.append(normalizeButtonAttribute )
             
         }
+        if let bias = attribute(nameKey:"inputBias") as? PGLFilterAttributeNumber {
+            // add some needed extras for the attribute inputBias
+            bias.sliderMaxValue = 1.0  // defn is nil
+            bias.sliderMinValue = 0.0   // defn is nil
+            bias.minValue = 0.0 // defn is nil
+        }
 
 
 
@@ -126,6 +134,7 @@ class PGLConvolutionFilter: PGLSourceFilter {
 
     func setWeights(weightMatrix: Matrix) {
         //
+        filterMatrix = weightMatrix
         let newVector = CIVector(values: weightMatrix.grid, count: weightMatrix.grid.count)
         setVectorValue(newValue: newVector, keyName: weightsAttributeName())
     }
