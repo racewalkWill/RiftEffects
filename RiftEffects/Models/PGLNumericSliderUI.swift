@@ -9,6 +9,7 @@
 import Foundation
 
 import UIKit
+import os
 
 class PGLNumericSliderUI: PGLFilterAttribute {
     // number slider in the parm list cell
@@ -28,7 +29,12 @@ class PGLNumericSliderUI: PGLFilterAttribute {
         
         super.init(pglFilter: convolution.aSourceFilter, attributeDict: convolution.initDict, inputKey: convolution.attributeName!)
 
-
+        if attributeClass == nil {
+            Logger(subsystem: LogSubsystem, category: LogCategory).error ("\( String(describing: self) + "-" + #function) attributeClass is nil")
+            fatalError()
+        } else {
+//            NSLog("\( String(describing: self) + "-" + #function) attributeClass \(attributeClass)")
+        }
         attributeDisplayName = "\(row),\(column)"
         attributeName = attributeDisplayName! + "weight"
             // attributeName is index for parm controls must be unique

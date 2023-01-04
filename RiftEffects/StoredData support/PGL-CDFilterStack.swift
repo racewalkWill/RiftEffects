@@ -187,6 +187,7 @@ extension PGLSourceFilter {
         for aParmValue in myStoredValues {
             guard let typedValue = aParmValue as? CDParmValue
             else { continue }
+//            NSLog("\( String(describing: self) + "-" + #function) typedValue.attributeName \(typedValue.attributeName)")
             if let parmAttribute = newSource.attribute(nameKey: typedValue.attributeName!) {
                 parmAttribute.setStoredValueToAttribute(typedValue)
                 if parmAttribute.hasAnimation() {  newSource.startAnimationBasic(attributeTarget: parmAttribute) }
@@ -1200,6 +1201,59 @@ extension PGLFilterAttributeVector {
     }
 }
 
+extension PGLNumericSliderUI {
+    // implements parms in the parent PGLAttributeWeightsVector of the PGLConvolutionFilter
+    // one UI object for each weight value in the weightsVector
+
+    @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
+        var cd: CDAttributeVector
+        if storedParmValue == nil {
+            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector", into: moContext)) as! CDAttributeVector)
+            storedParmValue = cd
+            setCDParmValueRelation()
+
+        } else {
+            cd = storedParmValue as! CDAttributeVector
+        }
+        guard let myValue = getWeightValue()
+            else { return }
+
+        // x,y are the weights row, column
+        // endX is the weights value
+
+        cd.vectorX = row as NSNumber
+        cd.vectorY = column as NSNumber
+
+            // endpoint used in the vary scenerio?
+        cd.vectorEndX = (myValue) as NSNumber
+
+    }
+
+    @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
+        // assumes that parent attribute with convolutionWeights CIVector exists
+
+        super.setStoredValueToAttribute(value)
+        guard let storedValue = value as? CDAttributeVector
+            else { return }
+
+        if let theVaryDelta = attributeValueDelta
+            { storedValue.attributeValueDelta = ((theVaryDelta) as NSNumber) }
+        else { storedValue.attributeValueDelta = nil}
+        let row = Int(truncating: storedValue.vectorX ?? 0 )
+
+        let column = Int(truncating: storedValue.vectorY ?? 0 )
+
+
+        let weightValue = storedValue.vectorEndX
+//        NSLog("\( String(describing: self) + "-" + #function) weightValue \(weightValue)")
+        convolutionWeights.setWeight(newValue: weightValue as! Double , row: row, column: column)
+
+
+        // did not call setVectorEndPoint.. not clear on this
+
+    }
+}
+
 extension PGLAttributeVectorNumericUI {
     @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
         self.parentVectorAttribute?.storeParmValue(moContext: moContext)
@@ -1434,18 +1488,6 @@ extension PGLFilterAttributeVector3 {
 
 }
 
-//extension PGLVectorNumeric3UI {
-//   this can be stored as PGLFilterAttibuteVector3..?
-//    @objc override func storeParmValue() {
-//        super.storeParmValue()
-//        guard let parmValue = storedParmValue
-//        else { return }
-//
-//        guard let parentVectorAttribute = zValueParent
-//        else { return }
 
-//        parmValue.floatValue = Float(parentVectorAttribute.zValue)
-//    }
-//}
 
 
