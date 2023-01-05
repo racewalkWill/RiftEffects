@@ -1191,7 +1191,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     // these var, rotation, scale and translate will produce or change
     // the affine.
     // the initial values will be defaults
-    // store the rotation, scale and translate vars
+    
     // the affine becomes a runtime generated value from the stored
     // rotation, scale & translate
     // this is in contrast to most other filters where the UI components
@@ -1203,6 +1203,17 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     var scale = CIVector(x: 0.0, y: 0.0)
     var translate = CIVector(x: 0.0, y: 0.0)
     var valueParms = [PGLFilterAttribute]()
+
+    //MARK: affine matrix vars
+        // init to identity values
+        // used to read affine
+           var a: Double?
+           var b: Double?
+           var c: Double?
+           var d: Double?
+           var tx: Double?
+           var ty: Double?
+
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String:Any], inputKey: String ) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
@@ -1234,6 +1245,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
 
     func setAffine() {
 //      NSLog("setAffine = \(affine)")
+
         let nsTransform = NSValue(cgAffineTransform: affine)
         aSourceFilter.setNSValue(newValue: nsTransform, keyName: attributeName!)
     }

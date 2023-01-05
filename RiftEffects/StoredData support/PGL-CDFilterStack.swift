@@ -919,14 +919,45 @@ extension PGLFilterAttributeAffine {
             cdAffine = storedParmValue as! CDAttributeAffine
         }
 
-        // assign current values for coreData
-        cdAffine.vectorAngle = rotation
-        cdAffine.vectorX = Float(scale.x)
-        cdAffine.vectorY = Float(scale.y)
-        cdAffine.vectorZ = Float(translate.x)
-        cdAffine.vectorLength = Float(translate.y)
-        // reusing the vectorZ and vectorLength to store the translate vector
+        cdAffine.vectorX = 1
+        cdAffine.vectorY = 1
+        cdAffine.vectorZ = Float(affine.a)
 
+        // if not stored.. but where is stored one to update?
+        cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
+        storedParmValue = cdAffine
+        setCDParmValueRelation()
+        cdAffine.vectorX = 1
+        cdAffine.vectorY = 2
+        cdAffine.vectorZ = Float(affine.b)
+
+        cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
+        storedParmValue = cdAffine
+        setCDParmValueRelation()
+        cdAffine.vectorX = 2
+        cdAffine.vectorY = 1
+        cdAffine.vectorZ = Float(affine.c)
+
+        cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
+        storedParmValue = cdAffine
+        setCDParmValueRelation()
+        cdAffine.vectorX = 2
+        cdAffine.vectorY = 2
+        cdAffine.vectorZ = Float(affine.d)
+
+        cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
+        setCDParmValueRelation()
+        storedParmValue = cdAffine
+        cdAffine.vectorX = 3
+        cdAffine.vectorY = 1
+        cdAffine.vectorZ = Float(affine.tx)
+
+        cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
+        storedParmValue = cdAffine
+        setCDParmValueRelation()
+        cdAffine.vectorX = 3
+        cdAffine.vectorY = 2
+        cdAffine.vectorZ = Float(affine.ty)
 
     }
 
@@ -934,10 +965,28 @@ extension PGLFilterAttributeAffine {
         super.setStoredValueToAttribute(value)
         guard let storedValue = value as? CDAttributeAffine
             else { return }
-        setRotation(radians: storedValue.vectorAngle)
-        setScale(vector: CIVector(x: CGFloat(storedValue.vectorX), y: CGFloat(storedValue.vectorY)))
-        setTranslation(moveBy: CIVector(x: CGFloat(storedValue.vectorZ), y: CGFloat(storedValue.vectorLength)))
-            // reusing the vectorZ and vectorLength to store the translate vector
+
+        switch (storedValue.vectorX, storedValue.vectorY) {
+            case (1,1):
+                a = Double(storedValue.vectorZ)
+            case (1,2):
+                b = Double(storedValue.vectorZ)
+            case (2,1):
+                c = Double(storedValue.vectorZ)
+            case (2,2):
+                d = Double(storedValue.vectorZ)
+            case (3,1):
+                tx = Double(storedValue.vectorZ)
+            case (3,2):
+                ty = Double(storedValue.vectorZ)
+            default:
+                return
+        }
+        if (a != nil), (b != nil), (c != nil ), (d != nil ),
+           (tx != nil ), (ty != nil ) {
+
+            affine = CGAffineTransform(a: a!, b: b!, c: c!, d: d!, tx: tx!, ty: ty!)
+        }
 
     }
 }
@@ -1323,33 +1372,19 @@ extension PGLAttributeVectorNumeric {
 
 extension PGLRotateAffineUI {
     @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
-        var cd: CDAttributeRotateAffine
-        if storedParmValue == nil {
-            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeRotateAffine", into: moContext)) as! CDAttributeRotateAffine)
-            storedParmValue = cd
-            setCDParmValueRelation()
 
-        } else {
-            cd = storedParmValue as! CDAttributeRotateAffine
-        }
-
-
-        guard let myRotation = getValue() as? PGLFilterAttributeAffine
-        else { return }
-
-        cd.rotationAngle = Float(myRotation.rotation)
-            // affines do not have a rotation accesssor..
-            // this should never work right.. it is intialized as zero
-            // and will stay zero in the current implementation
-
+        affineParent?.storeParmValue(moContext: moContext)
+        // the parent will store the complete affine matrix
+        // the UI parm gets the store message and invokes the
+        // not visible parent attribute store
     }
 
     @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
-        super.setStoredValueToAttribute(value)
-        guard let storedValue = value as? CDAttributeRotateAffine
-            else { return }
-
-        set(storedValue.rotationAngle)
+//        super.setStoredValueToAttribute(value)
+//        guard let storedValue = value as? CDAttributeRotateAffine
+//            else { return }
+//
+//        set(storedValue.rotationAngle)
 
     }
 
@@ -1357,34 +1392,34 @@ extension PGLRotateAffineUI {
 
 extension PGLScaleAffineUI {
     @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
-        var cd: CDAttributeScaleAffine
-        if storedParmValue == nil {
-            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeScaleAffine", into: moContext)) as! CDAttributeScaleAffine)
-            storedParmValue = cd
-            setCDParmValueRelation()
-
-        } else {
-            cd = storedParmValue as! CDAttributeScaleAffine
-        }
-
-        guard let myRotation = getValue() as? PGLFilterAttributeAffine
-        else { return }
-
-        cd.scaleX = Float(myRotation.scale.x)
-        cd.scaleY = Float(myRotation.scale.y)
-            // affines do not have a scale accesssor..
-            // this should never work right.. it is intialized as zero
-            // and will stay zero in the current implementation
+//        var cd: CDAttributeScaleAffine
+//        if storedParmValue == nil {
+//            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeScaleAffine", into: moContext)) as! CDAttributeScaleAffine)
+//            storedParmValue = cd
+//            setCDParmValueRelation()
+//
+//        } else {
+//            cd = storedParmValue as! CDAttributeScaleAffine
+//        }
+//
+//        guard let myRotation = getValue() as? PGLFilterAttributeAffine
+//        else { return }
+//
+//        cd.scaleX = Float(myRotation.scale.x)
+//        cd.scaleY = Float(myRotation.scale.y)
+//            // affines do not have a scale accesssor..
+//            // this should never work right.. it is intialized as zero
+//            // and will stay zero in the current implementation
 
     }
 
     @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
-        super.setStoredValueToAttribute(value)
-        guard let storedValue = value as? CDAttributeScaleAffine
-            else { return }
-        let scaleVector = CIVector(x: CGFloat(storedValue.scaleX), y: CGFloat(storedValue.scaleY))
-
-        affineParent?.scale = scaleVector
+//        super.setStoredValueToAttribute(value)
+//        guard let storedValue = value as? CDAttributeScaleAffine
+//            else { return }
+//        let scaleVector = CIVector(x: CGFloat(storedValue.scaleX), y: CGFloat(storedValue.scaleY))
+//
+//        affineParent?.scale = scaleVector
 
     }
 }
@@ -1419,36 +1454,36 @@ extension PGLTimerRateAttributeUI {
 
 extension PGLTranslateAffineUI {
     @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
-        var cd: CDAttributeVector
-        if storedParmValue == nil {
-            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector", into: moContext)) as! CDAttributeVector)
-            storedParmValue = cd
-            setCDParmValueRelation()
-
-        } else {
-            cd = storedParmValue as! CDAttributeVector
-        }
-
-        guard let myTranslate = getValue() as? CIVector
-        else { return }
-
-        cd.vectorX = myTranslate.x as NSNumber
-        cd.vectorY = myTranslate.y as NSNumber
+//        var cd: CDAttributeVector
+//        if storedParmValue == nil {
+//            cd =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeVector", into: moContext)) as! CDAttributeVector)
+//            storedParmValue = cd
+//            setCDParmValueRelation()
+//
+//        } else {
+//            cd = storedParmValue as! CDAttributeVector
+//        }
+//
+//        guard let myTranslate = getValue() as? CIVector
+//        else { return }
+//
+//        cd.vectorX = myTranslate.x as NSNumber
+//        cd.vectorY = myTranslate.y as NSNumber
 
     }
 
     @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
         super.setStoredValueToAttribute(value)
-        guard let storedValue = value as? CDAttributeVector
-            else { return }
-
-        guard let vectorX = (storedValue.vectorX)
-            else { return }
-        guard let vectorY = storedValue.vectorY
-            else { return }
-        let storedVector = CIVector(x: CGFloat(truncating: vectorX), y: CGFloat(truncating: vectorY))
-
-        affineParent?.translate = storedVector
+//        guard let storedValue = value as? CDAttributeVector
+//            else { return }
+//
+//        guard let vectorX = (storedValue.vectorX)
+//            else { return }
+//        guard let vectorY = storedValue.vectorY
+//            else { return }
+//        let storedVector = CIVector(x: CGFloat(truncating: vectorX), y: CGFloat(truncating: vectorY))
+//
+//        affineParent?.translate = storedVector
 
     }
 
