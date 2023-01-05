@@ -162,8 +162,6 @@ class Renderer: NSObject {
             let croppedOutput = ciOutput.cropped(to: currentRect)
             guard let currentOutputImage = ciMetalContext.createCGImage(croppedOutput, from: croppedOutput.extent) else { return nil }
 
-           
-
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureImage croppedOutput = \(croppedOutput)")
 
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
@@ -182,7 +180,10 @@ class Renderer: NSObject {
         // provide a UIImage for save to photoLibrary
         // uses existing ciContext in a background process..
 
-        if let ciOutput = filterStack()?.stackOutputImage(false) {
+        if let ciOutput = filterStack()?.stackOutputImage(false).cropForInfiniteExtent()
+            // cropForInfiniteExtent returns image 
+            // if infinite then crops to TargetSize
+            {
 
             let rgbSpace = CGColorSpaceCreateDeviceRGB()
             let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
