@@ -914,11 +914,12 @@ extension PGLFilterAttributeAffine {
             cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
             storedParmValue = cdAffine
             setCDParmValueRelation()
+            cdAffine.attributeName = childUIAttributeName
+                // points to RotationUI attribute
 
         } else {
             cdAffine = storedParmValue as! CDAttributeAffine
         }
-
         cdAffine.vectorX = 1
         cdAffine.vectorY = 1
         cdAffine.vectorZ = Float(affine.a)
@@ -927,6 +928,9 @@ extension PGLFilterAttributeAffine {
         cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
         storedParmValue = cdAffine
         setCDParmValueRelation()
+        cdAffine.attributeName = childUIAttributeName
+            // points to RotationUI attribute
+
         cdAffine.vectorX = 1
         cdAffine.vectorY = 2
         cdAffine.vectorZ = Float(affine.b)
@@ -934,6 +938,8 @@ extension PGLFilterAttributeAffine {
         cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
         storedParmValue = cdAffine
         setCDParmValueRelation()
+        cdAffine.attributeName = childUIAttributeName
+            // points to RotationUI attribute
         cdAffine.vectorX = 2
         cdAffine.vectorY = 1
         cdAffine.vectorZ = Float(affine.c)
@@ -941,13 +947,18 @@ extension PGLFilterAttributeAffine {
         cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
         storedParmValue = cdAffine
         setCDParmValueRelation()
+        cdAffine.attributeName = childUIAttributeName
+            // points to RotationUI attribute
         cdAffine.vectorX = 2
         cdAffine.vectorY = 2
         cdAffine.vectorZ = Float(affine.d)
 
         cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
-        setCDParmValueRelation()
         storedParmValue = cdAffine
+        setCDParmValueRelation()
+        cdAffine.attributeName = childUIAttributeName
+            // points to RotationUI attribute
+
         cdAffine.vectorX = 3
         cdAffine.vectorY = 1
         cdAffine.vectorZ = Float(affine.tx)
@@ -955,6 +966,8 @@ extension PGLFilterAttributeAffine {
         cdAffine =  ((NSEntityDescription.insertNewObject(forEntityName: "CDAttributeAffine", into: moContext)) as! CDAttributeAffine)
         storedParmValue = cdAffine
         setCDParmValueRelation()
+        cdAffine.attributeName = childUIAttributeName
+            // points to RotationUI attribute
         cdAffine.vectorX = 3
         cdAffine.vectorY = 2
         cdAffine.vectorZ = Float(affine.ty)
@@ -986,6 +999,7 @@ extension PGLFilterAttributeAffine {
            (tx != nil ), (ty != nil ) {
 
             affine = CGAffineTransform(a: a!, b: b!, c: c!, d: d!, tx: tx!, ty: ty!)
+            setAffine()
         }
 
     }
@@ -1373,6 +1387,7 @@ extension PGLAttributeVectorNumeric {
 extension PGLRotateAffineUI {
     @objc override func storeParmValue(moContext: NSManagedObjectContext)  {
 
+        affineParent?.childUIAttributeName = attributeName ?? "empty"
         affineParent?.storeParmValue(moContext: moContext)
         // the parent will store the complete affine matrix
         // the UI parm gets the store message and invokes the
@@ -1380,11 +1395,7 @@ extension PGLRotateAffineUI {
     }
 
     @objc override func setStoredValueToAttribute(_ value: CDParmValue)   {
-//        super.setStoredValueToAttribute(value)
-//        guard let storedValue = value as? CDAttributeRotateAffine
-//            else { return }
-//
-//        set(storedValue.rotationAngle)
+        affineParent?.setStoredValueToAttribute(value)
 
     }
 

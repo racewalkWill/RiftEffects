@@ -1203,6 +1203,7 @@ class PGLFilterAttributeAffine: PGLFilterAttribute {
     var scale = CIVector(x: 0.0, y: 0.0)
     var translate = CIVector(x: 0.0, y: 0.0)
     var valueParms = [PGLFilterAttribute]()
+    var childUIAttributeName = "empty"
 
     //MARK: affine matrix vars
         // init to identity values

@@ -238,10 +238,10 @@ class PGLTranslateAffineUI: PGLFilterAttributeVector {
 
 class PGLScaleAffineUI: PGLFilterAttributeVector {
 
-    var scaler = CGAffineTransform(scaleX: 1000.0, y: 1000.0)
+    var scaler = CGAffineTransform(scaleX: 100.0, y: 100.0)
 
     var affineParent: PGLFilterAttributeAffine?
-//    var scale = CIVector(x: 0.0, y: 0.0)
+
 
     // MARK: PGLAttributeUI protocol
 
