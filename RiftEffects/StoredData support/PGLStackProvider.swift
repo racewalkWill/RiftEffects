@@ -94,7 +94,11 @@ class PGLStackProvider {
 
     func delete(stack: CDFilterStack, shouldSave: Bool = true, completionHandler: (() -> Void)? = nil) {
         guard let context = stack.managedObjectContext else {
-            fatalError("###\(#function): Failed to retrieve the context from: \(stack)")
+            // missing managedObjectContext occurs when in a filtered mode search and the stack is deleted successfully
+            // but remains in the filtered view. Then a second 'delete' action will not have a managedObjectContext
+            // cancel or change in the search criteria will update and not show this deleted stack
+            // annoying !!
+            return
         }
         context.perform {
             context.delete(stack)
