@@ -379,79 +379,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        fatalError("remove this method PGLImageController #tableView(_ tableView:didSelectRowAt:")
-        // moved to  PGLImageController -
-         panner?.isEnabled = false // only enable pan gesture on certain cases
-
-//        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
-        guard let modelAttribute = appStack.targetAttribute else
-            { return }
-
-
-        switch modelAttribute.attributeUIType() {
-        case AttrUIType.pointUI , AttrUIType.rectUI:
-
-            hideParmControls()
-            panner?.isEnabled = true
-            guard let thisAttributeControlView = appStack.parmControls[modelAttribute.attributeName ?? "forceReturn"] else
-            { return }
-             selectedParmControlView = thisAttributeControlView
-            if let thisAttributeName = modelAttribute.attributeName {
-                toggleViewControls(hide: false)
-                highlight(viewNamed: thisAttributeName)
-
-                if let thisCropAttribute = modelAttribute as? PGLAttributeRectangle {
-                    guard let croppingFilter = appStack.currentFilter as? PGLRectangleFilter
-                    else { return }
-
-                    croppingFilter.cropAttribute = thisCropAttribute
-                    guard let activeRectController = rectController
-                        else {return }
-                    activeRectController.thisCropAttribute = thisCropAttribute
-                    showRectInput(aRectInputFilter: croppingFilter)
-
-
-                    }
-
-            }
-      case AttrUIType.sliderUI , AttrUIType.integerUI  :
-            // replaced by the slider in the tablePaneCell
-            // do not show the slider in the image
-           hideParmControls()
-           showSliderControl(attribute: modelAttribute)
-           highlight(viewNamed: modelAttribute.attributeName!)
-            // enable the slider
-
-        case AttrUIType.textInputUI :
-                hideParmControls()
-                highlight(viewNamed: modelAttribute.attributeName!)
-
-
-        case AttrUIType.fontUI :
-
-            hideParmControls()
-            showFontPicker(self)
-
-        case AttrUIType.timerSliderUI:
-            // the PGLFilterAttributeNumber has to answer the sliderCell for this to run.. currently commented out 5/16/19
-                hideSliders()
-            if let selectedSliderCell = tableView.cellForRow(at: indexPath) as? PGLTableCellSlider {
-                selectedSliderCell.sliderControl.isEnabled = true
-            }
-
-//        case AttrUIType.imagePickUI :
-            // did the photo or filter cell get touched?
-          //  pickImage(tappedAttribute!)
-            // now called by swipe action "Pick"
-
-        default:
-            highlight(viewNamed: "")
-        }
-       // this method completes before the processses invoked above run..
-        // updates need to be invoked in the completion routines
-    }
     fileprivate func postCurrentFilterChange() {
         let updateFilterNotification = Notification(name:PGLCurrentFilterChange)
         NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
@@ -921,7 +849,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
         hideSliders()
         panner?.isEnabled = false
-        toggleViewControls(hide: true)
+        toggleViewControls(hide: true, uiTypeToShow: nil )
+            // toggle all view controls to hide
         parmSlider?.isHidden = true
 
     }
@@ -938,22 +867,40 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         
     }
 
-    func toggleViewControls(hide: Bool) {
+    func toggleViewControls(hide: Bool, uiTypeToShow: AttrUIType?) {
         // should use the attribute methods isPointUI() or isRectUI()..
+        // for hide = true all view controls should hide
+        // if hide = false, then apply to parms of the same uiType
+        // textInputUI should stay hidden if showing the pointUI
+        // and likewise.
+        //
         for nameAttribute in appStack.parms {
             let parmAttribute = nameAttribute.value
-            if parmAttribute.isPointUI() || parmAttribute.isTextInputUI() {
-                let parmView = appStack.parmControls[nameAttribute.key]
-                parmView?.isHidden = hide
+            let parmView = appStack.parmControls[nameAttribute.key]
+            if hide {
+                if parmAttribute.isPointUI() || parmAttribute.isTextInputUI() {
+                    parmView?.isHidden = hide
                 }
-            if parmAttribute.isRectUI() {
-                if parmAttribute is PGLAttributeRectangle {
+                if parmAttribute.isRectUI() {
+                    if parmAttribute is PGLAttributeRectangle {
                         hideRectControl()
+                    }
+                }
+            } else
+            { // hide is false
+                if (uiTypeToShow == nil) ||
+                    (uiTypeToShow == parmAttribute.attributeUIType()) {
+                        if parmAttribute.isRectUI() {
+                            hideRectControl()
+                        } else
+                        {  parmView?.isHidden = hide
+                        }
                 }
             }
-        Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
 
-        }
+//        Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
+
+        } // end for appStack.parms
     }
 
     func removeParmControls() {
