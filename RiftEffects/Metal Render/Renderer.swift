@@ -349,6 +349,7 @@ extension Renderer: MTKViewDelegate {
         
         commandBuffer.present(view.currentDrawable!)
         commandBuffer.commit()
+        
     }
 
 

@@ -459,7 +459,7 @@ class PGLFilterAttribute {
     func set(_ value: Any ) {
         // use a system of double dispatch to address typing
         //
-        if attributeName != nil {
+        if attributeName != nil, attributeClass != nil {
 
             switch attributeClass! {
                 //  moved to subclass ..Image               case  AttrClass.Image.rawValue : aSourceFilter.setImageValue(newValue: value as! CIImage, keyName: attributeName!)
