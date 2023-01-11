@@ -25,6 +25,8 @@ class PGLAppStack {
     var viewerStack = PGLFilterStack()
     var pushedStacks = [PGLFilterStack]()
 
+    lazy var appRenderer: Renderer = Renderer(globalAppStack: self)
+
 
 
     lazy var cellFilters = self.flattenFilters()

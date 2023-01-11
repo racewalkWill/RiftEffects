@@ -36,11 +36,7 @@ class PGLMetalController: UIViewController {
             return
         }
 
-        guard let device  = MTLCreateSystemDefaultDevice() else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer init(metalView fatalError( GPU not available")
-            return
-        }
-        metalView.device = device
+
 
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
             else { Logger(subsystem: LogSubsystem, category: LogCategory).fault ( "PGLMetalController viewDidLoad fatalError AppDelegate not loaded")
@@ -52,7 +48,9 @@ class PGLMetalController: UIViewController {
 
 //        filterStack()?.setStartupDefault()
 
-        metalRender = Renderer(metalView: metalView)
+        metalRender = appStack.appRenderer
+        metalRender.set(metalView: metalView)
+
         metalRender.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
 
 

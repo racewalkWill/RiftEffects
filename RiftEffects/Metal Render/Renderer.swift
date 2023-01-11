@@ -30,7 +30,7 @@ struct RenderVertex {
 
 class Renderer: NSObject {
 
-     var device: MTLDevice!
+    var device: MTLDevice = MTLCreateSystemDefaultDevice()!
      var commandQueue: MTLCommandQueue!
      var colorPixelFormat: MTLPixelFormat!
 //    var texture: MTLTexture!
@@ -72,31 +72,24 @@ class Renderer: NSObject {
     var offScreenRender: PGLOffScreenRender = PGLOffScreenRender()
     var numVerticesInt: Int!
 
-    init(metalView: MTKView) {
+    override init() {
 
-        
         super.init()
-
-        device = metalView.device
-        metalView.framebufferOnly = true
-            // "To optimize a drawable from an MTKView for GPU access, set the view’s framebufferOnly
-            // property to true. This property configures the texture exclusively
-            //  as a render target and displayable resource."
-            // in WWDC 2020 "Optimize the Core Image pipeline for your video app" suggest false setting
-            // see code at 7:24
-
-
+        guard let device  = MTLCreateSystemDefaultDevice() else {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer init(Renderer fatalError( GPU not available")
+            return
+        }
         library = device.makeDefaultLibrary()
         vertexFunction = library.makeFunction(name: "vertexShader")
         fragmentFunction = library.makeFunction(name: "samplingShader")
 
-        colorPixelFormat = metalView.colorPixelFormat
+//        colorPixelFormat = metalView.colorPixelFormat
         // setup descriptor for creating a pipeline
         pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.label = "Texturing Pipeline"
         pipelineStateDescriptor.vertexFunction = vertexFunction
         pipelineStateDescriptor.fragmentFunction = fragmentFunction
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormat.bgra8Unorm // default
 
         do {
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
@@ -110,40 +103,10 @@ class Renderer: NSObject {
         commandQueue = device.makeCommandQueue()!
 
 // Rift related init
-        metalView.delegate = self
+
         textureLoader = MTKTextureLoader(device: device)
 
 
-        ciMetalContext = CIContext(mtlDevice: device,
-                                options: [CIContextOption.workingFormat: CIFormat.RGBAh,
-                                          .cacheIntermediates : false,
-                                          .name : "metalView"] )
-            //.cacheIntermediates : should be false if showing video per WWDC "Optimize the Core Image pipeline"
-                    // but this app is NOT video !! and  value = false causes memory growth
-                    // therefore use .cacheIntermediates : true 2020-10-16
-            // changed to false 2022-07-27 the old buffer showing is fixed with the value false
-
-        // set to half float intermediates for CIDepthBlurEffect as suggested in WWDC 2017
-         // Editing with Depth 508
-        //          https://developer.apple.com/videos/play/wwdc2017/508
-
-        Renderer.ciContext = ciMetalContext
-
-        metalView.autoResizeDrawable = true
-
-        metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
-                                             blue: 0.8, alpha: 0.5)
-
-
-
-        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else {
-            Logger(subsystem: LogSubsystem, category: LogCategory).error ("Renderer init(metalView fatalError( AppDelegate not loaded")
-            return
-        }
-
-        appStack = myAppDelegate.appStack
-        filterStack = { self.appStack.outputFilterStack() }
 
         let fileType = UserDefaults.standard.string(forKey:  "photosFileType")
         currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "HEIF")
@@ -175,6 +138,45 @@ class Renderer: NSObject {
 
     }
 
+    convenience init(globalAppStack: PGLAppStack) {
+        self.init()
+        appStack = globalAppStack
+        filterStack = { self.appStack.outputFilterStack() }
+    }
+    
+    func set(metalView: MTKView) {
+        metalView.device = device
+        metalView.framebufferOnly = true
+            // "To optimize a drawable from an MTKView for GPU access, set the view’s framebufferOnly
+            // property to true. This property configures the texture exclusively
+            //  as a render target and displayable resource."
+            // in WWDC 2020 "Optimize the Core Image pipeline for your video app" suggest false setting
+            // see code at 7:24
+
+        metalView.delegate = self
+        colorPixelFormat = metalView.colorPixelFormat
+
+        ciMetalContext = CIContext(mtlDevice: device,
+                                options: [CIContextOption.workingFormat: CIFormat.RGBAh,
+                                          .cacheIntermediates : false,
+                                          .name : "metalView"] )
+            //.cacheIntermediates : should be false if showing video per WWDC "Optimize the Core Image pipeline"
+                    // but this app is NOT video !! and  value = false causes memory growth
+                    // therefore use .cacheIntermediates : true 2020-10-16
+            // changed to false 2022-07-27 the old buffer showing is fixed with the value false
+
+        // set to half float intermediates for CIDepthBlurEffect as suggested in WWDC 2017
+         // Editing with Depth 508
+        //          https://developer.apple.com/videos/play/wwdc2017/508
+
+        Renderer.ciContext = ciMetalContext
+
+        metalView.autoResizeDrawable = true
+
+        metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
+                                             blue: 0.8, alpha: 0.5)
+
+    }
     func captureHEIFImage() throws -> Data? {
         // capture the current image in the context
         // provide a UIImage for save to photoLibrary
