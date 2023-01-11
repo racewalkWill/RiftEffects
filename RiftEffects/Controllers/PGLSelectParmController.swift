@@ -111,17 +111,21 @@ class PGLSelectParmController: PGLCommonController,
             guard let myNav = self.navigationController else { return }
 
             guard myNav.topViewController is PGLParmImageController
-                else { myNav.popViewController(animated: true )
+                else { Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
+                    myNav.popViewController(animated: true )
                         return
             }
             guard let myStackController = myNav.viewControllers[1] as? PGLStackController else {
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
                 myNav.popViewController(animated: true )
                 return
             }
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: myStackController))")
             self.navigationController?.popToViewController(myStackController, animated: true)
         }
         else {
             // move back to the stack controller
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
             self.navigationController?.popViewController(animated: true) }
 
     }

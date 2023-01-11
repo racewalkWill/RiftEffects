@@ -16,7 +16,11 @@ class PGLNavPrimaryController: UINavigationController {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         // Do any additional setup after loading the view.
     }
-    
+
+    override func popViewController(animated: Bool) -> UIViewController? {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self)) + \(self.viewControllers)")
+        return super.popViewController(animated: animated)
+    }
 
     /*
     // MARK: - Navigation

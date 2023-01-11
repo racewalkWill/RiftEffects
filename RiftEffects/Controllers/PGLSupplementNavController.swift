@@ -32,6 +32,11 @@ class PGLSupplementNavController: UINavigationController {
 
     }
 
+    override func popViewController(animated: Bool) -> UIViewController? {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self)) + \(self.viewControllers)")
+        return super.popViewController(animated: animated)
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
 //        NSLog("PGLSelectFilterController #viewDidDisappear removing notification observor")

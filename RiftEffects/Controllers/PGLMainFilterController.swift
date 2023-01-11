@@ -53,6 +53,7 @@ class PGLMainFilterController: PGLFilterTableController {
     private var restoredState = SearchControllerRestorableState()
 
     @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
         self.navigationController?.popViewController(animated: true)
 
     }

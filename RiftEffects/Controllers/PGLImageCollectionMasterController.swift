@@ -184,6 +184,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                 // the guard is based upon the apple sample app 'Conference-Diffable'
                  // navigate back here too
             Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLImageCollectionMasterController  notificationBlock PGLSelectImageBack")
+             Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
                 self.navigationController?.popViewController(animated: true)
                 }
 
@@ -192,6 +193,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                    myUpdate in
                 guard let self = self else { return } // a released object sometimes receives the notification
                               // the guard is based upon the apple sample app 'Conference-Diffable'
+               Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
                Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLImageCollectionMasterController  notificationBlock PGLImageAccepted")
 
                 self.navigationController?.popViewController(animated: true)
@@ -270,7 +272,7 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
     @IBAction func backBtnClick(_ sender: UIBarButtonItem) {
         let actionAccepted = Notification(name: PGLImageNavigationBack )
                NotificationCenter.default.post(actionAccepted)
-
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
                self.navigationController?.popViewController(animated: true)
 
     }

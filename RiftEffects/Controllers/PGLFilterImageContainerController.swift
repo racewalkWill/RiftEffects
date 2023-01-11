@@ -101,6 +101,14 @@ class PGLFilterImageContainerController: UIViewController {
 
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        containerImageController?.removeFromParent()
+
+        containerImageController = nil
+
+        containerFilterController?.removeFromParent()
+        containerFilterController = nil
+    }
 
     @IBAction func addFilterBtn(_ sender: UIBarButtonItem) {
         // Segue back to the stackController

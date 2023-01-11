@@ -332,6 +332,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             // next back out of the parm controller since the filter is removed
 
             if ( self.parmController?.isViewLoaded ?? false ) {  // or .isBeingPresented?
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
                 self.parmController?.navigationController?.popViewController(animated: true)
                 // parmController in the master section of the splitView has a different navigation stack
                 // from the PGLImageController
@@ -521,7 +522,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         
         var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
             myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
+//            guard let self = self else { return }
+                // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
 //            if  (!self.isBeingPresented)  {
                 // && (self.splitViewController?.isCollapsed ?? false)
@@ -530,9 +532,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackChange") ")
 
 
-            self.updateNavigationBar()
-            if !self.keepParmSlidersVisible {
-                self.hideParmControls()
+            self?.updateNavigationBar()
+            if !(self?.keepParmSlidersVisible ?? false) {
+                self?.hideParmControls()
             }
 
 
@@ -542,7 +544,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification =  myCenter.addObserver(forName: PGLCurrentFilterChange , object: nil , queue: queue) { [weak self]
             myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
+//            guard let self = self else { return }
+                // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
 //            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
 //                return
@@ -550,8 +553,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "notificationBlock PGLCurrentFilterChange") " )
                 //            self.filterValuesHaveChanged = true
 
-            if !self.keepParmSlidersVisible {
-                self.hideParmControls()
+            if !(self?.keepParmSlidersVisible ?? false) {
+                self?.hideParmControls()
             }
             if DoNotDraw {
                 DoNotDraw = false
@@ -572,14 +575,14 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
             myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
+//            guard let self = self else { return } // a released object sometimes receives the notification
 //            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
 //                return
 //            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
             if let userDataDict = myUpdate.userInfo {
                 if let anAlertController = userDataDict["alertController"] as? UIAlertController {
-                    self.displayUser(alert: anAlertController)
+                    self?.displayUser(alert: anAlertController)
                 }
             }
         }
@@ -587,7 +590,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
             myUpdate in
-            guard let self = self else { return}
+//            guard let self = self else { return}
 //            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
 //                return
 //            }
@@ -595,7 +598,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             if let userDataDict = myUpdate.userInfo {
                 if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
                         // put the new names into the stack
-                    guard let targetStack = self.appStack.firstStack()
+                    guard let targetStack = self?.appStack.firstStack()
                     else { return }
                     targetStack.stackName = userValues.stackName!
                     targetStack.stackType = userValues.stackType!
@@ -607,7 +610,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                     // then don't reprocess again. Uses object identity to test
 
                     if userValues.saveSessionUUID != targetStack.saveSessionUUID {
-                        self.saveStack(newSaveAs: userValues.shouldSaveAs)
+                        self?.saveStack(newSaveAs: userValues.shouldSaveAs)
                             // save stack will create a utility queue to execute.. but should not
                             // kill the utility queue process when this notification callback process ends.
                         
@@ -615,8 +618,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                         targetStack.saveSessionUUID = userValues.saveSessionUUID
                     }
 
-                    self.updateLibraryMenu()
-                    self.updateNavigationBar()
+                    self?.updateLibraryMenu()
+                    self?.updateNavigationBar()
 
 
                 }
@@ -626,12 +629,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in
-            guard let self = self else { return}
+//            guard let self = self else { return}
 
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
             // if the popup openStackController called a delete
 
-            self.updateLibraryMenu()
+            self?.updateLibraryMenu()
 
 
         }
@@ -639,11 +642,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification = myCenter.addObserver(forName: PGLHideImageViewReleaseStack , object: nil , queue: queue) { [weak self ]
             myUpdate in
-            guard let self = self else { return}
+//            guard let self = self else { return}
 
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideImageViewReleaseStack")
             // if the popup openStackController called a delete
-            self.hideViewReleaseStack()
+            self?.hideViewReleaseStack()
 
 
         }
@@ -652,28 +655,29 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
+//            guard let self = self else { return }
+                // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
 //            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
 //                return
 //            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLImageCollectionOpen")" )
-            if (self.view.isHidden)
-            {self.view.isHidden = false }
+            if ((self?.view.isHidden) != nil)
+                {self?.view.isHidden = false }
                 // needed to refresh the view after the trash creates a new stack.
             if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
-                self.doImageCollectionOpen(assetInfo: assetInfo) }
+                self?.doImageCollectionOpen(assetInfo: assetInfo) }
         }
         notifications[PGLImageCollectionOpen] = aNotification
 
         aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in
-            guard let self = self else { return }
+//            guard let self = self else { return }
 //            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
 //                return
 //            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLHideParmUIControls") " )
-            self.hideParmControls()
+            self?.hideParmControls()
         }
         notifications[PGLHideParmUIControls] = aNotification
     }

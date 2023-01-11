@@ -91,6 +91,7 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterTableController  notificationBlock PGLLoadedDataStack")
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
+          Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
             self.navigationController?.popViewController(animated: true)
 
         }
