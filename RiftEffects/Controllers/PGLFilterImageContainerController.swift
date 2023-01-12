@@ -112,6 +112,7 @@ class PGLFilterImageContainerController: UIViewController {
 
     @IBAction func addFilterBtn(_ sender: UIBarButtonItem) {
         // Segue back to the stackController
+        self.navigationController?.popViewController(animated: true)
     }
 
     @IBAction func showImageControllerBtn(_ sender: UIBarButtonItem) {
