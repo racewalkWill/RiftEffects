@@ -1271,7 +1271,13 @@ class PGLSelectParmController: PGLCommonController,
                                     pickedCIImage = convertedImage.oriented(theOrientation) }
                             }
                         if pickedCIImage != nil {
-                            selectedImageList.appendImage(aCiImage: pickedCIImage!)
+                            // resize to TargetSize same as  imageFrom(selectedAsset:)
+                            // and loadImageListFromPicker
+                            if let imageSizedToTarget = self?.resizeToTargetSize(image: pickedCIImage!){
+                                selectedImageList.appendImage(aCiImage: imageSizedToTarget) }
+                            else {
+                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
+                            }
                             Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
                         }
                     }
@@ -1284,6 +1290,20 @@ class PGLSelectParmController: PGLCommonController,
         Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)  \(selectedImageList)")
         selectedImageList.validateLoad()
         return selectedImageList
+    }
+
+    func resizeToTargetSize(image: CIImage) -> CIImage {
+            // resize to TargetSize same as  imageFrom(selectedAsset:)
+            // and loadImageListFromPicker
+            // iPhone for imagePicker path...
+
+        let sourceSize = image.extent
+        let scaleBy =  TargetSize.height / sourceSize.height
+        let aspectRatio = Double(TargetSize.width) / Double(TargetSize.height)
+
+        let resizedImage  = image.applyingFilter("CILanczosScaleTransform", parameters: [kCIInputAspectRatioKey : aspectRatio ,
+                    kCIInputScaleKey: scaleBy])
+        return resizedImage
     }
 
     func loadImageListFromPicker(results: [PHPickerResult]) -> PGLImageList {

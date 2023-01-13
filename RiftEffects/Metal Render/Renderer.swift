@@ -216,6 +216,12 @@ extension Renderer: MTKViewDelegate {
             // this will cause Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view
             // and [CAMetalLayer nextDrawable] returning nil because allocation failed.
         }
+        if mtkViewSize != nil, mtkViewSize == size {
+            // no change needed
+            return
+        }
+//        NSLog( "drawableSizeWillChange mtkViewSize  + \(String(describing: mtkViewSize)) " )
+//        NSLog( "drawableSizeWillChange size  + \(String(describing: size)) " )
          mtkViewSize = size
         TargetSize = size
         viewportSize = vector_uint2(x: UInt32(size.width), y: UInt32(size.height))
