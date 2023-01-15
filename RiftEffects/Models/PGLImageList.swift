@@ -298,9 +298,10 @@ class PGLImageList: CustomStringConvertible {
         //return assetItems as! [PGLAsset]
         var pglAssetItems = [PGLAsset]()
         for (index,anItem) in assetItems.enumerated() {
-            if albums.isEmpty {
+            if (albums.isEmpty) || (index >= (albums.count - 1)) {
                 pglAssetItems.append(PGLAsset(anItem, collectionId: nil , collectionLocalTitle: nil))
             } else {
+
                 pglAssetItems.append(PGLAsset(anItem, collectionId: albums[index] , collectionLocalTitle: nil))
                     // PGLAsset will read collectionTitle
             }

@@ -227,12 +227,13 @@ class PGLImageCollectionMasterController: UIViewController, UINavigationControll
                     lastItemIndexPath = albumPath!
                     } else {
                         // album is not visible.. load it
-                      let  notLoadedAlbum:  PHAssetCollection? =
-                               { let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [userAlbumId], options: nil)
-                                   return fetchResult.object(at: 0)
-                               }()
+                       let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [userAlbumId], options: nil)
+                        if fetchResult.count > 0 {
+                            let  notLoadedAlbum:  PHAssetCollection? = fetchResult.object(at: 0)
+
                         if let notLoadedUUIDCollection = PGLUUIDAssetCollection(notLoadedAlbum) {
                             unloadedAlbums.append(notLoadedUUIDCollection) }
+                        }
                     }
 
                 }
