@@ -50,7 +50,10 @@ class PGLImageList: CustomStringConvertible {
 //    var isAssetList = true // hold PGLAssets.. or holds CIImages
     var isAssetList: Bool {
         get{
-            return images.isEmpty && !imageAssets.isEmpty
+//            return images.isEmpty && !imageAssets.isEmpty
+            // iPhone picker loads one image but still call this an assetList
+
+            return (images.count <= 1) && !imageAssets.isEmpty
         }
     }
     private var images = [CIImage?]()
@@ -519,6 +522,17 @@ class PGLImageList: CustomStringConvertible {
            let scaleTransform = CGAffineTransform.init(scaleX: xScale, y: yScale)
 
            return ciImage.transformed(by: translateToZeroOrigin.concatenating(scaleTransform))
+
+           // the CILanczosScaleTransform crops a little too much..
+           // it just uses the yScale only
+//           let sourceSize = ciImage.extent
+//           let scaleBy =  newSize.height / sourceSize.height
+//           let aspectRatio = Double(newSize.width) / Double(newSize.height)
+//
+//           let resizedImage  = ciImage.applyingFilter("CILanczosScaleTransform", parameters: [kCIInputAspectRatioKey: aspectRatio ,
+//                       kCIInputScaleKey: scaleBy])
+//           return resizedImage
+
        }
 
 

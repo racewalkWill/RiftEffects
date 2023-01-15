@@ -1273,11 +1273,12 @@ class PGLSelectParmController: PGLCommonController,
                         if pickedCIImage != nil {
                             // resize to TargetSize same as  imageFrom(selectedAsset:)
                             // and loadImageListFromPicker
-                            if let imageSizedToTarget = self?.resizeToTargetSize(image: pickedCIImage!){
-                                selectedImageList.appendImage(aCiImage: imageSizedToTarget) }
-                            else {
-                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
-                            }
+//                            if let imageSizedToTarget = self?.resizeToTargetSize(image: pickedCIImage!){
+//                                selectedImageList.appendImage(aCiImage: imageSizedToTarget) }
+//                            else {
+//                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
+//                            }
+                            selectedImageList.appendImage(aCiImage: pickedCIImage!)
                             Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
                         }
                     }

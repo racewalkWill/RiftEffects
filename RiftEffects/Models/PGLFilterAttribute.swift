@@ -695,46 +695,45 @@ class PGLFilterAttribute {
     }
 
     func increment() {
-        switch attributeClass! {
-        case  AttrClass.Image.rawValue :  
-            if hasInputCollection() {
-                if let nextImage = inputCollection!.increment() {
-
-                    aSourceFilter.setImageValue(newValue: nextImage, keyName: attributeName!)
-                    }
-                }
-
-
-        case  AttrClass.Number.rawValue : if let numberValue = self.getNumberValue() {
-                    let newValue = numberValue.doubleValue + 1.0
-                    self.set(newValue) }
-            
-        case AttrClass.Vector.rawValue :  if let vectorValue = self.getVectorValue() {
-                   let newVector = CIVector(x: vectorValue.x + 1.0, y: vectorValue.y + 1.0)
-                   self.set(newVector)
-                }
-            
-        case AttrClass.Color.rawValue : if let colorValue = self.getColorValue() {
-                   let newColor = CIColor(red: colorValue.red + 0.1 , green: colorValue.green + 0.1, blue: colorValue.blue + 0.1)
-                   self.set(newColor)
-                    }
-            case  AttrClass.Data.rawValue :   if let dataValue = getDataValue() {
-                        set(dataValue as Any)  // increment semenatics do not work for a data object
-//                NSLog("PGLFilterAttribute increment on NSData ")
-
-                }
-            case  AttrClass.Value.rawValue :  if let aNSValue = getNSValue() {
-                        set(aNSValue as Any) // increment semenatics do not work for a data object
-//                NSLog("PGLFilterAttribute increment on NSValue ")
-
-            }
-            case  AttrClass.Object.rawValue :  if let objectValue = getObjectValue() {
-                set(objectValue as Any) }
-            case  AttrClass.String.rawValue :  if let stringValue = getStringValue() {
-                set(stringValue as String + "increment") }
-            
-            default: Logger(subsystem: LogSubsystem, category: LogCategory).fault("new attribute class")
+        if attributeClass == nil {
+            return
         }
+        switch attributeClass! {
+            case  AttrClass.Image.rawValue :
+                if hasInputCollection() {
+                    if let nextImage = inputCollection!.increment() {
+
+                        aSourceFilter.setImageValue(newValue: nextImage, keyName: attributeName!)
+                        }
+                    }
+            case  AttrClass.Number.rawValue : if let numberValue = self.getNumberValue() {
+                        let newValue = numberValue.doubleValue + 1.0
+                        self.set(newValue) }
+
+            case AttrClass.Vector.rawValue :  if let vectorValue = self.getVectorValue() {
+                       let newVector = CIVector(x: vectorValue.x + 1.0, y: vectorValue.y + 1.0)
+                       self.set(newVector)
+                    }
+
+            case AttrClass.Color.rawValue : if let colorValue = self.getColorValue() {
+                       let newColor = CIColor(red: colorValue.red + 0.1 , green: colorValue.green + 0.1, blue: colorValue.blue + 0.1)
+                       self.set(newColor)
+                        }
+            case  AttrClass.Data.rawValue :   if let dataValue = getDataValue() {
+                            set(dataValue as Any)  // increment semenatics do not work for a data object
+    //                NSLog("PGLFilterAttribute increment on NSData ")
+                    }
+            case  AttrClass.Value.rawValue :  if let aNSValue = getNSValue() {
+                            set(aNSValue as Any) // increment semenatics do not work for a data object
+    //                NSLog("PGLFilterAttribute increment on NSValue ")
+                }
+            case  AttrClass.Object.rawValue :  if let objectValue = getObjectValue() {
+                    set(objectValue as Any) }
+            case  AttrClass.String.rawValue :  if let stringValue = getStringValue() {
+                    set(stringValue as String + "increment") }
+
+            default: Logger(subsystem: LogSubsystem, category: LogCategory).fault("new attribute class")
+            }
     }
 
     // MARK: child attributes
