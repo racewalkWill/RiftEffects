@@ -250,6 +250,7 @@ class PGLImageList: CustomStringConvertible {
 
     func clone(toParm: PGLFilterAttribute) -> PGLImageList {
         // answer copy of self
+        // as odd
 
 //        NSLog("PGLImageList #clone toParm = \(toParm)")
         let newList = PGLImageList(localPGLAssets: imageAssets)
@@ -555,7 +556,7 @@ class PGLImageList: CustomStringConvertible {
         if maxAssetsOrImagesCount()  == 1 { return first() } // guard - nothing to increment
 
 //      NSLog("PGLImageList nextType = \(nextType) #increment start position = \(position)")
-        let answerImage =  image(atIndex: position)
+
 
         // at zero assumes first object already shown
         if nextType == NextElement.each {
@@ -564,16 +565,26 @@ class PGLImageList: CustomStringConvertible {
 
         if position >= maxAssetsOrImagesCount()  {
             // start over
-//            imageAssets.reverse()
-//            images.reverse() // in opposite direction
+
             switch nextType {
-            case  NextElement.odd :
-                position = 1 // skips the old end
-            case NextElement.even, NextElement.each  :
-                position = 0  // avoid sizeCount()  = 2 issue
+                case  NextElement.each :
+                    position = 0
+                    
+                case  NextElement.odd :
+                    if position.isEven() {
+                        position = 0
+                    } else { position = 1 }
+
+                case NextElement.even :
+                    if !position.isEven() {
+                        position = 0
+                    } else { position = 1 }
+
+
             }
         }
 
+        let answerImage =  image(atIndex: position)
 //         NSLog("PGLImageList nextType = \(nextType) #increment end position = \(position)")
         return answerImage
     }
