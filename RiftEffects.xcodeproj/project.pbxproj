@@ -10,6 +10,7 @@
 		A303930F27AADED800E2A3D4 /* PGLCompactPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */; };
 		A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A308939E251E977400F244D6 /* Launch Screen.storyboard */; };
 		A316B9E425D9AD25000C8299 /* PGLDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */; };
+		A3181C042974C84F00834D89 /* PGLNeedsRedraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */; };
 		A31FAF9F28F5E619002DCFEA /* PGLSequenceDissolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */; };
 		A320F6262669550E008F6090 /* PGLInfoPrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */; };
 		A320F62A26699FA8008F6090 /* PrivacyPolicy.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */; };
@@ -158,6 +159,7 @@
 		A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCompactPresentationController.swift; sourceTree = "<group>"; };
 		A308939E251E977400F244D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLDataStoreTests.swift; sourceTree = "<group>"; };
+		A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLNeedsRedraw.swift; sourceTree = "<group>"; };
 		A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequenceDissolve.swift; sourceTree = "<group>"; };
 		A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLInfoPrivacyController.swift; sourceTree = "<group>"; };
 		A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
@@ -506,6 +508,7 @@
 				A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */,
 				A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */,
 				A3BF505724D32A3400CD5114 /* PGLMetalController.swift */,
+				A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */,
 				A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */,
 				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
 				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
@@ -736,6 +739,7 @@
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
 				A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */,
 				A3D9FF0B292A9F1400BAE158 /* Quad.swift in Sources */,
+				A3181C042974C84F00834D89 /* PGLNeedsRedraw.swift in Sources */,
 				A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */,
 				A3BF513424D32A3400CD5114 /* PGLPhotoLists.swift in Sources */,
 				A353130F28E31BD5001F2C87 /* PGLCISequenced.swift in Sources */,

@@ -238,6 +238,10 @@ class PGLSelectParmController: PGLCommonController,
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reloadImageCellIcons()
+        // PGLRedrawParmControllerOpenNotification
+        let updateNotification = Notification(name:PGLRedrawParmControllerOpenNotification)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["parmControllerIsOpen" : true as AnyObject])
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -340,7 +344,8 @@ class PGLSelectParmController: PGLCommonController,
         tappedAttribute = nil
 
         // don't update the model targetAttribute.. the imageController needs it.
-
+        let updateNotification = Notification(name:PGLRedrawParmControllerOpenNotification)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["parmControllerIsOpen" : false as AnyObject])
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -34,7 +34,7 @@ class Renderer: NSObject {
      var commandQueue: MTLCommandQueue!
      var colorPixelFormat: MTLPixelFormat!
 //    var texture: MTLTexture!
-
+    var needsRedraw = PGLRedraw()
 
     static let quadVertices: [Float] = [
         -1,  1,  0,    // triangle 1
@@ -239,7 +239,9 @@ extension Renderer: MTKViewDelegate {
             // and notification PGLImageCollectionOpen
 
             return }
-
+        if !needsRedraw.redrawNow() {
+            return
+        }
         guard let currentStack = filterStack()
         else { return }
         let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
