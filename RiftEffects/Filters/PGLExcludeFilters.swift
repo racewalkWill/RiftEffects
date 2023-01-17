@@ -53,6 +53,7 @@ class PGLExcludeFilters {
 "CIQRCodeGenerator",
 "CIRoundedRectangleGenerator",
 "CIPDF417BarcodeGenerator",
+//"WarpItMetalFilter"
 
         ]
 
