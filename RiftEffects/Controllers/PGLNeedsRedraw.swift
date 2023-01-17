@@ -9,6 +9,9 @@
 import Foundation
 let PGLRedrawParmControllerOpenNotification = NSNotification.Name(rawValue: "PGLRedrawParmControllerOpenNotification")
 let PGLRedrawFilterChange = NSNotification.Name(rawValue: "PGLRedrawFilterChange")
+let PGLTransitionFilterExists = NSNotification.Name(rawValue: "PGLTransitionFilterExists")
+let PGLVaryTimerRunning = NSNotification.Name(rawValue: "PGLVaryTimerRunning")
+let PGLResetNeedsRedraw = NSNotification.Name(rawValue: "PGLResetNeedsRedraw")
 
 class PGLRedraw {
     // answers true if mtkView should draw
@@ -25,7 +28,7 @@ class PGLRedraw {
 
     init(){
         // register for changes
-        let parmControllerObservor = myCenter.addObserver(forName: PGLRedrawParmControllerOpenNotification , object: nil, queue: queue ) {
+        _ = myCenter.addObserver(forName: PGLRedrawParmControllerOpenNotification , object: nil, queue: queue ) {
             [weak self]
             myUpdate in
             if let userDataDict = myUpdate.userInfo {
@@ -35,16 +38,46 @@ class PGLRedraw {
             }
         }
 
-        let redrawFilterObservor = myCenter.addObserver(forName: PGLRedrawFilterChange , object: nil, queue: queue ) {
+        _ = myCenter.addObserver(forName: PGLRedrawFilterChange , object: nil, queue: queue ) {
             [weak self]
             myUpdate in
             if let userDataDict = myUpdate.userInfo {
-                if let changeFlag = userDataDict["redrawFilterChange"]  as? Bool {
+                if let changeFlag = userDataDict["filterHasChanged"]  as? Bool {
                     self?.filter(changed: changeFlag)
                 }
             }
         }
 
+        _ = myCenter.addObserver(forName: PGLTransitionFilterExists , object: nil, queue: queue ) {
+            [weak self]
+            myUpdate in
+            if let userDataDict = myUpdate.userInfo {
+                if let changeCount = userDataDict["transitionFilterAdd"]   {
+                    self?.changeTransitionFilter(count: changeCount as! Int)
+                }
+            }
+        }
+        _ = myCenter.addObserver(forName: PGLVaryTimerRunning , object: nil, queue: queue ) {
+            [weak self]
+            myUpdate in
+            if let userDataDict = myUpdate.userInfo {
+                if let changeCount = (userDataDict["varyTimerChange"]) as? Int  {
+                    self?.changeVaryTimerCount(count: changeCount)
+                }
+            }
+        }
+
+        //PGLResetNeedsRedraw
+        _ = myCenter.addObserver(forName: PGLResetNeedsRedraw , object: nil, queue: queue ) {
+            [weak self]
+            myUpdate in
+            self?.parmControllerIsOpen = false
+            self?.transitionFilterExists = false
+            self?.varyTimerIsRunning = false
+            self?.filterChanged = false
+            self?.transitionFilterCount = 0
+            self?.varyTimerCount = 0
+        }
 
     } // end init
     

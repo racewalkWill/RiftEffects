@@ -156,12 +156,14 @@ class PGLFilterStack  {
         //advance activeFilterIndex
         activeFilterIndex = min(activeFilterIndex + 1, activeFilters.count - 1) // zero based array
         // don't advance past the last one
+        postFilterChangeRedraw()
     }
 
     func moveActiveBack() {
         //advance activeFilterIndex
         activeFilterIndex = max(activeFilterIndex - 1, 0)
         // don't advance past the last one
+        postFilterChangeRedraw()
     }
 
 //    func stackNextFilter() {
@@ -201,7 +203,7 @@ class PGLFilterStack  {
         // private - assumes inputs are set
         activeFilters.append(newFilter)
         activeFilterIndex = activeFilters.count - 1 // zero based index
-        updateFilterList()
+        postFilterChangeRedraw()
     }
 
     func appendFilter(_ newFilter: PGLSourceFilter) {
@@ -284,6 +286,9 @@ class PGLFilterStack  {
                 replace(updatedFilter: selectedFilter)
 
         }
+        if selectedFilter.hasAnimation {
+            postTransitionFilterAdd()
+        }
     }
 
     func replace(updatedFilter: PGLSourceFilter) {
@@ -302,14 +307,17 @@ class PGLFilterStack  {
             moveInputsFrom(oldFilter, newFilter)
 
             activeFilters[at] = newFilter
-
+            if oldFilter.hasAnimation {
+                postTransitionFilterRemove()
+            }
             // a delete and add of storedFilters
             if let oldStoredFilter = oldFilter.storedFilter {
                 storedStack?.removeFromFilters(oldStoredFilter)}
             if newFilter.storedFilter != nil {
                 storedStack?.addToFilters(newFilter.storedFilter!)  }
         }
-        updateFilterList()
+        postFilterChangeRedraw()
+
     }
 
     
@@ -320,6 +328,9 @@ class PGLFilterStack  {
                if let storedFilter = myLastFilter.storedFilter  // maybe nil if not saved to core data
                     { storedStack?.removeFromFilters( storedFilter) }
             removedFilter = activeFilters.removeLast()
+            if removedFilter?.hasAnimation ?? false  {
+                    postTransitionFilterRemove()
+                }
             activeFilterIndex = activeFilters.count - 1 // zero based index
             }
         }
@@ -343,6 +354,11 @@ class PGLFilterStack  {
 //            let filterIndexSet = NSIndexSet(indexesIn: filterRange )
             if let cdFiltersToRemove = (storedStack?.filters) {
                 storedStack?.removeFromFilters(cdFiltersToRemove) }
+        }
+        for aFilter in activeFilters {
+            if aFilter.hasAnimation {
+                postTransitionFilterRemove()
+            }
         }
         activeFilters = [PGLSourceFilter]()
         activeFilterIndex = -1 // nothing
@@ -377,21 +393,24 @@ class PGLFilterStack  {
     func removeFilter(position: Int) -> PGLSourceFilter?{
         // returns removedFilter
 
+        var returnValue: PGLSourceFilter?
 
         switch activeFilterIndex {
             case -1  :
                 // somehow empty stack is removing a filter
                 removeAllFilters()
                 childStackResetParent()
-                return nil
+
+                returnValue = nil
             case _ where ( activeFilters.count == 1) :
                 // removing only filter in the stack
                 removeAllFilters()
                 childStackResetParent()
-                return nil
+                returnValue = nil
             case _ where (position >= activeFilters.count - 1) :
                 // on last filter
-                return removeLastFilter()
+                returnValue =  removeLastFilter()
+                    // removeLastFilter will do postTransitionFilterRemove()
             default:
                 // all other cases where stack has multiple filters, take out a mid point
                 let oldFilter = activeFilters.remove(at: position)
@@ -401,9 +420,13 @@ class PGLFilterStack  {
                 moveInputsFrom(oldFilter, newFilter)
                 if oldFilter.storedFilter != nil {
                     storedStack?.removeFromFilters(oldFilter.storedFilter!)}
-                return oldFilter
+                if oldFilter.hasAnimation {
+                    postTransitionFilterRemove()
+                }
+                returnValue = oldFilter
         }
-
+        postFilterChangeRedraw()
+        return returnValue
     }
 
     func hasMultipleFilters()-> Bool {
@@ -568,9 +591,21 @@ class PGLFilterStack  {
         return  currentFilter().outputImage() ??
             CIImage.empty()
     }
-    func updateFilterList() {
-
+    func postFilterChangeRedraw() {
+        let updateNotification = Notification(name:PGLRedrawFilterChange)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["filterHasChanged" : true as AnyObject])
     }
+
+    func postTransitionFilterAdd() {
+        let updateNotification = Notification(name:PGLTransitionFilterExists)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : +1 ])
+    }
+
+    func postTransitionFilterRemove() {
+        let updateNotification = Notification(name:PGLTransitionFilterExists)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : -1 ])
+    }
+
 
     func imageInputIsEmpty(atFilterIndex: Int) -> Bool {
         // empty implementation
@@ -593,6 +628,7 @@ class PGLFilterStack  {
             aFilter.addChildFilters(nextLevel, into: &into)
             indexCounter += 1
         }
+        postFilterChangeRedraw()
 
     }
 

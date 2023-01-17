@@ -773,10 +773,23 @@ class PGLFilterAttribute {
 //        a.invoke()
         // user has selected swipe cell action 'Vary'
         aSourceFilter.animate(attributeTarget: self)
+
     }
     func performActionOff() {
         aSourceFilter.attribute(removeAnimationTarget: self)
+
     }
+
+    func postVaryTimerRunning(){
+        let updateNotification = Notification(name:PGLVaryTimerRunning)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["varyTimerChange" : +1 as AnyObject])
+    }
+
+    func postVaryTimerOff(){
+        let updateNotification = Notification(name:PGLVaryTimerRunning)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["varyTimerChange" : -1 as AnyObject])
+    }
+
 
     func cellAction() -> [PGLTableCellAction] {
         //[(action:String,newCell:PGLFilterAttribute?) ]

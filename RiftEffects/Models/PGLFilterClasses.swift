@@ -604,6 +604,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
                    anAttribute.attributeName == attributeTarget.attributeName
                    }
                 hasAnimation = ( animationAttributes.count > 0 )
+            attributeTarget.postVaryTimerOff()
                }
     }
 
@@ -623,6 +624,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
         hasAnimation = true
         animationAttributes.append(attributeTarget)
+        attributeTarget.postVaryTimerRunning()
     }
 
 
@@ -694,6 +696,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
         hasAnimation = !animationAttributes.isEmpty
             // keep the var and the lower level animationAttributes in sync
+        removeAnimationTarget.postVaryTimerOff() 
     }
 
     func addFilterStepTime() {

@@ -229,8 +229,7 @@ extension Renderer: MTKViewDelegate {
     }
 
     func draw(in view: MTKView) {
-        var sizedciOutputImage: CIImage
-        var imageTexture: MTLTexture
+
         if DoNotDraw {
             view.isHidden = DoNotDraw
             // view.isHidden for iPhone navigation to different mtkViews
@@ -242,6 +241,18 @@ extension Renderer: MTKViewDelegate {
         if !needsRedraw.redrawNow() {
             return
         }
+        drawBasic(in: view)
+        if needsRedraw.filterChanged {
+            needsRedraw.filter(changed: false)
+                // filter change has been drawn
+        }
+        
+    }
+
+    func drawBasic(in view: MTKView) {
+        var sizedciOutputImage: CIImage
+        var imageTexture: MTLTexture
+
         guard let currentStack = filterStack()
         else { return }
         let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
@@ -267,7 +278,7 @@ extension Renderer: MTKViewDelegate {
         else {
                 return }
 //        let loaderOptions = [ MTKTextureLoader.Option.textureStorageMode: MTLStorageMode.private ]
-        
+
         do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
         catch {
             return
@@ -356,12 +367,11 @@ extension Renderer: MTKViewDelegate {
             // NOT clear how to do a release...
 
         renderEncoder.endEncoding()
-        
+
         commandBuffer.present(view.currentDrawable!)
         commandBuffer.commit()
-        
-    }
 
+    }
 
 }
 

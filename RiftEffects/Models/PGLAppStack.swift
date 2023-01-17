@@ -108,6 +108,7 @@ class PGLAppStack {
         let stackNotification = Notification(name:PGLStackChange)
         NotificationCenter.default.post(stackNotification)
 
+        postFilterChangeRedraw()
     }
 
     func postSelectActiveStackRow() {
@@ -163,7 +164,14 @@ class PGLAppStack {
          // 2022-07-23  the line to set to nil did not fix memory
          outputStack.releaseVars()
         dataProvider.reset()
+        resetNeedsRedraw()
+
              // nil out refs so the memory is released
+    }
+
+    func resetNeedsRedraw() {
+        let updateNotification = Notification(name:PGLResetNeedsRedraw)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: nil)
     }
     
     func removeDefaultEmptyFilter() {
@@ -188,7 +196,14 @@ class PGLAppStack {
         viewerStack.activeFilterIndex = filterIndent.filterPosition
         // remove from pushedStacks???
         pushedStacks.removeAll(where: { $0 === viewerStack })
+        postFilterChangeRedraw()
 
+
+    }
+
+    func postFilterChangeRedraw() {
+        let updateNotification = Notification(name:PGLRedrawFilterChange)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["filterHasChanged" : true as AnyObject])
     }
 
     func addChildSequenceStackTo(parm: PGLFilterAttribute) {
