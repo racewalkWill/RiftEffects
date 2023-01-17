@@ -156,7 +156,7 @@ class PGLTranslateAffineUI: PGLFilterAttributeVector {
 
     override  func getValue() -> Any? {
 
-        var parentValue = affineParent?.translate ?? CIVector(cgPoint: CGPointZero)
+        let parentValue = affineParent?.translate ?? CIVector(cgPoint: CGPointZero)
 
         let uiVector = scaleVector(inputVector: parentValue, scaleBy: scaler, divideScale: false)
             // multiply by 1000 for the UI
@@ -275,7 +275,7 @@ class PGLScaleAffineUI: PGLFilterAttributeVector {
     }
 
     override  func getValue() -> Any? {
-        var parentVector = affineParent?.translate ?? CIVector(cgPoint: CGPointZero)
+        let parentVector = affineParent?.translate ?? CIVector(cgPoint: CGPointZero)
 
         let uiVector = scaleVector(inputVector: parentVector, scaleBy: scaler, divideScale: false)
         // multiply by 1000 for the UI

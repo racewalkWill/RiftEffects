@@ -127,7 +127,7 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
               Logger(subsystem: LogSubsystem, category: LogNavigation).info ("PGLAssetGridController notification PGLImageAlbumAdded")
-                    if let newAlbumSource = ( myUpdate.userInfo?["newSource"]) as?  PGLAlbumSource {
+              if ( myUpdate.userInfo?["newSource"]) is  PGLAlbumSource {
 //                        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLAssetGridController = \(self) notification PGLImageAlbumAdded for newAlbumSourse = \(newAlbumSource)")
                         self.applyDataSource()
         //                self?.appendDataSource(albumId: newAlbumSource.identifier, aSourceFetch: newAlbumSource)

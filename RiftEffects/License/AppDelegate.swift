@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if (false ) {
                 // only true when migrating data model change to iCloud
-            guard let description = dataWrapper.persistentContainer.persistentStoreDescriptions.first
+            guard dataWrapper.persistentContainer.persistentStoreDescriptions.first != nil
             else { fatalError("Could not retrieve a persistent store description.")
             }
                 //        // initialize the CloudKit schema

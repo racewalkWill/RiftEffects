@@ -124,10 +124,10 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         guard let userInfo = notification.userInfo else { return }
 
         // Get the animation duration.
-        var animationDuration: TimeInterval = 0
-        if let value = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber {
-           animationDuration = value.doubleValue
-        }
+//        var animationDuration: TimeInterval = 0
+//        if let value = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber {
+//           animationDuration = value.doubleValue
+//        }
 
         // Convert the keyboard frame from screen to view coordinates.
         var keyboardScreenBeginFrame = CGRect()

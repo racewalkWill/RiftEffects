@@ -591,6 +591,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
 
 // MARK: Filter Animation frame changes
+
+
     func stopAnimation(attributeTarget: PGLFilterAttribute) {
         
         if attributeTarget.attributeValueDelta != nil {
@@ -656,6 +658,12 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
            // change at dissolve rate increment when offscreen
     }
 
+    func stopAllAnimation() {
+        for animationAttribute in animationAttributes {
+            stopAnimation(attributeTarget: animationAttribute)
+            // this triggers the needsRedraw flag for varyRunning to false
+        }
+    }
     func animate(attributeTarget: PGLFilterAttribute) {
         // put the attribute into receiver array for addStepTime and increment messages
 //         fatalError("animate(attributeTarget: is replaced by stop start methods")

@@ -31,9 +31,16 @@ class PGLSequenceDissolve: PGLTransitionFilter {
     required init?(filter: String, position: PGLFilterCategoryIndex) {
         super.init(filter: filter, position: position)
         hasAnimation = true
+        postTransitionFilterAdd()
 
 
+    }
 
+    deinit {
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+        postTransitionFilterRemove()
+        // as an internal filter the stack does not know about
+        // this dissolve so this filter has to remove the needsRedraw flag for transition
     }
 
     func dissolveOutput() -> CIImage? {
@@ -66,7 +73,15 @@ class PGLSequenceDissolve: PGLTransitionFilter {
         localFilter.setValue(inputTime, forKey: kCIInputTimeKey)
     }
 
+    func postTransitionFilterAdd() {
+        let updateNotification = Notification(name:PGLTransitionFilterExists)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : +1 ])
+    }
 
+    func postTransitionFilterRemove() {
+        let updateNotification = Notification(name:PGLTransitionFilterExists)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : -1 ])
+    }
 
 
 

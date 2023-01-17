@@ -236,6 +236,9 @@ class PGLFilterStack  {
         }
         newFilter.setSourceFilter(sourceLocation: (source: self, at: activeFilterIndex), attributeKey: kCIInputImageKey)
         append(newFilter)
+        if newFilter.isTransitionFilter() {
+            postTransitionFilterAdd()
+        }
         
      
 
@@ -286,9 +289,7 @@ class PGLFilterStack  {
                 replace(updatedFilter: selectedFilter)
 
         }
-        if selectedFilter.hasAnimation {
-            postTransitionFilterAdd()
-        }
+
     }
 
     func replace(updatedFilter: PGLSourceFilter) {
@@ -307,8 +308,11 @@ class PGLFilterStack  {
             moveInputsFrom(oldFilter, newFilter)
 
             activeFilters[at] = newFilter
-            if oldFilter.hasAnimation {
+            if oldFilter.isTransitionFilter() {
                 postTransitionFilterRemove()
+            }
+            if oldFilter.hasAnimation {
+                oldFilter.stopAllAnimation()
             }
             // a delete and add of storedFilters
             if let oldStoredFilter = oldFilter.storedFilter {
@@ -317,6 +321,9 @@ class PGLFilterStack  {
                 storedStack?.addToFilters(newFilter.storedFilter!)  }
         }
         postFilterChangeRedraw()
+        if newFilter.isTransitionFilter() {
+            postTransitionFilterAdd()
+        }
 
     }
 
@@ -328,9 +335,12 @@ class PGLFilterStack  {
                if let storedFilter = myLastFilter.storedFilter  // maybe nil if not saved to core data
                     { storedStack?.removeFromFilters( storedFilter) }
             removedFilter = activeFilters.removeLast()
-            if removedFilter?.hasAnimation ?? false  {
+            if removedFilter?.isTransitionFilter() ?? false  {
                     postTransitionFilterRemove()
                 }
+            if removedFilter?.hasAnimation ?? false {
+                removedFilter?.stopAllAnimation()
+            }
             activeFilterIndex = activeFilters.count - 1 // zero based index
             }
         }
@@ -356,8 +366,11 @@ class PGLFilterStack  {
                 storedStack?.removeFromFilters(cdFiltersToRemove) }
         }
         for aFilter in activeFilters {
-            if aFilter.hasAnimation {
+            if aFilter.isTransitionFilter() {
                 postTransitionFilterRemove()
+            }
+            if aFilter.hasAnimation {
+                aFilter.stopAllAnimation()
             }
         }
         activeFilters = [PGLSourceFilter]()
@@ -420,8 +433,11 @@ class PGLFilterStack  {
                 moveInputsFrom(oldFilter, newFilter)
                 if oldFilter.storedFilter != nil {
                     storedStack?.removeFromFilters(oldFilter.storedFilter!)}
-                if oldFilter.hasAnimation {
+                if oldFilter.isTransitionFilter() {
                     postTransitionFilterRemove()
+                }
+                if oldFilter.hasAnimation {
+                    oldFilter.stopAllAnimation()
                 }
                 returnValue = oldFilter
         }

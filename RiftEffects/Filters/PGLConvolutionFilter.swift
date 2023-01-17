@@ -19,7 +19,7 @@ class Matrix {
     var grid: [CGFloat]
 
     class func FromVector(baseRows: Int, baseColumns: Int ,  vector: CIVector) -> Matrix {
-        var vectorMatrix = Matrix(rows: baseRows, columns: baseColumns)
+        let vectorMatrix = Matrix(rows: baseRows, columns: baseColumns)
         for thisRow in 0..<baseRows {
             for thisColumn in 0..<baseColumns {
                 let rowOffset = thisRow * baseRows
