@@ -100,4 +100,17 @@ class PGLSequenceStack: PGLFilterStack {
         return false
     }
 
+    override  func imageUpdate(_ inputImage: CIImage?, _ showCurrentFilterImage: Bool) -> CIImage {
+            // send the inputImage to the activeFilters
+//        super.imageUpdate(inputImage, showCurrentFilterImage)
+        // NOT CLEAR WHY this is needed..
+        // in loading some saved sequenceFilter stacks there is an
+        // error in the PGLSourceFilter #outputImageBasic of
+        // NSInvalidArgumentException', reason: '*** -[__NSPlaceholderArray initWithObjects:count:]: attempt to insert nil object from objects[0]'
+        // however other saved sequenceFilter stacks are fine..
+        // error in testing on stack named 'sequence4' 1/19/2023 8:28 am
+        // all the coredata rows & relations appear correct.
+
+        return inputImage ?? CIImage.empty()
+    }
 }
