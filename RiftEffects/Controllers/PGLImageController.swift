@@ -116,6 +116,14 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             }
     }
 
+    @IBOutlet weak var toggleAnimationPauseBtyn: UIBarButtonItem!
+
+    @IBAction func toggleAnimationPause(_ sender: UIBarButtonItem) {
+        let updateNotification = Notification(name:PGLPauseAnimation)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: nil )
+    }
+
+
 
     @IBAction func randomBtnAction(_ sender: UIBarButtonItem) {
 //        NSLog("PGLImageController addRandom button click")

@@ -12,13 +12,17 @@ let PGLRedrawFilterChange = NSNotification.Name(rawValue: "PGLRedrawFilterChange
 let PGLTransitionFilterExists = NSNotification.Name(rawValue: "PGLTransitionFilterExists")
 let PGLVaryTimerRunning = NSNotification.Name(rawValue: "PGLVaryTimerRunning")
 let PGLResetNeedsRedraw = NSNotification.Name(rawValue: "PGLResetNeedsRedraw")
+let PGLPauseAnimation = NSNotification.Name(rawValue: "PGLPauseAnimation")
 
 class PGLRedraw {
-    // answers true if mtkView should draw
+    // answers true  redrawNow() if mtkView should draw
+    //   prmControllerIsOpen || transitionFilterExists || varyTimerIsRunning || filterChanged
+    // answers  true imageAnimationRunning() if transitionFilterExists || varyTimerIsRunning
     var parmControllerIsOpen = false
     var transitionFilterExists = false
     var varyTimerIsRunning = false
     var filterChanged = false
+    var pauseAnimation = false
 
     private var transitionFilterCount = 0
     private var varyTimerCount = 0
@@ -67,6 +71,14 @@ class PGLRedraw {
             }
         }
 
+        _ = myCenter.addObserver(forName: PGLPauseAnimation , object: nil, queue: queue ) {
+            [weak self]
+            myUpdate in
+            self?.pauseAnimation = !(self?.pauseAnimation ?? true)
+                // defaults to !true  ie false
+
+        }
+
         //PGLResetNeedsRedraw
         _ = myCenter.addObserver(forName: PGLResetNeedsRedraw , object: nil, queue: queue ) {
             [weak self]
@@ -75,6 +87,7 @@ class PGLRedraw {
             self?.transitionFilterExists = false
             self?.varyTimerIsRunning = false
             self?.filterChanged = false
+            self?.pauseAnimation = false
             self?.transitionFilterCount = 0
             self?.varyTimerCount = 0
         }
@@ -85,6 +98,11 @@ class PGLRedraw {
         // answer true if any condition is true
         return parmControllerIsOpen || transitionFilterExists || varyTimerIsRunning || filterChanged
     }
+
+    func shouldPauseAnimation() -> Bool {
+       return pauseAnimation
+    }
+
 
     func parmController(isOpen: Bool) {
         parmControllerIsOpen = isOpen

@@ -241,6 +241,9 @@ extension Renderer: MTKViewDelegate {
         if !needsRedraw.redrawNow() {
             return
         }
+        if needsRedraw.shouldPauseAnimation() {
+            return
+        }
         drawBasic(in: view)
         if needsRedraw.filterChanged {
             needsRedraw.filter(changed: false)

@@ -14,6 +14,7 @@
 		A31FAF9F28F5E619002DCFEA /* PGLSequenceDissolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */; };
 		A320F6262669550E008F6090 /* PGLInfoPrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */; };
 		A320F62A26699FA8008F6090 /* PrivacyPolicy.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */; };
+		A32336E8299ED46700D9A39A /* PGLSourceMetalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32336E7299ED46700D9A39A /* PGLSourceMetalFilter.swift */; };
 		A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */; };
 		A327122229775C30007DF04A /* MetalFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327122129775C30007DF04A /* MetalFilters.swift */; };
 		A32F2137283BB93C006C026F /* PGLNavStackImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F2136283BB93C006C026F /* PGLNavStackImageController.swift */; };
@@ -164,6 +165,7 @@
 		A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequenceDissolve.swift; sourceTree = "<group>"; };
 		A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLInfoPrivacyController.swift; sourceTree = "<group>"; };
 		A320F62926699FA7008F6090 /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
+		A32336E7299ED46700D9A39A /* PGLSourceMetalFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLSourceMetalFilter.swift; sourceTree = "<group>"; };
 		A3249AAF25BC728D00F7FAC2 /* PGLDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDemo.swift; sourceTree = "<group>"; };
 		A327122129775C30007DF04A /* MetalFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalFilters.swift; sourceTree = "<group>"; };
 		A32F2136283BB93C006C026F /* PGLNavStackImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLNavStackImageController.swift; sourceTree = "<group>"; };
@@ -531,6 +533,7 @@
 			isa = PBXGroup;
 			children = (
 				A327122129775C30007DF04A /* MetalFilters.swift */,
+				A32336E7299ED46700D9A39A /* PGLSourceMetalFilter.swift */,
 				A3BF50C924D32A3400CD5114 /* PGLFilterCIAbstract.swift */,
 				A3BF505024D32A3400CD5114 /* TiltShift.swift */,
 				A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */,
@@ -824,6 +827,7 @@
 				A32F2139283BBA83006C026F /* PGLNavSecondaryController.swift in Sources */,
 				A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */,
 				A353131128E37613001F2C87 /* PGLSequenceStack.swift in Sources */,
+				A32336E8299ED46700D9A39A /* PGLSourceMetalFilter.swift in Sources */,
 				A32F213D283BBF3A006C026F /* PGLFilterImageContainerController.swift in Sources */,
 				A357B17C2950F60D00331980 /* CGAffineTransform.swift in Sources */,
 				A3BF50E524D32A3400CD5114 /* PGLFilterCategoryIndex.swift in Sources */,

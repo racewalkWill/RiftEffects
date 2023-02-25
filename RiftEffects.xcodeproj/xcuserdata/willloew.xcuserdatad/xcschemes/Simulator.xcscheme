@@ -64,7 +64,7 @@
          <EnvironmentVariable
             key = "DeviceIsSimulator"
             value = "true"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

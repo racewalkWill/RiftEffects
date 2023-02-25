@@ -87,7 +87,7 @@ class PGLFilterCategory {
 //       PGLFilterCIAbstract.register()
 //
 //       
-//        WarpItMetalFilter.register()
+        WarpItMetalFilter.register()
         if UserDefaults.standard.stringArray(forKey: Bookmark) == nil
         {
             let newFrequentFilters = [ "Random Filters"] // CIFilter name, not the display name

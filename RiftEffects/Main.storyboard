@@ -3,6 +3,7 @@
     <device id="ipad11_0rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -322,7 +323,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="239" height="695"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="695"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
@@ -425,6 +426,12 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="EUH-a9-le3"/>
+                            <barButtonItem title="toggleAnimationPause" id="Jl0-kr-4aK">
+                                <imageReference key="image" image="playpause" catalog="system" symbolScale="default"/>
+                                <connections>
+                                    <action selector="toggleAnimationPause:" destination="Cot-0o-SSg" id="K1q-UK-aj4"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Random" id="q7I-R2-kMZ">
                                 <connections>
                                     <action selector="randomBtnAction:" destination="Cot-0o-SSg" id="sMR-Ym-NUO"/>
@@ -441,6 +448,7 @@
                         <outlet property="parmSlider" destination="zCg-lU-rqI" id="iU8-Va-3cX"/>
                         <outlet property="randomBtn" destination="q7I-R2-kMZ" id="wnG-Ih-ZAj"/>
                         <outlet property="rightTintView" destination="6Ki-pV-gkl" id="pC4-6T-dRi"/>
+                        <outlet property="toggleAnimationPauseBtyn" destination="Jl0-kr-4aK" id="B7A-SM-sqP"/>
                         <outlet property="topTintView" destination="WIG-ES-l8C" id="4WK-Ii-zR6"/>
                         <outletCollection property="sliders" destination="xpj-gS-MzU" collectionClass="NSMutableArray" id="DVW-U3-NZP"/>
                         <outletCollection property="sliders" destination="a5o-Sr-vCZ" collectionClass="NSMutableArray" id="RjS-RG-r5F"/>
@@ -530,17 +538,17 @@
                         <viewControllerLayoutGuide type="bottom" id="Tg7-pC-Cny"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XUw-wD-ESd">
-                        <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLw-aW-l5j">
-                                <rect key="frame" x="20" y="245" width="199" height="445"/>
+                                <rect key="frame" x="20" y="319" width="1154" height="445"/>
                                 <connections>
                                     <segue destination="0Eu-a7-58l" kind="embed" identifier="lowerAssetGridSegue" id="swi-V6-4OA"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-hy-dK1">
-                                <rect key="frame" x="20" y="10" width="199" height="225"/>
+                                <rect key="frame" x="20" y="84" width="1154" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="225" id="vEE-Uw-L6Y"/>
                                 </constraints>
@@ -637,15 +645,15 @@
                         <viewControllerLayoutGuide type="bottom" id="VLb-a3-ytY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YGP-pA-aiW">
-                        <rect key="frame" x="0.0" y="0.0" width="199" height="369"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="349"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BeI-dm-W4b">
-                                <rect key="frame" x="0.0" y="54" width="199" height="265"/>
+                                <rect key="frame" x="0.0" y="54" width="704" height="245"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="102" y="74" width="70" height="54"/>
+                                <rect key="frame" x="607" y="74" width="70" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -660,7 +668,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGG-2u-BuS" userLabel="gestureView">
-                                <rect key="frame" x="40" y="74" width="119" height="225"/>
+                                <rect key="frame" x="40" y="74" width="624" height="205"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -787,7 +795,7 @@
                         <viewControllerLayoutGuide type="bottom" id="noZ-c1-sxH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="59X-KM-19h">
-                        <rect key="frame" x="0.0" y="0.0" width="199" height="225"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1154" height="225"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -808,7 +816,7 @@
                         <viewControllerLayoutGuide type="bottom" id="RMh-Hm-vBq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bua-CM-r0T">
-                        <rect key="frame" x="0.0" y="0.0" width="199" height="445"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1154" height="445"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -1106,11 +1114,11 @@
                         <viewControllerLayoutGuide type="bottom" id="j3d-oc-3aS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vua-Lu-kpo">
-                        <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="760"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
-                                <rect key="frame" x="-5" y="714" width="237" height="46"/>
+                                <rect key="frame" x="-5" y="714" width="1192" height="46"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Mode Tool Bar Btn" image="rectangle.grid.1x2" catalog="system" id="wgX-bj-pqm">
@@ -1411,9 +1419,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cxI-vr-Pxp"/>
+        <segue reference="4FJ-we-3bf"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="zWl-eA-30q"/>
+        <segue reference="HUk-NN-bR8"/>
         <segue reference="Xyz-2Z-Q4q"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -1424,6 +1432,7 @@
         <image name="minus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="photo" catalog="system" width="128" height="93"/>
         <image name="photo.artframe" catalog="system" width="128" height="93"/>
+        <image name="playpause" catalog="system" width="128" height="79"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="questionmark.square.dashed" catalog="system" width="128" height="114"/>
         <image name="rectangle.grid.1x2" catalog="system" width="128" height="100"/>

@@ -673,25 +673,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         else {
             startAnimation(attributeTarget: attributeTarget)
         }
-//        if attributeTarget.animationTime != nil {
-//            // stop the animation
-//
-//            attributeTarget.animationTime = nil
-//            attributeTarget.setTimerDt(rate: defaultDt)
-//            animationAttributes.removeAll { (anAttribute: PGLFilterAttribute) -> Bool in
-//                anAttribute.attributeName == attributeTarget.attributeName
-//            }
-//             hasAnimation = ( animationAttributes.count > 0 )
-//        }
-//        else { // start the animation
-//            hasAnimation = true
-//
-//            attributeTarget.animationTime = 0.0 // start animation logic
-//            animationAttributes.append(attributeTarget)
-//
-//            attributeTarget.attributeDt = defaultDt // default rate of change from the filter
-//
-//        }
+
     }
 
     func attribute(removeAnimationTarget: PGLFilterAttribute) {
@@ -1168,8 +1150,8 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
             case kPTiltShift :
                 return PGLTiltShift()
 
-//            case kPWarpItMetal :
-//                return WarpItMetalFilter()
+            case kPWarpItMetal :
+                return WarpItMetalFilter()
 
             case kCompositeTextPositionFilter:
 //                return PGLTextImageGenerator.internalCIFilter()
