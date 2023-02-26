@@ -54,8 +54,27 @@ class PGLSequenceStack: PGLFilterStack {
     func setInputToStack()  {
         let myInputAttribute = parentAttribute as? PGLFilterAttributeImage
         let myImage =  myInputAttribute?.getCurrentImage()
+
         inputFilter.setInput(image: myImage, source: "parent")
         targetFilter.setInput(image: myImage, source: "parent")
+
+        // check if background, mask attributes are used by inputfilter and targetFilter
+        // fill in values from the parent background & mask attibutes
+
+        guard let myParentSequenceFilter = parentAttribute?.aSourceFilter else
+        { return }
+
+        if  let inputBackgroundImage = myParentSequenceFilter.getBackgroundImage() {
+                inputFilter.setBackgroundInput(image: inputBackgroundImage)
+                targetFilter.setBackgroundInput(image: inputBackgroundImage)
+        }
+
+        if  let inputMaskImage = myParentSequenceFilter.getMaskImage() {
+                inputFilter.setMaskInput(image: inputMaskImage)
+                targetFilter.setBackgroundInput(image: inputMaskImage)
+        }
+
+
     }
 
     func currentInputFilter() -> PGLSourceFilter {

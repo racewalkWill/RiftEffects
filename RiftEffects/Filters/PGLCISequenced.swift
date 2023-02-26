@@ -12,6 +12,8 @@ class PGLCISequenced: CIFilter {
     // just return an image.. NO EFFECTS.. Starts the filter chain..
 
     @objc dynamic   var inputImage: CIImage?
+    @objc dynamic   var inputBackgroundImage: CIImage?
+    @objc dynamic   var inputMaskImage: CIImage?
     @objc dynamic   var inputTime: NSNumber = 10.0
     var myFilterSequence: PGLSequenceStack!
 

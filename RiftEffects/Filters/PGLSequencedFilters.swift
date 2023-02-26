@@ -141,7 +141,27 @@ class PGLSequencedFilters: PGLSourceFilter {
     }
 }
 
-extension PGLFilterAttributeImage {
+extension PGLSourceFilter {
+    func getBackgroundImage() -> CIImage? {
+        if let backgroundAttribute = attributes.first(where: { $0.isBackgroundImageInput() }){
+            return backgroundAttribute.getCurrentImage()
+            }
+        else {
+            return nil
+            }
+        }
+
+    func getMaskImage() -> CIImage? {
+        if let maskAttribute = attributes.first(where: { $0.isMaskImageInput() }) {
+            return maskAttribute.getCurrentImage()
+            }
+        else {
+            return nil
+            }
+        }
+}
+
+extension PGLFilterAttribute{
     func getCurrentImage() -> CIImage? {
         // current image from the inputCollection
         // or empty ciImage
@@ -152,4 +172,8 @@ extension PGLFilterAttributeImage {
         }
         return inputCollection!.getCurrentImage()
     }
+
+
+
+
 }

@@ -380,6 +380,12 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
     }
 
+    func isMaskImageInput() -> Bool {
+        return attributes.contains { (attribute: PGLFilterAttribute ) -> Bool in
+            attribute.isMaskImageInput()
+        }
+    }
+
     func setImageValuesAndClone(inputList: PGLImageList, attributeName:String ) {
         //  superclass implementation to dispatch into the attribute
         // special filters that need aux data to function should override
@@ -448,6 +454,13 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     func setBackgroundInput(image: CIImage?) {
         if isBackgroundImageInput() {
             localFilter.setValue( image, forKey: kCIInputBackgroundImageKey)
+            postImageChange()
+        }
+    }
+
+    func setMaskInput(image: CIImage?) {
+        if isMaskImageInput() {
+            localFilter.setValue( image, forKey: kCIInputMaskImageKey)
             postImageChange()
         }
     }

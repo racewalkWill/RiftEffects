@@ -551,6 +551,11 @@ class PGLFilterAttribute {
       
     }
 
+    func isMaskImageInput() -> Bool {
+       return (attributeType == kCIAttributeTypeImage) && (attributeName == kCIInputMaskImageKey)
+
+    }
+
     func isTimeTransition() -> Bool {
         // answer true if the attribute is for input time of a transition such as Dissolve
         return (attributeType == kCIAttributeTypeTime)
