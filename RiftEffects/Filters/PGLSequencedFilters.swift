@@ -24,7 +24,7 @@ class PGLSequencedFilters: PGLSourceFilter {
     var pauseForFramesCount = 300 // initial 5 secs * 60 fps
     var frameCount = 0
 
-    fileprivate func setDissolveWrapper() {
+    fileprivate func setDissolveWrapper(onStack: PGLSequenceStack) {
         // install a detector input to the tappedAttribute.
         // needs input image of this filter and a detector
         // detector holds the parm to set point values
@@ -37,7 +37,7 @@ class PGLSequencedFilters: PGLSourceFilter {
         let wrapperFilter = wrapperDesc.pglSourceFilter() as! PGLSequenceDissolve
 
         wrapperFilter.sequenceFilter = self
-        wrapperFilter.sequenceStack = filterSequence()
+        wrapperFilter.sequenceStack = onStack
         dissolve = wrapperFilter
         
         self.hasAnimation = false  //  current filter is NOT animating. The wrapper is
@@ -47,9 +47,11 @@ class PGLSequencedFilters: PGLSourceFilter {
     override func addChildSequenceStack(appStack: PGLAppStack) {
         // actually do the add
         if let myImageParm = getInputImageAttribute() {
-            appStack.addChildSequenceStackTo(parm: myImageParm)
+             let newChildSequenceStack =  appStack.addChildSequenceStackTo(parm: myImageParm)
+             setDissolveWrapper(onStack: newChildSequenceStack)
+
         }
-        setDissolveWrapper()
+
     }
 
     override func setUpStack(onParentImageParm: PGLFilterAttributeImage) -> PGLFilterStack {
@@ -64,9 +66,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         }
         newSequenceStack.stackType = "input"
         newSequenceStack.parentAttribute = onParentImageParm
-        onParentImageParm.inputStack = newSequenceStack
+
         onParentImageParm.setImageParmState(newState: ImageParm.inputChildStack)
-        setDissolveWrapper()
+        setDissolveWrapper(onStack: newSequenceStack)
         return newSequenceStack
 
     }
@@ -83,13 +85,21 @@ class PGLSequencedFilters: PGLSourceFilter {
 
     }
 
+    func incrementImageLists() {
+        // send increment to the image parm lists
+        for anImageParm in imageParms() ?? [PGLFilterAttributeImage]() {
+            anImageParm.inputCollection?.increment()
+        }
+    }
     func filterSequence() -> PGLSequenceStack? {
-        return getInputImageAttribute()?.inputStack as? PGLSequenceStack
+        
+        return dissolve.sequenceStack
     }
 
     override func addFilterStepTime() {
         // in this overridden method
         // just advance the SequenceStack on the hidden dissolve parm
+        // see also  PGLSequenceStack#setInputToStack() for alternation of target/input
 
         frameCount += 1
         if frameCount < pauseForFramesCount {
@@ -105,6 +115,7 @@ class PGLSequencedFilters: PGLSourceFilter {
             theSequenceStack.increment(hidden: .input )
             dissolveDT = dissolveDT * -1 // past end so toggle
             frameCount = 0
+            incrementImageLists()
 
         }
         else if (stepTime < 0.0) {
@@ -112,6 +123,8 @@ class PGLSequencedFilters: PGLSourceFilter {
             theSequenceStack.increment(hidden: .target )
             dissolveDT = dissolveDT * -1 // past end so toggle
             frameCount = 0
+//            incrementImageLists()
+            // see also  PGLSequenceStack#setInputToStack()
         }
 
         // go back and forth between 0 and 1.0

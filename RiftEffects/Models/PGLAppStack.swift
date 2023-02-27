@@ -206,7 +206,7 @@ class PGLAppStack {
         NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["filterHasChanged" : true as AnyObject])
     }
 
-    func addChildSequenceStackTo(parm: PGLFilterAttribute) {
+    func addChildSequenceStackTo(parm: PGLFilterAttribute) -> PGLSequenceStack {
         // same as addChildStackTo(parm: PGLFilterAttribute)
         // but with different stack class
 
@@ -220,6 +220,7 @@ class PGLAppStack {
 
             addChildStackBasic(newSequenceStack, parm)
         }
+        return newSequenceStack
     }
     
     fileprivate func addChildStackBasic(_ newStack: PGLFilterStack, _ parm: PGLFilterAttribute) {

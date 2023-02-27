@@ -52,11 +52,14 @@ class PGLSequenceStack: PGLFilterStack {
     }
 
     func setInputToStack()  {
+        // only increment the target while off screen
+        // see also PGLSequenceFilter#addFilterStepTime() which alternates the increment of the
+        // image
         let myInputAttribute = parentAttribute as? PGLFilterAttributeImage
         let myImage =  myInputAttribute?.getCurrentImage()
 
         inputFilter.setInput(image: myImage, source: "parent")
-        targetFilter.setInput(image: myImage, source: "parent")
+//        targetFilter.setInput(image: myImage, source: "parent")
 
         // check if background, mask attributes are used by inputfilter and targetFilter
         // fill in values from the parent background & mask attibutes
@@ -66,12 +69,12 @@ class PGLSequenceStack: PGLFilterStack {
 
         if  let inputBackgroundImage = myParentSequenceFilter.getBackgroundImage() {
                 inputFilter.setBackgroundInput(image: inputBackgroundImage)
-                targetFilter.setBackgroundInput(image: inputBackgroundImage)
+//                targetFilter.setBackgroundInput(image: inputBackgroundImage)
         }
 
         if  let inputMaskImage = myParentSequenceFilter.getMaskImage() {
                 inputFilter.setMaskInput(image: inputMaskImage)
-                targetFilter.setBackgroundInput(image: inputMaskImage)
+//                targetFilter.setMaskInput(image: inputMaskImage)
         }
 
 
