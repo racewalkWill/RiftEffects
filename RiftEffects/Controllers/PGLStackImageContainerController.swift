@@ -69,6 +69,11 @@ class PGLStackImageContainerController: UIViewController {
         setUpdateEditButton()
 //        setNeedsStatusBarAppearanceUpdate()
 
+        // if the stack is empty go to the addFilter directly
+        if containerStackController?.appStack.viewerStack.isEmptyStack() ?? true {
+            containerAddFilter(UIBarButtonItem())
+        }
+
     }
 
 
