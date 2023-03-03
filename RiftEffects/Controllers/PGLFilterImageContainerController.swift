@@ -69,7 +69,7 @@ class PGLFilterImageContainerController: UIViewController {
 
 
         setMoreBtnMenu()
-        containerFilterController?.groupModeAction(modeToolBarBtn)
+
         navigationItem.title = "Filters"//viewerStack.stackName
 
         navigationController?.isToolbarHidden = true
