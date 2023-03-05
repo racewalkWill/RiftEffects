@@ -17,7 +17,7 @@ enum FilterChangeMode{
 let ABCSymbol = UIImage(systemName: "textformat.abc")
 let GroupSymbol = UIImage(systemName: "rectangle.grid.1x2")
 
-class PGLFilterTableController: UITableViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate {
+class PGLFilterTableController: UIViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate, UICollectionViewDelegate {
         //UIDragInteractionDelegate, UIDropInteractionDelegate
 
     //MARK: - Properties
@@ -42,6 +42,22 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
     static let tableViewCellIdentifier = "cellID"
     private static let nibName = "TableCell"
 
+    // MARK: ListView
+     struct Item: Hashable {
+        let title: String?
+        let descriptor: PGLFilterDescriptor?
+            // if nil then use the title for the category
+    }
+
+     var dataSource: UICollectionViewDiffableDataSource<Int, Item>! = nil
+     var tableView: UICollectionView! = nil
+
+        // MARK: from PGLMainFilterController
+        @IBOutlet weak var addToFrequentBtn: UIBarButtonItem!
+
+
+        @IBOutlet weak var bookmarkRemove: UIBarButtonItem!
+
     // MARK: Filter Navigator Modes
 
     enum FilterNavigatorMode: String
@@ -62,14 +78,20 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // MARK: List Setup
+        configureHierarchy()
+        configureDataSource()
+        selectCurrentFilterRow()
+
+//        tableView.tableHeaderView = searchController.searchBar
 
 //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
-        let nib = UINib(nibName: PGLFilterTableController.nibName, bundle: nil)
+        _ = UINib(nibName: PGLFilterTableController.nibName, bundle: nil)
 
         // Required if our subclasses are to use `dequeueReusableCellWithIdentifier(_:forIndexPath:)`.
-        tableView.register(nib, forCellReuseIdentifier: PGLFilterTableController.tableViewCellIdentifier)
+//        tableView.register(nib, forCellReuseIdentifier: PGLFilterTableController.tableViewCellIdentifier)
         
-        clearsSelectionOnViewWillAppear = false // keep the selection
+//        clearsSelectionOnViewWillAppear = false // keep the selection
 
         splitViewController?.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
@@ -81,9 +103,8 @@ class PGLFilterTableController: UITableViewController,  UINavigationControllerDe
         // closure is evaluated when referenced
         //            updateSelectedButtons()
         navigationItem.title = "Filters" //thisStack.stackName
-        
-        tableView.register(UITableViewHeaderFooterView.self,
-                           forHeaderFooterViewReuseIdentifier: "HeaderRenderer")
+
+
         let myCenter =  NotificationCenter.default
         let queue = OperationQueue.main
       let aNotification =  myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
@@ -127,76 +148,76 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // return the number of sections
-        switch mode
-        {
-        case .Grouped:
-            return categories.count
-        case .Flat:
-            return 1
-        }
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        // return the number of sections
+//        switch mode
+//        {
+//        case .Grouped:
+//            return categories.count
+//        case .Flat:
+//            return 1
+//        }
+//    }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // # return the number of rows
-        switch mode
-        {
-        case .Grouped:
-            return categories[section].filterDescriptors.count
-        case .Flat:
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController numberOfRowsInSection count = \(self.filters.count)")
-            return filters.count
-        }
-    }
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        // # return the number of rows
+//        switch mode
+//        {
+//        case .Grouped:
+//            return categories[section].filterDescriptors.count
+//        case .Flat:
+//            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController numberOfRowsInSection count = \(self.filters.count)")
+//            return filters.count
+//        }
+//    }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-    {
-        switch mode
-        {
-        case .Grouped:
-            return 40
-        case .Flat:
-            return 0
-        }
-    }
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+//    {
+//        switch mode
+//        {
+//        case .Grouped:
+//            return 40
+//        case .Flat:
+//            return 0
+//        }
+//    }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-    {
-        let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderRenderer")
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+//    {
+//        let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderRenderer")
+//
+//        switch mode
+//        {
+//        case .Grouped:
+//            cell?.textLabel?.text = categories[section].categoryName
+//
+//        case .Flat:
+//            cell?.textLabel?.text = nil
+//        }
+//
+//        return cell
+//    }
 
-        switch mode
-        {
-        case .Grouped:
-            cell?.textLabel?.text = categories[section].categoryName
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+////        NSLog("PGLFilterTableController cellForRowAt indexPath = \(indexPath)")
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "filterBasic", for: indexPath)
+//
+//        var descriptor: PGLFilterDescriptor
+//        switch mode {
+//            case .Grouped:
+//                descriptor = categories[indexPath.section].filterDescriptors[indexPath.row]
+//            case .Flat:
+//                descriptor = filters[indexPath.row]
+//        }
+//         cell.textLabel?.text = descriptor.displayName
+//        return cell
+//    }
 
-        case .Flat:
-            cell?.textLabel?.text = nil
-        }
-
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        NSLog("PGLFilterTableController cellForRowAt indexPath = \(indexPath)")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "filterBasic", for: indexPath)
-
-        var descriptor: PGLFilterDescriptor
-        switch mode {
-            case .Grouped:
-                descriptor = categories[indexPath.section].filterDescriptors[indexPath.row]
-            case .Flat:
-                descriptor = filters[indexPath.row]
-        }
-         cell.textLabel?.text = descriptor.displayName
-        return cell
-    }
-
-    func configureCell(_ cell: UITableViewCell, descriptor: PGLFilterDescriptor) {
-        // see overlap with the method updateFilterLabel()
-        cell.textLabel?.text = descriptor.displayName
-//        cell.detailTextLabel?.text =
-    }
+//    func configureCell(_ cell: UITableViewCell, descriptor: PGLFilterDescriptor) {
+//        // see overlap with the method updateFilterLabel()
+//        cell.textLabel?.text = descriptor.displayName
+////        cell.detailTextLabel?.text =
+//    }
 
     func performFilterPick(descriptor: PGLFilterDescriptor) {
         // called by both subclasses from didSelectRow
@@ -251,42 +272,6 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 }
 
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-
     // MARK: - LongPressGestures
     func setLongPressGesture() {
 
@@ -314,23 +299,23 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
     @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
 
-        let point = sender.location(in: tableView)
+        _ = sender.location(in: tableView)
 
         if sender.state == .began
         {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController longPressAction begin")
-            guard let longPressIndexPath = tableView.indexPathForRow(at: point) else {
+            guard let longPressIndexPath = tableView.indexPathsForSelectedItems else {
                 longPressStart = nil // assign to var
                 return
             }
-            longPressStart = longPressIndexPath // assign to var
+            longPressStart = longPressIndexPath.first // assign to var
         }
         if sender.state == .recognized {  // could also use .ended but there is slight delay
             // open popup with filter userDescription
             if longPressStart != nil {
                 var descriptor: PGLFilterDescriptor
 
-                guard let tableCell = tableView.cellForRow(at: longPressStart!) else { return  }
+                guard let tableCell = tableView.cellForItem(at: longPressStart!) else { return  }
                 switch mode {
                     case .Grouped:
                         descriptor = categories[longPressStart!.section].filterDescriptors[longPressStart!.row]
@@ -346,7 +331,7 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
     }
 
-    func popUpFilterDescription(filterName: String, filterText: String, filterCell: UITableViewCell) {
+    func popUpFilterDescription(filterName: String, filterText: String, filterCell: UICollectionViewCell) {
         guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLPopUpFilterInfo") as? PGLPopUpFilterInfo
         else {
             return
@@ -396,6 +381,262 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
 
 
 }
+
+extension PGLFilterTableController {
+    // MARK: List groups
+    private func createLayout() -> UICollectionViewLayout {
+        return UICollectionViewCompositionalLayout { [unowned self] section, layoutEnvironment in
+            var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            config.headerMode = .firstItemInSection
+            return NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
+        }
+    }
+
+    private func configureHierarchy() {
+        tableView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(tableView)
+        tableView.delegate = self
+    }
+
+    private func configureDataSource() {
+
+        let headerRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PGLFilterCategory> { (cell, indexPath, item) in
+            var content = cell.defaultContentConfiguration()
+            content.text = item.categoryName
+            cell.contentConfiguration = content
+
+            cell.accessories = [.outlineDisclosure()]
+        }
+
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PGLFilterDescriptor> { [weak self] (cell, indexPath, item) in
+            guard self != nil else { return }
+
+            var content = cell.defaultContentConfiguration()
+            content.text = item.filterName
+            cell.contentConfiguration = content
+
+            cell.accessories = [.disclosureIndicator()]
+
+        }
+
+        dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: tableView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
+//            if indexPath.item == 0 {
+            if item.descriptor == nil {
+                let theCategory = self.categories[indexPath.section]
+                return self.tableView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: theCategory)
+            } else {
+            return self.tableView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item.descriptor)
+            }
+        }
+
+        // initial data
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+        let sections = Array(0..<categories.count)
+        snapshot.appendSections(sections)
+        dataSource.apply(snapshot, animatingDifferences: false)
+        for section in sections {
+            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
+            // section header is a PGLFilterCategory
+            // section item is PGLFilterDescriptor
+            let categoryHeaderItem = Item(title: categories[section].categoryName, descriptor: nil)
+            sectionSnapshot.append([categoryHeaderItem])
+            let filterItems = categories[section].filterDescriptors.map {Item(title: $0.filterName, descriptor: $0)}
+            sectionSnapshot.append(filterItems)
+//            sectionSnapshot.expand([headerItem])
+            dataSource.apply(sectionSnapshot, to: section)
+        }
+    }
+}
+
+extension PGLFilterTableController {
+        // MARK: from PGLMainFilterController
+
+    func setBookmarksGroupMode(indexSection: Int) {
+        if (splitViewController?.isCollapsed ?? false) {
+                // parent container PGLFilterImageContainerController has the toolbar with the mode buttons
+            let bookmarkModeNotification = Notification(name:PGLFilterBookMarksModeChange)
+            NotificationCenter.default.post(name: bookmarkModeNotification.name, object: nil, userInfo:  ["indexSectionValue": indexSection as Any])
+            return
+                // PGLFilterImageContainerController will set buttons on its toolbar
+        }
+
+        if indexSection == 0 {
+                // frequent bookmarks section is section 0
+            bookmarkRemove.isEnabled = true
+            addToFrequentBtn.isEnabled = false
+        } else {
+            bookmarkRemove.isEnabled = false
+            addToFrequentBtn.isEnabled = true
+        }
+    }
+
+    @IBAction func frequentBtnAction(_ sender: UIBarButtonItem) {
+            // scroll filters to Frequent category
+            //        if mode == .Flat {
+            //            groupModeAction(modeToolBarBtn) // hides search
+            //        }
+        let frequentCategory = categories[0]
+        if !frequentCategory.isEmpty() {
+
+            tableView.selectItem(at: frequentCategoryPath, animated: true, scrollPosition: .top)
+            setBookmarksGroupMode(indexSection: frequentCategoryPath.section)
+        }
+
+
+    }
+
+    @IBAction func addToFrequentAction(_ sender: UIBarButtonItem) {
+            // add selected filter to the frequent category
+            // copy descriptor of the filter
+            // add to the frequent category
+
+        if let theDescriptor = selectedFilterDescriptor(inTable: tableView) {
+            categories.first?.appendCopy(theDescriptor)
+
+                // frequent category is first
+            tableView.reloadSections(IndexSet(integer: 0))
+            frequentBtnAction(addToFrequentBtn) // so the frequent cateogry is shown
+
+        }
+
+    }
+
+    @IBAction func bookmarkRemoveAction(_ sender: Any) {
+        if let theDescriptor = selectedFilterDescriptor(inTable: tableView) {
+            categories.first?.removeDescriptor(theDescriptor)
+
+            tableView.reloadSections(IndexSet(integer: 0))
+            if let theFrequentBtn = sender as? UIBarButtonItem {
+                frequentBtnAction(theFrequentBtn) // so the frequent cateogry is shown
+            }
+        }
+
+    }
+
+    func selectedFilterDescriptor(inTable: UICollectionView)-> PGLFilterDescriptor? {
+        var selectedDescriptor: PGLFilterDescriptor?
+
+        if let thePath = inTable.indexPathsForSelectedItems?.first {
+
+            switch mode {
+                case .Grouped:
+                    selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
+
+                case .Flat:
+                    selectedDescriptor = filters[thePath.row]
+
+            }
+
+        }
+        return selectedDescriptor
+    }
+
+     func selectCurrentFilterRow() {
+            // select and show the current initial filter
+        if stackData()!.isEmptyStack() { return }
+        let currentFilter = stackData()?.currentFilter()
+
+        var thePath = IndexPath(row:0, section: 0)
+        switch mode {
+            case .Grouped:
+                thePath.section = currentFilter?.uiPosition.categoryIndex ?? 0
+                thePath.row = currentFilter?.uiPosition.filterIndex ?? 0
+                setBookmarksGroupMode(indexSection: thePath.section)
+                    //            NSLog("PGLMainFilterController \(#function) mode = Grouped")
+            case .Flat:
+                if let filterRow = filters.firstIndex(where: {$0.filterName == currentFilter?.filterName}) {
+                    thePath.row = filterRow
+                }
+                    //            NSLog("PGLMainFilterController \(#function) mode = Flat")
+                setBookmarksFlatMode()
+        }
+
+            //        tableView.selectRow(at: thePath, animated: false, scrollPosition: .middle)
+        tableView.selectItem(at: thePath, animated: true, scrollPosition: .centeredVertically)
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController selects row at \(thePath)")
+
+
+
+    }
+
+    func setBookmarksFlatMode() {
+        if (splitViewController?.isCollapsed ?? false) {
+                // parent container PGLFilterImageContainerController has the toolbar with the mode buttons
+            let bookmarkModeNotification = Notification(name:PGLFilterBookMarksSetFlat)
+            NotificationCenter.default.post(bookmarkModeNotification)
+            return
+                // PGLFilterImageContainerController will set buttons on its toolbar
+        }
+        bookmarkRemove.isEnabled = false
+        addToFrequentBtn.isEnabled = true
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var descriptor: PGLFilterDescriptor
+
+
+            descriptor = selectedFilterDescriptor(inTable: tableView)!
+
+                // grouped mode does not exist in the resultTableController??
+//            switch mode {
+//                case .Grouped:
+//                    descriptor = resultsTableController.categories[indexPath.section].filterDescriptors[indexPath.row]
+//                        //                NSLog("resultsTableController \(#function) mode = Grouped")
+//                case .Flat:
+//                    descriptor = resultsTableController.matchFilters[indexPath.row]
+//                        //                NSLog("resultsTableController \(#function) mode = Flat")
+//
+//            }
+
+//        switch mode {
+//            case .Grouped:
+//                setBookmarksGroupMode(indexSection: indexPath.section)
+//            case .Flat :
+//                setBookmarksFlatMode()
+//        }
+        performFilterPick(descriptor: descriptor)
+    }
+
+
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        // ISSUE - call this in new path of
+//         collectionView(UICollectionView, performPrimaryActionForItemAt: IndexPath)
+
+        // manual segue to either the ParmSettings iPad layout or the TwoContainer  iPhone compact layout
+        // assumes that didSelectRow has run to set the filterPick into the appStack
+        //  therefore indexPath is not used.
+
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+
+        let iPhoneCompact =  splitViewController?.isCollapsed ?? false
+
+        if iPhoneCompact {
+           if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLParmImageController") as? PGLParmImageController
+            {
+               navigationController?.pushViewController(twoContainerController, animated: true)
+           }
+            else {
+                return
+            }
+        } else {
+            if let iPadParmController = storyboard?.instantiateViewController(withIdentifier: "ParmSettingsViewController") as? PGLSelectParmController
+            {
+                navigationController?.pushViewController(iPadParmController, animated: true)
+            }
+            else {
+                return
+            }
+
+        }
+
+        // present not needed with segue
+    }
+
+
+
+} // end PGLMainFilterController methods
 
 
 

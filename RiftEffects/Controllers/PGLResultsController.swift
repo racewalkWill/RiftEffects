@@ -17,28 +17,28 @@ class PGLResultsController: PGLFilterTableController {
         mode = .Flat
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//         dump("PGLResultsController numberOfRowsInSection count = \(matchFilters.count)")
-        return matchFilters.count
-    }
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+////         dump("PGLResultsController numberOfRowsInSection count = \(matchFilters.count)")
+//        return matchFilters.count
+//    }
 
 
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PGLFilterTableController.tableViewCellIdentifier, for: indexPath)
-        let thisFilter = matchFilters[indexPath.row]
-//        cell.accessoryType = .detailDisclosureButton or add detail disclosure in the TableCell.xib file
-        configureCell(cell, descriptor: thisFilter)
-//        cell.forwardingTarget(for: <#T##Selector!#>)
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: PGLFilterTableController.tableViewCellIdentifier, for: indexPath)
+//        let thisFilter = matchFilters[indexPath.row]
+////        cell.accessoryType = .detailDisclosureButton or add detail disclosure in the TableCell.xib file
+//        configureCell(cell, descriptor: thisFilter)
+////        cell.forwardingTarget(for: <#T##Selector!#>)
+//
+//        return cell
+//    }
 
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        var shouldHighlight = false
-        if let currentFilter = stackData()?.currentFilter() {
-            shouldHighlight =  currentFilter.filterName == (matchFilters[indexPath.row]).filterName
-        }
-        return shouldHighlight
-    }
+//    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+//        var shouldHighlight = false
+//        if let currentFilter = stackData()?.currentFilter() {
+//            shouldHighlight =  currentFilter.filterName == (matchFilters[indexPath.row]).filterName
+//        }
+//        return shouldHighlight
+//    }
 }
