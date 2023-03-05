@@ -9,13 +9,6 @@
 import UIKit
 import os
 
-enum FilterChangeMode{
-    case replace
-    case add
-}
-
-let ABCSymbol = UIImage(systemName: "textformat.abc")
-let GroupSymbol = UIImage(systemName: "rectangle.grid.1x2")
 
 class PGLFilterTableController: UIViewController,  UINavigationControllerDelegate, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate, UICollectionViewDelegate {
         //UIDragInteractionDelegate, UIDropInteractionDelegate
@@ -88,8 +81,7 @@ class PGLFilterTableController: UIViewController,  UINavigationControllerDelegat
 //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         _ = UINib(nibName: PGLFilterTableController.nibName, bundle: nil)
 
-        // Required if our subclasses are to use `dequeueReusableCellWithIdentifier(_:forIndexPath:)`.
-//        tableView.register(nib, forCellReuseIdentifier: PGLFilterTableController.tableViewCellIdentifier)
+
         
 //        clearsSelectionOnViewWillAppear = false // keep the selection
 
@@ -118,7 +110,6 @@ class PGLFilterTableController: UIViewController,  UINavigationControllerDelegat
         }
         notifications[PGLLoadedDataStack] = aNotification
 
- 
     }
 
 
@@ -144,80 +135,9 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         return UISplitViewController.DisplayMode.automatic}
 }
 
-  
 
-    // MARK: - Table view data source
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // return the number of sections
-//        switch mode
-//        {
-//        case .Grouped:
-//            return categories.count
-//        case .Flat:
-//            return 1
-//        }
-//    }
 
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // # return the number of rows
-//        switch mode
-//        {
-//        case .Grouped:
-//            return categories[section].filterDescriptors.count
-//        case .Flat:
-//            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController numberOfRowsInSection count = \(self.filters.count)")
-//            return filters.count
-//        }
-//    }
-
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-//    {
-//        switch mode
-//        {
-//        case .Grouped:
-//            return 40
-//        case .Flat:
-//            return 0
-//        }
-//    }
-
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-//    {
-//        let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderRenderer")
-//
-//        switch mode
-//        {
-//        case .Grouped:
-//            cell?.textLabel?.text = categories[section].categoryName
-//
-//        case .Flat:
-//            cell?.textLabel?.text = nil
-//        }
-//
-//        return cell
-//    }
-
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-////        NSLog("PGLFilterTableController cellForRowAt indexPath = \(indexPath)")
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "filterBasic", for: indexPath)
-//
-//        var descriptor: PGLFilterDescriptor
-//        switch mode {
-//            case .Grouped:
-//                descriptor = categories[indexPath.section].filterDescriptors[indexPath.row]
-//            case .Flat:
-//                descriptor = filters[indexPath.row]
-//        }
-//         cell.textLabel?.text = descriptor.displayName
-//        return cell
-//    }
-
-//    func configureCell(_ cell: UITableViewCell, descriptor: PGLFilterDescriptor) {
-//        // see overlap with the method updateFilterLabel()
-//        cell.textLabel?.text = descriptor.displayName
-////        cell.detailTextLabel?.text =
-//    }
 
     func performFilterPick(descriptor: PGLFilterDescriptor) {
         // called by both subclasses from didSelectRow
@@ -260,15 +180,8 @@ func targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewCon
         // some overlap with the configureCell...
         if stackData() != nil {
         _ = stackData()!
-//        filterNumberLabel.text = thisStack.filterNumLabel()
-
-//        categoryPicked = stackData()?.currentFilterPosition().categoryIndex ?? 0
-//        filterPicked = stackData()?.currentFilterPosition().filterIndex ?? 0
-
 
         }
-//        else { filterNumberLabel.text =  "No Filter" }
-
 }
 
 
@@ -422,7 +335,7 @@ extension PGLFilterTableController {
 
         dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: tableView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
-//            if indexPath.item == 0 {
+
             if item.descriptor == nil {
                 let theCategory = self.categories[indexPath.section]
                 return self.tableView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: theCategory)
@@ -575,27 +488,7 @@ extension PGLFilterTableController {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
-
-
-            descriptor = selectedFilterDescriptor(inTable: tableView)!
-
-                // grouped mode does not exist in the resultTableController??
-//            switch mode {
-//                case .Grouped:
-//                    descriptor = resultsTableController.categories[indexPath.section].filterDescriptors[indexPath.row]
-//                        //                NSLog("resultsTableController \(#function) mode = Grouped")
-//                case .Flat:
-//                    descriptor = resultsTableController.matchFilters[indexPath.row]
-//                        //                NSLog("resultsTableController \(#function) mode = Flat")
-//
-//            }
-
-//        switch mode {
-//            case .Grouped:
-//                setBookmarksGroupMode(indexSection: indexPath.section)
-//            case .Flat :
-//                setBookmarksFlatMode()
-//        }
+       descriptor = selectedFilterDescriptor(inTable: tableView)!
         performFilterPick(descriptor: descriptor)
     }
 
