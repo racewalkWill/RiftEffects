@@ -1023,7 +1023,7 @@ class PGLSelectParmController: PGLCommonController,
         }
         if segueId == "goToFilterViewBranchStack" {
 //            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
-            if segue.destination is PGLFilterTableController
+            if segue.destination is PGLMainFilterController
                 {
                 if tappedAttribute == nil { Logger(subsystem: LogSubsystem, category: LogCategory).error ("tappedAttribute is NIL")}
                 else{
@@ -1047,7 +1047,7 @@ class PGLSelectParmController: PGLCommonController,
         }
 
         if segue.identifier == "goToParentFilterStack" {
-            if segue.destination is PGLFilterTableController { appStack.popToParentStack() }
+            if segue.destination is PGLMainFilterController { appStack.popToParentStack() }
             postCurrentFilterChange()
         }
 

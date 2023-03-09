@@ -432,7 +432,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     // MARK: - LongPressGestures
     func setLongPressGesture() {
 
-        longPressGesture = UILongPressGestureRecognizer(target: self , action: #selector(PGLFilterTableController.longPressAction(_:)))
+        longPressGesture = UILongPressGestureRecognizer(target: self , action: #selector(PGLMainFilterController.longPressAction(_:)))
           if longPressGesture != nil {
 
 //                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
@@ -447,7 +447,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
        // recognizier does not seem to get restored if removed...
         if longPressGesture != nil {
             tableView.removeGestureRecognizer(longPressGesture!)
-            longPressGesture!.removeTarget(self, action: #selector(PGLFilterTableController.longPressAction(_:)))
+            longPressGesture!.removeTarget(self, action: #selector(PGLMainFilterController.longPressAction(_:)))
             longPressGesture = nil
 //           NSLog("PGLStackController removeGestureRecogniziers ")
        }

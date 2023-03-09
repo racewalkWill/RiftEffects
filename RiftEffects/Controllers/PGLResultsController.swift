@@ -8,7 +8,7 @@
 
 import UIKit
 import os
-class PGLResultsController: PGLFilterTableController {
+class PGLResultsController: PGLMainFilterController {
 
     var segueToParmController: UIStoryboardSegue!
     override func viewDidLoad() {
