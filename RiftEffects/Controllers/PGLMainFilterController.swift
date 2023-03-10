@@ -36,7 +36,7 @@ class PGLMainFilterController:  UIViewController,
         }
 
          var dataSource: UICollectionViewDiffableDataSource<Int, Item>! = nil
-         var tableView: UICollectionView! = nil
+         var filterCollectionView: UICollectionView! = nil
 
         private let appearance = UICollectionLayoutListConfiguration.Appearance.insetGrouped
 
@@ -80,7 +80,7 @@ class PGLMainFilterController:  UIViewController,
     {
         didSet
         {
-            tableView.reloadData()
+            filterCollectionView.reloadData()
         }
     }
         // MARK: - Types
@@ -133,10 +133,10 @@ class PGLMainFilterController:  UIViewController,
             // set mode to flat and show search controller
 
         searchController.isActive = true
-        mode = .Flat
-        if let theSearchModeBtn = sender as? UIBarButtonItem {
-            theSearchModeBtn.image = ABCSymbol
-        }
+//        mode = .Flat
+//        if let theSearchModeBtn = sender as? UIBarButtonItem {
+//            theSearchModeBtn.image = ABCSymbol
+//        }
         navigationItem.hidesSearchBarWhenScrolling = false
         didPresentSearchController( searchController)
     }
@@ -180,7 +180,7 @@ class PGLMainFilterController:  UIViewController,
             switch mode {
                 case .Grouped:
                     selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped path = \(thePath)")
                 case .Flat:
                     selectedDescriptor = filters[thePath.row]
                     Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Flat")
@@ -238,21 +238,22 @@ class PGLMainFilterController:  UIViewController,
 
 
 
-        searchController = UISearchController(searchResultsController: resultsTableController)
+        searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
+        searchController.delegate = self
         searchController.searchBar.autocapitalizationType = .none
 
 
         searchController.automaticallyShowsCancelButton = true
 
-            //           navigationItem.searchController = searchController
+        navigationItem.searchController = searchController
 
             // using searchController in the nav item causes the width of the searchbar
             // to be twice as big. Leading edge is cut off.
             // there is a comment -- For iOS 11 and later, place the search bar in the navigation bar.
             // but it has this leading edge cut off issue.
 
-            //        tableView.tableHeaderView = searchController.searchBar
+//                    tableView.tableHeaderView = searchController.searchBar
 
             //           navigationItem.hidesSearchBarWhenScrolling = (mode == .Grouped) // flat mode searches
         navigationController?.isToolbarHidden = false
@@ -371,7 +372,7 @@ class PGLMainFilterController:  UIViewController,
           if longPressGesture != nil {
 
 //                 " defaults to 0.5 sec 1 finger 10 points allowed movement"
-              tableView.addGestureRecognizer(longPressGesture!)
+              filterCollectionView.addGestureRecognizer(longPressGesture!)
               longPressGesture!.isEnabled = true
 //            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLFilterTableController setLongPressGesture \(String(describing: self.longPressGesture))")
           }
@@ -381,7 +382,7 @@ class PGLMainFilterController:  UIViewController,
        // not called in viewWillDissappear..
        // recognizier does not seem to get restored if removed...
         if longPressGesture != nil {
-            tableView.removeGestureRecognizer(longPressGesture!)
+            filterCollectionView.removeGestureRecognizer(longPressGesture!)
             longPressGesture!.removeTarget(self, action: #selector(PGLMainFilterController.longPressAction(_:)))
             longPressGesture = nil
 //           NSLog("PGLFilterTableController removeGestureRecogniziers ")
@@ -391,12 +392,12 @@ class PGLMainFilterController:  UIViewController,
 
     @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
 
-        _ = sender.location(in: tableView)
+        _ = sender.location(in: filterCollectionView)
 
         if sender.state == .began
         {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController longPressAction begin")
-            guard let longPressIndexPath = tableView.indexPathsForSelectedItems else {
+            guard let longPressIndexPath = filterCollectionView.indexPathsForSelectedItems else {
                 longPressStart = nil // assign to var
                 return
             }
@@ -407,7 +408,7 @@ class PGLMainFilterController:  UIViewController,
             if longPressStart != nil {
                 var descriptor: PGLFilterDescriptor
 
-                guard let tableCell = tableView.cellForItem(at: longPressStart!) else { return  }
+                guard let tableCell = filterCollectionView.cellForItem(at: longPressStart!) else { return  }
                 switch mode {
                     case .Grouped:
                         descriptor = categories[longPressStart!.section].filterDescriptors[longPressStart!.row]
@@ -504,12 +505,12 @@ extension PGLMainFilterController: UISearchControllerDelegate {
             Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
         }
 
-        func willDismissSearchController(_ searchController: UISearchController) {
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug("UISearchControllerDelegate invoked method: \(#function).")
-        }
+//        func willDismissSearchController(_ searchController: UISearchController) {
+//            Logger(subsystem: LogSubsystem, category: LogCategory).debug("UISearchControllerDelegate invoked method: \(#function).")
+//        }
 
         func didDismissSearchController(_ searchController: UISearchController) {
-             selectCurrentFilterRow()
+            initalFilterList()
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("UISearchControllerDelegate invoked method: \(#function).")
         }
 
@@ -576,11 +577,21 @@ extension PGLMainFilterController: UISearchControllerDelegate {
              let resultSet = Set(searchResults.filter { finalCompoundPredicate.evaluate(with: $0) } )
             let filteredResults = Array(resultSet)
             // Apply the filtered results to the search results table.
-            if let resultsController = searchController.searchResultsController as? PGLResultsController {
-               //  dump("updateSearchResults found count = \(filteredResults.count)")
-                resultsController.matchFilters = filteredResults
-                resultsController.tableView.reloadData()
-            }
+            displaySearchResults(matchingFilters: filteredResults)
+        }
+
+        func displaySearchResults(matchingFilters: [PGLFilterDescriptor]) {
+            // get dataSource snapshot
+            var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+
+            snapshot.appendSections([0])
+
+            var filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
+            let categoryHeaderItem = Item(title: "Matches", descriptor: nil)
+            filterItems.insert(categoryHeaderItem, at: 0)
+
+            snapshot.appendItems(filterItems)
+            dataSource.apply(snapshot)
         }
 
 }
@@ -648,10 +659,10 @@ extension PGLMainFilterController {
 
 
     private func configureHierarchy() {
-        tableView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(tableView)
-        tableView.delegate = self
+        filterCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(filterCollectionView)
+        filterCollectionView.delegate = self
     }
 
     private func configureDataSource() {
@@ -676,7 +687,7 @@ extension PGLMainFilterController {
 
         }
 
-        dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: tableView) {
+        dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: filterCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
 
             if indexPath.item == 0 {
@@ -685,30 +696,28 @@ extension PGLMainFilterController {
                 return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
             }
 
-//            if item.descriptor == nil {
-//                let theCategory = self.categories[indexPath.section]
-//                let myCategoryHeaderItem = Item(title: theCategory.categoryName, descriptor: nil)
-//                return self.tableView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: myCategoryHeaderItem)
-//            } else {
-//            return self.tableView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-//            }
         }
+        initalFilterList()
 
-        // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
-        let sections = Array(0..<categories.count)
-        snapshot.appendSections(sections)
-        dataSource.apply(snapshot, animatingDifferences: false)
-        for section in sections {
-            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
 
-            let categoryHeaderItem = Item(title: categories[section].categoryName, descriptor: nil)
-            sectionSnapshot.append([categoryHeaderItem])
-            let filterItems = categories[section].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
-            sectionSnapshot.append(filterItems, to: categoryHeaderItem)
-            sectionSnapshot.collapse(filterItems)
-            dataSource.apply(sectionSnapshot, to: section)
-        }
+    }
+
+    func initalFilterList() {
+            // initial data
+            var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+            let sections = Array(0..<categories.count)
+            snapshot.appendSections(sections)
+            dataSource.apply(snapshot, animatingDifferences: false)
+            for section in sections {
+                var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
+
+                let categoryHeaderItem = Item(title: categories[section].categoryName, descriptor: nil)
+                sectionSnapshot.append([categoryHeaderItem])
+                let filterItems = categories[section].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
+                sectionSnapshot.append(filterItems, to: categoryHeaderItem)
+                sectionSnapshot.collapse(filterItems)
+                dataSource.apply(sectionSnapshot, to: section)
+            }
     }
 }
 
@@ -742,7 +751,7 @@ extension PGLMainFilterController {
         let frequentCategory = categories[0]
         if !frequentCategory.isEmpty() {
 
-            tableView.selectItem(at: frequentCategoryPath, animated: true, scrollPosition: .top)
+            filterCollectionView.selectItem(at: frequentCategoryPath, animated: true, scrollPosition: .top)
             setBookmarksGroupMode(indexSection: frequentCategoryPath.section)
         }
 
@@ -754,11 +763,11 @@ extension PGLMainFilterController {
             // copy descriptor of the filter
             // add to the frequent category
 
-        if let theDescriptor = selectedFilterDescriptor(inTable: tableView) {
+        if let theDescriptor = selectedFilterDescriptor(inTable: filterCollectionView) {
             categories.first?.appendCopy(theDescriptor)
 
                 // frequent category is first
-            tableView.reloadSections(IndexSet(integer: 0))
+            filterCollectionView.reloadSections(IndexSet(integer: 0))
             frequentBtnAction(addToFrequentBtn) // so the frequent cateogry is shown
 
         }
@@ -766,10 +775,10 @@ extension PGLMainFilterController {
     }
 
     @IBAction func bookmarkRemoveAction(_ sender: Any) {
-        if let theDescriptor = selectedFilterDescriptor(inTable: tableView) {
+        if let theDescriptor = selectedFilterDescriptor(inTable: filterCollectionView) {
             categories.first?.removeDescriptor(theDescriptor)
 
-            tableView.reloadSections(IndexSet(integer: 0))
+            filterCollectionView.reloadSections(IndexSet(integer: 0))
             if let theFrequentBtn = sender as? UIBarButtonItem {
                 frequentBtnAction(theFrequentBtn) // so the frequent cateogry is shown
             }
@@ -784,7 +793,7 @@ extension PGLMainFilterController {
 
             switch mode {
                 case .Grouped:
-                    selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
+                    selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row - 1]
 
                 case .Flat:
                     selectedDescriptor = filters[thePath.row]
@@ -816,7 +825,7 @@ extension PGLMainFilterController {
         }
 
             //        tableView.selectRow(at: thePath, animated: false, scrollPosition: .middle)
-        tableView.selectItem(at: thePath, animated: true, scrollPosition: .centeredVertically)
+        filterCollectionView.selectItem(at: thePath, animated: true, scrollPosition: .centeredVertically)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController selects row at \(thePath)")
 
 
@@ -837,7 +846,7 @@ extension PGLMainFilterController {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
-        descriptor = selectedFilterDescriptor(inTable: tableView)!
+        descriptor = selectedFilterDescriptor(inTable: filterCollectionView)!
         performFilterPick(descriptor: descriptor)
     }
 
