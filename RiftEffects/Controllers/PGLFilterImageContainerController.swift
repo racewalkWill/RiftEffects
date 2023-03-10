@@ -146,11 +146,9 @@ class PGLFilterImageContainerController: UIViewController {
     @IBOutlet weak var randomBtn: UIBarButtonItem!
 
         //MARK: Toolbar buttons actions
-    @IBAction func modeToolBarBtn(_ sender: UIBarButtonItem) {
-        containerFilterController?.groupModeAction(sender)
-    }
 
-    @IBOutlet weak var modeToolBarBtn: UIBarButtonItem!
+
+
 
     @IBAction func searchToolBarBtn(_ sender: UIBarButtonItem) {
         containerFilterController?.searchModeAction(sender)

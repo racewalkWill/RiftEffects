@@ -125,7 +125,7 @@ class PGLMainFilterController:  UIViewController,
         self.navigationController?.popViewController(animated: true)
 
     }
-    @IBOutlet weak var modeToolBarBtn: UIBarButtonItem!
+
 
     @IBOutlet weak var searchToolBarBtn: UIBarButtonItem!
 
@@ -147,21 +147,7 @@ class PGLMainFilterController:  UIViewController,
         didDismissSearchController( searchController)
     }
 
-    @IBAction func groupModeAction(_ sender: UIBarButtonItem) {
-            // set mode to group and show index group tabs
-        if mode == .Flat {
-            mode = .Grouped
-                //            hideSearchBar()
-            sender.image = GroupSymbol
-        } else {
-                // mode is Grouped so change
-            mode = .Flat // change mode
-            sender.image = ABCSymbol
-
-        }
-
-    }
-
+    
 
 
 
@@ -177,14 +163,8 @@ class PGLMainFilterController:  UIViewController,
 
         if let thePath = inTable.indexPathForSelectedRow {
 
-            switch mode {
-                case .Grouped:
-                    selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped path = \(thePath)")
-                case .Flat:
-                    selectedDescriptor = filters[thePath.row]
-                    Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Flat")
-            }
+            selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped path = \(thePath)")
 
         }
         return selectedDescriptor
@@ -273,12 +253,7 @@ class PGLMainFilterController:  UIViewController,
             // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
         setLongPressGesture()
-        switch mode {
-            case .Grouped:
-                modeToolBarBtn.image = GroupSymbol
-            case .Flat :
-                modeToolBarBtn.image = ABCSymbol
-        }
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -409,12 +384,8 @@ class PGLMainFilterController:  UIViewController,
                 var descriptor: PGLFilterDescriptor
 
                 guard let tableCell = filterCollectionView.cellForItem(at: longPressStart!) else { return  }
-                switch mode {
-                    case .Grouped:
-                        descriptor = categories[longPressStart!.section].filterDescriptors[longPressStart!.row]
-                    case .Flat:
-                        descriptor = filters[longPressStart!.row]
-                }
+
+                descriptor = categories[longPressStart!.section].filterDescriptors[longPressStart!.row]
 
                 popUpFilterDescription(filterName: descriptor.displayName, filterText: descriptor.userDescription, filterCell: tableCell)
             }
@@ -791,16 +762,9 @@ extension PGLMainFilterController {
 
         if let thePath = inTable.indexPathsForSelectedItems?.first {
 
-            switch mode {
-                case .Grouped:
-                    selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row - 1]
-
-                case .Flat:
-                    selectedDescriptor = filters[thePath.row]
+            selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row - 1]
 
             }
-
-        }
         return selectedDescriptor
     }
 
@@ -810,20 +774,11 @@ extension PGLMainFilterController {
         let currentFilter = stackData()?.currentFilter()
 
         var thePath = IndexPath(row:0, section: 0)
-        switch mode {
-            case .Grouped:
-                thePath.section = currentFilter?.uiPosition.categoryIndex ?? 0
-                thePath.row = currentFilter?.uiPosition.filterIndex ?? 0
-                setBookmarksGroupMode(indexSection: thePath.section)
-                    //            NSLog("PGLMainFilterController \(#function) mode = Grouped")
-            case .Flat:
-                if let filterRow = filters.firstIndex(where: {$0.filterName == currentFilter?.filterName}) {
-                    thePath.row = filterRow
-                }
-                    //            NSLog("PGLMainFilterController \(#function) mode = Flat")
-                setBookmarksFlatMode()
-        }
 
+        thePath.section = currentFilter?.uiPosition.categoryIndex ?? 0
+        thePath.row = currentFilter?.uiPosition.filterIndex ?? 0
+        setBookmarksGroupMode(indexSection: thePath.section)
+            //            NSLog("PGLMainFilterController \(#function) mode = Grouped")
             //        tableView.selectRow(at: thePath, animated: false, scrollPosition: .middle)
         filterCollectionView.selectItem(at: thePath, animated: true, scrollPosition: .centeredVertically)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController selects row at \(thePath)")

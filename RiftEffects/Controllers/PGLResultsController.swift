@@ -14,7 +14,7 @@ class PGLResultsController: PGLMainFilterController {
     override func viewDidLoad() {
 //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super .viewDidLoad()
-        mode = .Flat
+  
     }
     
 //    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

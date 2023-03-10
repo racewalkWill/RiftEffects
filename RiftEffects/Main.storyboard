@@ -14,11 +14,6 @@
                 <tableViewController storyboardIdentifier="FilterTable" modalPresentationStyle="currentContext" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VNd-gL-KQM" customClass="PGLMainFilterController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems>
-                        <barButtonItem image="rectangle.grid.1x2" catalog="system" style="plain" id="k8n-xl-LaW">
-                            <connections>
-                                <action selector="groupModeAction:" destination="VNd-gL-KQM" id="FdV-Wy-eOW"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="jaO-TB-pzm"/>
                         <barButtonItem systemItem="search" id="F2x-aS-GdR">
                             <connections>
@@ -63,7 +58,6 @@
                     <connections>
                         <outlet property="addToFrequentBtn" destination="5xl-TA-P0e" id="12Y-td-QZR"/>
                         <outlet property="bookmarkRemove" destination="FwN-ML-XEE" id="GB4-pP-0W1"/>
-                        <outlet property="modeToolBarBtn" destination="k8n-xl-LaW" id="Avo-rl-sy1"/>
                         <outlet property="searchToolBarBtn" destination="F2x-aS-GdR" id="Vpq-U2-Uhk"/>
                     </connections>
                 </tableViewController>
@@ -1092,11 +1086,6 @@
                                 <rect key="frame" x="-6" y="714" width="1192" height="46"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="Mode Tool Bar Btn" image="rectangle.grid.1x2" catalog="system" id="wgX-bj-pqm">
-                                        <connections>
-                                            <action selector="modeToolBarBtn:" destination="rQx-tc-9ix" id="MZo-1z-zDt"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem systemItem="search" id="3CO-3y-tYS">
                                         <connections>
                                             <action selector="searchToolBarBtn:" destination="rQx-tc-9ix" id="cCU-w7-f2o"/>
@@ -1163,7 +1152,6 @@
                         <outlet property="addToFrequentBtn" destination="pu0-0t-HEN" id="saH-js-mnh"/>
                         <outlet property="bookMarkRemoveBtn" destination="DXq-Td-7nf" id="roO-ky-HZu"/>
                         <outlet property="frequentBtn" destination="Y7I-YH-mrh" id="OeF-yg-6p5"/>
-                        <outlet property="modeToolBarBtn" destination="wgX-bj-pqm" id="Ket-mZ-9h0"/>
                         <outlet property="moreBtn" destination="HAf-fe-yaR" id="LdN-K3-I4g"/>
                         <outlet property="newTrashBtn" destination="kGD-tX-jU3" id="pOc-pZ-a39"/>
                         <outlet property="randomBtn" destination="yo5-KQ-1xv" id="jIp-Do-44Z"/>
@@ -1392,7 +1380,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="4FJ-we-3bf"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="HUk-NN-bR8"/>
+        <segue reference="zWl-eA-30q"/>
         <segue reference="Xyz-2Z-Q4q"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -1406,7 +1394,6 @@
         <image name="playpause" catalog="system" width="128" height="79"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="questionmark.square.dashed" catalog="system" width="128" height="114"/>
-        <image name="rectangle.grid.1x2" catalog="system" width="128" height="100"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
