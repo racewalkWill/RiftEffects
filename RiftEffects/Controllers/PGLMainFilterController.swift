@@ -40,7 +40,7 @@ class PGLMainFilterController:  UIViewController,
 
         private let appearance = UICollectionLayoutListConfiguration.Appearance.insetGrouped
         // assigned in configureHierarchy of viewDidLoad
-//       let searchBar = UISearchBar(frame: .zero)
+       let searchBar = UISearchBar(frame: .zero)
 
     // MARK: model vars
     var stackData: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
@@ -135,13 +135,13 @@ class PGLMainFilterController:  UIViewController,
     @IBAction func searchModeAction(_ sender: Any) {
             // set mode to flat and show search controller
 
-        searchController.isActive = true
-//        mode = .Flat
-//        if let theSearchModeBtn = sender as? UIBarButtonItem {
-//            theSearchModeBtn.image = ABCSymbol
-//        }
-        navigationItem.hidesSearchBarWhenScrolling = false
-        didPresentSearchController( searchController)
+//        searchController.isActive = true
+////        mode = .Flat
+////        if let theSearchModeBtn = sender as? UIBarButtonItem {
+////            theSearchModeBtn.image = ABCSymbol
+////        }
+//        navigationItem.hidesSearchBarWhenScrolling = false
+//        didPresentSearchController( searchController)
     }
 
     fileprivate func hideSearchBar() {
@@ -174,12 +174,14 @@ class PGLMainFilterController:  UIViewController,
     }
 
         // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // MARK: List Setup
         configureHierarchy()
         configureDataSource()
+        loadSearchController()
         selectCurrentFilterRow()
 
 
@@ -215,36 +217,7 @@ class PGLMainFilterController:  UIViewController,
                     }
                     notifications[PGLLoadedDataStack] = aNotification
 
-        //MARK: SearchController setup
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        searchController.searchBar.autocapitalizationType = .none
 
-
-        searchController.automaticallyShowsCancelButton = true
-
-        // IF iPhone then PGLNavStackImageController has the navigation item
-        
-        navigationItem.searchController = searchController
-
-            // using searchController in the nav item causes the width of the searchbar
-            // to be twice as big. Leading edge is cut off.
-            // there is a comment -- For iOS 11 and later, place the search bar in the navigation bar.
-            // but it has this leading edge cut off issue.
-
-        searchController.searchBar.delegate = self
-
-        navigationController?.isToolbarHidden = false
-
-        searchController.hidesNavigationBarDuringPresentation = false
-
-
-        /** Specify that this view controller determines how the search controller is presented.
-         The search controller should be presented modally and match the physical size of this view controller.
-         */
-        definesPresentationContext = true
-//        searchController.isActive = true
             // Uncomment the following line to preserve selection between presentations
             //            self.clearsSelectionOnViewWillAppear = false
 
@@ -488,6 +461,32 @@ extension PGLMainFilterController: UISearchControllerDelegate {
 // MARK: - UISearchResultsUpdating
 
     extension PGLMainFilterController: UISearchResultsUpdating {
+            //MARK: SearchController setup
+        fileprivate func loadSearchController() {
+
+            // called by viewDidLoad()
+            searchController = UISearchController(searchResultsController: nil)
+            searchController.searchResultsUpdater = self
+            searchController.delegate = self
+
+            searchController.automaticallyShowsCancelButton = true
+
+                // IF iPhone then PGLNavStackImageController has the navigation item
+
+            navigationItem.searchController = searchController
+
+            searchController.searchBar.delegate = self
+            navigationController?.isToolbarHidden = false
+            searchController.hidesNavigationBarDuringPresentation = false
+
+
+            /** Specify that this view controller determines how the search controller is presented.
+             The search controller should be presented modally and match the physical size of this view controller.
+             */
+            definesPresentationContext = false
+//            searchController.isActive = true
+        }
+
 
         private func findMatches(searchString: String) -> NSCompoundPredicate {
             /** Each searchString creates an OR predicate for: name, yearIntroduced, introPrice.
@@ -629,10 +628,40 @@ extension PGLMainFilterController {
 
 
     private func configureHierarchy() {
+        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
+                                && (traitCollection.horizontalSizeClass == .compact)
+
+//        if iPhoneCompact {
+            searchBar.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(searchBar)
+            searchBar.delegate = self
+            searchBar.isHidden = false
+            searchBar.searchTextField.autocapitalizationType = .none
+
+//    }
+
         filterCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(filterCollectionView)
         filterCollectionView.delegate = self
+
+//        if iPhoneCompact    {
+            NSLayoutConstraint.activate([
+                searchBar.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
+                searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                searchBar.heightAnchor.constraint(equalToConstant: 40),
+
+                filterCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+                // (equalTo: view.safeAreaLayoutGuide.topAnchor),
+                filterCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                filterCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                filterCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
+                // -50 allow room for the toolbar
+            ])
+
+//    }
+        
     }
 
     private func configureDataSource() {

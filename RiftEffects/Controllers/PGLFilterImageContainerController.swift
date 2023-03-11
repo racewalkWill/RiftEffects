@@ -150,11 +150,8 @@ class PGLFilterImageContainerController: UIViewController {
 
 
 
-    @IBAction func searchToolBarBtn(_ sender: UIBarButtonItem) {
-        containerFilterController?.searchModeAction(sender)
-    }
 
-    @IBOutlet weak var searchBarBtn: UIBarButtonItem!
+
 
     @IBAction func addToFrequentBtn(_ sender: UIBarButtonItem) {
         containerFilterController?.addToFrequentAction(sender)

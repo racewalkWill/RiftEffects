@@ -1086,11 +1086,6 @@
                                 <rect key="frame" x="-6" y="714" width="1192" height="46"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="search" id="3CO-3y-tYS">
-                                        <connections>
-                                            <action selector="searchToolBarBtn:" destination="rQx-tc-9ix" id="cCU-w7-f2o"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="rij-Pi-lzb"/>
                                     <barButtonItem systemItem="bookmarks" id="Y7I-YH-mrh">
                                         <connections>
@@ -1155,7 +1150,6 @@
                         <outlet property="moreBtn" destination="HAf-fe-yaR" id="LdN-K3-I4g"/>
                         <outlet property="newTrashBtn" destination="kGD-tX-jU3" id="pOc-pZ-a39"/>
                         <outlet property="randomBtn" destination="yo5-KQ-1xv" id="jIp-Do-44Z"/>
-                        <outlet property="searchBarBtn" destination="3CO-3y-tYS" id="TQ4-cV-TAG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dWz-4E-TcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
