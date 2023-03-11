@@ -39,7 +39,10 @@ class PGLMainFilterController:  UIViewController,
          var filterCollectionView: UICollectionView! = nil
 
         private let appearance = UICollectionLayoutListConfiguration.Appearance.insetGrouped
+        // assigned in configureHierarchy of viewDidLoad
+//       let searchBar = UISearchBar(frame: .zero)
 
+    // MARK: model vars
     var stackData: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
 
     var appStack: PGLAppStack!
@@ -185,8 +188,6 @@ class PGLMainFilterController:  UIViewController,
             //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
                     _ = UINib(nibName: PGLMainFilterController.nibName, bundle: nil)
 
-
-
             //        clearsSelectionOnViewWillAppear = false // keep the selection
 
                     splitViewController?.delegate = self
@@ -214,10 +215,7 @@ class PGLMainFilterController:  UIViewController,
                     }
                     notifications[PGLLoadedDataStack] = aNotification
 
-
-
-
-
+        //MARK: SearchController setup
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
@@ -226,6 +224,8 @@ class PGLMainFilterController:  UIViewController,
 
         searchController.automaticallyShowsCancelButton = true
 
+        // IF iPhone then PGLNavStackImageController has the navigation item
+        
         navigationItem.searchController = searchController
 
             // using searchController in the nav item causes the width of the searchbar
@@ -233,9 +233,8 @@ class PGLMainFilterController:  UIViewController,
             // there is a comment -- For iOS 11 and later, place the search bar in the navigation bar.
             // but it has this leading edge cut off issue.
 
-//                    tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.delegate = self
 
-            //           navigationItem.hidesSearchBarWhenScrolling = (mode == .Grouped) // flat mode searches
         navigationController?.isToolbarHidden = false
 
         searchController.hidesNavigationBarDuringPresentation = false
@@ -245,7 +244,7 @@ class PGLMainFilterController:  UIViewController,
          The search controller should be presented modally and match the physical size of this view controller.
          */
         definesPresentationContext = true
-
+//        searchController.isActive = true
             // Uncomment the following line to preserve selection between presentations
             //            self.clearsSelectionOnViewWillAppear = false
 
