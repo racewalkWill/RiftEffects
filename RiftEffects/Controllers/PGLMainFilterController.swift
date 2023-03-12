@@ -40,7 +40,7 @@ class PGLMainFilterController:  UIViewController,
 
         private let appearance = UICollectionLayoutListConfiguration.Appearance.insetGrouped
         // assigned in configureHierarchy of viewDidLoad
-       let searchBar = UISearchBar(frame: .zero)
+    var searchBar: UISearchBar!
 
     // MARK: model vars
     var stackData: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
@@ -129,49 +129,11 @@ class PGLMainFilterController:  UIViewController,
 
     }
 
-
-    @IBOutlet weak var searchToolBarBtn: UIBarButtonItem!
-
-    @IBAction func searchModeAction(_ sender: Any) {
-            // set mode to flat and show search controller
-
-//        searchController.isActive = true
-////        mode = .Flat
-////        if let theSearchModeBtn = sender as? UIBarButtonItem {
-////            theSearchModeBtn.image = ABCSymbol
-////        }
-//        navigationItem.hidesSearchBarWhenScrolling = false
-//        didPresentSearchController( searchController)
-    }
-
-    fileprivate func hideSearchBar() {
-        navigationItem.hidesSearchBarWhenScrolling = true
-        searchController.isActive = false
-        didDismissSearchController( searchController)
-    }
-
-    
-
-
-
-
     @IBAction func showImageController(_ sender: UIBarButtonItem) {
         splitViewController?.show(.secondary)
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
     }
 
-
-    func selectedFilterDescriptor(inTable: UITableView)-> PGLFilterDescriptor? {
-        var selectedDescriptor: PGLFilterDescriptor?
-
-        if let thePath = inTable.indexPathForSelectedRow {
-
-            selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped path = \(thePath)")
-
-        }
-        return selectedDescriptor
-    }
 
         // MARK: - View Life Cycle
 
@@ -179,50 +141,36 @@ class PGLMainFilterController:  UIViewController,
         super.viewDidLoad()
 
         // MARK: List Setup
+        loadSearchController()
         configureHierarchy()
         configureDataSource()
-        loadSearchController()
+
         selectCurrentFilterRow()
 
+    //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        _ = UINib(nibName: PGLMainFilterController.nibName, bundle: nil)
 
-            //        tableView.tableHeaderView = searchController.searchBar
+        splitViewController?.delegate = self
+        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
+                return
+        }
+        appStack = myAppDelegate.appStack
+        stackData = { self.appStack.viewerStack }
+        // closure is evaluated when referenced
+        navigationItem.title = "Filters" //thisStack.stackName
 
-            //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
-                    _ = UINib(nibName: PGLMainFilterController.nibName, bundle: nil)
-
-            //        clearsSelectionOnViewWillAppear = false // keep the selection
-
-                    splitViewController?.delegate = self
-                    guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-                        else { Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLFilterTableController viewDidLoad fatalError AppDelegate not loaded")
-                            return
-                    }
-                    appStack = myAppDelegate.appStack
-                    stackData = { self.appStack.viewerStack }
-                    // closure is evaluated when referenced
-                    //            updateSelectedButtons()
-                    navigationItem.title = "Filters" //thisStack.stackName
-
-
-                    let myCenter =  NotificationCenter.default
-                    let queue = OperationQueue.main
-                  let aNotification =  myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
-                        myUpdate in
-                       Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterTableController  notificationBlock PGLLoadedDataStack")
-                        guard let self = self else { return } // a released object sometimes receives the notification
-                                      // the guard is based upon the apple sample app 'Conference-Diffable'
-                      Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
-                        self.navigationController?.popViewController(animated: true)
-
-                    }
-                    notifications[PGLLoadedDataStack] = aNotification
-
-
-            // Uncomment the following line to preserve selection between presentations
-            //            self.clearsSelectionOnViewWillAppear = false
-
-            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-            // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+        let aNotification =  myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
+                myUpdate in
+               Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterTableController  notificationBlock PGLLoadedDataStack")
+                guard let self = self else { return } // a released object sometimes receives the notification
+                              // the guard is based upon the apple sample app 'Conference-Diffable'
+              Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
+                self.navigationController?.popViewController(animated: true)
+            }
+        notifications[PGLLoadedDataStack] = aNotification
 
         setLongPressGesture()
 
@@ -458,7 +406,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
         }
 
 }
-// MARK: - UISearchResultsUpdating
+
 
     extension PGLMainFilterController: UISearchResultsUpdating {
             //MARK: SearchController setup
@@ -466,6 +414,8 @@ extension PGLMainFilterController: UISearchControllerDelegate {
 
             // called by viewDidLoad()
             searchController = UISearchController(searchResultsController: nil)
+
+         
             searchController.searchResultsUpdater = self
             searchController.delegate = self
 
@@ -626,26 +576,30 @@ extension PGLMainFilterController {
 extension PGLMainFilterController {
     // MARK: List groups
 
-
     private func configureHierarchy() {
+        // called by viewDidLoad
+
         let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
                                 && (traitCollection.horizontalSizeClass == .compact)
-
-//        if iPhoneCompact {
+        if iPhoneCompact {
+            searchBar =  searchController.searchBar  //
             searchBar.translatesAutoresizingMaskIntoConstraints = false
+//            searchBar.translatesAutoresizingMaskIntoConstraints = true
             view.addSubview(searchBar)
             searchBar.delegate = self
             searchBar.isHidden = false
             searchBar.searchTextField.autocapitalizationType = .none
 
-//    }
+
+    }
 
         filterCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        filterCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterCollectionView)
         filterCollectionView.delegate = self
 
-//        if iPhoneCompact    {
+        if iPhoneCompact    {
             NSLayoutConstraint.activate([
                 searchBar.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
                 searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -660,7 +614,7 @@ extension PGLMainFilterController {
                 // -50 allow room for the toolbar
             ])
 
-//    }
+        }
         
     }
 
@@ -811,8 +765,18 @@ extension PGLMainFilterController {
         filterCollectionView.selectItem(at: thePath, animated: true, scrollPosition: .centeredVertically)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController selects row at \(thePath)")
 
+    }
 
+    func selectedFilterDescriptor(inTable: UITableView)-> PGLFilterDescriptor? {
+        var selectedDescriptor: PGLFilterDescriptor?
 
+        if let thePath = inTable.indexPathForSelectedRow {
+
+            selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row]
+            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) mode = Grouped path = \(thePath)")
+
+        }
+        return selectedDescriptor
     }
 
     func setBookmarksFlatMode() {

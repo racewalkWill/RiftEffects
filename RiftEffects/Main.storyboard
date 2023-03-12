@@ -14,12 +14,6 @@
                 <tableViewController storyboardIdentifier="FilterTable" modalPresentationStyle="currentContext" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VNd-gL-KQM" customClass="PGLMainFilterController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems>
-                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="jaO-TB-pzm"/>
-                        <barButtonItem systemItem="search" id="F2x-aS-GdR">
-                            <connections>
-                                <action selector="searchModeAction:" destination="VNd-gL-KQM" id="lTZ-6o-kvi"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem width="148" style="plain" systemItem="fixedSpace" id="fu2-B4-zlz"/>
                         <barButtonItem systemItem="bookmarks" id="vtD-0A-NCb">
                             <color key="tintColor" systemColor="labelColor"/>
@@ -58,7 +52,6 @@
                     <connections>
                         <outlet property="addToFrequentBtn" destination="5xl-TA-P0e" id="12Y-td-QZR"/>
                         <outlet property="bookmarkRemove" destination="FwN-ML-XEE" id="GB4-pP-0W1"/>
-                        <outlet property="searchToolBarBtn" destination="F2x-aS-GdR" id="Vpq-U2-Uhk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32V-xd-xgV" userLabel="First Responder" sceneMemberID="firstResponder"/>
