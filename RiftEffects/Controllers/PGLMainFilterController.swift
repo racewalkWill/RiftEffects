@@ -141,10 +141,10 @@ class PGLMainFilterController:  UIViewController,
         super.viewDidLoad()
 
         // MARK: List Setup
-        loadSearchController()
+
         configureHierarchy()
         configureDataSource()
-
+        loadSearchController()
         selectCurrentFilterRow()
 
     //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
@@ -171,6 +171,7 @@ class PGLMainFilterController:  UIViewController,
                 self.navigationController?.popViewController(animated: true)
             }
         notifications[PGLLoadedDataStack] = aNotification
+
 
         setLongPressGesture()
 
@@ -415,7 +416,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
             // called by viewDidLoad()
             searchController = UISearchController(searchResultsController: nil)
 
-         
+
             searchController.searchResultsUpdater = self
             searchController.delegate = self
 
@@ -434,7 +435,37 @@ extension PGLMainFilterController: UISearchControllerDelegate {
              The search controller should be presented modally and match the physical size of this view controller.
              */
             definesPresentationContext = false
-//            searchController.isActive = true
+
+//            let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
+//                                    && (traitCollection.horizontalSizeClass == .compact)
+//            if iPhoneCompact {
+//                searchBar =  searchController.searchBar  //
+//                searchBar.translatesAutoresizingMaskIntoConstraints = false
+//    //            searchBar.translatesAutoresizingMaskIntoConstraints = true
+//                view.addSubview(searchBar)
+//                searchBar.delegate = self
+//                searchBar.isHidden = false
+//                searchBar.searchTextField.autocapitalizationType = .none
+//
+//
+//
+//                    NSLayoutConstraint.activate([
+//                        searchBar.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
+//                        searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//                        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//                        searchBar.heightAnchor.constraint(equalToConstant: 40),
+//
+//                        filterCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+//                        // (equalTo: view.safeAreaLayoutGuide.topAnchor),
+//                        filterCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//                        filterCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//                        filterCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
+//                        // -50 allow room for the toolbar
+//                    ])
+//
+//
+//            }
+
         }
 
 
@@ -579,42 +610,15 @@ extension PGLMainFilterController {
     private func configureHierarchy() {
         // called by viewDidLoad
 
-        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
-                                && (traitCollection.horizontalSizeClass == .compact)
-        if iPhoneCompact {
-            searchBar =  searchController.searchBar  //
-            searchBar.translatesAutoresizingMaskIntoConstraints = false
-//            searchBar.translatesAutoresizingMaskIntoConstraints = true
-            view.addSubview(searchBar)
-            searchBar.delegate = self
-            searchBar.isHidden = false
-            searchBar.searchTextField.autocapitalizationType = .none
 
-
-    }
 
         filterCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-//        filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         filterCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterCollectionView)
         filterCollectionView.delegate = self
 
-        if iPhoneCompact    {
-            NSLayoutConstraint.activate([
-                searchBar.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
-                searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                searchBar.heightAnchor.constraint(equalToConstant: 40),
 
-                filterCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
-                // (equalTo: view.safeAreaLayoutGuide.topAnchor),
-                filterCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                filterCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                filterCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
-                // -50 allow room for the toolbar
-            ])
-
-        }
         
     }
 
