@@ -625,7 +625,8 @@ extension PGLMainFilterController {
     private func configureDataSource() {
 
         let headerRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { (cell, indexPath, item) in
-            var content = cell.defaultContentConfiguration()
+//            var content = cell.defaultContentConfiguration()
+            var content = UIListContentConfiguration.extraProminentInsetGroupedHeader()
             content.text = item.title
             cell.contentConfiguration = content
 
