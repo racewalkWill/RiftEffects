@@ -748,7 +748,8 @@ extension PGLMainFilterController {
 
         if let thePath = inTable.indexPathsForSelectedItems?.first {
 
-            selectedDescriptor = categories[thePath.section].filterDescriptors[thePath.row - 1]
+            let selectedItem = dataSource.itemIdentifier(for: thePath)
+            selectedDescriptor = selectedItem?.descriptor
 
             }
         return selectedDescriptor

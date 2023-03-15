@@ -120,7 +120,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0F973174-D0B8-44D0-864C-16037D7F768F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLFilterImageContainerController.swift"
@@ -158,8 +158,8 @@
             filePath = "RiftEffects/Controllers/PGLMainFilterController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "800"
-            endingLineNumber = "800"
+            startingLineNumber = "801"
+            endingLineNumber = "801"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
