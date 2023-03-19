@@ -522,7 +522,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
     func updateNavigationBar() {
 //        self.navigationItem.title = self.appStack.firstStack()?.stackName
-        self.navigationItem.title = "Effects"
+//        self.navigationItem.title = "Effects"
         setNeedsStatusBarAppearanceUpdate()
     }
 

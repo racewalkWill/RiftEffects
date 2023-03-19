@@ -20,7 +20,7 @@ class PGLStackImageContainerController: UIViewController {
 
         setMoreBtnMenu() 
 
-        navigationItem.title = "Effects"  //viewerStack.stackName
+//        navigationItem.title = "Effects"  //viewerStack.stackName
 
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         containerStackController = storyboard.instantiateViewController(withIdentifier: "StackController") as? PGLStackController

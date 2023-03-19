@@ -70,7 +70,7 @@ class PGLFilterImageContainerController: UIViewController {
 
         setMoreBtnMenu()
 
-        navigationItem.title = "Filters"//viewerStack.stackName
+//        navigationItem.title = "Filters"//viewerStack.stackName
 
         navigationController?.isToolbarHidden = true
         // should make the buttons on the filter controller toolbar visible
