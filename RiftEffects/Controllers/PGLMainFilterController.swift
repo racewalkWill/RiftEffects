@@ -288,33 +288,30 @@ class PGLMainFilterController:  UIViewController,
 
     @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
 
-        _ = sender.location(in: filterCollectionView)
+//        let pressLocation = sender.location(in: filterCollectionView)
+        var longPressIndexPath: [IndexPath]?
 
         if sender.state == .began
         {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController longPressAction begin")
-            guard let longPressIndexPath = filterCollectionView.indexPathsForSelectedItems else {
+            longPressIndexPath = filterCollectionView.indexPathsForSelectedItems
+            if longPressIndexPath == nil {
                 longPressStart = nil // assign to var
                 return
             }
-            longPressStart = longPressIndexPath.first // assign to var
+            longPressStart = longPressIndexPath!.first // assign to var
         }
-        if sender.state == .recognized {  // could also use .ended but there is slight delay
-            // open popup with filter userDescription
+        if sender.state == .recognized || sender.state == .ended {
             if longPressStart != nil {
-                var descriptor: PGLFilterDescriptor
-
                 guard let tableCell = filterCollectionView.cellForItem(at: longPressStart!) else { return  }
 
-                descriptor = categories[longPressStart!.section].filterDescriptors[longPressStart!.row]
-
-                popUpFilterDescription(filterName: descriptor.displayName, filterText: descriptor.userDescription, filterCell: tableCell)
+                if let thisDescriptor = dataSource.itemIdentifier(for: longPressStart!)?.descriptor {
+                    popUpFilterDescription(filterName: thisDescriptor.displayName, filterText: thisDescriptor.userDescription, filterCell: tableCell)
+                }
             }
         }
-
-
-
     }
+
 
     func popUpFilterDescription(filterName: String, filterText: String, filterCell: UICollectionViewCell) {
         guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLPopUpFilterInfo") as? PGLPopUpFilterInfo
