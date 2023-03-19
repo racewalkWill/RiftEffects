@@ -640,8 +640,10 @@ extension PGLMainFilterController {
             content.text = item.title
             cell.contentConfiguration = content
 
-            cell.accessories = [.disclosureIndicator()]
-//            cell.accessories = [.outlineDisclosure(displayed: .always, options: .init(style: .header, isHidden: false, reservedLayoutWidth: .actual, tintColor: .label), actionHandler: nil )]
+            let disclosureOptions = UICellAccessory.OutlineDisclosureOptions(style: .cell)
+            cell.accessories = [.outlineDisclosure(options: disclosureOptions)]
+
+
 
         }
 
@@ -801,10 +803,13 @@ extension PGLMainFilterController {
         var descriptor: PGLFilterDescriptor
         descriptor = selectedFilterDescriptor(inTable: filterCollectionView)!
         performFilterPick(descriptor: descriptor)
+        navigateToParmController()
     }
 
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    func navigateToParmController() {
+        // was     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+
             // ISSUE - call this in new path of
             //         collectionView(UICollectionView, performPrimaryActionForItemAt: IndexPath)
 
