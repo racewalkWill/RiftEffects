@@ -90,7 +90,15 @@ class PGLFilterCategory {
         WarpItMetalFilter.register()
         if UserDefaults.standard.stringArray(forKey: Bookmark) == nil
         {
-            let newFrequentFilters = [ "Random Filters"] // CIFilter name, not the display name
+            let newFrequentFilters = [
+                "CIDissolveTransition",
+                "CIEdgeWork",
+                "CIToneCurve",
+                "CIBlendWithAlphaMask",
+                "CIRadialGradient",
+                "CIColorPosterize"
+
+            ] // CIFilter name, not the display name
             // removed "CIDissolveTransition",  it also pulls in the Face dissolve and Bump Dissolve
             UserDefaults.standard.set(newFrequentFilters, forKey: Bookmark)
         }
