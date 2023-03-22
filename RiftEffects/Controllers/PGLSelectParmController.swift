@@ -468,6 +468,8 @@ class PGLSelectParmController: PGLCommonController,
         let updateFilterNotification = Notification(name: PGLCurrentFilterChange)
 //        NotificationCenter.default.post(updateFilterNotification)
         NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
+
+
     }
 
 
@@ -1193,28 +1195,23 @@ class PGLSelectParmController: PGLCommonController,
     }
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-        // waiting for improvments in PHPickerViewController to use albumId to
-        // show last user selection
 
-        //   setUserPick invoked in PGLImagesSelectContainer.viewWillDissappear..
-        //   i.e. when the back navigation occurs
-
-        // logic that seems to work with out a 'NSInternalInconsistencyException', reason: 'Invalid parameter not satisfying: assetUUID'
-        // for each object in the fetchResult  execute the  PHImageManager.default().requestImage
-        // then create the PGLAsset and the PGLImageList
-        // creating PGLAsset and PGLImageList first and using the asset has the failure
         var selectedImageList: PGLImageList
 
         if isFullPhotoLibraryAccess() {
             selectedImageList = loadImageListFromPicker(results: results)
+            pickerCompletion(pickerController:picker, pickedImageList: selectedImageList)
         } else
         {
-            selectedImageList = loadLimitedImageList(results: results)
+            selectedImageList = loadLimitedImageList(pickerController: picker, results: results)
         }
 
+    }
+
+    func pickerCompletion(pickerController:PHPickerViewController, pickedImageList: PGLImageList) {
         guard let targetAttribute = self.tappedAttribute
             else {  return }
-        self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: selectedImageList)
+        self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: pickedImageList)
 
 
         if let cellPath = targetAttribute.uiIndexPath {
@@ -1229,11 +1226,10 @@ class PGLSelectParmController: PGLCommonController,
             // ipad three column
             splitViewController?.show(.secondary)  }
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
-        
+        let updateNotification = Notification(name:PGLRedrawFilterChange)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["filterHasChanged" : true as AnyObject])
         // clean up.. do not keep  ref to the picker
-        picker.delegate = nil
-
-
+        pickerController.delegate = nil
 
     }
 
@@ -1246,7 +1242,7 @@ class PGLSelectParmController: PGLCommonController,
 
         }
 
-    func loadLimitedImageList(results: [PHPickerResult]) -> PGLImageList {
+    func loadLimitedImageList(pickerController: PHPickerViewController, results: [PHPickerResult]) -> PGLImageList {
         // can not use fetchResults from identifiers in limited library mode
         // assets can not be loaded into the PGLImageList
         // just load a PGLImageList with the images and the identifiers
@@ -1265,7 +1261,7 @@ class PGLSelectParmController: PGLCommonController,
             pickedCIImage = nil // reset on each loop
             if item.canLoadObject(ofClass: UIImage.self)  {
                 item.loadObject(ofClass: UIImage.self) {[weak self] image, error in
-//                    DispatchQueue.main.sync {
+                    DispatchQueue.main.sync {
                     if let theImage = image as? UIImage {
                         if let convertedImage = CoreImage.CIImage(image: theImage ) {
                             let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
@@ -1287,8 +1283,8 @@ class PGLSelectParmController: PGLCommonController,
                             Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
                         }
                     }
-
-//                    }  // Dispatch Queue  process
+                        self?.pickerCompletion(pickerController: pickerController, pickedImageList: selectedImageList)
+                    }  // Dispatch Queue  process
                 }
 
             }

@@ -23,6 +23,8 @@ class PGLRedraw {
     var varyTimerIsRunning = false
     var filterChanged = false
     var pauseAnimation = false
+    private var viewWillAppear = false
+    private var viewWillAppearCounter = 0
 
     private var transitionFilterCount = 0
     private var varyTimerCount = 0
@@ -90,13 +92,27 @@ class PGLRedraw {
             self?.pauseAnimation = false
             self?.transitionFilterCount = 0
             self?.varyTimerCount = 0
+            self?.viewWillAppear = false
+            self?.viewWillAppearCounter = 0
         }
 
     } // end init
     
     func redrawNow() -> Bool {
         // answer true if any condition is true
-        return parmControllerIsOpen || transitionFilterExists || varyTimerIsRunning || filterChanged
+        return viewWillAppear || parmControllerIsOpen || transitionFilterExists || varyTimerIsRunning || filterChanged
+    }
+
+    func toggleViewWillAppear() {
+        // go twice, then reset
+        if viewWillAppearCounter < 2 {
+            viewWillAppearCounter += 1
+            viewWillAppear = true
+        } else {
+            viewWillAppearCounter = 0
+            viewWillAppear = false
+        }
+
     }
 
     func shouldPauseAnimation() -> Bool {

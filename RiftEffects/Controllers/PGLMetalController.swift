@@ -55,6 +55,11 @@ class PGLMetalController: UIViewController {
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+//        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        metalRender.needsRedraw.toggleViewWillAppear()
+            // toggles to redraw 2 times
+    }
 //    override func viewDidAppear(_ animated: Bool) {
     // this code causes
     //  [CAMetalLayerDrawable texture] should not be called after already presenting this drawable. Get a nextDrawable instead.

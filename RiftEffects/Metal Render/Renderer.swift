@@ -244,11 +244,16 @@ extension Renderer: MTKViewDelegate {
         if needsRedraw.shouldPauseAnimation() {
             return
         }
+
         drawBasic(in: view)
+            // get this frame drawn
+
         if needsRedraw.filterChanged {
             needsRedraw.filter(changed: false)
                 // filter change has been drawn
         }
+        
+       needsRedraw.toggleViewWillAppear()
         
     }
 
