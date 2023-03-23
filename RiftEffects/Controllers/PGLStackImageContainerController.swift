@@ -46,19 +46,27 @@ class PGLStackImageContainerController: UIViewController {
 
 
 //        let spacer = -5.0
+        // for iPad and iPhone Plus.. with three column split view
+
+        let iPhoneCompact =  splitViewController?.isCollapsed ?? false
+        var imageWidthFactor: Double = 5/3
+        if iPhoneCompact {
+            imageWidthFactor = 1.2
+        }
         NSLayoutConstraint.activate([
             imageContainerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 5/3),
-                // width to height 4:3 ratio
+            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: imageWidthFactor),
+            // width to height 4:3 ratio
             stackContainerView.rightAnchor.constraint(equalTo:imageContainerView.leftAnchor, constant:  -30.0),
-//            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
+            //            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
             stackContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             stackContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-//            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
-            ] )
+            //            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
+        ] )
+
 
             // Notify the child view controller that the move is complete.
         containerStackController?.didMove(toParent: self)
