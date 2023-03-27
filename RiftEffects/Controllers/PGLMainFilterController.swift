@@ -389,7 +389,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
         }
 
         func didPresentSearchController(_ searchController: UISearchController) {
-            selectCurrentFilterRow()
+//            selectCurrentFilterRow()
             searchController.searchBar.becomeFirstResponder()
             Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
         }
@@ -510,35 +510,43 @@ extension PGLMainFilterController: UISearchControllerDelegate {
             let whitespaceCharacterSet = CharacterSet.whitespaces
             let strippedString =
                 searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
-            let searchItems = strippedString.components(separatedBy: " ") as [String]
+            if !strippedString.isEmpty {
+                let searchItems = strippedString.components(separatedBy: " ") as [String]
 
-            // Build all the "AND" expressions for each value in searchString.
-            let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
-                findMatches(searchString: searchString)
-            }
+                    // Build all the "AND" expressions for each value in searchString.
+                let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
+                    findMatches(searchString: searchString)
+                }
 
-            // Match up the fields of the Product object.
-            let finalCompoundPredicate =
+                    // Match up the fields of the Product object.
+                let finalCompoundPredicate =
                 NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
 
-             let resultSet = Set(searchResults.filter { finalCompoundPredicate.evaluate(with: $0) } )
-            let filteredResults = Array(resultSet)
-            // Apply the filtered results to the search results table.
-            displaySearchResults(matchingFilters: filteredResults)
+                let resultSet = Set(searchResults.filter { finalCompoundPredicate.evaluate(with: $0) } )
+                let filteredResults = Array(resultSet)
+                    // Apply the filtered results to the search results table.
+                displaySearchResults(matchingFilters: filteredResults)
+            } else
+            {  // empty search string.. show everything
+                displaySearchResults(matchingFilters: searchResults)
+            }
+
         }
 
         func displaySearchResults(matchingFilters: [PGLFilterDescriptor]) {
+            var filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
+
             // get dataSource snapshot
             var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
 
             snapshot.appendSections([0])
+//            snapshot.insertSections([0], beforeSection: 0)
 
-            var filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
             let categoryHeaderItem = Item(title: "Matches", descriptor: nil)
             filterItems.insert(categoryHeaderItem, at: 0)
 
             snapshot.appendItems(filterItems)
-            dataSource.apply(snapshot)
+            dataSource.apply(snapshot, animatingDifferences: true)
         }
 
 }
