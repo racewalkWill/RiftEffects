@@ -189,6 +189,10 @@ class PGLFilterStack  {
         return activeFilters.isEmpty
     }
 
+    func isSingleFilterStack() -> Bool {
+        return activeFilters.count == 1
+    }
+
     func stackFilterName(_ forFilter: PGLSourceFilter, index: Int?) -> (String) {
         // answer filter number , filter name , and arrow point chars
         // "2 Source In ->"

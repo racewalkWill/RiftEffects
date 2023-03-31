@@ -206,22 +206,23 @@ class PGLAppStack {
         NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["filterHasChanged" : true as AnyObject])
     }
 
-    func addChildSequenceStackTo(parm: PGLFilterAttribute) -> PGLSequenceStack {
-        // same as addChildStackTo(parm: PGLFilterAttribute)
-        // but with different stack class
-
-        // see also for loading sequence from coredata
-        // PGLFilterAttributeImage sets up the sequenceStack
-        // in #readCDParmImage(..) with the #setUpStack(onParentImageParm:..)
-        let newSequenceStack = PGLSequenceStack()
-        newSequenceStack.setStartupDefault()  // puts in the 'Images' empty filter as first child filter
-        if let ciFilterSequence = parm.myFilter as? PGLCISequenced {
-            ciFilterSequence.myFilterSequence = newSequenceStack
-
-            addChildStackBasic(newSequenceStack, parm)
-        }
-        return newSequenceStack
-    }
+//    func addChildSequenceStackTo(parm: PGLFilterAttribute) -> PGLSequenceStack {
+//        // same as addChildStackTo(parm: PGLFilterAttribute)
+//        // but with different stack class
+//
+//        // see also for loading sequence from coredata
+//        // PGLFilterAttributeImage sets up the sequenceStack
+//        // in #readCDParmImage(..) with the #setUpStack(onParentImageParm:..)
+//        let newSequenceStack = PGLSequenceStack()
+////        newSequenceStack.setStartupDefault()  // puts in the 'Images' empty filter as first child filter
+//
+//        if let ciFilterSequence = parm.myFilter as? PGLCISequenced {
+//            ciFilterSequence.myFilterSequence = newSequenceStack
+//
+//            addChildStackBasic(newSequenceStack, parm)
+//        }
+//        return newSequenceStack
+//    }
     
     fileprivate func addChildStackBasic(_ newStack: PGLFilterStack, _ parm: PGLFilterAttribute) {
             //        newStack.setStartupDefault() // Images null filter is starting filter

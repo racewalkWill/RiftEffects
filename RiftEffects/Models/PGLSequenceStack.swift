@@ -23,21 +23,30 @@ class PGLSequenceStack: PGLFilterStack {
     var appStack: PGLAppStack!
     lazy var inputFilter: PGLSourceFilter = currentFilter()
     lazy var targetFilter: PGLSourceFilter = nextFilter()
+    var imageAttribute: PGLFilterAttributeImage
+    var backgroundAttribute: PGLFilterAttributeImage?
+    var maskAttribute: PGLFilterAttributeImage?
 
 
 
+    required init(imageAtt: PGLFilterAttributeImage, backgroundAtt: PGLFilterAttributeImage?, maskAtt: PGLFilterAttributeImage?) {
 
-    override init(){
+        imageAttribute = imageAtt
+        backgroundAttribute = backgroundAtt
+        maskAttribute = maskAtt
+
+        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+            else {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
+            super.init()
+            return
+        }
+        appStack = myAppDelegate.appStack
+
         super.init()
 
-       guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-           else {
-           Logger(subsystem: LogSubsystem, category: LogCategory).fault ("PGLStackController viewDidLoad fatalError(AppDelegate not loaded")
-           return
-       }
+     }
 
-       appStack = myAppDelegate.appStack
-    }
     //MARK: single output
 
 
@@ -51,30 +60,27 @@ class PGLSequenceStack: PGLFilterStack {
         return filterAt(tabIndex: nextFilter)
     }
 
-    func setInputToStack()  {
+    func setSequenceFilterInputs()  {
         // only increment the target while off screen
         // see also PGLSequenceFilter#addFilterStepTime() which alternates the increment of the
         // image
-        let myInputAttribute = parentAttribute as? PGLFilterAttributeImage
-        let myImage =  myInputAttribute?.getCurrentImage()
 
-        inputFilter.setInput(image: myImage, source: "parent")
-//        targetFilter.setInput(image: myImage, source: "parent")
 
         // check if background, mask attributes are used by inputfilter and targetFilter
         // fill in values from the parent background & mask attibutes
 
-        guard let myParentSequenceFilter = parentAttribute?.aSourceFilter else
-        { return }
-
-        if  let inputBackgroundImage = myParentSequenceFilter.getBackgroundImage() {
+        if let inputImage = imageAttribute.getCurrentImage() {
+            inputFilter.setInput(image: inputImage, source: nil)
+            targetFilter.setInput(image: inputImage, source: nil)
+        }
+        if  let inputBackgroundImage = backgroundAttribute?.getCurrentImage() {
                 inputFilter.setBackgroundInput(image: inputBackgroundImage)
-//                targetFilter.setBackgroundInput(image: inputBackgroundImage)
+               targetFilter.setBackgroundInput(image: inputBackgroundImage)
         }
 
-        if  let inputMaskImage = myParentSequenceFilter.getMaskImage() {
+        if  let inputMaskImage = maskAttribute?.getCurrentImage() {
                 inputFilter.setMaskInput(image: inputMaskImage)
-//                targetFilter.setMaskInput(image: inputMaskImage)
+                targetFilter.setMaskInput(image: inputMaskImage)
         }
 
 
@@ -99,7 +105,10 @@ class PGLSequenceStack: PGLFilterStack {
             // don't increment.. just stay
             return
         }
-        
+
+        if isEmptyStack() || isSingleFilterStack() {
+            return
+        }
         if activeFilterIndex >= (activeFilters.count - 1) {
             // zero based array
             // back to the beginning
@@ -118,7 +127,7 @@ class PGLSequenceStack: PGLFilterStack {
    override func imageInputIsEmpty(atFilterIndex: Int) -> Bool {
         // empty implementation
         // the sequence stack filters get input from the
-        // parent SequencedFilters
+        // attributes of the sequenceFilter
         return false
     }
 

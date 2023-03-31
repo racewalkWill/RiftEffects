@@ -43,23 +43,24 @@ class PGLSequenceDissolve: PGLTransitionFilter {
         // this dissolve so this filter has to remove the needsRedraw flag for transition
     }
 
+        /// the same image inputs are passed to both filters
     func dissolveOutput() -> CIImage? {
         // dissolve without a pause
         // get currentFilter and nextFilter outputs
-        // set into the ciFilter
         // time has been updated by the caller already
 
-        // the current input to the parent sequence filter is
-        // passed to both current and nextFilter
+        if sequenceStack.isEmptyStack() {
+            return CIImage.empty()
+        }
 
-        sequenceStack.setInputToStack()
-            // assigns input image to both
-            // dissolve parms
-            // input image may be changing on each
-            // render frame.
+        sequenceStack.setSequenceFilterInputs()
 
-        let currentImage = sequenceStack.currentInputFilter().outputImage()
-        localFilter.setValue(currentImage, forKey: kCIInputImageKey)
+        if sequenceStack.isSingleFilterStack() {
+            return sequenceStack.basicFilterOutput()
+        }
+
+        let currentOutputImage = sequenceStack.currentInputFilter().outputImage()
+        localFilter.setValue(currentOutputImage, forKey: kCIInputImageKey)
         
         let nextImage = sequenceStack.currentTargetFilter().outputImage()
         localFilter.setValue(nextImage, forKey: kCIInputTargetImageKey) 

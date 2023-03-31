@@ -15,7 +15,7 @@ class PGLCISequenced: CIFilter {
     @objc dynamic   var inputBackgroundImage: CIImage?
     @objc dynamic   var inputMaskImage: CIImage?
     @objc dynamic   var inputTime: NSNumber = 10.0
-    var myFilterSequence: PGLSequenceStack!
+//    var myFilterSequence: PGLSequenceStack!
 
     // need to set input of myFilterSequence as the inputImage
     
@@ -50,10 +50,10 @@ class PGLCISequenced: CIFilter {
     }
 
 
-    override var outputImage: CIImage? {
-
-        get { let sequenceInputImage = inputImage
-            myFilterSequence.imageUpdate(sequenceInputImage, true)
-            return myFilterSequence.outputImage() }
-    }
+//    override var outputImage: CIImage? {
+//
+//        get { let sequenceInputImage = inputImage
+//            myFilterSequence.imageUpdate(sequenceInputImage, true)
+//            return myFilterSequence.outputImage() }
+//    }
 }

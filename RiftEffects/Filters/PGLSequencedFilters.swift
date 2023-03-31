@@ -23,15 +23,20 @@ class PGLSequencedFilters: PGLSourceFilter {
     var dissolveDT: Double = (1/120)  // should be 2 sec dissolve
     var pauseForFramesCount = 300 // initial 5 secs * 60 fps
     var frameCount = 0
+    var sequenceStack: PGLSequenceStack!
+
+    required init?(filter: String, position: PGLFilterCategoryIndex) {
+        super.init(filter: filter, position: position)
+        let myImageAttribute = getInputImageAttribute()!
+        let myBackgroundAttribute = attribute(nameKey: kCIInputBackgroundImageKey) as? PGLFilterAttributeImage
+        let myMaskAttribute = attribute(nameKey: kCIInputMaskImageKey ) as? PGLFilterAttributeImage
+        sequenceStack = PGLSequenceStack(imageAtt: myImageAttribute, backgroundAtt: myBackgroundAttribute, maskAtt: myMaskAttribute)
+        setDissolveWrapper(onStack: sequenceStack)
+        sequenceStack.setStartupDefault()
+        }
 
     fileprivate func setDissolveWrapper(onStack: PGLSequenceStack) {
-        // install a detector input to the tappedAttribute.
-        // needs input image of this filter and a detector
-        // detector holds the parm to set point values
-        // this filter should also keep the detectors for forwarding of increment and dt time changes
-        //                let detector = PGLDetector(ciFilter: PGLFaceCIFilter())
-        // create the wrapper filter
-//        "PGLSelectParmController #setDissolveWrapper start"
+
        
         let wrapperDesc = PGLFilterDescriptor("CIDissolveTransition", PGLSequenceDissolve.self)!
         let wrapperFilter = wrapperDesc.pglSourceFilter() as! PGLSequenceDissolve
@@ -45,12 +50,10 @@ class PGLSequencedFilters: PGLSourceFilter {
     }
 
     override func addChildSequenceStack(appStack: PGLAppStack) {
-        // actually do the add
-        if let myImageParm = getInputImageAttribute() {
-             let newChildSequenceStack =  appStack.addChildSequenceStackTo(parm: myImageParm)
-             setDissolveWrapper(onStack: newChildSequenceStack)
-
-        }
+        // not sure how the appStack needs to
+        // handle this childStack..
+        // needs to reimplement the childStack navigation
+        // to actually point to the sequenceStack in the sequenceFilter.
 
     }
 
@@ -60,17 +63,17 @@ class PGLSequencedFilters: PGLSourceFilter {
         // connect the ciFilter into the sequenceStack
         // similar to PGLAppStack UI setup in addChildSequenceStackTo(parm: PGLFilterAttribute)
         
-       let newSequenceStack =  PGLSequenceStack()
-        if let ciFilterSequence = onParentImageParm.myFilter as? PGLCISequenced {
-            ciFilterSequence.myFilterSequence = newSequenceStack
-        }
-        newSequenceStack.stackType = "input"
-        newSequenceStack.parentAttribute = onParentImageParm
-
-        onParentImageParm.setImageParmState(newState: ImageParm.inputChildStack)
-        setDissolveWrapper(onStack: newSequenceStack)
-        return newSequenceStack
-
+//       let newSequenceStack =  PGLSequenceStack()
+//        if let ciFilterSequence = onParentImageParm.myFilter as? PGLCISequenced {
+//            ciFilterSequence.myFilterSequence = newSequenceStack
+//        }
+//        newSequenceStack.stackType = "input"
+//        newSequenceStack.parentAttribute = onParentImageParm
+//
+//        onParentImageParm.setImageParmState(newState: ImageParm.inputChildStack)
+//        setDissolveWrapper(onStack: newSequenceStack)
+//        return newSequenceStack
+        return sequenceStack
     }
 
     override func imageInputIsEmpty() -> Bool {
@@ -107,7 +110,7 @@ class PGLSequencedFilters: PGLSourceFilter {
     }
     func filterSequence() -> PGLSequenceStack? {
         
-        return dissolve.sequenceStack
+        return sequenceStack
     }
 
     override func addFilterStepTime() {
