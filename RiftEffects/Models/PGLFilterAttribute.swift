@@ -270,7 +270,10 @@ class PGLFilterAttribute {
                        }
 
                    case AttrClass.Image.rawValue :
-                       return PGLFilterAttributeImage.self
+                       if attributeTypeString == kPChildSequenceStack {
+                           return PGLFilterAttrSequenceStack.self
+                       } else {
+                           return PGLFilterAttributeImage.self }
 
                   case  AttrClass.Data.rawValue  :
                         return PGLFilterAttributeData.self

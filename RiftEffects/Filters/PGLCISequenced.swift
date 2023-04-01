@@ -15,9 +15,8 @@ class PGLCISequenced: CIFilter {
     @objc dynamic   var inputBackgroundImage: CIImage?
     @objc dynamic   var inputMaskImage: CIImage?
     @objc dynamic   var inputTime: NSNumber = 10.0
-//    var myFilterSequence: PGLSequenceStack!
+    @objc dynamic   var inputSequence: CIImage?
 
-    // need to set input of myFilterSequence as the inputImage
     
     class func register() {
         //       let attr: [String: AnyObject] = [:]
@@ -38,13 +37,15 @@ class PGLCISequenced: CIFilter {
 
             kCIAttributeFilterCategories :
                 [kCICategoryTransition, kCICategoryStillImage],
-
+            "inputSequence" : [
+                kCIAttributeType : kPChildSequenceStack
+                ],
             "inputTime" :  [
 
                 kCIAttributeDefault   : 0.00,
                 kCIAttributeIdentity  :  0.0,
                 kCIAttributeType      : kCIAttributeTypeTime
-                ]
+            ] as [String : Any]
         ]
         return customDict
     }

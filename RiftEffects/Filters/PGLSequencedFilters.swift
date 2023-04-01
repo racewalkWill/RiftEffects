@@ -55,6 +55,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         // needs to reimplement the childStack navigation
         // to actually point to the sequenceStack in the sequenceFilter.
 
+        if let theChildParm = attribute(nameKey: "inputSequence") {
+            let newChildSequenceStack =  appStack.addChildSequenceStackTo(aSequence: sequenceStack, parm: theChildParm)
+        }
     }
 
     override func setUpStack(onParentImageParm: PGLFilterAttributeImage) -> PGLFilterStack {

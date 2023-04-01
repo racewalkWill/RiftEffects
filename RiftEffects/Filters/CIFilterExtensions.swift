@@ -15,6 +15,7 @@ enum Stack { case begin, middle, end }
 // constants for custom filter creation / loading
 
 let kPSequencedFilter = "Sequenced Filters"
+let kPChildSequenceStack = "ChildSequenceStack"
 let kPFaceFilter = "FaceFilter"
 let kPBumpBlend = "BumpBlend"
 let kPBumpFace = "BumpFace"
