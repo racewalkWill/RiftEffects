@@ -26,12 +26,24 @@ class PGLFilterAttrSequenceStack: PGLFilterAttributeImage {
         }
     }
 
-    /// answer empty TableCellAction Hard coded to SequencedFilter
+    /// answer  TableCellAction Hard coded to SequencedFilter
     override func cellAction() -> [PGLTableCellAction ] {
-        return [PGLTableCellAction]()
+            //  cell does not add subUI cells
+            // just provides the contextAction
+            // nil filterInputActionCell will trigger a segue
+            var allActions = [PGLTableCellAction]()
+
+            let newAction = PGLTableCellAction(action: "More", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
+            // this will segue to filterBranch.. opens the filterController
+            allActions.append(newAction)
+
+            return allActions
     }
 
 //    override func uiCellIdentifier() -> String {
 //        return  "Filters"
 //    }
+
+    
+
 }

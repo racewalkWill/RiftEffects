@@ -215,7 +215,8 @@ class PGLAppStack {
         // in #readCDParmImage(..) with the #setUpStack(onParentImageParm:..)
 
         addChildStackBasic(aSequence, parm)
-
+       // DOES NOT  pushChildStack(newStack)
+            // pushChildStack make newStack as the current masterDataStack
         return aSequence
     }
     
@@ -226,7 +227,7 @@ class PGLAppStack {
             //        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")
         newStack.parentAttribute = parm
             //        newStack.parentStack = viewerStack
-        pushChildStack(newStack)  // make newStack as the current masterDataStack
+
 
         parm.inputStack = newStack
         parm.setImageParmState(newState: ImageParm.inputChildStack)
@@ -242,6 +243,7 @@ class PGLAppStack {
         let  newStack = PGLFilterStack()
        
         addChildStackBasic(newStack, parm) // causes resetCellFilters too
+        pushChildStack(newStack)  // make newStack as the current masterDataStack
     }
 
     func pushChildStack(_ child: PGLFilterStack) {

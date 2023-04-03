@@ -45,6 +45,7 @@ class PGLSequenceStack: PGLFilterStack {
 
         super.init()
 
+
      }
 
     //MARK: single output
@@ -69,6 +70,7 @@ class PGLSequenceStack: PGLFilterStack {
         // check if background, mask attributes are used by inputfilter and targetFilter
         // fill in values from the parent background & mask attibutes
 
+    
         if let inputImage = imageAttribute.getCurrentImage() {
             inputFilter.setInput(image: inputImage, source: nil)
             targetFilter.setInput(image: inputImage, source: nil)

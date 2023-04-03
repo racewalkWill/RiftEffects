@@ -32,7 +32,7 @@ class PGLSequencedFilters: PGLSourceFilter {
         let myMaskAttribute = attribute(nameKey: kCIInputMaskImageKey ) as? PGLFilterAttributeImage
         sequenceStack = PGLSequenceStack(imageAtt: myImageAttribute, backgroundAtt: myBackgroundAttribute, maskAtt: myMaskAttribute)
         setDissolveWrapper(onStack: sequenceStack)
-        sequenceStack.setStartupDefault()
+//        sequenceStack.setStartupDefault()
         }
 
     fileprivate func setDissolveWrapper(onStack: PGLSequenceStack) {
@@ -56,7 +56,7 @@ class PGLSequencedFilters: PGLSourceFilter {
         // to actually point to the sequenceStack in the sequenceFilter.
 
         if let theChildParm = attribute(nameKey: "inputSequence") {
-            let newChildSequenceStack =  appStack.addChildSequenceStackTo(aSequence: sequenceStack, parm: theChildParm)
+            _ =  appStack.addChildSequenceStackTo(aSequence: sequenceStack, parm: theChildParm)
         }
     }
 
@@ -76,6 +76,7 @@ class PGLSequencedFilters: PGLSourceFilter {
 //        onParentImageParm.setImageParmState(newState: ImageParm.inputChildStack)
 //        setDissolveWrapper(onStack: newSequenceStack)
 //        return newSequenceStack
+        /// var sequenceStack is setup in the init
         return sequenceStack
     }
 
