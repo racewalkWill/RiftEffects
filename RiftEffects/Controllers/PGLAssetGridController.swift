@@ -311,7 +311,7 @@ extension PGLAssetGridController {
                                                    heightDimension: .fractionalHeight(groupSizeHeight))
     //            .estimated(80.0))  //heightDimension: .absolute(80)
 
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columnCount)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem : item, count: columnCount)
 
             let spacing = CGFloat(2)
     //        group.interItemSpacing = .fixed(spacing)

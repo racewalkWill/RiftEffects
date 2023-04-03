@@ -39,7 +39,7 @@ class PGLImageCIFilter: CIFilter {
                 kCIAttributeDefault   : 0.00,
                 kCIAttributeIdentity  :  0.0,
                 kCIAttributeType      : kCIAttributeTypeTime
-                ]
+            ] as [String : Any]
         ]
         return customDict
     }

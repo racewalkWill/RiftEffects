@@ -50,31 +50,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // trigger lightweight migration
 
-        if (false ) {
-                // only true when migrating data model change to iCloud
-            guard dataWrapper.persistentContainer.persistentStoreDescriptions.first != nil
-            else { fatalError("Could not retrieve a persistent store description.")
-            }
-                //        // initialize the CloudKit schema
-                //
-                //            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
-                //            //        options.shouldInitializeSchema = true // toggle to false when done
-                //            //        description.cloudKitContainerOptions = options
-            NSLog("initializeCloudKitSchema  START " )
-            let theContainer =  dataWrapper.persistentContainer
-
-            if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
-                do {
-                    try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
-                }
-                catch {
-                    NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
-
-                }
-
-            }
-            NSLog("initializeCloudKitSchema  END " )
-        }
+//        if (false ) {
+//                // only true when migrating data model change to iCloud
+//            guard dataWrapper.persistentContainer.persistentStoreDescriptions.first != nil
+//            else { fatalError("Could not retrieve a persistent store description.")
+//            }
+//                //        // initialize the CloudKit schema
+//                //
+//                //            //        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudDataContainerName)
+//                //            //        options.shouldInitializeSchema = true // toggle to false when done
+//                //            //        description.cloudKitContainerOptions = options
+//            NSLog("initializeCloudKitSchema  START " )
+//            let theContainer =  dataWrapper.persistentContainer
+//
+//            if let myCloudContainer = theContainer as? NSPersistentCloudKitContainer {
+//                do {
+//                    try myCloudContainer.initializeCloudKitSchema(options: NSPersistentCloudKitContainerSchemaInitializationOptions.printSchema )
+//                }
+//                catch {
+//                    NSLog("initializeCloudKitSchema \(error.localizedDescription)" )
+//
+//                }
+//
+//            }
+//            NSLog("initializeCloudKitSchema  END " )
+//        }
 //            ******* END ONLY One time to push schema to cloudKit
 
             //       PGLFaceCIFilter.register()

@@ -57,7 +57,7 @@ class MetalPixellateFilter: MetalImageFilter
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
                 kCIAttributeDisplayName: "Image",
-                kCIAttributeType: kCIAttributeTypeImage],
+                               kCIAttributeType: kCIAttributeTypeImage] as [String : Any],
             
             "inputPixelWidth": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
@@ -66,7 +66,7 @@ class MetalPixellateFilter: MetalImageFilter
                 kCIAttributeMin: 0,
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 100,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                    kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
             
             "inputPixelHeight": [kCIAttributeIdentity: 1,
                 kCIAttributeClass: "NSNumber",
@@ -75,7 +75,7 @@ class MetalPixellateFilter: MetalImageFilter
                 kCIAttributeMin: 0,
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 100,
-                kCIAttributeType: kCIAttributeTypeScalar]
+                                     kCIAttributeType: kCIAttributeTypeScalar] as [String : Any]
         ]
     }
 }
@@ -125,7 +125,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeMin: 10,
                 kCIAttributeSliderMin: 10,
                 kCIAttributeSliderMax: 100,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                         kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
             
             "inputOctaves": [kCIAttributeIdentity: 1,
                 kCIAttributeClass: "NSNumber",
@@ -134,7 +134,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeMin: 1,
                 kCIAttributeSliderMin: 1,
                 kCIAttributeSliderMax: 16,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                 kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
             
             "inputPersistence": [kCIAttributeIdentity: 2,
                 kCIAttributeClass: "NSNumber",
@@ -143,19 +143,19 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeMin: 0,
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 1,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                     kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
             
             "inputColor0": [kCIAttributeIdentity: 3,
                 kCIAttributeClass: "CIColor",
                 kCIAttributeDefault: CIColor(red: 0.5, green: 0.25, blue: 0),
                 kCIAttributeDisplayName: "Color One",
-                kCIAttributeType: kCIAttributeTypeColor],
+                                kCIAttributeType: kCIAttributeTypeColor] as [String : Any],
             
             "inputColor1": [kCIAttributeIdentity: 4,
                 kCIAttributeClass: "CIColor",
                 kCIAttributeDefault: CIColor(red: 0, green: 0, blue: 0.15),
                 kCIAttributeDisplayName: "Color Two",
-                kCIAttributeType: kCIAttributeTypeColor],
+                                kCIAttributeType: kCIAttributeTypeColor] as [String : Any],
             
             "inputZ": [kCIAttributeIdentity: 5,
                 kCIAttributeClass: "NSNumber",
@@ -164,7 +164,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeMin: 0,
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 1024,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                           kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
             
             "inputWidth": [kCIAttributeIdentity: 2,
                 kCIAttributeClass: "NSNumber",
@@ -173,7 +173,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeMin: 100,
                 kCIAttributeSliderMin: 100,
                 kCIAttributeSliderMax: 2048,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                               kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
             
             "inputHeight": [kCIAttributeIdentity: 2,
                 kCIAttributeClass: "NSNumber",
@@ -182,7 +182,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeMin: 100,
                 kCIAttributeSliderMin: 100,
                 kCIAttributeSliderMax: 2048,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
         ]
     }
 }
@@ -216,7 +216,7 @@ class MetalKuwaharaFilter: MetalImageFilter
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
                 kCIAttributeDisplayName: "Image",
-                kCIAttributeType: kCIAttributeTypeImage],
+                               kCIAttributeType: kCIAttributeTypeImage] as [String : Any],
             
             "inputRadius": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
@@ -225,7 +225,7 @@ class MetalKuwaharaFilter: MetalImageFilter
                 kCIAttributeMin: 0,
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 30,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
         ]
     }
 }

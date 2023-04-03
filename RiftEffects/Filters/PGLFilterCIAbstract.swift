@@ -47,7 +47,7 @@ class PGLFilterCIAbstract: CIFilter {
                             kCIAttributeIdentity  :  -1.0,
                             kCIAttributeType : kCIAttributeTypeInteger
 
-                        ]
+                        ] as [String : Any] as [String : Any]
         ]
         return customDict
     }

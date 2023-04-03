@@ -40,7 +40,7 @@ class PGLBumpBlendCI: PGLFilterCIAbstract {
                     kCIAttributeDefault   : 100.0,
                     kCIAttributeIdentity  :  0.0,
                     kCIAttributeType      : kCIAttributeTypeScalar
-            ],
+                ] as [String : Any],
             "inputRadius1" :
                 [
                     kCIAttributeMin       :  0.0,
@@ -49,7 +49,7 @@ class PGLBumpBlendCI: PGLFilterCIAbstract {
                     kCIAttributeDefault   : 400.0,
                     kCIAttributeIdentity  :  0.0,
                     kCIAttributeType      : kCIAttributeTypeScalar
-            ],
+                ] as [String : Any],
             "inputScale" : [
 
                 kCIAttributeMin       : -1.0 ,
@@ -59,7 +59,7 @@ class PGLBumpBlendCI: PGLFilterCIAbstract {
                 kCIAttributeIdentity  : 0,
                 kCIAttributeType      : kCIAttributeTypeScalar
 
-            ],
+            ] as [String : Any],
 
             "inputCenter" : [  //kCIInputCenterKey"
                 kCIAttributeClass : "CIVector" ,
@@ -67,7 +67,7 @@ class PGLBumpBlendCI: PGLFilterCIAbstract {
                 kCIAttributeDescription :"The center of the effect as x and y coordinates",
                 kCIAttributeDisplayName :"Center",
                 kCIAttributeType : kCIAttributeTypePosition
-],
+                            ] as [String : Any],
         ]
         return customDict
 

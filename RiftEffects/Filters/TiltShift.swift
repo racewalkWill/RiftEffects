@@ -54,7 +54,7 @@ class PGLTiltShift: PGLFilterCIAbstract {
                     kCIAttributeDefault   : 10.0,
                     kCIAttributeIdentity  :  0.0,
                     kCIAttributeType      : kCIAttributeTypeScalar
-            ]
+                ] as [String : Any]
         ]
         return customDict
 

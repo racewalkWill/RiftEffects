@@ -50,7 +50,7 @@ class PGLFaceTiltShift: CIFilter {
                     kCIAttributeDefault   : 10.0,
                     kCIAttributeIdentity  :  0.0,
                     kCIAttributeType      : kCIAttributeTypeScalar
-                    ],
+            ] as [String : Any],
 
             "inputTopStart" :  [
                 kCIAttributeName      :  "point0",

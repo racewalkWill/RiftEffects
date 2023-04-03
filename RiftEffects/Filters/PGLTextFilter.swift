@@ -174,7 +174,7 @@ class CompositeTextPositionFilter: CIFilter {
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
                 kCIAttributeDisplayName: "Image",
-                kCIAttributeType: kCIAttributeTypeImage],
+                               kCIAttributeType: kCIAttributeTypeImage] as [String : Any],
 
             "inputFontSize": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
@@ -183,7 +183,7 @@ class CompositeTextPositionFilter: CIFilter {
                 kCIAttributeMin: 9,
                 kCIAttributeSliderMin: 9,
                 kCIAttributeSliderMax: 128,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                  kCIAttributeType: kCIAttributeTypeScalar] as [String : Any],
 
             "inputScaleFactor": [kCIAttributeIdentity: 1,
                 kCIAttributeClass: "NSNumber",
@@ -192,7 +192,7 @@ class CompositeTextPositionFilter: CIFilter {
                 kCIAttributeMin: 0,
                 kCIAttributeSliderMin: 1,
                 kCIAttributeSliderMax: 4,
-                kCIAttributeType: kCIAttributeTypeScalar],
+                                     kCIAttributeType: kCIAttributeTypeScalar] as [String : Any] as [String : Any],
 
             "inputFontName": [kCIAttributeDefault: "HelveticaNeue",
                               kCIAttributeDisplayName: "Font Name",
@@ -208,7 +208,7 @@ class CompositeTextPositionFilter: CIFilter {
                                         kCIAttributeDefault: CIVector(x: 50.0, y: 50.0),
                                         kCIAttributeDisplayName: "Text Position",
                                         kCIAttributeDescription: "Position Text"
-                                        ]
+                                  ] as [String : Any]
             ]
 
         return textAttributes

@@ -38,7 +38,7 @@ class PGLBumpFaceCIFilter: PGLFilterCIAbstract {
                 kCIAttributeDefault   : 300.0,
                 kCIAttributeIdentity  :  0.0,
                 kCIAttributeType      : kCIAttributeTypeScalar
-            ],
+            ] as [String : Any],
             
             "inputScale" : [
 
@@ -49,7 +49,7 @@ class PGLBumpFaceCIFilter: PGLFilterCIAbstract {
                 kCIAttributeIdentity  : 0,
                 kCIAttributeType      : kCIAttributeTypeScalar
 
-            ],
+            ] as [String : Any],
 
 
         ]

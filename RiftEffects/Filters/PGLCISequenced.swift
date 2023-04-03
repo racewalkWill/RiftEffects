@@ -14,7 +14,9 @@ class PGLCISequenced: CIFilter {
     @objc dynamic   var inputImage: CIImage?
     @objc dynamic   var inputBackgroundImage: CIImage?
     @objc dynamic   var inputMaskImage: CIImage?
-    @objc dynamic   var inputTime: NSNumber = 10.0
+    @objc dynamic   var inputDissolveTime: NSNumber = 10.0
+    @objc dynamic   var inputSingleFilterDisplayTime: NSNumber = (3 * 60) as NSNumber
+                            // 3 seconds * 60 frames = frames to pause
     @objc dynamic   var inputSequence: CIImage?
 
     
@@ -39,7 +41,7 @@ class PGLCISequenced: CIFilter {
                 [kCICategoryTransition, kCICategoryStillImage],
             "inputSequence" : [
                 kCIAttributeType : kPChildSequenceStack
-                ],
+                ] as [String : Any] ,
             "inputTime" :  [
 
                 kCIAttributeDefault   : 0.00,

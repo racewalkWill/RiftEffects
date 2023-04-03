@@ -109,7 +109,7 @@ class PGLSequencedFilters: PGLSourceFilter {
     func incrementImageLists() {
         // send increment to the image parm lists
         for anImageParm in imageParms() ?? [PGLFilterAttributeImage]() {
-            anImageParm.inputCollection?.increment()
+            _ = anImageParm.inputCollection?.increment()
         }
     }
     func filterSequence() -> PGLSequenceStack? {

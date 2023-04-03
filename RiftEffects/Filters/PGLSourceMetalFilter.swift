@@ -48,14 +48,14 @@ class WarpItMetalFilter: CIFilter {
             "inputImage": [kCIAttributeIdentity: 0,
                            kCIAttributeClass: "CIImage",
                            kCIAttributeDisplayName: "Image",
-                           kCIAttributeType: kCIAttributeTypeImage],
+                               kCIAttributeType: kCIAttributeTypeImage] as [String : Any],
 
 
             "inputCenterPoint": [
                             kCIAttributeClass: "CIVector",
                             kCIAttributeDisplayName: "Effect Center",
                             kCIAttributeType: kCIAttributeTypePosition,
-                            kCIAttributeDefault: CIVector(x: 0.1, y: 0.1)],
+                            kCIAttributeDefault: CIVector(x: 0.1, y: 0.1)] as [String : Any],
 
             "inputFactor": [kCIAttributeIdentity: 0,
                             kCIAttributeClass: "NSNumber",
@@ -64,7 +64,7 @@ class WarpItMetalFilter: CIFilter {
                             kCIAttributeMin: -10.0,
                             kCIAttributeSliderMin: -10.0,
                             kCIAttributeSliderMax: 10.0,
-                            kCIAttributeType: kCIAttributeTypeScalar]
+                                kCIAttributeType: kCIAttributeTypeScalar] as [String : Any] as [String : Any]
         ]
         return customDict
     }

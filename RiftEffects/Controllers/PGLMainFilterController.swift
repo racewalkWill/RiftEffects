@@ -29,17 +29,17 @@ class PGLMainFilterController:  UIViewController,
 
 
         // MARK: ListView
-         struct Item: Hashable {
-            let title: String?
-            let descriptor: PGLFilterDescriptor?
-                // if nil then use the title for the category
-        }
+     struct Item: Hashable {
+        let title: String?
+        let descriptor: PGLFilterDescriptor?
+            // if nil then use the title for the category
+    }
 
-         var dataSource: UICollectionViewDiffableDataSource<Int, Item>! = nil
-         var filterCollectionView: UICollectionView! = nil
+     var dataSource: UICollectionViewDiffableDataSource<Int, Item>! = nil
+     var filterCollectionView: UICollectionView! = nil
 
-        private let appearance = UICollectionLayoutListConfiguration.Appearance.insetGrouped
-        // assigned in configureHierarchy of viewDidLoad
+    private let appearance = UICollectionLayoutListConfiguration.Appearance.insetGrouped
+    // assigned in configureHierarchy of viewDidLoad
     var searchBar: UISearchBar!
 
     // MARK: model vars
@@ -722,17 +722,27 @@ extension PGLMainFilterController {
 
 
     }
-
+        /// add selected filter to the frequent category
     @IBAction func addToFrequentAction(_ sender: UIBarButtonItem) {
-            // add selected filter to the frequent category
+
             // copy descriptor of the filter
             // add to the frequent category
-
+        let currentSnapShot = dataSource.snapshot()
+            /// frequent category is first
+        guard let frequentSection = currentSnapShot.sectionIdentifiers.first
+            else {return}
         if let theDescriptor = selectedFilterDescriptor(inTable: filterCollectionView) {
             categories.first?.appendCopy(theDescriptor)
 
-                // frequent category is first
-            filterCollectionView.reloadSections(IndexSet(integer: 0))
+            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
+
+            let categoryHeaderItem = Item(title: categories[frequentSection].categoryName, descriptor: nil)
+            sectionSnapshot.append([categoryHeaderItem])
+            let filterItems = categories[frequentSection].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
+            sectionSnapshot.append(filterItems, to: categoryHeaderItem)
+            sectionSnapshot.collapse(filterItems)
+            dataSource.apply(sectionSnapshot, to: frequentSection)
+
             frequentBtnAction(addToFrequentBtn) // so the frequent cateogry is shown
 
         }
@@ -740,10 +750,22 @@ extension PGLMainFilterController {
     }
 
     @IBAction func bookmarkRemoveAction(_ sender: Any) {
+        let currentSnapShot = dataSource.snapshot()
+            /// frequent category is first
+        guard let frequentSection = currentSnapShot.sectionIdentifiers.first
+            else {return}
+
         if let theDescriptor = selectedFilterDescriptor(inTable: filterCollectionView) {
             categories.first?.removeDescriptor(theDescriptor)
+            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
 
-            filterCollectionView.reloadSections(IndexSet(integer: 0))
+            let categoryHeaderItem = Item(title: categories[frequentSection].categoryName, descriptor: nil)
+            sectionSnapshot.append([categoryHeaderItem])
+            let filterItems = categories[frequentSection].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
+            sectionSnapshot.append(filterItems, to: categoryHeaderItem)
+//            sectionSnapshot.collapse(filterItems)
+
+            dataSource.apply(sectionSnapshot, to: frequentSection)
             if let theFrequentBtn = sender as? UIBarButtonItem {
                 frequentBtnAction(theFrequentBtn) // so the frequent cateogry is shown
             }

@@ -140,18 +140,18 @@ class CoreDataWrapper {
         return url.appendingPathComponent("dbVersion.txt", isDirectory: false)
     }()
 
-    func lastDbVersionMigration() -> String {
-        var answer = "0.0"
-
-        if let tokenData = try? Data(contentsOf: dbVersionFile) {
-            do {
-                answer = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(tokenData) as! String
-            } catch {
-                Logger(subsystem: LogSubsystem, category: LogMigration).error("Failed to unarchive dbVersionFile.")
-            }
-        }
-        return answer
-    }
+//    func lastDbVersionMigration() -> String {
+//        var answer = "0.0"
+//
+//        if let tokenData = try? Data(contentsOf: dbVersionFile) {
+//            do {
+//                answer = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(tokenData) as! String
+//            } catch {
+//                Logger(subsystem: LogSubsystem, category: LogMigration).error("Failed to unarchive dbVersionFile.")
+//            }
+//        }
+//        return answer
+//    }
 
     /**
      An operation queue for handling history processing tasks: watching changes, deduplicating tags, and triggering UI updates if needed.
