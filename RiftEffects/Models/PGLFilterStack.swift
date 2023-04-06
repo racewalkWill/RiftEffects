@@ -669,12 +669,7 @@ class PGLFilterStack  {
         
          return filterAt(tabIndex: activeFilterIndex)
     }
-//    func nextFilter()  -> PGLSourceFilter? {
-//        // either add new if currently at last or move to next in the stack
-//        stackNextFilter()  // this changes the filter by adding to the stack
-//        //        filterUpdate(updatedFilter: currentFilter()!)
-//        return filterAt(tabIndex: activeFilterIndex)
-//    }
+
 
     func priorFilter() -> PGLSourceFilter? {
         // either move to prior in the stack or just the first if only 1

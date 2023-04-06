@@ -21,8 +21,8 @@ class PGLSequenceStack: PGLFilterStack {
 
         /// use the appstack to stop filter incrments if showFilterImage = true
     var appStack: PGLAppStack!
-    lazy var inputFilter: PGLSourceFilter = currentFilter()
-    lazy var targetFilter: PGLSourceFilter = nextFilter()
+    var inputFilter: PGLSourceFilter?
+    var targetFilter: PGLSourceFilter?
     var imageAttribute: PGLFilterAttributeImage
     var backgroundAttribute: PGLFilterAttributeImage?
     var maskAttribute: PGLFilterAttributeImage?
@@ -50,54 +50,42 @@ class PGLSequenceStack: PGLFilterStack {
 
     //MARK: single output
 
-
-    func nextFilter()  -> PGLSourceFilter {
-        var nextFilter = 0
-        if (activeFilterIndex != (activeFilters.count - 1)) {
-            // not on last.. move ahead
-            nextFilter = activeFilterIndex + 1
-        } // else back to zero for next
-//        NSLog("\( String(describing: self) + "-" + #function)" + " nextFilter = \(nextFilter)")
-        return filterAt(tabIndex: nextFilter)
-    }
+//    func nextFilter()  -> PGLSourceFilter {
+//        // assumes that activeFilterIndex is on the currentFilter
+//        var nextFilter = 0
+//        if (activeFilterIndex != (activeFilters.count - 1)) {
+//            // not on last.. move ahead
+//            nextFilter = activeFilterIndex + 1
+//        } // else back to zero for next
+////        NSLog("\( String(describing: self) + "-" + #function)" + " nextFilter = \(nextFilter)")
+//        return filterAt(tabIndex: nextFilter)
+//    }
 
     func setSequenceFilterInputs()  {
-        // only increment the target while off screen
-        // see also PGLSequenceFilter#addFilterStepTime() which alternates the increment of the
-        // image
 
+        // see also PGLSequenceFilter#addFilterStepTime() which alternates the increment of the image
 
-        // check if background, mask attributes are used by inputfilter and targetFilter
         // fill in values from the parent background & mask attibutes
 
     
         if let inputImage = imageAttribute.getCurrentImage() {
-            inputFilter.setInput(image: inputImage, source: nil)
-            targetFilter.setInput(image: inputImage, source: nil)
+            inputFilter?.setInput(image: inputImage, source: nil)
+            targetFilter?.setInput(image: inputImage, source: nil)
         }
         if  let inputBackgroundImage = backgroundAttribute?.getCurrentImage() {
-                inputFilter.setBackgroundInput(image: inputBackgroundImage)
-               targetFilter.setBackgroundInput(image: inputBackgroundImage)
+                inputFilter?.setBackgroundInput(image: inputBackgroundImage)
+               targetFilter?.setBackgroundInput(image: inputBackgroundImage)
         }
 
         if  let inputMaskImage = maskAttribute?.getCurrentImage() {
-                inputFilter.setMaskInput(image: inputMaskImage)
-                targetFilter.setMaskInput(image: inputMaskImage)
+                inputFilter?.setMaskInput(image: inputMaskImage)
+                targetFilter?.setMaskInput(image: inputMaskImage)
         }
 
-
     }
 
-    func currentInputFilter() -> PGLSourceFilter {
 
-       return inputFilter
-    }
-
-    func currentTargetFilter() -> PGLSourceFilter {
-
-        return targetFilter
-    }
-
+        // only increment to the next filter while it is off screen
     func increment(hidden: OffScreen) {
         // where hidden is dissolve .input or .target parm
         // only change the hidden parm
@@ -107,7 +95,6 @@ class PGLSequenceStack: PGLFilterStack {
             // don't increment.. just stay
             return
         }
-
         if isEmptyStack() || isSingleFilterStack() {
             return
         }
@@ -118,11 +105,21 @@ class PGLSequenceStack: PGLFilterStack {
         } else {
             moveActiveAhead() }
 
+        // the activeFilterIndex is now the next filter to use
+        // assign the currentFilter to the var input or target that is offscreen
         switch hidden {
             case .input:
                 inputFilter = currentFilter()
             case .target:
                 targetFilter = currentFilter()
+        }
+    }
+
+    override func appendFilter(_ newFilter: PGLSourceFilter) {
+        super.appendFilter(newFilter)
+        if isSingleFilterStack() {
+            inputFilter = newFilter
+            targetFilter = newFilter
         }
     }
 
@@ -133,17 +130,5 @@ class PGLSequenceStack: PGLFilterStack {
         return false
     }
 
-    override  func imageUpdate(_ inputImage: CIImage?, _ showCurrentFilterImage: Bool) -> CIImage {
-            // send the inputImage to the activeFilters
-//        super.imageUpdate(inputImage, showCurrentFilterImage)
-        // NOT CLEAR WHY this is needed..
-        // in loading some saved sequenceFilter stacks there is an
-        // error in the PGLSourceFilter #outputImageBasic of
-        // NSInvalidArgumentException', reason: '*** -[__NSPlaceholderArray initWithObjects:count:]: attempt to insert nil object from objects[0]'
-        // however other saved sequenceFilter stacks are fine..
-        // error in testing on stack named 'sequence4' 1/19/2023 8:28 am
-        // all the coredata rows & relations appear correct.
 
-        return inputImage ?? CIImage.empty()
-    }
 }

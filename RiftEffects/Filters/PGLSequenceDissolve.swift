@@ -56,17 +56,26 @@ class PGLSequenceDissolve: PGLTransitionFilter {
         sequenceStack.setSequenceFilterInputs()
 
         if sequenceStack.isSingleFilterStack() {
-            return sequenceStack.basicFilterOutput()
+            return singleFilterOutput()
         }
 
-        let currentOutputImage = sequenceStack.currentInputFilter().outputImage()
+        let currentOutputImage = sequenceStack.inputFilter?.outputImage() ?? CIImage.empty()
         localFilter.setValue(currentOutputImage, forKey: kCIInputImageKey)
         
-        let nextImage = sequenceStack.currentTargetFilter().outputImage()
+        let nextImage = sequenceStack.targetFilter?.outputImage() ?? CIImage.empty()
         localFilter.setValue(nextImage, forKey: kCIInputTargetImageKey) 
 
         return localFilter.outputImage
 
+
+    }
+
+        ///   skip the dissolve - output just one filter
+    func singleFilterOutput() -> CIImage? {
+        // set the input to the first filter
+        // assumes the sequenceStack.setSequenceFilterInputs has
+        // set the image inputs to this singleFilter
+        return sequenceStack.inputFilter?.outputImageBasic() ?? CIImage.empty()
 
     }
 

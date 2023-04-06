@@ -42,12 +42,33 @@ class PGLCISequenced: CIFilter {
             "inputSequence" : [
                 kCIAttributeType : kPChildSequenceStack
                 ] as [String : Any] ,
-            "inputTime" :  [
-
-                kCIAttributeDefault   : 0.00,
+            kCIinputDissolveTime :  [
+                kCIAttributeDefault   : 0.10,
                 kCIAttributeIdentity  :  0.0,
-                kCIAttributeType      : kCIAttributeTypeTime
-            ] as [String : Any]
+                kCIAttributeType      : kCIAttributeTypeTime,
+                kCIAttributeClass   : "NSNumber" ,
+                kCIAttributeMax     : 1.0,
+                kCIAttributeMin     : 0 ,
+                kCIAttributeSliderMax : 1 ,
+                kCIAttributeSliderMin :  0,
+                kCIAttributeDisplayName : "Fade Time"
+
+            ] as [String : Any],
+
+            kCIinputSingleFilterDisplayTime : [
+                kCIAttributeDefault   : 0.10,
+                kCIAttributeIdentity  :  0.0,
+//                kCIAttributeType      : ,
+                // if attributeType is empty then goes to PGLFilterAttributeNumber
+                kCIAttributeClass   : "NSNumber",
+                kCIAttributeMax     : 1.0,
+                kCIAttributeMin     : 0 ,
+                kCIAttributeSliderMax : 1 ,
+                kCIAttributeSliderMin :  0,
+                kCIAttributeDisplayName : "Display Time"
+
+            ] as [String : Any],
+
         ]
         return customDict
     }

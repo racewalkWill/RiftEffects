@@ -17,11 +17,22 @@ enum OffScreen {
     case target
 }
 
+let kCIinputSingleFilterDisplayTime = "inputSingleFilterDisplayTime"
+let kCIinputDissolveTime = "inputDissolveTime"
+
 class PGLSequencedFilters: PGLSourceFilter {
 
     private var dissolve: PGLSequenceDissolve!
-    var dissolveDT: Double = (1/120)  // should be 2 sec dissolve
-    var pauseForFramesCount = 300 // initial 5 secs * 60 fps
+    var dissolveDT: Double = (1/120) { didSet {
+
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " dissolveDT set to \(dissolveDT)" )")
+    }}  // should be 2 sec dissolve
+    var pauseForFramesCount = 300 { didSet {
+
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " pauseForFramesCount set to \(pauseForFramesCount)" )")
+    }}
+
+        // initial 5 secs * 60 fps
     var frameCount = 0
     var sequenceStack: PGLSequenceStack!
 
@@ -123,9 +134,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         // see also  PGLSequenceStack#setInputToStack() for alternation of target/input
 
         frameCount += 1
-        if frameCount < pauseForFramesCount {
-            return
-        }
+//        if frameCount < pauseForFramesCount {
+//            return
+//        }
         guard let theSequenceStack = filterSequence()
             else { return }
         if (stepTime > 1.0)   {
@@ -159,19 +170,23 @@ class PGLSequencedFilters: PGLSourceFilter {
     }
 
     override func setTimerDt(lengthSeconds: Float) {
-            // Super class does not use this
-            // timer is 0..1 range
-            // dt should be the amount of change to add to the input time
-            // to make the dissolve in lenghtSeconds total. This is also the incrment time
-            // from one image to another.
 
-            // set the pauseForFramesCount (deltaTime)
-            // min lengthSeconds = 0.001 or no pause just the dissolve
-            // max lengthSeconds = 10 seconds
-//        NSLog("PGLSequencedFilters #setTimerDt lengthSeconds = \(lengthSeconds)")
-        let framesPerSec = 60 // later read actual framerate from UI
-        pauseForFramesCount = framesPerSec * Int(lengthSeconds)
+        // pass the timerDt to the real dissolve
+        dissolveDT = 1 / Double(lengthSeconds/60)
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setTimerDt \(self.dissolveDT) ")
+        // dissolveDT is the time to add for each frame
+        // bigger makes it go faster
 
+
+    }
+
+    override func setNumberValue(newValue: NSNumber, keyName: String) {
+        if keyName == kCIinputSingleFilterDisplayTime  {
+            pauseForFramesCount = Int(truncating: newValue) * 60
+            Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setNumberValue pauseForFramesCount = \(self.pauseForFramesCount) ")
+        } else {
+            super.setNumberValue(newValue: newValue, keyName: keyName)
+        }
     }
 }
 
