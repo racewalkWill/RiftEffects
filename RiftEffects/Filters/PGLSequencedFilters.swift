@@ -23,16 +23,16 @@ let kCIinputDissolveTime = "inputDissolveTime"
 class PGLSequencedFilters: PGLSourceFilter {
 
     private var dissolve: PGLSequenceDissolve!
-    var dissolveDT: Double = (1/120) { didSet {
-
+    var dissolveDT: Double = (1/60) { didSet {
+            // should be 2 sec dissolve
         Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " dissolveDT set to \(dissolveDT)" )")
-    }}  // should be 2 sec dissolve
-    var pauseForFramesCount = 300 { didSet {
-
+    }}
+    var pauseForFramesCount = 180 { didSet {
+            // initial 3 secs * 60 fps
         Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " pauseForFramesCount set to \(pauseForFramesCount)" )")
     }}
 
-        // initial 5 secs * 60 fps
+
     var frameCount = 0
     var sequenceStack: PGLSequenceStack!
 
@@ -133,12 +133,17 @@ class PGLSequencedFilters: PGLSourceFilter {
         // just advance the SequenceStack on the hidden dissolve parm
         // see also  PGLSequenceStack#setInputToStack() for alternation of target/input
 
-        frameCount += 1
-//        if frameCount < pauseForFramesCount {
-//            return
-//        }
+
         guard let theSequenceStack = filterSequence()
             else { return }
+
+        frameCount += 1
+
+        if frameCount > pauseForFramesCount {
+            stepTime += dissolveDT
+            let inputTime = simd_smoothstep(0, 1, stepTime)
+            dissolve.setDissolveTime(inputTime: inputTime)
+        }
         if (stepTime > 1.0)   {
             stepTime = 1.0 // bring it back in range
 
@@ -159,11 +164,8 @@ class PGLSequencedFilters: PGLSourceFilter {
             // see also  PGLSequenceStack#setInputToStack()
         }
 
-        // go back and forth between 0 and 1.0
-        // toggle dt either neg or positive
-        stepTime += dissolveDT
-        let inputTime = simd_smoothstep(0, 1, stepTime)
-        dissolve.setDissolveTime(inputTime: inputTime)
+
+
 
 
 
@@ -172,10 +174,10 @@ class PGLSequencedFilters: PGLSourceFilter {
     override func setTimerDt(lengthSeconds: Float) {
 
         // pass the timerDt to the real dissolve
-        dissolveDT = 1 / Double(lengthSeconds/60)
+        dissolveDT =  Double(lengthSeconds/60)
         Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setTimerDt \(self.dissolveDT) ")
         // dissolveDT is the time to add for each frame
-        // bigger makes it go faster
+        // bigger makes it go slower
 
 
     }

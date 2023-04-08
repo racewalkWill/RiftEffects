@@ -14,7 +14,7 @@ class PGLCISequenced: CIFilter {
     @objc dynamic   var inputImage: CIImage?
     @objc dynamic   var inputBackgroundImage: CIImage?
     @objc dynamic   var inputMaskImage: CIImage?
-    @objc dynamic   var inputDissolveTime: NSNumber = 10.0
+    @objc dynamic   var inputDissolveTime: NSNumber = 1.0
     @objc dynamic   var inputSingleFilterDisplayTime: NSNumber = (3 * 60) as NSNumber
                             // 3 seconds * 60 frames = frames to pause
     @objc dynamic   var inputSequence: CIImage?
@@ -39,34 +39,34 @@ class PGLCISequenced: CIFilter {
 
             kCIAttributeFilterCategories :
                 [kCICategoryTransition, kCICategoryStillImage],
+            
             "inputSequence" : [
                 kCIAttributeType : kPChildSequenceStack
-                ] as [String : Any] ,
+            ] as [String : Any] ,
+
             kCIinputDissolveTime :  [
-                kCIAttributeDefault   : 0.10,
+                kCIAttributeDefault   : 1.0,
                 kCIAttributeIdentity  :  0.0,
                 kCIAttributeType      : kCIAttributeTypeTime,
                 kCIAttributeClass   : "NSNumber" ,
-                kCIAttributeMax     : 1.0,
+                kCIAttributeMax     : 10.0,
                 kCIAttributeMin     : 0 ,
-                kCIAttributeSliderMax : 1 ,
+                kCIAttributeSliderMax : 10 ,
                 kCIAttributeSliderMin :  0,
                 kCIAttributeDisplayName : "Fade Time"
-
             ] as [String : Any],
 
             kCIinputSingleFilterDisplayTime : [
-                kCIAttributeDefault   : 0.10,
+                kCIAttributeDefault   : 1.0,
                 kCIAttributeIdentity  :  0.0,
 //                kCIAttributeType      : ,
                 // if attributeType is empty then goes to PGLFilterAttributeNumber
                 kCIAttributeClass   : "NSNumber",
-                kCIAttributeMax     : 1.0,
+                kCIAttributeMax     : 20.0,
                 kCIAttributeMin     : 0 ,
-                kCIAttributeSliderMax : 1 ,
+                kCIAttributeSliderMax : 20,
                 kCIAttributeSliderMin :  0,
                 kCIAttributeDisplayName : "Display Time"
-
             ] as [String : Any],
 
         ]
