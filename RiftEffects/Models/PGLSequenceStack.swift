@@ -114,10 +114,15 @@ class PGLSequenceStack: PGLFilterStack {
                 targetFilter = currentFilter()
         }
     }
-
+        ///  just puts it in the activeFilters. Does not adjust inputs
     override func appendFilter(_ newFilter: PGLSourceFilter) {
-        super.appendFilter(newFilter)
+
+        append(newFilter)
+            // only adds to the activeFilters collection
+            // do not use the super.appendFilter - it tries to adjust inputs
+
         if isSingleFilterStack() {
+            // get input/target setup initially
             inputFilter = newFilter
             targetFilter = newFilter
         }
