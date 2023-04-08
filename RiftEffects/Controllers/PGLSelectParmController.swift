@@ -876,7 +876,8 @@ class PGLSelectParmController: PGLCommonController,
                     // if inputStack is nil then the following does nothing
                     // trace this - it can be removed
                     if self.tappedAttribute?.inputParmType() == ImageParm.inputChildStack {
-                        self.appStack.pushChildStack((self.tappedAttribute?.inputStack)!)
+                        self.tappedAttribute?.setChildStackMode(inAppStack: self.appStack)
+
                     }
                     // end Needs Review
 
@@ -1030,9 +1031,12 @@ class PGLSelectParmController: PGLCommonController,
                 if tappedAttribute == nil { Logger(subsystem: LogSubsystem, category: LogCategory).error ("tappedAttribute is NIL")}
                 else{
                     if tappedAttribute!.hasFilterStackInput() {
+                        Logger(subsystem: LogSubsystem, category: LogCategory).info ("pushChildStack - has input")
+
                         appStack.pushChildStack(tappedAttribute!.inputStack!)
                     }
                     else {
+                        Logger(subsystem: LogSubsystem, category: LogCategory).info ("addChildStack - no input")
                         appStack.addChildStackTo(parm: tappedAttribute!) }
                     // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
 

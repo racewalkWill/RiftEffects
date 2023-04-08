@@ -754,6 +754,11 @@ class PGLFilterAttribute {
 
     // MARK: Swipe support
 
+        /// super class empty implementation
+    func setChildStackMode(inAppStack: PGLAppStack) {
+
+    }
+
     func varyTimerAttribute() -> PGLFilterAttribute? {
             // override to answer nil in some subclasses (image etc)
 
@@ -1076,6 +1081,19 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         // override to answer nil in some subclasses (image etc)
 
         return nil
+    }
+
+    override func setChildStackMode(inAppStack: PGLAppStack) {
+        // should this be used?? may be duplicate
+        // #pushChildStack
+        // delete if this is duplicate #pushChildStack
+        guard let localInputStack = inputStack
+        else { return }
+        if inputParmType() == ImageParm.inputChildStack {
+            // should stackMode be set to Replace
+            // the normal setting?
+            inAppStack.pushChildStack(localInputStack)
+        }
     }
 
  override func cellAction() -> [PGLTableCellAction ] {

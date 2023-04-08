@@ -32,14 +32,29 @@ class PGLFilterAttrSequenceStack: PGLFilterAttributeImage {
             // just provides the contextAction
             // nil filterInputActionCell will trigger a segue
             var allActions = [PGLTableCellAction]()
-
-            let newAction = PGLTableCellAction(action: "More", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
+        
+            /// Always has childSequenceStack. Only Add to the sequence
+            let newAction = PGLTableCellAction(action: "Add", newAttribute: filterInputActionCell(), canPerformAction: false, targetAttribute: self)
             // this will segue to filterBranch.. opens the filterController
             allActions.append(newAction)
 
             return allActions
     }
 
+
+
+    override func setChildStackMode(inAppStack: PGLAppStack) {
+        guard let localInputStack = inputStack
+        else { return }
+        if inputParmType() == ImageParm.inputChildStack {
+            // set childMode to Add
+            // the inputStack does not need to be  pushed
+            // the caller handles that in
+           //      SelectParmController #trailingSwipeActions
+            //     #performSegue
+            localInputStack.stackMode = FilterChangeMode.add
+        }
+    }
 //    override func uiCellIdentifier() -> String {
 //        return  "Filters"
 //    }
