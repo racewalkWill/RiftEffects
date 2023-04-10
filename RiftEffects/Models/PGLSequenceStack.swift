@@ -17,15 +17,22 @@ import os
 ///  for SequencedFilters of any number of filters
 ///    always a child stack
 ///    Must always have at least one filter, defaults to image filter
+///
+let PGLStartSequenceDissolve = NSNotification.Name(rawValue: "PGLStartSequenceDissolve")
+
 class PGLSequenceStack: PGLFilterStack {
 
         /// use the appstack to stop filter incrments if showFilterImage = true
     var appStack: PGLAppStack!
     var inputFilter: PGLSourceFilter?
     var targetFilter: PGLSourceFilter?
+    var offScreenFilter = OffScreen.target
+        // input is starting filter in the dissolve
+        // so target filter is the hidden one
     var imageAttribute: PGLFilterAttributeImage
     var backgroundAttribute: PGLFilterAttributeImage?
     var maskAttribute: PGLFilterAttributeImage?
+
 
 
 
@@ -104,15 +111,20 @@ class PGLSequenceStack: PGLFilterStack {
             activeFilterIndex = 0
         } else {
             moveActiveAhead() }
-
+        Logger(subsystem: LogSubsystem, category: LogCategory).info( " increment(hidden: activeFilterIndex moved to \(self.activeFilterIndex)")
         // the activeFilterIndex is now the next filter to use
         // assign the currentFilter to the var input or target that is offscreen
+
         switch hidden {
             case .input:
+                Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: input")
                 inputFilter = currentFilter()
             case .target:
+                Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: target")
                 targetFilter = currentFilter()
         }
+        offScreenFilter = hidden
+
     }
         ///  just puts it in the activeFilters. Does not adjust inputs
     override func appendFilter(_ newFilter: PGLSourceFilter) {
@@ -121,11 +133,51 @@ class PGLSequenceStack: PGLFilterStack {
             // only adds to the activeFilters collection
             // do not use the super.appendFilter - it tries to adjust inputs
 
-        if isSingleFilterStack() {
-            // get input/target setup initially
+        let filterCount = activeFilters.count
+        var triggerFilterDissolve = false
+        switch filterCount {
+            case 1:
+                inputFilter = newFilter
+                targetFilter = newFilter
+                // nothing to dissolve
+                // triggerFilterDissolve stays false
+            case 2:
+                // set the offscreen var to new filter
+                if offScreenFilter == .input {
+                    inputFilter = newFilter
+                } else {
+                    targetFilter = newFilter
+                }
+                triggerFilterDissolve = true
+            default:
+                triggerFilterDissolve = true
+        }
+        if triggerFilterDissolve {
+            let dissolveNotification = Notification(name:PGLStartSequenceDissolve, object: nil,
+                userInfo: ["dissolveStack" : self ])
+            NotificationCenter.default.post(dissolveNotification)
+        }
+
+
+    }
+
+    override func replace(updatedFilter newFilter: PGLSourceFilter) {
+
+        if isEmptyStack(){
+            append(newFilter)
+        }
+
+        let oldFilter =  activeFilters[activeFilterIndex]
+        activeFilters[activeFilterIndex] = newFilter
+
+        // change input or target if needed
+        if inputFilter === oldFilter {
             inputFilter = newFilter
+        }
+        if targetFilter === oldFilter {
             targetFilter = newFilter
         }
+
     }
 
    override func imageInputIsEmpty(atFilterIndex: Int) -> Bool {

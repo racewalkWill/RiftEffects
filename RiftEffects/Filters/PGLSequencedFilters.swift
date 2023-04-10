@@ -23,18 +23,21 @@ let kCIinputDissolveTime = "inputDissolveTime"
 class PGLSequencedFilters: PGLSourceFilter {
 
     private var dissolve: PGLSequenceDissolve!
+    var sequenceStack: PGLSequenceStack!
     var dissolveDT: Double = (1/60) { didSet {
             // should be 2 sec dissolve
         Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " dissolveDT set to \(dissolveDT)" )")
     }}
+
+    var frameCount = 0
     var pauseForFramesCount = 180 { didSet {
             // initial 3 secs * 60 fps
         Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " pauseForFramesCount set to \(pauseForFramesCount)" )")
     }}
 
 
-    var frameCount = 0
-    var sequenceStack: PGLSequenceStack!
+
+
 
     required init?(filter: String, position: PGLFilterCategoryIndex) {
         super.init(filter: filter, position: position)
@@ -43,7 +46,28 @@ class PGLSequencedFilters: PGLSourceFilter {
         let myMaskAttribute = attribute(nameKey: kCIInputMaskImageKey ) as? PGLFilterAttributeImage
         sequenceStack = PGLSequenceStack(imageAtt: myImageAttribute, backgroundAtt: myBackgroundAttribute, maskAtt: myMaskAttribute)
         setDissolveWrapper(onStack: sequenceStack)
-//        sequenceStack.setStartupDefault()
+
+        let myCenter =  NotificationCenter.default
+        let queue = OperationQueue.main
+        myCenter.addObserver(forName: PGLStartSequenceDissolve, object: nil , queue: queue) { [weak self]
+            myUpdate in
+            guard let self = self else { return } // a released object sometimes receives the notification
+                          // the guard is based upon the apple sample app 'Conference-Diffable'
+
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLSequencedFilters  notificationBlock PGLStartSequenceDissolve")
+            if let userDataDict = myUpdate.userInfo {
+                if let theDissolveStack = userDataDict["dissolveStack"] as? PGLSequenceStack {
+                    if (theDissolveStack === sequenceStack) && ( frameCount < pauseForFramesCount ) {
+                            // dissolve is not currently running
+                        frameCount = pauseForFramesCount + 1
+                            // triggers start to the next dissolve
+                            // in the #addFilterStepTime()
+                    }
+                }
+            }
+
+
+        }
         }
 
     fileprivate func setDissolveWrapper(onStack: PGLSequenceStack) {
@@ -136,10 +160,14 @@ class PGLSequencedFilters: PGLSourceFilter {
 
         guard let theSequenceStack = filterSequence()
             else { return }
-
+        if (theSequenceStack.isSingleFilterStack() || theSequenceStack.isEmptyStack() ) {
+            return
+        }
         frameCount += 1
 
         if frameCount > pauseForFramesCount {
+            Logger(subsystem: LogSubsystem, category: LogCategory).info(" addFilterStepTime dissolve running " )
+            // dissolve is now running
             stepTime += dissolveDT
             let inputTime = simd_smoothstep(0, 1, stepTime)
             dissolve.setDissolveTime(inputTime: inputTime)
@@ -152,6 +180,8 @@ class PGLSequencedFilters: PGLSourceFilter {
             theSequenceStack.increment(hidden: .input )
             dissolveDT = dissolveDT * -1 // past end so toggle
             frameCount = 0
+                // stops the dissolve timer
+                Logger(subsystem: LogSubsystem, category: LogCategory).info(" addFilterStepTime STOPS dissolve")
             incrementImageLists()
 
         }
@@ -160,6 +190,9 @@ class PGLSequencedFilters: PGLSourceFilter {
             theSequenceStack.increment(hidden: .target )
             dissolveDT = dissolveDT * -1 // past end so toggle
             frameCount = 0
+                // stops the dissolve timer
+                    Logger(subsystem: LogSubsystem, category: LogCategory).info(" addFilterStepTime STOPS dissolve")
+            incrementImageLists()
 //            incrementImageLists()
             // see also  PGLSequenceStack#setInputToStack()
         }
@@ -171,6 +204,7 @@ class PGLSequencedFilters: PGLSourceFilter {
 
     }
 
+//MARK: set Fade Time, Display Time
     override func setTimerDt(lengthSeconds: Float) {
 
         // pass the timerDt to the real dissolve
@@ -178,15 +212,15 @@ class PGLSequencedFilters: PGLSourceFilter {
         Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setTimerDt \(self.dissolveDT) ")
         // dissolveDT is the time to add for each frame
         // bigger makes it go slower
+        setNumberValue(newValue: lengthSeconds as NSNumber, keyName: kCIinputDissolveTime)
 
 
     }
 
     override func setNumberValue(newValue: NSNumber, keyName: String) {
         if keyName == kCIinputSingleFilterDisplayTime  {
-            pauseForFramesCount = Int(truncating: newValue) * 60
+            pauseForFramesCount = Int(truncating: newValue)
             Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setNumberValue pauseForFramesCount = \(self.pauseForFramesCount) ")
-        } else {
             super.setNumberValue(newValue: newValue, keyName: keyName)
         }
     }
