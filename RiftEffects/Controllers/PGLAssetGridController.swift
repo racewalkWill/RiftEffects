@@ -291,10 +291,10 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 // MARK: CompositionLayout
 extension PGLAssetGridController {
     func createLayout() -> UICollectionViewLayout {
-            let columnCount = 4
+            let columnCount = 5  // was 4 columns
             let groupSizeHeight: CGFloat = 1.0/CGFloat(columnCount)
 
-            let badgeAnchor = NSCollectionLayoutAnchor(edges: [.top, .trailing], fractionalOffset: CGPoint(x: 0.3, y: -0.3))
+        let badgeAnchor = NSCollectionLayoutAnchor(edges: [.top, .trailing], fractionalOffset: CGPoint(x: -1.0, y: -0.1))
             let badgeSize = NSCollectionLayoutSize(widthDimension: .absolute(20),
                                                   heightDimension: .absolute(20))
             let badge = NSCollectionLayoutSupplementaryItem(
@@ -302,14 +302,13 @@ extension PGLAssetGridController {
                 elementKind: PGLAssetGridController.badgeElementKind,
                 containerAnchor: badgeAnchor)
 
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                 heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.20),
+                                             heightDimension: .fractionalHeight(1.0))
 //          let item = NSCollectionLayoutItem(layoutSize: itemSize)
            let item = NSCollectionLayoutItem(layoutSize: itemSize, supplementaryItems: [badge])
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(groupSizeHeight))
-    //            .estimated(80.0))  //heightDimension: .absolute(80)
+                                                   heightDimension:.estimated(100))
 
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem : item, count: columnCount)
 
