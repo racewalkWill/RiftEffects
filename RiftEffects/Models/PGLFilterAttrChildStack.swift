@@ -47,6 +47,7 @@ class PGLFilterAttrSequenceStack: PGLFilterAttributeImage {
         guard let localInputStack = inputStack
         else { return }
         if inputParmType() == ImageParm.inputChildStack {
+            
             // set childMode to Add
             // the inputStack does not need to be  pushed
             // the caller handles that in

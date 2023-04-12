@@ -165,8 +165,12 @@ class PGLSequencedFilters: PGLSourceFilter {
         }
         frameCount += 1
 
+        if frameCount == pauseForFramesCount {
+            Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STARTS dissolve " )
+        }
+
         if frameCount > pauseForFramesCount {
-            Logger(subsystem: LogSubsystem, category: LogCategory).info(" addFilterStepTime dissolve running " )
+
             // dissolve is now running
             stepTime += dissolveDT
             let inputTime = simd_smoothstep(0, 1, stepTime)
@@ -181,7 +185,7 @@ class PGLSequencedFilters: PGLSourceFilter {
             dissolveDT = dissolveDT * -1 // past end so toggle
             frameCount = 0
                 // stops the dissolve timer
-                Logger(subsystem: LogSubsystem, category: LogCategory).info(" addFilterStepTime STOPS dissolve")
+                Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
             incrementImageLists()
 
         }
@@ -191,7 +195,7 @@ class PGLSequencedFilters: PGLSourceFilter {
             dissolveDT = dissolveDT * -1 // past end so toggle
             frameCount = 0
                 // stops the dissolve timer
-                    Logger(subsystem: LogSubsystem, category: LogCategory).info(" addFilterStepTime STOPS dissolve")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
             incrementImageLists()
 //            incrementImageLists()
             // see also  PGLSequenceStack#setInputToStack()

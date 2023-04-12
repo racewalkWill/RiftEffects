@@ -26,9 +26,11 @@ class PGLSequenceStack: PGLFilterStack {
     var appStack: PGLAppStack!
     var inputFilter: PGLSourceFilter?
     var targetFilter: PGLSourceFilter?
-    var offScreenFilter = OffScreen.target
         // input is starting filter in the dissolve
         // so target filter is the hidden one
+    var offScreenFilter = OffScreen.target
+
+    /// imageParms passed to each filter in the sequence
     var imageAttribute: PGLFilterAttributeImage
     var backgroundAttribute: PGLFilterAttributeImage?
     var maskAttribute: PGLFilterAttributeImage?
