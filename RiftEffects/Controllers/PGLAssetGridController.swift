@@ -292,7 +292,6 @@ class PGLAssetGridController: UIViewController,  UIGestureRecognizerDelegate {
 extension PGLAssetGridController {
     func createLayout() -> UICollectionViewLayout {
             let columnCount = 5  // was 4 columns
-            let groupSizeHeight: CGFloat = 1.0/CGFloat(columnCount)
 
         let badgeAnchor = NSCollectionLayoutAnchor(edges: [.top, .trailing], fractionalOffset: CGPoint(x: -1.0, y: -0.1))
             let badgeSize = NSCollectionLayoutSize(widthDimension: .absolute(20),

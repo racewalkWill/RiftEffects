@@ -223,7 +223,7 @@ class PGLSelectParmController: PGLCommonController,
         // dependent on current filter.
         Logger(subsystem: LogSubsystem, category: LogCategory).debug ("PGLSelectParmController #updateDisplay start ")
         let viewerStack = appStack.getViewerStack()
-//        if viewerStack.isEmptyStack() { return }
+        if viewerStack.isEmptyStack() { return }
             // nothing to do .. no filter selected or added
 
         currentFilter = viewerStack.currentFilter()

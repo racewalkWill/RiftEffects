@@ -42,6 +42,7 @@ extension CIFilter {
             "CIClamp": [PGLRectangleFilter.self] ,
             "CIPerspectiveTransformWithExtent": [PGLRectangleFilter.self] ,
             "CIGaussianGradient": [PGLScalingFilter.self] ,
+          "CIPersonSegmentation": [PGLPersonSegmentation.self],
           kPFaceFilter : [PGLDetectorFilter.self],
            kPBumpFace : [PGLDetectorFilter.self],
            kPBumpBlend : [PGLBumpBlend.self] ,
