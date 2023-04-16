@@ -342,15 +342,16 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return detectors.first
     }
     func outputImageBasic() -> CIImage? {
-        //MARK: Review Needed
-        // assumes addStepTime() but calls addStepTime()
-        // assumes addStepTime() is called before this
 
         // wrapper may call this to produce wrapper effects on the basicImage
         addFilterStepTime()  // if animation then move time forward
         for anAttribute in attributes {
                     anAttribute.updateFromInputStack()
                 }
+        if imageInputIsEmpty() {
+            return CIImage.empty()
+            
+        }
         let thisOutput = localFilter.outputImage
         //        thisOutput?.cropped(to: thisOutput!.extent)
 //                if debugOutputImage { NSLog("PGLSourceFilter outputImage =  \(String(describing: thisOutput))")  }
