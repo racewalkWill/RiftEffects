@@ -43,7 +43,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
         // does not go below zero
         // see https://developer.apple.com/documentation/coreimage/customizing_image_transitions
 
-//       NSLog("PGLTransitionFilter #addStepTime ")
+//       NSLog("PGLTransitionFilter #addFilterStepTime ")
         var nextAttribute: PGLFilterAttribute?
         var doIncrement = false
         if (stepTime > 1.0)   {
@@ -76,15 +76,13 @@ class PGLTransitionFilter: PGLRectangleFilter {
         localFilter.setValue(inputTime, forKey: kCIInputTimeKey)
         //        NSLog("PGLTransitionFilter stepTime now = \(inputTime)" )
     }
-
+        /// set the dt (deltaTime) for use by addStepTime() on each frame
     override func setTimerDt(lengthSeconds: Float) {
         // Super class does not use this
         // timer is 0..1 range
         // dt should be the amount of change to add to the input time
         // to make the dissolve in lenghtSeconds total. This is also the incrment time
         // from one image to another.
-
-        // set the dt (deltaTime) for use by addStepTime() on each frame
 
         let framesPerSec: Float = 60.0 // later read actual framerate from UI
         let varyTotalFrames = framesPerSec * lengthSeconds

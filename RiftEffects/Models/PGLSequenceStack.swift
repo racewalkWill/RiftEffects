@@ -70,27 +70,58 @@ class PGLSequenceStack: PGLFilterStack {
 //        return filterAt(tabIndex: nextFilter)
 //    }
 
+
+
     func setSequenceFilterInputs()  {
-
-        // see also PGLSequenceFilter#addFilterStepTime() which alternates the increment of the image
-
+        // copies imageCollection to hidden filter
         // fill in values from the parent background & mask attibutes
-
-    
-        if let inputImage = imageAttribute.getCurrentImage() {
-            inputFilter?.setInput(image: inputImage, source: nil)
-            targetFilter?.setInput(image: inputImage, source: nil)
+        // inputs of each filter should be copied from the parent
+        // and incremented when off screen
+        // ONLY copy if parms are missing inputs
+        var updateFilter: PGLSourceFilter
+        switch offScreenFilter {
+            case .input:
+                guard (inputFilter != nil)
+                    else { return }
+                updateFilter = inputFilter!
+            case .target:
+                guard (targetFilter != nil)
+                    else { return }
+                updateFilter = targetFilter!
         }
-        if  let inputBackgroundImage = backgroundAttribute?.getCurrentImage() {
-                inputFilter?.setBackgroundInput(image: inputBackgroundImage)
-               targetFilter?.setBackgroundInput(image: inputBackgroundImage)
-        }
 
-        if  let inputMaskImage = maskAttribute?.getCurrentImage() {
-                inputFilter?.setMaskInput(image: inputMaskImage)
-                targetFilter?.setMaskInput(image: inputMaskImage)
-        }
+        shareImageInputs(newFilter: updateFilter)
 
+
+    }
+        /// share image, background, mask inputs to the new filter
+    func shareImageInputs(newFilter: PGLSourceFilter) {
+        shareImageList(newFilter, sequenceAttribute: imageAttribute)
+        if backgroundAttribute != nil {
+            shareImageList(newFilter, sequenceAttribute: backgroundAttribute!) }
+        if maskAttribute != nil {
+            shareImageList(newFilter, sequenceAttribute: maskAttribute!) }
+    }
+    ///  share the sequencedFilters input image lists to each target filter
+    ///   an imageList will referenced by every filter in the sequence
+    fileprivate func shareImageList(_ updateFilter: PGLSourceFilter,
+                                  sequenceAttribute: PGLFilterAttributeImage ) {
+        guard let imageKeyName = sequenceAttribute.attributeName
+        else { return }
+        if let updateImageParm = updateFilter.attribute(nameKey: imageKeyName ) as? PGLFilterAttributeImage
+
+        {
+            if updateImageParm.inputParmType() == ImageParm.missingInput {
+                // if user has assigned other inputs to this .. don't overwrite
+
+                if let sourceImages = sequenceAttribute.inputCollection {
+                    updateImageParm.inputCollection = sourceImages
+                    updateImageParm.setImageParmState(newState: imageAttribute.imageParmState)
+                        // put the first image into the filter
+                    updateFilter.setImageValue(newValue: (sourceImages.first()!), keyName: imageKeyName)
+                }
+            }
+        }
     }
 
 
@@ -104,7 +135,8 @@ class PGLSequenceStack: PGLFilterStack {
             // don't increment.. just stay
             return
         }
-        if isEmptyStack() || isSingleFilterStack() {
+        if isEmptyStack()  {
+            // || isSingleFilterStack() removed parms need to incrment images
             return
         }
         if activeFilterIndex >= (activeFilters.count - 1) {
@@ -117,7 +149,10 @@ class PGLSequenceStack: PGLFilterStack {
         // the activeFilterIndex is now the next filter to use
         // assign the currentFilter to the var input or target that is offscreen
 
+
         switch hidden {
+            // currentFilter is now hidden after activeFilterIndex has moved forward
+
             case .input:
                 Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: input")
                 inputFilter = currentFilter()
@@ -126,6 +161,12 @@ class PGLSequenceStack: PGLFilterStack {
                 targetFilter = currentFilter()
         }
         offScreenFilter = hidden
+        setSequenceFilterInputs()
+        for anImageParm in currentFilter().imageParms() ?? [PGLFilterAttributeImage]() {
+            if let nextImage = anImageParm.inputCollection?.increment() {
+                currentFilter().setImageValue(newValue: nextImage, keyName: anImageParm.attributeName!)
+            }
+            }
 
     }
         ///  just puts it in the activeFilters. Does not adjust inputs
@@ -134,7 +175,7 @@ class PGLSequenceStack: PGLFilterStack {
         append(newFilter)
             // only adds to the activeFilters collection
             // do not use the super.appendFilter - it tries to adjust inputs
-
+        shareImageInputs(newFilter: newFilter)
         let filterCount = activeFilters.count
         var triggerFilterDissolve = false
         switch filterCount {

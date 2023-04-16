@@ -135,7 +135,24 @@ class PGLSequencedFilters: PGLSourceFilter {
 
         // instead of returning empty on errors.. return the output same as
         // images??
-//        addFilterStepTime()
+
+        // restructure
+        // when not dissolving then output only one filter
+        // during the dissolve then output both..
+        // inputs have been copied in the #setSequenceFilterInputs
+        // do not need to reset them for each frame.
+
+        if sequenceStack.isEmptyStack() {
+            return CIImage.empty()
+        }
+        if sequenceStack.isSingleFilterStack() {
+            sequenceStack.setSequenceFilterInputs()
+            addFilterStepTime()
+                // advances the target filter
+
+            return dissolve.singleFilterOutput()
+        }
+        addFilterStepTime()
        let dissolvedImage =  dissolve.dissolveOutput()
         return dissolvedImage
 
@@ -160,7 +177,10 @@ class PGLSequencedFilters: PGLSourceFilter {
 
         guard let theSequenceStack = filterSequence()
             else { return }
-        if (theSequenceStack.isSingleFilterStack() || theSequenceStack.isEmptyStack() ) {
+        if  theSequenceStack.isEmptyStack()
+                // removed the (theSequenceStack.isSingleFilterStack() ||
+                // the parms need to increment even for a single filter
+            {
             return
         }
         frameCount += 1
@@ -186,7 +206,7 @@ class PGLSequencedFilters: PGLSourceFilter {
             frameCount = 0
                 // stops the dissolve timer
                 Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
-            incrementImageLists()
+
 
         }
         else if (stepTime < 0.0) {
@@ -196,8 +216,9 @@ class PGLSequencedFilters: PGLSourceFilter {
             frameCount = 0
                 // stops the dissolve timer
                     Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
-            incrementImageLists()
-//            incrementImageLists()
+
+            // filters get their own increment during outputBasic
+
             // see also  PGLSequenceStack#setInputToStack()
         }
 

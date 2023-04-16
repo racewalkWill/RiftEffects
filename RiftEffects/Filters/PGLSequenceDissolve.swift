@@ -53,11 +53,9 @@ class PGLSequenceDissolve: PGLTransitionFilter {
             return CIImage.empty()
         }
 
-        sequenceStack.setSequenceFilterInputs()
 
-        if sequenceStack.isSingleFilterStack() {
-            return singleFilterOutput()
-        }
+
+
 
         let currentOutputImage = sequenceStack.inputFilter?.outputImage() ?? CIImage.empty()
         localFilter.setValue(currentOutputImage, forKey: kCIInputImageKey)
