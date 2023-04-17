@@ -113,6 +113,17 @@ class PGLImageList: CustomStringConvertible {
 
     }
 
+    convenience init(ciImages: [CIImage]) {
+        self .init()
+        images  =  ciImages
+
+    }
+
+    convenience init(imageFileNames: [String]) {
+        self .init()
+        images = UIImage.ciImages(imageFileNames)
+    }
+
 
     func releaseVars() {
         // assetsIDs = [String]()

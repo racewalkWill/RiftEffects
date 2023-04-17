@@ -217,7 +217,7 @@ class PGLMainFilterController:  UIViewController,
 
     func performFilterPick(descriptor: PGLFilterDescriptor) {
 
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterTableController performFilterPick ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLFilterTableController performFilterPick \(descriptor)")
         if let selectedFilter = descriptor.pglSourceFilter() {
             stackData()?.performFilterPick(selectedFilter: selectedFilter)
                 // depending on mode will replace or add to the stack

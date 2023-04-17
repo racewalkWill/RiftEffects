@@ -93,17 +93,19 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         updateNavigationBar()
         setLongPressGesture()
 
+        if appStack.viewerStack.isEmptyStack() {
+                // just skip ahead to the filter controller since there is no filter now
+           appStack.createDemoStack()
+        }
+
         if !(splitViewController?.isCollapsed ?? false) {
             navigationController?.isToolbarHidden = false
             addToolBarButtons(toController: self)
 
-//            if traitCollection.userInterfaceIdiom == .phone {
-//                postPGLHideParmUIControls()
-//            }
             postPGLHideParmUIControls()
             if appStack.outputStack.isEmptyStack() {
                     // just skip ahead to the filter controller since there is no filter now
-                loadFirstTimeDemoStack()
+
                 Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock emptyStack segue to filter controller")
                 self.performSegue(withIdentifier: "showFilterController" , sender: nil)
             }
@@ -722,11 +724,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 //MARK: FirstTimeDemo
 
     /// create demo stack for first time startup
-    func loadFirstTimeDemoStack() {
-        // use images from the assetCatalog
-
-        
-    }
+  
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -95,7 +95,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         }
     }
 
+    //MARK: CoreData Read
     override func setUpStack(onParentImageParm: PGLFilterAttributeImage) -> PGLFilterStack {
+        //MARK: needs review
         // super class answers the PGLFilterStack
         // sequencedFilters need a special stack PGLSequenceStack
         // connect the ciFilter into the sequenceStack

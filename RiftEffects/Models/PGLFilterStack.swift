@@ -104,6 +104,118 @@ class PGLFilterStack  {
 
     }
 
+    func createDemoStack() {
+        // load images in Assets.xcassets folder 'DemoImages'
+        // load filters into stack with demoImages
+        
+        let topFilterName = "CIBlendWithRedMask"
+        let maskInputName = "CIPersonSegmentation"   // blend mask child input
+        let backgroundInput = "Sequenced Filters"  // blend background input
+
+          let sequenceFilters = [
+                "CIConvolution7X7", // sequenceStack child
+                "CIToneCurve",
+                "CIKaleidoscope",
+                "CIPerspectiveTransform"
+                ]
+
+
+        let demoInput = PGLImageList(imageFileNames:
+            [
+            "EagleMtnFlower",
+            "FarmSunrise",
+            "foggyPath"])
+
+
+        let demoBackgrdInput = PGLImageList(imageFileNames: [
+            "LakeHarbor",
+            "LakeOverlook",
+            "LakeHarbor"
+            ] )
+
+        let demoMaskInput = PGLImageList(imageFileNames: [
+           "morningMeadow",
+           "winterScene"
+        ] )
+
+        let demoPersonSegmentImage = PGLImageList(imageFileNames: [
+            "WL-B"
+        ] )
+
+
+            if let startingFilter = PGLFilterDescriptor(topFilterName, nil)?.pglSourceFilter() {
+                append(startingFilter)
+
+                let imageAttribute = startingFilter.getInputImageAttribute()
+                imageAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
+
+                /// set up mask
+                let startingFilterMaskAttr =  startingFilter.attribute(nameKey: kCIInputMaskImageKey)
+
+                let maskChildStack = PGLFilterStack()
+                maskChildStack.stackName = "Mask"
+                maskChildStack.stackType = "input"
+                maskChildStack.parentAttribute = startingFilterMaskAttr
+
+                startingFilterMaskAttr?.inputStack = maskChildStack
+                startingFilterMaskAttr?.setImageParmState(newState: .inputChildStack)
+
+                let childFilter = PGLFilterDescriptor(maskInputName, nil )?.pglSourceFilter()
+                let childInputAttribute = childFilter?.getInputImageAttribute()
+                childInputAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
+
+                maskChildStack.append(childFilter!)
+
+
+
+
+
+                /// set up background sequence
+                let backgrdInputAttribute = startingFilter.attribute(nameKey: kCIInputBackgroundImageKey)
+                let backgrdChildStack = PGLFilterStack()
+                backgrdChildStack.stackName = "Mask"
+                backgrdChildStack.stackType = "input"
+                backgrdChildStack.parentAttribute = backgrdInputAttribute
+
+                backgrdInputAttribute?.inputStack = backgrdChildStack
+                backgrdInputAttribute?.setImageParmState(newState: .inputChildStack)
+
+                let theDescriptor = PGLFilterDescriptor(kPSequencedFilter, PGLSequencedFilters.self)
+
+                guard let seqFilter = theDescriptor?.pglSourceFilter() as? PGLSequencedFilters
+                    else {   fatalError("Did not create SequencedFilters" ) }
+                backgrdChildStack.append(seqFilter)
+
+                /// setup sequence input images
+                seqFilter.getInputImageAttribute()?.setImageCollectionInput(cycleStack: demoInput)
+                seqFilter.attribute(nameKey: kCIInputBackgroundImageKey)?.setImageCollectionInput(cycleStack: demoBackgrdInput)
+                seqFilter.attribute(nameKey: kCIInputMaskImageKey)?.setImageCollectionInput(cycleStack: demoMaskInput)
+
+                /// attach  sequence filter to the Blend background stack
+
+                let seqChildStack = seqFilter.sequenceStack
+
+//
+//                if let theChildParm = seqFilter.attribute(nameKey: "inputSequence")  {
+//
+//                }
+                /// add filters to the sequence
+                for aFilterString in sequenceFilters {
+                    if let thisFilter = PGLFilterDescriptor(aFilterString, nil )?.pglSourceFilter() {
+                            seqFilter.filterSequence()?.append(thisFilter)
+                        }
+                }
+
+
+
+
+
+
+        }
+
+
+    }
+
     func setDefault(initialList: PGLImageList,
                     filterDescriptor: PGLFilterDescriptor ) {
 
@@ -856,5 +968,20 @@ class PGLFilterStack  {
           return answer
       }
 
+}
+
+extension UIImage {
+    static func ciImages(_ imageFileNames: [String]) -> [CIImage] {
+        var answerCIImages = [CIImage]()
+        for aFileName in imageFileNames {
+            if let aUIImage = UIImage.init(named: aFileName) {
+                if let ciVersion = CIImage.init(image: aUIImage) {
+                    answerCIImages.append(ciVersion)
+                }
+            }
+        }
+    return answerCIImages
+
+    }
 }
 

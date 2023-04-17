@@ -52,8 +52,10 @@ class PGLAppStack {
     // controls displaying the current intermediate viewer data stack image or the final output
 
     init(){
-//       viewerStack.setStartupDefault()
-        // not needed a stack has a default in the init.. does not work well wthout at least one filter & image
+        // if no saved stacks
+        Logger(subsystem: LogSubsystem, category: LogNavigation).notice( "start PGLAppStack init()")
+//      
+
         outputStack = viewerStack
 //        let myCenter =  NotificationCenter.default
 //        let queue = OperationQueue.main
@@ -90,6 +92,13 @@ class PGLAppStack {
         }
     }
 
+    /// answer true if demoStack created in the viewerStack
+    func createDemoStack() {
+        // check if stacks exist.. if not then
+        viewerStack.createDemoStack()
+
+    }
+    
     func setParms(newFilterParms: [PGLFilterAttribute]) {
             // MARK: appStackParmRefactor
 
