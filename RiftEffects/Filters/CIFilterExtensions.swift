@@ -28,6 +28,8 @@ let kPWarpItMetal  = "WarpItMetal"
 let kCompositeTextPositionFilter = "CompositeTextPositionFilter"
 let kSaliencyBlurFilter = "Saliency Blur"
 
+/*
+ MOVED in  121.05  to CIFilterToPGLFilter.Map
 extension CIFilter {
    class func pglClassMap() -> [String: [PGLSourceFilter.Type]] {
         // answer dictionary of collection of pglSourceFilter subclasses for filterDescriptors
@@ -88,6 +90,7 @@ extension CIFilter {
         return answerDict
     }
 }
+ */
 
 extension Int { func isEven() -> Bool { return (self % 2 == 0) } }
 

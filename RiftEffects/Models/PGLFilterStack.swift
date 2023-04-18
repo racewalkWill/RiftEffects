@@ -104,13 +104,13 @@ class PGLFilterStack  {
 
     }
 
-    func createDemoStack() {
+    func createDemoStack(appStack: PGLAppStack) {
         // load images in Assets.xcassets folder 'DemoImages'
         // load filters into stack with demoImages
         
         let topFilterName = "CIBlendWithRedMask"
         let maskInputName = "CIPersonSegmentation"   // blend mask child input
-        let backgroundInput = "Sequenced Filters"  // blend background input
+//        let backgroundInput = "Sequenced Filters"  // blend background input
 
           let sequenceFilters = [
                 "CIConvolution7X7", // sequenceStack child
@@ -186,6 +186,7 @@ class PGLFilterStack  {
                     else {   fatalError("Did not create SequencedFilters" ) }
                 backgrdChildStack.append(seqFilter)
 
+                seqFilter.addChildSequenceStack(appStack: appStack)
                 /// setup sequence input images
                 seqFilter.getInputImageAttribute()?.setImageCollectionInput(cycleStack: demoInput)
                 seqFilter.attribute(nameKey: kCIInputBackgroundImageKey)?.setImageCollectionInput(cycleStack: demoBackgrdInput)
@@ -193,7 +194,7 @@ class PGLFilterStack  {
 
                 /// attach  sequence filter to the Blend background stack
 
-                let seqChildStack = seqFilter.sequenceStack
+//                let seqChildStack = seqFilter.sequenceStack
 
 //
 //                if let theChildParm = seqFilter.attribute(nameKey: "inputSequence")  {
@@ -202,7 +203,7 @@ class PGLFilterStack  {
                 /// add filters to the sequence
                 for aFilterString in sequenceFilters {
                     if let thisFilter = PGLFilterDescriptor(aFilterString, nil )?.pglSourceFilter() {
-                            seqFilter.filterSequence()?.append(thisFilter)
+                            seqFilter.filterSequence()?.appendFilter(thisFilter)
                         }
                 }
 

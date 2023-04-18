@@ -146,7 +146,7 @@ class PGLFilterCategory {
         // from aFilter name you also need the pglSourceFilter class.. some CIFilters are used
         // by more than one PGLSourceFilter subclass - see CIFilter.pglClassMap()
         var answerDescriptor: PGLFilterDescriptor?
-        if let myPGLClassMaps = CIFilter.pglClassMap()[aFilterName] {
+        if let myPGLClassMaps = CIFilterToPGLFilter.Map[aFilterName] {
             for aPGLSourceClass in myPGLClassMaps {
                 // usually just one class per ciFilterName.. but a few cases of multiples
                 if aPGLSourceClass.classStringName() == cdFilterClass {
@@ -178,7 +178,7 @@ class PGLFilterCategory {
             if (PGLExcludeFilters.list.contains(aFilterName))
                 && (PGLExcludeFilters.skipFailingFilters)
                 {continue}
-            if let myPGLClassMaps = CIFilter.pglClassMap()[aFilterName] {
+            if let myPGLClassMaps = CIFilterToPGLFilter.Map[aFilterName] {
                 for aPGLSourceClass in myPGLClassMaps {
                     // usually just one class per ciFilterName.. but a few cases of multiples
                   if let thisDescriptor  = PGLFilterDescriptor(aFilterName, aPGLSourceClass)

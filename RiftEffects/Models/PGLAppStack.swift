@@ -95,7 +95,7 @@ class PGLAppStack {
     /// answer true if demoStack created in the viewerStack
     func createDemoStack() {
         // check if stacks exist.. if not then
-        viewerStack.createDemoStack()
+        viewerStack.createDemoStack(appStack: self)
 
     }
     

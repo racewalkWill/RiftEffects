@@ -174,7 +174,7 @@ class PGLSequenceStack: PGLFilterStack {
 
         append(newFilter)
             // only adds to the activeFilters collection
-            // do not use the super.appendFilter - it tries to adjust inputs
+            // do not use the super.appendFilter(_ newFilter: ) - it tries to adjust inputs
         shareImageInputs(newFilter: newFilter)
         let filterCount = activeFilters.count
         var triggerFilterDissolve = false

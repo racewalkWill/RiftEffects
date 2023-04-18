@@ -1,5 +1,5 @@
 //
-//  PGLFilterCI.swift
+//  PGLCIFilterTo.swift
 //  Glance
 //
 //  Created by Will on 1/30/19.
