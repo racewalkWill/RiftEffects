@@ -220,8 +220,8 @@ extension Renderer: MTKViewDelegate {
             // no change needed
             return
         }
-//        NSLog( "drawableSizeWillChange mtkViewSize  + \(String(describing: mtkViewSize)) " )
-//        NSLog( "drawableSizeWillChange size  + \(String(describing: size)) " )
+        NSLog( "drawableSizeWillChange mtkViewSize from  + \(String(describing: mtkViewSize)) " )
+        NSLog( "drawableSizeWillChange size to  + \(String(describing: size)) " )
          mtkViewSize = size
         TargetSize = size
         viewportSize = vector_uint2(x: UInt32(size.width), y: UInt32(size.height))

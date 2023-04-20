@@ -103,7 +103,72 @@ class PGLFilterStack  {
         setDefault(initialList: startImageList   , filterDescriptor: startingFilter ) // with nil parms uses defaults in setDefault declaration
 
     }
+    func createDemoStackSimple(appStack: PGLAppStack)  {
+        // sequenceStack first
+        // include personSegmentation as first filter
 
+        let topFilterName = "CIBlendWithRedMask"
+        let maskInputName = "CIPersonSegmentation"   // blend mask child input
+//        let backgroundInput = "Sequenced Filters"  // blend background input
+
+          let sequenceFilters = [
+                "CIConvolution7X7", // sequenceStack child
+                "CIToneCurve",
+                "CIKaleidoscope",
+                "CIPerspectiveTransform"
+                ]
+
+
+        let demoInput = PGLImageList(imageFileNames:
+            [
+            "EagleMtnFlower",
+            "FarmSunrise",
+            "foggyPath"])
+
+
+        let demoBackgrdInput = PGLImageList(imageFileNames: [
+            "LakeHarbor",
+            "LakeOverlook",
+            "LakeHarbor"
+            ] )
+
+        let demoMaskInput = PGLImageList(imageFileNames: [
+           "morningMeadow",
+           "winterScene"
+        ] )
+
+        let demoPersonSegmentImage = PGLImageList(imageFileNames: [
+            "WL-B"
+        ] )
+
+        let theDescriptor = PGLFilterDescriptor(kPSequencedFilter, PGLSequencedFilters.self)
+        guard let seqFilter = theDescriptor?.pglSourceFilter() as? PGLSequencedFilters
+            else {   fatalError("Did not create SequencedFilters" ) }
+        append(seqFilter)
+
+        seqFilter.addChildSequenceStack(appStack: appStack)
+        /// setup sequence input images
+        seqFilter.getInputImageAttribute()?.setImageCollectionInput(cycleStack: demoInput)
+        seqFilter.attribute(nameKey: kCIInputBackgroundImageKey)?.setImageCollectionInput(cycleStack: demoBackgrdInput)
+        seqFilter.attribute(nameKey: kCIInputMaskImageKey)?.setImageCollectionInput(cycleStack: demoMaskInput)
+
+        /// attach  sequence filter to the Blend background stack
+
+//                let seqChildStack = seqFilter.sequenceStack
+
+//
+//                if let theChildParm = seqFilter.attribute(nameKey: "inputSequence")  {
+//
+//                }
+        /// add filters to the sequence
+        for aFilterString in sequenceFilters {
+            if let thisFilter = PGLFilterDescriptor(aFilterString, nil )?.pglSourceFilter() {
+                    seqFilter.filterSequence()?.appendFilter(thisFilter)
+                }
+        }
+
+
+    }
     func createDemoStack(appStack: PGLAppStack) {
         // load images in Assets.xcassets folder 'DemoImages'
         // load filters into stack with demoImages
@@ -982,6 +1047,17 @@ extension UIImage {
             }
         }
     return answerCIImages
+
+    }
+
+    static func uiImages(_ imageFileNames: [String]) -> [UIImage] {
+        var answerImages = [UIImage]()
+        for aFileName in imageFileNames {
+            if let aUIImage = UIImage.init(named: aFileName) {
+                answerImages.append(aUIImage)
+            }
+        }
+    return answerImages
 
     }
 }

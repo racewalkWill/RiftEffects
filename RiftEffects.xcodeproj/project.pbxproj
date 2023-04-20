@@ -1028,19 +1028,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 43;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Rift-Effex";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.3;
 				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1054,20 +1057,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 43;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				ENABLE_PREVIEWS = NO;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Rift-Effex";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.3;
 				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "L-BSoftwareArtist.Rift-Effex";
 				PRODUCT_NAME = "$(TARGET_NAME)";

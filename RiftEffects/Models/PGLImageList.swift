@@ -121,7 +121,12 @@ class PGLImageList: CustomStringConvertible {
 
     convenience init(imageFileNames: [String]) {
         self .init()
-        images = UIImage.ciImages(imageFileNames)
+       let uiImages = UIImage.uiImages(imageFileNames)
+        for anUIImage in uiImages {
+            images.append(convert2CIImage(aUIImage: anUIImage))
+                // convert2CIImage will correct orientation to downMirrored
+        }
+
     }
 
 
@@ -410,6 +415,7 @@ class PGLImageList: CustomStringConvertible {
 
        }
 
+    /// convert UIImage to CIImage and correct orientation to downMirrored
     func convert2CIImage(aUIImage: UIImage) -> CIImage? {
         var pickedCIImage: CIImage?
 

@@ -95,7 +95,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
         if appStack.viewerStack.isEmptyStack() {
                 // just skip ahead to the filter controller since there is no filter now
-           appStack.createDemoStack()
+            appStack.createDemoStack(view: view)
         }
 
         if !(splitViewController?.isCollapsed ?? false) {
