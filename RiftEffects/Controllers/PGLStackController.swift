@@ -93,10 +93,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         updateNavigationBar()
         setLongPressGesture()
 
-        if appStack.viewerStack.isEmptyStack() {
-                // just skip ahead to the filter controller since there is no filter now
-            appStack.createDemoStack(view: view)
-        }
+//        if appStack.viewerStack.isEmptyStack() {
+//                // just skip ahead to the filter controller since there is no filter now
+//            appStack.createDemoStack(view: view)
+//        }
 
         if !(splitViewController?.isCollapsed ?? false) {
             navigationController?.isToolbarHidden = false

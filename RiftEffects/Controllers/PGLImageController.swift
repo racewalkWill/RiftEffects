@@ -495,33 +495,31 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
 
         let contextMenu = UIMenu(title: "",
-                                 children: [ libraryMenu
-                                             ,
-                                             UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
+                                 children: [ libraryMenu ,
+          UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
             action in
-                // self.saveStackAlert(self.moreBtn)
             self.saveStackActionBtn(self.moreBtn)
         },
-                                             UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
+          UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
             action in
             self.saveStackAsActionBtn(self.moreBtn)
         },
-                                             UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
+          UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.displayPrivacyPolicy(self.moreBtn)
+        },
+            UIAction(title: "Demo..", image:UIImage(systemName: "pencil.circle")) {
+            action in
+            self.loadDemoStack(self.moreBtn)
         }
-                                             //                                ,
-                                             //                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
-                                             //                            action in
-                                             //                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
-                                             //                            else { return }
-                                             //                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
-                                             //                                    }
-
-
-                                           ])
+            ] )
         moreBtn.menu = contextMenu
     }
+
+    fileprivate func loadDemoStack(_ sender: UIBarButtonItem)  {
+        appStack.createDemoStack(view: view)
+    }
+
 
     fileprivate func registerImageControllerNotifications() {
         let myCenter =  NotificationCenter.default
