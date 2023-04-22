@@ -139,6 +139,7 @@ class PGLSequenceStack: PGLFilterStack {
             // || isSingleFilterStack() removed parms need to incrment images
             return
         }
+        NSLog("PGLSequenceStack filter before increment \(currentFilter().filterName)")
         if activeFilterIndex >= (activeFilters.count - 1) {
             // zero based array
             // back to the beginning
@@ -146,6 +147,7 @@ class PGLSequenceStack: PGLFilterStack {
         } else {
             moveActiveAhead() }
         Logger(subsystem: LogSubsystem, category: LogCategory).info( " increment(hidden: activeFilterIndex moved to \(self.activeFilterIndex)")
+
         // the activeFilterIndex is now the next filter to use
         // assign the currentFilter to the var input or target that is offscreen
 
@@ -160,6 +162,7 @@ class PGLSequenceStack: PGLFilterStack {
                 Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: target")
                 targetFilter = currentFilter()
         }
+
         offScreenFilter = hidden
         setSequenceFilterInputs()
         for anImageParm in currentFilter().imageParms() ?? [PGLFilterAttributeImage]() {
@@ -230,5 +233,16 @@ class PGLSequenceStack: PGLFilterStack {
         return false
     }
 
+    //MARK: outputImage
+
+        /// uses the appStack setting for showCurrentFilterImage
+    override func stackOutputImage(_ showCurrentFilterImage: Bool) -> CIImage {
+        // ignore the showCurrentFilterImage that is passed
+        // normally a childStack receives a false parm
+        // from the PGLFilterAttribute #updateFromInputStack()
+
+        return super.stackOutputImage(appStack.showFilterImage)
+
+    }
 
 }

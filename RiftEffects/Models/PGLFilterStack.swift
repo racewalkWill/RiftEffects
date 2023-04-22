@@ -104,78 +104,7 @@ class PGLFilterStack  {
 
     }
 
-    func createDemoStackSimple(appStack: PGLAppStack)  {
-        // sequenceStack first
-        // include personSegmentation as first filter
-
-        let topFilterName = "CIBlendWithRedMask"
-        let maskInputName = "CIPersonSegmentation"   // blend mask child input
-//        let backgroundInput = "Sequenced Filters"  // blend background input
-
-          let sequenceFilters = [
-                "CIConvolution7X7", // sequenceStack child
-                "CIToneCurve",
-                "CIKaleidoscope",
-                "CIPerspectiveTransform"
-                ]
-
-
-        let demoInput = PGLImageList(imageFileNames:
-            [
-            "EagleMtnFlower",
-            "FarmSunrise",
-            "foggyPath"])
-
-
-        let demoBackgrdInput = PGLImageList(imageFileNames: [
-            "LakeHarbor",
-            "LakeOverlook",
-            "LakeHarbor"
-            ] )
-
-        let demoMaskInput = PGLImageList(imageFileNames: [
-           "morningMeadow",
-           "winterScene"
-        ] )
-
-        let demoPersonSegmentImage = PGLImageList(imageFileNames: [
-            "WL-B"
-        ] )
-
-        let theDescriptor = PGLFilterDescriptor(kPSequencedFilter, PGLSequencedFilters.self)
-        guard let seqFilter = theDescriptor?.pglSourceFilter() as? PGLSequencedFilters
-            else {   fatalError("Did not create SequencedFilters" ) }
-        append(seqFilter)
-
-        seqFilter.addChildSequenceStack(appStack: appStack)
-        /// setup sequence input images
-        seqFilter.getInputImageAttribute()?.setImageCollectionInput(cycleStack: demoInput)
-        seqFilter.attribute(nameKey: kCIInputBackgroundImageKey)?.setImageCollectionInput(cycleStack: demoBackgrdInput)
-        seqFilter.attribute(nameKey: kCIInputMaskImageKey)?.setImageCollectionInput(cycleStack: demoMaskInput)
-
-        /// attach  sequence filter to the Blend background stack
-
-//                let seqChildStack = seqFilter.sequenceStack
-
-//
-//                if let theChildParm = seqFilter.attribute(nameKey: "inputSequence")  {
-//
-//                }
-        /// add filters to the sequence
-        for aFilterString in sequenceFilters {
-            let aMappedClass = CIFilterToPGLFilter.Map[aFilterString]
-                //
-            if (aMappedClass?.count ?? 0) > 1
-                { fatalError("This demo filter has multiple descriptors - coding error")}                    // normally will be nil - then PGLFilterDescriptor defaults to PGLSourceFilter.self
-            if let thisDescriptor = PGLFilterDescriptor(aFilterString, aMappedClass?.first ) {
-                if let thisFilter = thisDescriptor.pglSourceFilter() {
-                seqFilter.filterSequence()?.appendFilter(thisFilter)
-            }
-            }
-        }
-        // postFilterChangeRedraw()
-        postStackChange()
-    }
+   
 
     func createDemoStack(appStack: PGLAppStack) {
         // load images in Assets.xcassets folder 'DemoImages'
@@ -216,7 +145,7 @@ class PGLFilterStack  {
         ] )
 
 
-        if let startingFilter = PGLFilterDescriptor(topFilterName, nil)?.pglSourceFilter() {
+        if let startingFilter =  demoLoadFilter(ciFilterString: topFilterName) {
             append(startingFilter)
 
             let imageAttribute = startingFilter.getInputImageAttribute()
@@ -233,11 +162,13 @@ class PGLFilterStack  {
             startingFilterMaskAttr?.inputStack = maskChildStack
             startingFilterMaskAttr?.setImageParmState(newState: .inputChildStack)
 
-            let childFilter = PGLFilterDescriptor(maskInputName, nil )?.pglSourceFilter()
-            let childInputAttribute = childFilter?.getInputImageAttribute()
-            childInputAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
+            if let childFilter = demoLoadFilter(ciFilterString: maskInputName) {
 
-            maskChildStack.append(childFilter!)
+                let childInputAttribute = childFilter.getInputImageAttribute()
+                childInputAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
+
+                maskChildStack.append(childFilter)
+            }
 
 
                 /// set up background sequence
@@ -273,19 +204,28 @@ class PGLFilterStack  {
                 /// add filters to the sequence
             for aFilterString in sequenceFilters {
 
-                let aMappedClass = CIFilterToPGLFilter.Map[aFilterString]
-                    //
-                if (aMappedClass?.count ?? 0) > 1
-                    { fatalError("This demo filter has multiple descriptors - coding error")}                    // normally will be nil - then PGLFilterDescriptor defaults to PGLSourceFilter.self
-                if let thisDescriptor = PGLFilterDescriptor(aFilterString, aMappedClass?.first ) {
-                    if let thisFilter = thisDescriptor.pglSourceFilter() {
-                    seqFilter.filterSequence()?.appendFilter(thisFilter)
-                }
+                guard let thisFilter = demoLoadFilter(ciFilterString: aFilterString)
+                else { continue }
+                seqFilter.filterSequence()?.appendFilter(thisFilter)
+
                 }
                     // postFilterChangeRedraw()
                 postStackChange()
             }
-        }
+
+    }
+
+    func demoLoadFilter(ciFilterString: String) -> PGLSourceFilter? {
+        // an Fatal Error if filter is not created
+        let aMappedClass = CIFilterToPGLFilter.Map[ciFilterString]
+        if (aMappedClass?.count ?? 0) > 1
+            { fatalError("This demo filter has multiple descriptors - coding error")}                    // normally will be nil - then PGLFilterDescriptor defaults to PGLSourceFilter.self
+        guard let thisDescriptor = PGLFilterDescriptor(ciFilterString, aMappedClass?.first )
+        else { fatalError("Demo Load Filter Error ") }
+        let thisFilter = thisDescriptor.pglSourceFilter()
+
+
+        return thisFilter
     }
 
     func setDefault(initialList: PGLImageList,
