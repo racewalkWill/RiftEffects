@@ -133,6 +133,7 @@
 		A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */; };
 		A3DDDEE729D85EF1003B8545 /* PGLFilterAttrChildStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDDEE629D85EF1003B8545 /* PGLFilterAttrChildStack.swift */; };
 		A3E0A22B2649DE6100C43D69 /* PGLScalingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */; };
+		A3E17A1B29F5DBB2006A39A6 /* PGLFilterStackDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E17A1A29F5DBB2006A39A6 /* PGLFilterStackDemo.swift */; };
 		A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */; };
 		A3E6243D2691261A0017372F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A3E6243C2691261A0017372F /* Settings.bundle */; };
 		A3EBFB0C29EF2336005E4852 /* CIFilterToPGLFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EBFB0B29EF2336005E4852 /* CIFilterToPGLFilter.swift */; };
@@ -297,6 +298,7 @@
 		A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLHelpPageController.swift; sourceTree = "<group>"; };
 		A3DDDEE629D85EF1003B8545 /* PGLFilterAttrChildStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterAttrChildStack.swift; sourceTree = "<group>"; };
 		A3E0A22A2649DE6100C43D69 /* PGLScalingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLScalingFilter.swift; sourceTree = "<group>"; };
+		A3E17A1A29F5DBB2006A39A6 /* PGLFilterStackDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterStackDemo.swift; sourceTree = "<group>"; };
 		A3E593B22541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterCDDataTransformer.swift; sourceTree = "<group>"; };
 		A3E6243C2691261A0017372F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A3EBFB0B29EF2336005E4852 /* CIFilterToPGLFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIFilterToPGLFilter.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 				A3DDDEE629D85EF1003B8545 /* PGLFilterAttrChildStack.swift */,
 				A3BF505424D32A3400CD5114 /* PGLFilterAttributeNumber.swift */,
 				A3BF50A024D32A3400CD5114 /* PGLFilterStack.swift */,
+				A3E17A1A29F5DBB2006A39A6 /* PGLFilterStackDemo.swift */,
 				A353131028E37613001F2C87 /* PGLSequenceStack.swift */,
 				A3BF508624D32A3400CD5114 /* PGLAppStack.swift */,
 				A3BF509C24D32A3400CD5114 /* PGLImageList.swift */,
@@ -800,6 +803,7 @@
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
 				A32F213B283BBAF1006C026F /* PGLNavPrimaryController.swift in Sources */,
 				A327122229775C30007DF04A /* MetalFilters.swift in Sources */,
+				A3E17A1B29F5DBB2006A39A6 /* PGLFilterStackDemo.swift in Sources */,
 				A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */,
 				A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */,
 				A3BF513824D32A3400CD5114 /* PGLAssetGridController.swift in Sources */,

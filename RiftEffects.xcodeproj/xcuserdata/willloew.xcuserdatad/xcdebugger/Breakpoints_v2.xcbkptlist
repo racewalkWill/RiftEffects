@@ -825,8 +825,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "611"
-            endingLineNumber = "611"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
             landmarkName = "stackOutputImage(_:)"
             landmarkType = "7">
             <Locations>
@@ -1031,8 +1031,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "replace(updatedFilter:)"
             landmarkType = "7">
             <Locations>
@@ -1239,8 +1239,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "append(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1255,8 +1255,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "appendFilter(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1511,8 +1511,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "720"
-            endingLineNumber = "720"
+            startingLineNumber = "599"
+            endingLineNumber = "599"
             landmarkName = "clampCropForNegativeX(input:)"
             landmarkType = "7">
             <Locations>
@@ -2140,84 +2140,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "92567AA4-5F46-4355-A69D-EA99CAAD59ED"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLFilterStack.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "createDemoStack(appStack:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "92567AA4-5F46-4355-A69D-EA99CAAD59ED - 20e5a1ae944b5204"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLFilterStack.createDemoStack() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "214"
-                  endingLineNumber = "214"
-                  offsetFromSymbolStart = "3892">
-               </Location>
-               <Location
-                  uuid = "92567AA4-5F46-4355-A69D-EA99CAAD59ED - 5ed9b41f5d888eb6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLFilterStack.createDemoStack(appStack: RiftEffects.PGLAppStack) -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "215"
-                  endingLineNumber = "215"
-                  offsetFromSymbolStart = "3924">
-               </Location>
-               <Location
-                  uuid = "92567AA4-5F46-4355-A69D-EA99CAAD59ED - 5ed9b41f5d888eb6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLFilterStack.createDemoStack(appStack: RiftEffects.PGLAppStack) -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "215"
-                  endingLineNumber = "215"
-                  offsetFromSymbolStart = "2300">
-               </Location>
-               <Location
-                  uuid = "92567AA4-5F46-4355-A69D-EA99CAAD59ED - 5ed9b41f5d888e91"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLFilterStack.createDemoStack(appStack: RiftEffects.PGLAppStack) -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "4284">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "325BFC14-84E3-4213-A8DD-540287707D00"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -2415,25 +2337,9 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "675"
-            endingLineNumber = "675"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
             landmarkName = "imageUpdate(_:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A71F6984-3C75-472B-AEA7-BDD0D56C31D7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLFilterStack.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "createDemoStack(appStack:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2495,8 +2401,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "644"
-            endingLineNumber = "644"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "imageUpdate(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2511,8 +2417,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "632"
-            endingLineNumber = "632"
+            startingLineNumber = "509"
+            endingLineNumber = "509"
             landmarkName = "imageUpdate(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2543,8 +2449,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "appendFilter(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2559,8 +2465,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "767"
-            endingLineNumber = "767"
+            startingLineNumber = "646"
+            endingLineNumber = "646"
             landmarkName = "postTransitionFilterRemove()"
             landmarkType = "7">
             <Locations>
@@ -2622,6 +2528,51 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "767"
                   endingLineNumber = "767"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "B1C5DBB9-30C8-4587-A8E9-EFE7B6D30C68 - 7cf2a51422f2fe9a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLFilterStack.postTransitionFilterRemove() -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "769"
+                  endingLineNumber = "769"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "B1C5DBB9-30C8-4587-A8E9-EFE7B6D30C68 - 7cf2a51422f2fe1e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLFilterStack.postTransitionFilterRemove() -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "765"
+                  endingLineNumber = "765"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "B1C5DBB9-30C8-4587-A8E9-EFE7B6D30C68 - 7cf2a51422f2eeb5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLFilterStack.postTransitionFilterRemove() -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLFilterStack.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "646"
+                  endingLineNumber = "646"
                   offsetFromSymbolStart = "188">
                </Location>
             </Locations>
@@ -2701,8 +2652,8 @@
             filePath = "RiftEffects/Models/PGLFilterStack.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "696"
-            endingLineNumber = "696"
+            startingLineNumber = "575"
+            endingLineNumber = "575"
             landmarkName = "clampCropForNegativeX(input:)"
             landmarkType = "7">
             <Locations>
@@ -2815,6 +2766,22 @@
             startingLineNumber = "52"
             endingLineNumber = "52"
             landmarkName = "dissolveOutput()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9DE5860C-57C8-4B0B-823C-4CC8F250FB34"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/PGLImageController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1383"
+            endingLineNumber = "1383"
+            landmarkName = "panEnded(endingPoint:parm:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

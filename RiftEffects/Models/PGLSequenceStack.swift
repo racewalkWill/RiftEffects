@@ -139,7 +139,7 @@ class PGLSequenceStack: PGLFilterStack {
             // || isSingleFilterStack() removed parms need to incrment images
             return
         }
-        NSLog("PGLSequenceStack filter before increment \(currentFilter().filterName)")
+        NSLog("PGLSequenceStack filter before increment \(String(describing: currentFilter().filterName))")
         if activeFilterIndex >= (activeFilters.count - 1) {
             // zero based array
             // back to the beginning
