@@ -1003,15 +1003,12 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     override func set(_ value: Any ) {
         // use a system of double dispatch to address typing
-        //
+
         if attributeName != nil {
             if let newImage = value as? CIImage {
                 aSourceFilter.setImageValue(newValue: newImage, keyName: attributeName!) }
-
             }
     }
-    // answer a filter type subUI parm cell
-
 
   override func hasImageInput() -> Bool? {
     

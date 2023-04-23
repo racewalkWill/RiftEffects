@@ -113,6 +113,7 @@ class PGLFilterStack  {
         let topFilterName = "CIBlendWithRedMask"
         let maskInputName = "CIPersonSegmentation"   // blend mask child input
 //        let backgroundInput = "Sequenced Filters"  // blend background input
+        stackName = "Demo"
 
           let sequenceFilters = [
                 "CIConvolution7X7", // sequenceStack child
@@ -124,7 +125,7 @@ class PGLFilterStack  {
 
         let demoInput = PGLImageList(imageFileNames:
             [
-            "EagleMtnFlower",
+            "Eagle Mtn",
             "FarmSunrise",
             "foggyPath"])
 
@@ -211,6 +212,8 @@ class PGLFilterStack  {
                 }
                     // postFilterChangeRedraw()
                 postStackChange()
+                postTransitionFilterAdd() // makes the redraws run
+                postCurrentFilterChange() // makes DoNotDraw = false.. 
             }
 
     }
@@ -690,15 +693,20 @@ class PGLFilterStack  {
     }
 
     func clampCropForNegativeX(input: CIImage?) -> CIImage? {
-        var returnImage: CIImage!
 
+        return input
+
+        /*
         guard let actualInput = input else {
             return input
         }
         if actualInput.extent.isInfinite {
             // clampCrop not needed here.. insetRect goes to zero in this case
             return input}
-        
+
+        return input?.translateNegativeXY()
+
+         var returnImage: CIImage!
         if ( actualInput.extent.minX  < 0) {
             // has a negative value in origin x
             // negative causes frame to offset with black border to show the origin
@@ -725,6 +733,7 @@ class PGLFilterStack  {
 
         }
         return returnImage
+         */
     }
 
 
@@ -757,6 +766,12 @@ class PGLFilterStack  {
     func postTransitionFilterRemove() {
         let updateNotification = Notification(name:PGLTransitionFilterExists)
         NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : -1 ])
+    }
+
+    func postCurrentFilterChange() {
+        // triggers DoNotDraw to false
+        let updateFilterNotification = Notification(name: PGLCurrentFilterChange)
+        NotificationCenter.default.post(name: updateFilterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
     }
 
 

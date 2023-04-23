@@ -44,4 +44,40 @@ extension CIImage {
         return returnImage
     }
 
+        /// resize input to match the target size
+    func scale(targetSize: CGSize) -> CIImage {
+        // assumes ciImage is not infinite extent
+        if self.extent.isInfinite {
+            // do nothing if extent isInfinite
+            return self}
+        if self.extent.size == targetSize {
+            return self }
+
+        let scaleX = targetSize.width / self.extent.width
+        let scaleY = targetSize.height / self.extent.height
+        let scaledCIImage  = self.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        return scaledCIImage
+    }
+
+    func translateNegativeXY() -> CIImage {
+        var offsetX: CGFloat = 0.0
+        var offsetY: CGFloat = 0.0
+        var doTranslate = false
+        let myExtent = extent
+        if myExtent.minX < 0 {
+            offsetX = abs(myExtent.minX)
+            doTranslate = true
+        }
+        if myExtent.minY < 0 {
+            offsetY = abs(myExtent.minY)
+            doTranslate = true
+        }
+        if doTranslate {
+            return self.transformed(by: CGAffineTransform(translationX: offsetX, y: offsetY))
+        } else {
+            return self
+        }
+
+    }
+
 }

@@ -441,8 +441,21 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 //        NSLog("PGLFilterClasses #setImageValue key = \(keyName)")
 //        newValue.clampedToExtent()
         // test changing all inputs to the same extent
-        
+
+
         localFilter.setValue( newValue, forKey: keyName)
+        /*
+         var sizedInput: CIImage
+        if isTransitionFilter() {
+
+            sizedInput = newValue.scale( targetSize: TargetSize)
+                    // scale checks for equal extent size, adjusts as needed to match
+            
+            localFilter.setValue( sizedInput, forKey: keyName)
+        } else {
+            localFilter.setValue( newValue, forKey: keyName)
+        }
+         */
 
         // postImageChange is duplicative call.. too many updates to image triggered
 //        postImageChange()
