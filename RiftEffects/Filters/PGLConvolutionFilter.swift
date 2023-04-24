@@ -7,7 +7,7 @@
 //
 
 import CoreImage
-
+import os
 class Matrix {
     /* from p 277
         The Swift Programming Language (Swift 5.6)
@@ -47,16 +47,17 @@ class Matrix {
         }
     }
 
-     func normalize() {
-        // normalize it grid dividing each element by the sum of all elements
+    func normalize() {
+            // normalize it grid dividing each element by the sum of all elements
         var gridSum: CGFloat = 0.0
         for i in 0..<grid.count {
             gridSum += grid[i]
         }
-        NSLog("matrix normalize start \(grid)")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("matrix normalize start \(self.grid)")
         let newGrid = grid.map{ $0/gridSum}
         grid = newGrid
-        NSLog("matrix normalize end \(grid)")
+
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("matrix normalize end \(self.grid)")
     }
 }
 
@@ -146,8 +147,6 @@ class PGLConvolutionFilter: PGLSourceFilter {
         filterMatrix.normalize()
         setWeights(weightMatrix: filterMatrix)
             // converts to CIVector and assigns normalized values to filter weights attribute
-
-        
     }
 
 

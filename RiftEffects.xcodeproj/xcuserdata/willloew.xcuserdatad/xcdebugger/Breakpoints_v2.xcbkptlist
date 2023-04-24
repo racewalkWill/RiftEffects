@@ -619,8 +619,8 @@
             filePath = "RiftEffects/Models/PGLFilterClasses.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "setNumberValue(newValue:keyName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1447,8 +1447,8 @@
             filePath = "RiftEffects/Models/PGLFilterClasses.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1091"
-            endingLineNumber = "1091"
+            startingLineNumber = "1104"
+            endingLineNumber = "1104"
             landmarkName = "scaleOutput(ciOutput:stackCropRect:)"
             landmarkType = "7">
             <Locations>
@@ -1559,8 +1559,8 @@
             filePath = "RiftEffects/Models/PGLFilterClasses.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1128"
-            endingLineNumber = "1128"
+            startingLineNumber = "1141"
+            endingLineNumber = "1141"
             landmarkName = "attributeCropRect()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2321,8 +2321,8 @@
             filePath = "RiftEffects/License/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2779,9 +2779,25 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1383"
-            endingLineNumber = "1383"
+            startingLineNumber = "1382"
+            endingLineNumber = "1382"
             landmarkName = "panEnded(endingPoint:parm:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE626978-ECCE-4962-8717-7B81ECB230F8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/PGLImageController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1305"
+            endingLineNumber = "1305"
+            landmarkName = "sliderValueDidChange(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -479,38 +479,51 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
     }
 
+    fileprivate func logParm(_ methodString: String, _ newValue: String, _ keyName: String) {
+        Logger(subsystem: LogSubsystem, category: LogParms).debug("\(self.filterName ?? "noFilterName") \(methodString)( \(newValue) , \(keyName) )")
+    }
 
     func setNumberValue(newValue: NSNumber, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
+
+
     func setVectorValue(newValue: CIVector, keyName: String) {
+        logParm(#function, newValue.debugDescription, keyName)
         localFilter.setValue( newValue, forKey: keyName)
         postImageChange()
     }
     func setColorValue(newValue: CIColor, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
     func setDataValue(newValue: NSData, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
     func setNSValue(newValue: NSValue, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
     func setObjectValue(newValue: NSObject, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
     func setStringValue(newValue: NSString, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
 
     func setAttributeStringValue(newValue: NSAttributedString, keyName: String) {
         localFilter.setValue( newValue, forKey: keyName)
+        logParm(#function, newValue.debugDescription, keyName)
         postImageChange()
     }
 

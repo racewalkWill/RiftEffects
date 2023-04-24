@@ -16,9 +16,10 @@ let LogSubsystem = "L-BSoftwareArtist.RiftEffects"
 
 
 var LogCategory = "PGL"
-var LogNavigation = "Nav"
-var LogMemoryRelease = "Mem"
+var LogNavigation = "PGL_Nav"
+var LogMemoryRelease = "PGL_Mem"
 var LogMigration = "PGL_Migration"
+var LogParms = "PGL_Parms"
 // change in areas as needed.
 // caution on changes it is a GLOBAL
 

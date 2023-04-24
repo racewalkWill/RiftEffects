@@ -517,7 +517,7 @@ class PGLSelectParmController: PGLCommonController,
         // see DidSelectRowAt for the TimerSliderUI case where it is enable
 
         if let target = appStack.targetAttribute {
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLSelectParmController #parmSliderChange  value = \(sender.value)")
+
             target.uiIndexTag = Int(sender.tag)
                 // multiple controls for attribute distinguished by tag
                 // color red,green,blue for single setColor usage
@@ -638,7 +638,7 @@ class PGLSelectParmController: PGLCommonController,
         // 4/18/19 attribute will supply the cell identifier to use
         // 2/24/20  not clear why this is called after seque to the PGLImageCollectionMasterController
 
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
         tappedAttribute = getTappedAttribute(indexPath: indexPath)
         appStack.targetAttribute = tappedAttribute
             // pass to the model refectoring

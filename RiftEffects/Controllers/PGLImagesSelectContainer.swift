@@ -220,11 +220,11 @@ class PGLImagesSelectContainer: UIViewController {
             case "showZoomDetail" :
                     guard let destination = segue.destination  as? PGLAssetController
                                    else {
-                            NSLog(" PGLImagesSelectContainer prepare segue fatalError( unexpected view controller for segue")
+                        Logger(subsystem: LogSubsystem, category: LogCategory).error(" PGLImagesSelectContainer prepare segue fatalError( unexpected view controller for segue")
                             return
                     }
                                destination.userAssetSelection = self.userAssetSelection
-                    NSLog("PGLImagesSelectContainer #prepare.. segue to PGLAssetController")
+//                    NSLog("PGLImagesSelectContainer #prepare.. segue to PGLAssetController")
 
             default: return
         }

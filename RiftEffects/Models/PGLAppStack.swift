@@ -96,9 +96,9 @@ class PGLAppStack {
     func createDemoStack(view: UIView) {
         // check if stacks exist.. if not then
 //        TargetSize = view.bounds.size
-        NSLog("PGLAppStack #createDemoStack changes TargetSize to \(TargetSize)")
+
         viewerStack.createDemoStack(appStack: self)
-//        viewerStack.createDemoStackSimple(appStack: self)
+
 
     }
     

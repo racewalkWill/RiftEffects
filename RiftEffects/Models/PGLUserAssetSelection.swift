@@ -173,9 +173,9 @@ class PGLUserAssetSelection {
 
         var oddAssets = [PGLAsset]()
 
-        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #cloneOdd")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #cloneOdd")
         for (i,a) in selectedAssets.enumerated() {
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #cloneOdd i = \(i)")
+//            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLUserAssetSelection #cloneOdd i = \(i)")
             if !i.isEven() { oddAssets.append(a)}
         }
         if let firstSource = oddAssets.first {

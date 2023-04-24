@@ -212,7 +212,7 @@ class PGLAssetSequenceController: UIViewController,  UIGestureRecognizerDelegate
 //                Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLAssetSequenceController longPressAction move from \(String(describingself.: longPressStart)) to \(endIndex)")
         default:
             collectionView.cancelInteractiveMovement()
-             NSLog("PGLAssetSequenceController longPressAction cancelled")
+//             NSLog("PGLAssetSequenceController longPressAction cancelled")
         }
     }
 

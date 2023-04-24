@@ -1305,8 +1305,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
                 // color red,green,blue for single setColor usage
 
             target.set(sender.value)
-        } else {
-            NSLog("PGLSelectParmController sliderValueDidChange fatalError( tappedAttribute is nil, value can not be changed") }
+        } 
 
 
 //        attributeValueChanged()
@@ -1334,7 +1333,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         func removeGestureRecogniziers() {
 
             if panner != nil {
-                NSLog("PGLImageController #removeGestureRecogniziers")
+//                NSLog("PGLImageController #removeGestureRecogniziers")
                 view.removeGestureRecognizer(panner!)
                 panner?.removeTarget(self, action: #selector(PGLImageController.panAction(_:)) )
                 panner = nil

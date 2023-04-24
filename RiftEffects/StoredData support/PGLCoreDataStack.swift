@@ -371,7 +371,7 @@ extension CoreDataWrapper {
                 orphanStackIDs.append(aFilterObject.objectID)
             }
 
-            NSLog("deleteOrphanStacks count = \(orphanStackIDs.count)")
+            Logger(subsystem: LogSubsystem, category: LogMigration).debug("deleteOrphanStacks count = \(orphanStackIDs.count)")
             batchDelete(deleteIds: orphanStackIDs, aContext: backgroundContext)
         }
 //        let endingCount =  countStackTable()
@@ -390,8 +390,8 @@ extension CoreDataWrapper {
         let backgroundContext = persistentContainer.backgroundContext()
 
         let startingCount = countFilterTable()
-        NSLog("starting Filter Count = \(startingCount)")
-        Logger(subsystem: LogSubsystem, category: LogCategory).notice( "starting deleteOrphanFilters")
+        Logger(subsystem: LogSubsystem, category: LogMigration).debug("starting Filter Count = \(startingCount)")
+        Logger(subsystem: LogSubsystem, category: LogMigration).debug( "starting deleteOrphanFilters")
         backgroundContext.performAndWait {
             let filterRequest: NSFetchRequest<CDStoredFilter> = CDStoredFilter.fetchRequest()
             filterRequest.sortDescriptors = [NSSortDescriptor(key:"ciFilterName", ascending: true)]
@@ -445,12 +445,12 @@ extension CoreDataWrapper {
             }
             // delete the orphan filters
             if let parmDeleteIds = parmController.fetchedObjects?.map( {$0.objectID} )
-            { NSLog("deleteOrphanParms count = \(parmDeleteIds.count)")
+            { Logger(subsystem: LogSubsystem, category: LogMigration).debug("deleteOrphanParms count = \(parmDeleteIds.count)")
                 batchDelete(deleteIds: parmDeleteIds, aContext: backgroundContext)
             }
         }
         let endingParmCount = countParmsTable()
-        NSLog("startingParmCount = \(startingParmCount) ending = \(endingParmCount)")
+        Logger(subsystem: LogSubsystem, category: LogMigration).debug("startingParmCount = \(startingParmCount) ending = \(endingParmCount)")
         return true  // no errors
     }
 
@@ -472,12 +472,12 @@ extension CoreDataWrapper {
             }
             // delete the orphan filters
             if let listDeleteIds = listController.fetchedObjects?.map( {$0.objectID} )
-            { NSLog("deleteOrphanImageList count = \(listDeleteIds.count)")
+            { Logger(subsystem: LogSubsystem, category: LogMigration).debug("deleteOrphanImageList count = \(listDeleteIds.count)")
                 batchDelete(deleteIds: listDeleteIds, aContext: backgroundContext)
             }
         }
         let endingParmCount = countImageListTable()
-        NSLog("startingParmCount = \(startingParmCount) ending = \(endingParmCount)")
+        Logger(subsystem: LogSubsystem, category: LogMigration).debug("startingParmCount = \(startingParmCount) ending = \(endingParmCount)")
         return true  // no errors
     }
 

@@ -14,7 +14,7 @@ class PGLCompactPresentationController: UIPresentationController {
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        NSLog("viewWillTransition...")
+//        NSLog("viewWillTransition...")
 
     }
 
