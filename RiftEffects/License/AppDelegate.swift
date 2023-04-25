@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // If the specified key doesn‘t exist, this method returns false.
         
 //        RendererScale = UserDefaults.standard.float(forKey: "RendererScale")
-        ShowHelpOnOpen =   UserDefaults.standard.bool(forKey: ShowHelpPageAtStartupKey)
+        ShowHelpOnOpen =   UserDefaults.standard.bool(forKey: "DisplayStartHelp")
         return true
     }
 

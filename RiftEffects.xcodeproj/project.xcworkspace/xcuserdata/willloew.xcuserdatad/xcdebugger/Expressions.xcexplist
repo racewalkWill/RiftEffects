@@ -19,6 +19,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Renderer.drawBasic(in:):Renderer.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "MainViewImageResize">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLNavStackImageController.popViewController(animated:):PGLNavStackImageController.swift">
          <PersistentStrings>
             <PersistentString

@@ -746,14 +746,24 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         setMoreBtnMenu()
 
-       
+
         if ShowHelpOnOpen {
             // if the key does not exist then bool answers false
             helpBtnAction(helpBtn)
             // PGLHelpPageController will set to false after showing help
 
         }
+        if let mySplitView =  splitViewController as? PGLSplitViewController {
+                //                if traitCollection.userInterfaceIdiom == .pad {
+                //                    libraryMenu.attributes = [.disabled] // always disabled on iPad
+                //                } else {
+            if !mySplitView.stackProviderHasRows() {
+                // empty stacks.. still newbie
+                appStack.createDemoStack(view: view)
+            }
+        }
         updateNavigationBar()
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
