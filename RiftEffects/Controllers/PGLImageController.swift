@@ -496,6 +496,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         let contextMenu = UIMenu(title: "",
                                  children: [ libraryMenu ,
+         UIAction(title: "Demo..", image:UIImage(systemName: "pencil.circle")) {
+         action in
+         self.loadDemoStack(self.moreBtn)
+        },
           UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
             action in
             self.saveStackActionBtn(self.moreBtn)
@@ -507,10 +511,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
           UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.displayPrivacyPolicy(self.moreBtn)
-        },
-            UIAction(title: "Demo..", image:UIImage(systemName: "pencil.circle")) {
-            action in
-            self.loadDemoStack(self.moreBtn)
         }
             ] )
         moreBtn.menu = contextMenu

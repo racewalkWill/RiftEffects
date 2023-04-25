@@ -15,6 +15,9 @@ import os
 
 
 extension PGLFilterStack {
+
+
+
     func createDemoStack(appStack: PGLAppStack) {
             // load images in Assets.xcassets folder 'DemoImages'
             // load filters into stack with demoImages
@@ -54,24 +57,8 @@ extension PGLFilterStack {
             imageAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
 
                 /// set up mask
-            let startingFilterMaskAttr =  startingFilter.attribute(nameKey: kCIInputMaskImageKey)
 
-            let maskChildStack = PGLFilterStack()
-            maskChildStack.stackName = "Mask"
-            maskChildStack.stackType = "input"
-            maskChildStack.parentAttribute = startingFilterMaskAttr
-
-            startingFilterMaskAttr?.inputStack = maskChildStack
-            startingFilterMaskAttr?.setImageParmState(newState: .inputChildStack)
-
-            if let childFilter = demoLoadFilter(ciFilterString: maskInputName) {
-
-                let childInputAttribute = childFilter.getInputImageAttribute()
-                childInputAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
-
-                maskChildStack.append(childFilter)
-            }
-
+            _ = startingFilter.addChildFilter(toAttributeName: kCIInputMaskImageKey, childFilterName: maskInputName, childImageInputs: demoPersonSegmentImage)
 
                 /// set up background sequence
             let backgrdInputAttribute = startingFilter.attribute(nameKey: kCIInputBackgroundImageKey)
@@ -155,6 +142,34 @@ extension UIImage {
     }
 }
 extension PGLSourceFilter {
+
+    func addChildFilter(toAttributeName: String , childFilterName: String, childImageInputs: PGLImageList?) -> PGLSourceFilter? {
+
+        guard let parentAttr =  attribute(nameKey: kCIInputMaskImageKey)
+            else { return nil }
+        let maskChildStack = PGLFilterStack()
+        maskChildStack.stackName = "Mask"
+        maskChildStack.stackType = "input"
+        maskChildStack.parentAttribute = parentAttr
+
+        parentAttr.inputStack = maskChildStack
+        parentAttr.setImageParmState(newState: .inputChildStack)
+
+        if let childFilter = maskChildStack.demoLoadFilter(ciFilterString: childFilterName) {
+
+            let childInputAttribute = childFilter.getInputImageAttribute()
+            if let newInputList = childImageInputs {
+                childInputAttribute?.setImageCollectionInput(cycleStack: newInputList)
+            }
+
+            maskChildStack.append(childFilter)
+            return childFilter
+        } else {
+            return nil // failed to create child filter
+        }
+
+    }
+
     @objc func setDemoParms() {
         // to capture new values
         // set  breakpoints at PGLImageController panEnded line parm.set(newVector)
@@ -162,19 +177,44 @@ extension PGLSourceFilter {
         switch filterName {
             case "CIPerspectiveTransform":
                 demoPerspectiveTransformParms()
+            case "CIBlendWithMask":
+                demoBlendWithMaskParms()
+            case "CIKaleidoscope":
+                demoKaleidoscopeParms()
             default:
                 return
         }
 
     }
 
+    func demoKaleidoscopeParms() {
+        setVectorValue(newValue: CIVector(x: 300, y: 697), keyName: "inputCenter")
+        setNumberValue(newValue: 0.7306029, keyName: "inputAngle")
+    }
+
     func demoPerspectiveTransformParms() {
-        if let myInputParm = attribute(nameKey: "inputTopLeft") {
-            myInputParm.set(CIVector(x: 350, y: 903 ))
+        // filter is CIPerspectiveTransform
+
+        setVectorValue(newValue: CIVector(x: 1416, y: 350), keyName: "inputBottomRight")
+        setVectorValue(newValue: CIVector(x: 1409, y: 1195), keyName: "inputTopRight")
+        setVectorValue(newValue: CIVector(x: 113, y: 657), keyName: "inputBottomLeft")
+        setVectorValue(newValue: CIVector(x: 89, y: 1137), keyName: "inputTopLeft")
+
+
+    }
+
+    func demoBlendWithMaskParms() {
+//        filter is CIBlendWithMask
+
+        if let starMask = addChildFilter(toAttributeName: kCIInputMaskImageKey, childFilterName: "CIStarShineGenerator", childImageInputs: nil) {
+
+            starMask.setVectorValue(newValue: CIVector(x: 431.0, y: 1019.0), keyName: "inputCenter")
+                // ( [431 1019] , inputCenter
+            starMask.setNumberValue(newValue:  81.62791, keyName: "inputRadius")
+
+
         }
-        if let myInputParm = attribute(nameKey: "inputTopRight") {
-            myInputParm.set(CIVector(x: 1146, y: 1218 ))
-        }
+
 
     }
 }
@@ -182,13 +222,17 @@ extension PGLVectorBasedFilter {
 
     @objc override func setDemoParms() {
 
-        if let myInputParm = attribute(nameKey: "inputPoint1") {
-            myInputParm.set(CIVector(x: 213, y: 576 ))
-        }
+//        if let myInputParm = attribute(nameKey: "inputPoint1") {
+//            myInputParm.set(CIVector(x: 213, y: 576 ))
+//        }
+        self.setVectorValue(newValue: CIVector(x: 0.15, y: 0.12), keyName: "inputPoint0")
+        self.setVectorValue(newValue: CIVector(x: 0.316, y: 0.398), keyName: "inputPoint1")
+        self.setVectorValue(newValue: CIVector(x: 0.673, y: 0.415), keyName: "inputPoint2")
+        self.setVectorValue(newValue: CIVector(x: 0.76, y: 0.761), keyName: "inputPoint3")
 
-        if let myInputParm = attribute(nameKey: "inputPoint3") {
-            myInputParm.set(CIVector(x: 973, y: 707 ))
-        }
+//        if let myInputParm = attribute(nameKey: "inputPoint3") {
+//            myInputParm.set(CIVector(x: 973, y: 707 ))
+//        }
 
 
 

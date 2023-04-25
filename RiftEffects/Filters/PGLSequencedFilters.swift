@@ -236,7 +236,7 @@ class PGLSequencedFilters: PGLSourceFilter {
 
         // pass the timerDt to the real dissolve
         dissolveDT =  Double(lengthSeconds/60)
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setTimerDt \(self.dissolveDT) ")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequencedFilters setTimerDt \(self.dissolveDT) ")
         // dissolveDT is the time to add for each frame
         // bigger makes it go slower
         setNumberValue(newValue: lengthSeconds as NSNumber, keyName: kCIinputDissolveTime)

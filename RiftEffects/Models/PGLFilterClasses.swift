@@ -14,7 +14,6 @@ import UIKit
 import os
 
 
-
 protocol PGLAnimation {
     func addFilterStepTime()
 }
@@ -34,7 +33,17 @@ class PGLSourceFilter :  PGLAnimation  {
     // instance creation in the PGLFilterDescriptor init method needs another case..
         //    if thisName == PGLCropFilter.pglNameForFilter()?.filterName {
         //    pglSourceFilterClass = PGLCropFilter.self
-        //      
+        //
+
+        /// in the debugger execute expression PGLSourceFilter.LogParmValues = true
+static var LogParmValues = false
+        // set to true to capture parm  set value messages & values
+        // console will show lines containing filterName, setter method, values, attribute name
+        // example:
+        //  [PGL_Parms] CILinearGradient setVectorValue(newValue:keyName:)( [1047 504] , inputPoint0 )
+
+
+
 
     class func displayName() -> String? {
         return nil // subclasses override
@@ -430,13 +439,15 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return userDescription
     }
     
-    // MARK: value double dispatch
+
 
      func postImageChange() {
 //        let outputImageUpdate = Notification(name:PGLOutputImageChange)
 //        NotificationCenter.default.post(outputImageUpdate)
     }
-    
+
+        // MARK: set/get value
+
     func setImageValue(newValue: CIImage, keyName: String) {
 //        NSLog("PGLFilterClasses #setImageValue key = \(keyName)")
 //        newValue.clampedToExtent()
@@ -480,7 +491,9 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
     }
 
     fileprivate func logParm(_ methodString: String, _ newValue: String, _ keyName: String) {
-        Logger(subsystem: LogSubsystem, category: LogParms).debug("\(self.filterName ?? "noFilterName") \(methodString)( \(newValue) , \(keyName) )")
+        if PGLSourceFilter.LogParmValues {
+            Logger(subsystem: LogSubsystem, category: LogParms).debug("\(self.filterName ?? "noFilterName") \(methodString)( \(newValue) , \(keyName) )")
+        }
     }
 
     func setNumberValue(newValue: NSNumber, keyName: String) {
