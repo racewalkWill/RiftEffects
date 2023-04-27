@@ -1031,7 +1031,7 @@
 		A3BF503724D3299100CD5114 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Blue-Gradient";
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1060,7 +1060,7 @@
 		A3BF503824D3299100CD5114 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Blue-Gradient";
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RiftEffects/RiftEffects.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
