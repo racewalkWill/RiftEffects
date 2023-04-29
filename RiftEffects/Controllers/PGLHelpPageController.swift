@@ -43,28 +43,45 @@ class PGLHelpPageController: UIPageViewController {
     // pop up modal 4 pages intro pics with comments
     // PGLImageController checks for first startup and shows this Help
     // PGLImageController turns off first startup boolean
+    var iPhoneImageNames = [ "iPhone1-Pick",
+                             "iPhone2-Parm",
+                             "iPhone3-ImagePick",
+                             "iPhone5-ParmAdjust",
+                             "iPhone6-LongPress",
+                             "iPhone4-MorePick",
+                             "iPhone7-ParmVary" ]
 
-    var helpPages: [(imageName: String, imageText: String )] = [
-            ("Help1-Pick",
-                "SELECT a filter, TAP the info button, then PICK an image from your photo library") ,
-            ("Help2-Parm",
-                "Tap to open your photo library"),
-            ("Help3-ImagePick",
-                "Pick an image - then '<Back'" ),
-            ( "Help5-ParmAdjust",
-                "Select a filter parm, and adjust the control"),
-        ( "longPress",
-            "Long touch for filter description"),
-        ( "Help4-MorePick",
-            "Swipe then touch More or Pick")
-            ]
+    var iPadImageNames = [ "Help1-Pick",
+                           "Help2-Parm",
+                           "Help3-ImagePick",
+                           "Help5-ParmAdjust",
+                           "Help6-longPress",
+                           "Help4-MorePick",
+                           "Help7-ParmVary"]
 
+    var helpText = [
+                    "SELECT a filter, TAP the info button, then PICK an image from your photo library", //1
+                     "Tap to open your photo library", //2
+                     "Pick an image - then '<Back'", // 3
+                     "Select a filter parm, and adjust the control",//5
+                     "Long touch for filter description", // 6
+                     "Swipe, touch More (more filters) or Pick (Images)", // 4
+                     "Swipe to Vary" // 7
+    ]
+    var imageNames: [String]!
     var currentIndex: Int!
     var instructionText: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        if  (traitCollection.userInterfaceIdiom) == .phone {
+            imageNames = iPhoneImageNames
+        } else {
+            imageNames = iPadImageNames
+        }
+
         if let viewController = viewPhotoCommentController(currentIndex ?? 0) {
           let viewControllers = [viewController]
 
@@ -75,7 +92,6 @@ class PGLHelpPageController: UIPageViewController {
         }
 
         dataSource = self
-
 
 
       }
@@ -96,8 +112,8 @@ class PGLHelpPageController: UIPageViewController {
           return nil
       }
         page.photoIndex = index
-        page.photoName = helpPages[index].imageName
-        page.instructionText = helpPages[index].imageText
+        page.photoName = imageNames[index]
+        page.instructionText = helpText[index]
 
       return page
     }
@@ -119,7 +135,7 @@ class PGLHelpPageController: UIPageViewController {
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
       if let viewController = viewController as? PGLHelpSinglePage,
         let index = viewController.photoIndex,
-        (index + 1) < helpPages.count {
+        (index + 1) < imageNames.count {
         return viewPhotoCommentController(index + 1)
       }
 
@@ -127,7 +143,7 @@ class PGLHelpPageController: UIPageViewController {
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-      return helpPages.count
+      return imageNames.count
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
