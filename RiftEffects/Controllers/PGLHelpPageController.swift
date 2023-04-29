@@ -45,22 +45,18 @@ class PGLHelpPageController: UIPageViewController {
     // PGLImageController turns off first startup boolean
 
     var helpPages: [(imageName: String, imageText: String )] = [
-            ("TouchPick",
+            ("Help1-Pick",
                 "SELECT a filter, TAP the info button, then PICK an image from your photo library") ,
-            ("PlusButton",
-                "+ button adds a new filter"),
-            ("SurrealityFilter1",
-                "Select a new filter" ),
-            ( "SurrealityFilterParm",
+            ("Help2-Parm",
+                "Tap to open your photo library"),
+            ("Help3-ImagePick",
+                "Pick an image - then '<Back'" ),
+            ( "Help5-ParmAdjust",
                 "Select a filter parm, and adjust the control"),
         ( "longPress",
             "Long touch for filter description"),
-        ( "swipeMore",
-            "Swipe then touch More or Pick"),
-        ( "imagePick",
-            "Pick an album, touch images to pick"),
-        ( "cropOK",
-            "Swipe on a parm cell for actions")
+        ( "Help4-MorePick",
+            "Swipe then touch More or Pick")
             ]
 
     var currentIndex: Int!

@@ -223,7 +223,7 @@ class PGLDemo {
 
             addFiltersTo(stack: targetStack)
 
-            targetStack.stackName = "Random Favorites"
+            targetStack.stackName = "Random Filters"
                 //was  firstRandomFilter.filterName + "+ various filters"
             targetStack.stackType = targetStack.stackName
             if saveOutputToPhotoLib {

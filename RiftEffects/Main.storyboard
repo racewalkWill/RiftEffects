@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vbC-U8-P9f">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vbC-U8-P9f">
     <device id="ipad11_0rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -281,11 +281,11 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="695"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
-                                <rect key="frame" x="102" y="632" width="246" height="31"/>
+                                <rect key="frame" x="102" y="627" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Alpha" identifier="Parm0" label="Alpha"/>
                                 <constraints>
@@ -296,7 +296,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xpj-gS-MzU" userLabel="Blue">
-                                <rect key="frame" x="102" y="583" width="246" height="31"/>
+                                <rect key="frame" x="102" y="578" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Blue" identifier="Parm1" label="Blue"/>
                                 <connections>
@@ -304,7 +304,7 @@
                                 </connections>
                             </slider>
                             <slider hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="erC-X2-Dkg" userLabel="Red">
-                                <rect key="frame" x="102" y="479" width="246" height="31"/>
+                                <rect key="frame" x="102" y="474" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Red" identifier="Parm3" label="Red"/>
                                 <connections>
@@ -317,12 +317,12 @@
                                 <accessibility key="accessibilityConfiguration" identifier="topCroppingArea" label="topCroppingArea"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="400" verticalCompressionResistancePriority="400" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wa4-VM-jqe" userLabel="leftTintView">
-                                <rect key="frame" x="0.0" y="0.0" width="96" height="695"/>
+                                <rect key="frame" x="0.0" y="0.0" width="96" height="690"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leftCroppingArea" label="leftCroppingArea"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ki-pV-gkl" userLabel="rightTintView">
-                                <rect key="frame" x="451" y="0.0" width="100" height="695"/>
+                                <rect key="frame" x="451" y="0.0" width="100" height="690"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rightCroppingArea" label="rightCroppingArea"/>
                             </view>
@@ -332,7 +332,7 @@
                                 <accessibility key="accessibilityConfiguration" identifier="bottomCroppingArea" label="bottomCroppingArea"/>
                             </view>
                             <slider hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-Sr-vCZ" userLabel="Green">
-                                <rect key="frame" x="102" y="531" width="246" height="31"/>
+                                <rect key="frame" x="102" y="526" width="246" height="31"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" hint="Green" identifier="Parm2" label="Green"/>
                                 <connections>
@@ -373,11 +373,6 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="xsN-wc-6kV">
                         <rightBarButtonItems>
-                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="yZ4-j9-t2a" userLabel="Help">
-                                <connections>
-                                    <action selector="helpBtnAction:" destination="Cot-0o-SSg" id="dXX-ug-hYR"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem title="New" image="trash" catalog="system" id="SFn-i1-DR7">
                                 <connections>
                                     <action selector="newStackActionBtn:" destination="Cot-0o-SSg" id="5ZK-Is-TWK"/>
@@ -390,9 +385,14 @@
                                     <action selector="toggleAnimationPause:" destination="Cot-0o-SSg" id="K1q-UK-aj4"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Random" id="q7I-R2-kMZ">
+                            <barButtonItem title="Random" image="chart.dots.scatter" catalog="system" id="q7I-R2-kMZ">
                                 <connections>
                                     <action selector="randomBtnAction:" destination="Cot-0o-SSg" id="sMR-Ym-NUO"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="yZ4-j9-t2a" userLabel="Help">
+                                <connections>
+                                    <action selector="helpBtnAction:" destination="Cot-0o-SSg" id="dXX-ug-hYR"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -1118,20 +1118,20 @@
                             </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
-                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="S4t-N0-6IZ" userLabel="Help">
+                            <barButtonItem title="New" image="trash" catalog="system" id="kGD-tX-jU3">
                                 <connections>
-                                    <action selector="helpBtnClick:" destination="rQx-tc-9ix" id="mLh-7n-ij6"/>
+                                    <action selector="newStackBtnClick:" destination="rQx-tc-9ix" id="OlJ-Kr-q1c"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="HAf-fe-yaR"/>
-                            <barButtonItem title="Random" id="yo5-KQ-1xv">
+                            <barButtonItem title="Random" image="chart.dots.scatter" catalog="system" id="yo5-KQ-1xv">
                                 <connections>
                                     <action selector="randomBtnClick:" destination="rQx-tc-9ix" id="ikc-WC-rpU"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="New" image="trash" catalog="system" id="kGD-tX-jU3">
+                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="S4t-N0-6IZ" userLabel="Help">
                                 <connections>
-                                    <action selector="newStackBtnClick:" destination="rQx-tc-9ix" id="OlJ-Kr-q1c"/>
+                                    <action selector="helpBtnClick:" destination="rQx-tc-9ix" id="mLh-7n-ij6"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -1334,20 +1334,20 @@
                             </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
-                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="Cgl-oe-TKV" userLabel="Help">
+                            <barButtonItem title="New" image="trash" catalog="system" id="pEQ-Uh-ooY">
                                 <connections>
-                                    <action selector="helpBtnClick:" destination="z1U-K0-aGb" id="jIY-uB-cJ5"/>
+                                    <action selector="newTrashBtnAction:" destination="z1U-K0-aGb" id="x9H-dK-0aK"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More Btn" image="ellipsis.circle" catalog="system" id="X6h-Dm-yVE"/>
-                            <barButtonItem title="Random" id="0Zt-QC-w2E">
+                            <barButtonItem title="Random" image="chart.dots.scatter" catalog="system" id="0Zt-QC-w2E">
                                 <connections>
                                     <action selector="randomBtnClick:" destination="z1U-K0-aGb" id="phg-u0-ed9"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="New" image="trash" catalog="system" id="pEQ-Uh-ooY">
+                            <barButtonItem title="Help" image="questionmark.square.dashed" catalog="system" id="Cgl-oe-TKV" userLabel="Help">
                                 <connections>
-                                    <action selector="newTrashBtnAction:" destination="z1U-K0-aGb" id="x9H-dK-0aK"/>
+                                    <action selector="helpBtnClick:" destination="z1U-K0-aGb" id="jIY-uB-cJ5"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -1367,11 +1367,12 @@
     <inferredMetricsTieBreakers>
         <segue reference="4FJ-we-3bf"/>
         <segue reference="9zd-rM-3PO"/>
-        <segue reference="zWl-eA-30q"/>
+        <segue reference="HUk-NN-bR8"/>
         <segue reference="Xyz-2Z-Q4q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>
+        <image name="chart.dots.scatter" catalog="system" width="128" height="102"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="chevron.up" catalog="system" width="128" height="70"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="123"/>

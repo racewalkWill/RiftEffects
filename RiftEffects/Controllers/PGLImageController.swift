@@ -140,7 +140,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
         postCurrentFilterChange() // triggers PGLImageController to set view.isHidden to false
             // show the new results !
+
         showStackControllerAction()
+        updateNavigationBar()
+
 
     }
 
@@ -233,7 +236,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         else { return }
         popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
         // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
-//        popOverPresenter.sourceView = view
+//      popOverPresenter.sourceView = view
+//        popOverPresenter.sourceRect = view.frame.insetBy(dx: 300.0, dy: 20.0)
+        popOverPresenter.barButtonItem = sender //helpBtn
 
         let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
         sheet.detents = [.medium(), .large()]
@@ -241,7 +246,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         sheet.prefersEdgeAttachedInCompactHeight = true
         sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
 
-        popOverPresenter.barButtonItem = helpBtn
         present(helpController, animated: true )
     }
 
