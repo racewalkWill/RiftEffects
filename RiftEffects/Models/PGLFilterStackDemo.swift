@@ -31,6 +31,7 @@ extension PGLFilterStack {
             "CIBlendWithMask", // sequenceStack child
             "CIToneCurve",
             "CIKaleidoscope",
+            "CIDifferenceBlendMode",
             "CIPerspectiveTransform"
         ]
 
@@ -40,7 +41,6 @@ extension PGLFilterStack {
             "FarmSunrise",
             "foggyPath"])
         let demoBackgrdInput = PGLImageList(imageFileNames: [
-            "LakeHarbor",
             "LakeOverlook",
             "LakeHarbor" ] )
         let demoMaskInput = PGLImageList(imageFileNames: [
@@ -181,6 +181,8 @@ extension PGLSourceFilter {
                 demoBlendWithMaskParms()
             case "CIKaleidoscope":
                 demoKaleidoscopeParms()
+            case "CIDifferenceBlendMode":
+                demoDifferenceBlendParms()
             default:
                 return
         }
@@ -204,7 +206,7 @@ extension PGLSourceFilter {
     }
 
     func demoBlendWithMaskParms() {
-//        filter is CIBlendWithMask
+            //   filter is CIBlendWithMask
 
         if let starMask = addChildFilter(toAttributeName: kCIInputMaskImageKey, childFilterName: "CIStarShineGenerator", childImageInputs: nil) {
 
@@ -214,10 +216,21 @@ extension PGLSourceFilter {
 
 
         }
+    }
+
+        func demoDifferenceBlendParms() {
+            // filter "CIDifferenceBlendMode"
+            let eyeGlassMask = PGLImageList(imageFileNames: [
+                "eyeGlasses"])
+            if let backgrdInputAttribute = self.attribute(nameKey: kCIInputBackgroundImageKey) {
+                backgrdInputAttribute.setImageCollectionInput(cycleStack: eyeGlassMask ) }
+            
+        }
+
 
 
     }
-}
+
 extension PGLVectorBasedFilter {
 
     @objc override func setDemoParms() {

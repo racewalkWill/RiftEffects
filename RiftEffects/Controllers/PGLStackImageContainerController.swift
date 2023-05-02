@@ -135,29 +135,24 @@ class PGLStackImageContainerController: UIViewController {
         let contextMenu = UIMenu(title: "",
                                  children: [ libraryMenu
                                              ,
-                                             UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
+             UIAction(title: "Demo..", image:UIImage(systemName: "pencil.circle")) {
+             action in
+            self.containerImageController?.loadDemoStack(self.moreBtn)
+        },
+            UIAction(title: "Save..", image:UIImage(systemName: "pencil")) {
             action in
                 // self.saveStackAlert(self.moreBtn)
             self.containerImageController?.saveStackActionBtn(self.moreBtn)
         },
-                                             UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
+            UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
             action in
             self.containerImageController?.saveStackAsActionBtn(self.moreBtn)
         },
-                                             UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
+            UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.containerImageController?.displayPrivacyPolicy(self.moreBtn)
         }
-                                             //                                ,
-                                             //                        UIAction(title: "Reduce size", image:UIImage(systemName: "pencil")) {
-                                             //                            action in
-                                             //                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
-                                             //                            else { return }
-                                             //                            appDelegate.dataWrapper.build14DeleteOrphanStacks()
-                                             //                                    }
-
-
-                                           ])
+        ])
         moreBtn.menu = contextMenu
     }
 

@@ -520,7 +520,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         moreBtn.menu = contextMenu
     }
 
-    fileprivate func loadDemoStack(_ sender: UIBarButtonItem)  {
+    func loadDemoStack(_ sender: UIBarButtonItem)  {
         appStack.createDemoStack(view: view)
     }
 

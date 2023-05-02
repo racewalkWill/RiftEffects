@@ -157,7 +157,7 @@ class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableVie
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
 //        let snapshot = initialSnapShot()
 //        dataSource.apply(snapshot, animatingDifferences: false)
 //        dataSource.dataProvider = dataProvider
