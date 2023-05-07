@@ -47,7 +47,8 @@ class PGLDemo {
     static var GeneratorFilters = PGLFilterCategory("CICategoryGenerator")!.filterDescriptors
 
 
-    static var SingleFilterGroups = [BlurFilters,ColorAdjFilters, ColorEffectFilters,StylizeFilters, DistortFilters, GeometryFilters,SharpenFilters, HalfToneFilters , TileFilters ,GeneratorFilters, GradientFilters] //TileFilters
+    static var SingleFilterGroups = [BlurFilters,ColorAdjFilters, ColorEffectFilters,StylizeFilters, DistortFilters, GeometryFilters,SharpenFilters, HalfToneFilters , TileFilters ]
+        // ,GeneratorFilters, GradientFilters TileFilters
     static var GeneratorGroups = [GeneratorFilters, GradientFilters]
     static var CompositeGroups = [CompositeFilters, TransistionFilters]
 

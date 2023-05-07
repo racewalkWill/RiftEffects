@@ -15,6 +15,7 @@ import CoreData
 @testable import RiftEffects
 
 
+
 class PGLFilterStackTests: XCTestCase {
 
     var filterStack: PGLFilterStack!  
@@ -28,6 +29,15 @@ class PGLFilterStackTests: XCTestCase {
         provider.setFetchControllerForBackgroundContext()
        return provider
    }()
+
+           static func imageListTestObject() -> PGLImageList {
+                let assetIDs = [PhotoId.burst1.rawValue, PhotoId.burst2.rawValue , PhotoId.timeLapse1.rawValue, PhotoId.timeLapse2.rawValue, PhotoId.timeLapse3.rawValue, PhotoId.timeLapse4.rawValue]
+                // create a Cycle stack
+            let albumIDs = [PhotoId.burstAlbum.rawValue, PhotoId.burstAlbum.rawValue,PhotoId.burstAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,PhotoId.timeLapseAlbum.rawValue,]
+        // matching assetId and albumId arrays
+                return PGLImageList(localAssetIDs: assetIDs, albumIds: albumIDs)
+            }
+
 
     override func setUp() {
        // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -167,7 +177,7 @@ class PGLFilterStackTests: XCTestCase {
         filterStack.stackName = stackName
         // need a filter then assign the test PGLImageList to it..
         // the save of the filter should create the CDImageList
-        let aImageList = PGLDataStoreTests.imageListTestObject()
+        let aImageList = PGLFilterStackTests.imageListTestObject()
         // setImageCollectionInput(cycleStack: PGLImageList, firstAssetData: PHAsset)
         let currentFilterName = filterStack.currentFilter().filterName
         let currentFilterIndex = filterStack.activeFilterIndex
