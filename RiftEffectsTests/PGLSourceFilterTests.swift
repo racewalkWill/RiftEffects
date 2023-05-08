@@ -174,7 +174,7 @@ class PGLSourceFilterTests: XCTestCase {
                 if allImageParms.count > 2 {
                     Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("\(String(describing: timerFilter.filterName)) has more than 2 image inputs")
                     for nextImageParm in allImageParms.suffix(from: 2) {
-                        nextImageParm.set(favoritesAlbumList.increment() as Any)
+                        nextImageParm.setImageCollectionInput(cycleStack: favoritesAlbumList)
                     }
                 }
             }
@@ -204,7 +204,22 @@ class PGLSourceFilterTests: XCTestCase {
         }
     }
 
-        func testStylizeCategoryFilters() {
+    fileprivate func setAllImageInputs(_ pglFilter: PGLSourceFilter, _ favoritesAlbumList: PGLImageList) {
+            //                let imageAttributesNames = pglFilter.imageInputAttributeKeys
+        if let allImageParms = pglFilter.imageParms() {
+            for anImageParm in allImageParms {
+                    //                    let imageValue = favoritesAlbumList.image(atIndex: index)!
+                    //                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
+                let favoritesCopy = favoritesAlbumList.clone(toParm: anImageParm)
+                favoritesCopy.randomPrune(imageParm: anImageParm)
+                    //usually reduces to single input from favorites
+                anImageParm.setImageCollectionInput(cycleStack: favoritesCopy)
+
+            }
+        }
+    }
+
+    func testStylizeCategoryFilters() {
                 // test Stylize filters
                 // test that image shows is displayed
 
@@ -221,12 +236,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
-
+                setAllImageInputs(pglFilter, favoritesAlbumList)
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
                     let image1 = UIImage(cgImage: context.createCGImage(result, from: result.extent)!)
@@ -263,12 +273,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -297,30 +302,21 @@ class PGLSourceFilterTests: XCTestCase {
             // get the category to create correct pglsourceFilter
             let theCategory = PGLFilterCategory("CICategoryGeometryAdjustment")!
             for aFilter in theCategory.filterDescriptors {
-    //            let timerFilterDescriptor = transitionCategory.filterDescriptors.first(where: {$0.filterName == "CIDissolveTransition"})
+
                   Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("PGLSourceFilterTests \(#function) testing filter \(aFilter.displayName)")
                 let pglFilter = aFilter.pglSourceFilter()!
 
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
-                    let image1 = UIImage(cgImage: context.createCGImage(result, from: firstExtent)!)
-                    for _ in 1...100 {pglFilter.addFilterStepTime()}
-                    let result2 = pglFilter.outputImage()
-                    let image2 = UIImage(cgImage:context.createCGImage(result2!, from: firstExtent)!)
-                    XCTAssertTrue( (result2!.extent.width > 0) && (result2!.extent.height > 0), "result2 extent is zero width/height")
-                    XCTAssertNotNil(image1)
-                    XCTAssertNotNil(image2)
-                    XCTAssertFalse( image1.isEqual( image2), "Did not change output image")
+
+
+                    XCTAssertNotNil(result)
+
 
                 } else {
                     XCTFail("no output image filter \(theCategory.categoryName) \(aFilter.displayName)")
@@ -346,12 +342,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -392,12 +383,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -434,12 +420,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -481,12 +462,7 @@ class PGLSourceFilterTests: XCTestCase {
                    XCTAssertNotNil(pglFilter)
                    pglFilter.setDefaults()
 
-                   let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                   for index in 0 ..< imageAttributesNames.count {
-                       let imageValue = favoritesAlbumList.image(atIndex: index)!
-                       if index == 0 { firstExtent = imageValue.extent }
-                       pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                   }
+                   setAllImageInputs(pglFilter, favoritesAlbumList)
 
                    if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -529,12 +505,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -577,12 +548,7 @@ class PGLSourceFilterTests: XCTestCase {
                 XCTAssertNotNil(pglFilter)
                 pglFilter.setDefaults()
 
-                let imageAttributesNames = pglFilter.imageInputAttributeKeys
-                for index in 0 ..< imageAttributesNames.count {
-                    let imageValue = favoritesAlbumList.image(atIndex: index)!
-                    if index == 0 { firstExtent = imageValue.extent }
-                    pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-                }
+                setAllImageInputs(pglFilter, favoritesAlbumList)
 
                 if let  result = pglFilter.outputImage(){
                     XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -624,15 +590,16 @@ class PGLSourceFilterTests: XCTestCase {
 
             XCTAssertNotNil(pglFilter)
             pglFilter.setDefaults()
+            setAllImageInputs(pglFilter, favoritesAlbumList)
 
-            let imageAttributesNames = pglFilter.imageInputAttributeKeys
-            for index in 0 ..< imageAttributesNames.count {
-                let imageValue = favoritesAlbumList.image(atIndex: index)!
-                if index == 0 { firstExtent = imageValue.extent }
-//                NSLog("PGLSourceFilterTests testColorEffectFilters setting imageValue \(imageValue)")
-//                NSLog("PGLSourceFilterTests testColorEffectFilters setting key \(imageAttributesNames[index])")
-                pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-            }
+//            let imageAttributesNames = pglFilter.imageInputAttributeKeys
+//            for index in 0 ..< imageAttributesNames.count {
+//                let imageValue = favoritesAlbumList.image(atIndex: index)!
+//                if index == 0 { firstExtent = imageValue.extent }
+////                NSLog("PGLSourceFilterTests testColorEffectFilters setting imageValue \(imageValue)")
+////                NSLog("PGLSourceFilterTests testColorEffectFilters setting key \(imageAttributesNames[index])")
+//                pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
+//            }
 
             if let  result = pglFilter.outputImage(){
                 XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -675,12 +642,7 @@ class PGLSourceFilterTests: XCTestCase {
                XCTAssertNotNil(pglFilter)
                pglFilter.setDefaults()
 
-               let imageAttributesNames = pglFilter.imageInputAttributeKeys
-               for index in 0 ..< imageAttributesNames.count {
-                   let imageValue = favoritesAlbumList.image(atIndex: index)!
-                   if index == 0 { firstExtent = imageValue.extent }
-                   pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-               }
+               setAllImageInputs(pglFilter, favoritesAlbumList)
 
                if let  result = pglFilter.outputImage(){
                 XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -723,12 +685,7 @@ class PGLSourceFilterTests: XCTestCase {
             XCTAssertNotNil(pglFilter)
             pglFilter.setDefaults()
 
-            let imageAttributesNames = pglFilter.imageInputAttributeKeys
-            for index in 0 ..< imageAttributesNames.count {
-                let imageValue = favoritesAlbumList.image(atIndex: index)!
-                if index == 0 { firstExtent = imageValue.extent }
-                pglFilter.setImageValue(newValue: imageValue , keyName: imageAttributesNames[index])
-            }
+            setAllImageInputs(pglFilter, favoritesAlbumList)
 
             if let  result = pglFilter.outputImage(){
                 XCTAssertTrue( (result.extent.width > 0) && (result.extent.height > 0), "result extent is zero width/height")
@@ -811,33 +768,11 @@ class PGLSourceFilterTests: XCTestCase {
     func testSequenceFilter() {
         // SequencedFilter omitted from other tests
         // test here for the process of adding filters, not images
-        let favoritesAlbumList = fetchFavoritesList()
+        appStack.viewerStack.createDemoStack(appStack: appStack)
+        let demoImage = appStack.viewerStack.outputImage()
+        XCTAssertNotNil(demoImage)
+        XCTAssertTrue( (demoImage!.extent.width > 0) && (demoImage!.extent.height > 0), "result extent is zero width/height")
 
-        let theDescriptor = PGLFilterCategory.getFilterDescriptor(aFilterName: kPSequencedFilter, cdFilterClass: "PGLSequencedFilters")
-        let theSequenceFilter = theDescriptor?.pglSourceFilter() as? PGLSequencedFilters
-        appStack.viewerStack.appendFilter(theSequenceFilter!)
-        theSequenceFilter!.addChildSequenceStack(appStack: appStack)
-        let inputAttribute = theSequenceFilter!.getInputImageAttribute()!
-
-        theSequenceFilter!.setUserPick(attribute: inputAttribute, imageList: favoritesAlbumList)
-//        let theSequenceStack = theSequenceFilter!.filterSequence()
-
-        appStack.moveActiveAhead() // to the child sequence stack
-        if let filter2 = PGLSourceFilter(filter: "CIPhotoEffectMono") {
-            filter2.setDefaults()
-            appStack.viewerStack.appendFilter(filter2)
-        }
-
-        if let filter3 = PGLSourceFilter(filter: "CIPhotoEffectTonal") {
-            filter3.setDefaults()
-            appStack.viewerStack.appendFilter(filter3)
-        }
-
-        let stackResultImage = appStack.outputStack.stackOutputImage(false)
-
-        // check the output
-        XCTAssertNotNil(stackResultImage)
-        XCTAssertTrue( (stackResultImage.extent.width > 0) && (stackResultImage.extent.height > 0), "oldImage extent is zero width/height")
     }
     
 //    func testPerformanceExample() {

@@ -87,14 +87,14 @@ class PGLFilterCategory {
 //       PGLFilterCIAbstract.register()
 //
 //       
-        WarpItMetalFilter.register()
+//        WarpItMetalFilter.register()
         if UserDefaults.standard.stringArray(forKey: Bookmark) == nil
         {
             let newFrequentFilters = [
                 "CIDissolveTransition",
                 "CIEdgeWork",
                 "CIToneCurve",
-                "CIBlendWithAlphaMask",
+                "CIBlendWithMask",
                 "CIRadialGradient",
                 "CIColorPosterize"
 

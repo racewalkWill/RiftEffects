@@ -1203,8 +1203,8 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
             case kPTiltShift :
                 return PGLTiltShift()
 
-            case kPWarpItMetal :
-                return WarpItMetalFilter()
+//            case kPWarpItMetal :
+//                return WarpItMetalFilter()
 
             case kCompositeTextPositionFilter:
 //                return PGLTextImageGenerator.internalCIFilter()
