@@ -107,9 +107,9 @@ class PGLSourceFilterTests: XCTestCase {
 
         for anAttribute in depthFilter?.attributes ?? [PGLFilterAttribute]() {
             if anAttribute.attributeName != "inputImage" {
-               let initialValue = anAttribute.getValue()!
+                _ = anAttribute.getValue()!
                 anAttribute.increment()
-               let  changedValue = anAttribute.getValue()!
+                _ = anAttribute.getValue()!
 //                NSLog("testParmInput anAttribute = \(String(describing: anAttribute.attributeDisplayName))")
 //                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testParmInput initialValue = \(initialValue)")
 //                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testParmInput changedValue = \(changedValue)")
@@ -153,7 +153,7 @@ class PGLSourceFilterTests: XCTestCase {
         let context = CIContext()
         let favoritesAlbumList = fetchFavoritesList()
         // get the category to create correct pglsourceFilter
-        var transitionCategory = PGLFilterCategory("CICategoryTransition")!
+        let transitionCategory = PGLFilterCategory("CICategoryTransition")!
         var transitionDescriptors = transitionCategory.filterDescriptors
         transitionDescriptors = transitionDescriptors.dropLast() // drop the 'SequencedFilter'.. needs independent test
             // sequenceFilters adds filters, not images so setup fails.
@@ -259,7 +259,7 @@ class PGLSourceFilterTests: XCTestCase {
     func testDistortFilters() {
                 // test Distort filters
                 // test that image shows is displayed
-            var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
             let context = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -295,8 +295,8 @@ class PGLSourceFilterTests: XCTestCase {
     func testGeometryFilters() {
                 // test Stylize filters
                 // test that image shows is displayed
-            var firstExtent =  CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
-            let context = CIContext()
+        _ =  CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        _ = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
             // get the category to create correct pglsourceFilter
@@ -328,7 +328,7 @@ class PGLSourceFilterTests: XCTestCase {
                 // test Gradient filters
                 // test that image shows is displayed
             let theCategory = PGLFilterCategory("CICategoryGradient")!
-        var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
             let context = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -369,7 +369,7 @@ class PGLSourceFilterTests: XCTestCase {
                 // test Gradient filters
                 // test that image shows is displayed
             let theCategory = PGLFilterCategory("CICategorySharpen")!
-            var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
             let context = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -406,7 +406,7 @@ class PGLSourceFilterTests: XCTestCase {
                 // test Blure filters
                 // test that image shows is displayed
             let theCategory = PGLFilterCategory("CICategoryBlur")!
-            var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
             let context = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -448,7 +448,7 @@ class PGLSourceFilterTests: XCTestCase {
                    // test Blure filters
                    // test that image shows is displayed
                let theCategory = PGLFilterCategory("CICategoryCompositeOperation")!
-               var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
                let context = CIContext()
                let favoritesAlbumList = fetchFavoritesList()
                XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -491,7 +491,7 @@ class PGLSourceFilterTests: XCTestCase {
                 // test Blure filters
                 // test that image shows is displayed
             let theCategory = PGLFilterCategory("CICategoryHalftoneEffect")!
-            var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
             let context = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -534,7 +534,7 @@ class PGLSourceFilterTests: XCTestCase {
                 // test Color Adj filters
                 // test that image shows is displayed
             let theCategory = PGLFilterCategory("CICategoryColorAdjustment")!
-            var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
             let context = CIContext()
             let favoritesAlbumList = fetchFavoritesList()
             XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -577,7 +577,7 @@ class PGLSourceFilterTests: XCTestCase {
             // test Color  filters
             // test that image shows is displayed
         let theCategory = PGLFilterCategory("CICategoryColorEffect")!
-        var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
         let context = CIContext()
         let favoritesAlbumList = fetchFavoritesList()
         XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -628,7 +628,7 @@ class PGLSourceFilterTests: XCTestCase {
                // test Color  filters
                // test that image shows is displayed
            let theCategory = PGLFilterCategory("CICategoryTileEffect")!
-           var firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect.init(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
            let context = CIContext()
            let favoritesAlbumList = fetchFavoritesList()
            XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")
@@ -671,7 +671,7 @@ class PGLSourceFilterTests: XCTestCase {
             // test Color  filters
             // test that image shows is displayed
         let theCategory = PGLFilterCategory("CICategoryGenerator")!
-        var firstExtent = CGRect(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
+        let firstExtent = CGRect(origin: CGPoint.zero, size: CGSize(width: 100, height: 100))
         let context = CIContext()
         let favoritesAlbumList = fetchFavoritesList()
         XCTAssert(favoritesAlbumList.assetIDs.count > 4 , "Favorites Album should have at least 4 images")

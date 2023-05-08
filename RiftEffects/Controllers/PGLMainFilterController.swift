@@ -545,7 +545,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
             let categoryHeaderItem = Item(title: "Matches", descriptor: nil)
             filterItems.insert(categoryHeaderItem, at: 0)
 
-            snapshot.appendItems(filterItems)
+            snapshot.appendItems(filterItems, toSection: 0)
             dataSource.apply(snapshot, animatingDifferences: true)
         }
 
