@@ -69,23 +69,32 @@ class PGLFilterDescriptorTests: XCTestCase {
 
      XCTAssert(categoryGeometryAdjustment.filterDescriptors.count > 5 )
     }
-
+/// list all filters for test runs
     func testAllFilterCreation() {
         let allCategories = PGLFilterCategory.allFilterCategories()
         for aCategory in allCategories {
             let categoryFilterNames = CIFilter.filterNames(inCategory: aCategory.categoryConstant)
 
             for aFilterName in categoryFilterNames {
-                Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("testing filter \(aFilterName) category \(aCategory.categoryConstant)")
-                let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, standardClass)
-                // these filters should already be cached in the categories but checking direct creation here
-                XCTAssertNotNil(thisFilterDescriptor?.filter, "CIFilter did not create filter /(aFilterName) from category \(aCategory.categoryConstant)")
-                XCTAssertNotNil(thisFilterDescriptor?.pglSourceFilter(), "CIFilter did not create pglSourceFilter /(aFilterName) from category \(aCategory.categoryConstant)")
-            }
-            //            Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("all filters by category \(aCategory) = \(allFilters)")
-            
+                var mappedClasses = [PGLSourceFilter.self]
+                let specialMap = CIFilterToPGLFilter.Map[aFilterName]
+                    // nil is answered for most
+                if specialMap != nil {
+                    mappedClasses = specialMap!
+                }
+                    for aMapClass in mappedClasses {
+                        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter \(aCategory.categoryConstant) \(aFilterName) \(aMapClass) ")
 
-        }
+                        guard let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, aMapClass)
+                        else { XCTFail("Filter Descriptor creation failed for \(aFilterName) \(aMapClass))")
+                            continue
+                                       }
+                        XCTAssertNotNil(thisFilterDescriptor.filter, "CIFilter did not create filter \(aFilterName) from category \(aCategory.categoryConstant)")
+                        XCTAssertNotNil(thisFilterDescriptor.pglSourceFilter(), "CIFilter did not create pglSourceFilter \(aFilterName) from category \(aCategory.categoryConstant)")
+                    }
+                }
+            }
+
     }
 
     func testFilterDescriptionCapture() {
