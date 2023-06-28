@@ -50,6 +50,11 @@
 		A39466822832E30A00A67319 /* PGLSupplementNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39466812832E30A00A67319 /* PGLSupplementNavController.swift */; };
 		A39632D8250049F000F02CEC /* PGLDisparityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */; };
 		A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */; };
+		A39F88022A4C7368000AE342 /* PGLLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F88012A4C7368000AE342 /* PGLLibraryController.swift */; };
+		A39F88042A4C7E6F000AE342 /* PGLLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F88032A4C7E6F000AE342 /* PGLLibraryCell.swift */; };
+		A39F88062A4C7F5C000AE342 /* PGLLibraryPropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F88052A4C7F5C000AE342 /* PGLLibraryPropertiesView.swift */; };
+		A39F88082A4C7FF2000AE342 /* PGLAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F88072A4C7FF2000AE342 /* PGLAppearance.swift */; };
+		A39F880B2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F880A2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
 		A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A1402922753B003DBE92 /* AAPLShaders.metal */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
@@ -205,6 +210,11 @@
 		A39466812832E30A00A67319 /* PGLSupplementNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSupplementNavController.swift; sourceTree = "<group>"; };
 		A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLDisparityFilter.swift; sourceTree = "<group>"; };
 		A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialogController.swift; sourceTree = "<group>"; };
+		A39F88012A4C7368000AE342 /* PGLLibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLLibraryController.swift; sourceTree = "<group>"; };
+		A39F88032A4C7E6F000AE342 /* PGLLibraryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLLibraryCell.swift; sourceTree = "<group>"; };
+		A39F88052A4C7F5C000AE342 /* PGLLibraryPropertiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLLibraryPropertiesView.swift; sourceTree = "<group>"; };
+		A39F88072A4C7FF2000AE342 /* PGLAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLAppearance.swift; sourceTree = "<group>"; };
+		A39F880A2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSectionBackgroundDecorationView.swift; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
 		A3B5A13F2922753B003DBE92 /* AAPLShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLShaderTypes.h; sourceTree = "<group>"; };
 		A3B5A1402922753B003DBE92 /* AAPLShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLShaders.metal; sourceTree = "<group>"; };
@@ -347,6 +357,18 @@
 				A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */,
 			);
 			path = License;
+			sourceTree = "<group>";
+		};
+		A39F88092A4C8221000AE342 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				A39F88012A4C7368000AE342 /* PGLLibraryController.swift */,
+				A39F88032A4C7E6F000AE342 /* PGLLibraryCell.swift */,
+				A39F88052A4C7F5C000AE342 /* PGLLibraryPropertiesView.swift */,
+				A39F88072A4C7FF2000AE342 /* PGLAppearance.swift */,
+				A39F880A2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		A3BF500024D3298F00CD5114 = {
@@ -502,6 +524,7 @@
 				A3BF506024D32A3400CD5114 /* PGLMainFilterController.swift */,
 				A3BF50A324D32A3400CD5114 /* PGLSelectParmController.swift */,
 				A3BF505124D32A3400CD5114 /* PGLOpenStackController.swift */,
+				A39F88092A4C8221000AE342 /* Library */,
 				A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */,
 				A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */,
 				A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */,
@@ -672,7 +695,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Will Loew-Blosser";
 				TargetAttributes = {
 					A3BF500824D3298F00CD5114 = {
@@ -750,6 +773,7 @@
 				A3BF510E24D32A3400CD5114 /* PGLImageCIFilter.swift in Sources */,
 				A3BF512124D32A3400CD5114 /* AppDelegate.swift in Sources */,
 				A39AB51E25E2B2C2004690F7 /* PGLSaveDialogController.swift in Sources */,
+				A39F88042A4C7E6F000AE342 /* PGLLibraryCell.swift in Sources */,
 				A3D9FF0B292A9F1400BAE158 /* Quad.swift in Sources */,
 				A3181C042974C84F00834D89 /* PGLNeedsRedraw.swift in Sources */,
 				A3BF512424D32A3400CD5114 /* PGLImageList.swift in Sources */,
@@ -797,10 +821,12 @@
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3DDDEE729D85EF1003B8545 /* PGLFilterAttrChildStack.swift in Sources */,
 				A3BF513224D32A3400CD5114 /* PGLDataSource.swift in Sources */,
+				A39F880B2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift in Sources */,
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
 				A32F213B283BBAF1006C026F /* PGLNavPrimaryController.swift in Sources */,
 				A327122229775C30007DF04A /* MetalFilters.swift in Sources */,
 				A3E17A1B29F5DBB2006A39A6 /* PGLFilterStackDemo.swift in Sources */,
+				A39F88082A4C7FF2000AE342 /* PGLAppearance.swift in Sources */,
 				A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */,
 				A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */,
 				A3BF513824D32A3400CD5114 /* PGLAssetGridController.swift in Sources */,
@@ -844,10 +870,12 @@
 				A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */,
 				A3CA2BFF295A01FD00502A8A /* PGLConvolutionFilter.swift in Sources */,
 				A3DD2BD82919964700295DF1 /* PGLPopUpOpenStack.swift in Sources */,
+				A39F88022A4C7368000AE342 /* PGLLibraryController.swift in Sources */,
 				A33BD1B129626597007D3527 /* PGLButtonCellUI.swift in Sources */,
 				A3BF50EE24D32A3400CD5114 /* PGLFilterDescriptor.swift in Sources */,
 				A3BF510924D32A3400CD5114 /* CIImage.swift in Sources */,
 				A3BF50F524D32A3400CD5114 /* OutlineItemCell.swift in Sources */,
+				A39F88062A4C7F5C000AE342 /* PGLLibraryPropertiesView.swift in Sources */,
 				A3BF50E224D32A3400CD5114 /* PGLRectangleController.swift in Sources */,
 				A3D9FF09292A9EFE00BAE158 /* VertexDescriptor.swift in Sources */,
 				A3BF50FF24D32A3400CD5114 /* PGLAttributeUI.swift in Sources */,

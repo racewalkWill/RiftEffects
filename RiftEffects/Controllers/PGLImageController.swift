@@ -179,9 +179,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
    func openStackActionBtn(_ sender: UIBarButtonItem) {
 
-            let pickStoredStackViewController = storyboard!.instantiateViewController(
-                withIdentifier: "OpenStackController")
-
+//            let pickStoredStackViewController = storyboard!.instantiateViewController( withIdentifier: "OpenStackController")
+       let pickStoredStackViewController = PGLLibraryController()
 
        pickStoredStackViewController.modalPresentationStyle = .popover
 
