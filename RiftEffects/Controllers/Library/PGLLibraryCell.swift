@@ -30,7 +30,7 @@ class PGLLibraryCell: UICollectionViewCell {
     // Set on each cell to track asset use. The cell will call cancel on the token when
     // preparing for reuse or when it deinitializes.
     public var assetToken: Cancellable?
-   static let dateFormatter = DateFormatter()  // should be static class ?
+    let dateFormatter = DateFormatter()
 
     private let imageView = UIImageView()
     private let propertiesView = PGLLibraryPropertiesView()
@@ -40,7 +40,8 @@ class PGLLibraryCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .secondarySystemBackground
         // Clips to Bounds because images draw outside their bounds
@@ -82,16 +83,16 @@ class PGLLibraryCell: UICollectionViewCell {
     func detailTextString(ofObject: CDFilterStack) -> String {
         var dateString: String
        if let modifiedDate =  ofObject.modified {
-           dateString = PGLLibraryCell.dateFormatter.string(from: modifiedDate)
+           dateString = dateFormatter.string(from: modifiedDate)
        }
        else { guard let createdDate = ofObject.created else
                 {  return " "
                     }
-           dateString =  PGLLibraryCell.dateFormatter.string(from: createdDate )}
+           dateString =  dateFormatter.string(from: createdDate )}
         guard let objectType = ofObject.type else
             { return dateString }
-       return objectType + " " + dateString
-
+//       return objectType + " " + dateString  type is the category name
+        return  dateString
     }
 
     override func prepareForReuse() {

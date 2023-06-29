@@ -49,141 +49,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4E0D6246-8543-423A-8A35-BBD100A0F0D5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Controllers/PGLOpenStackController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CA5B7A19-41C3-4D54-86E1-BE047DB2DD59"
+            uuid = "22C98F88-15FB-467C-A54D-102244BC9241"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "setCategoryData()"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "createSectionHeaderRegistration()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "CA5B7A19-41C3-4D54-86E1-BE047DB2DD59 - d249dbf671a2599e"
+                  uuid = "22C98F88-15FB-467C-A54D-102244BC9241 - a67accf611701a19"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLLibraryController.setCategoryData() -&gt; ()"
+                  symbolName = "closure #1 (__C.UICollectionViewCell, UIKit.UICellConfigurationState) -&gt; () in closure #1 (__C.UICollectionViewListCell, Swift.String, Foundation.IndexPath) -&gt; () in RiftEffects.PGLLibraryController.createSectionHeaderRegistration() -&gt; __C.UICollectionView.SupplementaryRegistration&lt;__C.UICollectionViewListCell&gt;"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "94"
-                  endingLineNumber = "94"
-                  offsetFromSymbolStart = "692">
+                  startingLineNumber = "133"
+                  endingLineNumber = "133"
+                  offsetFromSymbolStart = "1156">
                </Location>
                <Location
-                  uuid = "CA5B7A19-41C3-4D54-86E1-BE047DB2DD59 - d249dbf671a2599e"
+                  uuid = "22C98F88-15FB-467C-A54D-102244BC9241 - a67accf611701a19"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLLibraryController.setCategoryData() -&gt; ()"
+                  symbolName = "closure #1 (__C.UICollectionViewCell, UIKit.UICellConfigurationState) -&gt; () in closure #1 (__C.UICollectionViewListCell, Swift.String, Foundation.IndexPath) -&gt; () in RiftEffects.PGLLibraryController.createSectionHeaderRegistration() -&gt; __C.UICollectionView.SupplementaryRegistration&lt;__C.UICollectionViewListCell&gt;"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "94"
-                  endingLineNumber = "94"
-                  offsetFromSymbolStart = "1004">
-               </Location>
-               <Location
-                  uuid = "CA5B7A19-41C3-4D54-86E1-BE047DB2DD59 - d249dbf671a2567f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLLibraryController.setCategoryData() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
-                  offsetFromSymbolStart = "692">
-               </Location>
-               <Location
-                  uuid = "CA5B7A19-41C3-4D54-86E1-BE047DB2DD59 - d249dbf671a2567f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLLibraryController.setCategoryData() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
-                  offsetFromSymbolStart = "1004">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "631CCEBF-0E6A-48C8-A8C6-D7EF29A35590"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Controllers/Library/PGLLibraryCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "configureFor(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "631CCEBF-0E6A-48C8-A8C6-D7EF29A35590 - ad4e0810a328c5ca"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLLibraryCell.configureFor(RiftEffects.CDFilterStack) -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  uuid = "631CCEBF-0E6A-48C8-A8C6-D7EF29A35590 - ad4e0810a328c5ca"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLLibraryCell.configureFor(RiftEffects.CDFilterStack) -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "148">
+                  startingLineNumber = "133"
+                  endingLineNumber = "133"
+                  offsetFromSymbolStart = "1144">
                </Location>
             </Locations>
          </BreakpointContent>

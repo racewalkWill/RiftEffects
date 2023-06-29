@@ -31,7 +31,7 @@ struct PGLAppearance {
 
     static let subtitleFont: UIFont = {
         let descriptor = UIFontDescriptor
-            .preferredFontDescriptor(withTextStyle: .title2)
+            .preferredFontDescriptor(withTextStyle: .body)
             .withSymbolicTraits(.traitBold)!
         return UIFont(descriptor: descriptor, size: 0)
     }()

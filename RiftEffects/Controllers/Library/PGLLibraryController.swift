@@ -49,11 +49,12 @@ extension PGLLibraryController {
         // not implementing the prefetch yet
 
         view.addSubview(collectionView)
+        collectionView.delegate = self
     }
 
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<PGLLibraryCell, CDFilterStack> { [weak self] cell, indexPath, aCDFilterStack in
-            guard let self = self else { return }
+            guard self != nil else { return }
 
             cell.configureFor(aCDFilterStack)
             //MARK: pre fetch
@@ -76,7 +77,6 @@ extension PGLLibraryController {
 
         dataSource = UICollectionViewDiffableDataSource<Int, CDFilterStack>(collectionView: collectionView) {
             (collectionView, indexPath, aCDFilterStack) in
-
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: aCDFilterStack)
         }
 
@@ -116,8 +116,8 @@ extension PGLLibraryController {
             elementKind: sectionHeaderElementKind
         ) { [weak self] supplementaryView, elementKind, indexPath in
             guard let self = self else { return }
-
-            let sectionID = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            let currentSnapshot = self.dataSource.snapshot()
+            let sectionID = currentSnapshot.sectionIdentifiers[indexPath.section]
 
             supplementaryView.configurationUpdateHandler = { supplementaryView, state in
                 guard let supplementaryCell = supplementaryView as? UICollectionViewListCell else { return }
@@ -127,7 +127,12 @@ extension PGLLibraryController {
                 contentConfiguration.textProperties.font = PGLAppearance.sectionHeaderFont
                 contentConfiguration.textProperties.color = UIColor.label
 
-                contentConfiguration.text = "SectionID" // sectionID
+                if let firstInSectionItem = currentSnapshot.itemIdentifiers(inSection: sectionID).first {
+                    contentConfiguration.text = firstInSectionItem.type
+                } else {
+                    contentConfiguration.text = ""
+                }
+                    //  from dataProvider.fetchedResultsController.sections name attribute
 
                 supplementaryCell.contentConfiguration = contentConfiguration
 
@@ -140,40 +145,44 @@ extension PGLLibraryController {
     private func createLayout() -> UICollectionViewLayout {
         let sectionProvider = { (sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                 heightDimension: .estimated(350))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8),
+                                                 heightDimension: .estimated(150))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
             // If there's space, adapt and go 2-up + peeking 3rd item.
-            let columnCount = layoutEnvironment.container.effectiveContentSize.width > 500 ? 3 : 1
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .estimated(350))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columnCount)
-            group.interItemSpacing = .fixed(20)
 
-            let section = NSCollectionLayoutSection(group: group)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .estimated(250))
+
+
+            let containerGroupFractionalWidth = CGFloat(0.85)
+            let containerGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize, subitems: [item])
+
+            let section = NSCollectionLayoutSection(group: containerGroup)
+            section.orthogonalScrollingBehavior = UICollectionLayoutSectionOrthogonalScrollingBehavior.continuous
+
+            containerGroup.interItemSpacing = .fixed(20)
+
+
             let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
 
             section.interGroupSpacing = 20
 
-            if sectionID == 0   //.featured
-            {
-                section.decorationItems = [
-                    .background(elementKind: "SectionBackground")
-                ]
+            section.decorationItems = [
+                .background(elementKind: "SectionBackground")
+            ]
 
-                let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                       heightDimension: .estimated(PGLAppearance.sectionHeaderFont.lineHeight))
-                let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
-                    layoutSize: titleSize,
-                    elementKind: self.sectionHeaderElementKind,
-                    alignment: .top)
+            let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .estimated(PGLAppearance.sectionHeaderFont.lineHeight))
+            let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: titleSize,
+                elementKind: self.sectionHeaderElementKind,
+                alignment: .top)
 
-                section.boundarySupplementaryItems = [titleSupplementary]
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 20, trailing: 20)
-            } else {
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
-            }
+            section.boundarySupplementaryItems = [titleSupplementary]
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 20, trailing: 20)
+
             return section
         }
 
@@ -186,5 +195,45 @@ extension PGLLibraryController {
         layout.register(PGLSectionBackgroundDecorationView.self, forDecorationViewOfKind: "SectionBackground")
         return layout
     }
+}
+
+extension PGLLibraryController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            // pick and show this row
+            // even if in edit mode
+
+//            if let object = (for: indexPath)
+        if let object = dataSource.itemIdentifier(for: indexPath)
+                {
+                guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+                    else {
+                    Logger(subsystem: LogSubsystem, category: LogNavigation).fault("\( String(describing: self) + "-" + #function) appDelegate not assigned")
+                    return
+                }
+                let stackId = object.objectID // managedObjectID
+
+                let theAppStack = myAppDelegate.appStack
+
+
+                theAppStack.resetToTopStack(newStackId: stackId)
+
+                postStackChange()
+                    // trigger the image controller to show the stack
+
+
+            }
+    }
+
+    func postStackChange() {
+
+        let stackNotification = Notification(name:PGLLoadedDataStack)
+        NotificationCenter.default.post(stackNotification)
+        let filterNotification = Notification(name: PGLCurrentFilterChange) // turns on the filter cell detailDisclosure button even on cancels
+//            NotificationCenter.default.post(filterNotification)
+        NotificationCenter.default.post(name: filterNotification.name, object: nil, userInfo: ["sender" : self as AnyObject])
+
+    }
+
 }
 

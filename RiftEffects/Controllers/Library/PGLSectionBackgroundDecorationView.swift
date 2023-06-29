@@ -25,7 +25,7 @@ class PGLSectionBackgroundDecorationView: UICollectionReusableView {
 
 extension PGLSectionBackgroundDecorationView {
     func configure() {
-        gradientLayer.colors = [UIColor.systemBackground.withAlphaComponent(0).cgColor, UIColor.systemPink.withAlphaComponent(0.5).cgColor]
+        gradientLayer.colors = [UIColor.systemBackground.withAlphaComponent(0.2).cgColor, UIColor.systemPink.withAlphaComponent(0.5).cgColor]
         layer.addSublayer(gradientLayer)
         gradientLayer.frame = layer.bounds
     }

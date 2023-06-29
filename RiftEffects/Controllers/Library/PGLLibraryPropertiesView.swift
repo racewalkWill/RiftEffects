@@ -74,9 +74,9 @@ class PGLLibraryPropertiesView: UIView {
 
         layout(view: titleLabel)
 
-        if subtitleLabel.text != nil {
+//        if subtitleLabel.text != nil {
             layout(view: subtitleLabel)
-        }
+//        }
 
         if likeCountLabel.text != nil {
             layout(view: likeCountLabel)
