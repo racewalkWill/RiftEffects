@@ -9,6 +9,9 @@
 import UIKit
 import CoreData
 import os
+import Combine
+
+let ThumbnailPreferredHeight: CGFloat = 150.0
 
 class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegate {
     // combines example CollectionViewSample from WWDC21
@@ -28,6 +31,7 @@ class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegat
 
     var collectionView: UICollectionView! = nil
     fileprivate let sectionHeaderElementKind = "SectionHeader"
+    fileprivate var prefetchingIndexPathOperations = [IndexPath: AnyCancellable]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,25 +58,9 @@ extension PGLLibraryController {
 
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<PGLLibraryCell, CDFilterStack> { [weak self] cell, indexPath, aCDFilterStack in
-            guard self != nil else { return }
+            guard let self = self else { return }
 
-            cell.configureFor(aCDFilterStack)
-            //MARK: pre fetch
-//            let post = self.postsStore.fetchByID(postID)
-//            let asset = self.assetsStore.fetchByID(post.assetID)
-//
-//            // Retrieve the token that's tracking this asset from either the prefetching operations dictionary
-//            // or just use a token that's already set on the cell, which is the case when a cell is being reconfigured.
-//            var assetToken = self.prefetchingIndexPathOperations.removeValue(forKey: indexPath) ?? cell.assetToken
-//
-//            // If the asset is a placeholder and there is no token, ask the asset store to load it, reconfiguring
-//            // the cell in its completion handler.
-//            if asset.isPlaceholder && assetToken == nil {
-//                assetToken = self.assetsStore.loadAssetByID(post.assetID) { [weak self] in
-//                    self?.setPostNeedsUpdate(postID)
-//                }
-//            }
-
+        cell.configureFor(aCDFilterStack)
         }
 
         dataSource = UICollectionViewDiffableDataSource<Int, CDFilterStack>(collectionView: collectionView) {
@@ -84,6 +72,12 @@ extension PGLLibraryController {
         dataSource.supplementaryViewProvider = { collectionView, elementKind, indexPath in
             return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
         }
+    }
+
+    private func setPostNeedsUpdate(_ id: CDFilterStack) {
+        var snapshot = self.dataSource.snapshot()
+        snapshot.reconfigureItems([id])
+        self.dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     private func setCategoryData() {
@@ -146,13 +140,13 @@ extension PGLLibraryController {
         let sectionProvider = { (sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8),
-                                                 heightDimension: .estimated(150))
+                                                 heightDimension: .estimated(ThumbnailPreferredHeight))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
             // If there's space, adapt and go 2-up + peeking 3rd item.
 
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .estimated(250))
+                                                   heightDimension: .estimated(ThumbnailPreferredHeight))
 
 
             let containerGroupFractionalWidth = CGFloat(0.85)
@@ -162,12 +156,12 @@ extension PGLLibraryController {
             let section = NSCollectionLayoutSection(group: containerGroup)
             section.orthogonalScrollingBehavior = UICollectionLayoutSectionOrthogonalScrollingBehavior.continuous
 
-            containerGroup.interItemSpacing = .fixed(20)
+            containerGroup.interItemSpacing = .fixed(10)
 
 
             let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
 
-            section.interGroupSpacing = 20
+            section.interGroupSpacing = 10
 
             section.decorationItems = [
                 .background(elementKind: "SectionBackground")

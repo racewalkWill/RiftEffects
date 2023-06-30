@@ -69,16 +69,24 @@ class PGLLibraryCell: UICollectionViewCell {
     }
 
     public func configureFor(_ asset: CDFilterStack) {
-        // convert thumbnail data to uiImage
-        if let cellThumbnail = asset.thumbnail
-           {  imageView.image = UIImage(data: cellThumbnail) }
-        else {
-            imageView.image = UIImage(systemName: "airplane.circle.fill")!
+        imageView.image = UIImage(systemName: "airplane.circle.fill")!
+        if asset.thumbnail == nil {
+            return  // placeholder is set
         }
+        imageView.image = UIImage(data: asset.thumbnail!)!
+        
+
+//        // convert thumbnail data to uiImage
+//        imageFromData.prepareThumbnail(of: self.bounds.size) { thumbnailImage in
+//            DispatchQueue.main.async {
+//                self.imageView.image =  thumbnailImage }
+//        }
+
         propertiesView.titleLabel.text = asset.title
         propertiesView.subtitleLabel.text = self.detailTextString(ofObject: asset)
 
     }
+
 
     func detailTextString(ofObject: CDFilterStack) -> String {
         var dateString: String
@@ -95,11 +103,7 @@ class PGLLibraryCell: UICollectionViewCell {
         return  dateString
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        assetToken?.cancel()
-        assetToken = nil
-    }
+
 
     override func layoutSubviews() {
         super.layoutSubviews()

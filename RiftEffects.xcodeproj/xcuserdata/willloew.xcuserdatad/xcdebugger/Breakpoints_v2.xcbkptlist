@@ -50,48 +50,16 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "22C98F88-15FB-467C-A54D-102244BC9241"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "createSectionHeaderRegistration()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "22C98F88-15FB-467C-A54D-102244BC9241 - a67accf611701a19"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UICollectionViewCell, UIKit.UICellConfigurationState) -&gt; () in closure #1 (__C.UICollectionViewListCell, Swift.String, Foundation.IndexPath) -&gt; () in RiftEffects.PGLLibraryController.createSectionHeaderRegistration() -&gt; __C.UICollectionView.SupplementaryRegistration&lt;__C.UICollectionViewListCell&gt;"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "133"
-                  endingLineNumber = "133"
-                  offsetFromSymbolStart = "1156">
-               </Location>
-               <Location
-                  uuid = "22C98F88-15FB-467C-A54D-102244BC9241 - a67accf611701a19"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UICollectionViewCell, UIKit.UICellConfigurationState) -&gt; () in closure #1 (__C.UICollectionViewListCell, Swift.String, Foundation.IndexPath) -&gt; () in RiftEffects.PGLLibraryController.createSectionHeaderRegistration() -&gt; __C.UICollectionView.SupplementaryRegistration&lt;__C.UICollectionViewListCell&gt;"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/Library/PGLLibraryController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "133"
-                  endingLineNumber = "133"
-                  offsetFromSymbolStart = "1144">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

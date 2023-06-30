@@ -12,7 +12,7 @@ import UIKit
 
 extension CIImage {
 
-    func thumbnailUIImage(_ preferredHeight: CGFloat = 56.0) -> UIImage {
+    func thumbnailUIImage(_ preferredHeight: CGFloat = ThumbnailPreferredHeight) -> UIImage {
         var outputImage = self
         if outputImage.extent.isInfinite {
             outputImage = cropForInfiniteExtent()
