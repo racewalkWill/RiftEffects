@@ -118,7 +118,7 @@ class PGLMainFilterController:  UIViewController,
         //    var filterGroupSymbol = UIImage(systemName: "chart.bar.doc.horizontal")
         //    var filterFlatSymbol = UIImage(systemName: "crectangle.grid.1x2")
         /// Secondary search results table view.
-    private var resultsTableController: PGLResultsController!
+//    private var resultsTableController: PGLResultsController!
 
         /// Restoration state for UISearchController
     private var restoredState = SearchControllerRestorableState()

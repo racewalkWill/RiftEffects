@@ -29,10 +29,11 @@ class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegat
         return provider
     }()
 
-    var collectionView: UICollectionView! = nil
+    var collectionView: UICollectionView!
     fileprivate let sectionHeaderElementKind = "SectionHeader"
-    fileprivate var prefetchingIndexPathOperations = [IndexPath: AnyCancellable]()
+    let searchBar = UISearchBar(frame: .zero)
 
+// MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Library"
@@ -43,17 +44,40 @@ class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegat
 
 }
 
+// MARK: Configure
 extension PGLLibraryController {
-    private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+     func configureHierarchy() {
+        let layout = createLayout()
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
+
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
 
 //        collectionView.prefetchDataSource = self
         // not implementing the prefetch yet
 
         view.addSubview(collectionView)
+        view.addSubview(searchBar)
+
+
+         let views: [String: UIView] = ["cv": collectionView, "searchBar": searchBar]
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(contentsOf: NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|[cv]|", options: [], metrics: nil, views: views))
+        constraints.append(contentsOf: NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|[searchBar]|", options: [], metrics: nil, views: views))
+        constraints.append(contentsOf: NSLayoutConstraint.constraints(
+            withVisualFormat: "V:[searchBar]-20-[cv]|", options: [], metrics: nil, views: views))
+        constraints.append(searchBar.topAnchor.constraint(
+            equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0))
+        NSLayoutConstraint.activate(constraints)
+
         collectionView.delegate = self
+        searchBar.delegate = self
+
+
     }
 
     private func configureDataSource() {
@@ -80,12 +104,35 @@ extension PGLLibraryController {
         self.dataSource.apply(snapshot, animatingDifferences: true)
     }
     
+    fileprivate func applySnapShot(stacks: [CDFilterStack]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
+
+        if let sections = dataProvider.fetchedResultsController.sections {
+            for index in  0..<sections.count
+            {
+                if let thisSectionElements = sections[index].objects as? [CDFilterStack]
+                {
+                    let matchingElements = thisSectionElements.filter({
+                        stacks.contains($0)
+                    })
+                    if !matchingElements.isEmpty {
+                        snapshot.appendSections([index])
+                        snapshot.appendItems(matchingElements, toSection: index)
+                    }
+
+                }
+            }
+
+        }
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+
     private func setCategoryData() {
         // Initial data
+        // load everything
         try? dataProvider.fetchedResultsController.performFetch()
-
         var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
-        
+
         if let sections = dataProvider.fetchedResultsController.sections {
             for index in  0..<sections.count
               {
@@ -102,6 +149,30 @@ extension PGLLibraryController {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 
+        /// - Tag: performQuer
+    func performQuery(with titleFilter: String?) {
+        // load only matching titles
+        var matchingStacks: [CDFilterStack]!
+        if let lowerCaseFilter = titleFilter?.lowercased() {
+            matchingStacks = dataProvider.fetchedStacks?.filter({
+                if let lowerTitle =  $0.title?.lowercased() {
+                    return lowerTitle.contains(lowerCaseFilter)
+                } else {return false }
+            })
+        }
+        else
+        { matchingStacks = dataProvider.fetchedStacks }
+
+        applySnapShot(stacks: matchingStacks)
+
+    }
+
+}
+
+extension PGLLibraryController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        performQuery(with: searchText)
+    }
 }
 
 extension PGLLibraryController {
@@ -148,8 +219,6 @@ extension PGLLibraryController {
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .estimated(ThumbnailPreferredHeight))
 
-
-            let containerGroupFractionalWidth = CGFloat(0.85)
             let containerGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize, subitems: [item])
 
@@ -158,15 +227,13 @@ extension PGLLibraryController {
 
             containerGroup.interItemSpacing = .fixed(10)
 
-
-            let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
+//            let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
 
             section.interGroupSpacing = 10
 
             section.decorationItems = [
                 .background(elementKind: "SectionBackground")
             ]
-
             let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .estimated(PGLAppearance.sectionHeaderFont.lineHeight))
             let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
@@ -181,7 +248,7 @@ extension PGLLibraryController {
         }
 
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 20
+        config.interSectionSpacing = 10
 
         let layout = UICollectionViewCompositionalLayout(
             sectionProvider: sectionProvider, configuration: config)
@@ -230,4 +297,6 @@ extension PGLLibraryController: UICollectionViewDelegate {
     }
 
 }
+
+
 
