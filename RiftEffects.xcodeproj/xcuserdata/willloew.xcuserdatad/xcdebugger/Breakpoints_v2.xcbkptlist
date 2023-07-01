@@ -56,8 +56,8 @@
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "createSectionHeaderRegistration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -88,8 +88,8 @@
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "performQuery(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -104,8 +104,8 @@
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "applySnapShot(stacks:)"
             landmarkType = "7">
             <Locations>

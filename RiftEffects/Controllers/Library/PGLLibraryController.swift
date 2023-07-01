@@ -11,7 +11,8 @@ import CoreData
 import os
 import Combine
 
-let ThumbnailPreferredHeight: CGFloat = 150.0
+let ThumbnailPreferredHeight: CGFloat = 75.0
+let ThumbnailSpacing: CGFloat = 10.0
 
 class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegate {
     // combines example CollectionViewSample from WWDC21
@@ -216,7 +217,7 @@ extension PGLLibraryController {
 
             // If there's space, adapt and go 2-up + peeking 3rd item.
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8),
                                                    heightDimension: .estimated(ThumbnailPreferredHeight))
 
             let containerGroup = NSCollectionLayoutGroup.horizontal(
@@ -225,11 +226,11 @@ extension PGLLibraryController {
             let section = NSCollectionLayoutSection(group: containerGroup)
             section.orthogonalScrollingBehavior = UICollectionLayoutSectionOrthogonalScrollingBehavior.continuous
 
-            containerGroup.interItemSpacing = .fixed(10)
+            containerGroup.interItemSpacing = .fixed(5)
 
 //            let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
 
-            section.interGroupSpacing = 10
+            section.interGroupSpacing = 5
 
             section.decorationItems = [
                 .background(elementKind: "SectionBackground")
@@ -242,13 +243,13 @@ extension PGLLibraryController {
                 alignment: .top)
 
             section.boundarySupplementaryItems = [titleSupplementary]
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 20, trailing: 20)
+            section.contentInsets = NSDirectionalEdgeInsets(top: ThumbnailSpacing, leading: ThumbnailSpacing, bottom: ThumbnailSpacing * 2, trailing: ThumbnailSpacing)
 
             return section
         }
 
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 10
+        config.interSectionSpacing = ThumbnailSpacing
 
         let layout = UICollectionViewCompositionalLayout(
             sectionProvider: sectionProvider, configuration: config)
