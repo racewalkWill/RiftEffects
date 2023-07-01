@@ -455,6 +455,7 @@ class PGLAppStack {
         showFilterImage = !showFilterImage
         // if the current filter is a child then update the
         // viewer stack too
+        self.postFilterChangeRedraw() 
     }
 
     func hasAnimation() -> Bool {

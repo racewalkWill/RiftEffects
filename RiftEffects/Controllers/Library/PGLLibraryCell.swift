@@ -69,18 +69,13 @@ class PGLLibraryCell: UICollectionViewCell {
     }
 
     public func configureFor(_ asset: CDFilterStack) {
-        imageView.image = UIImage(systemName: "airplane.circle.fill")!
-        if asset.thumbnail == nil {
-            return  // placeholder is set
-        }
-        imageView.image = UIImage(data: asset.thumbnail!)!
-        
 
-//        // convert thumbnail data to uiImage
-//        imageFromData.prepareThumbnail(of: self.bounds.size) { thumbnailImage in
-//            DispatchQueue.main.async {
-//                self.imageView.image =  thumbnailImage }
-//        }
+        if asset.thumbnail == nil {
+            imageView.image = UIImage(systemName: "airplane.circle.fill")!
+            return
+        } else {
+            imageView.image = UIImage(data: asset.thumbnail!)!
+        }
 
         propertiesView.titleLabel.text = asset.title
         propertiesView.subtitleLabel.text = self.detailTextString(ofObject: asset)
@@ -96,10 +91,10 @@ class PGLLibraryCell: UICollectionViewCell {
        else { guard let createdDate = ofObject.created else
                 {  return " "
                     }
-           dateString =  dateFormatter.string(from: createdDate )}
-        guard let objectType = ofObject.type else
-            { return dateString }
-//       return objectType + " " + dateString  type is the category name
+           dateString =  dateFormatter.string(from: createdDate )
+
+       }
+
         return  dateString
     }
 

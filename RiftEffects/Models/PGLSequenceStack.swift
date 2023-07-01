@@ -94,6 +94,25 @@ class PGLSequenceStack: PGLFilterStack {
 
 
     }
+
+    override func releaseVars() {
+        // aSequence Stack can start a circular chain of releaseVars
+        // since every filter points back to this one on the var inputStack.
+        // then normally a stack tells all it's filters to releaseVars
+        for aFilterInSequence in activeFilters {
+            for anImageKey in aFilterInSequence.imageInputAttributeKeys {
+                if let thisAttribute = aFilterInSequence.attribute(nameKey: anImageKey) {
+                    if thisAttribute.inputStack === self {
+                        thisAttribute.inputStack = nil
+                    }
+                }
+
+            }
+        }
+        // now not circular so
+        super .releaseVars()
+
+    }
         /// share image, background, mask inputs to the new filter
     func shareImageInputs(newFilter: PGLSourceFilter) {
         shareImageList(newFilter, sequenceAttribute: imageAttribute)

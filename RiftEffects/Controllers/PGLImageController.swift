@@ -128,7 +128,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     @IBAction func randomBtnAction(_ sender: UIBarButtonItem) {
 //        NSLog("PGLImageController addRandom button click")
         let setInputToPrior = appStack.viewerStack.stackHasFilter()
-
+        if appStack.showFilterImage {
+            // turn off the single filter view
+            appStack.toggleShowFilterImage() }
         let demoGenerator = PGLDemo()
 //        appStack.removeDefaultEmptyFilter()
         demoGenerator.appStack = appStack // pass on the stacks
