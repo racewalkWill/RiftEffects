@@ -152,12 +152,13 @@ extension PGLLibraryController {
 
         /// - Tag: performQuer
     func performQuery(with titleFilter: String?) {
-        // load only matching titles
+        // load  matching titles & categories (category aka type)
         var matchingStacks: [CDFilterStack]!
         if let lowerCaseFilter = titleFilter?.lowercased() {
             matchingStacks = dataProvider.fetchedStacks?.filter({
-                if let lowerTitle =  $0.title?.lowercased() {
-                    return lowerTitle.contains(lowerCaseFilter)
+
+                if let lowerTitle =  $0.title?.lowercased() , let lowerType = $0.type?.lowercased() {
+                    return lowerTitle.contains(lowerCaseFilter) || lowerType.contains(lowerCaseFilter)
                 } else {return false }
             })
         }
