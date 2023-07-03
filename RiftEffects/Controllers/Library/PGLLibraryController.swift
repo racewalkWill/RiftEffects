@@ -55,6 +55,7 @@ extension PGLLibraryController {
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+         searchBar.showsCancelButton = true
 
 //        collectionView.prefetchDataSource = self
         // not implementing the prefetch yet
@@ -173,7 +174,19 @@ extension PGLLibraryController {
 
 extension PGLLibraryController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        performQuery(with: searchText)
+        if searchText.isEmpty {
+            if let matchingStacks = dataProvider.fetchedStacks {
+                applySnapShot(stacks: matchingStacks) }
+            }
+        else {
+            performQuery(with: searchText)
+        }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+
+        dismiss(
+            animated: false)
     }
 }
 
