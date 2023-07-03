@@ -12,7 +12,7 @@ class PGLLibraryPropertiesView: UIView {
 
      let titleLabel = UILabel()
      let subtitleLabel = UILabel()
-     let likeCountLabel = UILabel()
+//     let likeCountLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,13 +27,13 @@ class PGLLibraryPropertiesView: UIView {
         subtitleLabel.textColor = UIColor.secondaryLabel
         subtitleLabel.adjustsFontForContentSizeCategory = true
 
-        likeCountLabel.font = PGLAppearance.likeCountFont
-        likeCountLabel.textColor = .secondaryLabel
-        likeCountLabel.adjustsFontForContentSizeCategory = true
+//        likeCountLabel.font = PGLAppearance.likeCountFont
+//        likeCountLabel.textColor = .secondaryLabel
+//        likeCountLabel.adjustsFontForContentSizeCategory = true
 
         addSubview(titleLabel)
         addSubview(subtitleLabel)
-        addSubview(likeCountLabel)
+//        addSubview(likeCountLabel)
     }
 
     required init?(coder: NSCoder) {
@@ -78,9 +78,9 @@ class PGLLibraryPropertiesView: UIView {
             layout(view: subtitleLabel)
 //        }
 
-        if likeCountLabel.text != nil {
-            layout(view: likeCountLabel)
-        }
+//        if likeCountLabel.text != nil {
+//            layout(view: likeCountLabel)
+//        }
     }
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -92,9 +92,9 @@ class PGLLibraryPropertiesView: UIView {
         if subtitleLabel.text != nil {
             height += subtitleLabel.sizeThatFits(fittingSize).height
         }
-        if likeCountLabel.text != nil {
-            height += likeCountLabel.sizeThatFits(fittingSize).height
-        }
+//        if likeCountLabel.text != nil {
+//            height += likeCountLabel.sizeThatFits(fittingSize).height
+//        }
 
         return CGSize(width: size.width, height: height)
     }

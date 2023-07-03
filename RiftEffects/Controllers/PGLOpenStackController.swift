@@ -642,20 +642,25 @@ extension PGLOpenStackController: UISearchBarDelegate {
                 performTitleQuery(with: searchText)}
         }
 
-         func performTitleQuery(with titletFilter: String) {
-            let lowerCaseFilter = titletFilter.lowercased()
-            if let matchingStacks = dataProvider.fetchedStacks?.filter({
-                    if let lowerTitle =  $0.title?.lowercased() {
-                        return lowerTitle.contains(lowerCaseFilter)
-                    } else {return false }
-                    })
-                {
+         func performTitleQuery(with titleFilter: String?) {
+             var matchingStacks: [CDFilterStack]!
+             if let lowerCaseFilter = titleFilter?.lowercased() {
+                 matchingStacks = dataProvider.fetchedStacks?.filter({
+                     if let lowerTitle =  $0.title?.lowercased() , let lowerType = $0.type?.lowercased() {
+                         return lowerTitle.contains(lowerCaseFilter) || lowerType.contains(lowerCaseFilter)
+                     } else {return false }
+
+                 })
+             }
+             else
+             { matchingStacks = dataProvider.fetchedStacks }
+
                 var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
                 snapshot.appendSections([0])
                 snapshot.appendItems(matchingStacks)
                 dataSource.showHeaderText = false
                     // single header .. omit header title
                 dataSource.apply(snapshot, animatingDifferences: true)
-                }
+                
         }
 }  // end extension UISearchBarDelegate
