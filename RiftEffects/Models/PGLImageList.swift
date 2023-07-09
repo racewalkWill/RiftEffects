@@ -18,6 +18,8 @@ enum NextElement {
     case each
 }
 
+var PrintDebugPhotoLocation = false
+
 class PGLImageList: CustomStringConvertible {
     // array of CIImage with current position
     // increment will move forward and on the end reverse in opposite direction
@@ -397,6 +399,13 @@ class PGLImageList: CustomStringConvertible {
 //             NSLog("PGLImageList imageFrom: progressHandler  \(progress) info = \(String(describing: info))")
 //            }
          options.resizeMode = PHImageRequestOptionsResizeMode.fast
+         if PrintDebugPhotoLocation {
+             let thePHAsset = selectedAsset.asset
+             if let resource = PHAssetResource.assetResources(for: thePHAsset).first
+             {
+                 NSLog("\(resource.originalFilename)  \(thePHAsset.location)")
+             }
+         }
 
            PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: matchingSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
                if let error =  info?[PHImageErrorKey]
