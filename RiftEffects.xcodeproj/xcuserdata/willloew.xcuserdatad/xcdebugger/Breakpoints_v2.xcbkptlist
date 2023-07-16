@@ -56,8 +56,8 @@
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "createSectionHeaderRegistration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -120,8 +120,8 @@
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "performQuery(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,8 +136,8 @@
             filePath = "RiftEffects/Controllers/Library/PGLLibraryController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "applySnapShot(stacks:)"
             landmarkType = "7">
             <Locations>
@@ -220,54 +220,6 @@
             endingLineNumber = "99"
             landmarkName = "asPGLAlbumSource(onAttribute:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C23FF380-1E3A-4349-98B5-E3FF033C128E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLImageList.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "getAssets(localIds:albums:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C23FF380-1E3A-4349-98B5-E3FF033C128E - e82730db1f2cc021"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLImageList.getAssets(localIds: Swift.Array&lt;Swift.String&gt;, albums: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.Array&lt;RiftEffects.PGLAsset&gt;"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLImageList.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "316"
-                  endingLineNumber = "316"
-                  offsetFromSymbolStart = "520">
-               </Location>
-               <Location
-                  uuid = "C23FF380-1E3A-4349-98B5-E3FF033C128E - e82730db1f2cc3e3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.PGLImageList.getAssets(localIds: Swift.Array&lt;Swift.String&gt;, albums: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.Array&lt;RiftEffects.PGLAsset&gt;"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Models/PGLImageList.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
-                  offsetFromSymbolStart = "520">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -31,6 +31,7 @@ class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegat
     }()
 
     var collectionView: UICollectionView!
+
     fileprivate let sectionHeaderElementKind = "SectionHeader"
     let searchBar = UISearchBar(frame: .zero)
 
@@ -47,7 +48,7 @@ class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegat
 
 // MARK: Configure
 extension PGLLibraryController {
-     func configureHierarchy() {
+    func configureHierarchy() {
         let layout = createLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -55,17 +56,17 @@ extension PGLLibraryController {
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-         searchBar.showsCancelButton = true
+        searchBar.showsCancelButton = true
 
 
-//        collectionView.prefetchDataSource = self
-        // not implementing the prefetch yet
+            //        collectionView.prefetchDataSource = self
+            // not implementing the prefetch yet
 
         view.addSubview(collectionView)
         view.addSubview(searchBar)
 
 
-         let views: [String: UIView] = ["cv": collectionView, "searchBar": searchBar]
+        let views: [String: UIView] = ["cv": collectionView, "searchBar": searchBar]
         var constraints = [NSLayoutConstraint]()
         constraints.append(contentsOf: NSLayoutConstraint.constraints(
             withVisualFormat: "H:|[cv]|", options: [], metrics: nil, views: views))
@@ -87,7 +88,7 @@ extension PGLLibraryController {
         let cellRegistration = UICollectionView.CellRegistration<PGLLibraryCell, CDFilterStack> { [weak self] cell, indexPath, aCDFilterStack in
             guard let self = self else { return }
 
-        cell.configureFor(aCDFilterStack)
+            cell.configureFor(aCDFilterStack)
         }
 
         dataSource = UICollectionViewDiffableDataSource<Int, CDFilterStack>(collectionView: collectionView) {
@@ -131,21 +132,21 @@ extension PGLLibraryController {
     }
 
     private func setCategoryData() {
-        // Initial data
-        // load everything
+            // Initial data
+            // load everything
         try? dataProvider.fetchedResultsController.performFetch()
         var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
 
         if let sections = dataProvider.fetchedResultsController.sections {
             for index in  0..<sections.count
-              {
+            {
                 snapshot.appendSections([index])
                 let thisSection = sections[index]
                 if let sectionStacks = thisSection.objects as? [CDFilterStack]
                 {
-                        snapshot.appendItems(sectionStacks)
+                    snapshot.appendItems(sectionStacks)
                 }
-                 // show empty snapshot
+                    // show empty snapshot
             }
 
         }
@@ -154,7 +155,7 @@ extension PGLLibraryController {
 
         /// - Tag: performQuer
     func performQuery(with titleFilter: String?) {
-        // load  matching titles & categories (category aka type)
+            // load  matching titles & categories (category aka type)
         var matchingStacks: [CDFilterStack]!
         if let lowerCaseFilter = titleFilter?.lowercased() {
             matchingStacks = dataProvider.fetchedStacks?.filter({
@@ -171,6 +172,40 @@ extension PGLLibraryController {
 
     }
 
+
+// MARK: Delete Menu
+
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+
+            let deleteAction = self.deleteAction(indexPath: indexPath)
+            return UIMenu(title: "", children: [deleteAction] )
+        }
+    }
+
+
+    func performDelete(_ indexPath: IndexPath) {
+        guard let cdStack = dataSource.itemIdentifier(for: indexPath)
+        else {return}
+        dataProvider.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
+        let stackNotification = Notification(name:PGLUpdateLibraryMenu)
+        NotificationCenter.default.post(stackNotification)
+        let hideNotification = Notification(name: PGLHideImageViewReleaseStack)
+        NotificationCenter.default.post(hideNotification)
+        setCategoryData()
+
+
+    }
+
+    func deleteAction(indexPath: IndexPath) -> UIAction {
+        return UIAction(title: NSLocalizedString("Delete", comment: ""),
+                        image: UIImage(systemName: "trash"),
+                        attributes: .destructive) { action in
+            self.performDelete(indexPath)
+        }
+    }
 }
 
 extension PGLLibraryController: UISearchBarDelegate {
@@ -299,8 +334,6 @@ extension PGLLibraryController: UICollectionViewDelegate {
                 let stackId = object.objectID // managedObjectID
 
                 let theAppStack = myAppDelegate.appStack
-
-
                 theAppStack.resetToTopStack(newStackId: stackId)
 
                 postStackChange()
