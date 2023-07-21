@@ -208,13 +208,14 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         // assumes shouldSaveAs mode is correctly set in the controller
 
         saveDialogController.modalPresentationStyle = .popover
-        saveDialogController.preferredContentSize = CGSize(width: 350, height: 200.0)
+        saveDialogController.preferredContentSize = CGSize(width: 250, height: 150.0)
         
         guard let popOverPresenter = saveDialogController.popoverPresentationController
         else { return }
         popOverPresenter.canOverlapSourceViewRect = false // or barButtonItem
         popOverPresenter.delegate = self
-        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
+        popOverPresenter.popoverLayoutMargins = UIEdgeInsets.zero
+            // default is 10 points inset from device edges
 //        popOverPresenter.sourceView = view
         let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
         sheet.detents = [.medium(), .large()]

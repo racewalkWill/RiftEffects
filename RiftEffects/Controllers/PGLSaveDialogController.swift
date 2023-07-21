@@ -43,6 +43,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 //    var userEnteredAlbumName: String?
     var shouldStoreToPhotos: Bool = false
     var doSaveAs: Bool = false
+    var existingStackTypes: [String]!
 
 
 //    var parentImageController: PGLImageController!
@@ -60,6 +61,16 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var stackType: UITextField! {
         didSet {
             stackType.delegate = self
+            let overlayButton = UIButton(type: .custom)
+            let bookmarkImage = UIImage(systemName: "bookmark")
+            overlayButton.setImage(bookmarkImage, for: .normal)
+            overlayButton.addTarget(self, action: #selector(displayStackTypes),
+                for: .touchUpInside)
+            overlayButton.sizeToFit()
+
+            // Assign the overlay button to the text field
+            stackType.leftView = overlayButton
+            stackType.leftViewMode = .always
         }
     }
 
@@ -102,6 +113,10 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     @IBAction func upperSaveBtn(_ sender: UIButton) {
         saveAction()
 
+    }
+
+    @objc func displayStackTypes() {
+//        PGLStackTypeList(existingStackTypes)
     }
 
 
@@ -165,6 +180,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     // MARK: View Lifecycle
     fileprivate func saveAction() {
         var saveData = PGLStackSaveData()
+        // ensure that trailing spaces are removed.. here?
         saveData.stackName = userEnteredStackName
         saveData.stackType = userEnteredStackType
         saveData.albumName = userEnteredStackType // 2/15/22 stack type now labelled album
@@ -184,20 +200,25 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
-            else {
+        else {
             Logger(subsystem: LogSubsystem, category: LogCategory).fault( "PGLSaveDialogController viewDidLoad fatalError(AppDelegate not loaded")
             return
         }
 
         appStack = myAppDelegate.appStack
-         let targetStack =  appStack.outputFilterStack()
-        // a new save session reset the saveSessionUUID
+        let targetStack =  appStack.outputFilterStack()
+            // a new save session reset the saveSessionUUID
         targetStack.saveSessionUUID = nil
         stackName.text  = targetStack.stackName
         stackType.text  =  targetStack.stackType
-//        albumName.text  = targetStack.exportAlbumName
-         userEnteredStackName = targetStack.stackName
+            //        albumName.text  = targetStack.exportAlbumName
+        userEnteredStackName = targetStack.stackName
         userEnteredStackType =  targetStack.stackType
+
+        if let sections = appStack.dataProvider.fetchedResultsController.sections {
+            existingStackTypes = sections.map({$0.name})
+        } else
+        { existingStackTypes = [String]() }
 //        userEnteredAlbumName =  targetStack.exportAlbumName
       
 

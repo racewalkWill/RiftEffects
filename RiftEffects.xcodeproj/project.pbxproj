@@ -22,6 +22,7 @@
 		A32F213D283BBF3A006C026F /* PGLFilterImageContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F213C283BBF3A006C026F /* PGLFilterImageContainerController.swift */; };
 		A33BD1B129626597007D3527 /* PGLButtonCellUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33BD1B029626597007D3527 /* PGLButtonCellUI.swift */; };
 		A33C441D28E8D4E50096E7EE /* PGLSequencedFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33C441C28E8D4E50096E7EE /* PGLSequencedFilters.swift */; };
+		A340DAB62A6887FD00C530F3 /* PGLStackTypeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A340DAB52A6887FD00C530F3 /* PGLStackTypeList.swift */; };
 		A341186425C300F300587590 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A341186325C300F300587590 /* CloudKit.framework */; };
 		A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */; };
 		A34BB8BE295E4834007BFBA7 /* PGLAttributeWeightsVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34BB8BD295E4834007BFBA7 /* PGLAttributeWeightsVector.swift */; };
@@ -180,6 +181,7 @@
 		A32F213C283BBF3A006C026F /* PGLFilterImageContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLFilterImageContainerController.swift; sourceTree = "<group>"; };
 		A33BD1B029626597007D3527 /* PGLButtonCellUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLButtonCellUI.swift; sourceTree = "<group>"; };
 		A33C441C28E8D4E50096E7EE /* PGLSequencedFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequencedFilters.swift; sourceTree = "<group>"; };
+		A340DAB52A6887FD00C530F3 /* PGLStackTypeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackTypeList.swift; sourceTree = "<group>"; };
 		A341185E25C3008100587590 /* RiftEffects.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RiftEffects.entitlements; sourceTree = "<group>"; };
 		A341186325C300F300587590 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterAction.swift; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 				A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */,
 				A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */,
 				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
+				A340DAB52A6887FD00C530F3 /* PGLStackTypeList.swift */,
 				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
 				A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */,
 				A3BF50B224D32A3400CD5114 /* PGLImagesSelectContainer.swift */,
@@ -888,6 +891,7 @@
 				A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */,
 				A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */,
 				A3BF50E424D32A3400CD5114 /* PGLFilterAttributeNumber.swift in Sources */,
+				A340DAB62A6887FD00C530F3 /* PGLStackTypeList.swift in Sources */,
 				A3BF50EC24D32A3400CD5114 /* PGLVisionProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
