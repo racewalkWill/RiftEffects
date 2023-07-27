@@ -14,16 +14,19 @@ import StoreKit
 
 let  PGLStackSaveNotification = NSNotification.Name(rawValue: "PGLStackSaveNotification")
 
-struct PGLStackSaveData {
+class PGLStackSaveData: ObservableObject {
     // used to pass user entered values to the calling ViewController
     // in the PGLStackSaveNotification
 
-    var stackName: String!
-    var stackType: String!  // 2/15/22 stackType will also store to albumName.. interface is labelled album
-    var albumName: String?
+    var stackName = "stack"
+    var stackType = "stackType"
+        // 2/15/22 stackType will also store to albumName.. interface is labelled album
+    var albumName = "stackType"
     var storeToPhoto = false
     var shouldSaveAs = false
     var saveSessionUUID = UUID()
+    var existingStackTypes =  [String]()
+    
 
 }
 
@@ -181,9 +184,10 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
     fileprivate func saveAction() {
         var saveData = PGLStackSaveData()
         // ensure that trailing spaces are removed.. here?
-        saveData.stackName = userEnteredStackName
-        saveData.stackType = userEnteredStackType
-        saveData.albumName = userEnteredStackType // 2/15/22 stack type now labelled album
+        saveData.stackName = userEnteredStackName ?? ""
+        saveData.stackType = userEnteredStackType ?? ""
+        saveData.albumName = userEnteredStackType ?? ""
+            // 2/15/22 stack type now labelled album
         saveData.storeToPhoto = shouldStoreToPhotos
         saveData.shouldSaveAs = doSaveAs
         incrementSaveCountForAppReview()

@@ -12,6 +12,7 @@ import GLKit
 import MetalKit
 import Photos
 import os
+import SwiftUI
 
 enum PGLFilterPick: Int {
     case category = 0, filter
@@ -155,12 +156,39 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
-        guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
+//        guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
+//        else {
+//            return
+//        }
+
+//        saveDialogController.doSaveAs = false
+//        presentSaveDialog(saveDialogController: saveDialogController)
+        @State var theSaveData = PGLStackSaveData()
+        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
         else {
+            Logger(subsystem: LogSubsystem, category: LogCategory).fault( "PGLSaveDialogController viewDidLoad fatalError(AppDelegate not loaded")
             return
         }
-        saveDialogController.doSaveAs = false
-        presentSaveDialog(saveDialogController: saveDialogController)
+
+
+        let targetStack =  appStack.outputFilterStack()
+            // a new save session reset the saveSessionUUID
+        targetStack.saveSessionUUID = nil
+        theSaveData.stackName  = targetStack.stackName
+        theSaveData.stackType =  targetStack.stackType
+            //        albumName.text  = targetStack.exportAlbumName
+
+
+        if let sections = appStack.dataProvider.fetchedResultsController.sections {
+            theSaveData.existingStackTypes = sections.map({$0.name})
+        } else
+        { theSaveData.existingStackTypes = [String]() }
+        let saveDialog = PGLSaveDialog(saveData: theSaveData)
+        let hostingController = UIHostingController(rootView: saveDialog)
+
+
+        presentSaveSwiftUIDialog(saveDialogController: hostingController)
+        
 
         updateNavigationBar()
 
@@ -202,6 +230,33 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
        present(pickStoredStackViewController, animated: true )
 
         }
+
+
+    func presentSaveSwiftUIDialog(saveDialogController: UIHostingController<PGLSaveDialog>){
+        // assumes shouldSaveAs mode is correctly set in the controller
+
+        saveDialogController.sizingOptions = .preferredContentSize
+        saveDialogController.modalPresentationStyle = .popover
+//        saveDialogController.preferredContentSize = CGSize(width: 250, height: 100.0)
+
+        guard let popOverPresenter = saveDialogController.popoverPresentationController
+        else { return }
+        popOverPresenter.canOverlapSourceViewRect = false // or barButtonItem
+        popOverPresenter.delegate = self
+//        popOverPresenter.popoverLayoutMargins = UIEdgeInsets.zero
+            // default is 10 points inset from device edges
+//        popOverPresenter.sourceView = view
+        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+        sheet.detents = [.medium(), .large()]
+            // large needed for compactHeight  (iPhone 14 Pro)
+
+//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        sheet.prefersEdgeAttachedInCompactHeight = true
+        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
+        popOverPresenter.barButtonItem = moreBtn
+         present(saveDialogController, animated: true )
+    }
 
 
     func presentSaveDialog(saveDialogController: PGLSaveDialogController){
@@ -612,8 +667,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                         // put the new names into the stack
                     guard let targetStack = self?.appStack.firstStack()
                     else { return }
-                    targetStack.stackName = userValues.stackName!
-                    targetStack.stackType = userValues.stackType!
+                    targetStack.stackName = userValues.stackName
+                    targetStack.stackType = userValues.stackType
                     targetStack.exportAlbumName = userValues.albumName
                     targetStack.shouldExportToPhotos = userValues.storeToPhoto
 

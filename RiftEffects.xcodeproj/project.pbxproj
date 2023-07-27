@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A303930F27AADED800E2A3D4 /* PGLCompactPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */; };
+		A303C7582A6AF374005C078D /* PGLSaveDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A303C7572A6AF374005C078D /* PGLSaveDialog.swift */; };
 		A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A308939E251E977400F244D6 /* Launch Screen.storyboard */; };
 		A316B9E425D9AD25000C8299 /* PGLDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */; };
 		A3181C042974C84F00834D89 /* PGLNeedsRedraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */; };
@@ -130,6 +131,7 @@
 		A3C11A8B29E9D9F5001D0831 /* PGLPersonSegmentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */; };
 		A3CA2BFF295A01FD00502A8A /* PGLConvolutionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
+		A3D5640E2A71749F002C2463 /* PGLSaveStackForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D5640D2A71749F002C2463 /* PGLSaveStackForm.swift */; };
 		A3D9FF09292A9EFE00BAE158 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */; };
 		A3D9FF0B292A9F1400BAE158 /* Quad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D9FF0A292A9F1400BAE158 /* Quad.swift */; };
 		A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC264E2698FD83003E48C2 /* PGLImageController.swift */; };
@@ -167,6 +169,7 @@
 
 /* Begin PBXFileReference section */
 		A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCompactPresentationController.swift; sourceTree = "<group>"; };
+		A303C7572A6AF374005C078D /* PGLSaveDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveDialog.swift; sourceTree = "<group>"; };
 		A308939E251E977400F244D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLDataStoreTests.swift; sourceTree = "<group>"; };
 		A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLNeedsRedraw.swift; sourceTree = "<group>"; };
@@ -300,6 +303,7 @@
 		A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPersonSegmentation.swift; sourceTree = "<group>"; };
 		A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLConvolutionFilter.swift; sourceTree = "<group>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
+		A3D5640D2A71749F002C2463 /* PGLSaveStackForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaveStackForm.swift; sourceTree = "<group>"; };
 		A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
 		A3D9FF0A292A9F1400BAE158 /* Quad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quad.swift; sourceTree = "<group>"; };
 		A3DC264E2698FD83003E48C2 /* PGLImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageController.swift; sourceTree = "<group>"; };
@@ -546,6 +550,8 @@
 				A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */,
 				A39AB51D25E2B2C2004690F7 /* PGLSaveDialogController.swift */,
 				A340DAB52A6887FD00C530F3 /* PGLStackTypeList.swift */,
+				A303C7572A6AF374005C078D /* PGLSaveDialog.swift */,
+				A3D5640D2A71749F002C2463 /* PGLSaveStackForm.swift */,
 				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
 				A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */,
 				A3BF50B224D32A3400CD5114 /* PGLImagesSelectContainer.swift */,
@@ -808,6 +814,7 @@
 				A3BF50FD24D32A3400CD5114 /* PGLFilterCategory.swift in Sources */,
 				A3BF514724D32A3400CD5114 /* PGLFilterCIAbstract.swift in Sources */,
 				A39466802832DFDD00A67319 /* PGLStackImageContainerController.swift in Sources */,
+				A3D5640E2A71749F002C2463 /* PGLSaveStackForm.swift in Sources */,
 				A35FF77E26DC346200D78252 /* PGLCoreData+Defns.swift in Sources */,
 				A3C11A8B29E9D9F5001D0831 /* PGLPersonSegmentation.swift in Sources */,
 				A39466822832E30A00A67319 /* PGLSupplementNavController.swift in Sources */,
@@ -820,6 +827,7 @@
 				A3BF513B24D32A3400CD5114 /* GridViewCell.swift in Sources */,
 				A3BF50FA24D32A3400CD5114 /* PGLBumpFaceCIFilter.swift in Sources */,
 				A3BF512F24D32A3400CD5114 /* PGLFilterAttribute.swift in Sources */,
+				A303C7582A6AF374005C078D /* PGLSaveDialog.swift in Sources */,
 				A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */,
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3DDDEE729D85EF1003B8545 /* PGLFilterAttrChildStack.swift in Sources */,
