@@ -144,10 +144,12 @@ class PGLStackImageContainerController: UIViewController {
                 // self.saveStackAlert(self.moreBtn)
             self.containerImageController?.saveStackActionBtn(self.moreBtn)
         },
-            UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
+
+            UIAction(title: "Export to Photos", image:UIImage(systemName: "pencil.circle")) {
             action in
-            self.containerImageController?.saveStackAsActionBtn(self.moreBtn)
+            self.containerImageController?.saveToPhotoLibrary()
         },
+
             UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.containerImageController?.displayPrivacyPolicy(self.moreBtn)

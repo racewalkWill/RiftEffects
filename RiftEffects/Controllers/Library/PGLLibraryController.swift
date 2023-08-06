@@ -73,7 +73,7 @@ extension PGLLibraryController {
         constraints.append(contentsOf: NSLayoutConstraint.constraints(
             withVisualFormat: "H:|[searchBar]|", options: [], metrics: nil, views: views))
         constraints.append(contentsOf: NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[searchBar]-20-[cv]|", options: [], metrics: nil, views: views))
+            withVisualFormat: "V:[searchBar]-0-[cv]|", options: [], metrics: nil, views: views))
         constraints.append(searchBar.topAnchor.constraint(
             equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0))
         NSLayoutConstraint.activate(constraints)

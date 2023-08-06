@@ -68,7 +68,7 @@ class PGLFilterStack  {
     var stackType = "type"
     var exportAlbumName: String?
     var exportAlbumIdentifier: String?
-    var shouldExportToPhotos = false // default
+
     var stackMode = FilterChangeMode.add
         // StackController will change this to .replace if swipe cell command "Change" runs
 

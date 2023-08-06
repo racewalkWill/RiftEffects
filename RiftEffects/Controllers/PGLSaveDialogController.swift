@@ -83,11 +83,13 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
 
     @IBAction func stackNameEditChange(_ sender: UITextField) {
         userEnteredStackName = sender.text
+        doSaveAs = true
 
     }
 
     @IBAction func stackTypeEditChange(_ sender: UITextField) {
         userEnteredStackType = sender.text
+        doSaveAs = true
     }
 
 //    @IBAction func albumNameEditChange(_ sender: UITextField) {

@@ -281,6 +281,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         self.appStack.saveStack(metalRender: self.metalController!.metalRender)
     }
 
+    func saveToPhotoLibrary() {
+        self.appStack.saveToPhotoLibrary(metalRender: self.metalController!.metalRender)
+    }
+
 
     @IBAction func newStackActionBtn(_ sender: UIBarButtonItem) {
         // confirm user action if current stack is not saved
@@ -509,9 +513,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             action in
             self.saveStackActionBtn(self.moreBtn)
         },
-          UIAction(title: "Save As..", image:UIImage(systemName: "pencil.circle")) {
+          UIAction(title: "Export to Photos", image:UIImage(systemName: "pencil.circle")) {
             action in
-            self.saveStackAsActionBtn(self.moreBtn)
+            self.saveToPhotoLibrary()
         },
           UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
@@ -614,7 +618,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                     targetStack.stackName = userValues.stackName!
                     targetStack.stackType = userValues.stackType!
                     targetStack.exportAlbumName = userValues.albumName
-                    targetStack.shouldExportToPhotos = userValues.storeToPhoto
+//                    targetStack.shouldExportToPhotos = userValues.storeToPhoto
 
                     // in iPhone there are multiple imageControllers getting the same
                     // notification. If the stack already has the same save data object

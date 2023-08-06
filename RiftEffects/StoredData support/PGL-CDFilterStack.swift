@@ -649,26 +649,32 @@ extension PGLAppStack {
 //        NSLog("PGLAppStack #saveStack start")
 //        let serialQueue = DispatchQueue(label: "queue", qos: .utility, attributes: [], autoreleaseFrequency: .workItem, target: nil)
 //        serialQueue.async {
-        let targetStack = self.firstStack()!
+
 //            NSLog("PGLAppStack #saveStack serialQueue execution start")
-        DoNotDraw = true
-        defer {
-            DoNotDraw = false } // executes at the end of this function
-        if targetStack.shouldExportToPhotos {
-            switch metalRender.currentPhotoFileFormat {
-                case .JPEG:
-                    self.saveJPEGToPhotosLibrary(stack: targetStack, metalRender: metalRender)
-                case .HEIF:
-                    self.saveToHEIFPhotosLibrary(stack: targetStack, metalRender: metalRender)
-                default:
-                    return // not supported format??
-            }
-//           NSLog("PGLAppStack #saveStack calls writeCDStacks")
-        }
+
         // there is a guard for unsaved changes in
         // the moContext save
         // okay if writeCDStacks is called from multiple imageControllers
+
+        DoNotDraw = true
+        defer {
+            DoNotDraw = false }
         self.writeCDStacks()
+    }
+
+    func saveToPhotoLibrary(metalRender: Renderer) {
+        let targetStack = self.firstStack()!
+        DoNotDraw = true
+        defer {
+            DoNotDraw = false } // executes at the end of this function
+        switch metalRender.currentPhotoFileFormat {
+            case .JPEG:
+                self.saveJPEGToPhotosLibrary(stack: targetStack, metalRender: metalRender)
+            case .HEIF:
+                self.saveToHEIFPhotosLibrary(stack: targetStack, metalRender: metalRender)
+            default:
+                return // not supported format??
+        }
     }
 
     fileprivate func fetchExistingAlbum(_ stack: PGLFilterStack, _ assetCollection: inout PHAssetCollection?) {
@@ -739,7 +745,6 @@ extension PGLAppStack {
         fetchExistingAlbum(stack, &assetCollection)
         // ======== move album logic to method
 
-        if stack.shouldExportToPhotos {
                // Add the asset to the photo library
                 // album name may not be entered or used if limited photo library access
             do {
@@ -752,9 +757,6 @@ extension PGLAppStack {
                 return
             }
             photoLibPerformHEIFChange(stack, heifData, assetCollection)
-
-        }
-
 
            }
 
@@ -799,7 +801,6 @@ extension PGLAppStack {
 
         fetchExistingAlbum(stack, &assetCollection)
 
-        if stack.shouldExportToPhotos {
                // Add the asset to the photo library
                 // album name may not be entered or used if limited photo library access
             do {
@@ -813,9 +814,6 @@ extension PGLAppStack {
             }
 
             photoLibPerformJPEGChange(uiImageOutput, assetCollection, stack)
-
-        }
-
 
            }
 
