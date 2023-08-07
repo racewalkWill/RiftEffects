@@ -29,6 +29,10 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     var longPressStart: IndexPath?
     var segueStarted = false  // set to true during prepareFor segue
 
+    enum StackSections: Int {
+        case header = 0
+        case filters = 1
+    }
 
     // MARK: View LifeCycle
     override func viewDidLoad() {
@@ -113,33 +117,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
     }
 
-    func pushStackImageContainer() -> Bool {
-        // NOT called - Remove
 
-        let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
-                                && (traitCollection.horizontalSizeClass == .compact)
-
-        if iPhoneCompact {
-            // either loaded by the supplementary nav controller OR
-            // loaded as a content area in the two content container for stack & image controller
-//            let isInsideContainer = parent is PGLStackImageContainerController
-
-            let hasLoadedStackController = parent is PGLStackImageContainerController
-
-            if !hasLoadedStackController {
-                Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
-
-                if let  stackImageController = storyboard?.instantiateViewController(withIdentifier: "PGLStackImageContainerController") as? PGLStackImageContainerController {
-                    navigationController?.pushViewController(stackImageController, animated: true)
-                    return true
-                }
-            else {
-                return false
-                }
-            }
-        }
-        return false
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         appStack.postSelectActiveStackRow()
@@ -293,14 +271,14 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
 
     func selectActiveFilterRow() {
-        // assumes only one section  section zero
-        
-        if tableView.numberOfRows(inSection: 0 ) == 0 {
+
+        if tableView.numberOfRows(inSection: StackSections.filters.rawValue ) == 0 {
             return
             // empty table.. trashed the stack.. nothing to show..
         }
-        let activeRow = appStack.activeFilterCellRow()
-        let rowPath = IndexPath(row: activeRow, section: 0)
+        guard let activeRow = appStack.activeFilterCellRow()
+            else { return }
+        let rowPath = IndexPath(row: activeRow, section: StackSections.filters.rawValue)
         if appStack.showFilterImage {
 
             tableView.selectRow(at: rowPath, animated: true, scrollPosition: .middle)
@@ -314,24 +292,34 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
     // MARK: - Table view delegate
     override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
-        let targetRow = appStack.activeFilterCellRow()
-        return IndexPath(row: targetRow, section: 0)
+        guard let targetRow = appStack.activeFilterCellRow()
+        else { return nil }
+        return IndexPath(row: targetRow, section: StackSections.filters.rawValue)
     }
     
     // MARK: Table Setup
     override func numberOfSections(in tableView: UITableView) -> Int {
         //  return the number of sections
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //  return the number of rows
-        let rowCount = appStack.flatRowCount()
-        return rowCount
+        switch section {
+            case 0:
+                return 2
+                // header has stackName, type
+            case 1:
+                return appStack.flatRowCount()
+            default:
+                return 0
+        }
+
     }
 
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    fileprivate func filterCellFor(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        // filter cell section
         let cell = tableView.dequeueReusableCell(withIdentifier: "filterRowCell", for: indexPath)
         let aFilterIndent = appStack.filterAt(indexPath: indexPath)
 
@@ -341,18 +329,18 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         if aFilterIndent.stack is PGLSequenceStack {
             cell.imageView?.image = PGLFilterAttribute.SequenceSymbol }
 
-            else {
-                switch aFilterIndent.level {
-                    case 0:
-                        cell.imageView?.image = PGLFilterAttribute.TopStackSymbol
-                    default:
-                        cell.imageView?.image = PGLFilterAttribute.ChildStackSymbol
-                }
+        else {
+            switch aFilterIndent.level {
+                case 0:
+                    cell.imageView?.image = PGLFilterAttribute.TopStackSymbol
+                default:
+                    cell.imageView?.image = PGLFilterAttribute.ChildStackSymbol
             }
+        }
 
         if aFilterIndent.stack === appStack.viewerStack {
             if appStack.showFilterImage {
-                // single filter mode
+                    // single filter mode
                 if aFilterIndent.stack is PGLSequenceStack {
                     cell.imageView?.image = PGLFilterAttribute.SequenceSymbolFilled
                 }
@@ -361,15 +349,52 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
             }
         }
 
-        // Configure the cell...
+            // Configure the cell...
         if appStack.isImageControllerOpen {
-            // disable the detail disclosure button until the image controller shows
-            // other controllers in the detail are the PGLAssetGridController and the PGLAssetController
-            // these select an image or imageList for image parms
-//            cell.accessoryType = .detailDisclosureButton
+                // disable the detail disclosure button until the image controller shows
+                // other controllers in the detail are the PGLAssetGridController and the PGLAssetController
+                // these select an image or imageList for image parms
+                //            cell.accessoryType = .detailDisclosureButton
         } else { cell.accessoryType = .none}
 
         return cell
+    }
+    override func tableView( _ tableView: UITableView, titleForHeaderInSection section: Int ) -> String? {
+        switch section {
+            case 0:
+                // header
+                return "About"
+            default:
+                return "Filters"
+        }
+    }
+    fileprivate func headerCellFor(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+            // header
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StackInfoHeader", for: indexPath)
+
+        let myStack = appStack.outputStack
+        switch indexPath.row {
+            case 0 :
+                cell.textLabel?.text = "Stack:"
+                cell.detailTextLabel?.text = myStack.stackName
+            case 1 :
+                cell.textLabel?.text = "Album:"
+                cell.detailTextLabel?.text = myStack.stackType
+            default :
+                cell.textLabel?.text = "n/a"
+        }
+
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+            case StackSections.header.rawValue :
+                return headerCellFor(tableView, indexPath)
+            default:
+                return filterCellFor(tableView, indexPath)
+        }
+
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

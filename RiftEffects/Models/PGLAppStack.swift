@@ -325,7 +325,8 @@ class PGLAppStack {
 
     func moveActiveAhead() {
         // called before the postSelectActiveStackRow
-        let startingActiveRow = activeFilterCellRow()
+        guard let startingActiveRow = activeFilterCellRow()
+            else { return }
             // viewerStackRow in cellFilters
         let endRow = flatRowCount() - 1 // zero based array
         if startingActiveRow  == endRow {
@@ -338,7 +339,9 @@ class PGLAppStack {
 
     func moveActiveBack() {
         // called before the postSelectActiveStackRow
-        let startingActiveRow = activeFilterCellRow()
+
+        guard let startingActiveRow = activeFilterCellRow()
+            else { return }
 //        let endRow = flatRowCount() - 1 // zero based array
         if startingActiveRow  == 0 {
             return  // don't change now at start
@@ -411,9 +414,10 @@ class PGLAppStack {
 
     }
 
-    func activeFilterCellRow() -> Int {
+    func activeFilterCellRow() -> Int? {
         // answer the cellFilter index for the appStack viewerStack.activeIndex
-
+        if viewerStack.isEmptyStack() {
+            return nil }
         let viewerActiveIndex = viewerStack.activeFilterIndex
         return cellFilters.firstIndex(where: {$0.stack === viewerStack && $0.filterPosition == viewerActiveIndex}) ?? 0
     }

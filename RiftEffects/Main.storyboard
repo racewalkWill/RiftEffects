@@ -1072,11 +1072,11 @@
                         <viewControllerLayoutGuide type="bottom" id="j3d-oc-3aS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vua-Lu-kpo">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="760"/>
+                        <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
-                                <rect key="frame" x="-7" y="714" width="1192" height="46"/>
+                                <rect key="frame" x="-7" y="714" width="237" height="46"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="rij-Pi-lzb"/>
@@ -1169,6 +1169,30 @@
                                             <rect key="frame" x="16" y="0.0" width="188.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StackInfoHeader" editingAccessoryType="detailButton" textLabel="8pe-LU-wTw" detailTextLabel="NbR-cn-18k" style="IBUITableViewCellStyleValue1" id="H8p-vc-S9d">
+                                <rect key="frame" x="0.0" y="93.5" width="239" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="H8p-vc-S9d" id="8lB-XM-tyu">
+                                    <rect key="frame" x="0.0" y="0.0" width="239" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8pe-LU-wTw">
+                                            <rect key="frame" x="16" y="17" width="26.5" height="16"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NbR-cn-18k">
+                                            <rect key="frame" x="172.5" y="10" width="50.5" height="24"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -1365,7 +1389,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="4FJ-we-3bf"/>
+        <segue reference="cxI-vr-Pxp"/>
         <segue reference="upL-2v-qbI"/>
         <segue reference="HUk-NN-bR8"/>
         <segue reference="Xyz-2Z-Q4q"/>
