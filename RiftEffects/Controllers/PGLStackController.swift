@@ -29,6 +29,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     var longPressStart: IndexPath?
     var segueStarted = false  // set to true during prepareFor segue
 
+
     enum StackSections: Int {
         case header = 0
         case filters = 1
@@ -114,6 +115,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
                 self.performSegue(withIdentifier: "showFilterController" , sender: nil)
             }
         }
+        let stackInfoHeaderCellNib = UINib(nibName: PGLStackInfoHeader.nibName, bundle: nil)
+        tableView.register(stackInfoHeaderCellNib ,forCellReuseIdentifier: PGLStackInfoHeader.reuseIdentifer)
 
     }
 
@@ -370,18 +373,21 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     }
     fileprivate func headerCellFor(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
             // header
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StackInfoHeader", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PGLStackInfoHeader.reuseIdentifer, for: indexPath) as? PGLStackInfoHeader
+        else {
+            fatalError("PGLStackController headerCell did not load")
+        }
 
         let myStack = appStack.outputStack
         switch indexPath.row {
             case 0 :
-                cell.textLabel?.text = "Stack:"
-                cell.detailTextLabel?.text = myStack.stackName
+                cell.cellLabel.text = "Title:"
+                cell.userText.text = myStack.stackName
             case 1 :
-                cell.textLabel?.text = "Album:"
-                cell.detailTextLabel?.text = myStack.stackType
+                cell.cellLabel.text = "Album:"
+                cell.userText.text = myStack.stackType
             default :
-                cell.textLabel?.text = "n/a"
+                cell.cellLabel?.text = "n/a"
         }
 
         return cell
@@ -688,6 +694,12 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     // MARK: editing support
 
          override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+             if indexPath.section == StackSections.header.rawValue {
+                 // disable the header delete, move edits
+                 return false
+             } else {
+                 return true
+             }
              return true
          }
 
@@ -699,6 +711,8 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 //                apply(snapshot)
             }
         }
+
+
     // MARK: reordering support
 
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {

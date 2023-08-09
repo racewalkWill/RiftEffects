@@ -129,6 +129,8 @@
 		A3C11A8B29E9D9F5001D0831 /* PGLPersonSegmentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */; };
 		A3CA2BFF295A01FD00502A8A /* PGLConvolutionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
+		A3D04B142A8444A300E6DB16 /* PGLStackInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D04B122A8444A300E6DB16 /* PGLStackInfoHeader.swift */; };
+		A3D04B152A8444A300E6DB16 /* PGLStackInfoHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3D04B132A8444A300E6DB16 /* PGLStackInfoHeader.xib */; };
 		A3D9FF09292A9EFE00BAE158 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */; };
 		A3D9FF0B292A9F1400BAE158 /* Quad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D9FF0A292A9F1400BAE158 /* Quad.swift */; };
 		A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC264E2698FD83003E48C2 /* PGLImageController.swift */; };
@@ -298,6 +300,8 @@
 		A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPersonSegmentation.swift; sourceTree = "<group>"; };
 		A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLConvolutionFilter.swift; sourceTree = "<group>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
+		A3D04B122A8444A300E6DB16 /* PGLStackInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackInfoHeader.swift; sourceTree = "<group>"; };
+		A3D04B132A8444A300E6DB16 /* PGLStackInfoHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGLStackInfoHeader.xib; sourceTree = "<group>"; };
 		A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
 		A3D9FF0A292A9F1400BAE158 /* Quad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quad.swift; sourceTree = "<group>"; };
 		A3DC264E2698FD83003E48C2 /* PGLImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageController.swift; sourceTree = "<group>"; };
@@ -449,6 +453,7 @@
 				A3F1075625604EB1005E86B4 /* cell xib */,
 				A3BF506624D32A3400CD5114 /* TextCell.swift */,
 				A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */,
+				A3D04B122A8444A300E6DB16 /* PGLStackInfoHeader.swift */,
 				A3BF506924D32A3400CD5114 /* TitleSupplementaryView.swift */,
 				A3BF506A24D32A3400CD5114 /* StackDataCell.swift */,
 				A3BF506B24D32A3400CD5114 /* LICENSE.txt */,
@@ -628,6 +633,7 @@
 			children = (
 				A3BF50A424D32A3400CD5114 /* StackCell.xib */,
 				A3BF506124D32A3400CD5114 /* TableCell.xib */,
+				A3D04B132A8444A300E6DB16 /* PGLStackInfoHeader.xib */,
 			);
 			path = "cell xib";
 			sourceTree = "<group>";
@@ -740,6 +746,7 @@
 				A3BF512C24D32A3400CD5114 /* StackCell.xib in Resources */,
 				A3BF510224D32A3400CD5114 /* Main.storyboard in Resources */,
 				A320F62A26699FA8008F6090 /* PrivacyPolicy.rtf in Resources */,
+				A3D04B152A8444A300E6DB16 /* PGLStackInfoHeader.xib in Resources */,
 				A3BF50F024D32A3400CD5114 /* TableCell.xib in Resources */,
 				A3BF50F124D32A3400CD5114 /* Assets.xcassets in Resources */,
 				A3E6243D2691261A0017372F /* Settings.bundle in Resources */,
@@ -799,6 +806,7 @@
 				A3BF50EF24D32A3400CD5114 /* PGLMainFilterController.swift in Sources */,
 				A3BF50E924D32A3400CD5114 /* PGLTableCellAction.swift in Sources */,
 				A3BF50DB24D32A3400CD5114 /* PGL-CDFilterStack.swift in Sources */,
+				A3D04B142A8444A300E6DB16 /* PGLStackInfoHeader.swift in Sources */,
 				A3BF513724D32A3400CD5114 /* PGLDiffableDataSource.swift in Sources */,
 				A3BF510124D32A3400CD5114 /* PGLFaceTiltShift.swift in Sources */,
 				A3BF50E724D32A3400CD5114 /* PGLMetalController.swift in Sources */,
