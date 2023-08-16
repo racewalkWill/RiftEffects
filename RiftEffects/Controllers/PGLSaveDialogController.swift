@@ -192,7 +192,7 @@ class PGLSaveDialogController: UIViewController, UITextFieldDelegate {
         }
 
         appStack = myAppDelegate.appStack
-         let targetStack =  appStack.outputFilterStack()
+         let targetStack =  appStack.outputOrViewFilterStack()
         // a new save session reset the saveSessionUUID
         targetStack.saveSessionUUID = nil
         stackName.text  = targetStack.stackName

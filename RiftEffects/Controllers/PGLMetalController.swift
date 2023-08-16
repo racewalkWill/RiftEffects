@@ -40,7 +40,7 @@ class PGLMetalController: UIViewController {
                 return
         }
         appStack = myAppDelegate.appStack
-        filterStack = { self.appStack.outputFilterStack() }
+        filterStack = { self.appStack.outputOrViewFilterStack() }
 
         metalRender = appStack.appRenderer
         metalRender.set(metalView: metalView)

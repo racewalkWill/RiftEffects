@@ -141,7 +141,7 @@ class Renderer: NSObject {
     convenience init(globalAppStack: PGLAppStack) {
         self.init()
         appStack = globalAppStack
-        filterStack = { self.appStack.outputFilterStack() }
+        filterStack = { self.appStack.outputOrViewFilterStack() }
     }
     
     func set(metalView: MTKView) {

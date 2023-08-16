@@ -12,7 +12,7 @@ import os
 
 let PGLShowStackImageContainer = NSNotification.Name(rawValue: "PGLShowStackImageContainer")
 
-class PGLStackController: UITableViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate {
+class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate {
     // tableview of the filters in the stack
     // opens on cell select the masterFilterController to pick new filter
     // on swipe cell "Parms" opens parmController to change filter parms
@@ -28,11 +28,17 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     var longPressGesture: UILongPressGestureRecognizer!
     var longPressStart: IndexPath?
     var segueStarted = false  // set to true during prepareFor segue
+    var headerHasChanged = false //  name or album changed
 
 
     enum StackSections: Int {
         case header = 0
         case filters = 1
+    }
+
+    enum StackHeaderCell: Int {
+        case title = 0
+        case album = 1
     }
 
     // MARK: View LifeCycle
@@ -75,13 +81,12 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
-//            if  (!self.isBeingPresented)  {
-                //&& (self.splitViewController?.isCollapsed ?? false)
-//                return
-//            }
+
             self.appStack = myAppDelegate.appStack
             self.updateDisplay()
         }
+
+
 
         myCenter.addObserver(forName: PGLSelectActiveStackRow, object: nil , queue: queue) { [weak self]
             myUpdate in
@@ -123,7 +128,7 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
 
     override func viewWillAppear(_ animated: Bool) {
-        appStack.postSelectActiveStackRow()
+//        appStack.postSelectActiveStackRow()
         if traitCollection.horizontalSizeClass == .compact {
             modalPresentationStyle = .formSheet
             let myPresentation =  presentationController
@@ -170,6 +175,25 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
 
 
+    }
+
+    ///Save
+    func saveStack() {
+        var saveData = PGLStackSaveData()
+        var thisStack = appStack.outputStack
+        saveData.shouldSaveAs = headerHasChanged
+            // on changed name or changed album save as new stack
+
+        // following should be removed after modification
+        // of the save to use the user entered values in the
+        // model object
+
+        saveData.stackName = thisStack.stackName
+        saveData.albumName = thisStack.stackType
+        saveData.stackType = thisStack.stackType
+
+        let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
+        NotificationCenter.default.post(stackNotification )
     }
 
     // MARK: ToolBar
@@ -380,12 +404,17 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
 
         let myStack = appStack.outputStack
         switch indexPath.row {
-            case 0 :
+            case StackHeaderCell.title.rawValue :
                 cell.cellLabel.text = "Title:"
                 cell.userText.text = myStack.stackName
-            case 1 :
+                cell.userText.delegate = self
+                cell.tag = StackHeaderCell.title.rawValue
+
+            case StackHeaderCell.album.rawValue :
                 cell.cellLabel.text = "Album:"
                 cell.userText.text = myStack.stackType
+                cell.userText.delegate = self
+                cell.tag = StackHeaderCell.album.rawValue
             default :
                 cell.cellLabel?.text = "n/a"
         }
@@ -406,16 +435,21 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         // go to Parms of the filter
-
-        let cellIndent = appStack.cellFilters[indexPath.row]
-        appStack.moveTo(filterIndent: cellIndent)
-            // sets the appStack viewerStack and the current filter of the viewerStac,
-//        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
-//                            (traitCollection.horizontalSizeClass == .compact)
-        if splitViewController?.isCollapsed ?? false {
-            performSegue(withIdentifier: "twoContainers", sender: self)
-        } else {
-            performSegue(withIdentifier: "ParmSettings", sender: self)
+        if indexPath.section == StackSections.header.rawValue {
+            // no segue naviation on header cells
+            return
+        }
+        if !appStack.cellFilters.isEmpty {
+            let cellIndent = appStack.cellFilters[indexPath.row]
+            appStack.moveTo(filterIndent: cellIndent)
+                // sets the appStack viewerStack and the current filter of the viewerStac,
+                //        let iPhoneCompact = (traitCollection.userInterfaceIdiom == .phone) &&
+                //                            (traitCollection.horizontalSizeClass == .compact)
+            if splitViewController?.isCollapsed ?? false {
+                performSegue(withIdentifier: "twoContainers", sender: self)
+            } else {
+                performSegue(withIdentifier: "ParmSettings", sender: self)
+            }
         }
 
     
@@ -808,5 +842,40 @@ class PGLStackController: UITableViewController, UINavigationControllerDelegate,
         // Pass the selected object to the new view controller.
     }
     */
+
+}
+
+/// UITextFieldDelegate Header cells text editing
+extension PGLStackController {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let thisStack = appStack.viewerStackOrPushedFirstStack()
+            else { return }
+            // first stack is the highest level.. not a child stack
+
+        switch textField.tag {
+            case StackHeaderCell.title.rawValue:
+                if textField.text == thisStack.stackName { return }
+                thisStack.stackName = textField.text ?? ""
+                postStackNameChange()
+            case StackHeaderCell.album.rawValue:
+                if textField.text == thisStack.stackType { return }
+                thisStack.stackType = textField.text ?? ""
+                thisStack.exportAlbumName = thisStack.stackType
+                // stackNameChange does not need to update the imageController header if the album changes
+            default:
+                return
+        }
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLStackController textFieldDidEndEditing name - \(thisStack.stackName) type - \(thisStack.stackType) ")
+        appStack.headerHasChanged = true
+
+    }
+
+    func postStackNameChange() {
+
+        // trigger the imageController  to refresh
+        let stackNotification = Notification(name:PGLStackNameChange)
+        NotificationCenter.default.post(stackNotification)
+
+    }
 
 }

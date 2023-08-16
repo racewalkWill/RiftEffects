@@ -573,7 +573,7 @@ extension PGLImageList {
 
 // ================ start extension PGLAppStack =========================
 extension PGLAppStack {
-     func firstStack() -> PGLFilterStack? {
+     func viewerStackOrPushedFirstStack() -> PGLFilterStack? {
         if pushedStacks.isEmpty {
           return  viewerStack
         } else { return pushedStacks.first}
@@ -595,28 +595,21 @@ extension PGLAppStack {
         // filter image inputs are nil for core data then restored on completion
         
 
-        if let initialStack = self.firstStack() {
+        if let initialStack =  self.viewerStackOrPushedFirstStack() {
             guard let dataViewContext = dataProvider.providerManagedObjectContext
-                else { userSaveErrorAlert(withError: (savePhotoError.nilReturn))
+            else { userSaveErrorAlert(withError: (savePhotoError.nilReturn))
                 return
             }
             let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
 
             dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
-            // post notification to update PGLOpenStackViewController
-            // with the new or updated stack
-            // send only the objectID to the main UI process
+                // post notification to update PGLOpenStackViewController
+                // with the new or updated stack
+                // send only the objectID to the main UI process
 
             let stackHasSavedNotification = Notification(name: PGLStackHasSavedNotification, object: nil, userInfo: [ "stackObjectID": myCDStack.objectID, "stackType" : myCDStack.type as Any])
             NotificationCenter.default.post(stackHasSavedNotification)
-            }
-
-
-      // now restore all the cached input images
-//        if let initialStack = firstStack() {
-//         initialStack.restoreCDstackImageCache()
-//            // bring back the image cache to filter inputs after save runs
-//            }
+        }
     }
 
 
@@ -641,7 +634,7 @@ extension PGLAppStack {
         rollbackStack() // discards any coredata changes
             // or update to persistant state
 
-        firstStack()?.setToNewStack() // create new
+        outputStack.setToNewStack() // create new
     }
 
     func saveStack(metalRender: Renderer) {
@@ -663,7 +656,7 @@ extension PGLAppStack {
     }
 
     func saveToPhotoLibrary(metalRender: Renderer) {
-        let targetStack = self.firstStack()!
+        let targetStack =  self.viewerStackOrPushedFirstStack()!
         DoNotDraw = true
         defer {
             DoNotDraw = false } // executes at the end of this function

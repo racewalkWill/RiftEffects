@@ -233,17 +233,17 @@ class PGLFilterStackTests: XCTestCase {
                 XCTAssert(newMasterStack.currentFilter().filterName == "CIBlendWithMask")
                 XCTAssert((testAppStack.hasParentStack()))
                 XCTAssert(testAppStack.viewerStack === newMasterStack)
-                XCTAssert(testAppStack.outputFilterStack() === filterStack)
+                XCTAssert(testAppStack.outputOrViewFilterStack() === filterStack)
 
 
 
                 testAppStack.showFilterImage = true // change output to the current stack
-                XCTAssert(testAppStack.outputFilterStack() === newMasterStack)
+                XCTAssert(testAppStack.outputOrViewFilterStack() === newMasterStack)
                 testAppStack.showFilterImage = false // change back
 
-                let outputAttributes = testAppStack.outputFilterStack().currentFilter().attributes
+                let outputAttributes = testAppStack.outputOrViewFilterStack().currentFilter().attributes
                 let inputStackAttribute = outputAttributes.filter( {$0.inputStack != nil} ).first
-                let inputFilterPosition = testAppStack.outputFilterStack().activeFilterIndex
+                let inputFilterPosition = testAppStack.outputOrViewFilterStack().activeFilterIndex
                 let testInputStack = inputStackAttribute!.inputStack
                 XCTAssertNotNil(outputAttributes)
                 XCTAssertNotNil(testInputStack)
@@ -251,11 +251,11 @@ class PGLFilterStackTests: XCTestCase {
                 Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter position = \(inputFilterPosition)")
                 Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("attribute \(String(describing: inputStackAttribute)) has inputStack \(String(describing: testInputStack))")
 
-                _ = testAppStack.outputFilterStack().stackName
+                _ = testAppStack.outputOrViewFilterStack().stackName
                  testAppStack.writeCDStacks()
 
                 let newStack = PGLFilterStack()
-                let newStackStored = testAppStack.firstStack()!.storedStack!
+                let newStackStored = testAppStack.viewerStackOrPushedFirstStack()!.storedStack!
                 newStack.on(cdStack: newStackStored)
 
                 newStack.activeFilterIndex = inputFilterPosition

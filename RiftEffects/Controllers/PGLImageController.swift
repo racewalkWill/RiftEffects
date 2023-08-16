@@ -155,14 +155,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
-        guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
-        else {
-            return
-        }
-        saveDialogController.doSaveAs = false
-        presentSaveDialog(saveDialogController: saveDialogController)
-
-        updateNavigationBar()
+       saveStack()
 
     }
 
@@ -266,13 +259,14 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
     }
 
-    func saveStack( newSaveAs: Bool) {
+    func saveStack() {
         if isLimitedPhotoLibAccess() {
-            self.appStack.firstStack()?.exportAlbumName = nil
+            self.appStack.viewerStackOrPushedFirstStack()?.exportAlbumName = nil
         }
-        if newSaveAs {self.appStack.setToNewStack()
-            // set the coredata vars to nil
-            }
+        
+       self.appStack.setToNewStack()
+            // if appStack.headerHasChanged set the coredata vars to nil
+
         splitViewController?.preferredDisplayMode = .secondaryOnly
         // go to full screen to render the save image
         // preferredStatusBarStyle left to user action
@@ -451,7 +445,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
     func updateNavigationBar() {
-        self.navigationItem.title = self.appStack.firstStack()?.stackName
+        self.navigationItem.title = self.appStack.viewerStackOrPushedFirstStack()?.stackName
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -540,22 +534,27 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //            guard let self = self else { return }
                 // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
-//            if  (!self.isBeingPresented)  {
-                // && (self.splitViewController?.isCollapsed ?? false)
-//                return
-//            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackChange") ")
 
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackChange") ")
 
             self?.updateNavigationBar()
             if !(self?.keepParmSlidersVisible ?? false) {
                 self?.hideParmControls()
             }
-
-
-
         }
         notifications[PGLStackChange] = aNotification
+        
+        // PGLStackNameChange
+        aNotification = myCenter.addObserver(forName: PGLStackNameChange, object: nil , queue: queue) {[weak self]
+            myUpdate in
+//            guard let self = self else { return }
+                // a released object sometimes receives the notification
+                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackNameChange") ")
+            self?.updateNavigationBar()
+        }
+
+        notifications[PGLStackNameChange] = aNotification
 
         aNotification =  myCenter.addObserver(forName: PGLCurrentFilterChange , object: nil , queue: queue) { [weak self]
             myUpdate in
@@ -613,19 +612,21 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             if let userDataDict = myUpdate.userInfo {
                 if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
                         // put the new names into the stack
-                    guard let targetStack = self?.appStack.firstStack()
+                    guard let targetStack = self?.appStack.viewerStackOrPushedFirstStack()
                     else { return }
+
+//                     target stack already has the new values
                     targetStack.stackName = userValues.stackName!
                     targetStack.stackType = userValues.stackType!
                     targetStack.exportAlbumName = userValues.albumName
-//                    targetStack.shouldExportToPhotos = userValues.storeToPhoto
+//                   targetStack.shouldExportToPhotos = userValues.storeToPhoto
 
                     // in iPhone there are multiple imageControllers getting the same
                     // notification. If the stack already has the same save data object
                     // then don't reprocess again. Uses object identity to test
 
                     if userValues.saveSessionUUID != targetStack.saveSessionUUID {
-                        self?.saveStack(newSaveAs: userValues.shouldSaveAs)
+                        self?.saveStack()
                             // save stack will create a utility queue to execute.. but should not
                             // kill the utility queue process when this notification callback process ends.
                         
@@ -706,7 +707,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //      view has been typed as MTKView in the PGLView subclass
 //        and the view assigned in the setter of effectView var
 
-        filterStack = { self.appStack.outputFilterStack() }
+        filterStack = { self.appStack.outputOrViewFilterStack() }
 
         if let myMetalControllerView = storyboard!.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController {
             // does the metalView extend under the navigation bar?? change constraints???

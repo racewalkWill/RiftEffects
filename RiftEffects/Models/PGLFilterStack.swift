@@ -65,7 +65,7 @@ class PGLFilterStack  {
     weak var storedStack: CDFilterStack? // managedObject write/read to Core Data
     var thumbnail: UIImage? //  for Core Data store
 
-    var stackType = "type"
+    var stackType = ""
     var exportAlbumName: String?
     var exportAlbumIdentifier: String?
 
@@ -635,7 +635,7 @@ class PGLFilterStack  {
         NotificationCenter.default.post(stackNotification)
 
     }
-   
+
 
     func postTransitionFilterAdd() {
         let updateNotification = Notification(name:PGLTransitionFilterExists)

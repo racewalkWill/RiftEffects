@@ -13,6 +13,8 @@ import CoreData
 
 
 let  PGLStackChange = NSNotification.Name(rawValue: "PGLStackChange")
+let  PGLStackNameChange = NSNotification.Name(rawValue: "PGLStackNameChange")
+
 let PGLSelectActiveStackRow = NSNotification.Name(rawValue: "PGLSelectActiveStackRow")
  // 2021/02/02 PGLSelectActiveStackRow may not be used.. remove?
 enum StackDisplayMode: String {
@@ -24,6 +26,7 @@ class PGLAppStack {
     var outputStack: PGLFilterStack
     var viewerStack = PGLFilterStack()
     var pushedStacks = [PGLFilterStack]()
+    var headerHasChanged = false  // if firstStack name or album is changed
 
     lazy var appRenderer: Renderer = Renderer(globalAppStack: self)
 
@@ -292,7 +295,7 @@ class PGLAppStack {
     }
 
     func getViewerStack() -> PGLFilterStack {
-           // see also similar getOutputStack()
+           // see also similar outputOrViewFilterStack()
             // the return value should not be stored by a caller
             // this value will change to other instances of PGLFilterStack
             // only send messages to the viewStack
@@ -300,7 +303,7 @@ class PGLAppStack {
            return viewerStack
        }
 
-    func outputFilterStack() -> PGLFilterStack {
+    func outputOrViewFilterStack() -> PGLFilterStack {
         // either the masterDataStack (the current one)
         // or the stack for the output image (another stack!)
         if showFilterImage {
