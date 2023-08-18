@@ -408,13 +408,13 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
                 cell.cellLabel.text = "Title:"
                 cell.userText.text = myStack.stackName
                 cell.userText.delegate = self
-                cell.tag = StackHeaderCell.title.rawValue
+                cell.userText.tag = StackHeaderCell.title.rawValue
 
             case StackHeaderCell.album.rawValue :
                 cell.cellLabel.text = "Album:"
                 cell.userText.text = myStack.stackType
                 cell.userText.delegate = self
-                cell.tag = StackHeaderCell.album.rawValue
+                cell.userText.tag = StackHeaderCell.album.rawValue
             default :
                 cell.cellLabel?.text = "n/a"
         }
@@ -847,6 +847,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
 
 /// UITextFieldDelegate Header cells text editing
 extension PGLStackController {
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let thisStack = appStack.viewerStackOrPushedFirstStack()
             else { return }
@@ -865,9 +866,14 @@ extension PGLStackController {
             default:
                 return
         }
-        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLStackController textFieldDidEndEditing name - \(thisStack.stackName) type - \(thisStack.stackType) ")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLStackController textFieldDidEndEditing name - \(thisStack.stackName) type - \(thisStack.stackType) - tag \(textField.tag) ")
         appStack.headerHasChanged = true
 
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        resignFirstResponder()
+        return true
     }
 
     func postStackNameChange() {

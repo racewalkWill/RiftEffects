@@ -155,6 +155,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
 
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
        saveStack()
 
     }
@@ -479,7 +480,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
     func setMoreBtnMenu() {
-            //      if traitCollection.userInterfaceIdiom == .phone {
+
+        // how to close the keyboard if it is open?
+
         let libraryMenu = UIAction.init(title: "Library..", image: UIImage(systemName: "folder"), identifier: PGLImageController.LibraryMenuIdentifier, discoverabilityTitle: "Library", attributes: [], state: UIMenuElement.State.off) {
             action in
             self.openStackActionBtn(self.moreBtn)
