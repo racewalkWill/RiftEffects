@@ -111,6 +111,7 @@ class PGLStackProvider {
     }
 
     func rollback() {
+        ///Removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values. This method does not refetch data from the persistent store or stores.
             providerManagedObjectContext.rollback()
     }
 

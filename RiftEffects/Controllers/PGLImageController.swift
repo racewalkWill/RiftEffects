@@ -160,18 +160,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
 
-    func saveStackAsActionBtn(_ sender: UIBarButtonItem) {
-
-        guard let saveDialogController = storyboard?.instantiateViewController(withIdentifier: "PGLSaveDialogController") as? PGLSaveDialogController
-        else {
-            return
-        }
-        saveDialogController.doSaveAs = true
-        presentSaveDialog(saveDialogController: saveDialogController)
-
-
-
-    }
 
    func openStackActionBtn(_ sender: UIBarButtonItem) {
 
@@ -264,9 +252,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         if isLimitedPhotoLibAccess() {
             self.appStack.viewerStackOrPushedFirstStack()?.exportAlbumName = nil
         }
-        
-       self.appStack.setToNewStack()
-            // if appStack.headerHasChanged set the coredata vars to nil
 
         splitViewController?.preferredDisplayMode = .secondaryOnly
         // go to full screen to render the save image
@@ -480,8 +465,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }
 
     func setMoreBtnMenu() {
-
-        // how to close the keyboard if it is open?
 
         let libraryMenu = UIAction.init(title: "Library..", image: UIImage(systemName: "folder"), identifier: PGLImageController.LibraryMenuIdentifier, discoverabilityTitle: "Library", attributes: [], state: UIMenuElement.State.off) {
             action in

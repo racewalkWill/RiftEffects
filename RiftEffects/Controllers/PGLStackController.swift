@@ -28,7 +28,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
     var longPressGesture: UILongPressGestureRecognizer!
     var longPressStart: IndexPath?
     var segueStarted = false  // set to true during prepareFor segue
-    var headerHasChanged = false //  name or album changed
+
 
 
     enum StackSections: Int {
@@ -128,6 +128,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
 
 
     override func viewWillAppear(_ animated: Bool) {
+
 //        appStack.postSelectActiveStackRow()
         if traitCollection.horizontalSizeClass == .compact {
             modalPresentationStyle = .formSheet
@@ -177,24 +178,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
 
     }
 
-    ///Save
-    func saveStack() {
-        var saveData = PGLStackSaveData()
-        var thisStack = appStack.outputStack
-        saveData.shouldSaveAs = headerHasChanged
-            // on changed name or changed album save as new stack
 
-        // following should be removed after modification
-        // of the save to use the user entered values in the
-        // model object
-
-        saveData.stackName = thisStack.stackName
-        saveData.albumName = thisStack.stackType
-        saveData.stackType = thisStack.stackType
-
-        let stackNotification = Notification(name: PGLStackSaveNotification, object: nil, userInfo: ["dialogData":saveData])
-        NotificationCenter.default.post(stackNotification )
-    }
 
     // MARK: ToolBar
     func addToolBarButtons(toController: UIViewController) {
@@ -734,7 +718,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
              } else {
                  return true
              }
-             return true
+             
          }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -857,17 +841,17 @@ extension PGLStackController {
             case StackHeaderCell.title.rawValue:
                 if textField.text == thisStack.stackName { return }
                 thisStack.stackName = textField.text ?? ""
-                postStackNameChange()
+
             case StackHeaderCell.album.rawValue:
                 if textField.text == thisStack.stackType { return }
                 thisStack.stackType = textField.text ?? ""
                 thisStack.exportAlbumName = thisStack.stackType
-                // stackNameChange does not need to update the imageController header if the album changes
+
             default:
                 return
         }
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLStackController textFieldDidEndEditing name - \(thisStack.stackName) type - \(thisStack.stackType) - tag \(textField.tag) ")
-        appStack.headerHasChanged = true
+       
 
     }
 
@@ -876,12 +860,6 @@ extension PGLStackController {
         return true
     }
 
-    func postStackNameChange() {
 
-        // trigger the imageController  to refresh
-        let stackNotification = Notification(name:PGLStackNameChange)
-        NotificationCenter.default.post(stackNotification)
-
-    }
 
 }

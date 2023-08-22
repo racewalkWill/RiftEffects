@@ -505,7 +505,7 @@ extension PGLOpenStackController {
             if cell == nil {
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "stackCell")
             }
-//           NSLog("DataSource cdFilterStack =  \(cdFilterStack)")
+           NSLog("DataSource cdFilterStack =  \(cdFilterStack)")
             if let cell = cell {
                 cell.textLabel?.text  = cdFilterStack.title
                 cell.detailTextLabel?.text = self.detailTextString(ofObject: cdFilterStack)
@@ -526,20 +526,17 @@ extension PGLOpenStackController {
 
         var snapshot = NSDiffableDataSourceSnapshot<Int, CDFilterStack>()
 
-
         if let sections = dataProvider.fetchedResultsController.sections {
             for index in  0..<sections.count
               {
-                snapshot.appendSections([index])
                 let thisSection = sections[index]
-                if let sectionStacks = thisSection.objects as? [CDFilterStack]
-                {
-                        snapshot.appendItems(sectionStacks)
-
-                }
-
-                 // show empty snapshot
-                 }
+                /// a crash here on if the cache file is corrupt
+                /// delete the app to remove the cache
+                guard let sectionStacks = thisSection.objects as? [CDFilterStack]
+                else { continue}
+                snapshot.appendSections([index])
+                snapshot.appendItems(sectionStacks)
+            }  // for loop that will continue on error in objects
 
         }
         return snapshot

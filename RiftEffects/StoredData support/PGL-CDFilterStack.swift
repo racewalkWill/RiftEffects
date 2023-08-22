@@ -68,25 +68,31 @@ extension PGLFilterStack {
         }
 
 
-    func setToNewStack() {
+    func forceSaveToNewCDVars() {
         for filterIndex in 0..<activeFilters.count {
             let aFilter = activeFilters[filterIndex]
-            aFilter.setToNewImageList()
+            aFilter.forceSaveToNewCDVars()
             aFilter.storedFilter = nil
         }
+        NSLog("PGLFilterStack #forceSaveToNewCDVars name = \(stackName) storedStack = \(String(describing: storedStack))")
         storedStack = nil
     }
     func writeCDStack(moContext: NSManagedObjectContext) -> CDFilterStack {
-//        NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
+        NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
 
-
-            if (storedStack == nil ) { // new stack needed
-                storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
-                storedStack?.created = Date()
-                }
+        if (storedStack == nil ) { // new stack needed
+            storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
+            if (storedStack == nil) { fatalError("FAILED CDFilterStack NSEntityDescription.insertNewObject(forEntityName:")}
+            storedStack?.created = Date()
+            }
             storedStack?.modified = Date()  // modified date may equal created on first save
+        if ((storedStack?.title != stackName ) || (storedStack?.type != stackType)) {
+
             storedStack?.title = stackName
             storedStack?.type = stackType
+            self.forceSaveToNewCDVars() // implied saveAs with the name change
+
+        }
             storedStack?.exportAlbumName = exportAlbumName
             storedStack?.exportAlbumIdentifier = exportAlbumIdentifier
 
@@ -102,7 +108,7 @@ extension PGLFilterStack {
                     let theFilterStoredObject = aFilter.createCDFilterObject(moContext: moContext, stackPosition: Int16(filterIndex))
                     // moves images to cache to reduce storage
                     // does not need to add if the filter exists in the relation already
-                    // storedStack?.addToFilters(theFilterStoredObject)
+                    // storedStack!.addToFilters(theFilterStoredObject)
                     // add at the correct position !
                     storedStack?.addToFilters(theFilterStoredObject)
 
@@ -259,12 +265,13 @@ extension PGLSourceFilter {
     }
 
 //    func readCDImageList(parentStack: PGLFilterStack)
-    func setToNewImageList() {
+    func forceSaveToNewCDVars() {
+        // implied saveAs the top level stack name has changed
         // set all of the core data vars to nil to save as new stack
         if let myImageParms = imageParms() {
             for anImageParm in myImageParms {
                 if let childInputStack = anImageParm.inputStack {
-                    childInputStack.setToNewStack() // will clear child filters
+                    childInputStack.forceSaveToNewCDVars() // will clear child filters
                 }
                 anImageParm.storedParmImage?.inputAssets = nil
                 anImageParm.storedParmImage = nil
@@ -485,6 +492,7 @@ extension PGLFilterAttributeImage {
             if self.storedParmImage?.inputStack == nil {
                 // create a cdFilterStack for the child stack input to the parm
                 if let childCDStack = self.inputStack?.writeCDStack(moContext: moContext) {
+                    NSLog("PGLFilterAttributeImage #createNewCDImageParm created new childStack \(childCDStack)")
                     self.storedParmImage?.inputStack = childCDStack
                 }
                     // store the relationship
@@ -595,21 +603,21 @@ extension PGLAppStack {
         // filter image inputs are nil for core data then restored on completion
         
 
-        if let initialStack =  self.viewerStackOrPushedFirstStack() {
-            guard let dataViewContext = dataProvider.providerManagedObjectContext
-            else { userSaveErrorAlert(withError: (savePhotoError.nilReturn))
-                return
-            }
-            let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
-
-            dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
-                // post notification to update PGLOpenStackViewController
-                // with the new or updated stack
-                // send only the objectID to the main UI process
-
-            let stackHasSavedNotification = Notification(name: PGLStackHasSavedNotification, object: nil, userInfo: [ "stackObjectID": myCDStack.objectID, "stackType" : myCDStack.type as Any])
-            NotificationCenter.default.post(stackHasSavedNotification)
+        let initialStack =  self.outputStack
+        guard let dataViewContext = dataProvider.providerManagedObjectContext
+        else { userSaveErrorAlert(withError: (savePhotoError.nilReturn))
+            return
         }
+        let myCDStack = initialStack.writeCDStack(moContext: dataViewContext)
+
+        dataProvider.saveStack(aStack: myCDStack, in: dataViewContext , shouldSave: true )
+            // post notification to update PGLOpenStackViewController
+            // with the new or updated stack
+            // send only the objectID to the main UI process
+
+        let stackHasSavedNotification = Notification(name: PGLStackHasSavedNotification, object: nil, userInfo: [ "stackObjectID": myCDStack.objectID, "stackType" : myCDStack.type as Any])
+        NotificationCenter.default.post(stackHasSavedNotification)
+
     }
 
 
@@ -634,7 +642,9 @@ extension PGLAppStack {
         rollbackStack() // discards any coredata changes
             // or update to persistant state
 
-        outputStack.setToNewStack() // create new
+         outputStack.forceSaveToNewCDVars() // create new
+//        self.viewerStackOrPushedFirstStack()?.setToNewStack()
+//        self.outputOrViewFilterStack().setToNewStack()
     }
 
     func saveStack(metalRender: Renderer) {

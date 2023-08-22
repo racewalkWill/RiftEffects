@@ -26,7 +26,7 @@ class PGLAppStack {
     var outputStack: PGLFilterStack
     var viewerStack = PGLFilterStack()
     var pushedStacks = [PGLFilterStack]()
-    var headerHasChanged = false  // if firstStack name or album is changed
+  
 
     lazy var appRenderer: Renderer = Renderer(globalAppStack: self)
 
