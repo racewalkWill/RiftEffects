@@ -62,7 +62,7 @@ class PGLFilterStack  {
 
 
     var frameValueDeltas = PGLFilterChange()
-   weak var storedStack: CDFilterStack?
+    var storedStack: CDFilterStack?
         // was weak var managedObject write/read to Core Data
     var thumbnail: UIImage? //  for Core Data store
 

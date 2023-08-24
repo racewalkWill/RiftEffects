@@ -505,7 +505,7 @@ extension PGLOpenStackController {
             if cell == nil {
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "stackCell")
             }
-           NSLog("DataSource cdFilterStack =  \(cdFilterStack)")
+//           NSLog("DataSource cdFilterStack =  \(cdFilterStack)")
             if let cell = cell {
                 cell.textLabel?.text  = cdFilterStack.title
                 cell.detailTextLabel?.text = self.detailTextString(ofObject: cdFilterStack)
