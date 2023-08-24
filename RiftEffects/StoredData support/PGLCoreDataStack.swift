@@ -40,7 +40,7 @@ class CoreDataWrapper {
             fatalError("###\(#function): Failed to retrieve a persistent store description.")
         }
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+//        description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
         description.cloudKitContainerOptions =
                 NSPersistentCloudKitContainerOptions(

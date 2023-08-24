@@ -2,8 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,14 +17,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="cellLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HNG-5Z-J2k">
-                        <rect key="frame" x="16" y="11.666666666666664" width="83" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cellLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HNG-5Z-J2k">
+                        <rect key="frame" x="16" y="13" width="61" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" systemColor="secondaryLabelColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="userText" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HyN-mt-qPO" userLabel="userText">
-                        <rect key="frame" x="102" y="5" width="202" height="34"/>
+                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="userText" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HyN-mt-qPO" userLabel="userText">
+                        <rect key="frame" x="84.333333333333329" y="5" width="225.66666666666669" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
@@ -32,9 +33,11 @@
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="HyN-mt-qPO" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Pzd-yf-kXn"/>
-                    <constraint firstItem="HyN-mt-qPO" firstAttribute="leading" secondItem="HNG-5Z-J2k" secondAttribute="trailing" constant="3" id="WV4-mq-XqC"/>
-                    <constraint firstItem="HNG-5Z-J2k" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jWN-pt-J3P"/>
+                    <constraint firstAttribute="trailing" secondItem="HyN-mt-qPO" secondAttribute="trailing" constant="10" id="4aA-hA-fjO"/>
+                    <constraint firstItem="HNG-5Z-J2k" firstAttribute="centerY" secondItem="HyN-mt-qPO" secondAttribute="centerY" id="NFD-0t-tdM"/>
+                    <constraint firstItem="HyN-mt-qPO" firstAttribute="leading" secondItem="HNG-5Z-J2k" secondAttribute="trailing" constant="7.3333333333333428" id="Ujn-er-iQb"/>
+                    <constraint firstItem="HNG-5Z-J2k" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="nBO-dV-VcM"/>
+                    <constraint firstItem="HNG-5Z-J2k" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="q8o-te-Meb"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -45,4 +48,9 @@
             <point key="canvasLocation" x="94.656488549618317" y="20.422535211267608"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

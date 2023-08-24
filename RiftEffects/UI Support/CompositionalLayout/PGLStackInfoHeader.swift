@@ -20,19 +20,11 @@ class PGLStackInfoHeader: UITableViewCell {
 
     @IBOutlet weak var userText: UITextField!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        resignFirstResponder()
+        return true
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 }
 
-extension PGLStackInfoHeader {
-
-}
 

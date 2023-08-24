@@ -393,12 +393,14 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
                 cell.userText.text = myStack.stackName
                 cell.userText.delegate = self
                 cell.userText.tag = StackHeaderCell.title.rawValue
+                cell.userText.delegate = self
 
             case StackHeaderCell.album.rawValue :
                 cell.cellLabel.text = "Album:"
                 cell.userText.text = myStack.stackType
                 cell.userText.delegate = self
                 cell.userText.tag = StackHeaderCell.album.rawValue
+                cell.userText.delegate = self 
             default :
                 cell.cellLabel?.text = "n/a"
         }
@@ -833,20 +835,21 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
 extension PGLStackController {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let thisStack = appStack.viewerStackOrPushedFirstStack()
-            else { return }
+       let thisStack = appStack.outputStack
+
             // first stack is the highest level.. not a child stack
 
         switch textField.tag {
             case StackHeaderCell.title.rawValue:
                 if textField.text == thisStack.stackName { return }
                 thisStack.stackName = textField.text ?? ""
-
+                postStackNameChange()
+                
             case StackHeaderCell.album.rawValue:
                 if textField.text == thisStack.stackType { return }
                 thisStack.stackType = textField.text ?? ""
                 thisStack.exportAlbumName = thisStack.stackType
-
+                postStackNameChange()
             default:
                 return
         }
@@ -856,10 +859,17 @@ extension PGLStackController {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        resignFirstResponder()
+        textField.resignFirstResponder()
         return true
     }
 
+    func postStackNameChange() {
+
+        // trigger the imageController  to refresh
+        let stackNotification = Notification(name:PGLStackNameChange)
+        NotificationCenter.default.post(stackNotification)
+
+    }
 
 
 }

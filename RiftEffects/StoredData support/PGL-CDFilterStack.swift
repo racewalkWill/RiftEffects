@@ -78,21 +78,23 @@ extension PGLFilterStack {
         storedStack = nil
     }
     func writeCDStack(moContext: NSManagedObjectContext) -> CDFilterStack {
-        NSLog("PGLFilterStack #writeCDStack name = \(stackName)")
+        NSLog("PGLFilterStack #writeCDStack name = \(stackName) type = \(stackType)")
+        
 
+        if ((storedStack?.title != stackName ) || (storedStack?.type != stackType)) {
+            // an existing stack name is changed
+            self.forceSaveToNewCDVars() // implied saveAs with the name change
+             // sets storedStack to nil
+        }
         if (storedStack == nil ) { // new stack needed
             storedStack = NSEntityDescription.insertNewObject(forEntityName: "CDFilterStack", into: moContext) as? CDFilterStack
             if (storedStack == nil) { fatalError("FAILED CDFilterStack NSEntityDescription.insertNewObject(forEntityName:")}
             storedStack?.created = Date()
             }
             storedStack?.modified = Date()  // modified date may equal created on first save
-        if ((storedStack?.title != stackName ) || (storedStack?.type != stackType)) {
-
             storedStack?.title = stackName
             storedStack?.type = stackType
-            self.forceSaveToNewCDVars() // implied saveAs with the name change
 
-        }
             storedStack?.exportAlbumName = exportAlbumName
             storedStack?.exportAlbumIdentifier = exportAlbumIdentifier
 

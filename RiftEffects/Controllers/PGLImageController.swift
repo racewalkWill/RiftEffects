@@ -154,7 +154,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     // MARK: save btn Actions
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
-
+        self.updateNavigationBar()
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
        saveStack()
 
