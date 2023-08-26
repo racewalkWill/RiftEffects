@@ -186,28 +186,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
 
 
-    func presentSaveDialog(saveDialogController: PGLSaveDialogController){
-        // assumes shouldSaveAs mode is correctly set in the controller
-
-        saveDialogController.modalPresentationStyle = .popover
-        saveDialogController.preferredContentSize = CGSize(width: 350, height: 200.0)
-        
-        guard let popOverPresenter = saveDialogController.popoverPresentationController
-        else { return }
-        popOverPresenter.canOverlapSourceViewRect = false // or barButtonItem
-        popOverPresenter.delegate = self
-        // popOverPresenter.popoverLayoutMargins // default is 10 points inset from device edges
-//        popOverPresenter.sourceView = view
-        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
-        sheet.detents = [.medium(), .large()]
-//        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-        sheet.prefersEdgeAttachedInCompactHeight = true
-        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-
-        popOverPresenter.barButtonItem = moreBtn
-         present(saveDialogController, animated: true )
-    }
-
     @IBAction func helpBtnAction(_ sender: UIBarButtonItem) {
         guard let helpController = storyboard?.instantiateViewController(withIdentifier: "PGLHelpPageController") as? PGLHelpPageController
         else {

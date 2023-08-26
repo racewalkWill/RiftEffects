@@ -24,8 +24,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "597"
-            endingLineNumber = "597"
+            startingLineNumber = "575"
+            endingLineNumber = "575"
             landmarkName = "registerImageControllerNotifications()"
             landmarkType = "7">
             <Locations>
@@ -72,8 +72,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "614"
-            endingLineNumber = "614"
+            startingLineNumber = "592"
+            endingLineNumber = "592"
             landmarkName = "registerImageControllerNotifications()"
             landmarkType = "7">
             <Locations>
@@ -136,8 +136,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "updateNavigationBar()"
             landmarkType = "7">
          </BreakpointContent>
@@ -152,8 +152,8 @@
             filePath = "RiftEffects/Controllers/PGLStackController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
             landmarkName = "headerCellFor(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,8 +168,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "504"
+            endingLineNumber = "504"
             landmarkName = "registerImageControllerNotifications()"
             landmarkType = "7">
          </BreakpointContent>
@@ -220,6 +220,21 @@
                   startingLineNumber = "532"
                   endingLineNumber = "532"
                   offsetFromSymbolStart = "1152">
+               </Location>
+               <Location
+                  uuid = "4B78462B-F4FB-42CC-AA25-3BE08C46A6BF - 553ede23e358cdc"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLOpenStackController.initialSnapShot() -&gt; UIKit.NSDiffableDataSourceSnapshot&lt;Swift.Int, RiftEffects.CDFilterStack&gt;"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLOpenStackController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "532"
+                  endingLineNumber = "532"
+                  offsetFromSymbolStart = "1128">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -298,10 +313,58 @@
             filePath = "RiftEffects/Controllers/PGLStackController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "852"
-            endingLineNumber = "852"
+            startingLineNumber = "894"
+            endingLineNumber = "894"
             landmarkName = "textFieldDidEndEditing(_:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "49863EEF-8ECD-4C61-9A3A-064F4D6A7DF9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/PGLStackController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "setStackTo(albumName:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "49863EEF-8ECD-4C61-9A3A-064F4D6A7DF9 - 4f1030d8cc1d2f3b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLStackController.setStackTo(albumName: Swift.String) -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLStackController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "447"
+                  endingLineNumber = "447"
+                  offsetFromSymbolStart = "604">
+               </Location>
+               <Location
+                  uuid = "49863EEF-8ECD-4C61-9A3A-064F4D6A7DF9 - 4f1030d8cc1d2f3b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLStackController.setStackTo(albumName: Swift.String) -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLStackController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "447"
+                  endingLineNumber = "447"
+                  offsetFromSymbolStart = "132">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

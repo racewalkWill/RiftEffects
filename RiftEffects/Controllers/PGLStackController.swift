@@ -29,6 +29,8 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
     var longPressStart: IndexPath?
     var segueStarted = false  // set to true during prepareFor segue
 
+    var existingStackTypes: [String]!
+    var albumUserTextCell: UITextField?
 
 
     enum StackSections: Int {
@@ -122,7 +124,10 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         }
         let stackInfoHeaderCellNib = UINib(nibName: PGLStackInfoHeader.nibName, bundle: nil)
         tableView.register(stackInfoHeaderCellNib ,forCellReuseIdentifier: PGLStackInfoHeader.reuseIdentifer)
-
+        if let sections = appStack.dataProvider.fetchedResultsController.sections {
+            existingStackTypes = sections.map({$0.name})
+        } else
+            { existingStackTypes = [String]() }
     }
 
 
@@ -400,7 +405,9 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
                 cell.userText.text = myStack.stackType
                 cell.userText.delegate = self
                 cell.userText.tag = StackHeaderCell.album.rawValue
-                cell.userText.delegate = self 
+                cell.userText.delegate = self
+                addAlbumLookUp(albumUserText: cell.userText)
+                albumUserTextCell = cell.userText
             default :
                 cell.cellLabel?.text = "n/a"
         }
@@ -408,6 +415,41 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         return cell
     }
 
+    func addAlbumLookUp(albumUserText: UITextField) {
+        let overlayButton = UIButton(type: .custom)
+        let bookmarkImage = UIImage(systemName: "bookmark")
+        overlayButton.setImage(bookmarkImage, for: .normal)
+
+        overlayButton.sizeToFit()
+        setAlbumChoiceMenu(bookMarkBtn: overlayButton)
+
+        // Assign the overlay button to the text field
+        albumUserText.leftView = overlayButton
+        albumUserText.leftViewMode = .always
+        
+    }
+
+    @objc func setAlbumChoiceMenu(bookMarkBtn: UIButton) {
+        // open popup menu with existingStackTypes
+//        existingStackTypes
+
+        let albumItems:[UIAction] = existingStackTypes.map {
+            UIAction( title: $0, handler: { thisAction in self.setStackTo(albumName: thisAction.title )})
+        }
+
+        let albumMenu = UIMenu(title:"Albums", children: albumItems)
+        bookMarkBtn.menu = albumMenu
+        bookMarkBtn.showsMenuAsPrimaryAction = true
+
+    }
+
+    func setStackTo(albumName: String) {
+        NSLog("PGLStackController #setStackTo(albumName \(albumName)")
+        let theOutputStack = self.appStack.outputStack
+        theOutputStack.stackType = albumName
+        theOutputStack.exportAlbumName = albumName
+        albumUserTextCell?.text = albumName
+    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
             case StackSections.header.rawValue :
