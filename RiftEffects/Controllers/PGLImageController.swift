@@ -12,6 +12,7 @@ import GLKit
 import MetalKit
 import Photos
 import os
+import StoreKit
 
 enum PGLFilterPick: Int {
     case category = 0, filter
@@ -237,6 +238,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
 
         self.appStack.saveStack(metalRender: self.metalController!.metalRender)
+
+        incrementSaveCountForAppReview()
     }
 
     func saveToPhotoLibrary() {
@@ -253,7 +256,34 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
         }
 
-    
+        //MARK: App Review save count
+        func incrementSaveCountForAppReview() {
+            // based on Apple sample StoreKitReviewRequest example code
+
+            var saveCount = UserDefaults.standard.integer(forKey: PGLUserDefaultKeys.processCompletedCountKey)
+            saveCount += 1
+            UserDefaults.standard.set(saveCount, forKey: PGLUserDefaultKeys.processCompletedCountKey)
+
+            // Get the current bundle version for the app
+            let infoDictionaryKey = kCFBundleVersionKey as String
+            guard let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
+                else { fatalError("Expected to find a bundle version in the info dictionary") }
+
+            let lastVersionPromptedForReview = UserDefaults.standard.string(forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
+
+            if saveCount >= 2 && currentVersion != lastVersionPromptedForReview {
+                let twoSecondsFromNow = DispatchTime.now() + 2.0
+                DispatchQueue.main.asyncAfter(deadline: twoSecondsFromNow) {
+
+                    if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                        SKStoreReviewController.requestReview(in: scene)
+                    }
+
+                    UserDefaults.standard.set(currentVersion, forKey: PGLUserDefaultKeys.lastVersionPromptedForReviewKey)
+
+                }
+            }
+        }
 
     func displayPrivacyPolicy(_ sender: UIBarButtonItem) {
         let infoPrivacyController = storyboard!.instantiateViewController(
@@ -566,46 +596,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
         notifications[PGLUserAlertNotice] = aNotification
 
-        aNotification = myCenter.addObserver(forName: PGLStackSaveNotification , object: nil , queue: queue) { [weak self ]
-            myUpdate in
-//            guard let self = self else { return}
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackSaveNotification") ")
-            if let userDataDict = myUpdate.userInfo {
-                if let userValues = userDataDict["dialogData"] as? PGLStackSaveData {
-                        // put the new names into the stack
-                    guard let targetStack = self?.appStack.viewerStackOrPushedFirstStack()
-                    else { return }
-
-//                     target stack already has the new values
-                    targetStack.stackName = userValues.stackName!
-                    targetStack.stackType = userValues.stackType!
-                    targetStack.exportAlbumName = userValues.albumName
-//                   targetStack.shouldExportToPhotos = userValues.storeToPhoto
-
-                    // in iPhone there are multiple imageControllers getting the same
-                    // notification. If the stack already has the same save data object
-                    // then don't reprocess again. Uses object identity to test
-
-                    if userValues.saveSessionUUID != targetStack.saveSessionUUID {
-                        self?.saveStack()
-                            // save stack will create a utility queue to execute.. but should not
-                            // kill the utility queue process when this notification callback process ends.
-                        
-                        // store this saveData object to guard against other redunant notifications
-                        targetStack.saveSessionUUID = userValues.saveSessionUUID
-                    }
-
-                    self?.updateLibraryMenu()
-                    self?.updateNavigationBar()
-
-
-                }
-            }
-        }
-        notifications[PGLStackSaveNotification] = aNotification
+       
 
         aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
             myUpdate in

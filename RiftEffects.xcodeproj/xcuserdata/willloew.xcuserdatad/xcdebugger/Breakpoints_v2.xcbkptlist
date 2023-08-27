@@ -17,102 +17,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "51E383F3-600C-4833-B6C7-4FFFE75D2D29"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Controllers/PGLImageController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "575"
-            endingLineNumber = "575"
-            landmarkName = "registerImageControllerNotifications()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "51E383F3-600C-4833-B6C7-4FFFE75D2D29 - c158db583da368d2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #5 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLImageController.registerImageControllerNotifications() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "611"
-                  endingLineNumber = "611"
-                  offsetFromSymbolStart = "2756">
-               </Location>
-               <Location
-                  uuid = "51E383F3-600C-4833-B6C7-4FFFE75D2D29 - 2c6235ecd82192ab"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #6 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLImageController.registerImageControllerNotifications() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "611"
-                  endingLineNumber = "611"
-                  offsetFromSymbolStart = "684">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A73E556D-C5CF-441E-8763-12124F8C01CA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Controllers/PGLImageController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
-            landmarkName = "registerImageControllerNotifications()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A73E556D-C5CF-441E-8763-12124F8C01CA - c158db583da36abc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #5 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLImageController.registerImageControllerNotifications() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "629"
-                  endingLineNumber = "629"
-                  offsetFromSymbolStart = "3896">
-               </Location>
-               <Location
-                  uuid = "A73E556D-C5CF-441E-8763-12124F8C01CA - 2c6235ecd821909a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #6 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLImageController.registerImageControllerNotifications() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects/RiftEffects/Controllers/PGLImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "628"
-                  endingLineNumber = "628"
-                  offsetFromSymbolStart = "3232">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1DED9540-9208-43C3-AEDE-8880623A3877"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -136,8 +40,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "updateNavigationBar()"
             landmarkType = "7">
          </BreakpointContent>
@@ -152,8 +56,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "534"
+            endingLineNumber = "534"
             landmarkName = "registerImageControllerNotifications()"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,6 +138,21 @@
                   startingLineNumber = "532"
                   endingLineNumber = "532"
                   offsetFromSymbolStart = "1128">
+               </Location>
+               <Location
+                  uuid = "4B78462B-F4FB-42CC-AA25-3BE08C46A6BF - d7fc5b281c26e2c7"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLOpenStackController.initialSnapShot() -&gt; UIKit.NSDiffableDataSourceSnapshot&lt;Swift.Int, RiftEffects.CDFilterStack&gt;"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects2.5/RiftEffects/Controllers/PGLOpenStackController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "532"
+                  endingLineNumber = "532"
+                  offsetFromSymbolStart = "1152">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -332,6 +251,54 @@
             endingLineNumber = "440"
             landmarkName = "addAlbumLookUp(albumUserText:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "69FEE56D-0E72-46CB-BAE9-76D7D900E926"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/PGLImageController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "incrementSaveCountForAppReview()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "69FEE56D-0E72-46CB-BAE9-76D7D900E926 - a834744d52ae0372"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLImageController.incrementSaveCountForAppReview() -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects2.5/RiftEffects/Controllers/PGLImageController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "1320">
+               </Location>
+               <Location
+                  uuid = "69FEE56D-0E72-46CB-BAE9-76D7D900E926 - a834744d52ae0372"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLImageController.incrementSaveCountForAppReview() -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects2.5/RiftEffects/Controllers/PGLImageController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "1476">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
