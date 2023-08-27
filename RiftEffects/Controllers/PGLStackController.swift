@@ -124,6 +124,10 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         }
         let stackInfoHeaderCellNib = UINib(nibName: PGLStackInfoHeader.nibName, bundle: nil)
         tableView.register(stackInfoHeaderCellNib ,forCellReuseIdentifier: PGLStackInfoHeader.reuseIdentifer)
+
+        let stackAlbumHeaderCellNib = UINib(nibName: PGLStackAlbumHeader.nibName, bundle: nil)
+        tableView.register(stackAlbumHeaderCellNib ,forCellReuseIdentifier: PGLStackAlbumHeader.reuseIdentifer)
+
         if let sections = appStack.dataProvider.fetchedResultsController.sections {
             existingStackTypes = sections.map({$0.name})
         } else
@@ -386,21 +390,27 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
     }
     fileprivate func headerCellFor(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
             // header
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PGLStackInfoHeader.reuseIdentifer, for: indexPath) as? PGLStackInfoHeader
-        else {
-            fatalError("PGLStackController headerCell did not load")
-        }
+
 
         let myStack = appStack.outputStack
         switch indexPath.row {
             case StackHeaderCell.title.rawValue :
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: PGLStackInfoHeader.reuseIdentifer, for: indexPath) as? PGLStackInfoHeader
+                else {
+                    fatalError("PGLStackController headerCell did not load")
+                }
                 cell.cellLabel.text = "Title:"
                 cell.userText.text = myStack.stackName
                 cell.userText.delegate = self
                 cell.userText.tag = StackHeaderCell.title.rawValue
                 cell.userText.delegate = self
+                return cell
 
             case StackHeaderCell.album.rawValue :
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: PGLStackAlbumHeader.reuseIdentifer, for: indexPath) as? PGLStackAlbumHeader
+                else {
+                    fatalError("PGLStackController headerCell did not load")
+                }
                 cell.cellLabel.text = "Album:"
                 cell.userText.text = myStack.stackType
                 cell.userText.delegate = self
@@ -408,11 +418,17 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
                 cell.userText.delegate = self
                 addAlbumLookUp(albumUserText: cell.userText)
                 albumUserTextCell = cell.userText
+                return cell
+
             default :
-                cell.cellLabel?.text = "n/a"
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: PGLStackInfoHeader.reuseIdentifer, for: indexPath) as? PGLStackInfoHeader
+                else {
+                    fatalError("PGLStackController headerCell did not load")
+                }
+                return cell
         }
 
-        return cell
+
     }
 
     func addAlbumLookUp(albumUserText: UITextField) {

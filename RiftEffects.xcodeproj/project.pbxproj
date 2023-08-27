@@ -39,6 +39,8 @@
 		A35FF77C26DC324E00D78252 /* CoreDataSampleLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */; };
 		A35FF77E26DC346200D78252 /* PGLCoreData+Defns.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35FF77D26DC346200D78252 /* PGLCoreData+Defns.swift */; };
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
+		A3651FA32A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3651FA12A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift */; };
+		A3651FA42A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3651FA22A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib */; };
 		A3712BFD2908628400993C5E /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */; };
 		A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */; };
@@ -201,6 +203,8 @@
 		A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoreDataSampleLicense.txt; sourceTree = "<group>"; };
 		A35FF77D26DC346200D78252 /* PGLCoreData+Defns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PGLCoreData+Defns.swift"; sourceTree = "<group>"; };
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
+		A3651FA12A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLStackAlbumHeader.swift; path = "cell xib/PGLStackAlbumHeader.swift"; sourceTree = "<group>"; };
+		A3651FA22A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGLStackAlbumHeader.xib; sourceTree = "<group>"; };
 		A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataClass.swift"; path = "RiftEffects/StoredData support/CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "RiftEffects/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCommonParmController.swift; sourceTree = "<group>"; };
@@ -452,8 +456,9 @@
 				A3BF506524D32A3400CD5114 /* BadgeSupplementrayView.swift */,
 				A3F1075625604EB1005E86B4 /* cell xib */,
 				A3BF506624D32A3400CD5114 /* TextCell.swift */,
-				A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */,
+				A3651FA12A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift */,
 				A3D04B122A8444A300E6DB16 /* PGLStackInfoHeader.swift */,
+				A3BF506724D32A3400CD5114 /* OutlineItemCell.swift */,
 				A3BF506924D32A3400CD5114 /* TitleSupplementaryView.swift */,
 				A3BF506A24D32A3400CD5114 /* StackDataCell.swift */,
 				A3BF506B24D32A3400CD5114 /* LICENSE.txt */,
@@ -634,6 +639,7 @@
 				A3BF50A424D32A3400CD5114 /* StackCell.xib */,
 				A3BF506124D32A3400CD5114 /* TableCell.xib */,
 				A3D04B132A8444A300E6DB16 /* PGLStackInfoHeader.xib */,
+				A3651FA22A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib */,
 			);
 			path = "cell xib";
 			sourceTree = "<group>";
@@ -751,6 +757,7 @@
 				A3BF50F124D32A3400CD5114 /* Assets.xcassets in Resources */,
 				A3E6243D2691261A0017372F /* Settings.bundle in Resources */,
 				A35FF77C26DC324E00D78252 /* CoreDataSampleLicense.txt in Resources */,
+				A3651FA42A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +900,7 @@
 				A3BF511024D32A3400CD5114 /* PGLAppStack.swift in Sources */,
 				A3E593B32541F0FD0001EDF9 /* PGLFilterCDDataTransformer.swift in Sources */,
 				A3EF3EF4294AA3A900AD0B10 /* PGLAttributeVectorExpand.swift in Sources */,
+				A3651FA32A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift in Sources */,
 				A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */,
 				A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */,
 				A3BF50E424D32A3400CD5114 /* PGLFilterAttributeNumber.swift in Sources */,
