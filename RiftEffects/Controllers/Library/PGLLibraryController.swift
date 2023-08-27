@@ -190,12 +190,15 @@ extension PGLLibraryController {
         guard let cdStack = dataSource.itemIdentifier(for: indexPath)
         else {return}
         dataProvider.delete(stack: cdStack, shouldSave: true, completionHandler: nil)
+
+        var currentSnapShot = dataSource.snapshot()
+        currentSnapShot.deleteItems([cdStack])
+        dataSource.apply(currentSnapShot,animatingDifferences: true)
+
         let stackNotification = Notification(name:PGLUpdateLibraryMenu)
         NotificationCenter.default.post(stackNotification)
         let hideNotification = Notification(name: PGLHideImageViewReleaseStack)
         NotificationCenter.default.post(hideNotification)
-        setCategoryData()
-
 
     }
 
