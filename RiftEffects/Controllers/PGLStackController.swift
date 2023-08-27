@@ -896,16 +896,20 @@ extension PGLStackController {
        let thisStack = appStack.outputStack
 
             // first stack is the highest level.. not a child stack
+        guard var newText = textField.text else {return }
+
+        newText = newText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 
         switch textField.tag {
             case StackHeaderCell.title.rawValue:
-                if textField.text == thisStack.stackName { return }
-                thisStack.stackName = textField.text ?? ""
+                if newText == thisStack.stackName { return }
+
+                thisStack.stackName = newText
                 postStackNameChange()
                 
             case StackHeaderCell.album.rawValue:
-                if textField.text == thisStack.stackType { return }
-                thisStack.stackType = textField.text ?? ""
+                if newText == thisStack.stackType { return }
+                thisStack.stackType = newText
                 thisStack.exportAlbumName = thisStack.stackType
                 postStackNameChange()
             default:
