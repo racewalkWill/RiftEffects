@@ -22,8 +22,6 @@ class PGLFilterImageContainerController: UIViewController {
     override func viewDidLoad() {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
-        let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
 
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         containerFilterController = storyboard.instantiateViewController(withIdentifier: "FilterTable") as? PGLMainFilterController
@@ -75,29 +73,6 @@ class PGLFilterImageContainerController: UIViewController {
         navigationController?.isToolbarHidden = true
         // should make the buttons on the filter controller toolbar visible
         // because this controller isToolbarHidden
-
-       var aNotification = myCenter.addObserver(forName: PGLFilterBookMarksModeChange, object: nil , queue: queue) {[weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterImageContainerController  notificationBlock PGLFilterBookMarksModeChange")
-           if let theIndex = myUpdate.userInfo?["indexSectionValue"] as? Int {
-               self.setBookmarksGroupMode(indexSection: theIndex )
-           }
-        }
-        notifications[PGLFilterBookMarksModeChange] = aNotification
-
-        aNotification = myCenter.addObserver(forName: PGLFilterBookMarksSetFlat, object: nil , queue: queue) {[weak self]
-             myUpdate in
-             guard let self = self else { return } // a released object sometimes receives the notification
-
-             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterImageContainerController  notificationBlock PGLFilterBookMarksSetFlat")
-
-            self.setBookmarksFlatMode()
-
-         }
-         notifications[PGLFilterBookMarksModeChange] = aNotification
-
 
     }
 
@@ -166,11 +141,6 @@ class PGLFilterImageContainerController: UIViewController {
 
     @IBOutlet weak var bookMarkRemoveBtn: UIBarButtonItem!
     
-    @IBAction func frequentBtnAction(_ sender: UIBarButtonItem) {
-        containerFilterController?.frequentBtnAction(sender)
-    }
-
-    @IBOutlet weak var frequentBtn: UIBarButtonItem!
 
     func setBookmarksGroupMode(indexSection: Int) {
          if indexSection == 0 {

@@ -14,11 +14,6 @@ enum FilterChangeMode{
     case add
 }
 
-let ABCSymbol = UIImage(systemName: "textformat.abc")
-let GroupSymbol = UIImage(systemName: "rectangle.grid.1x2")
-
-
-let PGLFilterBookMarksModeChange = NSNotification.Name(rawValue: "PGLFilterBookMarksModeChange")
 
 let PGLFilterBookMarksSetFlat = NSNotification.Name(rawValue: "PGLFilterBookMarksSetFlat")
 
@@ -688,40 +683,6 @@ extension PGLMainFilterController {
 
 extension PGLMainFilterController {
 
-
-    func setBookmarksGroupMode(indexSection: Int) {
-        if (splitViewController?.isCollapsed ?? false) {
-                // parent container PGLFilterImageContainerController has the toolbar with the mode buttons
-            let bookmarkModeNotification = Notification(name:PGLFilterBookMarksModeChange)
-            NotificationCenter.default.post(name: bookmarkModeNotification.name, object: nil, userInfo:  ["indexSectionValue": indexSection as Any])
-            return
-                // PGLFilterImageContainerController will set buttons on its toolbar
-        }
-
-        if indexSection == 0 {
-                // frequent bookmarks section is section 0
-            bookmarkRemove.isEnabled = true
-            addToFrequentBtn.isEnabled = false
-        } else {
-            bookmarkRemove.isEnabled = false
-            addToFrequentBtn.isEnabled = true
-        }
-    }
-
-    @IBAction func frequentBtnAction(_ sender: UIBarButtonItem) {
-            // scroll filters to Frequent category
-            //        if mode == .Flat {
-            //            groupModeAction(modeToolBarBtn) // hides search
-            //        }
-        let frequentCategory = categories[0]
-        if !frequentCategory.isEmpty() {
-
-            filterCollectionView.selectItem(at: frequentCategoryPath, animated: true, scrollPosition: .top)
-            setBookmarksGroupMode(indexSection: frequentCategoryPath.section)
-        }
-
-
-    }
         /// add selected filter to the frequent category
     @IBAction func addToFrequentAction(_ sender: UIBarButtonItem) {
 
@@ -743,7 +704,7 @@ extension PGLMainFilterController {
             sectionSnapshot.collapse(filterItems)
             dataSource.apply(sectionSnapshot, to: frequentSection)
 
-            frequentBtnAction(addToFrequentBtn) // so the frequent cateogry is shown
+
 
         }
 
@@ -766,9 +727,7 @@ extension PGLMainFilterController {
 //            sectionSnapshot.collapse(filterItems)
 
             dataSource.apply(sectionSnapshot, to: frequentSection)
-            if let theFrequentBtn = sender as? UIBarButtonItem {
-                frequentBtnAction(theFrequentBtn) // so the frequent cateogry is shown
-            }
+          
         }
 
     }
@@ -794,9 +753,7 @@ extension PGLMainFilterController {
 
         thePath.section = currentFilter?.uiPosition.categoryIndex ?? 0
         thePath.row = currentFilter?.uiPosition.filterIndex ?? 0
-        setBookmarksGroupMode(indexSection: thePath.section)
-            //            NSLog("PGLMainFilterController \(#function) mode = Grouped")
-            //        tableView.selectRow(at: thePath, animated: false, scrollPosition: .middle)
+
         filterCollectionView.selectItem(at: thePath, animated: true, scrollPosition: .centeredVertically)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController selects row at \(thePath)")
 
@@ -829,6 +786,7 @@ extension PGLMainFilterController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
         descriptor = selectedFilterDescriptor(inTable: filterCollectionView)!
+
         performFilterPick(descriptor: descriptor)
         navigateToParmController()
     }

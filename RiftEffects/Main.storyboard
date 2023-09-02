@@ -13,27 +13,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="FilterTable" modalPresentationStyle="currentContext" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VNd-gL-KQM" customClass="PGLMainFilterController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <toolbarItems>
-                        <barButtonItem width="148" style="plain" systemItem="fixedSpace" id="fu2-B4-zlz"/>
-                        <barButtonItem systemItem="bookmarks" id="vtD-0A-NCb">
-                            <color key="tintColor" systemColor="labelColor"/>
-                            <connections>
-                                <action selector="frequentBtnAction:" destination="VNd-gL-KQM" id="hIa-BJ-Mqh"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem systemItem="add" id="5xl-TA-P0e">
-                            <color key="tintColor" systemColor="labelColor"/>
-                            <connections>
-                                <action selector="addToFrequentAction:" destination="VNd-gL-KQM" id="oXP-fm-G8w"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem enabled="NO" systemItem="stop" id="FwN-ML-XEE">
-                            <color key="tintColor" systemColor="labelColor"/>
-                            <connections>
-                                <action selector="bookmarkRemoveAction:" destination="VNd-gL-KQM" id="nB3-Uf-9cB"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="BDq-9C-Um2">
                         <leftBarButtonItems>
                             <barButtonItem title="&lt; Back" style="done" id="SCi-rx-bEi" userLabel="BackBtn">
@@ -48,11 +28,8 @@
                             </barButtonItem>
                         </leftBarButtonItems>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <connections>
-                        <outlet property="addToFrequentBtn" destination="5xl-TA-P0e" id="12Y-td-QZR"/>
-                        <outlet property="bookmarkRemove" destination="FwN-ML-XEE" id="GB4-pP-0W1"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32V-xd-xgV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -168,7 +145,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="690"/>
+                        <rect key="frame" x="0.0" y="0.0" width="239" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
@@ -383,17 +360,17 @@
                         <viewControllerLayoutGuide type="bottom" id="Tg7-pC-Cny"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XUw-wD-ESd">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLw-aW-l5j">
-                                <rect key="frame" x="20" y="319" width="1154" height="445"/>
+                                <rect key="frame" x="20" y="245" width="199" height="445"/>
                                 <connections>
                                     <segue destination="0Eu-a7-58l" kind="embed" identifier="lowerAssetGridSegue" id="swi-V6-4OA"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-hy-dK1">
-                                <rect key="frame" x="20" y="84" width="1154" height="225"/>
+                                <rect key="frame" x="20" y="10" width="199" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="225" id="vEE-Uw-L6Y"/>
                                 </constraints>
@@ -490,15 +467,15 @@
                         <viewControllerLayoutGuide type="bottom" id="VLb-a3-ytY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YGP-pA-aiW">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="129"/>
+                        <rect key="frame" x="0.0" y="0.0" width="199" height="149"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BeI-dm-W4b">
-                                <rect key="frame" x="0.0" y="54" width="704" height="25"/>
+                                <rect key="frame" x="0.0" y="54" width="199" height="45"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stN-Lj-FPO" userLabel="badgeBtn">
-                                <rect key="frame" x="604" y="74" width="70" height="54"/>
+                                <rect key="frame" x="99" y="74" width="70" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
@@ -512,8 +489,8 @@
                                     <action selector="badgeBtnToggle:" destination="t1n-aW-YzS" eventType="touchUpInside" id="Cqj-ay-dum"/>
                                 </connections>
                             </button>
-                            <view opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGG-2u-BuS" userLabel="gestureView">
-                                <rect key="frame" x="40" y="74" width="624" height="5"/>
+                            <view opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGG-2u-BuS" userLabel="gestureView">
+                                <rect key="frame" x="40" y="74" width="119" height="5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -640,7 +617,7 @@
                         <viewControllerLayoutGuide type="bottom" id="noZ-c1-sxH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="59X-KM-19h">
-                        <rect key="frame" x="0.0" y="0.0" width="1154" height="225"/>
+                        <rect key="frame" x="0.0" y="0.0" width="199" height="225"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -661,7 +638,7 @@
                         <viewControllerLayoutGuide type="bottom" id="RMh-Hm-vBq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bua-CM-r0T">
-                        <rect key="frame" x="0.0" y="0.0" width="1154" height="445"/>
+                        <rect key="frame" x="0.0" y="0.0" width="199" height="445"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -967,21 +944,6 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="rij-Pi-lzb"/>
-                                    <barButtonItem systemItem="bookmarks" id="Y7I-YH-mrh">
-                                        <connections>
-                                            <action selector="frequentBtnAction:" destination="rQx-tc-9ix" id="Q7C-Z1-LPr"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="add" id="pu0-0t-HEN">
-                                        <connections>
-                                            <action selector="addToFrequentBtn:" destination="rQx-tc-9ix" id="ZWn-BZ-O1w"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="stop" id="DXq-Td-7nf">
-                                        <connections>
-                                            <action selector="bookMarkRemoveBtn:" destination="rQx-tc-9ix" id="uxz-ES-o5d"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem width="500" style="plain" systemItem="fixedSpace" id="bm7-36-hbH"/>
                                 </items>
                             </toolbar>
@@ -1024,9 +986,6 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="addToFrequentBtn" destination="pu0-0t-HEN" id="saH-js-mnh"/>
-                        <outlet property="bookMarkRemoveBtn" destination="DXq-Td-7nf" id="roO-ky-HZu"/>
-                        <outlet property="frequentBtn" destination="Y7I-YH-mrh" id="OeF-yg-6p5"/>
                         <outlet property="moreBtn" destination="HAf-fe-yaR" id="LdN-K3-I4g"/>
                         <outlet property="newTrashBtn" destination="kGD-tX-jU3" id="pOc-pZ-a39"/>
                         <outlet property="randomBtn" destination="yo5-KQ-1xv" id="jIp-Do-44Z"/>
@@ -1254,7 +1213,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="cxI-vr-Pxp"/>
         <segue reference="upL-2v-qbI"/>
-        <segue reference="HUk-NN-bR8"/>
+        <segue reference="zWl-eA-30q"/>
         <segue reference="Xyz-2Z-Q4q"/>
     </inferredMetricsTieBreakers>
     <resources>

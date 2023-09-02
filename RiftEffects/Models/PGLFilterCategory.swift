@@ -84,33 +84,6 @@ class PGLFilterCategory {
             return cachedCategories
         }
         var answerArray = [PGLFilterCategory]()
-//       PGLFilterCIAbstract.register()
-//
-//       
-//        WarpItMetalFilter.register()
-        if UserDefaults.standard.stringArray(forKey: Bookmark) == nil
-        {
-            let newFrequentFilters = [
-                "CIDissolveTransition",
-                "CIEdgeWork",
-                "CIToneCurve",
-                "CIBlendWithMask",
-                "CIRadialGradient",
-                "CIColorPosterize"
-
-            ] // CIFilter name, not the display name
-            // removed "CIDissolveTransition",  it also pulls in the Face dissolve and Bump Dissolve
-            UserDefaults.standard.set(newFrequentFilters, forKey: Bookmark)
-        }
-       
-        
-        // kuwahara & Perlin not working WL-B 3/7/19
-//        MetalKuwaharaFilter.register()
-//        MetalPerlinNoise.register()
-        if let frequentFilters = UserDefaults.standard.stringArray(forKey: Bookmark) {
-            let frequentCategory = PGLFilterCategory(specialCategory: Bookmark, filterNames: frequentFilters )
-            answerArray.append(frequentCategory) // frequent category is position zero
-        }
 
         for catIndex in 0..<classCategories.count   {
             if let thisNewbie = PGLFilterCategory(classCategories[catIndex]) {
