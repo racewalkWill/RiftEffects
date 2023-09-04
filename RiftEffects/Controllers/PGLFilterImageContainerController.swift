@@ -128,35 +128,13 @@ class PGLFilterImageContainerController: UIViewController {
 
 
 
-    @IBAction func addToFrequentBtn(_ sender: UIBarButtonItem) {
-        containerFilterController?.addToFrequentAction(sender)
 
-    }
-    @IBOutlet weak var addToFrequentBtn: UIBarButtonItem!
-    
-    @IBAction func bookMarkRemoveBtn(_ sender: UIBarButtonItem) {
-        containerFilterController?.bookmarkRemoveAction(sender)
 
-    }
 
-    @IBOutlet weak var bookMarkRemoveBtn: UIBarButtonItem!
     
 
-    func setBookmarksGroupMode(indexSection: Int) {
-         if indexSection == 0 {
-             // frequent bookmarks section is section 0
-             bookMarkRemoveBtn.isEnabled = true
-             addToFrequentBtn.isEnabled = false
-         } else {
-             bookMarkRemoveBtn.isEnabled = false
-             addToFrequentBtn.isEnabled = true
-         }
-     }
 
-     func setBookmarksFlatMode() {
-         bookMarkRemoveBtn.isEnabled = false
-         addToFrequentBtn.isEnabled = true
-     }
+  
         // MARK: Menu
     func setMoreBtnMenu() {
             //      if traitCollection.userInterfaceIdiom == .phone {

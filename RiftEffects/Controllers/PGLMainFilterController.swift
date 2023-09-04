@@ -684,53 +684,10 @@ extension PGLMainFilterController {
 extension PGLMainFilterController {
 
         /// add selected filter to the frequent category
-    @IBAction func addToFrequentAction(_ sender: UIBarButtonItem) {
-
-            // copy descriptor of the filter
-            // add to the frequent category
-        let currentSnapShot = dataSource.snapshot()
-            /// frequent category is first
-        guard let frequentSection = currentSnapShot.sectionIdentifiers.first
-            else {return}
-        if let theDescriptor = selectedFilterDescriptor(inTable: filterCollectionView) {
-            categories.first?.appendCopy(theDescriptor)
-
-            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
-
-            let categoryHeaderItem = Item(title: categories[frequentSection].categoryName, descriptor: nil)
-            sectionSnapshot.append([categoryHeaderItem])
-            let filterItems = categories[frequentSection].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
-            sectionSnapshot.append(filterItems, to: categoryHeaderItem)
-            sectionSnapshot.collapse(filterItems)
-            dataSource.apply(sectionSnapshot, to: frequentSection)
 
 
 
-        }
 
-    }
-
-    @IBAction func bookmarkRemoveAction(_ sender: Any) {
-        let currentSnapShot = dataSource.snapshot()
-            /// frequent category is first
-        guard let frequentSection = currentSnapShot.sectionIdentifiers.first
-            else {return}
-
-        if let theDescriptor = selectedFilterDescriptor(inTable: filterCollectionView) {
-            categories.first?.removeDescriptor(theDescriptor)
-            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
-
-            let categoryHeaderItem = Item(title: categories[frequentSection].categoryName, descriptor: nil)
-            sectionSnapshot.append([categoryHeaderItem])
-            let filterItems = categories[frequentSection].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
-            sectionSnapshot.append(filterItems, to: categoryHeaderItem)
-//            sectionSnapshot.collapse(filterItems)
-
-            dataSource.apply(sectionSnapshot, to: frequentSection)
-          
-        }
-
-    }
 
     func selectedFilterDescriptor(inTable: UICollectionView)-> PGLFilterDescriptor? {
         var selectedDescriptor: PGLFilterDescriptor?
@@ -771,17 +728,7 @@ extension PGLMainFilterController {
         return selectedDescriptor
     }
 
-    func setBookmarksFlatMode() {
-        if (splitViewController?.isCollapsed ?? false) {
-                // parent container PGLFilterImageContainerController has the toolbar with the mode buttons
-            let bookmarkModeNotification = Notification(name:PGLFilterBookMarksSetFlat)
-            NotificationCenter.default.post(bookmarkModeNotification)
-            return
-                // PGLFilterImageContainerController will set buttons on its toolbar
-        }
-        bookmarkRemove.isEnabled = false
-        addToFrequentBtn.isEnabled = true
-    }
+   
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
