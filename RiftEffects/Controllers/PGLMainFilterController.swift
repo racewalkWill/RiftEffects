@@ -629,8 +629,15 @@ extension PGLMainFilterController {
             var content = UIListContentConfiguration.extraProminentInsetGroupedHeader()
             content.text = item.title
             cell.contentConfiguration = content
+            let disclosureOptions = UICellAccessory.outlineDisclosure(
+                displayed: .always,
+                options: UICellAccessory.OutlineDisclosureOptions() ) {
+                    self.displaySearchResults(matchingFilters: self.filters )
+                }
 
-            cell.accessories = [.outlineDisclosure()]
+            cell.accessories = [disclosureOptions]
+
+
         }
 
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { [weak self] (cell, indexPath, item) in
@@ -649,7 +656,10 @@ extension PGLMainFilterController {
 
         dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: filterCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
-
+            if indexPath.section == 0 {
+                // filters header
+                return collectionView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: item)
+            }
             if indexPath.item == 0 {
                 return collectionView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: item)
             } else {
@@ -660,24 +670,38 @@ extension PGLMainFilterController {
         initalFilterList()
 
 
+
     }
 
     func initalFilterList() {
             // initial data
-            var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
-            let sections = Array(0..<categories.count)
-            snapshot.appendSections(sections)
-            dataSource.apply(snapshot, animatingDifferences: false)
-            for section in sections {
-                var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
+            /// add a Filter category that expands all
 
-                let categoryHeaderItem = Item(title: categories[section].categoryName, descriptor: nil)
-                sectionSnapshot.append([categoryHeaderItem])
-                let filterItems = categories[section].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
-                sectionSnapshot.append(filterItems, to: categoryHeaderItem)
-                sectionSnapshot.collapse(filterItems)
-                dataSource.apply(sectionSnapshot, to: section)
-            }
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+
+        let headerAll = 0
+        let sections = Array(1...categories.count)
+        snapshot.appendSections([headerAll])
+        snapshot.appendSections(sections)
+        dataSource.apply(snapshot, animatingDifferences: false)
+        var headerSnapShot = NSDiffableDataSourceSectionSnapshot<Item>()
+        let headerItem = Item(title: "All Filters", descriptor: nil)
+        headerSnapShot.append([headerItem])
+        dataSource.apply(headerSnapShot, to: 0)
+        for section in sections {
+            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
+            let categoryHeaderItem = Item(title: categories[section - 1].categoryName, descriptor: nil)
+            sectionSnapshot.append([categoryHeaderItem])
+            let filterItems = categories[section - 1 ].filterDescriptors.map {Item(title: $0.displayName, descriptor: $0)}
+            sectionSnapshot.append(filterItems, to: categoryHeaderItem)
+//            sectionSnapshot.collapse(filterItems)
+            dataSource.apply(sectionSnapshot, to: section )
+        }
+
+//        dataSource.sectionSnapshotHandlers.snapshotForExpandingParent = {
+//            parent, currentChildSnapshot -> NSDiffableDataSourceSectionSnapshot<String> in
+//
+//        }
     }
 }
 
@@ -728,7 +752,7 @@ extension PGLMainFilterController {
         return selectedDescriptor
     }
 
-   
+
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var descriptor: PGLFilterDescriptor
