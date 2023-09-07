@@ -81,6 +81,11 @@ class PGLMainFilterController:  UIViewController,
             filterCollectionView.reloadData()
         }
     }
+
+    enum Header: Int {
+        case AllFilter = 0
+        case Category = 1
+    }
         // MARK: - Types
 
         /// State restoration values.
@@ -529,18 +534,21 @@ extension PGLMainFilterController: UISearchControllerDelegate {
         }
 
         func displaySearchResults(matchingFilters: [PGLFilterDescriptor]) {
+
+            // depends on the mode of Grouped or Flat for the headers
+
             var filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
 
             // get dataSource snapshot
             var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
 
-            snapshot.appendSections([0])
+            snapshot.appendSections([Header.AllFilter.rawValue])
 //            snapshot.insertSections([0], beforeSection: 0)
 
-            let categoryHeaderItem = Item(title: "Matches", descriptor: nil)
-            filterItems.insert(categoryHeaderItem, at: 0)
+            let allHeaderItem = Item(title: "Matches", descriptor: nil)
+            snapshot.appendItems([allHeaderItem], toSection: Header.AllFilter.rawValue)
 
-            snapshot.appendItems(filterItems, toSection: 0)
+            snapshot.appendItems(filterItems, toSection: Header.AllFilter.rawValue)
             dataSource.apply(snapshot, animatingDifferences: true)
         }
 
@@ -624,7 +632,7 @@ extension PGLMainFilterController {
 
     private func configureDataSource() {
 
-        let headerRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { (cell, indexPath, item) in
+        let headerFilterRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { (cell, indexPath, item) in
 //            var content = cell.defaultContentConfiguration()
             var content = UIListContentConfiguration.extraProminentInsetGroupedHeader()
             content.text = item.title
@@ -632,37 +640,49 @@ extension PGLMainFilterController {
             let disclosureOptions = UICellAccessory.outlineDisclosure(
                 displayed: .always,
                 options: UICellAccessory.OutlineDisclosureOptions() ) {
-                    self.displaySearchResults(matchingFilters: self.filters )
+                    if (indexPath.section == Header.AllFilter.rawValue) && (indexPath.row == 0) {
+                        /// flip FilterNavigatorMode to opposite
+                        if self.mode == FilterNavigatorMode.Grouped {
+                            self.mode = FilterNavigatorMode.Flat}
+                        else {
+                            self.mode = FilterNavigatorMode.Grouped
+                        }
+
+                        self.displaySearchResults(matchingFilters: self.filters )
+                    }
                 }
-
             cell.accessories = [disclosureOptions]
+        }
 
-
+        let headerRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { (cell, indexPath, item) in
+//            var content = cell.defaultContentConfiguration()
+            var content = UIListContentConfiguration.extraProminentInsetGroupedHeader()
+            content.text = item.title
+            cell.contentConfiguration = content
+            cell.accessories = [.outlineDisclosure()]
         }
 
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { [weak self] (cell, indexPath, item) in
             guard self != nil else { return }
-
             var content = cell.defaultContentConfiguration()
             content.text = item.title
             cell.contentConfiguration = content
-
             let disclosureOptions = UICellAccessory.OutlineDisclosureOptions(style: .cell)
             cell.accessories = [.outlineDisclosure(options: disclosureOptions)]
-
-
-
         }
 
         dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: filterCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
-            if indexPath.section == 0 {
-                // filters header
-                return collectionView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: item)
-            }
-            if indexPath.item == 0 {
-                return collectionView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: item)
+            if indexPath.row == 0 {
+                if indexPath.section == Header.AllFilter.rawValue {
+                    // filters header
+                    return collectionView.dequeueConfiguredReusableCell(using: headerFilterRegistration, for: indexPath, item: item)
+                } else  {
+                            // category header
+                        return collectionView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: item)
+                    }
             } else {
+                // ordinary filter cell
                 return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
             }
 
@@ -679,15 +699,19 @@ extension PGLMainFilterController {
 
         var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
 
-        let headerAll = 0
+        let headerAll = Header.AllFilter.rawValue
         let sections = Array(1...categories.count)
         snapshot.appendSections([headerAll])
         snapshot.appendSections(sections)
         dataSource.apply(snapshot, animatingDifferences: false)
         var headerSnapShot = NSDiffableDataSourceSectionSnapshot<Item>()
-        let headerItem = Item(title: "All Filters", descriptor: nil)
+        var headerItemTitle = "All Filters" // for FilterNavigatorMode.Grouped
+        if mode == FilterNavigatorMode.Flat {
+            headerItemTitle = "Categories"
+        }
+        let headerItem = Item(title: headerItemTitle, descriptor: nil)
         headerSnapShot.append([headerItem])
-        dataSource.apply(headerSnapShot, to: 0)
+        dataSource.apply(headerSnapShot, to: Header.AllFilter.rawValue)
         for section in sections {
             var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>()
             let categoryHeaderItem = Item(title: categories[section - 1].categoryName, descriptor: nil)
@@ -698,19 +722,12 @@ extension PGLMainFilterController {
             dataSource.apply(sectionSnapshot, to: section )
         }
 
-//        dataSource.sectionSnapshotHandlers.snapshotForExpandingParent = {
-//            parent, currentChildSnapshot -> NSDiffableDataSourceSectionSnapshot<String> in
-//
-//        }
+
     }
 }
 
+/// Selection Navigation
 extension PGLMainFilterController {
-
-        /// add selected filter to the frequent category
-
-
-
 
 
     func selectedFilterDescriptor(inTable: UICollectionView)-> PGLFilterDescriptor? {
