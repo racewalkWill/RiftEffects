@@ -545,7 +545,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
             snapshot.appendSections([Header.AllFilter.rawValue])
 //            snapshot.insertSections([0], beforeSection: 0)
 
-            let allHeaderItem = Item(title: "Matches", descriptor: nil)
+            let allHeaderItem = Item(title: "Categories", descriptor: nil)
             snapshot.appendItems([allHeaderItem], toSection: Header.AllFilter.rawValue)
 
             snapshot.appendItems(filterItems, toSection: Header.AllFilter.rawValue)
@@ -643,12 +643,14 @@ extension PGLMainFilterController {
                     if (indexPath.section == Header.AllFilter.rawValue) && (indexPath.row == 0) {
                         /// flip FilterNavigatorMode to opposite
                         if self.mode == FilterNavigatorMode.Grouped {
-                            self.mode = FilterNavigatorMode.Flat}
+                            self.mode = FilterNavigatorMode.Flat
+                            self.displaySearchResults(matchingFilters: self.filters )
+                        }
                         else {
                             self.mode = FilterNavigatorMode.Grouped
+                            self.initalFilterList()
                         }
 
-                        self.displaySearchResults(matchingFilters: self.filters )
                     }
                 }
             cell.accessories = [disclosureOptions]
@@ -705,7 +707,7 @@ extension PGLMainFilterController {
         snapshot.appendSections(sections)
         dataSource.apply(snapshot, animatingDifferences: false)
         var headerSnapShot = NSDiffableDataSourceSectionSnapshot<Item>()
-        var headerItemTitle = "All Filters" // for FilterNavigatorMode.Grouped
+        var headerItemTitle = "A-Z Filters" // for FilterNavigatorMode.Grouped
         if mode == FilterNavigatorMode.Flat {
             headerItemTitle = "Categories"
         }
