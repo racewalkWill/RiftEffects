@@ -145,7 +145,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             // show the new results !
 
         showStackControllerAction()
-        updateNavigationBar()
+        updateStackNameToNavigationBar()
 
 
     }
@@ -155,7 +155,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     // MARK: save btn Actions
 
     func saveStackActionBtn(_ sender: UIBarButtonItem) {
-        self.updateNavigationBar()
+        self.updateStackNameToNavigationBar()
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
        saveStack()
 
@@ -333,7 +333,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         let discardAction = UIAlertAction(title: "Discard",
                   style: .destructive) { (action) in
             self.hideViewReleaseStack()
-            self.updateNavigationBar()
+            self.updateStackNameToNavigationBar()
             // next back out of the parm controller since the filter is removed
 
             if ( self.parmController?.isViewLoaded ?? false ) {  // or .isBeingPresented?
@@ -438,8 +438,13 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 }
     }
 
-    func updateNavigationBar() {
+    func updateStackNameToNavigationBar() {
         self.navigationItem.title = self.appStack.viewerStackOrPushedFirstStack()?.stackName
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+    func updateSequenceCurrentFilterToBar(filterName: String) {
+        self.navigationItem.title = filterName
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -531,7 +536,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackChange") ")
 
-            self?.updateNavigationBar()
+            self?.updateStackNameToNavigationBar()
             if !(self?.keepParmSlidersVisible ?? false) {
                 self?.hideParmControls()
             }
@@ -545,7 +550,20 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 // a released object sometimes receives the notification
                                                   // the guard is based upon the apple sample app 'Conference-Diffable'
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackNameChange") ")
-            self?.updateNavigationBar()
+            self?.updateStackNameToNavigationBar()
+        }
+
+        notifications[PGLStackNameChange] = aNotification
+
+
+        aNotification = myCenter.addObserver(forName: PGLCurrentSequenceFilterName, object: nil , queue: queue) {[weak self]
+            myUpdate in
+            if let userDataDict = myUpdate.userInfo {
+                if let newFilterName = userDataDict["newFilterName"] {
+                    self?.updateSequenceCurrentFilterToBar(filterName: newFilterName as! String)
+                }
+
+            }
         }
 
         notifications[PGLStackNameChange] = aNotification
@@ -727,7 +745,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 appStack.createDemoStack(view: view)
             }
         }
-        updateNavigationBar()
+        updateStackNameToNavigationBar()
 
     }
 

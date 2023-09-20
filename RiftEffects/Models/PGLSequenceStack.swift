@@ -19,6 +19,7 @@ import os
 ///    Must always have at least one filter, defaults to image filter
 ///
 let PGLStartSequenceDissolve = NSNotification.Name(rawValue: "PGLStartSequenceDissolve")
+let PGLCurrentSequenceFilterName = NSNotification.Name(rawValue: "PGLCurrentSequenceFilterName")
 
 class PGLSequenceStack: PGLFilterStack {
 
@@ -181,6 +182,14 @@ class PGLSequenceStack: PGLFilterStack {
                 Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: target")
                 targetFilter = currentFilter()
         }
+
+        /// update the navigationItem title to the current filter name
+        let newFilterName = currentFilter().localizedName()
+        let filterNameUpdateNotification = Notification(name:PGLCurrentSequenceFilterName,
+                        object: nil,
+                        userInfo: ["newFilterName" : newFilterName as Any ])
+            NotificationCenter.default.post(filterNameUpdateNotification)
+            //PGLCurrentSequenceFilterName
 
         offScreenFilter = hidden
         setSequenceFilterInputs()

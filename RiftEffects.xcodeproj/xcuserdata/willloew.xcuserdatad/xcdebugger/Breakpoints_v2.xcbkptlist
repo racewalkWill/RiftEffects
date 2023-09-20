@@ -42,7 +42,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "442"
             endingLineNumber = "442"
-            landmarkName = "updateNavigationBar()"
+            landmarkName = "updateStackNameToNavigationBar()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -56,8 +56,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
+            startingLineNumber = "539"
+            endingLineNumber = "539"
             landmarkName = "registerImageControllerNotifications()"
             landmarkType = "7">
          </BreakpointContent>
@@ -153,6 +153,36 @@
                   startingLineNumber = "532"
                   endingLineNumber = "532"
                   offsetFromSymbolStart = "1152">
+               </Location>
+               <Location
+                  uuid = "4B78462B-F4FB-42CC-AA25-3BE08C46A6BF - d7fc5b281c26e2c7"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLOpenStackController.initialSnapShot() -&gt; UIKit.NSDiffableDataSourceSnapshot&lt;Swift.Int, RiftEffects.CDFilterStack&gt;"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects2.5/RiftEffects/Controllers/PGLOpenStackController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "532"
+                  endingLineNumber = "532"
+                  offsetFromSymbolStart = "1160">
+               </Location>
+               <Location
+                  uuid = "4B78462B-F4FB-42CC-AA25-3BE08C46A6BF - d7fc5b281c26e2c7"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLOpenStackController.initialSnapShot() -&gt; UIKit.NSDiffableDataSourceSnapshot&lt;Swift.Int, RiftEffects.CDFilterStack&gt;"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects2.5/RiftEffects/Controllers/PGLOpenStackController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "532"
+                  endingLineNumber = "532"
+                  offsetFromSymbolStart = "1220">
                </Location>
             </Locations>
          </BreakpointContent>

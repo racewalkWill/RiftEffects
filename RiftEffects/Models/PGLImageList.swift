@@ -403,7 +403,7 @@ class PGLImageList: CustomStringConvertible {
              let thePHAsset = selectedAsset.asset
              if let resource = PHAssetResource.assetResources(for: thePHAsset).first
              {
-                 NSLog("\(resource.originalFilename)  \(thePHAsset.location)")
+                 NSLog("\(resource.originalFilename)  \(String(describing: thePHAsset.location))")
              }
          }
 

@@ -548,9 +548,9 @@ extension PGLOpenStackController {
 extension PGLOpenStackController: NSFetchedResultsControllerDelegate {
     // see example in RayWenderlich course 'cdt materials' CampgroundManager unit 07 unit testing
     // /Users/willloew/Developer/raywenderlich courses/cdt-materials/07-unit-testing/projects/final
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      tableView.beginUpdates()
-    }
+//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//      tableView.beginUpdates()
+//    }
 
 //    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
 //            // this causes filterManager to pop the view controller on every data change
@@ -609,9 +609,9 @@ extension PGLOpenStackController: NSFetchedResultsControllerDelegate {
     }
     // swiftlint:enable force_unwrapping
 
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      tableView.endUpdates()
-    }
+//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//      tableView.endUpdates()
+//    }
 
     func configureCell(_ cell: UITableViewCell, withCDFilterStack: CDFilterStack?) {
         // see also configureDataSource()

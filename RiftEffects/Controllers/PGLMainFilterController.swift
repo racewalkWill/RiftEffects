@@ -537,7 +537,7 @@ extension PGLMainFilterController: UISearchControllerDelegate {
 
             // depends on the mode of Grouped or Flat for the headers
 
-            var filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
+            let filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
 
             // get dataSource snapshot
             var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
