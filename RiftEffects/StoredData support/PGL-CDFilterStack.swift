@@ -491,18 +491,14 @@ extension PGLFilterAttributeImage {
             }
         if self.inputStack != nil {
             // a child stack exists
-            if self.storedParmImage?.inputStack == nil {
-                // create a cdFilterStack for the child stack input to the parm
-                if let childCDStack = self.inputStack?.writeCDStack(moContext: moContext) {
-                    NSLog("PGLFilterAttributeImage #createNewCDImageParm created new childStack \(childCDStack)")
-                    self.storedParmImage?.inputStack = childCDStack
-                }
+            let childCDStack = self.inputStack?.writeCDStack(moContext: moContext)
+                // save or create a cdFilterStack for the child stack input to the parm
+                //  writeCDStack creates a new cdFilterStack if needed.
+            if childCDStack !== self.storedParmImage?.inputStack {
+                self.storedParmImage?.inputStack = childCDStack
                     // store the relationship
-
-
+                }
             }
-        }
-
 
     }
 
