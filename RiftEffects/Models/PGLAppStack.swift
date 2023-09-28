@@ -129,6 +129,7 @@ class PGLAppStack {
     func postSelectActiveStackRow() {
         let rowChange = Notification(name: PGLSelectActiveStackRow)
         NotificationCenter.default.post(rowChange)
+
     }
 
      func resetOutputAppStack(_ userPickedStack: PGLFilterStack) {
@@ -338,6 +339,7 @@ class PGLAppStack {
         let  nextRowCell = cellFilters[startingActiveRow + 1 ]
 
         moveTo(filterIndent: nextRowCell)
+        viewerStack.postFilterNameInTitleBar()
     }
 
     func moveActiveBack() {
@@ -352,6 +354,7 @@ class PGLAppStack {
         let  nextRowCell = cellFilters[startingActiveRow - 1 ]
 
         moveTo(filterIndent: nextRowCell)
+        viewerStack.postFilterNameInTitleBar()
     }
 
     // MARK: flattened Filters

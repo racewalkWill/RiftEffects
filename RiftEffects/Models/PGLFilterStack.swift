@@ -707,6 +707,16 @@ class PGLFilterStack  {
         return filterAt(tabIndex: activeFilterIndex)
     }
 
+    func postFilterNameInTitleBar() {
+           /// update the navigationItem title to the current filter name
+       let newFilterName = currentFilter().localizedName()
+       let filterNameUpdateNotification = Notification(name:PGLCurrentSequenceFilterName,
+                                                       object: nil,
+                                                       userInfo: ["newFilterName" : newFilterName as Any ])
+       NotificationCenter.default.post(filterNameUpdateNotification)
+   }
+   
+
 
     func filterNumber() -> Int {
         return  activeFilterIndex + 1

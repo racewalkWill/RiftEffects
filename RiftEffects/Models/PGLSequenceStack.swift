@@ -146,15 +146,7 @@ class PGLSequenceStack: PGLFilterStack {
 
 
         // only increment to the next filter while it is off screen
-    fileprivate func postFilterNameInTitleBar() {
-            /// update the navigationItem title to the current filter name
-        let newFilterName = currentFilter().localizedName()
-        let filterNameUpdateNotification = Notification(name:PGLCurrentSequenceFilterName,
-                                                        object: nil,
-                                                        userInfo: ["newFilterName" : newFilterName as Any ])
-        NotificationCenter.default.post(filterNameUpdateNotification)
-    }
-    
+
     func increment(hidden: OffScreen) {
         // where hidden is dissolve .input or .target parm
         // only change the hidden parm
