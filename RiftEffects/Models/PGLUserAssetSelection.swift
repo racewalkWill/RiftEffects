@@ -121,9 +121,9 @@ class PGLUserAssetSelection {
 //        myTargetFilterAttribute = nil
 
     }
-    deinit {
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
-    }
+//    deinit {
+//        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+//    }
 
 
     func resetSections() {

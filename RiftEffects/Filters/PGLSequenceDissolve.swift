@@ -37,7 +37,7 @@ class PGLSequenceDissolve: PGLTransitionFilter {
     }
 
     deinit {
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+//        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
         postTransitionFilterRemove()
         // as an internal filter the stack does not know about
         // this dissolve so this filter has to remove the needsRedraw flag for transition

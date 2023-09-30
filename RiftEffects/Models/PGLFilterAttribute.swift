@@ -222,9 +222,9 @@ class PGLFilterAttribute {
 
     }
 
-    deinit {
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
-    }
+//    deinit {
+//        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+//    }
 
     func movingCorner(atCorner: Vertex, startPoint: CGPoint, newPoint: CGPoint) {
            // implemented by rectangle subclass

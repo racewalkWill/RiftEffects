@@ -149,9 +149,9 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         return PGLFilterAttribute.parmClass(parmDict: parmDict)
     }
 
-    deinit {
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
-    }
+//    deinit {
+//        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+//    }
 
     func releaseVars() {
         for anAttribute in attributes {

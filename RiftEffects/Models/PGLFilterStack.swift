@@ -127,9 +127,9 @@ class PGLFilterStack  {
 
     }
 
-    deinit {
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
-    }
+//    deinit {
+//        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+//    }
 
     func releaseVars() {
         for aFilter in activeFilters {
@@ -715,7 +715,7 @@ class PGLFilterStack  {
                                                        userInfo: ["newFilterName" : newFilterName as Any ])
        NotificationCenter.default.post(filterNameUpdateNotification)
    }
-   
+
 
 
     func filterNumber() -> Int {

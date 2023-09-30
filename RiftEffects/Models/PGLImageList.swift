@@ -76,7 +76,7 @@ class PGLImageList: CustomStringConvertible {
 
     deinit {
         releaseVars()
-        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+//        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
     }
 
     convenience init(localAssetIDs: [String],albumIds: [String]) {

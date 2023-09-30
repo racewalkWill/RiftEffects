@@ -83,14 +83,51 @@ class PGLFilterDescriptorTests: XCTestCase {
                     mappedClasses = specialMap!
                 }
                     for aMapClass in mappedClasses {
-                        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter \(aCategory.categoryConstant) \(aFilterName) \(aMapClass) ")
+
 
                         guard let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, aMapClass)
                         else { XCTFail("Filter Descriptor creation failed for \(aFilterName) \(aMapClass))")
                             continue
                                        }
+
                         XCTAssertNotNil(thisFilterDescriptor.filter, "CIFilter did not create filter \(aFilterName) from category \(aCategory.categoryConstant)")
-                        XCTAssertNotNil(thisFilterDescriptor.pglSourceFilter(), "CIFilter did not create pglSourceFilter \(aFilterName) from category \(aCategory.categoryConstant)")
+                        let pglFilter = thisFilterDescriptor.pglSourceFilter()
+                        XCTAssertNotNil(pglFilter, "CIFilter did not create pglSourceFilter \(aFilterName) from category \(aCategory.categoryConstant)")
+
+                        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter -\(aCategory.categoryConstant) -\(aFilterName) -\(aMapClass) -\(pglFilter!.localizedName()) ")
+                    }
+                }
+            }
+
+    }
+
+    /// generate to the log the filter category, filtername, localized name and description
+    func testFilterNameDescriptionCapture() {
+
+        let allCategories = PGLFilterCategory.allFilterCategories()
+        for aCategory in allCategories {
+            let categoryFilterNames = CIFilter.filterNames(inCategory: aCategory.categoryConstant)
+
+            for aFilterName in categoryFilterNames {
+                var mappedClasses = [PGLSourceFilter.self]
+                let specialMap = CIFilterToPGLFilter.Map[aFilterName]
+                    // nil is answered for most
+                if specialMap != nil {
+                    mappedClasses = specialMap!
+                }
+                    for aMapClass in mappedClasses {
+
+                        guard let thisFilterDescriptor = PGLFilterDescriptor(aFilterName, aMapClass)
+                        else { XCTFail("Filter Descriptor creation failed for \(aFilterName) \(aMapClass))")
+                            continue
+                                       }
+
+                        XCTAssertNotNil(thisFilterDescriptor.filter, "CIFilter did not create filter \(aFilterName) from category \(aCategory.categoryConstant)")
+                        let pglFilter = thisFilterDescriptor.pglSourceFilter()
+                        XCTAssertNotNil(pglFilter, "CIFilter did not create pglSourceFilter \(aFilterName) from category \(aCategory.categoryConstant)")
+
+                        let filterDescription = CIFilter.localizedDescription(forFilterName: aFilterName)!
+                        Logger(subsystem: TestLogSubsystem, category: TestLogCategory).notice("Filter:\(aCategory.categoryConstant):\(aFilterName):\(pglFilter!.localizedName()):\(filterDescription)")
                     }
                 }
             }
