@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A303930F27AADED800E2A3D4 /* PGLCompactPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */; };
 		A308939F251E977400F244D6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A308939E251E977400F244D6 /* Launch Screen.storyboard */; };
+		A313B1E22AE3298B007AE850 /* PGLVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313B1E12AE3298B007AE850 /* PGLVideo.swift */; };
 		A316B9E425D9AD25000C8299 /* PGLDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */; };
 		A3181C042974C84F00834D89 /* PGLNeedsRedraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */; };
 		A31FAF9F28F5E619002DCFEA /* PGLSequenceDissolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */; };
@@ -170,6 +171,7 @@
 /* Begin PBXFileReference section */
 		A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCompactPresentationController.swift; sourceTree = "<group>"; };
 		A308939E251E977400F244D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		A313B1E12AE3298B007AE850 /* PGLVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLVideo.swift; sourceTree = "<group>"; };
 		A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLDataStoreTests.swift; sourceTree = "<group>"; };
 		A3181C032974C84F00834D89 /* PGLNeedsRedraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLNeedsRedraw.swift; sourceTree = "<group>"; };
 		A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSequenceDissolve.swift; sourceTree = "<group>"; };
@@ -348,6 +350,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A313B1E02AE32967007AE850 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				A313B1E12AE3298B007AE850 /* PGLVideo.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
 		A341186225C300F300587590 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,6 +610,7 @@
 		A3C7170C255C3FA7005C2CAD /* UI Support */ = {
 			isa = PBXGroup;
 			children = (
+				A313B1E02AE32967007AE850 /* Video */,
 				A3BF506324D32A3400CD5114 /* CompositionalLayout */,
 				A3BF505A24D32A3400CD5114 /* PGLTableCellAction.swift */,
 				A3BF508924D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift */,
@@ -838,6 +849,7 @@
 				A32F213B283BBAF1006C026F /* PGLNavPrimaryController.swift in Sources */,
 				A327122229775C30007DF04A /* MetalFilters.swift in Sources */,
 				A3E17A1B29F5DBB2006A39A6 /* PGLFilterStackDemo.swift in Sources */,
+				A313B1E22AE3298B007AE850 /* PGLVideo.swift in Sources */,
 				A39F88082A4C7FF2000AE342 /* PGLAppearance.swift in Sources */,
 				A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */,
 				A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */,

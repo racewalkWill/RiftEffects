@@ -415,6 +415,7 @@ class PGLImageList: CustomStringConvertible {
                else {
                 guard let theImage = image else { return  }
                 pickedCIImage = self.convert2CIImage(aUIImage: theImage)
+                   Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
 
                }
             }

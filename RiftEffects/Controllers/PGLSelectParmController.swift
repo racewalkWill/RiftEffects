@@ -1280,6 +1280,8 @@ class PGLSelectParmController: PGLCommonController,
 //                            }
                             selectedImageList.appendImage(aCiImage: pickedCIImage!)
                             Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
+                            Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
+
                         }
                     }
                         self?.pickerCompletion(pickerController: pickerController, pickedImageList: selectedImageList)

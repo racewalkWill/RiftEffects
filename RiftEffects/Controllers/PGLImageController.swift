@@ -13,6 +13,7 @@ import MetalKit
 import Photos
 import os
 import StoreKit
+import ReplayKit
 
 enum PGLFilterPick: Int {
     case category = 0, filter
@@ -41,7 +42,7 @@ let ExportAlbum = "ExportAlbum"
 
 let ShowHelpPageAtStartupKey = "DisplayStartHelp"
 
-class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate {
+class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, RPScreenRecorderDelegate {
 
 
     // controller in detail view - shows the image as filtered - knows the current filter
@@ -51,7 +52,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     static var LibraryMenuIdentifier = UIAction.Identifier("Library")
 //
 
-    var videoPreviewViewBounds = CGRect.init()
+
     var myScale: CGFloat = 1.0
     var myScaleFactor: CGFloat = 1.0
     var myScaleTransform: CGAffineTransform = CGAffineTransform.identity
@@ -67,7 +68,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     let crossPoint = UIImage(systemName: "plus.circle.fill")
 //    let reverseCrossPoint = UIImage(systemName: "plus.circle")
 
-
+    // MARK: video vars
+     var isActive = false
 
     // MARK: control Vars
 
@@ -513,7 +515,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
           UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.displayPrivacyPolicy(self.moreBtn)
-        }
+        },
+         UIAction(title: "Record.. ", image:UIImage(systemName: "recordingtape")) {
+           action in
+             self.recordButtonTapped()
+
+       }
             ] )
         moreBtn.menu = contextMenu
     }
@@ -746,7 +753,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             }
         }
         updateStackNameToNavigationBar()
-
+        
+        // MARK: Video
+        RPScreenRecorder.shared().delegate = self
+        // end video
     }
 
     override func viewDidAppear(_ animated: Bool) {
