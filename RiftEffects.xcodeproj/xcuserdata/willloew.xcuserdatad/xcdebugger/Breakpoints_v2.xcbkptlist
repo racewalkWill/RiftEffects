@@ -40,8 +40,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
             landmarkName = "updateStackNameToNavigationBar()"
             landmarkType = "7">
          </BreakpointContent>
@@ -56,8 +56,8 @@
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "546"
-            endingLineNumber = "546"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "registerImageControllerNotifications()"
             landmarkType = "7">
          </BreakpointContent>
@@ -299,7 +299,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E208F606-5B51-4923-940E-F8F23946D5E3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/StoredData support/PGL-CDFilterStack.swift"
@@ -379,7 +379,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.IDETestFailureBreakpoint">
          <BreakpointContent
             uuid = "AAE68969-F9F7-4658-8649-8FB319C30FA7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             breakpointStackSelectionBehavior = "1">
@@ -389,7 +389,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "09EB2124-4E8A-4F97-8DC6-1CA5C8FB57F2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLFilterImageContainerController.swift"
@@ -469,7 +469,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3BE15B6F-CB5A-4C91-9C28-4755F7DEA19F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/StoredData support/PGL-CDFilterStack.swift"
@@ -517,7 +517,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "39006387-0D4F-4E0A-861F-79B2FC3766DC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLAssetController.swift"
@@ -581,7 +581,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "494E1369-8B8B-4357-AF12-D3E208AEDC3C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLSelectParmController.swift"
@@ -603,8 +603,8 @@
             filePath = "RiftEffects/UI Support/Video/PGLVideo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "startRecording()"
             landmarkType = "7">
             <Locations>
@@ -651,8 +651,8 @@
             filePath = "RiftEffects/UI Support/Video/PGLVideo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "saveToPhotos(tempURL:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -667,8 +667,8 @@
             filePath = "RiftEffects/UI Support/Video/PGLVideo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "saveToPhotos(tempURL:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -683,8 +683,8 @@
             filePath = "RiftEffects/UI Support/Video/PGLVideo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "saveToPhotos(tempURL:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -699,8 +699,8 @@
             filePath = "RiftEffects/UI Support/Video/PGLVideo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "saveToPhotos(tempURL:)"
             landmarkType = "7">
             <Locations>
@@ -741,16 +741,48 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "586F428C-0913-4679-B9C5-F3BE98227F5B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/UI Support/Video/PGLVideo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "saveToPhotos(tempURL:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "586F428C-0913-4679-B9C5-F3BE98227F5B - ce0ffd5270cfa485"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #2 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in RiftEffects.PGLImageController.saveToPhotos(tempURL: Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/UI%20Support/Video/PGLVideo.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "3536">
+               </Location>
+               <Location
+                  uuid = "586F428C-0913-4679-B9C5-F3BE98227F5B - ce0ffd5270cfa4cb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #2 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in RiftEffects.PGLImageController.saveToPhotos(tempURL: Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/UI%20Support/Video/PGLVideo.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "108"
+                  endingLineNumber = "108"
+                  offsetFromSymbolStart = "3188">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

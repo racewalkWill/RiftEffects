@@ -13,69 +13,125 @@ import os
 
 extension PGLImageController {
 
-    func recordButtonTapped() {
+    @objc func recordButtonTapped() {
         if !RPScreenRecorder.shared().isAvailable {
             fatalError("RPScreenRecorder is NOT available")
         }
             // Check the internal recording state.
-            if isActive == false {
+        if isActive == false {
                 // If a recording isn't currently underway, start it.
-                startRecording()
-            } else {
+//        addRecordingControlWindow()
+            startRecording()
+        } else {
                 // If a recording is active, the button stops it.
-                stopRecording()
-            }
+            stopRecording()
+        }
 
     }
 
     func startRecording() {
         RPScreenRecorder.shared().startRecording { error in
-            // If there is an error, print it and set the button title and state.
+                // If there is an error, print it and set the button title and state.
             if error == nil {
-                // There isn't an error and recording starts successfully. Set the recording state.
+                    // There isn't an error and recording starts successfully. Set the recording state.
                 self.setRecordingState(active: true)
-
-                // Set up the camera view.
-//                self.setupCameraView()
+                NSLog("Success starting RPScreenRecorder")
+                    // Set up the camera view.
+                    //                self.setupCameraView()
             } else {
-                // Print the error.
-                print("Error starting recording")
+                    // Print the error.
+                NSLog("Error starting RPScreenRecorder")
 
-                // Set the recording state.
+                    // Set the recording state.
                 self.setRecordingState(active: false)
             }
         }
     }
 
     func stopRecording() {
-        let outputURL = getDirectory()
-        RPScreenRecorder.shared().stopRecording(withOutput: outputURL)
-        self.saveToPhotos(tempURL: outputURL)
+            //        let outputURL = getDirectory()
+        RPScreenRecorder.shared().stopRecording {
+            preview, err in
+            guard let preview = preview else { print("no preview window"); return }
+                //update recording controls
+            preview.previewControllerDelegate = self
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                preview.modalPresentationStyle = .popover
+                preview.preferredContentSize = CGSize(width: (self.view.frame.width * 0.75), height: 350.0)
+              // specify anchor point?
+              guard let popOverPresenter = preview.popoverPresentationController
+              else { return }
+    //                    popOverPresenter.sourceView = filterCell
+              let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+              sheet.detents = [.medium(), .large()]
+      //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+              sheet.prefersEdgeAttachedInCompactHeight = true
+              sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+              }
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                preview.modalPresentationStyle = .popover
+                preview.popoverPresentationController?.sourceRect = .zero
+                preview.popoverPresentationController?.sourceView = self.view
+            }
+            else {
+                preview.modalPresentationStyle = .automatic
+            }
+           // DispatchQueue.main.async {
+                // use the dispatch due to error
+                //     "AX Lookup problem - errorCode:1,100 error:Permission denied portName:'com.apple.iphone.axserver'"
+
+            self.present(preview, animated: true) {
+                NSLog("Previw Controller is presented")
+            }
+
+
+        }
+            //        self.saveToPhotos(tempURL: outputURL)
         self.setRecordingState(active: false)
 
 
     }
 
+    func screenRecorder(
+        _ screenRecorder: RPScreenRecorder,
+        didStopRecordingWith previewViewController: RPPreviewViewController?,
+        error: Error?
+    ) {
+        NSLog(" didStopRecordingWith ")
+    }
+
+
+    func addRecordingControlWindow() {
+         controlsWindow = UIWindow(frame: CGRect(x: (view.frame.width/3), y: 0, width: (view.frame.width/3), height: 45 + view.safeAreaInsets.top))
+        controlsWindow?.windowScene = view.window?.windowScene
+        controlsWindow?.makeKeyAndVisible()
+        let recordingIndicator = UIButton.systemButton(with: UIImage(systemName: "record.circle")!, target: self, action: #selector(recordButtonTapped))
+        recordingIndicator.backgroundColor = .systemRed
+        let vc = UIViewController()
+        controlsWindow?.rootViewController = vc
+        vc.view.addSubview(recordingIndicator)
+        recordingIndicator.center = CGPoint(x: vc.view.center.x, y: vc.view.center.y + 20)
+    }
 
     func setRecordingState(active: Bool) {
         DispatchQueue.main.async {
             if active == true {
-                // Set the button title.
-                print("started recording")
-//                self.recordButton.title = "Stop Recording"
+                    // Set the button title.
+                NSLog("started recording")
+                    //                self.recordButton.title = "Stop Recording"
             } else {
-                // Set the button title.
-                print("stopped recording")
-//                self.recordButton.title = "Start Recording"
+                    // Set the button title.
+                NSLog("stopped recording")
+                    //                self.recordButton.title = "Start Recording"
             }
 
-            // Set the internal recording state.
+                // Set the internal recording state.
             self.isActive = active
 
-            // Set the other buttons' isEnabled properties.
-//            self.captureButton.isEnabled = !active
-//            self.broadcastButton.isEnabled = !active
-//            self.clipButton.isEnabled = !active
+                // Set the other buttons' isEnabled properties.
+                //            self.captureButton.isEnabled = !active
+                //            self.broadcastButton.isEnabled = !active
+                //            self.clipButton.isEnabled = !active
         }
     }
 
@@ -94,41 +150,25 @@ extension PGLImageController {
             PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: tempURL!)
         } completionHandler: { success, error in
             DispatchQueue.main.async {
-                try? FileManager.default.removeItem(at: tempURL!)
+                    //                try? FileManager.default.removeItem(at: tempURL!)
 
                 if success == true {
                     Logger(subsystem: LogSubsystem, category: LogCategory).info("saveToPhotos video recording completed")
                 } else {
-                    Logger(subsystem: LogSubsystem, category: LogCategory).error("saveToPhotos video recording failed")
+                    Logger(subsystem: LogSubsystem, category: LogCategory).error("saveToPhotos video recording failed \(error)")
                 }
-                // temp checking code.. more cleanup needed?
-//                let directory = FileManager.default.temporaryDirectory
-//                let contentList = FileManager.default.contents(atPath: directory.absoluteString)
+                    // temp checking code.. more cleanup needed?
+                    //                let directory = FileManager.default.temporaryDirectory
+                    //                let contentList = FileManager.default.contents(atPath: directory.absoluteString)
 
             }
 
         }
     }
 
-    func exportClip() {
-        let clipURL = getDirectory()
-        let interval = TimeInterval(5)
 
-        print("Generating clip at URL: ", clipURL)
-        RPScreenRecorder.shared().exportClip(to: clipURL, duration: interval) { error in
-            if error != nil {
-                print("Error attempting to start Clip Buffering")
-            } else {
-                // There isn't an error, so save the clip at the URL to Photos.
-                self.saveToPhotos(tempURL: clipURL)
-            }
-        }
-    }
-
-
+      
 }
-
-
 
 
 

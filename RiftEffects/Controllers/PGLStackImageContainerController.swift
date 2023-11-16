@@ -153,7 +153,11 @@ class PGLStackImageContainerController: UIViewController {
             UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.containerImageController?.displayPrivacyPolicy(self.moreBtn)
-        }
+        },
+             UIAction(title: "Record.. ", image:UIImage(systemName: "recordingtape")) {
+               action in
+            self.containerImageController?.recordButtonTapped()
+           }
         ])
         moreBtn.menu = contextMenu
     }

@@ -42,7 +42,7 @@ let ExportAlbum = "ExportAlbum"
 
 let ShowHelpPageAtStartupKey = "DisplayStartHelp"
 
-class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, RPScreenRecorderDelegate {
+class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
 
 
     // controller in detail view - shows the image as filtered - knows the current filter
@@ -70,6 +70,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     // MARK: video vars
      var isActive = false
+    weak var previewControllerDelegate: RPPreviewViewControllerDelegate?
+     var controlsWindow: UIWindow?
 
     // MARK: control Vars
 
@@ -756,8 +758,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         
         // MARK: Video
         RPScreenRecorder.shared().delegate = self
+
+
         // end video
     }
+
+
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -782,8 +788,22 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         notifications = [:] // reset
     }
 
+        // MARK: RPPreviewViewControllerDelegate
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        NSLog("previewControllerDidFinish...")
+        self.dismiss(animated: true, completion: nil)
+        // Indicates that the preview view controller is ready to be dismissed.
 
+//        myVideoPreview.dismiss(animated: true,completion: nil )
+    }
 
+    func previewController(myVideoPreview: RPPreviewViewController, didFinishWithActivityTypes: Set<String>) {
+        // static let saveToCameraRoll: UIActivity.ActivityType
+        NSLog("video recording previewController didFinish...")
+        myVideoPreview.dismiss(animated: true, completion: nil)
+    }
+
+//MARK: library menu
     func updateLibraryMenu() {
         // from open stack delete command or the saveActionBtns
         // enable/disable the More button library menu item
