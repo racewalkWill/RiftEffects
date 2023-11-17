@@ -20,7 +20,7 @@ extension PGLImageController {
             // Check the internal recording state.
         if isActive == false {
                 // If a recording isn't currently underway, start it.
-//        addRecordingControlWindow()
+
             startRecording()
         } else {
                 // If a recording is active, the button stops it.
@@ -30,14 +30,16 @@ extension PGLImageController {
     }
 
     func startRecording() {
+
         RPScreenRecorder.shared().startRecording { error in
                 // If there is an error, print it and set the button title and state.
             if error == nil {
                     // There isn't an error and recording starts successfully. Set the recording state.
                 self.setRecordingState(active: true)
+                self.addRecordingControlWindow()
                 NSLog("Success starting RPScreenRecorder")
                     // Set up the camera view.
-                    //                self.setupCameraView()
+//                self.setupCameraView()
             } else {
                     // Print the error.
                 NSLog("Error starting RPScreenRecorder")
@@ -49,7 +51,9 @@ extension PGLImageController {
     }
 
     func stopRecording() {
-            //        let outputURL = getDirectory()
+
+        controlsWindow?.rootViewController?.view.isHidden = true
+
         RPScreenRecorder.shared().stopRecording {
             preview, err in
             guard let preview = preview else { print("no preview window"); return }
@@ -61,24 +65,27 @@ extension PGLImageController {
               // specify anchor point?
               guard let popOverPresenter = preview.popoverPresentationController
               else { return }
-    //                    popOverPresenter.sourceView = filterCell
               let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+
               sheet.detents = [.medium(), .large()]
       //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
               sheet.prefersEdgeAttachedInCompactHeight = true
               sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
               }
             if UIDevice.current.userInterfaceIdiom == .pad {
                 preview.modalPresentationStyle = .popover
-                preview.popoverPresentationController?.sourceRect = .zero
-                preview.popoverPresentationController?.sourceView = self.view
+                preview.popoverPresentationController?.sourceItem = self.moreBtn
+                // preview.popoverPresentationController?.sourceRect = .zero
+                // preview.popoverPresentationController?.sourceView = self.view
             }
             else {
                 preview.modalPresentationStyle = .automatic
             }
            // DispatchQueue.main.async {
-                // use the dispatch due to error
+                // tried using the dispatch for the self.present(preview) due to error
                 //     "AX Lookup problem - errorCode:1,100 error:Permission denied portName:'com.apple.iphone.axserver'"
+                //  stackOverflow discussion suggests it is a known bug that can be ignored
 
             self.present(preview, animated: true) {
                 NSLog("Previw Controller is presented")
@@ -102,15 +109,35 @@ extension PGLImageController {
 
 
     func addRecordingControlWindow() {
-         controlsWindow = UIWindow(frame: CGRect(x: (view.frame.width/3), y: 0, width: (view.frame.width/3), height: 45 + view.safeAreaInsets.top))
-        controlsWindow?.windowScene = view.window?.windowScene
-        controlsWindow?.makeKeyAndVisible()
-        let recordingIndicator = UIButton.systemButton(with: UIImage(systemName: "record.circle")!, target: self, action: #selector(recordButtonTapped))
-        recordingIndicator.backgroundColor = .systemRed
-        let vc = UIViewController()
-        controlsWindow?.rootViewController = vc
-        vc.view.addSubview(recordingIndicator)
-        recordingIndicator.center = CGPoint(x: vc.view.center.x, y: vc.view.center.y + 20)
+        if controlsWindow != nil {
+            controlsWindow?.rootViewController?.view.isHidden = false
+
+        } else {
+            // create the record indicator window
+            var frameX = (view.frame.width * 0.5)
+            var frameHeight: CGFloat = 30.0
+
+            let frameY: CGFloat = 0.0
+            let frameWidth =  view.frame.width/3
+
+
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                // iPad
+                frameX = (view.frame.width * 0.75)
+                frameHeight = frameHeight + view.safeAreaInsets.top
+
+            }
+            controlsWindow = UIWindow(frame: CGRect(x: frameX, y: frameY, width: frameWidth, height:frameHeight ))
+            controlsWindow?.windowScene = view.window?.windowScene
+            controlsWindow?.makeKeyAndVisible()
+            let recordingIndicator = UIButton.systemButton(with: UIImage(systemName: "record.circle")!, target: self, action: #selector(recordButtonTapped))
+            recordingIndicator.backgroundColor = .systemRed
+            
+            let vc = UIViewController()
+            controlsWindow?.rootViewController = vc
+            vc.view.addSubview(recordingIndicator)
+            recordingIndicator.center = CGPoint(x: vc.view.center.x, y: vc.view.center.y + 20)
+        }
     }
 
     func setRecordingState(active: Bool) {
@@ -166,8 +193,30 @@ extension PGLImageController {
         }
     }
 
+// MARK: Camera
+//    func setupCameraView() {
+//        DispatchQueue.main.async {
+//            // Validate that the camera preview view and camera are in an enabled state.
+//
+//
+//            if (RPScreenRecorder.shared().cameraPreviewView != nil) && RPScreenRecorder.shared().isCameraEnabled {
+//                // Set the camera view to the camera preview view of RPScreenRecorder.
+//                guard let cameraView = RPScreenRecorder.shared().cameraPreviewView else {
+//                    print("Unable to retrieve the cameraPreviewView from RPScreenRecorder. Returning.")
+//                    return
+//                }
+//                // Set the frame and position to place the camera preview view.
+//                cameraView.frame = CGRect(x: 0, y: self.view.frame.size.height - 100, width: 100, height: 100)
+//                // Ensure that the view is layer-backed.
+////                cameraView.wantsLayer = true
+//                // Add the camera view as a subview to the main view.
+//                self.view.addSubview(cameraView)
+//
+//                self.cameraView = cameraView
+//            }
+//        }
+//    }
 
-      
 }
 
 

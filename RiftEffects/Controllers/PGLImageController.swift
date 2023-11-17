@@ -72,6 +72,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
      var isActive = false
     weak var previewControllerDelegate: RPPreviewViewControllerDelegate?
      var controlsWindow: UIWindow?
+//    var cameraView: UIView?
 
     // MARK: control Vars
 
