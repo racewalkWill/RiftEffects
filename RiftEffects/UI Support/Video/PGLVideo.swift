@@ -52,8 +52,8 @@ extension PGLImageController {
 
     func stopRecording() {
 
-        controlsWindow?.rootViewController?.view.isHidden = true
-
+        controlsWindow?.rootViewController?.dismiss(animated: false)
+        controlsWindow = nil
         RPScreenRecorder.shared().stopRecording {
             preview, err in
             guard let preview = preview else { print("no preview window"); return }
@@ -108,36 +108,44 @@ extension PGLImageController {
     }
 
 
-    func addRecordingControlWindow() {
-        if controlsWindow != nil {
-            controlsWindow?.rootViewController?.view.isHidden = false
-
-        } else {
+    fileprivate func positionRecordControlFrame() -> CGRect {
             // create the record indicator window
-            var frameX = (view.frame.width * 0.5)
-            var frameHeight: CGFloat = 30.0
-
-            let frameY: CGFloat = 0.0
-            let frameWidth =  view.frame.width/3
-
-
-            if UIDevice.current.userInterfaceIdiom == .pad {
+        var frameX = (view.frame.width * 0.5)
+        var frameHeight: CGFloat = 30.0
+        
+        let frameY: CGFloat = 0.0
+        let frameWidth =  view.frame.width/3
+        
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
                 // iPad
-                frameX = (view.frame.width * 0.75)
-                frameHeight = frameHeight + view.safeAreaInsets.top
-
-            }
-            controlsWindow = UIWindow(frame: CGRect(x: frameX, y: frameY, width: frameWidth, height:frameHeight ))
-            controlsWindow?.windowScene = view.window?.windowScene
-            controlsWindow?.makeKeyAndVisible()
-            let recordingIndicator = UIButton.systemButton(with: UIImage(systemName: "record.circle")!, target: self, action: #selector(recordButtonTapped))
-            recordingIndicator.backgroundColor = .systemRed
+            frameX = (view.frame.width * 0.75)
+            frameHeight = frameHeight + view.safeAreaInsets.top
             
-            let vc = UIViewController()
-            controlsWindow?.rootViewController = vc
-            vc.view.addSubview(recordingIndicator)
-            recordingIndicator.center = CGPoint(x: vc.view.center.x, y: vc.view.center.y + 20)
         }
+        return CGRect(x: frameX, y: frameY, width: frameWidth, height: frameHeight)
+    }
+    
+    func addRecordingControlWindow() {
+        var controlFrame: CGRect?
+        // use the position of the hiddenRecordBtn on the navigation bar to position the controls window
+        // hiddenRecordBtn will be correctly position for all the iPad/iPhone configurations
+        controlFrame = hiddenRecordBtn.frame(in: view)
+        if controlFrame == nil {
+            controlFrame = positionRecordControlFrame()
+        }
+        controlsWindow = UIWindow(frame: controlFrame!)
+
+        controlsWindow?.windowScene = view.window?.windowScene
+        controlsWindow?.makeKeyAndVisible()
+        let recordingIndicator = UIButton.systemButton(with: UIImage(systemName: "record.circle")!, target: self, action: #selector(recordButtonTapped))
+        recordingIndicator.backgroundColor = .systemRed
+
+        let vc = UIViewController()
+        controlsWindow?.rootViewController = vc
+        vc.view.addSubview(recordingIndicator)
+        recordingIndicator.center = controlsWindow!.center
+
     }
 
     func setRecordingState(active: Bool) {

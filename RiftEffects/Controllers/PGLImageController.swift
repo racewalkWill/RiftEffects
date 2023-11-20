@@ -129,7 +129,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: nil )
     }
 
-
+    @IBOutlet weak var hiddenRecordBtn: UIBarButtonItem!
+    
 
     @IBAction func randomBtnAction(_ sender: UIBarButtonItem) {
 //        NSLog("PGLImageController addRandom button click")
