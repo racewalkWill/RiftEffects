@@ -69,7 +69,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //    let reverseCrossPoint = UIImage(systemName: "plus.circle")
 
     // MARK: video vars
-     var isActive = false
+   static  var isActive = false
     weak var previewControllerDelegate: RPPreviewViewControllerDelegate?
      var controlsWindow: UIWindow?
 //    var cameraView: UIView?
@@ -129,9 +129,14 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: nil )
     }
 
-    @IBOutlet weak var hiddenRecordBtn: UIBarButtonItem!
-    
+    @IBOutlet weak var recordBtn: UIBarButtonItem!
 
+    
+    @IBAction func recordBtnAction(_ sender: UIBarButtonItem) {
+        recordButtonTapped(controllerRecordBtn: sender)
+
+    }
+    
     @IBAction func randomBtnAction(_ sender: UIBarButtonItem) {
 //        NSLog("PGLImageController addRandom button click")
         let setInputToPrior = appStack.viewerStack.stackHasFilter()
@@ -519,12 +524,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
           UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.displayPrivacyPolicy(self.moreBtn)
-        },
-         UIAction(title: "Record.. ", image:UIImage(systemName: "recordingtape")) {
-           action in
-             self.recordButtonTapped()
-
-       }
+        }
             ] )
         moreBtn.menu = contextMenu
     }

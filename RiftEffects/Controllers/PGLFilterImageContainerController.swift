@@ -120,6 +120,11 @@ class PGLFilterImageContainerController: UIViewController {
     }
     @IBOutlet weak var randomBtn: UIBarButtonItem!
 
+    @IBOutlet weak var recordBtn: UIBarButtonItem!
+    
+    @IBAction func recordBtnAction(_ sender: UIBarButtonItem) {
+        containerImageController?.recordButtonTapped(controllerRecordBtn:sender)
+    }
         //MARK: Toolbar buttons actions
 
 
@@ -173,12 +178,7 @@ class PGLFilterImageContainerController: UIViewController {
             UIAction(title: "Privacy.. ", image:UIImage(systemName: "info.circle")) {
             action in
             self.containerImageController?.displayPrivacyPolicy(self.moreBtn)
-        },
-             UIAction(title: "Record.. ", image:UIImage(systemName: "recordingtape")) {
-               action in
-            self.containerImageController?.recordButtonTapped()
-
-           }
+        }
 
         ])
         moreBtn.menu = contextMenu

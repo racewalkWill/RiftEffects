@@ -7,24 +7,32 @@
 //  Based on code from ReplayKitSample app from Apple
 
 import ReplayKit
+import UIKit
 import Photos
 import os
 
 
 extension PGLImageController {
 
-    @objc func recordButtonTapped() {
+    @objc func recordButtonTapped(controllerRecordBtn: UIBarButtonItem) {
         if !RPScreenRecorder.shared().isAvailable {
             fatalError("RPScreenRecorder is NOT available")
         }
             // Check the internal recording state.
-        if isActive == false {
+        if PGLImageController.isActive == false {
                 // If a recording isn't currently underway, start it.
-
             startRecording()
+            guard let recordImage = UIImage(systemName: "recordingtape.circle.fill")
+                else { return  }
+            controllerRecordBtn.setSymbolImage(recordImage, contentTransition: .automatic)
+            controllerRecordBtn.tintColor = UIColor.red
         } else {
                 // If a recording is active, the button stops it.
             stopRecording()
+            guard let normalRecordImage = UIImage(systemName: "recordingtape")
+                else { return  }
+            controllerRecordBtn.setSymbolImage(normalRecordImage, contentTransition: .automatic)
+            controllerRecordBtn.tintColor = nil  // returns to system default
         }
 
     }
@@ -36,7 +44,7 @@ extension PGLImageController {
             if error == nil {
                     // There isn't an error and recording starts successfully. Set the recording state.
                 self.setRecordingState(active: true)
-                self.addRecordingControlWindow()
+
                 NSLog("Success starting RPScreenRecorder")
                     // Set up the camera view.
 //                self.setupCameraView()
@@ -75,7 +83,7 @@ extension PGLImageController {
               }
             if UIDevice.current.userInterfaceIdiom == .pad {
                 preview.modalPresentationStyle = .popover
-                preview.popoverPresentationController?.sourceItem = self.moreBtn
+                preview.popoverPresentationController?.sourceItem = self.recordBtn
                 // preview.popoverPresentationController?.sourceRect = .zero
                 // preview.popoverPresentationController?.sourceView = self.view
             }
@@ -108,49 +116,13 @@ extension PGLImageController {
     }
 
 
-    fileprivate func positionRecordControlFrame() -> CGRect {
-            // create the record indicator window
-        var frameX = (view.frame.width * 0.5)
-        var frameHeight: CGFloat = 30.0
-        
-        let frameY: CGFloat = 0.0
-        let frameWidth =  view.frame.width/3
-        
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-                // iPad
-            frameX = (view.frame.width * 0.75)
-            frameHeight = frameHeight + view.safeAreaInsets.top
-            
-        }
-        return CGRect(x: frameX, y: frameY, width: frameWidth, height: frameHeight)
-    }
+
     
-    func addRecordingControlWindow() {
-        var controlFrame: CGRect?
-        // use the position of the hiddenRecordBtn on the navigation bar to position the controls window
-        // hiddenRecordBtn will be correctly position for all the iPad/iPhone configurations
-        controlFrame = hiddenRecordBtn.frame(in: view)
-        if controlFrame == nil {
-            controlFrame = positionRecordControlFrame()
-        }
-        controlsWindow = UIWindow(frame: controlFrame!)
 
-        controlsWindow?.windowScene = view.window?.windowScene
-        controlsWindow?.makeKeyAndVisible()
-        let recordingIndicator = UIButton.systemButton(with: UIImage(systemName: "record.circle")!, target: self, action: #selector(recordButtonTapped))
-        recordingIndicator.backgroundColor = .systemRed
-
-        let vc = UIViewController()
-        controlsWindow?.rootViewController = vc
-        vc.view.addSubview(recordingIndicator)
-        recordingIndicator.center = controlsWindow!.center
-
-    }
 
     func setRecordingState(active: Bool) {
         DispatchQueue.main.async {
-            if active == true {
+            if (PGLImageController.isActive) == true {
                     // Set the button title.
                 NSLog("started recording")
                     //                self.recordButton.title = "Stop Recording"
@@ -161,7 +133,7 @@ extension PGLImageController {
             }
 
                 // Set the internal recording state.
-            self.isActive = active
+            PGLImageController.isActive = active
 
                 // Set the other buttons' isEnabled properties.
                 //            self.captureButton.isEnabled = !active
@@ -170,36 +142,7 @@ extension PGLImageController {
         }
     }
 
-    func getDirectory() -> URL {
-        var tempPath = URL(fileURLWithPath: NSTemporaryDirectory())
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
-        let stringDate = formatter.string(from: Date())
-        print(stringDate)
-        tempPath.appendPathComponent(String.localizedStringWithFormat("output-%@.mp4", stringDate))
-        return tempPath
-    }
 
-    func saveToPhotos(tempURL: URL?) {
-        PHPhotoLibrary.shared().performChanges {
-            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: tempURL!)
-        } completionHandler: { success, error in
-            DispatchQueue.main.async {
-                    //                try? FileManager.default.removeItem(at: tempURL!)
-
-                if success == true {
-                    Logger(subsystem: LogSubsystem, category: LogCategory).info("saveToPhotos video recording completed")
-                } else {
-                    Logger(subsystem: LogSubsystem, category: LogCategory).error("saveToPhotos video recording failed \(error)")
-                }
-                    // temp checking code.. more cleanup needed?
-                    //                let directory = FileManager.default.temporaryDirectory
-                    //                let contentList = FileManager.default.contents(atPath: directory.absoluteString)
-
-            }
-
-        }
-    }
 
 // MARK: Camera
 //    func setupCameraView() {
