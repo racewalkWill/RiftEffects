@@ -47,7 +47,7 @@ class PGLMetalController: UIViewController {
 
        metalRender.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
 
-        metalRender.drawBasic(in: metalView)
+        metalRender.drawBasicCentered(in: metalView)
             // draw once so that the view has the current stack output image
             // then normal 60 fps drawing is controlled by the PGLNeedsRedraw
 

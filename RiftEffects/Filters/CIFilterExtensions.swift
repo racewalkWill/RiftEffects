@@ -24,6 +24,7 @@ let kPRandom = "Random Filters"
 let kPCarnivalMirror = "CarnivalMirror"
 let kPTiltShift = "TiltShift"
 let kPWarpItMetal  = "WarpItMetal"
+let kPScaleDown = "ScaleDown"
 
 let kCompositeTextPositionFilter = "CompositeTextPositionFilter"
 let kSaliencyBlurFilter = "Saliency Blur"
@@ -52,6 +53,7 @@ extension CIFilter {
 //              PGLBumpTransitionFilter.self  , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
             ],
             kPImages : [PGLTransitionFilter.self ],
+            kPScaleDown : [PGLScaleDownFrame.self],
             kPRandom : [PGLRandomFilterMaker.self ],
           kPSequencedFilter : [PGLSequencedFilters.self ] ,
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],

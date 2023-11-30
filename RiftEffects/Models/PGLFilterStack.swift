@@ -41,7 +41,7 @@ class PGLFilterStack  {
     var activeFilters = [PGLSourceFilter]()  // make private?
         // should be unowned? a stack will always have a filter list
    
-    var cropRect: CGRect { get
+    var fullScreenRect: CGRect { get
     {   return CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height)
 
         }
@@ -557,7 +557,7 @@ class PGLFilterStack  {
                 if newOutputImage.extent.isInfinite {
 //                    NSLog("PGLFilterStack imageUpdate newOutputImage has input of infinite extent")
                 }
-                thisImage = filter.scaleOutput(ciOutput: newOutputImage, stackCropRect: cropRect)
+                thisImage = filter.scaleOutput(ciOutput: newOutputImage, stackCropRect: fullScreenRect)
                     // most filters do not implement scaleOutput
                     // crop in the PGLRectangleFilter scales the crop to fill the extent
 

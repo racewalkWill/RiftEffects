@@ -1105,10 +1105,14 @@ class PGLRectangleFilter : PGLSourceFilter {
     }
 
    override func scaleOutput(ciOutput: CIImage, stackCropRect: CGRect) -> CIImage {
+       let skipScaling = true
         // RectangleFilter needs to crop then scale to full size
         // Most filters do not need this. Parnent PGLSourceFilter has empty implementation
           //ciOutputImage.extent    CGRect    (origin = (x = 592, y = 491), size = (width = 729, height = 742))
         // currentStack.cropRect    CGRect    (origin = (x = 0, y = 0), size = (width = 1583, height = 1668))
+       if skipScaling {
+           return ciOutput
+       }
        if ciOutput.extent.isInfinite {
            // ciClamp filter output is always infinite extent
            // just return without scaling
@@ -1120,7 +1124,8 @@ class PGLRectangleFilter : PGLSourceFilter {
         let scaleTransform = CGAffineTransform(scaleX: widthScale, y: heightScale)
         let translate = scaleTransform.translatedBy(x: -ciOutput.extent.minX, y: -ciOutput.extent.minY)
 
-        return ciOutput.transformed(by: translate)
+        let returnImage =  ciOutput.transformed(by: translate)
+        return returnImage
     }
 
 
@@ -1151,7 +1156,13 @@ class PGLRectangleFilter : PGLSourceFilter {
 
     func attributeCropRect() -> CGRect {
         // answer the attributes filter rect
-        return (cropAttribute?.filterRect)!
+        if let thisFilterRect = cropAttribute?.filterRect {
+            return thisFilterRect
+        }
+        else {
+            return CGRect(x: 0, y: 0, width: TargetSize.width, height: TargetSize.height)
+        }
+
     }
 
    
@@ -1195,6 +1206,8 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
                     return PGLFaceCIFilter()
             case kPImages :
                     return PGLImageCIFilter()
+            case kPScaleDown :
+                    return PGLScaleImageCIFilter()
             case kPRandom :
                 return PGLRandomFilterAction()
 
