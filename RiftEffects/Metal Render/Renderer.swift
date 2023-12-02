@@ -31,45 +31,45 @@ struct RenderVertex {
 }
 
 
-class Renderer: NSObject {
+class Renderer: NSObject, MTKViewDelegate {
 
-    var device: MTLDevice = MTLCreateSystemDefaultDevice()!
-     var commandQueue: MTLCommandQueue!
-     var colorPixelFormat: MTLPixelFormat!
-//    var texture: MTLTexture!
+    var device: MTLDevice!
+    var commandQueue: MTLCommandQueue!
+    var colorPixelFormat: MTLPixelFormat!
+        //    var texture: MTLTexture!
     var needsRedraw = PGLRedraw()
 
-    /// RenderDestinationMetalView drawBasic vars
+        /// RenderDestinationMetalView drawBasic vars
 
     let inFlightSemaphore = DispatchSemaphore(value: maxBuffersInFlight)
     let opaqueBackground: CIImage = CIImage.clear
-    // end RenderDestinationMetalView drawBasic
+        // end RenderDestinationMetalView drawBasic
 
-//    static let quadVertices: [Float] = [
-//        -1,  1,  0,    // triangle 1
-//         1, -1,  0,
-//        -1, -1,  0,
-//        -1,  1,  0,    // triangle 2
-//         1,  1,  0,
-//         1, -1,  0
-//      ]
+        //    static let quadVertices: [Float] = [
+        //        -1,  1,  0,    // triangle 1
+        //         1, -1,  0,
+        //        -1, -1,  0,
+        //        -1,  1,  0,    // triangle 2
+        //         1,  1,  0,
+        //         1, -1,  0
+        //      ]
 
-//    var translation: matrix_float4x4
+        //    var translation: matrix_float4x4
 
 
-//    var pipelineState: MTLRenderPipelineState!
-//
-//    let colorSpace = CGColorSpaceCreateDeviceRGB() // or CGColorSpaceCreateDeviceCMYK() ?
+        //    var pipelineState: MTLRenderPipelineState!
+        //
+        //    let colorSpace = CGColorSpaceCreateDeviceRGB() // or CGColorSpaceCreateDeviceCMYK() ?
     var mtkViewSize: CGSize!
-//    var viewportSize: vector_uint2!
-//
-//    var library: MTLLibrary!
-//    var textureLoader: MTKTextureLoader!
-//    var vertexFunction: MTLFunction!
-//    var fragmentFunction: MTLFunction!
-//    var pipelineStateDescriptor: MTLRenderPipelineDescriptor! = MTLRenderPipelineDescriptor()
-//    var vertices: MTLBuffer?
-//    var numVertices: UInt32!
+        //    var viewportSize: vector_uint2!
+        //
+        //    var library: MTLLibrary!
+        //    var textureLoader: MTKTextureLoader!
+        //    var vertexFunction: MTLFunction!
+        //    var fragmentFunction: MTLFunction!
+        //    var pipelineStateDescriptor: MTLRenderPipelineDescriptor! = MTLRenderPipelineDescriptor()
+        //    var vertices: MTLBuffer?
+        //    var numVertices: UInt32!
 
     var ciMetalContext: CIContext!
     static var ciContext: CIContext!  // global for filter detectors
@@ -79,75 +79,31 @@ class Renderer: NSObject {
 
     var currentPhotoFileFormat: PhotoLibSaveFormat!
     var offScreenRender: PGLOffScreenRender = PGLOffScreenRender()
-//    var numVerticesInt: Int!
+        //    var numVerticesInt: Int!
 
     override init() {
-
-        super.init()
-
-        /// RenderDestinationMetalView
+            /// RenderDestinationMetalView
 
         self.device = MTLCreateSystemDefaultDevice()!
         self.commandQueue = self.device.makeCommandQueue()!
 
-        // Set up the Core Image context's options:
-        // - Name the context to make CI_PRINT_TREE debugging easier.
-        // - Disable caching because the image differs every frame.
-        // - Allow the context to use the low-power GPU, if available.
+            // Set up the Core Image context's options:
+            // - Name the context to make CI_PRINT_TREE debugging easier.
+            // - Disable caching because the image differs every frame.
+            // - Allow the context to use the low-power GPU, if available.
         self.ciMetalContext = CIContext(mtlCommandQueue: self.commandQueue,
-                                   options: [.name: "Renderer",
-                                             .cacheIntermediates: false,
-                                             .allowLowPower: true])
-
-            // or clear comes out as black
-            // CIImage.gray
-        // END RenderDestinationMetalView
+                                        options: [.name: "Renderer",
+                                                  .cacheIntermediates: false,
+                                                  .allowLowPower: true])
 
 
-
-//        guard let device  = MTLCreateSystemDefaultDevice() else {
-//            Logger(subsystem: LogSubsystem, category: LogCategory).fault ("Renderer init(Renderer fatalError( GPU not available")
-//            return
-//        }
-//        library = device.makeDefaultLibrary()
-//        vertexFunction = library.makeFunction(name: "vertexShader")
-//        fragmentFunction = library.makeFunction(name: "samplingShader")
-//
-////        colorPixelFormat = metalView.colorPixelFormat
-//        // setup descriptor for creating a pipeline
-//        pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-//        pipelineStateDescriptor.label = "Texturing Pipeline"
-//        pipelineStateDescriptor.vertexFunction = vertexFunction
-//        pipelineStateDescriptor.fragmentFunction = fragmentFunction
-//        pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormat.bgra8Unorm // default
-//
-//        do {
-//            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-//        }
-//        catch { return }
-//        do {
-//            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-//        }
-//        catch { return }
-//
-//        commandQueue = device.makeCommandQueue()!
-//
-//// Rift related init
-//
-//        textureLoader = MTKTextureLoader(device: device)
-//
-//
-//
-//        let fileType = UserDefaults.standard.string(forKey:  "photosFileType")
-//        currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "HEIF")
-//
-//        Logger(subsystem: LogSubsystem, category: LogCategory).info ("Renderer init currentPhotoFileFormat \(String(describing: self.currentPhotoFileFormat))")
+        super.init()
     }
 
     func captureImage() throws -> UIImage? {
-        // capture the current image in the context
-        // provide a UIImage for save to photoLibrary
-        // uses existing ciContext in a background process..
+            // capture the current image in the context
+            // provide a UIImage for save to photoLibrary
+            // uses existing ciContext in a background process..
 
         if let ciOutput = filterStack()?.stackOutputImage(false) {
             let currentRect = filterStack()!.fullScreenRect
@@ -158,10 +114,10 @@ class Renderer: NSObject {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureImage croppedOutput = \(croppedOutput)")
 
             return UIImage( cgImage: currentOutputImage, scale: UIScreen.main.scale, orientation: .up)
-            // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
+                // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
 
-            // let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-//             pickedCIImage = convertedImage.oriented(theOrientation)
+                // let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+                //             pickedCIImage = convertedImage.oriented(theOrientation)
 
         } else {
             throw savePhotoError.jpegError}
@@ -173,10 +129,10 @@ class Renderer: NSObject {
         appStack = globalAppStack
         filterStack = { self.appStack.outputOrViewFilterStack() }
     }
-    
+
     func set(metalView: MTKView) {
         metalView.device = device
-        metalView.framebufferOnly = true
+        metalView.framebufferOnly = false
             // "To optimize a drawable from an MTKView for GPU access, set the view’s framebufferOnly
             // property to true. This property configures the texture exclusively
             //  as a render target and displayable resource."
@@ -184,48 +140,40 @@ class Renderer: NSObject {
             // see code at 7:24
 
         metalView.delegate = self
-        colorPixelFormat = metalView.colorPixelFormat
+        if let layer = metalView.layer as? CAMetalLayer {
+            // Enable EDR with a color space that supports values greater than SDR.
+            if #available(iOS 16.0, *) {
+                layer.wantsExtendedDynamicRangeContent = true
+            }
+            layer.colorspace = CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3)
+            // Ensure the render view supports pixel values in EDR.
+            metalView.colorPixelFormat = MTLPixelFormat.rgba16Float
+        }
 
-        /// RendererDestinationMetalView
-        ///
-//        ciMetalContext = CIContext(mtlDevice: device,
-//                                options: [CIContextOption.workingFormat: CIFormat.RGBAh,
-//                                          .cacheIntermediates : false,
-//                                          .name : "metalView"] )
-        // END RendererDestinationMetalView
 
-            //.cacheIntermediates : should be false if showing video per WWDC "Optimize the Core Image pipeline"
-                    // but this app is NOT video !! and  value = false causes memory growth
-                    // therefore use .cacheIntermediates : true 2020-10-16
-            // changed to false 2022-07-27 the old buffer showing is fixed with the value false
-
-        // set to half float intermediates for CIDepthBlurEffect as suggested in WWDC 2017
-         // Editing with Depth 508
-        //          https://developer.apple.com/videos/play/wwdc2017/508
 
         Renderer.ciContext = ciMetalContext
-
         metalView.autoResizeDrawable = true
 
-        metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,
-                                             blue: 0.8, alpha: 0.5)
+            //        metalView.clearColor = MTLClearColor(red: 0.5, green: 0.5,  blue: 0.8, alpha: 0.5)
 
     }
+
     func captureHEIFImage() throws -> Data? {
-        // capture the current image in the context
-        // provide a UIImage for save to photoLibrary
-        // uses existing ciContext in a background process..
+            // capture the current image in the context
+            // provide a UIImage for save to photoLibrary
+            // uses existing ciContext in a background process..
 
         if let ciOutput = filterStack()?.stackOutputImage(false).cropForInfiniteExtent()
-            // cropForInfiniteExtent returns image 
+            // cropForInfiniteExtent returns image
             // if infinite then crops to TargetSize
-            {
+        {
 
             let rgbSpace = CGColorSpaceCreateDeviceRGB()
             let options = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0 as CGFloat]
             guard let heifData =  ciMetalContext.heifRepresentation(of: ciOutput, format: .RGBA8, colorSpace: rgbSpace, options: options)
             else {
-                    throw savePhotoError.nilReturn
+                throw savePhotoError.nilReturn
             }
 
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("Renderer #captureHEIFImage ")
@@ -233,32 +181,29 @@ class Renderer: NSObject {
             return heifData
 
 
-            // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
+                // kaliedoscope needs down.. portraits need up.. why.. they both look .up in the imageController
 
         } else {
             throw savePhotoError.heifError}
 
     }
 
-}
-
-extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-//        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
+            //        NSLog("Renderer mtkView drawableSize = \(view.drawableSize) drawableSizeWillChange = \(size)")
         if !((size.width > 0) && (size.height > 0)) {
             Logger(subsystem: LogSubsystem, category: LogCategory).fault("Renderer #drawableSizeWillChange size.width or height = 0 error")
-            // this will cause Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view
-            // and [CAMetalLayer nextDrawable] returning nil because allocation failed.
+                // this will cause Renderer draw fatalError (Render did not get the renderEncoder - draw(in: view
+                // and [CAMetalLayer nextDrawable] returning nil because allocation failed.
         }
         if mtkViewSize != nil, mtkViewSize == size {
-            // no change needed
+                // no change needed
             return
         }
         Logger(subsystem: LogSubsystem, category: LogCategory).info( "drawableSizeWillChange mtkViewSize from  + \(String(describing: self.mtkViewSize)) " )
         Logger(subsystem: LogSubsystem, category: LogCategory).info( "drawableSizeWillChange size to  + \(String(describing: size)) " )
-         mtkViewSize = size
+        mtkViewSize = size
         TargetSize = size
-//        viewportSize = vector_uint2(x: UInt32(size.width), y: UInt32(size.height))
+            //        viewportSize = vector_uint2(x: UInt32(size.width), y: UInt32(size.height))
         appStack.resetDrawableSize()
     }
 
@@ -266,10 +211,10 @@ extension Renderer: MTKViewDelegate {
 
         if DoNotDraw {
             view.isHidden = DoNotDraw
-            // view.isHidden for iPhone navigation to different mtkViews
-            // view.isHidden = true so both mktViews are black.
-            // reset to false if there is an image to show from the stack.. see below
-            // and notification PGLImageCollectionOpen
+                // view.isHidden for iPhone navigation to different mtkViews
+                // view.isHidden = true so both mktViews are black.
+                // reset to false if there is an image to show from the stack.. see below
+                // and notification PGLImageCollectionOpen
 
             return }
         if !needsRedraw.redrawNow() {
@@ -286,9 +231,9 @@ extension Renderer: MTKViewDelegate {
             needsRedraw.filter(changed: false)
                 // filter change has been drawn
         }
-        
-       needsRedraw.toggleViewWillAppear()
-        
+
+        needsRedraw.toggleViewWillAppear()
+
     }
 
 
@@ -328,18 +273,19 @@ extension Renderer: MTKViewDelegate {
                         // Core Image calls the texture provider block lazily when starting a task to render to the destination.
                     return drawable.texture
                 })
+                    //                destination.isFlipped = false
 
                     // Determine EDR headroom and fallback to SDR, as needed.
                     // Note: The headroom must be determined every frame to include changes in environmental lighting conditions.
                 let screen = view.window?.screen
-#if os(iOS)
-                var headroom = CGFloat(1.0)
-                if #available(iOS 16.0, *) {
-                    headroom = screen?.currentEDRHeadroom ?? 1.0
-                }
-#else
-                let headroom = screen?.maximumExtendedDynamicRangeColorComponentValue ?? 1.0
-#endif
+//#if os(iOS)
+//                var headroom = CGFloat(1.0)
+//                if #available(iOS 16.0, *) {
+//                    headroom = screen?.currentEDRHeadroom ?? 1.0
+//                }
+//#else
+//                let headroom = screen?.maximumExtendedDynamicRangeColorComponentValue ?? 1.0
+//#endif
                     /// get an image to draw
                 guard let currentStack = filterStack()
                 else { return }
@@ -379,131 +325,6 @@ extension Renderer: MTKViewDelegate {
             }
         }
     }
-
-//    func drawBasic(in view: MTKView) {
-//        var sizedciOutputImage: CIImage
-//        var imageTexture: MTLTexture
-//
-//        guard let currentStack = filterStack()
-//        else { return }
-//        let ciOutputImage = currentStack.stackOutputImage((appStack.showFilterImage))
-//        if view.isHidden {
-//                // check if there is now an image to show
-//            if ciOutputImage == CIImage.empty() {
-//                    // skip the render on empty image
-//                return
-//            } else {
-//                    // there is an image to show..
-//                view.isHidden = false
-//            }
-//        }
-//        if MainViewImageResize {
-//                // var MainViewImageResize defined globally in AppDelegate.swift
-//                // userSettings control the value
-//            sizedciOutputImage = ciOutputImage.cropped(to: currentStack.fullScreenRect) }
-//        else
-//        { sizedciOutputImage = ciOutputImage }
-//
-//            // image section
-//        guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
-//        else {
-//                return }
-////        let loaderOptions = [ MTKTextureLoader.Option.textureStorageMode: MTLStorageMode.private ]
-//
-//        do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
-//        catch {
-//            return
-//        }
-//
-//
-//        // start render logic
-//        guard let descriptor = view.currentRenderPassDescriptor,
-//          let commandBuffer = commandQueue.makeCommandBuffer(),
-//          let renderEncoder =
-//          commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
-//            return
-//        }
-//        commandBuffer.label = "RiftCommandBuffer"
-//        renderEncoder.label = "RiftRenderEncoder"
-//
-//            // Set the region of the drawable to draw into.
-//        // origin is upper left corner, width,height are pixels
-//        // scale for aspectFit
-//
-////        let aspectFitViewportRect = aspectFitTransform(viewFrame: view.bounds, imageExtent: sizedciOutputImage.extent)
-//
-//
-//
-//        // consider renderEncoder.setScissorRect(_:) to further trim
-//        // The rendering pipeline discards fragments that lie outside the scissor rectangle
-//        renderEncoder.setRenderPipelineState(pipelineState)
-//
-//
-//        // move vertices back to class? only changes on size change
-//        let scalar: Float32 = RendererScale
-//            // controls the size of the background color frame around the image area in mtkView
-//        var scalarX = scalar
-//        var scalarY = scalar
-//
-//        if sizedciOutputImage.extent.width < sizedciOutputImage.extent.height {
-//            scalarY = scalar * Float((sizedciOutputImage.extent.height/sizedciOutputImage.extent.width))
-//            scalarX = scalar * Float((sizedciOutputImage.extent.width/sizedciOutputImage.extent.height)) // the inverse..
-//        }
-//
-//        let quadVertices: [AAPLVertex] = [
-//            AAPLVertex(position: simd_float2(x: scalarX, y: -scalarY), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//            AAPLVertex(position: simd_float2(x: -scalarX, y: -scalarY), textureCoordinate: simd_float2(x: 0.0, y: 1.0)),
-//          AAPLVertex(position: simd_float2(x: -scalarX, y:  scalarY), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//
-//          AAPLVertex(position: simd_float2(x: scalarX, y: -scalarY), textureCoordinate: simd_float2(x: 1.0, y: 1.0)),
-//          AAPLVertex(position: simd_float2(x: -scalarX, y:  scalarY), textureCoordinate: simd_float2(x: 0.0, y: 0.0)),
-//          AAPLVertex(position: simd_float2(x:scalarX, y: scalarY), textureCoordinate: simd_float2(x: 1.0, y: 0.0)),
-//              ]
-//
-//
-//            // The output position of every vertex shader is in clip space (also known as normalized device
-//            //   coordinate space, or NDC). A value of (-1.0, -1.0) in clip-space represents the
-//            //   lower-left corner of the viewport whereas (1.0, 1.0) represents the upper-right corner of
-//            //   the viewport.
-//
-//        let bufferBytes =  quadVertices.count * MemoryLayout<AAPLVertex>.stride
-//
-//        vertices = view.device?.makeBuffer(bytes: quadVertices,
-//                                                    length: bufferBytes,
-//                                                    options: MTLResourceOptions.storageModeShared)
-//        numVertices = UInt32(quadVertices.count)
-//        numVerticesInt = quadVertices.count
-//        renderEncoder.setVertexBuffer(vertices, offset: 0,
-//                                      index: VertexInputIndex.vertices.rawValue)
-//        renderEncoder.setVertexBytes( &viewportSize!,
-//                                      length: MemoryLayout<vector_uint2>.size,
-//                                      index: VertexInputIndex.viewportSize.rawValue)
-//
-//            // create the transform matrix
-//
-////            // image section
-////            guard let cgOutputImage = offScreenRender.basicRenderCGImage(source: sizedciOutputImage)
-////        else {  renderEncoder.endEncoding()
-////                    return } // no image to show }
-////            do {  imageTexture = try textureLoader.newTexture(cgImage: cgOutputImage, options: nil ) }
-////            catch {renderEncoder.endEncoding()
-////                    return }
-//            // end image section
-//
-//        renderEncoder.setFragmentTexture(imageTexture, index: TextureIndex.baseColor.rawValue)
-//        renderEncoder.drawPrimitives(type: MTLPrimitiveType.triangle, vertexStart: 0, vertexCount: numVerticesInt )
-//
-//            // [MTKTextureLoader.Option : Any]? MTKTextureLoader.Option must be added)
-//            // release cgOutputImage after loading into texture
-//            // NOT clear how to do a release...
-//
-//        renderEncoder.endEncoding()
-//
-//        commandBuffer.present(view.currentDrawable!)
-//        commandBuffer.commit()
-//
-//    }
-
 }
 
 class Primitive {

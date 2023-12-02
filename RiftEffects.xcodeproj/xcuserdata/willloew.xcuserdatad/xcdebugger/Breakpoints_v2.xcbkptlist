@@ -788,22 +788,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C5714F5A-1150-4056-9653-A8F85E3A8265"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Metal Render/Renderer.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
-            landmarkName = "Renderer"
-            landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "BD9C7C05-EEE2-43F9-A5D0-F4AFB59A696F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -899,47 +883,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8991C069-3C8D-482D-8DBB-83DB1132DCB2"
-            shouldBeEnabled = "Yes"
+            uuid = "CFE1D460-05BB-4D84-92DA-715D20278A63"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Metal Render/Renderer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "493"
-            endingLineNumber = "493"
-            landmarkName = "Renderer"
-            landmarkType = "21">
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "drawBasicCentered(in:)"
+            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8991C069-3C8D-482D-8DBB-83DB1132DCB2 - c10f28cb2ef86adb"
+                  uuid = "CFE1D460-05BB-4D84-92DA-715D20278A63 - 8b84a00892f94a31"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.Renderer.drawBasic(in: __C.MTKView) -&gt; ()"
+                  symbolName = "RiftEffects.Renderer.drawBasicCentered(in: __C.MTKView) -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Metal%20Render/Renderer.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "370"
-                  endingLineNumber = "370"
-                  offsetFromSymbolStart = "12724">
+                  startingLineNumber = "346"
+                  endingLineNumber = "346"
+                  offsetFromSymbolStart = "1948">
                </Location>
                <Location
-                  uuid = "8991C069-3C8D-482D-8DBB-83DB1132DCB2 - c10f28cb2ef87ab4"
+                  uuid = "CFE1D460-05BB-4D84-92DA-715D20278A63 - 8b84a00892f94a10"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.Renderer.drawBasic(in: __C.MTKView) -&gt; ()"
+                  symbolName = "RiftEffects.Renderer.drawBasicCentered(in: __C.MTKView) -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Metal%20Render/Renderer.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "493"
-                  endingLineNumber = "493"
-                  offsetFromSymbolStart = "12724">
+                  startingLineNumber = "347"
+                  endingLineNumber = "347"
+                  offsetFromSymbolStart = "1968">
                </Location>
             </Locations>
          </BreakpointContent>

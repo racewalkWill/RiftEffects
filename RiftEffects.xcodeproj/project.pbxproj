@@ -210,8 +210,8 @@
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A3651FA12A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLStackAlbumHeader.swift; path = "cell xib/PGLStackAlbumHeader.swift"; sourceTree = "<group>"; };
 		A3651FA22A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGLStackAlbumHeader.xib; sourceTree = "<group>"; };
-		A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataClass.swift"; path = "RiftEffects/StoredData support/CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
-		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDStoredFilter+CoreDataProperties.swift"; path = "RiftEffects/StoredData support/CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCommonParmController.swift; sourceTree = "<group>"; };
 		A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackProvider.swift; sourceTree = "<group>"; };
 		A37D23AD2825C27D00EE3723 /* PGLTwoContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLTwoContainerController.swift; sourceTree = "<group>"; };
@@ -397,8 +397,6 @@
 			isa = PBXGroup;
 			children = (
 				A3ABF28D2B194DD3006286B2 /* Documentation.docc */,
-				A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */,
-				A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */,
 				A3BF500B24D3298F00CD5114 /* RiftEffects */,
 				A3BF502524D3299100CD5114 /* RiftEffectsTests */,
 				A3BF503024D3299100CD5114 /* RiftEffectsUITests */,
@@ -484,6 +482,8 @@
 		A3BF508B24D32A3400CD5114 /* StoredData support */ = {
 			isa = PBXGroup;
 			children = (
+				A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */,
+				A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */,
 				A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */,
 				A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */,
 				A35FF77826DC316400D78252 /* PGLCoreDataStack.swift */,
