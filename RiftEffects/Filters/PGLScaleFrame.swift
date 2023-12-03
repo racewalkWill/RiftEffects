@@ -16,6 +16,8 @@ import os
 /// scale a stack output to a smaller rectangle
 class PGLScaleDownFrame: PGLRectangleFilter {
     // return inputAttribute scaled down to the cropAttribute
+    // Lanczos Scale Filter does this already.
+    // use this frame for positioning
 
     /// add to Filter framework
     required init?(filter: String, position: PGLFilterCategoryIndex) {

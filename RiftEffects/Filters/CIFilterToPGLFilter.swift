@@ -22,7 +22,7 @@ class CIFilterToPGLFilter {
             "CICrop": [PGLRectangleFilter.self] ,
             "CIClamp": [PGLRectangleFilter.self] ,
             "CIPerspectiveTransformWithExtent": [PGLRectangleFilter.self] ,
-            "CIGaussianGradient": [PGLScalingFilter.self] ,
+//            "CIGaussianGradient": [PGLScalingFilter.self] ,
             "CIPersonSegmentation": [PGLPersonSegmentation.self],
             kPFaceFilter : [PGLDetectorFilter.self],
             kPBumpFace : [PGLDetectorFilter.self],

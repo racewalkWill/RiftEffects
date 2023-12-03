@@ -302,8 +302,12 @@ class Renderer: NSObject, MTKViewDelegate {
                 }
 
                     // Center the image in the view's visible area.
-                let iRect = ciOutputImage.extent
                 let backBounds = CGRect(x: 0, y: 0, width: dSize.width, height: dSize.height)
+                var iRect = ciOutputImage.extent
+                if ciOutputImage.extent.isInfinite {
+                    iRect = backBounds
+                }
+
                 let shiftX = round((backBounds.size.width + iRect.origin.x - iRect.size.width) * 0.5)
                 let shiftY = round((backBounds.size.height + iRect.origin.y - iRect.size.height) * 0.5)
                 ciOutputImage = ciOutputImage.transformed(by: CGAffineTransform(translationX: shiftX, y: shiftY))
