@@ -13,6 +13,7 @@ import CoreImage
 //import UIKit
 //import Photos
 
+
 class PGLScalingFilter: PGLSourceFilter {
 
     override func scaleOutput(ciOutput: CIImage, stackCropRect: CGRect) -> CIImage {

@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLImageCIFilter.register()
         PGLRandomFilterAction.register()
         PGLCISequenced.register()
-        PGLScaleImageCIFilter.register()
+       
 
 
 

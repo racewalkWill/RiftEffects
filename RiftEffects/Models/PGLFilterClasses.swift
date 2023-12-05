@@ -1206,8 +1206,7 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
                     return PGLFaceCIFilter()
             case kPImages :
                     return PGLImageCIFilter()
-            case kPScaleDown :
-                    return PGLScaleImageCIFilter()
+           
             case kPRandom :
                 return PGLRandomFilterAction()
 
