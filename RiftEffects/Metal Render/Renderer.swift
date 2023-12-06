@@ -96,7 +96,8 @@ class Renderer: NSObject, MTKViewDelegate {
                                                   .cacheIntermediates: false,
                                                   .allowLowPower: true])
 
-
+        let fileType = UserDefaults.standard.string(forKey:  "photosFileType")
+        currentPhotoFileFormat = PhotoLibSaveFormat.init(rawValue: fileType ?? "HEIF")
         super.init()
     }
 
