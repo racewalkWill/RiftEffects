@@ -99,16 +99,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "38D3A8A8-97A3-4EC6-A00F-57575FB015C4"
-            shouldBeEnabled = "Yes"
+            uuid = "912D6BAD-ACE4-4229-9DDB-77F2E64E2AC2"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLFilterClasses.swift"
+            filePath = "RiftEffects/Controllers/VideoCamFilter/PGLCameraInterface.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1196"
-            endingLineNumber = "1196"
-            landmarkName = "filter(withName:)"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "captureOutput(_:didOutput:from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC6EF803-D1A8-4F9A-B179-CBA8674AB908"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/VideoCamFilter/PGLCameraInterface.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "processVideo(sampleBuffer:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

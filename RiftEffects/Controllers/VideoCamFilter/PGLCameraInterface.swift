@@ -112,7 +112,7 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         sessionQueue.async {
             switch self.setupResult {
                 case .success:
-                    self.addObservers()
+//                    self.addObservers()
                     if let unwrappedVideoDataOutputConnection = self.videoDataOutput.connection(with: .video) {
                         let videoDevicePosition = self.videoInput.device.position
                     }
@@ -238,7 +238,7 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
 
             let renderedCIImage = CIImage(cvImageBuffer: finalVideoPixelBuffer)
 
-            myCameraViewFilter?.setImageValue(newValue: renderedCIImage, keyName: kCIInputImageKey)
+            myCameraViewFilter?.videoImageFrame = renderedCIImage
 
         }
 

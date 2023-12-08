@@ -12,7 +12,7 @@ import UIKit
 class PGLCopyToOutputCIFilter: CIFilter {
     // just return an image.. NO EFFECTS.. Starts the filter chain..
 
-    @objc dynamic   var inputImage: CIImage?
+//    @objc dynamic   var inputImage: CIImage?
 
 
     class func register() {
@@ -39,8 +39,5 @@ class PGLCopyToOutputCIFilter: CIFilter {
     }
 
 
-    override var outputImage: CIImage? {
-        get { return inputImage }
-    }
 }
 

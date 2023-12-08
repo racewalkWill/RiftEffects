@@ -16,6 +16,7 @@ import MobileCoreServices
 
 class PGLVideoCameraFilter: PGLSourceFilter {
      var cameraInterface: PGLCameraInterface?
+    var videoImageFrame: CIImage?
 
     // MARK: - View Controller Life Cycle
 
@@ -25,12 +26,16 @@ class PGLVideoCameraFilter: PGLSourceFilter {
         cameraInterface?.setUpInterface()
     }
 
+    override func outputImage() -> CIImage? {
+        return videoImageFrame
+    }
 
 func viewWillDisappear(_ animated: Bool) {
     // MARK: Release
     // should be used in release chain.
     cameraInterface?.releaseOnViewDisappear()
     }
+
 
    override func releaseVars() {
         cameraInterface?.releaseOnViewDisappear()
