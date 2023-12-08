@@ -24,7 +24,7 @@ let kPRandom = "Random Filters"
 let kPCarnivalMirror = "CarnivalMirror"
 let kPTiltShift = "TiltShift"
 let kPWarpItMetal  = "WarpItMetal"
-let kPScaleDown = "ScaleDown"
+let kPCopyOut = "CopyToOutput"
 
 let kCompositeTextPositionFilter = "CompositeTextPositionFilter"
 let kSaliencyBlurFilter = "Saliency Blur"

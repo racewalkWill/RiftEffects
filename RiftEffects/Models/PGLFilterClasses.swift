@@ -1225,6 +1225,8 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
             case kSaliencyBlurFilter:
                 return PGLSaliencyBlurFilter()
 
+            case kPCopyOut: return PGLCopyToOutputCIFilter()
+
             default:
                 return CIFilter(name: withName)!
         }

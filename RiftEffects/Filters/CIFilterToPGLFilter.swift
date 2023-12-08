@@ -31,6 +31,7 @@ class CIFilterToPGLFilter {
 //              PGLBumpTransitionFilter.self  , PGLDissolveWrapperFilter.self  PGLDissolveWrapperFilter is NOT a user facing filter.. only use internally
             kPImages : [PGLTransitionFilter.self ],
             "CILanczosScaleTransform" : [ PGLScaleDownFrame.self] ,
+            kPCopyOut : [PGLVideoCameraFilter.self],
             kPRandom : [PGLRandomFilterMaker.self ],
             kPSequencedFilter : [PGLSequencedFilters.self ] ,
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],
