@@ -48,7 +48,7 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     private let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: 
                 [.builtInDualCamera, .builtInWideAngleCamera],
                mediaType: .video,
-               position: .unspecified)
+               position: .front)
 
     private var statusBarOrientation: UIInterfaceOrientation = .portrait
 
@@ -329,7 +329,7 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
 
     func removeObservers() {
         NotificationCenter.default.removeObserver(self)
-        session.removeObserver(self, forKeyPath: "running", context: &sessionRunningContext)
+//        session.removeObserver(self, forKeyPath: "running", context: &sessionRunningContext)
     }
 
 
