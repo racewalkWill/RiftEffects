@@ -38,7 +38,6 @@ class PGLImageList: CustomStringConvertible {
 
 
     var position = 0
-    let options: PHImageRequestOptions
     var targetSize: CGSize { get {
         return TargetSize
         }
@@ -66,11 +65,7 @@ class PGLImageList: CustomStringConvertible {
     // MARK: Init
     init(){
 
-        options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.isSynchronous = true
-        options.version = .current
+
 
     }
 
@@ -79,7 +74,9 @@ class PGLImageList: CustomStringConvertible {
 //        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
     }
 
+    /// not used?
     convenience init(localAssetIDs: [String],albumIds: [String]) {
+        //  Remove
         // this init assumes two matching arrays of same size localId and albumid
         if (localAssetIDs.count != albumIds.count) && (!albumIds.isEmpty) {
             // empty albumIds is possible and okay
@@ -95,6 +92,8 @@ class PGLImageList: CustomStringConvertible {
 
     }
 
+    ///   PHPicker created image selection from #loadImageListFromPicker(results: [PHPickerResult])
+    ///   load the selected image assets
     convenience init(localPGLAssets: [PGLAsset]) {
         self.init()
         imageAssets = localPGLAssets
@@ -102,6 +101,7 @@ class PGLImageList: CustomStringConvertible {
 
 
     }
+
 
     convenience init(localIdentifiers: [String]) {
         // use this when there are no album identfiers
@@ -121,6 +121,7 @@ class PGLImageList: CustomStringConvertible {
 
     }
 
+    /// demo init for images in the build Assets.xcassets - not in the user photos library
     convenience init(imageFileNames: [String]) {
         self .init()
        let uiImages = UIImage.uiImages(imageFileNames)
@@ -355,14 +356,18 @@ class PGLImageList: CustomStringConvertible {
 
 
            if isAssetList {
-               if let imageFromAsset = imageFrom(selectedAsset: imageAssets[atIndex]) {
+               if let imageFromAsset = imageAssets[atIndex].imageFrom() {
                    answerImage = imageFromAsset
                }
-               else { answerImage = CIImage.empty()
-                        // reset the imageAssets
-                        imageAssets.remove(at: atIndex)
-                   if assetIDs.count < (atIndex - 1 )
-                    {  assetIDs.remove(at: atIndex) }
+               else { 
+                   NSLog("PGLImageList image(atIndex nil result on imageFrom()")
+                   /// why remove the imageAsset.. could it be late in loading?
+                
+//                   answerImage = CIImage.empty()
+//                        // reset the imageAssets
+//                        imageAssets.remove(at: atIndex)
+//                   if assetIDs.count < (atIndex - 1 )
+//                    {  assetIDs.remove(at: atIndex) }
                }
            }
            else { // has images
@@ -375,55 +380,6 @@ class PGLImageList: CustomStringConvertible {
        }
 
 
-
-     func imageFrom(selectedAsset: PGLAsset) -> CIImage? {
-           // READS the CIImage
-        //            options = PHImageRequestOptions()
-        //            options.deliveryMode = .highQualityFormat
-        //            options.isNetworkAccessAllowed = true  download from the cloud
-        //            options.isSynchronous = true
-
-        //            For an asynchronous request, Photos may call your result handler block more than once.
-        //            Photos first calls the block to provide a low-quality image suitable for displaying temporarily
-        //             while it prepares a high-quality image. (If low-quality image data is immediately available, the first call may occur before the method returns.)
-        //            When the high-quality image is ready, Photos calls your result handler again to provide it.
-        //            If the image manager has already cached the requested image at full quality, Photos calls your result handler only once.
-        //            The PHImageResultIsDegradedKey key in the result handler’s info parameter indicates when Photos is providing a temporary low-quality image.
-
-           var pickedCIImage: CIImage?
-//         let matchingSize = CGSize(width: selectedAsset.asset.pixelWidth, height: selectedAsset.asset.pixelHeight)
-         // commented out pixelWidth is zero
-            let matchingSize = TargetSize  //global
-
-//         options.progressHandler = {  (progress, error, stop, info) in
-//             NSLog("PGLImageList imageFrom: progressHandler  \(progress) info = \(String(describing: info))")
-//            }
-         options.resizeMode = PHImageRequestOptionsResizeMode.fast
-         if PrintDebugPhotoLocation {
-             let thePHAsset = selectedAsset.asset
-             if let resource = PHAssetResource.assetResources(for: thePHAsset).first
-             {
-                 NSLog("\(resource.originalFilename)  \(String(describing: thePHAsset.location))")
-             }
-         }
-
-           PHImageManager.default().requestImage(for: selectedAsset.asset, targetSize: matchingSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
-               if let error =  info?[PHImageErrorKey]
-                { NSLog( "PGLImageList imageFrom error = \(error)")
-
-               }
-               else {
-                guard let theImage = image else { return  }
-                pickedCIImage = self.convert2CIImage(aUIImage: theImage)
-                   Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
-
-               }
-            }
-           )
-         return pickedCIImage
-                // may be nil if not set in the result handler block
-
-       }
 
     /// convert UIImage to CIImage and correct orientation to downMirrored
     func convert2CIImage(aUIImage: UIImage) -> CIImage? {
@@ -525,7 +481,7 @@ class PGLImageList: CustomStringConvertible {
         // does NOT answer a CIImage.empty() if nil return from the assets
         // does resize same as first()
         let firstIndexValue = firstImageIndex()
-        guard let answerImage =  imageFrom(selectedAsset: imageAssets[firstIndexValue])
+        guard let answerImage =  imageAssets[firstIndexValue].imageFrom()
         else {
             imageAssets.remove(at: firstIndexValue)
             // no image  so need to reset

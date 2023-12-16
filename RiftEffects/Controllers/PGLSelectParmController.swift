@@ -1161,7 +1161,8 @@ class PGLSelectParmController: PGLCommonController,
             configuration.selectionLimit = 1
         }
                 // Set the selection behavior to respect the user’s selection order.
-        configuration.filter = .images
+//        configuration.filter = .images
+        // by default a configuration object displays all asset types: images, Live Photos, and videos.
         configuration.preferredAssetRepresentationMode = .automatic
         configuration.selection = .ordered
 

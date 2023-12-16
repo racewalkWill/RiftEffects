@@ -278,7 +278,7 @@ class Renderer: NSObject, MTKViewDelegate {
 
                     // Determine EDR headroom and fallback to SDR, as needed.
                     // Note: The headroom must be determined every frame to include changes in environmental lighting conditions.
-                let screen = view.window?.screen
+//                let screen = view.window?.screen
 //#if os(iOS)
 //                var headroom = CGFloat(1.0)
 //                if #available(iOS 16.0, *) {
