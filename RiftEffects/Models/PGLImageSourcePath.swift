@@ -38,6 +38,10 @@ class PGLAsset: Hashable, Equatable  {
     var playerItemVideoOutput: AVPlayerItemVideoOutput?
     /// current video frame from the displayLinkCopyPixelBuffer
     var videoCIFrame: CIImage?
+    var statusObserver: NSKeyValueObservation?
+    lazy var displayLink: CADisplayLink
+                = CADisplayLink(target: self,
+                    selector: #selector(displayLinkCopyPixelBuffers(link:)))
 
     let options: PHImageRequestOptions?
 
@@ -135,7 +139,10 @@ class PGLAsset: Hashable, Equatable  {
 
         if self.isVideo() {
                 /// set the playerItem
-            requestVideo() }
+            requestVideo()
+
+
+            }
     }
 
     // MARK: Image
@@ -273,6 +280,9 @@ class PGLAsset: Hashable, Equatable  {
 //                aPlayer?.add( self.playerItemVideoOutput! )
                 self.avPlayerItem = aPlayer
                 self.videoPlayer = AVPlayer(playerItem: aPlayer)
+                self.createDisplayLink()
+//                self.postTransitionFilterAdd()
+                    // how to turn off the transition state?
             }
         }
         )
@@ -280,18 +290,14 @@ class PGLAsset: Hashable, Equatable  {
 
     func createDisplayLink(){
             // Create a display link
-        lazy var displayLink: CADisplayLink
-                    = CADisplayLink(target: self,
-                        selector: #selector(displayLinkCopyPixelBuffers(link:)))
 
-            var statusObserver: NSKeyValueObservation
 
             statusObserver = avPlayerItem!.observe(\.status,
                   options: [.new, .old],
                   changeHandler: { playerItem, change in
                     if playerItem.status == .readyToPlay {
                         playerItem.add(self.playerItemVideoOutput!)
-                      displayLink.add(to: .main, forMode: .common)
+                        self.displayLink.add(to: .main, forMode: .common)
                         self.videoPlayer?.play()
                     }
                  })
@@ -315,5 +321,9 @@ class PGLAsset: Hashable, Equatable  {
             }
          }
        }
+
+    func notifyVideoStart() {
+        let notification = Notification(name: PGLVideoAnimationToggle)
+    }
 
 }

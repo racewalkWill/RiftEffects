@@ -992,8 +992,47 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     var storedParmImage: CDParmImage?
 
+    /// Video input support
+    let myCenter =  NotificationCenter.default
+    let queue = OperationQueue.main
+    var videoInputCount: Int = 0
+
+    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
+
+    required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
+        super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
+
+        /// ensure that this observer is removed at release time. There is a strong reference in NotificationCenter
+    notifications[PGLVideoAnimationToggle] = myCenter.addObserver(forName: PGLVideoAnimationToggle ,
+                                                                  object: inputCollection ,
+                                                                  queue: queue ) {
+            [weak self]
+            myUpdate in
+
+            if let userDataDict = myUpdate.userInfo {
+                if let changeCount = userDataDict["VideoImageSource"]   {
+                    self?.changeVideoInputCount(count: changeCount as! Int)
+                    if self?.videoInputExists() ?? false {
+                        self?.aSourceFilter.animate(attributeTarget: self!)
+                    } else {
+                        self?.aSourceFilter.attribute(removeAnimationTarget: self!)
+                    }
+
+                }
+            }
+        }
+    }
     override func releaseVars() {
         storedParmImage = nil
+        if self.videoInputExists()  {
+            aSourceFilter.attribute(removeAnimationTarget: self)
+        }
+
+        for (name , observer) in  notifications {
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
+            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+                   }
+        notifications = [:] // reset
         super.releaseVars()
         
     }
@@ -1144,6 +1183,25 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
             return sources
         }
         else { return nil }
+    }
+
+/// videoFrameChange
+    override func addAnimationStepTime() {
+        // set the current video frame into the parm
+        if inputCollection?.currentImageIsVideo() ?? false {
+            if let ciVideoFrame =  inputCollection?.getCurrentImage() {
+                aSourceFilter.setImageValue(newValue: ciVideoFrame, keyName: attributeName!)
+            }
+        }
+    }
+
+    func changeVideoInputCount(count: Int) {
+        videoInputCount += count
+
+    }
+
+    func videoInputExists() -> Bool {
+        return videoInputCount > 0
     }
 
 

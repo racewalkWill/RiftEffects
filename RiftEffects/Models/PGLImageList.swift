@@ -31,6 +31,9 @@ class PGLImageList: CustomStringConvertible {
             assetIDs = [String]()
             for anAsset in imageAssets {
                 assetIDs.append(anAsset.localIdentifier)
+                if anAsset.isVideo() {
+                    postVideoAnimationToggleOn(imageAsset: anAsset)
+                }
             }
         }
     }
@@ -363,7 +366,7 @@ class PGLImageList: CustomStringConvertible {
                    NSLog("PGLImageList image(atIndex nil result on imageFrom()")
                    /// why remove the imageAsset.. could it be late in loading?
                 
-//                   answerImage = CIImage.empty()
+                   answerImage = CIImage.empty()
 //                        // reset the imageAssets
 //                        imageAssets.remove(at: atIndex)
 //                   if assetIDs.count < (atIndex - 1 )
@@ -524,6 +527,9 @@ class PGLImageList: CustomStringConvertible {
     func append(newImage: PGLAsset) {
         imageAssets.append(newImage)
         assetIDs.append(newImage.localIdentifier)
+        if newImage.isVideo() {
+            postVideoAnimationToggleOn(imageAsset: newImage)
+        }
     }
 
     func getCurrentImage() -> CIImage {
@@ -597,6 +603,24 @@ class PGLImageList: CustomStringConvertible {
     func appendImage(aCiImage: CIImage) {
         images.append(aCiImage)
     }
+
+    // MARK: Video
+    func currentImageIsVideo() -> Bool {
+        return imageAssets[position].isVideo()
+    }
+
+
+    func postVideoAnimationToggleOn(imageAsset: PGLAsset) {
+            // does not toggle off.. a whole new imageList is created
+        let updateNotification = Notification(name:PGLVideoAnimationToggle)
+        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
+    }
+    
+    // does not toggle off.. a whole new imageList is created
+//    func postVideoAnimationToggleOff(imageAsset: PGLAsset) {
+//        let updateNotification = Notification(name:PGLVideoAnimationToggle)
+//        NotificationCenter.default.post(name: updateNotification.name, object: imageAsset, userInfo: ["VideoImageSource" : -1 ])
+//    }
 
 
 }
