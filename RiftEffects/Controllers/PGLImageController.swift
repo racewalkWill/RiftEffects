@@ -680,6 +680,22 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             self?.hideParmControls()
         }
         notifications[PGLHideParmUIControls] = aNotification
+
+
+        aNotification = myCenter.addObserver(forName: PGLVideoLoaded, object: nil , queue: OperationQueue.main) { [weak self]
+            myUpdate in
+            // could use the image attribute in the update dict
+            
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLHideParmUIControls") " )
+            if let theTargetAttribute = self?.appStack.targetAttribute {
+                guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
+                else { return }
+                if targetImageAttribute.videoInputExists() {
+                    self?.addVideoControls(imageAttribute: targetImageAttribute)
+                }
+            }
+        }
+        notifications[PGLVideoLoaded] = aNotification
     }
 
     override func viewDidLoad() {
@@ -758,7 +774,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         }
         updateStackNameToNavigationBar()
         
-        // MARK: Video
+        // Video
         RPScreenRecorder.shared().delegate = self
 
 
@@ -976,11 +992,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController removeParmControls completed")
 
     }
-
+/// add circlePoint UI for vector parm value changes
+/// adds subview for drag to new value of the vector
     func addPositionControl(attribute: PGLFilterAttribute) {
-        // may remove this method if the type conversion is not needed to get the
-        // correct super or subclass implementation of #controlImageView()
-        // combine with addRectControl
 
         if let positionVector = attribute.getVectorValue() {
             // fails if no vector
@@ -1469,7 +1483,31 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         }
     }
 
+// MARK: Video Controls
+    /// add Play and Repeat buttons - initially hidden
+    func addVideoControls(imageAttribute: PGLFilterAttributeImage) {
+        // similar to addPositionControl(attribute:
+        // assumes that imageAttribute has video input
+        let playButton = UIButton()
+        let playSymbol = UIImage(systemName: "play.circle")
+        playButton.setImage(playSymbol, for: .normal)
+        playButton.isOpaque = true
 
+        playButton.frame = CGRect(origin: view.center, size: CGSize(width: 300.0, height: 500.0))
+
+        let repeatButton = UIButton()
+        let repeatSymbol = UIImage(systemName: "repeat.circle")
+        repeatButton.setImage(repeatSymbol, for: .normal)
+
+        // resize and center
+        // button frame, center = ??
+
+        view.addSubview(playButton)
+        //  appStack.parmControls[imageAttribute.attributeName!] = newView
+        // newView.isHidden = true
+
+
+    }
 
 }
 

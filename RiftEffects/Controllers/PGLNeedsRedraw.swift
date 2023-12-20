@@ -14,6 +14,7 @@ let PGLVaryTimerRunning = NSNotification.Name(rawValue: "PGLVaryTimerRunning")
 let PGLResetNeedsRedraw = NSNotification.Name(rawValue: "PGLResetNeedsRedraw")
 let PGLPauseAnimation = NSNotification.Name(rawValue: "PGLPauseAnimation")
 let PGLVideoAnimationToggle = NSNotification.Name(rawValue: "PGLVideoAnimationToggle")
+let PGLVideoLoaded = NSNotification.Name(rawValue: "PGLVideoLoaded")
 
 class PGLRedraw {
     // answers true  redrawNow() if mtkView should draw

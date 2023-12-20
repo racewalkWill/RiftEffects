@@ -92,6 +92,12 @@ class PGLAsset: Hashable, Equatable  {
 
     func releaseVars() {
         sourceInfo = nil
+        displayLink.invalidate()
+       videoPlayer = nil
+        avPlayerItem = nil
+        playerItemVideoOutput = nil
+        videoCIFrame = nil
+        statusObserver = nil
 
     }
 
@@ -298,6 +304,7 @@ class PGLAsset: Hashable, Equatable  {
                     if playerItem.status == .readyToPlay {
                         playerItem.add(self.playerItemVideoOutput!)
                         self.displayLink.add(to: .main, forMode: .common)
+                        self.notifyVideoStart()
                         self.videoPlayer?.play()
                     }
                  })
@@ -322,8 +329,13 @@ class PGLAsset: Hashable, Equatable  {
          }
        }
 
+    /// notify filter that animation updates are available
+    ///  notify the imageController to show the play  button.
     func notifyVideoStart() {
-        let notification = Notification(name: PGLVideoAnimationToggle)
+                // does not toggle off.. a whole new imageList is created
+            let updateNotification = Notification(name:PGLVideoAnimationToggle)
+            NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
+
     }
 
 }

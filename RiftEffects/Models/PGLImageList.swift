@@ -31,9 +31,9 @@ class PGLImageList: CustomStringConvertible {
             assetIDs = [String]()
             for anAsset in imageAssets {
                 assetIDs.append(anAsset.localIdentifier)
-                if anAsset.isVideo() {
-                    postVideoAnimationToggleOn(imageAsset: anAsset)
-                }
+//                if anAsset.isVideo() {
+//                    postVideoAnimationToggleOn(imageAsset: anAsset)
+//                }
             }
         }
     }
@@ -527,9 +527,9 @@ class PGLImageList: CustomStringConvertible {
     func append(newImage: PGLAsset) {
         imageAssets.append(newImage)
         assetIDs.append(newImage.localIdentifier)
-        if newImage.isVideo() {
-            postVideoAnimationToggleOn(imageAsset: newImage)
-        }
+//        if newImage.isVideo() {
+//            postVideoAnimationToggleOn(imageAsset: newImage)
+//        }
     }
 
     func getCurrentImage() -> CIImage {
@@ -609,12 +609,6 @@ class PGLImageList: CustomStringConvertible {
         return imageAssets[position].isVideo()
     }
 
-
-    func postVideoAnimationToggleOn(imageAsset: PGLAsset) {
-            // does not toggle off.. a whole new imageList is created
-        let updateNotification = Notification(name:PGLVideoAnimationToggle)
-        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
-    }
     
     // does not toggle off.. a whole new imageList is created
 //    func postVideoAnimationToggleOff(imageAsset: PGLAsset) {

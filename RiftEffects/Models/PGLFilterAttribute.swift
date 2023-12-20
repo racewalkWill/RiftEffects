@@ -993,8 +993,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     var storedParmImage: CDParmImage?
 
     /// Video input support
-    let myCenter =  NotificationCenter.default
-    let queue = OperationQueue.main
+
     var videoInputCount: Int = 0
 
     var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
@@ -1002,10 +1001,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
 
-        /// ensure that this observer is removed at release time. There is a strong reference in NotificationCenter
-    notifications[PGLVideoAnimationToggle] = myCenter.addObserver(forName: PGLVideoAnimationToggle ,
+
+        notifications[PGLVideoAnimationToggle] = NotificationCenter.default.addObserver(forName: PGLVideoAnimationToggle ,
                                                                   object: inputCollection ,
-                                                                  queue: queue ) {
+                                                                  queue: OperationQueue.main ) {
             [weak self]
             myUpdate in
 
@@ -1014,6 +1013,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                     self?.changeVideoInputCount(count: changeCount as! Int)
                     if self?.videoInputExists() ?? false {
                         self?.aSourceFilter.animate(attributeTarget: self!)
+                        self?.postVideoLoaded()
                     } else {
                         self?.aSourceFilter.attribute(removeAnimationTarget: self!)
                     }
@@ -1029,10 +1029,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         }
 
         for (name , observer) in  notifications {
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
             NotificationCenter.default.removeObserver(observer, name: name, object: nil)
                    }
         notifications = [:] // reset
+
         super.releaseVars()
         
     }
@@ -1185,6 +1185,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         else { return nil }
     }
 
+    // MARK: Video
 /// videoFrameChange
     override func addAnimationStepTime() {
         // set the current video frame into the parm
@@ -1204,15 +1205,17 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
         return videoInputCount > 0
     }
 
+    func postImageChange() {
+    //           let outputImageUpdate = Notification(name:PGLOutputImageChange)
+    //           NotificationCenter.default.post(outputImageUpdate)
+           }
 
+    func postVideoLoaded() {
 
+        let updateNotification = Notification(name:PGLVideoLoaded)
+        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
+    }
 
-
-
-func postImageChange() {
-//           let outputImageUpdate = Notification(name:PGLOutputImageChange)
-//           NotificationCenter.default.post(outputImageUpdate)
-       }
 } // end PGLFilterAttributeImage
 
 
