@@ -234,7 +234,7 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     //                return
     //        }
 
-            var finalVideoPixelBuffer = videoPixelBuffer
+            let finalVideoPixelBuffer = videoPixelBuffer
 
             let renderedCIImage = CIImage(cvImageBuffer: finalVideoPixelBuffer)
 

@@ -1013,7 +1013,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                     self?.changeVideoInputCount(count: changeCount as! Int)
                     if self?.videoInputExists() ?? false {
                         self?.aSourceFilter.animate(attributeTarget: self!)
-                        self?.postVideoLoaded()
+
                     } else {
                         self?.aSourceFilter.attribute(removeAnimationTarget: self!)
                     }
@@ -1210,11 +1210,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     //           NotificationCenter.default.post(outputImageUpdate)
            }
 
-    func postVideoLoaded() {
 
-        let updateNotification = Notification(name:PGLVideoLoaded)
-        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
-    }
 
 } // end PGLFilterAttributeImage
 

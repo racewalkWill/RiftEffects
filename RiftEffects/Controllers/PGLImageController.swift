@@ -41,6 +41,9 @@ let ExportAlbumId = "ExportAlbumId"
 let ExportAlbum = "ExportAlbum"
 
 let ShowHelpPageAtStartupKey = "DisplayStartHelp"
+let kBtnVideoPlay = "VideoPlayBtn"
+let kBtnVideoRepeat = "VideoRepeatBtn"
+let kBtnVideoPause = "VideoPauseBtn"
 
 class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
 
@@ -696,6 +699,21 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             }
         }
         notifications[PGLVideoLoaded] = aNotification
+
+        aNotification = myCenter.addObserver(forName: PGLVideoRunning, object: nil , queue: OperationQueue.main) { [weak self]
+            myUpdate in
+            // could use the image attribute in the update dict
+
+            if let theTargetAttribute = self?.appStack.targetAttribute {
+                guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
+                else { return }
+                if targetImageAttribute.videoInputExists() {
+                    self?.hideVideoControls(imageAttribute: targetImageAttribute)
+                }
+            }
+        }
+        notifications[PGLVideoRunning] = aNotification
+
     }
 
     override func viewDidLoad() {
@@ -1488,25 +1506,71 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     func addVideoControls(imageAttribute: PGLFilterAttributeImage) {
         // similar to addPositionControl(attribute:
         // assumes that imageAttribute has video input
+
         let playButton = UIButton()
+
         let playSymbol = UIImage(systemName: "play.circle")
         playButton.setImage(playSymbol, for: .normal)
+        let buttonFactor = 3.0
+        let buttonMultiplier = 1/buttonFactor
+        let symbolPoints = (view.frame.height)/buttonFactor
+        playButton.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: symbolPoints), forImageIn: .normal)
         playButton.isOpaque = true
 
-        playButton.frame = CGRect(origin: view.center, size: CGSize(width: 300.0, height: 500.0))
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(playButton)
+            /// refactor parmVidoeName logic to method
+        let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
+            //may be multiple videos playing - for same attribute in an imageList
+            // or multiple attributes with video input
 
-        let repeatButton = UIButton()
-        let repeatSymbol = UIImage(systemName: "repeat.circle")
-        repeatButton.setImage(repeatSymbol, for: .normal)
+        appStack.parmControls[parmVideoName] = playButton
+        // newView.isHidden = true
+
+        NSLayoutConstraint.activate([
+
+            playButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: buttonMultiplier),
+            playButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: buttonMultiplier),
+            playButton.centerXAnchor.constraint(lessThanOrEqualTo: view.centerXAnchor, constant: -symbolPoints),
+            playButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+
+        ])
+        playButton.addTarget(self, action: #selector(playVideoBtnClick), for: .touchUpInside)
+
+//        let repeatButton = UIButton()
+//        let repeatSymbol = UIImage(systemName: "repeat.circle")
+//        repeatButton.setImage(repeatSymbol, for: .normal)
 
         // resize and center
         // button frame, center = ??
 
-        view.addSubview(playButton)
-        //  appStack.parmControls[imageAttribute.attributeName!] = newView
+    }
+
+    func hideVideoControls(imageAttribute: PGLFilterAttributeImage) {
+        // similar to addPositionControl(attribute:
+        // assumes that imageAttribute has video input
+
+            /// refactor parmVidoeName logic to method
+        let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
+            //may be multiple videos playing - for same attribute in an imageList
+            // or multiple attributes with video input
+
+        appStack.parmControls[parmVideoName]?.isHidden = true
         // newView.isHidden = true
 
 
+//        let repeatButton = UIButton()
+//        let repeatSymbol = UIImage(systemName: "repeat.circle")
+//        repeatButton.setImage(repeatSymbol, for: .normal)
+
+        // resize and center
+        // button frame, center = ??
+
+    }
+
+    @objc func playVideoBtnClick() {
+        let notification = Notification(name: PGLPlayVideo)
+        NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
     }
 
 }

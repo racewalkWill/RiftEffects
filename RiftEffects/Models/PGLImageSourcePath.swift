@@ -12,6 +12,11 @@ import Photos
 import CoreImage
 import os
 
+let PGLVideoAnimationToggle = NSNotification.Name(rawValue: "PGLVideoAnimationToggle")
+let PGLVideoLoaded = NSNotification.Name(rawValue: "PGLVideoLoaded")
+let PGLVideoReadyToPlay = NSNotification.Name(rawValue: "PGLVideoReadyToPlay")
+let PGLPlayVideo =  NSNotification.Name(rawValue: "PGLPlayVideo")
+let PGLVideoRunning = NSNotification.Name(rawValue: "PGLVideoRunning")
 
 
 class PGLAsset: Hashable, Equatable  {
@@ -287,7 +292,7 @@ class PGLAsset: Hashable, Equatable  {
                 self.avPlayerItem = aPlayer
                 self.videoPlayer = AVPlayer(playerItem: aPlayer)
                 self.createDisplayLink()
-//                self.postTransitionFilterAdd()
+
                     // how to turn off the transition state?
             }
         }
@@ -304,11 +309,33 @@ class PGLAsset: Hashable, Equatable  {
                     if playerItem.status == .readyToPlay {
                         playerItem.add(self.playerItemVideoOutput!)
                         self.displayLink.add(to: .main, forMode: .common)
-                        self.notifyVideoStart()
-                        self.videoPlayer?.play()
+                        self.setUpReadyToPlay()
+
                     }
                  })
 
+    }
+
+    func notifyReadyToPlay () {
+//        PGLVideoReadyToPlay
+    }
+
+    func setUpReadyToPlay() {
+
+        let center = NotificationCenter.default
+
+        // now listen for the play command
+        let observer = center.addObserver(
+            forName: PGLPlayVideo,
+            object: nil,
+            queue: nil) { notification in
+                self.videoPlayer?.play()
+                self.notifyVideoStarted()
+                    // should hide the play button
+            }
+
+        postVideoLoaded()
+            // center.removeObserver(observer)
     }
 
     @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
@@ -329,13 +356,21 @@ class PGLAsset: Hashable, Equatable  {
          }
        }
 
-    /// notify filter that animation updates are available
-    ///  notify the imageController to show the play  button.
-    func notifyVideoStart() {
-                // does not toggle off.. a whole new imageList is created
-            let updateNotification = Notification(name:PGLVideoAnimationToggle)
-            NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
+    func notifyVideoStarted() {
+                // hide the play button after start
+        let runningNotification = Notification(name:PGLVideoRunning)
+        NotificationCenter.default.post(name: runningNotification.name, object: self, userInfo: [ : ])
+      
+    }
+        ///  notify the imageController to show the play  button.
+    func postVideoLoaded() {
 
+        let updateNotification = Notification(name:PGLVideoAnimationToggle)
+        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
+
+        // imageController needs to show the play button
+        let loadButtonNotification = Notification(name:PGLVideoLoaded)
+        NotificationCenter.default.post(name: loadButtonNotification.name, object: self, userInfo: [ : ])
     }
 
 }

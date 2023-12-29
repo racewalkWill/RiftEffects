@@ -510,6 +510,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLFilterAttributeImage.videoInputExists():PGLFilterAttribute.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #2 in PGLFilterTableController.viewDidLoad():PGLFilterTableController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1419,6 +1422,14 @@
       </ContextState>
       <ContextState
          contextName = "PGLFilterStack.moveActiveAhead():PGLFilterStack.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PGLImageController.addVideoControls(imageAttribute:):PGLImageController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PGLAssetGridController.applyDataSource():PGLAssetGridController.swift">
