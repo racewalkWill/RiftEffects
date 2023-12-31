@@ -76,6 +76,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     weak var previewControllerDelegate: RPPreviewViewControllerDelegate?
      var controlsWindow: UIWindow?
 //    var cameraView: UIView?
+    var videoState: VideoSourceState = .None
 
     // MARK: control Vars
 
@@ -97,6 +98,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     var startPoint = CGPoint.zero
     var endPoint = CGPoint.zero
     var panner: UIPanGestureRecognizer?
+    var tapGesture: UITapGestureRecognizer?
     var selectedParmControlView: UIView?
     var tappedControl: UIView?
 
@@ -356,6 +358,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 // parmController in the master section of the splitView has a different navigation stack
                 // from the PGLImageController
             }
+            self.videoState = .None
 
         }
 
@@ -966,7 +969,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                         }
                 }
             }
-
+            if parmAttribute.videoInputExists() {
+                let parmVideoName = parmAttribute.attributeName! + kBtnVideoPlay
+                appStack.parmControls[parmVideoName]?.isHidden = hide
+            }
 //        Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
 
         } // end for appStack.parms
@@ -1005,6 +1011,13 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //                    parmView?.removeFromSuperview()
 //                    parmTextControls.removeValue(forKey: nameAttribute.key)
 //                }
+            if parmAttribute.videoInputExists() {
+                let parmVideoName = parmAttribute.attributeName! + kBtnVideoPlay
+                if let videoBtn =  appStack.parmControls[parmVideoName] {
+                    videoBtn.removeFromSuperview()
+                    appStack.parmControls.removeValue(forKey: parmVideoName)
+                }
+            }
 
         }
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController removeParmControls completed")
@@ -1373,6 +1386,12 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
 
         func setGestureRecogniziers() {
+            if tapGesture == nil {
+                tapGesture = UITapGestureRecognizer(target: self, action: #selector(PGLImageController.userTapAction ))
+                if tapGesture != nil {
+                    view.addGestureRecognizer(tapGesture!)
+                }
+            }
             if panner != nil {
                 NSLog("PGLImageController  SKIP #setGestureRecogniziers, panner exists")
                 return
@@ -1387,6 +1406,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
         }
 
+
         func removeGestureRecogniziers() {
 
             if panner != nil {
@@ -1394,6 +1414,11 @@ extension PGLImageController: UIGestureRecognizerDelegate {
                 view.removeGestureRecognizer(panner!)
                 panner?.removeTarget(self, action: #selector(PGLImageController.panAction(_:)) )
                 panner = nil
+            }
+            if tapGesture != nil {
+                view.removeGestureRecognizer(tapGesture!)
+                tapGesture!.removeTarget(self, action: #selector(PGLImageController.userTapAction ))
+                tapGesture = nil
             }
 
         }
@@ -1544,6 +1569,8 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         // resize and center
         // button frame, center = ??
 
+        videoState = .Ready
+
     }
 
     func hideVideoControls(imageAttribute: PGLFilterAttributeImage) {
@@ -1569,8 +1596,40 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     }
 
     @objc func playVideoBtnClick() {
+        videoState = .Running
         let notification = Notification(name: PGLPlayVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
+    }
+
+    func stopVideoAction() {
+        let notification = Notification(name: PGLStopVideo)
+        NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
+        videoState = .Pause
+        // show the play button now
+        // find the control
+        for (controlName, control) in appStack.parmControls {
+            if controlName.hasSuffix(kBtnVideoPlay) {
+
+                // add the following with pause symbol is set as the image
+//                let playSymbol = UIImage(systemName: "play")
+//                playButton.setImage(playSymbol, for: .normal)
+                control.isHidden = false
+                break // end the for loop
+            }
+        }
+
+
+    }
+
+    @objc func userTapAction(sender: UITapGestureRecognizer) {
+        switch videoState {
+            case .Running, .Repeating :
+                // stop the video
+                stopVideoAction()
+            default:
+                // assume window expand or shrink
+                return
+        }
     }
 
 }

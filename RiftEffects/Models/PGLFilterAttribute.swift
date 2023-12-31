@@ -430,6 +430,12 @@ class PGLFilterAttribute {
         return nil
     }
 
+    /// only PGLFilterAttributeImage has video input
+    func videoInputExists() -> Bool {
+        // subclass PGLFilterAttributeImage implements
+        return false
+    }
+
     func inputParmType() -> ImageParm {
         // superclass default
         // see PGLFilterAttributeImage for real implementation
@@ -1201,7 +1207,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     }
 
-    func videoInputExists() -> Bool {
+    override func videoInputExists() -> Bool {
         return videoInputCount > 0
     }
 

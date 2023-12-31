@@ -47,7 +47,7 @@ class PGLRectangleController: UIViewController {
     // AND makes the crop corners not visible for the other inputRectangle filters
     // such as DepthBlurEffecto or Ripple
     // defining the var reverses the effect - Ripple is visible corners and crop is NOT
-     var tapGesture: UITapGestureRecognizer?
+//     var tapGesture: UITapGestureRecognizer?
      let rectLineWidth:CGFloat = 12.0
 
     @IBOutlet var frameImageView: PGLFramedView! {

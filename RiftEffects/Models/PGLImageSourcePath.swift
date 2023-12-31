@@ -17,7 +17,15 @@ let PGLVideoLoaded = NSNotification.Name(rawValue: "PGLVideoLoaded")
 let PGLVideoReadyToPlay = NSNotification.Name(rawValue: "PGLVideoReadyToPlay")
 let PGLPlayVideo =  NSNotification.Name(rawValue: "PGLPlayVideo")
 let PGLVideoRunning = NSNotification.Name(rawValue: "PGLVideoRunning")
+let PGLStopVideo = NSNotification.Name(rawValue: "PGLStopVideo")
 
+enum VideoSourceState: Int {
+    case None
+    case Ready
+    case Running
+    case Pause
+    case Repeating
+}
 
 class PGLAsset: Hashable, Equatable  {
     // a wrapper object around PHAsset
@@ -38,9 +46,11 @@ class PGLAsset: Hashable, Equatable  {
 //       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
 
     // Video
-    var videoPlayer: AVPlayer?
-    var avPlayerItem: AVPlayerItem?
+//    var videoPlayer: AVPlayer?
+    var avPlayerItem: AVPlayerItem!
     var playerItemVideoOutput: AVPlayerItemVideoOutput?
+    var aQueuePlayer: AVQueuePlayer?
+    var playerLooper: AVPlayerLooper?
     /// current video frame from the displayLinkCopyPixelBuffer
     var videoCIFrame: CIImage?
     var statusObserver: NSKeyValueObservation?
@@ -98,7 +108,7 @@ class PGLAsset: Hashable, Equatable  {
     func releaseVars() {
         sourceInfo = nil
         displayLink.invalidate()
-       videoPlayer = nil
+        aQueuePlayer = nil
         avPlayerItem = nil
         playerItemVideoOutput = nil
         videoCIFrame = nil
@@ -161,7 +171,7 @@ class PGLAsset: Hashable, Equatable  {
     /// moved from the PGLImageList
     func imageFrom() -> CIImage? {
         if isVideo() {
-            if (videoPlayer == nil) {
+            if (aQueuePlayer == nil) {
                 setup()
                 // videoCIFrame will not immediately be available
                 // some early nil returns to be expected.
@@ -252,9 +262,7 @@ class PGLAsset: Hashable, Equatable  {
         ] as? PHVideoRequestOptions
 
         return outPutSettings
-//        // Create a player item video output
-//        let videoPlayerItemOutput = AVPlayerItemVideoOutput(outputSettings: outputVideoSettings)
-//        return videoPlayerItemOutput
+
     }
 
     func requestVideo() {
@@ -284,14 +292,18 @@ class PGLAsset: Hashable, Equatable  {
                                                    options: createAVPlayerOptions(),
                                                    resultHandler:
                                                     { aPlayer, info in
+            let myself = self
             if let error = info?[PHImageErrorKey] {
                 NSLog( "PGLImageList imageFrom error = \(error)")
             } else {
                 // connect the playerItem and the playerItemVideoOutput
-//                aPlayer?.add( self.playerItemVideoOutput! )
-                self.avPlayerItem = aPlayer
-                self.videoPlayer = AVPlayer(playerItem: aPlayer)
-                self.createDisplayLink()
+                aPlayer?.add( self.playerItemVideoOutput! )
+                myself.avPlayerItem = aPlayer!
+//                myself.videoPlayer = AVPlayer(playerItem: aPlayer)
+                myself.aQueuePlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
+
+                myself.playerLooper = AVPlayerLooper(player: myself.aQueuePlayer! , templateItem: myself.avPlayerItem!)
+                myself.createDisplayLink()
 
                     // how to turn off the transition state?
             }
@@ -329,13 +341,27 @@ class PGLAsset: Hashable, Equatable  {
             forName: PGLPlayVideo,
             object: nil,
             queue: nil) { notification in
-                self.videoPlayer?.play()
+                self.aQueuePlayer?.play()
                 self.notifyVideoStarted()
                     // should hide the play button
             }
 
         postVideoLoaded()
             // center.removeObserver(observer)
+        setupStopVideoListener()
+    }
+
+    func setupStopVideoListener() {
+        let center = NotificationCenter.default
+        let observer = center.addObserver(
+            forName: PGLStopVideo,
+            object: nil,
+            queue: nil) { notification in
+                self.aQueuePlayer?.pause()
+
+
+                    // should hide the play button
+            }
     }
 
     @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
