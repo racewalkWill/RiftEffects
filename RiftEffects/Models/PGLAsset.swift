@@ -46,11 +46,11 @@ class PGLAsset: Hashable, Equatable  {
 //       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
 
     // Video
-//    var videoPlayer: AVPlayer?
+    var videoPlayer: AVPlayer?
     var avPlayerItem: AVPlayerItem!
     var playerItemVideoOutput: AVPlayerItemVideoOutput?
-    var aQueuePlayer: AVQueuePlayer?
-    var playerLooper: AVPlayerLooper?
+//    var aQueuePlayer: AVQueuePlayer?
+//    var playerLooper: AVPlayerLooper?
     /// current video frame from the displayLinkCopyPixelBuffer
     var videoCIFrame: CIImage?
     var statusObserver: NSKeyValueObservation?
@@ -108,7 +108,7 @@ class PGLAsset: Hashable, Equatable  {
     func releaseVars() {
         sourceInfo = nil
         displayLink.invalidate()
-        aQueuePlayer = nil
+        videoPlayer = nil
         avPlayerItem = nil
         playerItemVideoOutput = nil
         videoCIFrame = nil
@@ -171,7 +171,7 @@ class PGLAsset: Hashable, Equatable  {
     /// moved from the PGLImageList
     func imageFrom() -> CIImage? {
         if isVideo() {
-            if (aQueuePlayer == nil) {
+            if (videoPlayer == nil) {
                 setup()
                 // videoCIFrame will not immediately be available
                 // some early nil returns to be expected.
@@ -287,22 +287,22 @@ class PGLAsset: Hashable, Equatable  {
         ] as [String : Any]
         
         playerItemVideoOutput = AVPlayerItemVideoOutput(outputSettings: outPutSettings)
-
-        PHImageManager.default().requestPlayerItem(forVideo: asset, 
+        NSLog("PGLAsset #requestVideo requestPlayerItem")
+        PHImageManager.default().requestPlayerItem(forVideo: asset,
                                                    options: createAVPlayerOptions(),
                                                    resultHandler:
-                                                    { aPlayer, info in
+                                                    { aPlayerItem, info in
             let myself = self
             if let error = info?[PHImageErrorKey] {
                 NSLog( "PGLImageList imageFrom error = \(error)")
             } else {
                 // connect the playerItem and the playerItemVideoOutput
-                aPlayer?.add( self.playerItemVideoOutput! )
-                myself.avPlayerItem = aPlayer!
-//                myself.videoPlayer = AVPlayer(playerItem: aPlayer)
-                myself.aQueuePlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
+                NSLog("PGLAsset #requestVideo resultHandler start")
+                myself.avPlayerItem = aPlayerItem!
+                myself.videoPlayer = AVPlayer(playerItem: aPlayerItem)
+//                myself.aQueuePlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
 
-                myself.playerLooper = AVPlayerLooper(player: myself.aQueuePlayer! , templateItem: myself.avPlayerItem!)
+//                myself.playerLooper = AVPlayerLooper(player: myself.aQueuePlayer! , templateItem: myself.avPlayerItem!)
                 myself.createDisplayLink()
 
                     // how to turn off the transition state?
@@ -318,13 +318,16 @@ class PGLAsset: Hashable, Equatable  {
             statusObserver = avPlayerItem!.observe(\.status,
                   options: [.new, .old],
                   changeHandler: { playerItem, change in
-                    if playerItem.status == .readyToPlay {
-                        playerItem.add(self.playerItemVideoOutput!)
+                if playerItem.status == .readyToPlay {
+                        NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
+                        playerItem.add( self.playerItemVideoOutput! )
+
                         self.displayLink.add(to: .main, forMode: .common)
                         self.setUpReadyToPlay()
 
                     }
                  })
+        NSLog("PGLAsset createDisplayLink statusObserver created")
 
     }
 
@@ -341,7 +344,9 @@ class PGLAsset: Hashable, Equatable  {
             forName: PGLPlayVideo,
             object: nil,
             queue: nil) { notification in
-                self.aQueuePlayer?.play()
+                NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
+//                self.aQueuePlayer?.play()
+                self.videoPlayer?.play()
                 self.notifyVideoStarted()
                     // should hide the play button
             }
@@ -357,7 +362,7 @@ class PGLAsset: Hashable, Equatable  {
             forName: PGLStopVideo,
             object: nil,
             queue: nil) { notification in
-                self.aQueuePlayer?.pause()
+                self.videoPlayer?.pause()
 
 
                     // should hide the play button
@@ -366,17 +371,21 @@ class PGLAsset: Hashable, Equatable  {
 
     @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
        {
+           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
            guard let currentTime = playerItemVideoOutput?.itemTime(forHostTime: CACurrentMediaTime())
            else { return }
-           guard let myPlayerItem = playerItemVideoOutput else { return }
-           if myPlayerItem.hasNewPixelBuffer(forItemTime: currentTime)
+
+
+           if playerItemVideoOutput?.hasNewPixelBuffer(forItemTime: currentTime) ?? false
          {
+               NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
              if let buffer
-                    = myPlayerItem.copyPixelBuffer(forItemTime: currentTime,
+                    = playerItemVideoOutput?.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
              {
                  ///cache the video frame for the next Renderer image request
                  videoCIFrame = CIImage(cvPixelBuffer: buffer)
+                 NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
 
             }
          }
