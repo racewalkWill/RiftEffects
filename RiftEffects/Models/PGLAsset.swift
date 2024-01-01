@@ -48,8 +48,7 @@ class PGLAsset: Hashable, Equatable  {
     // Video
     var videoPlayer: AVQueuePlayer? // AVPlayer?
     var avPlayerItem: AVPlayerItem!
-//    var playerItemVideoOutput: AVPlayerItemVideoOutput?
-//    var aQueuePlayer: AVQueuePlayer?   // this is a subclass of 
+
     var playerLooper: AVPlayerLooper?
     /// current video frame from the displayLinkCopyPixelBuffer
     var videoCIFrame: CIImage?
@@ -78,11 +77,6 @@ class PGLAsset: Hashable, Equatable  {
           {  albumId = "" }
         else { albumId = collectionId! }
         asset = sourceAsset
-       
-//        if collectionLocalTitle == nil {
-//            collectionTitle = sourceInfo?.localizedTitle ?? "untitled"
-//        }
-//        else { collectionTitle = collectionLocalTitle!} // ?? "untitled"
 
         // image mode
         options = PHImageRequestOptions()
@@ -90,8 +84,6 @@ class PGLAsset: Hashable, Equatable  {
         options?.isNetworkAccessAllowed = true
         options?.isSynchronous = true
         options?.version = .current
-
-
 
     }
 
@@ -103,7 +95,6 @@ class PGLAsset: Hashable, Equatable  {
     convenience init(sourceAsset: PHAsset) {
         self.init(sourceAsset, collectionId: nil, collectionLocalTitle: nil)
     }
-
 
     func releaseVars() {
         sourceInfo = nil
@@ -161,8 +152,6 @@ class PGLAsset: Hashable, Equatable  {
         if self.isVideo() {
                 /// set the playerItem
             requestVideo()
-
-
             }
     }
 
@@ -217,13 +206,11 @@ class PGLAsset: Hashable, Equatable  {
                guard let theImage = image else { return  }
                pickedCIImage = self.convert2CIImage(aUIImage: theImage)
                   Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
-
               }
            }
           )
         return pickedCIImage
                // may be nil if not set in the result handler block
-
       }
 
         /// convert UIImage to CIImage and correct orientation to downMirrored
@@ -291,7 +278,7 @@ class PGLAsset: Hashable, Equatable  {
     
     func requestVideo() {
 
-        NSLog("PGLAsset #requestVideo requestPlayerItem")
+//        NSLog("PGLAsset #requestVideo requestPlayerItem")
         PHImageManager.default().requestPlayerItem(forVideo: asset,
                                                    options: createAVPlayerOptions(),
                                                    resultHandler:
@@ -301,15 +288,11 @@ class PGLAsset: Hashable, Equatable  {
                 NSLog( "PGLImageList imageFrom error = \(error)")
             } else {
                 // connect the playerItem and the playerItemVideoOutput
-                NSLog("PGLAsset #requestVideo resultHandler start")
+//                NSLog("PGLAsset #requestVideo resultHandler start")
                 myself.avPlayerItem = aPlayerItem!
-//                myself.videoPlayer = AVPlayer(playerItem: aPlayerItem)
 
                 /// add the videoOutput here so that it is in the template for the looper items
-               
-
                 myself.videoPlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
-
                 myself.playerLooper = AVPlayerLooper(player: myself.videoPlayer! , templateItem: myself.avPlayerItem!)
                 myself.createDisplayLink()
 
@@ -327,17 +310,15 @@ class PGLAsset: Hashable, Equatable  {
                   options: [.new, .old],
                   changeHandler: { queuePlayer, change in
                 if queuePlayer.status == .readyToPlay {
-                        NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
+//                        NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
                     for aRepeatingItem in queuePlayer.items() {
                         aRepeatingItem.add( self.createPlayerItemVideoOutput() )
                     }
-
-                        self.displayLink.add(to: .main, forMode: .common)
-                        self.setUpReadyToPlay()
-
+                    self.displayLink.add(to: .main, forMode: .common)
+                    self.setUpReadyToPlay()
                     }
                  })
-        NSLog("PGLAsset createDisplayLink statusObserver created")
+//        NSLog("PGLAsset createDisplayLink statusObserver created")
 
     }
 
@@ -380,7 +361,7 @@ class PGLAsset: Hashable, Equatable  {
 
     @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
        {
-           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
+//           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
                // really need to get the current item in the videoPlayer
                // ask for it's videoOutput
            guard let currentVideoOutputs = videoPlayer?.currentItem?.outputs
@@ -390,21 +371,16 @@ class PGLAsset: Hashable, Equatable  {
            else { return }
 
            let currentTime = theVideoOutput.itemTime(forHostTime: CACurrentMediaTime())
-           
-           //           else { return }
-//           guard let currentTime = playerItemVideoOutput?.itemTime(forHostTime: CACurrentMediaTime())
-//           else { return }
-
 
            if theVideoOutput.hasNewPixelBuffer(forItemTime: currentTime) 
             {
-               NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
+//               NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
              if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
                  {
                      ///cache the video frame for the next Renderer image request
                      videoCIFrame = CIImage(cvPixelBuffer: buffer)
-                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
+//                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
 
                 }
          }
