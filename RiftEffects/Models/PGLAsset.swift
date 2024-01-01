@@ -46,11 +46,11 @@ class PGLAsset: Hashable, Equatable  {
 //       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
 
     // Video
-    var videoPlayer: AVPlayer?
+    var videoPlayer: AVQueuePlayer? // AVPlayer?
     var avPlayerItem: AVPlayerItem!
-    var playerItemVideoOutput: AVPlayerItemVideoOutput?
-//    var aQueuePlayer: AVQueuePlayer?
-//    var playerLooper: AVPlayerLooper?
+//    var playerItemVideoOutput: AVPlayerItemVideoOutput?
+//    var aQueuePlayer: AVQueuePlayer?   // this is a subclass of 
+    var playerLooper: AVPlayerLooper?
     /// current video frame from the displayLinkCopyPixelBuffer
     var videoCIFrame: CIImage?
     var statusObserver: NSKeyValueObservation?
@@ -110,7 +110,7 @@ class PGLAsset: Hashable, Equatable  {
         displayLink.invalidate()
         videoPlayer = nil
         avPlayerItem = nil
-        playerItemVideoOutput = nil
+//        playerItemVideoOutput = nil
         videoCIFrame = nil
         statusObserver = nil
 
@@ -265,7 +265,7 @@ class PGLAsset: Hashable, Equatable  {
 
     }
 
-    func requestVideo() {
+    fileprivate func createPlayerItemVideoOutput() -> AVPlayerItemVideoOutput{
         /* resultHandler
          A block Photos calls after loading the asset’s data and preparing the player item.
          The block takes the following parameters:
@@ -274,7 +274,7 @@ class PGLAsset: Hashable, Equatable  {
          info
          A dictionary providing information about the status of the request. See Image Result Info Keys for possible keys and values
          */
-
+        
         let videoColorProperties = [
             AVVideoColorPrimariesKey: AVVideoColorPrimaries_P3_D65,
             AVVideoTransferFunctionKey: AVVideoTransferFunction_Linear,
@@ -286,7 +286,11 @@ class PGLAsset: Hashable, Equatable  {
             kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_64RGBAHalf)
         ] as [String : Any]
         
-        playerItemVideoOutput = AVPlayerItemVideoOutput(outputSettings: outPutSettings)
+        return AVPlayerItemVideoOutput(outputSettings: outPutSettings)
+    }
+    
+    func requestVideo() {
+
         NSLog("PGLAsset #requestVideo requestPlayerItem")
         PHImageManager.default().requestPlayerItem(forVideo: asset,
                                                    options: createAVPlayerOptions(),
@@ -299,10 +303,14 @@ class PGLAsset: Hashable, Equatable  {
                 // connect the playerItem and the playerItemVideoOutput
                 NSLog("PGLAsset #requestVideo resultHandler start")
                 myself.avPlayerItem = aPlayerItem!
-                myself.videoPlayer = AVPlayer(playerItem: aPlayerItem)
-//                myself.aQueuePlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
+//                myself.videoPlayer = AVPlayer(playerItem: aPlayerItem)
 
-//                myself.playerLooper = AVPlayerLooper(player: myself.aQueuePlayer! , templateItem: myself.avPlayerItem!)
+                /// add the videoOutput here so that it is in the template for the looper items
+               
+
+                myself.videoPlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
+
+                myself.playerLooper = AVPlayerLooper(player: myself.videoPlayer! , templateItem: myself.avPlayerItem!)
                 myself.createDisplayLink()
 
                     // how to turn off the transition state?
@@ -315,12 +323,14 @@ class PGLAsset: Hashable, Equatable  {
             // Create a display link
 
 
-            statusObserver = avPlayerItem!.observe(\.status,
+        statusObserver = videoPlayer!.observe(\.status,
                   options: [.new, .old],
-                  changeHandler: { playerItem, change in
-                if playerItem.status == .readyToPlay {
+                  changeHandler: { queuePlayer, change in
+                if queuePlayer.status == .readyToPlay {
                         NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
-                        playerItem.add( self.playerItemVideoOutput! )
+                    for aRepeatingItem in queuePlayer.items() {
+                        aRepeatingItem.add( self.createPlayerItemVideoOutput() )
+                    }
 
                         self.displayLink.add(to: .main, forMode: .common)
                         self.setUpReadyToPlay()
@@ -345,7 +355,6 @@ class PGLAsset: Hashable, Equatable  {
             object: nil,
             queue: nil) { notification in
                 NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
-//                self.aQueuePlayer?.play()
                 self.videoPlayer?.play()
                 self.notifyVideoStarted()
                     // should hide the play button
@@ -372,22 +381,32 @@ class PGLAsset: Hashable, Equatable  {
     @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
        {
            NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
-           guard let currentTime = playerItemVideoOutput?.itemTime(forHostTime: CACurrentMediaTime())
+               // really need to get the current item in the videoPlayer
+               // ask for it's videoOutput
+           guard let currentVideoOutputs = videoPlayer?.currentItem?.outputs
            else { return }
 
+           guard let theVideoOutput = currentVideoOutputs.first as? AVPlayerItemVideoOutput
+           else { return }
 
-           if playerItemVideoOutput?.hasNewPixelBuffer(forItemTime: currentTime) ?? false
-         {
+           let currentTime = theVideoOutput.itemTime(forHostTime: CACurrentMediaTime())
+           
+           //           else { return }
+//           guard let currentTime = playerItemVideoOutput?.itemTime(forHostTime: CACurrentMediaTime())
+//           else { return }
+
+
+           if theVideoOutput.hasNewPixelBuffer(forItemTime: currentTime) 
+            {
                NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
-             if let buffer
-                    = playerItemVideoOutput?.copyPixelBuffer(forItemTime: currentTime,
+             if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
-             {
-                 ///cache the video frame for the next Renderer image request
-                 videoCIFrame = CIImage(cvPixelBuffer: buffer)
-                 NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
+                 {
+                     ///cache the video frame for the next Renderer image request
+                     videoCIFrame = CIImage(cvPixelBuffer: buffer)
+                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
 
-            }
+                }
          }
        }
 

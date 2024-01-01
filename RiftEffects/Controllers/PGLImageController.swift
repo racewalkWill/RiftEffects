@@ -692,12 +692,15 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             myUpdate in
             // could use the image attribute in the update dict
             
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLHideParmUIControls") " )
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLVideoLoaded") " )
             if let theTargetAttribute = self?.appStack.targetAttribute {
                 guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
                 else { return }
                 if targetImageAttribute.videoInputExists() {
                     self?.addVideoControls(imageAttribute: targetImageAttribute)
+                }
+                else {
+                    NSLog("PGLVideoLoaded notification but videoInputExists is FALSE")
                 }
             }
         }
@@ -712,6 +715,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 else { return }
                 if targetImageAttribute.videoInputExists() {
                     self?.hideVideoControls(imageAttribute: targetImageAttribute)
+                    self?.videoState = .Running
                 }
             }
         }
@@ -1596,7 +1600,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     }
 
     @objc func playVideoBtnClick() {
-        videoState = .Running
+        
         let notification = Notification(name: PGLPlayVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
     }
