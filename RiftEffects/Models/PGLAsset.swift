@@ -291,7 +291,11 @@ class PGLAsset: Hashable, Equatable  {
 //                NSLog("PGLAsset #requestVideo resultHandler start")
                 myself.avPlayerItem = aPlayerItem!
 
-                /// add the videoOutput here so that it is in the template for the looper items
+                    // show a wait indictor until .readyToPlay
+                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                myAppDelegate.showWaiting()
+
+
                 myself.videoPlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
                 myself.playerLooper = AVPlayerLooper(player: myself.videoPlayer! , templateItem: myself.avPlayerItem!)
                 myself.createDisplayLink()
@@ -306,6 +310,7 @@ class PGLAsset: Hashable, Equatable  {
             // Create a display link
 
 
+
         statusObserver = videoPlayer!.observe(\.status,
                   options: [.new, .old],
                   changeHandler: { queuePlayer, change in
@@ -316,11 +321,16 @@ class PGLAsset: Hashable, Equatable  {
                     }
                     self.displayLink.add(to: .main, forMode: .common)
                     self.setUpReadyToPlay()
+                    DispatchQueue.main.async {
+                            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                            myAppDelegate.closeWaitingIndicator()
+                        }
                     }
                  })
 //        NSLog("PGLAsset createDisplayLink statusObserver created")
 
     }
+
 
     func notifyReadyToPlay () {
 //        PGLVideoReadyToPlay
@@ -331,7 +341,7 @@ class PGLAsset: Hashable, Equatable  {
         let center = NotificationCenter.default
 
         // now listen for the play command
-        let observer = center.addObserver(
+        center.addObserver(
             forName: PGLPlayVideo,
             object: nil,
             queue: nil) { notification in
@@ -348,7 +358,7 @@ class PGLAsset: Hashable, Equatable  {
 
     func setupStopVideoListener() {
         let center = NotificationCenter.default
-        let observer = center.addObserver(
+        center.addObserver(
             forName: PGLStopVideo,
             object: nil,
             queue: nil) { notification in

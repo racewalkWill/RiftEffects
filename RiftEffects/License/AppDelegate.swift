@@ -44,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var appStack = PGLAppStack()
     lazy var dataWrapper: CoreDataWrapper = { return CoreDataWrapper() }()
 
+    var activityIndicator: UIActivityIndicatorView?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             // Override point for customization after application launch.
@@ -146,28 +147,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //Mark: Error Alert
 
-
+        // MARK: User info
 
     func displayUser(alert: UIAlertController) {
             // presents an alert on top of the open viewController
             // informs user to try again with 'Save As'
 
+        guard let frontViewController = frontViewController()
+        else { return }
+        frontViewController.present(alert, animated: true )
 
+    }
+
+    /// drill down to the front view controller from the windowScene window
+    func frontViewController() -> UIViewController? {
         guard let lastWindow = windowSceneDelegate?.window
-        else { return
+        else { return nil
                 // need a window to present an alert.. give up
         }
-
         var parentController = lastWindow.rootViewController
             // drill down until front viewController is reached
         while (parentController?.presentedViewController != nil &&
                parentController != parentController!.presentedViewController) {
             parentController = parentController!.presentedViewController
         }
-        parentController?.present(alert, animated: true )
-
-
+        return parentController
     }
+
+    func showWaiting() {
+        guard let frontViewController = frontViewController() as? UISplitViewController
+            else { return }
+
+
+         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+         guard let thisIndicator = activityIndicator
+            else { return }
+        // put on the left side where the indicator is visible. Image area is black 
+        let center = CGPoint(x: frontViewController.view.frame.minX + 100, y: frontViewController.view.frame.midY)
+        thisIndicator.center = center
+        thisIndicator.hidesWhenStopped = true
+        thisIndicator.style = UIActivityIndicatorView.Style.medium
+        frontViewController.view.addSubview(thisIndicator)
+
+        thisIndicator.startAnimating()
+
+//            UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+    }
+
+    func closeWaitingIndicator() {
+        activityIndicator?.stopAnimating()
+        activityIndicator?.removeFromSuperview()
+        activityIndicator = nil
+    }
+
 
         // MARK: Migration
 
