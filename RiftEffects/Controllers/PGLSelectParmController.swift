@@ -77,7 +77,8 @@ class PGLSelectParmController: PGLCommonController,
 
     var imageController: PGLImageController?
     
-    var usePGLImagePicker = (UITraitCollection.current.userInterfaceIdiom == .pad)
+    var usePGLImagePicker = false
+        // (UITraitCollection.current.userInterfaceIdiom == .pad)
         // false will use the WWDC20 PHPickerViewController image selection
         // true - iPad uses PGLImagePicker which tracks the album source of the picked image
 
@@ -100,6 +101,7 @@ class PGLSelectParmController: PGLCommonController,
 
     var selectedCellIndexPath: IndexPath?
 
+    @IBOutlet weak var progressView: UIProgressView!
 
     @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
 //        let actionAccepted = Notification(name: PGLImageNavigationBack )
@@ -1130,7 +1132,13 @@ class PGLSelectParmController: PGLCommonController,
 //                  Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Picker's configuration is not a valid configuration.'
 
             if picker != nil {
-                present(picker!, animated: true) }
+                if let myParentSplitView = splitViewController {
+                    /// for getting the cancel/add buttons to work better in the out of process PHPickerView
+                    myParentSplitView.present(picker!, animated: true) }
+                else {
+                    self.present(picker!, animated: true)
+                }
+            }
 
 
         }
@@ -1153,6 +1161,16 @@ class PGLSelectParmController: PGLCommonController,
         self.present(alert, animated: true )
     }
 
+// MARK: PHPickerView
+
+    /// vars from PHPickerDemo
+    /// WWDC21 session 10046: Improve access to Photos in your app.
+    private var selection = [String: PHPickerResult]()
+    private var selectedAssetIdentifiers = [String]()
+    private var selectedAssetIdentifierIterator: IndexingIterator<[String]>?
+    private var currentAssetIdentifier: String?
+
+
     func initPHPickerView() -> PHPickerViewController? {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         if (currentFilter?.isTransitionFilter() ??  false ) {
@@ -1165,6 +1183,12 @@ class PGLSelectParmController: PGLCommonController,
         // by default a configuration object displays all asset types: images, Live Photos, and videos.
         configuration.preferredAssetRepresentationMode = .automatic
         configuration.selection = .ordered
+//        configuration.disabledCapabilities
+            //cabability that represents the Cancel and Add buttons
+        
+//        configuration.filter = PHPickerFilter.all(of: [.bursts,.depthEffectPhotos, .images, .livePhotos,
+//                                                        .panoramas, .screenRecordings, .screenshots, .slomoVideos,
+//                                                       .timelapseVideos, .videos])
 
         let myPicker = PHPickerViewController(configuration: configuration)
         myPicker.delegate = self
@@ -1198,13 +1222,19 @@ class PGLSelectParmController: PGLCommonController,
 
         var selectedImageList: PGLImageList
 
-        if isFullPhotoLibraryAccess() {
-            selectedImageList = loadImageListFromPicker(results: results)
-            pickerCompletion(pickerController:picker, pickedImageList: selectedImageList)
-        } else
-        {
-            selectedImageList = loadLimitedImageList(pickerController: picker, results: results)
-        }
+        // temp test of load in the limited mode
+        selectedImageList = loadImageListFromPicker(results: results)
+        pickerCompletion(pickerController:picker, pickedImageList: selectedImageList)
+        // end temop test of load
+
+        // restore this after the test of loading mode.
+//        if isFullPhotoLibraryAccess() {
+//            selectedImageList = loadImageListFromPicker(results: results)
+//            pickerCompletion(pickerController:picker, pickedImageList: selectedImageList)
+//        } else
+//        {
+//            selectedImageList = loadLimitedImageList(pickerController: picker, results: results)
+//        }
 
     }
 
@@ -1242,59 +1272,54 @@ class PGLSelectParmController: PGLCommonController,
 
         }
 
-    func loadLimitedImageList(pickerController: PHPickerViewController, results: [PHPickerResult]) -> PGLImageList {
-        // can not use fetchResults from identifiers in limited library mode
-        // assets can not be loaded into the PGLImageList
-        // just load a PGLImageList with the images and the identifiers
-
-        // following code based on Apple example app PHPickerDemo
-        let identifiers = results.compactMap(\.assetIdentifier)
-        let itemProviders = results.map(\.itemProvider)
-
-        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)")
-
-        var pickedCIImage: CIImage?
-
-        let selectedImageList = PGLImageList(localIdentifiers: identifiers)
-
-        for item in itemProviders {
-            pickedCIImage = nil // reset on each loop
-            if item.canLoadObject(ofClass: UIImage.self)  {
-                item.loadObject(ofClass: UIImage.self) {[weak self] image, error in
-                    DispatchQueue.main.sync {
-                    if let theImage = image as? UIImage {
-                        if let convertedImage = CoreImage.CIImage(image: theImage ) {
-                            let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-                            if PGLImageList.isDeviceASimulator() {
-                                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
-                                } else {
-
-                                    pickedCIImage = convertedImage.oriented(theOrientation) }
-                            }
-                        if pickedCIImage != nil {
-                            // resize to TargetSize same as  imageFrom(selectedAsset:)
-                            // and loadImageListFromPicker
-//                            if let imageSizedToTarget = self?.resizeToTargetSize(image: pickedCIImage!){
-//                                selectedImageList.appendImage(aCiImage: imageSizedToTarget) }
-//                            else {
-//                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
+//    func loadLimitedImageList(pickerController: PHPickerViewController, results: [PHPickerResult]) -> PGLImageList {
+//            // can not use fetchResults from identifiers in limited library mode
+//            // assets can not be loaded into the PGLImageList
+//            // just load a PGLImageList with the images and the identifiers
+//
+//            // following code based on Apple example app PHPickerDemo
+//        let identifiers = results.compactMap(\.assetIdentifier)
+//        let itemProviders = results.map(\.itemProvider)
+//
+//        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)")
+//
+//        var pickedCIImage: CIImage?
+//
+//        let selectedImageList = PGLImageList(localIdentifiers: identifiers)
+//
+//        for item in itemProviders {
+//            pickedCIImage = nil // reset on each loop
+//            if item.canLoadObject(ofClass: UIImage.self)  {
+//                item.loadObject(ofClass: UIImage.self) {[weak self] image, error in
+//                    DispatchQueue.main.sync {
+//                        if let theImage = image as? UIImage {
+//                            if let convertedImage = CoreImage.CIImage(image: theImage ) {
+//                                let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
+//                                if PGLImageList.isDeviceASimulator() {
+//                                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
+//                                } else {
+//
+//                                    pickedCIImage = convertedImage.oriented(theOrientation) }
 //                            }
-                            selectedImageList.appendImage(aCiImage: pickedCIImage!)
-                            Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
-                            Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
-
-                        }
-                    }
-                        self?.pickerCompletion(pickerController: pickerController, pickedImageList: selectedImageList)
-                    }  // Dispatch Queue  process
-                }
-
-            }
-        }
-        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)  \(selectedImageList)")
-        selectedImageList.validateLoad()
-        return selectedImageList
-    }
+//                            if pickedCIImage != nil {
+//                                    // resize to TargetSize same as  imageFrom(selectedAsset:)
+//                                    // and loadImageListFromPicker
+//                                    //                            if let imageSizedToTarget = self?.resizeToTargetSize(image: pickedCIImage!){
+//                                    //                                selectedImageList.appendImage(aCiImage: imageSizedToTarget) }
+//                                    //                            else {
+//                                    //                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
+//                                    //                            }
+//                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
+//                                Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
+//                                Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
+//
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     func resizeToTargetSize(image: CIImage) -> CIImage {
             // resize to TargetSize same as  imageFrom(selectedAsset:)
@@ -1311,61 +1336,55 @@ class PGLSelectParmController: PGLCommonController,
     }
 
     func loadImageListFromPicker(results: [PHPickerResult]) -> PGLImageList {
-        let identifiers = results.compactMap(\.assetIdentifier)
+
+
+        // =========== new picker
+        let existingSelection = self.selection
+        var newSelection = [String: PHPickerResult]()
+        for result in results {
+            let identifier = result.assetIdentifier!
+            newSelection[identifier] = existingSelection[identifier] ?? result
+        }
+
+        // Track the selection in case the user deselects it later.
+        selection = newSelection
+        selectedAssetIdentifiers = results.map(\.assetIdentifier!)
+        selectedAssetIdentifierIterator = selectedAssetIdentifiers.makeIterator()
+
+        if selection.isEmpty {
+            return PGLImageList()
+        }
+
+        // =========== end new picker
+        var identifiers = results.compactMap(\.assetIdentifier)
 //        let itemProviders = results.map(\.itemProvider)
 
         // start full access mode
-        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
-        NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchResult)")
+        let fetchAssetResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
+        // in limited access mode an identifier may not fetch the asset
 
-
-        var images = [CIImage]()
-        var pickedCIImage: CIImage?
+        NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchAssetResult)")
 
         let options = PHImageRequestOptions()
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
         options.isSynchronous = true
 
-        for aFetchedImageObject in fetchResult.objects {
-            pickedCIImage = nil // reset on each loop
-            PHImageManager.default().requestImage(for: aFetchedImageObject  , targetSize: TargetSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
-                    if let error =  info?[PHImageErrorKey]
-                     { NSLog( "PGLImageList imageFrom error = \(error)") }
-                    else {
-                        guard let theImage = image else { return  }
-                        if let convertedImage = CoreImage.CIImage(image: theImage ) {
-                            let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-                            if PGLImageList.isDeviceASimulator() {
-                                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
-                                } else {
-
-                                    pickedCIImage = convertedImage.oriented(theOrientation) }
-                            }
-                        if pickedCIImage != nil {
-                            images.append(pickedCIImage!)
-                        }
-                    }
-            } )
-        }
         var assets = [PGLAsset]()
-        for index in 0 ..< identifiers.count {
-            let anNewPGLAsset = PGLAsset(sourceAsset: fetchResult.object(at: index))
+        identifiers = [String]()
+            // reset - not all identifiers are fetched in limited Photos mode
+
+        for fetchAsset in fetchAssetResult.objects {
+            let anNewPGLAsset = PGLAsset(sourceAsset: fetchAsset)
             assets.append(anNewPGLAsset)
+            identifiers.append(fetchAsset.localIdentifier)
+
             }
 
-
-
         let selectedImageList = PGLImageList(localPGLAssets: assets)
-            // with the PKPickerViewController.. the asset.LocalIdentifier gets niled on the second use
-            // it should have carried into the localPGLAssets assigment but .. something happens internally
-            // also set the imageList assetIDs directly to match the images array
-
-    // end full access mode
-
-        // here assign the images & identifiers into the imageList
+        // here assign the  identifiers into the imageList
         selectedImageList.assetIDs = identifiers
-        selectedImageList.setImages(ciImageArray: images)
+        // PGLImageList will load actual image in imageFrom()
 
         return selectedImageList
 

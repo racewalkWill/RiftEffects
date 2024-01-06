@@ -188,7 +188,7 @@ class PGLAsset: Hashable, Equatable  {
 //         options.progressHandler = {  (progress, error, stop, info) in
 //             NSLog("PGLImageList imageFrom: progressHandler  \(progress) info = \(String(describing: info))")
 //            }
-        options?.resizeMode = PHImageRequestOptionsResizeMode.fast
+        options?.resizeMode = PHImageRequestOptionsResizeMode.exact // was fast
         if PrintDebugPhotoLocation {
             let thePHAsset = self.asset
             if let resource = PHAssetResource.assetResources(for: thePHAsset).first
@@ -305,6 +305,9 @@ class PGLAsset: Hashable, Equatable  {
         }
         )
     }
+
+    /// download and load video as localURL
+   
 
     func createDisplayLink(){
             // Create a display link

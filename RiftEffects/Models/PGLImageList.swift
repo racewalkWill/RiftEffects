@@ -37,6 +37,10 @@ class PGLImageList: CustomStringConvertible {
             }
         }
     }
+
+        /// local URL for loaded video
+    var localVideosURL = [String : URL]() // assetID  as key
+
     var inputStack: PGLFilterStack? // remove this var? imageParms will have an inputStack.. not the imageList
 
 
@@ -45,7 +49,7 @@ class PGLImageList: CustomStringConvertible {
         return TargetSize
         }
     }
-
+    
     // storable var
     var assetIDs = [String]()
     var collectionTitle = String()  // imageAssets may have multiple albums
@@ -145,6 +149,8 @@ class PGLImageList: CustomStringConvertible {
         userSelection?.releaseVars()
 
         inputStack?.releaseVars()
+
+
 
 
     }

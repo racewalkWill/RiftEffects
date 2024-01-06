@@ -5,49 +5,77 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            uuid = "56132B88-80E3-4343-BA54-BF3BBF42C1C1"
+            uuid = "69C36011-A829-407E-B02A-69C8E57422A8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RiftEffects/License/AppDelegate.swift"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4370ABD4-4D9D-47D7-9D1C-AB88A98F4EEE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "closeWaitingIndicator()"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "imageFrom()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B52570F0-6914-43FC-A955-1E0BE56291EF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Controllers/PGLSelectParmController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1137"
+            endingLineNumber = "1137"
+            landmarkName = "pickImage(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "56132B88-80E3-4343-BA54-BF3BBF42C1C1 - b1f39043323d510d"
+                  uuid = "B52570F0-6914-43FC-A955-1E0BE56291EF - 26daaf382e5407d0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.AppDelegate.closeWaitingIndicator() -&gt; ()"
+                  symbolName = "RiftEffects.PGLSelectParmController.pickImage(RiftEffects.PGLFilterAttribute) -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/License/AppDelegate.swift"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Controllers/PGLSelectParmController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "152">
+                  startingLineNumber = "1135"
+                  endingLineNumber = "1135"
+                  offsetFromSymbolStart = "3244">
                </Location>
                <Location
-                  uuid = "56132B88-80E3-4343-BA54-BF3BBF42C1C1 - b1f39043323d510d"
+                  uuid = "B52570F0-6914-43FC-A955-1E0BE56291EF - 26daaf382e5407d0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "RiftEffects.AppDelegate.closeWaitingIndicator() -&gt; ()"
+                  symbolName = "RiftEffects.PGLSelectParmController.pickImage(RiftEffects.PGLFilterAttribute) -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/License/AppDelegate.swift"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Controllers/PGLSelectParmController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "44">
+                  startingLineNumber = "1135"
+                  endingLineNumber = "1135"
+                  offsetFromSymbolStart = "3260">
                </Location>
             </Locations>
          </BreakpointContent>

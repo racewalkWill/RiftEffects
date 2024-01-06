@@ -174,12 +174,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return parentController
     }
 
+    /// show spinning wait indicator on left side of front view controller. Otherwise disappears on black Right side 
     func showWaiting() {
-        guard let frontViewController = frontViewController() as? UISplitViewController
-            else { return }
+        guard let frontViewController = frontViewController()
+        else { return }
 
-
-         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 70, 70))
          guard let thisIndicator = activityIndicator
             else { return }
         // put on the left side where the indicator is visible. Image area is black 
