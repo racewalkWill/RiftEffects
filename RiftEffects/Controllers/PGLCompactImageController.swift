@@ -16,6 +16,7 @@ class PGLCompactImageController: PGLImageController {
 //
 //    }
 
+    
     @IBAction func stackBtnAction(_ sender: UIBarButtonItem) {
         // not called button removed
         let horizontalSize = traitCollection.horizontalSizeClass

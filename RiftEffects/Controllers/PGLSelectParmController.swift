@@ -102,6 +102,7 @@ class PGLSelectParmController: PGLCommonController,
     var selectedCellIndexPath: IndexPath?
 
     @IBOutlet weak var progressView: UIProgressView!
+    
 
     @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
 //        let actionAccepted = Notification(name: PGLImageNavigationBack )
@@ -1336,7 +1337,8 @@ class PGLSelectParmController: PGLCommonController,
     }
 
     func loadImageListFromPicker(results: [PHPickerResult]) -> PGLImageList {
-
+            //PHPickerResult has
+            //var assetIdentifier: String? and var itemProvider: NSItemProvider
 
         // =========== new picker
         let existingSelection = self.selection
@@ -1347,7 +1349,7 @@ class PGLSelectParmController: PGLCommonController,
         }
 
         // Track the selection in case the user deselects it later.
-        selection = newSelection
+        selection = newSelection // has full PHPickerResult in dict by assetIdentifier
         selectedAssetIdentifiers = results.map(\.assetIdentifier!)
         selectedAssetIdentifierIterator = selectedAssetIdentifiers.makeIterator()
 
@@ -1356,19 +1358,13 @@ class PGLSelectParmController: PGLCommonController,
         }
 
         // =========== end new picker
-        var identifiers = results.compactMap(\.assetIdentifier)
-//        let itemProviders = results.map(\.itemProvider)
+        var identifiers:[String] = selection.keys.map(\.description)
 
         // start full access mode
         let fetchAssetResult = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
         // in limited access mode an identifier may not fetch the asset
 
         NSLog("didFinish identifiers = \(identifiers) in fetchResult \(fetchAssetResult)")
-
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.isSynchronous = true
 
         var assets = [PGLAsset]()
         identifiers = [String]()
@@ -1378,7 +1374,12 @@ class PGLSelectParmController: PGLCommonController,
             let anNewPGLAsset = PGLAsset(sourceAsset: fetchAsset)
             assets.append(anNewPGLAsset)
             identifiers.append(fetchAsset.localIdentifier)
-
+            // if video then cache into local file and assign localURL to asset
+            if let thisResultProvider = selection[fetchAsset.localIdentifier] {
+                if thisResultProvider.itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                    loadLocalVideoURL(thisAsset: anNewPGLAsset, pickerResult: selection[fetchAsset.localIdentifier]!)
+                }
+                }
             }
 
         let selectedImageList = PGLImageList(localPGLAssets: assets)
@@ -1390,6 +1391,58 @@ class PGLSelectParmController: PGLCommonController,
 
     }
 
+    func loadLocalVideoURL(thisAsset: PGLAsset, pickerResult: PHPickerResult ) {
+        let progress: Progress?
+        var localURL: URL?
+        progress = pickerResult.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { [weak self] url, error in
+            do {
+                guard let url = url, error == nil else {
+                    throw error ?? NSError(domain: NSFileProviderErrorDomain, code: -1, userInfo: nil)
+                }
+                localURL = FileManager.default.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
+                if localURL == nil {
+                    return
+                }
+                try? FileManager.default.removeItem(at: localURL!)
+                try FileManager.default.copyItem(at: url, to: localURL!)
+
+                DispatchQueue.main.async {
+                    self?.handleCompletion(asset: thisAsset, object: localURL!)
+                }
+            } catch let caughtError {
+                DispatchQueue.main.async {
+                    self?.handleCompletion(asset: thisAsset, object: nil, error: caughtError)
+                }
+            }
+    }
+    displayProgress(progress)
+  }
+
+    func displayProgress(_ progress: Progress?) {
+        progressView.observedProgress = progress
+        progressView.isHidden = progress == nil
+    }
+
+    func handleCompletion(asset: PGLAsset, object: Any?, error: Error? = nil) {
+        //based on sample app PHPickerDemo same  method
+
+//        if let livePhoto = object as? PHLivePhoto {
+//            displayLivePhoto(livePhoto)
+//        } else if let image = object as? UIImage {
+//            displayImage(image)
+//        } else
+
+        if let url = object as? URL {
+            asset.videoLocalURL = url
+            asset.requestVideo()
+        } else if let error = error {
+            NSLog("Couldn't display \(asset.localIdentifier) with error: \(error)")
+
+//            displayErrorImage()
+//        } else {
+//            displayUnknownImage()
+        }
+    }
 
     func finishAndUpdate() {
         dismiss(animated: false, completion: nil)

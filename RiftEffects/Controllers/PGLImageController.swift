@@ -102,7 +102,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     var selectedParmControlView: UIView?
     var tappedControl: UIView?
 
-
+    @IBOutlet weak var progressView: UIProgressView!
+    
         // MARK: Navigation Buttons
 
     @IBOutlet var sliders: [UISlider]! { didSet {
@@ -112,6 +113,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     }}
 
     var taggedSliders = [Int:UISlider]()
+
+
 
     @IBOutlet weak var helpBtn: UIBarButtonItem!
     
@@ -698,6 +701,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 else { return }
                 if targetImageAttribute.videoInputExists() {
                     self?.addVideoControls(imageAttribute: targetImageAttribute)
+                    NSLog("PGLImageController PGLVideoLoaded observor addVideoControls")
                 }
                 else {
                     NSLog("PGLVideoLoaded notification but videoInputExists is FALSE")
@@ -1600,7 +1604,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     }
 
     @objc func playVideoBtnClick() {
-        
+        NSLog("PGLImageController notify playVideoBtnClick ")
         let notification = Notification(name: PGLPlayVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
     }

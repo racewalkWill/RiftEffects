@@ -46,6 +46,7 @@ class PGLAsset: Hashable, Equatable  {
 //       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
 
     // Video
+    var videoLocalURL: URL?
     var videoPlayer: AVQueuePlayer? // AVPlayer?
     var avPlayerItem: AVPlayerItem!
 
@@ -104,6 +105,9 @@ class PGLAsset: Hashable, Equatable  {
 //        playerItemVideoOutput = nil
         videoCIFrame = nil
         statusObserver = nil
+        if videoLocalURL != nil {
+            try? FileManager.default.removeItem(at: videoLocalURL!)
+        }
 
     }
 
@@ -151,7 +155,7 @@ class PGLAsset: Hashable, Equatable  {
 
         if self.isVideo() {
                 /// set the playerItem
-            requestVideo()
+//            requestVideo()
             }
     }
 
@@ -237,6 +241,7 @@ class PGLAsset: Hashable, Equatable  {
 
     func createAVPlayerOptions() -> PHVideoRequestOptions? {
         let videoColorProperties = [
+
             AVVideoColorPrimariesKey: AVVideoColorPrimaries_P3_D65,
             AVVideoTransferFunctionKey: AVVideoTransferFunction_Linear,
             AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_2020
@@ -247,7 +252,8 @@ class PGLAsset: Hashable, Equatable  {
             AVVideoColorPropertiesKey: videoColorProperties,
             kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_64RGBAHalf)
         ] as? PHVideoRequestOptions
-
+        outPutSettings?.isNetworkAccessAllowed = true
+        // outPutSettings.progressHandler  should be used
         return outPutSettings
 
     }
@@ -278,66 +284,39 @@ class PGLAsset: Hashable, Equatable  {
     
     func requestVideo() {
 
-//        NSLog("PGLAsset #requestVideo requestPlayerItem")
-        PHImageManager.default().requestPlayerItem(forVideo: asset,
-                                                   options: createAVPlayerOptions(),
-                                                   resultHandler:
-                                                    { aPlayerItem, info in
-            let myself = self
-            if let error = info?[PHImageErrorKey] {
-                NSLog( "PGLImageList imageFrom error = \(error)")
-            } else {
-                // connect the playerItem and the playerItemVideoOutput
-//                NSLog("PGLAsset #requestVideo resultHandler start")
-                myself.avPlayerItem = aPlayerItem!
-
-                    // show a wait indictor until .readyToPlay
-                let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-                myAppDelegate.showWaiting()
-
-
-                myself.videoPlayer = AVQueuePlayer.init(items: [myself.avPlayerItem])
-                myself.playerLooper = AVPlayerLooper(player: myself.videoPlayer! , templateItem: myself.avPlayerItem!)
-                myself.createDisplayLink()
-
-                    // how to turn off the transition state?
-            }
+        NSLog("PGLAsset #requestVideo requestPlayerItem")
+        if videoLocalURL != nil {
+            avPlayerItem = AVPlayerItem(url: videoLocalURL!)
+            videoPlayer = AVQueuePlayer.init(items: [avPlayerItem])
+            playerLooper = AVPlayerLooper(player: videoPlayer! , templateItem: avPlayerItem!)
+            createDisplayLink()
         }
-        )
     }
-
-    /// download and load video as localURL
-   
 
     func createDisplayLink(){
             // Create a display link
-
-
-
         statusObserver = videoPlayer!.observe(\.status,
                   options: [.new, .old],
                   changeHandler: { queuePlayer, change in
+                
                 if queuePlayer.status == .readyToPlay {
-//                        NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
-                    for aRepeatingItem in queuePlayer.items() {
+                        NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
+//                    for aRepeatingItem in queuePlayer.items() {
+//                        aRepeatingItem.add( self.createPlayerItemVideoOutput() )
+//                    }
+                    for  aRepeatingItem in self.playerLooper!.loopingPlayerItems {
                         aRepeatingItem.add( self.createPlayerItemVideoOutput() )
                     }
-                    self.displayLink.add(to: .main, forMode: .common)
+                        // move displayLink
                     self.setUpReadyToPlay()
-                    DispatchQueue.main.async {
-                            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-                            myAppDelegate.closeWaitingIndicator()
-                        }
-                    }
+
+                  }
+
                  })
-//        NSLog("PGLAsset createDisplayLink statusObserver created")
+        NSLog("PGLAsset createDisplayLink statusObserver created")
 
     }
 
-
-    func notifyReadyToPlay () {
-//        PGLVideoReadyToPlay
-    }
 
     func setUpReadyToPlay() {
 
@@ -349,9 +328,13 @@ class PGLAsset: Hashable, Equatable  {
             object: nil,
             queue: nil) { notification in
                 NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
-                self.videoPlayer?.play()
-                self.notifyVideoStarted()
-                    // should hide the play button
+//                if self.avPlayerItem.status == .readyToPlay
+                //  status is unknown how to start??
+//                {
+                    self.videoPlayer?.play()
+                    self.notifyVideoStarted()
+                    NSLog("PGLAsset setUpReadyToPlay  videoPlayer?.play")
+//                }
             }
 
         postVideoLoaded()
@@ -366,7 +349,9 @@ class PGLAsset: Hashable, Equatable  {
             object: nil,
             queue: nil) { notification in
                 self.videoPlayer?.pause()
-
+                self.displayLink.isPaused = true
+                 // stop the triggers  -
+                NSLog("PGLAsset setupStopVideoListener notification PGLStopVideo triggered")
 
                     // should hide the play button
             }
@@ -374,7 +359,7 @@ class PGLAsset: Hashable, Equatable  {
 
     @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
        {
-//           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
+           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
                // really need to get the current item in the videoPlayer
                // ask for it's videoOutput
            guard let currentVideoOutputs = videoPlayer?.currentItem?.outputs
@@ -387,23 +372,29 @@ class PGLAsset: Hashable, Equatable  {
 
            if theVideoOutput.hasNewPixelBuffer(forItemTime: currentTime) 
             {
-//               NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
+               NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
              if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
                  {
                      ///cache the video frame for the next Renderer image request
                      videoCIFrame = CIImage(cvPixelBuffer: buffer)
-//                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
+                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
 
                 }
          }
        }
 
     func notifyVideoStarted() {
-                // hide the play button after start
+
+        // move this.. video may be started again !!
+        // only set up once !
+        self.displayLink.add(to: .main, forMode: .common)
+            // starts processing frames..
+
         let runningNotification = Notification(name:PGLVideoRunning)
         NotificationCenter.default.post(name: runningNotification.name, object: self, userInfo: [ : ])
-      
+        NSLog("PGLAsset notify PGLVideoRunning")
+
     }
         ///  notify the imageController to show the play  button.
     func postVideoLoaded() {
@@ -412,8 +403,10 @@ class PGLAsset: Hashable, Equatable  {
         NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
 
         // imageController needs to show the play button
+        NSLog("PGLAsset notify PGLVideoLoaded")
         let loadButtonNotification = Notification(name:PGLVideoLoaded)
         NotificationCenter.default.post(name: loadButtonNotification.name, object: self, userInfo: [ : ])
+
     }
 
 }
