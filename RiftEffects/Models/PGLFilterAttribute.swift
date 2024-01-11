@@ -215,8 +215,8 @@ class PGLFilterAttribute {
         }
 
     func releaseVars() {
-        inputCollection?.releaseVars()
-        inputCollection = nil
+//        inputCollection?.releaseVars()
+        inputCollection = nil  // this will call inputCollection.releaseVars in the .deinit
         inputStack = nil
 
 

@@ -369,7 +369,7 @@ class PGLImageList: CustomStringConvertible {
                    answerImage = imageFromAsset
                }
                else { 
-                   NSLog("PGLImageList image(atIndex nil result on imageFrom()")
+//                   NSLog("PGLImageList image(atIndex nil result on imageFrom()")
                    /// why remove the imageAsset.. could it be late in loading?
                 
                    answerImage = CIImage.empty()

@@ -26,8 +26,8 @@
             filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "imageFrom()"
             landmarkType = "7">
          </BreakpointContent>
@@ -223,22 +223,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0645CFF3-8A33-440D-A3C8-8557C7B98B09"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLAsset.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "releaseVars()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "6648F966-7ED3-4261-86F4-E4BD5D456EAA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -262,8 +246,8 @@
             filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "requestVideo()"
             landmarkType = "7">
          </BreakpointContent>
@@ -271,56 +255,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6CB314E5-C267-4E54-9B3D-BCBC9E0714DF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiftEffects/Models/PGLAsset.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
-            landmarkName = "setUpReadyToPlay()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6CB314E5-C267-4E54-9B3D-BCBC9E0714DF - 2be441cd1d210668"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setUpReadyToPlay() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "329"
-                  endingLineNumber = "329"
-                  offsetFromSymbolStart = "140">
-               </Location>
-               <Location
-                  uuid = "6CB314E5-C267-4E54-9B3D-BCBC9E0714DF - 2be441cd1d210637"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setUpReadyToPlay() -&gt; ()"
-                  moduleName = "RiftEffects"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "330"
-                  endingLineNumber = "330"
-                  offsetFromSymbolStart = "140">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "0F87953A-4073-4EE3-A669-D48325E35490"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLImageController.swift"
@@ -368,14 +304,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "6ED04952-6CBA-4248-BD42-EA1460BE0EE3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
             landmarkName = "displayLinkCopyPixelBuffers(link:)"
             landmarkType = "7">
             <Locations>
@@ -439,6 +375,21 @@
                   endingLineNumber = "373"
                   offsetFromSymbolStart = "796">
                </Location>
+               <Location
+                  uuid = "6ED04952-6CBA-4248-BD42-EA1460BE0EE3 - 21d6df77da22d6d1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RiftEffects.PGLAsset.displayLinkCopyPixelBuffers(link: __C.CADisplayLink) -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "374"
+                  endingLineNumber = "374"
+                  offsetFromSymbolStart = "796">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -452,8 +403,8 @@
             filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "displayLinkCopyPixelBuffers(link:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -461,47 +412,62 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "37A1D8D6-52E4-460D-8628-99BCB6486612"
-            shouldBeEnabled = "Yes"
+            uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
-            landmarkName = "setUpReadyToPlay()"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
+            landmarkName = "setupStopVideoListener()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "37A1D8D6-52E4-460D-8628-99BCB6486612 - 2be441cd1d2106aa"
+                  uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0 - 8e6d9c1878e211c6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setUpReadyToPlay() -&gt; ()"
+                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setupStopVideoListener() -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "327"
-                  endingLineNumber = "327"
-                  offsetFromSymbolStart = "100">
+                  startingLineNumber = "360"
+                  endingLineNumber = "360"
+                  offsetFromSymbolStart = "152">
                </Location>
                <Location
-                  uuid = "37A1D8D6-52E4-460D-8628-99BCB6486612 - 2be441cd1d210637"
+                  uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0 - 8e6d9c1878e211c6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setUpReadyToPlay() -&gt; ()"
+                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setupStopVideoListener() -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "330"
-                  endingLineNumber = "330"
-                  offsetFromSymbolStart = "64">
+                  startingLineNumber = "360"
+                  endingLineNumber = "360"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0 - 8e6d9c1878e212ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setupStopVideoListener() -&gt; ()"
+                  moduleName = "RiftEffects"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "352"
+                  endingLineNumber = "352"
+                  offsetFromSymbolStart = "44">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -509,47 +475,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0"
-            shouldBeEnabled = "Yes"
+            uuid = "F5B29714-EC05-4C85-ADE8-F282E9C40E91"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Models/PGLAsset.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
-            landmarkName = "setupStopVideoListener()"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "setUpReadyToPlay()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BE920359-A04C-4E71-86D9-7A887AD96403"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Models/PGLAsset.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
+            landmarkName = "displayLinkCopyPixelBuffers(link:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D61C19A-93DD-4CE9-BBCF-F69F6E3FA0DB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiftEffects/Models/PGLAsset.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
+            landmarkName = "createDisplayLink()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0 - 8e6d9c1878e21388"
+                  uuid = "4D61C19A-93DD-4CE9-BBCF-F69F6E3FA0DB - b662b1274cc9a420"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setupStopVideoListener() -&gt; ()"
+                  symbolName = "RiftEffects.PGLAsset.createDisplayLink() -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "346"
-                  endingLineNumber = "346"
-                  offsetFromSymbolStart = "44">
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "1060">
                </Location>
                <Location
-                  uuid = "925DB472-D5B9-46A1-9E75-09F8206DFDC0 - 8e6d9c1878e212ed"
+                  uuid = "4D61C19A-93DD-4CE9-BBCF-F69F6E3FA0DB - b662b1274cc9a420"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in RiftEffects.PGLAsset.setupStopVideoListener() -&gt; ()"
+                  symbolName = "RiftEffects.PGLAsset.createDisplayLink() -&gt; ()"
                   moduleName = "RiftEffects"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/willloew/Developer/RiftEffects3.0/RiftEffects/Models/PGLAsset.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "351"
-                  endingLineNumber = "351"
-                  offsetFromSymbolStart = "44">
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "876">
                </Location>
             </Locations>
          </BreakpointContent>
