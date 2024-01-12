@@ -1544,7 +1544,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
         let playSymbol = UIImage(systemName: "play.circle")
         playButton.setImage(playSymbol, for: .normal)
-        let buttonFactor = 3.0
+        let buttonFactor = 4.0
         let buttonMultiplier = 1/buttonFactor
         let symbolPoints = (view.frame.height)/buttonFactor
         playButton.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: symbolPoints), forImageIn: .normal)
@@ -1564,7 +1564,8 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
             playButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: buttonMultiplier),
             playButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: buttonMultiplier),
-            playButton.centerXAnchor.constraint(lessThanOrEqualTo: view.centerXAnchor, constant: -symbolPoints),
+//            playButton.centerXAnchor.constraint(lessThanOrEqualTo: view.centerXAnchor, constant: -symbolPoints),
+            playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             playButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 
         ])

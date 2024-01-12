@@ -165,12 +165,12 @@ class PGLAsset: Hashable, Equatable  {
     /// moved from the PGLImageList
     func imageFrom() -> CIImage? {
         if isVideo() {
-            if (videoPlayer == nil) {
-                setup()
-                // videoCIFrame will not immediately be available
-                // some early nil returns to be expected.
-            }
-            return videoCIFrame
+            if videoPlayer != nil
+                { if videoPlayer?.status ==  .readyToPlay  {
+                    return videoCIFrame
+                    }
+                }
+            /// continues to get the normal image while videoPlayer is setup
         }
           // READS the CIImage
        //            options = PHImageRequestOptions()
@@ -214,6 +214,10 @@ class PGLAsset: Hashable, Equatable  {
               }
            }
           )
+        if isVideo() {
+            /// cache the still image until user clicks play
+            videoCIFrame = pickedCIImage
+        }
         return pickedCIImage
                // may be nil if not set in the result handler block
       }
@@ -283,10 +287,14 @@ class PGLAsset: Hashable, Equatable  {
         return AVPlayerItemVideoOutput(outputSettings: outPutSettings)
     }
     
+    /// PickerController calls from completion
+    ///  handleCompletion(asset: PGLAsset, object: Any?, error: Error? = nil)
     func requestVideo() {
 
 //        NSLog("PGLAsset #requestVideo requestPlayerItem")
         if videoLocalURL != nil {
+            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+            myAppDelegate.showWaiting()
             createDisplayLink()
         }
     }
@@ -313,6 +321,12 @@ class PGLAsset: Hashable, Equatable  {
 
                         // move displayLink
                     self.setUpReadyToPlay()
+                    DispatchQueue.main.async {
+                            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                            myAppDelegate.closeWaitingIndicator()
+                        }
+                    // display first frame
+//                    self.displayLinkCopyPixelBuffers(link: nil)
 
                   }
 
@@ -331,7 +345,7 @@ class PGLAsset: Hashable, Equatable  {
             forName: PGLPlayVideo,
             object: nil,
             queue: nil) { notification in
-                NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
+//                NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
 
                     self.videoPlayer?.play()
                     self.notifyVideoStarted()
@@ -350,7 +364,7 @@ class PGLAsset: Hashable, Equatable  {
             object: nil,
             queue: nil) { notification in
                 self.videoPlayer?.pause()
-                self.displayLink.isPaused = true
+//                self.displayLink.isPaused = true
                  // stop the triggers  -
 //                NSLog("PGLAsset setupStopVideoListener notification PGLStopVideo triggered")
 

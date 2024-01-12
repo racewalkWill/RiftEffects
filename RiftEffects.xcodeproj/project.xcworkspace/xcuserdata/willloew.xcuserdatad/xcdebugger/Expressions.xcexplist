@@ -1064,6 +1064,9 @@
          contextName = "PGLSourceFilter.animate(attributeTarget:):PGLFilterClasses.swift">
       </ContextState>
       <ContextState
+         contextName = "PGLFilterAttribute.releaseVars():PGLFilterAttribute.swift">
+      </ContextState>
+      <ContextState
          contextName = "PGLFilterAttribute.performAction(_:):PGLFilterAttribute.swift">
       </ContextState>
       <ContextState
@@ -1679,6 +1682,14 @@
          <PersistentStrings>
             <PersistentString
                value = "PGLSourceFilter.LogParmValues">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PGLAsset.imageFrom():PGLAsset.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "videoPlayer?.status">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
