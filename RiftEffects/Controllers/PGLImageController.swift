@@ -363,6 +363,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             }
             self.videoState = .None
 
+
+
         }
 
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -928,6 +930,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         //  R83.07 removed blank toolbar after filter pick on the iPhone. Storyboard changes: Main Filter Controller setting hidesBottomBarWhenPushed="YES". Same on ParmSettingsViewController, Parm Image Controller, Filter Image Controller, Stack Image Container Controller. Logging changes to track navigation
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
         hideSliders()
+        if videoState != .None
+            { hideVideoPlayBtn() }
         panner?.isEnabled = false
         toggleViewControls(hide: true, uiTypeToShow: nil )
             // toggle all view controls to hide
@@ -1552,6 +1556,9 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
         playButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(playButton)
+        
+//        NSLog("\(String(describing: self)) \(String(describing: view)) \(playButton)")
+
             /// refactor parmVidoeName logic to method
         let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
             //may be multiple videos playing - for same attribute in an imageList
@@ -1592,15 +1599,6 @@ extension PGLImageController: UIGestureRecognizerDelegate {
             // or multiple attributes with video input
 
         appStack.parmControls[parmVideoName]?.isHidden = true
-        // newView.isHidden = true
-
-
-//        let repeatButton = UIButton()
-//        let repeatSymbol = UIImage(systemName: "repeat.circle")
-//        repeatButton.setImage(repeatSymbol, for: .normal)
-
-        // resize and center
-        // button frame, center = ??
 
     }
 
@@ -1610,7 +1608,23 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
     }
 
+    fileprivate func hideVideoPlayBtn() {
+            // show the play button now
+            // find the control
+        for (controlName, control) in appStack.parmControls {
+            if controlName.hasSuffix(kBtnVideoPlay) {
+                
+                    // add the following with pause symbol is set as the image
+                    //                let playSymbol = UIImage(systemName: "play")
+                    //                playButton.setImage(playSymbol, for: .normal)
+                control.isHidden = true
+//                break // end the for loop
+            }
+        }
+    }
+    
     func stopVideoAction() {
+        
         let notification = Notification(name: PGLStopVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
         videoState = .Pause
@@ -1632,7 +1646,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
     @objc func userTapAction(sender: UITapGestureRecognizer) {
         switch videoState {
-            case .Running, .Repeating :
+            case .Running :
                 // stop the video
                 stopVideoAction()
             default:

@@ -24,7 +24,7 @@ enum VideoSourceState: Int {
     case Ready
     case Running
     case Pause
-    case Repeating
+
 }
 
 class PGLAsset: Hashable, Equatable  {
@@ -364,11 +364,10 @@ class PGLAsset: Hashable, Equatable  {
             object: nil,
             queue: nil) { notification in
                 self.videoPlayer?.pause()
-//                self.displayLink.isPaused = true
+
                  // stop the triggers  -
 //                NSLog("PGLAsset setupStopVideoListener notification PGLStopVideo triggered")
 
-                    // should hide the play button
             }
     }
 
