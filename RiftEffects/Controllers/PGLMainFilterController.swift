@@ -231,13 +231,6 @@ class PGLMainFilterController:  UIViewController,
             postCurrentFilterChange()
             appStack.resetCellFilters()
 
-//            selectedFilter(addChild: appStack,)
-                // tell the appStack to do the addChildSequence with this filter
-            // use super class empty method
-            // only implement on the PGLSequence Filter
-
-            let replaceFilterEvent = Notification(name: PGLReplaceFilterEvent)
-             NotificationCenter.default.post(replaceFilterEvent)
 
         }
     }

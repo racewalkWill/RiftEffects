@@ -1006,22 +1006,22 @@ class PGLSelectParmController: PGLCommonController,
         let segueId = segue.identifier
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
 
-        if segueId == "goToImageCollection" {
-            guard let targetImageParm = sender as? PGLFilterAttributeImage
-            else {return}
-            tappedAttribute = targetImageParm
-            if let imageCollectionController = segue.destination as? PGLImageCollectionMasterController {
-                imageCollectionController.inputFilterAttribute = (tappedAttribute as! PGLFilterAttributeImage) // model object
-                imageCollectionController.fetchTopLevel()
-                if(!(tappedAttribute?.inputCollection?.isEmpty() ?? false) ) {
-                    // if the inputCollection has images then
-                    // imageCollectionController should select them
-                    // inputCollection may have multiple albums as input.. highlight all
-
-                }
-            }
-
-        }
+//        if segueId == "goToImageCollection" {
+//            guard let targetImageParm = sender as? PGLFilterAttributeImage
+//            else {return}
+//            tappedAttribute = targetImageParm
+//            if let imageCollectionController = segue.destination as? PGLImageCollectionMasterController {
+//                imageCollectionController.inputFilterAttribute = (tappedAttribute as! PGLFilterAttributeImage) // model object
+//                imageCollectionController.fetchTopLevel()
+//                if(!(tappedAttribute?.inputCollection?.isEmpty() ?? false) ) {
+//                    // if the inputCollection has images then
+//                    // imageCollectionController should select them
+//                    // inputCollection may have multiple albums as input.. highlight all
+//
+//                }
+//            }
+//
+//        }
         if segueId == "goToFilterViewBranchStack" {
 //            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
             if segue.destination is PGLMainFilterController

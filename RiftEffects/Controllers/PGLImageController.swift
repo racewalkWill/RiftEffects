@@ -437,27 +437,27 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let segueId = segue.identifier
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
-            if segueId == "showCollection" {
-                if let info = sender as? PGLAlbumSource {
-                    if let pictureGrid = segue.destination as? PGLImagesSelectContainer {
-                        if let aUserAssetSelection = info.filterParm?.getUserAssetSelection() {
-                            // there is an existing userSelection in progress.. use it
-                            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImageController prepare destination but OPEN..")
-                            // use navController and cancel the segue???
-
-                            pictureGrid.userAssetSelection = aUserAssetSelection
-                        }
-                        else {
-                            let userSelectionInfo = PGLUserAssetSelection(assetSources: info)
-                            // create a new userSelection
-                            pictureGrid.userAssetSelection = userSelectionInfo
-                            pictureGrid.title = info.sectionSource?.localizedTitle
-
-                            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController #prepare for segue showCollection")
-                        }
-                            }
-                    }
-                }
+//            if segueId == "showCollection" {
+//                if let info = sender as? PGLAlbumSource {
+//                    if let pictureGrid = segue.destination as? PGLImagesSelectContainer {
+//                        if let aUserAssetSelection = info.filterParm?.getUserAssetSelection() {
+//                            // there is an existing userSelection in progress.. use it
+//                            Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLImageController prepare destination but OPEN..")
+//                            // use navController and cancel the segue???
+//
+//                            pictureGrid.userAssetSelection = aUserAssetSelection
+//                        }
+//                        else {
+//                            let userSelectionInfo = PGLUserAssetSelection(assetSources: info)
+//                            // create a new userSelection
+//                            pictureGrid.userAssetSelection = userSelectionInfo
+//                            pictureGrid.title = info.sectionSource?.localizedTitle
+//
+//                            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController #prepare for segue showCollection")
+//                        }
+//                            }
+//                    }
+//                }
     }
 
     func updateStackNameToNavigationBar() {
@@ -664,22 +664,22 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         notifications[PGLHideImageViewReleaseStack] = aNotification
 
 
-        aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
-            myUpdate in
-//            guard let self = self else { return }
-                // a released object sometimes receives the notification
-                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLImageCollectionOpen")" )
-            if ((self?.view.isHidden) != nil)
-                {self?.view.isHidden = false }
-                // needed to refresh the view after the trash creates a new stack.
-            if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
-                self?.doImageCollectionOpen(assetInfo: assetInfo) }
-        }
-        notifications[PGLImageCollectionOpen] = aNotification
+//        aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
+//            myUpdate in
+////            guard let self = self else { return }
+//                // a released object sometimes receives the notification
+//                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
+////            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
+////                return
+////            }
+//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLImageCollectionOpen")" )
+//            if ((self?.view.isHidden) != nil)
+//                {self?.view.isHidden = false }
+//                // needed to refresh the view after the trash creates a new stack.
+//            if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
+//                self?.doImageCollectionOpen(assetInfo: assetInfo) }
+//        }
+//        notifications[PGLImageCollectionOpen] = aNotification
 
         aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
             myUpdate in

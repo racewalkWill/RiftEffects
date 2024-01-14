@@ -526,6 +526,10 @@ extension PGLFilterAttributeImage {
 
     func cloudId2LocalId(assetCloudIdentifiers: [PHCloudIdentifier]) -> [String] {
             // patterned error handling per documentation
+        // two possible errors
+        // see https://developer.apple.com/wwdc21/10046?time=734
+        //  PHPhotosError.identifierNotFound -it's missing
+        //  PHPhotosError.multipleIdentifiersFound - multiple matches - prompt to pick one
         var localIDs = [String]()
         let localIdentifiers: [PHCloudIdentifier: Result<String, Error>]
            = PHPhotoLibrary
