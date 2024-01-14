@@ -1162,18 +1162,17 @@ class PGLSelectParmController: PGLCommonController,
         self.present(alert, animated: true )
     }
 
-// MARK: PHPickerView
+// MARK: PHPickerViewController
 
     /// vars from PHPickerDemo
     /// WWDC21 session 10046: Improve access to Photos in your app.
     private var selection = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
-    private var selectedAssetIdentifierIterator: IndexingIterator<[String]>?
     private var currentAssetIdentifier: String?
 
 
     func initPHPickerView() -> PHPickerViewController? {
-        var configuration = PHPickerConfiguration(photoLibrary: .shared())
+        var configuration = PHPickerConfiguration.init(photoLibrary: .shared())
         if (currentFilter?.isTransitionFilter() ??  false ) {
             configuration.selectionLimit = 0
         } else {
@@ -1184,6 +1183,7 @@ class PGLSelectParmController: PGLCommonController,
         // by default a configuration object displays all asset types: images, Live Photos, and videos.
         configuration.preferredAssetRepresentationMode = .automatic
         configuration.selection = .ordered
+        configuration = loadExistingSelection(configuration: &configuration)
 //        configuration.disabledCapabilities
             //cabability that represents the Cancel and Add buttons
         
@@ -1194,6 +1194,18 @@ class PGLSelectParmController: PGLCommonController,
         let myPicker = PHPickerViewController(configuration: configuration)
         myPicker.delegate = self
         return myPicker
+    }
+
+    /// put current selection identifiiers into the pickerConfiguration
+    func loadExistingSelection( configuration: inout PHPickerConfiguration) -> PHPickerConfiguration
+    {
+        if let target = appStack.targetAttribute {
+            if let mySelection = target.inputCollection?.assetIDs {
+                configuration.preselectedAssetIdentifiers = mySelection
+            }
+        }
+
+        return configuration
     }
 
     func isFullPhotoLibraryAccess() -> Bool {
@@ -1223,19 +1235,9 @@ class PGLSelectParmController: PGLCommonController,
 
         var selectedImageList: PGLImageList
 
-        // temp test of load in the limited mode
         selectedImageList = loadImageListFromPicker(results: results)
         pickerCompletion(pickerController:picker, pickedImageList: selectedImageList)
-        // end temop test of load
 
-        // restore this after the test of loading mode.
-//        if isFullPhotoLibraryAccess() {
-//            selectedImageList = loadImageListFromPicker(results: results)
-//            pickerCompletion(pickerController:picker, pickedImageList: selectedImageList)
-//        } else
-//        {
-//            selectedImageList = loadLimitedImageList(pickerController: picker, results: results)
-//        }
 
     }
 
@@ -1351,7 +1353,7 @@ class PGLSelectParmController: PGLCommonController,
         // Track the selection in case the user deselects it later.
         selection = newSelection // has full PHPickerResult in dict by assetIdentifier
         selectedAssetIdentifiers = results.map(\.assetIdentifier!)
-        selectedAssetIdentifierIterator = selectedAssetIdentifiers.makeIterator()
+
 
         if selection.isEmpty {
             return PGLImageList()

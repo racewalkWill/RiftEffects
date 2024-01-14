@@ -54,7 +54,11 @@ class PGLAsset: Hashable, Equatable  {
     /// current video frame from the displayLinkCopyPixelBuffer
     var videoCIFrame: CIImage?
     var statusObserver: NSKeyValueObservation?
-    lazy var displayLink: CADisplayLink
+
+    var playVideoToken: NSObjectProtocol?
+    var stopVideoToken: NSObjectProtocol?
+
+    lazy var displayLink: CADisplayLink?
                 = CADisplayLink(target: self,
                     selector: #selector(displayLinkCopyPixelBuffers(link:)))
 
@@ -98,16 +102,38 @@ class PGLAsset: Hashable, Equatable  {
     }
 
     func releaseVars() {
+
         sourceInfo = nil
-        displayLink.invalidate()
-        videoPlayer = nil
-        avPlayerItem = nil
-//        playerItemVideoOutput = nil
-        videoCIFrame = nil
-        statusObserver = nil
+        if playVideoToken != nil {
+            NotificationCenter.default.removeObserver(playVideoToken!)
+        }
+        if stopVideoToken != nil {
+            NotificationCenter.default.removeObserver(stopVideoToken!)
+        }
+        if videoPlayer != nil {
+//            NSLog("PGLAsset releaseVars video")
+            displayLink?.invalidate()
+            displayLink = nil
+            videoPlayer!.pause()
+            playerLooper?.disableLooping()
+            playerLooper = nil 
+            videoPlayer!.removeAllItems()
+            videoPlayer = nil
+            if statusObserver != nil {
+                statusObserver?.invalidate()
+                statusObserver = nil
+            }
+            avPlayerItem = nil
+            videoCIFrame = nil
+
+
+        }
+
+
         if videoLocalURL != nil {
             try? FileManager.default.removeItem(at: videoLocalURL!)
 //            NSLog("PGLAsset releaseVars removedItem at \(String(describing: videoLocalURL))")
+            videoLocalURL = nil
         }
 
     }
@@ -336,19 +362,22 @@ class PGLAsset: Hashable, Equatable  {
     }
 
 
+
     func setUpReadyToPlay() {
 
         let center = NotificationCenter.default
+        let mainQueue = OperationQueue.main
 
         // now listen for the play command
-        center.addObserver(
+        playVideoToken = center.addObserver(
             forName: PGLPlayVideo,
             object: nil,
-            queue: nil) { notification in
+            queue: mainQueue) { notification in
 //                NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
 
                     self.videoPlayer?.play()
                     self.notifyVideoStarted()
+
 //                    NSLog("PGLAsset setUpReadyToPlay  videoPlayer?.play")
             }
 
@@ -357,12 +386,16 @@ class PGLAsset: Hashable, Equatable  {
         setupStopVideoListener()
     }
 
+
+    
     func setupStopVideoListener() {
         let center = NotificationCenter.default
-        center.addObserver(
+        let mainQueue = OperationQueue.main
+
+        stopVideoToken = center.addObserver(
             forName: PGLStopVideo,
             object: nil,
-            queue: nil) { notification in
+            queue: mainQueue) { notification in
                 self.videoPlayer?.pause()
 
                  // stop the triggers  -
@@ -386,10 +419,11 @@ class PGLAsset: Hashable, Equatable  {
 
            if theVideoOutput.hasNewPixelBuffer(forItemTime: currentTime) 
             {
-//               NSLog("PGLAsset #displayLinkCopyPixelBuffers hasNewPixelBuffer")
+
              if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
                  {
+//                  NSLog("PGLAsset #displayLinkCopyPixelBuffers videoOutput new buffer ")
                      ///cache the video frame for the next Renderer image request
                      videoCIFrame = CIImage(cvPixelBuffer: buffer)
 //                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
@@ -402,12 +436,15 @@ class PGLAsset: Hashable, Equatable  {
 
         // move this.. video may be started again !!
         // only set up once !
-        self.displayLink.add(to: .main, forMode: .common)
+        /// displayLink is lazy var.. init first
+        if let myDisplayLink = self.displayLink {
+            myDisplayLink.add(to: .main, forMode: .common)
+        }
             // starts processing frames..
 
         let runningNotification = Notification(name:PGLVideoRunning)
         NotificationCenter.default.post(name: runningNotification.name, object: self, userInfo: [ : ])
-//        NSLog("PGLAsset notify PGLVideoRunning")
+        NSLog("PGLAsset notify PGLVideoRunning displayLink added")
 
     }
         ///  notify the imageController to show the play  button.
