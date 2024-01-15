@@ -99,8 +99,11 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                 setupResult = .notAuthorized
         }
 
-        let interfaceOrientation = UIApplication.shared.statusBarOrientation
-        statusBarOrientation = interfaceOrientation
+//        let interfaceOrientation = UIApplication.shared.statusBarOrientation
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
+
+        {  statusBarOrientation = scene.interfaceOrientation }
+        else { statusBarOrientation = .landscapeLeft }
 
         let initialThermalState = ProcessInfo.processInfo.thermalState
         if initialThermalState == .serious || initialThermalState == .critical {

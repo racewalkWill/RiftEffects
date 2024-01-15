@@ -1114,34 +1114,16 @@ class PGLSelectParmController: PGLCommonController,
                 Logger(subsystem: LogSubsystem, category: LogCategory).error("PGLSelectParmController pickImage fails for unknown authorization status")
                 return
                     // unknown new status may be added in a later iOS release
-
         }
-
         Logger(subsystem: LogSubsystem, category: LogCategory).notice("PGLSelectParmController #pickImage")
-        if usePGLImagePicker {
-            performSegue(withIdentifier: "goToImageCollection", sender: attribute)
-        }
-        else {
-//             waiting for improvments in PHPickerViewController to use albumId to
 
-            let picker = initPHPickerView()
-
-            //PHPickerViewController documentation says 'You can present a picker object only once; you can’t reuse it across sessions'
-            // there must be a ref back into this process from the picker.. use the same picker
-            // if in the same view works BUT
-            // navigation from the effects (filter) causes the error
-//                  Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Picker's configuration is not a valid configuration.'
-
-            if picker != nil {
-                if let myParentSplitView = splitViewController {
-                    /// for getting the cancel/add buttons to work better in the out of process PHPickerView
-                    myParentSplitView.present(picker!, animated: true) }
-                else {
-                    self.present(picker!, animated: true)
-                }
+        if let picker = initPHPickerView() {
+            if let myParentSplitView = splitViewController {
+                /// for getting the cancel/add buttons to work better in the out of process PHPickerView
+                myParentSplitView.present(picker, animated: true) }
+            else {
+                self.present(picker, animated: true)
             }
-
-
         }
     }
 

@@ -345,6 +345,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         let newStack = PGLFilterStack()
 
         self.appStack.resetOutputAppStack(newStack)
+        // load new default image from PHPickerViewController
+
     }
 
     func confirmTrashDisplayStack(_ sender: UIBarButtonItem)  {

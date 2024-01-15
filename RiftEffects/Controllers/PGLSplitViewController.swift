@@ -19,15 +19,8 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
         delegate = self
-//       navigationItem.leftBarButtonItem = self.displayModeButtonItem
-        let stackProviderCanOpen = stackProviderHasRows()
-            
-        if stackProviderCanOpen {
-            preferredDisplayMode = UISplitViewController.DisplayMode.twoDisplaceSecondary
-            // was UISplitViewController.DisplayMode.twoOverSecondary
-        }
-        else {
-            preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary }
+
+        preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary 
         // if the smaller iPhone is compact then should be the two column where the columns are controlled by buttons
         // used to have this.. check versions
 

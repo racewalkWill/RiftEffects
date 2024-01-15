@@ -27,6 +27,7 @@ class PGLAppStack {
     var viewerStack = PGLFilterStack()
     var pushedStacks = [PGLFilterStack]()
   
+//    var initialImagePick: PGLImageList
 
     lazy var appRenderer: Renderer = Renderer(globalAppStack: self)
 
@@ -57,20 +58,10 @@ class PGLAppStack {
     init(){
         // if no saved stacks
         Logger(subsystem: LogSubsystem, category: LogNavigation).notice( "start PGLAppStack init()")
-//      
 
         outputStack = viewerStack
-//        let myCenter =  NotificationCenter.default
-//        let queue = OperationQueue.main
-//        myCenter.addObserver(forName: PGLImageCollectionClose, object: nil , queue: queue) { myUpdate in
-//            NSLog("PGLAppStack  notification PGLImageCollectionClose")
-//            self.isImageControllerOpen = true
-//        }
-//        myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: queue) { myUpdate in
-//            NSLog("PGLAppStack  notification PGLImageCollectionOpen")
-//            NSLog("PGLImageCollectionMasterController set isImageControllerOpen = FALSE")
-//            self.isImageControllerOpen = false
-//        }
+//        initialImagePick = PGLImageList.
+
     }
     // MARK: REFACTOR ParmController
     // this section contains the logic from the PGLSelectParmController
