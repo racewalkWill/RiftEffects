@@ -15,6 +15,9 @@ import CoreData
 
 class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
+    var startupImageList: PGLImageList?
+    var imageListPicker: PGLImageListPicker?
+
     override func viewDidLoad() {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
@@ -45,7 +48,7 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         }
 
         // Do any additional setup after loading the view.
-
+        requestStartupImage()
 
     }
 
@@ -141,6 +144,24 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         provider.reset()
         return stackRowCount > 0
     }
+
+    // MARK: startup Pick
+
+    func requestStartupImage() {
+        if startupImageList == nil {
+            startupImageList = PGLImageList()
+
+            imageListPicker = PGLImageListPicker(targetList: startupImageList, controller: self)
+            if imageListPicker != nil {
+                    /// with  a nil  target attribute just picks one image from the photoLibary
+                guard let pickerViewController = imageListPicker!.set(targetAttribute: nil)
+                    else { return }
+                self.present(pickerViewController, animated: true)
+            }
+        }
+    }
+
+
 
 
 }

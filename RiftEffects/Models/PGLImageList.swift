@@ -61,7 +61,8 @@ class PGLImageList: CustomStringConvertible {
 //            return images.isEmpty && !imageAssets.isEmpty
             // iPhone picker loads one image but still call this an assetList
 
-            return (images.count <= 1) && !imageAssets.isEmpty
+            return (images.count < imageAssets.count) && !imageAssets.isEmpty
+            // when all the images are cached in images then isAssetList is false.
         }
     }
     private var images = [CIImage?]()
@@ -367,6 +368,11 @@ class PGLImageList: CustomStringConvertible {
            if isAssetList {
                if let imageFromAsset = imageAssets[atIndex].imageFrom() {
                    answerImage = imageFromAsset
+                   if (( images.count - 1 ) < atIndex ) {
+                       // have an image not in the image cache array
+                       // zero  based array count is one more than the index
+                       appendImage(aCiImage: imageFromAsset)
+                   }
                }
                else { 
 //                   NSLog("PGLImageList image(atIndex nil result on imageFrom()")
