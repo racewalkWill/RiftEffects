@@ -11,6 +11,7 @@ import PhotosUI
 import os
 
     /// answers new PGLImageList containing picked items from thephotos library
+    /// used by both PGLSplitViewController and PGLSelectParmController
 class PGLImageListPicker:  PHPickerViewControllerDelegate {
 
     var pickingImageList: PGLImageList
