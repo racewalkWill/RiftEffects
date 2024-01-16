@@ -423,7 +423,7 @@ class PGLAsset: Hashable, Equatable  {
              if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
                  {
-//                  NSLog("PGLAsset #displayLinkCopyPixelBuffers videoOutput new buffer ")
+                  NSLog("PGLAsset #displayLinkCopyPixelBuffers videoOutput new buffer ")
                      ///cache the video frame for the next Renderer image request
                      videoCIFrame = CIImage(cvPixelBuffer: buffer)
 //                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")

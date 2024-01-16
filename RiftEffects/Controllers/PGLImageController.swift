@@ -1562,7 +1562,9 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 //        NSLog("\(String(describing: self)) \(String(describing: view)) \(playButton)")
 
             /// refactor parmVidoeName logic to method
-        let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
+            /// self.description answers in form <RiftEffects.PGLCompactImageController: 0x1050a4600>
+            ///  there are two imageControllers on the iPhone
+        let parmVideoName = self.description + imageAttribute.attributeName! + kBtnVideoPlay
             //may be multiple videos playing - for same attribute in an imageList
             // or multiple attributes with video input
 
@@ -1596,7 +1598,8 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         // assumes that imageAttribute has video input
 
             /// refactor parmVidoeName logic to method
-        let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
+//        let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
+        let parmVideoName = self.description + imageAttribute.attributeName! + kBtnVideoPlay
             //may be multiple videos playing - for same attribute in an imageList
             // or multiple attributes with video input
 

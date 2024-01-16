@@ -362,37 +362,39 @@ class PGLImageList: CustomStringConvertible {
 
 
     func image(atIndex: Int) -> CIImage? {
-           var answerImage: CIImage?
+        var answerImage: CIImage?
 
+        let imageAsset = imageAssets[atIndex]
+        if imageAsset.isVideo() {
+            answerImage =  imageAsset.imageFrom()
+            if answerImage != nil {
+                return scaleToFrame(ciImage: answerImage!, newSize: TargetSize)
+            }
+            else {
+                return CIImage.empty()
+            }
+        }
 
-           if isAssetList {
-               if let imageFromAsset = imageAssets[atIndex].imageFrom() {
-                   answerImage = imageFromAsset
-                   if (( images.count - 1 ) < atIndex ) {
-                       // have an image not in the image cache array
-                       // zero  based array count is one more than the index
-                       appendImage(aCiImage: imageFromAsset)
-                   }
-               }
-               else { 
-//                   NSLog("PGLImageList image(atIndex nil result on imageFrom()")
-                   /// why remove the imageAsset.. could it be late in loading?
-                
-                   answerImage = CIImage.empty()
-//                        // reset the imageAssets
-//                        imageAssets.remove(at: atIndex)
-//                   if assetIDs.count < (atIndex - 1 )
-//                    {  assetIDs.remove(at: atIndex) }
-               }
-           }
-           else { // has images
-               answerImage = images[atIndex]
-           }
-           if doResize {
-               answerImage = self.scaleToFrame(ciImage: answerImage!, newSize: TargetSize) }
+        if !isAssetList {
+                // has image in the private cache
+            answerImage = images[atIndex]
+        }
+        else { 
+            if let imageFromAsset = imageAsset.imageFrom() {
+                answerImage = imageFromAsset
+                if (( images.count - 1 ) < atIndex ) {
+                        // save into the images cache.
+                        // zero  based array count is one more than the index
+                    appendImage(aCiImage: imageFromAsset)
+                }
+            }
+            else {
+                return CIImage.empty()
+            }
+        }
+        return scaleToFrame(ciImage: answerImage!, newSize: TargetSize)
+    }
 
-          return answerImage
-       }
 
 
 
@@ -510,6 +512,9 @@ class PGLImageList: CustomStringConvertible {
 
        fileprivate func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
            // make all the images scale to the same size and origin
+           if !doResize {
+               return ciImage }
+           
            let xTransform:CGFloat = 0.0 - ciImage.extent.origin.x
            let yTransform:CGFloat = 0.0  - ciImage.extent.origin.y
            //move to zero
