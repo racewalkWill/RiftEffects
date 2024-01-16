@@ -99,7 +99,16 @@ extension PGLFilterStack {
 
     }
 
-
+    func loadStartup(userStartupImageList: PGLImageList) {
+        if let startingFilter = demoLoadFilter(ciFilterString: "Images") {
+            append(startingFilter)
+            let imageAttribute = startingFilter.getInputImageAttribute()
+            imageAttribute?.setImageCollectionInput(cycleStack:userStartupImageList)
+            postStackChange()
+            postTransitionFilterAdd() // makes the redraws run
+            postCurrentFilterChange() // makes DoNotDraw = false..
+        }
+    }
 
 
     func demoLoadFilter(ciFilterString: String) -> PGLSourceFilter? {

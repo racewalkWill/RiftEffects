@@ -15,7 +15,24 @@ import CoreData
 
 class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
-    var startupImageList: PGLImageList?
+    var startupImageList: PGLImageList? {
+        didSet {
+            /// PGLImageListPicker sets the value in loadImageListFromPicker(results: )
+            if startupImageList != nil {
+                appStack.viewerStack.loadStartup(userStartupImageList: startupImageList!)
+            }
+        }
+    }
+
+    var appStack: PGLAppStack! {
+        // now a computed property
+        guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+            else { Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSplitViewController viewDidLoad fatalError(AppDelegate not loaded")
+            fatalError("PGLSplitViewController could not access the AppDelegate")
+        }
+       return  myAppDelegate.appStack
+    }
+
     var imageListPicker: PGLImageListPicker?
 
     override func viewDidLoad() {
@@ -149,9 +166,9 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
     func requestStartupImage() {
         if startupImageList == nil {
-            startupImageList = PGLImageList()
+            let newList = PGLImageList()
 
-            imageListPicker = PGLImageListPicker(targetList: startupImageList, controller: self)
+            imageListPicker = PGLImageListPicker(targetList: newList, controller: self)
             if imageListPicker != nil {
                     /// with  a nil  target attribute just picks one image from the photoLibary
                 guard let pickerViewController = imageListPicker!.set(targetAttribute: nil)
