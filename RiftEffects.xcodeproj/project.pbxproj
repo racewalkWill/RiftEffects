@@ -123,7 +123,6 @@
 		A3BF513924D32A3400CD5114 /* PGLUserAssetSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B624D32A3400CD5114 /* PGLUserAssetSelection.swift */; };
 		A3BF513B24D32A3400CD5114 /* GridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50B824D32A3400CD5114 /* GridViewCell.swift */; };
 		A3BF514724D32A3400CD5114 /* PGLFilterCIAbstract.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50C924D32A3400CD5114 /* PGLFilterCIAbstract.swift */; };
-		A3BF514824D32A3400CD5114 /* PGLTabsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF50CA24D32A3400CD5114 /* PGLTabsController.swift */; };
 		A3BF515024D32D3400CD5114 /* PGLSourceFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF514A24D32D3400CD5114 /* PGLSourceFilterTests.swift */; };
 		A3BF515124D32D3400CD5114 /* PGLFilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF514B24D32D3400CD5114 /* PGLFilterDescriptorTests.swift */; };
 		A3BF515224D32D3400CD5114 /* PGLFilterStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF514C24D32D3400CD5114 /* PGLFilterStackTests.swift */; };
@@ -296,7 +295,6 @@
 		A3BF50B624D32A3400CD5114 /* PGLUserAssetSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLUserAssetSelection.swift; sourceTree = "<group>"; };
 		A3BF50B824D32A3400CD5114 /* GridViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewCell.swift; sourceTree = "<group>"; };
 		A3BF50C924D32A3400CD5114 /* PGLFilterCIAbstract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterCIAbstract.swift; sourceTree = "<group>"; };
-		A3BF50CA24D32A3400CD5114 /* PGLTabsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLTabsController.swift; sourceTree = "<group>"; };
 		A3BF514A24D32D3400CD5114 /* PGLSourceFilterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLSourceFilterTests.swift; sourceTree = "<group>"; };
 		A3BF514B24D32D3400CD5114 /* PGLFilterDescriptorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterDescriptorTests.swift; sourceTree = "<group>"; };
 		A3BF514C24D32D3400CD5114 /* PGLFilterStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLFilterStackTests.swift; sourceTree = "<group>"; };
@@ -585,7 +583,6 @@
 				A320F6252669550E008F6090 /* PGLInfoPrivacyController.swift */,
 				A3DD328625CC999C00ABEE61 /* PGLHelpPageController.swift */,
 				A34DE10C25D050AF005DC3DD /* PGLHelpSinglePage.swift */,
-				A3BF50CA24D32A3400CD5114 /* PGLTabsController.swift */,
 				A303930E27AADED800E2A3D4 /* PGLCompactPresentationController.swift */,
 			);
 			path = Controllers;
@@ -887,7 +884,6 @@
 				A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */,
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,
 				A3BF513624D32A3400CD5114 /* PGLAssetCollection.swift in Sources */,
-				A3BF514824D32A3400CD5114 /* PGLTabsController.swift in Sources */,
 				A3FB765C28D7AF6500595461 /* PGLWindowSceneDelegate.swift in Sources */,
 				A34BB8BE295E4834007BFBA7 /* PGLAttributeWeightsVector.swift in Sources */,
 				A3BF512A24D32A3400CD5114 /* PGLTransitionFilter.swift in Sources */,
