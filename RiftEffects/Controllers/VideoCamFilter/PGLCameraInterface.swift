@@ -50,7 +50,10 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                mediaType: .video,
                position: .front)
 
-    private var statusBarOrientation: UIInterfaceOrientation = .portrait
+     var statusBarOrientation: UIInterfaceOrientation = .landscapeLeft
+    // orientation is set once. It does not change with device rotation..
+    // see https://developer.apple.com/documentation/uikit/uidevice/1620055-isgeneratingdeviceorientationnot
+    
 
     // MARK: - KVO and Notifications
     var sessionRunningContext = 0
@@ -116,9 +119,9 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
             switch self.setupResult {
                 case .success:
 //                    self.addObservers()
-                    if let unwrappedVideoDataOutputConnection = self.videoDataOutput.connection(with: .video) {
-                        let videoDevicePosition = self.videoInput.device.position
-                    }
+//                    if let unwrappedVideoDataOutputConnection = self.videoDataOutput.connection(with: .video) {
+//                        let videoDevicePosition = self.videoInput.device.position
+//                    }
 
                     self.dataOutputQueue.async {
                         self.renderingEnabled = true

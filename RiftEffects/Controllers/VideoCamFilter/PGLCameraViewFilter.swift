@@ -27,7 +27,25 @@ class PGLVideoCameraFilter: PGLSourceFilter {
     }
 
     override func outputImage() -> CIImage? {
-        return videoImageFrame
+        let orientedTarget: CGImagePropertyOrientation
+            /// orientation is set once. It does not change with device rotation..
+            /// if needed?? see comment in statusBarOrientation
+        switch cameraInterface?.statusBarOrientation {
+                
+            case .landscapeRight:
+                orientedTarget = .down
+            default:
+                orientedTarget = .up
+            // other cases but .up works for all these as
+                // app is landscape right or left only..
+//            case .landscapeLeft:
+//            case .none:
+//            case .some(.unknown):
+//            case .some(.portrait):
+//            case .some(.portraitUpsideDown):
+//            case .some(_):
+        }
+        return videoImageFrame?.oriented(orientedTarget)
     }
 
 func viewWillDisappear(_ animated: Bool) {
