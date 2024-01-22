@@ -38,6 +38,7 @@ extension PGLImageController {
     }
 
     func startRecording() {
+        RPScreenRecorder.shared().isMicrophoneEnabled = true
 
         RPScreenRecorder.shared().startRecording { error in
                 // If there is an error, print it and set the button title and state.

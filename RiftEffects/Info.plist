@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera video is a filter input and may be recorded with the Screen Recording button</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -22,6 +20,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is used with the VideoCam filter and can be recorded with Screen Recording</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone is used for your audio comments with VideoCam filter during Screen Recording</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app will display your photos and apply visual effect filters to the display.</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
@@ -49,6 +51,7 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

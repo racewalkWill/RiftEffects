@@ -15,7 +15,7 @@ import Photos
 import MobileCoreServices
 
 /// connects to device's camera and provides frames to the PGLCameraViewFilter
-class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {
      var myCameraViewFilter: PGLVideoCameraFilter?
 
     private enum SessionSetupResult {
@@ -35,9 +35,13 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
 
     private var videoInput: AVCaptureDeviceInput!
 
+    private var audioInput: AVCaptureDeviceInput!
+
     private let dataOutputQueue = DispatchQueue(label: "VideoDataQueue", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
 
     private let videoDataOutput = AVCaptureVideoDataOutput()
+
+    private let audioDataOutput = AVCaptureAudioDataOutput()
 
     private var outputSynchronizer: AVCaptureDataOutputSynchronizer?
 
@@ -49,6 +53,9 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                 [.builtInDualCamera, .builtInWideAngleCamera],
                mediaType: .video,
                position: .front)
+
+    private let audioDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.microphone],
+                                                                               mediaType: .audio, position: AVCaptureDevice.Position.unspecified)
 
      var statusBarOrientation: UIInterfaceOrientation = .landscapeLeft
     // orientation is set once. It does not change with device rotation..
@@ -79,6 +86,7 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         }
 
             // Check video authorization status, video access is required
+//        AVCaptureDevice.DiscoverySession
         switch AVCaptureDevice.authorizationStatus(for: .video) {
             case .authorized:
                     // The user has previously granted access to the camera
@@ -91,6 +99,28 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                  */
                 sessionQueue.suspend()
                 AVCaptureDevice.requestAccess(for: .video, completionHandler: { granted in
+                    if !granted {
+                        self.setupResult = .notAuthorized
+                    }
+                    self.sessionQueue.resume()
+                })
+
+            default:
+                    // The user has previously denied access
+                setupResult = .notAuthorized
+        }
+        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+            case .authorized:
+                    // The user has previously granted access to the camera
+                break
+
+            case .notDetermined:
+                /*
+                 The user has not yet been presented with the option to grant video access
+                 Suspend the SessionQueue to delay session setup until the access request has completed
+                 */
+                sessionQueue.suspend()
+                AVCaptureDevice.requestAccess(for: .audio, completionHandler: { granted in
                     if !granted {
                         self.setupResult = .notAuthorized
                     }
@@ -191,6 +221,22 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                 return
             }
 
+            let defaultAudioDevice: AVCaptureDevice? = audioDeviceDiscoverySession.devices.first
+
+            guard let audioDevice = defaultAudioDevice else {
+                print("Could not find any video device")
+                setupResult = .configurationFailed
+                return
+            }
+
+            do {
+                audioInput = try AVCaptureDeviceInput(device: audioDevice)
+            } catch {
+                print("Could not create video device input: \(error)")
+                setupResult = .configurationFailed
+                return
+            }
+
             session.beginConfiguration()
 
             session.sessionPreset = AVCaptureSession.Preset.photo
@@ -204,6 +250,16 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
             }
             session.addInput(videoInput)
 
+            // add audio input
+            guard session.canAddInput(audioInput) else {
+                print("Could not add video device input to the session")
+                setupResult = .configurationFailed
+                session.commitConfiguration()
+                return
+            }
+            session.addInput(audioInput)
+
+            
             // Add a video data output
             if session.canAddOutput(videoDataOutput) {
                 session.addOutput(videoDataOutput)
@@ -216,7 +272,21 @@ class PGLCameraInterface: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                 return
             }
 
+                // Add a audio data output
+                if session.canAddOutput(audioDataOutput) {
+                    session.addOutput(audioDataOutput)
+                  // uses the input channel settings unless they are otherwise specified here
+                    audioDataOutput.setSampleBufferDelegate(self, queue: dataOutputQueue)
+
+                } else {
+                    print("Could not add video data output to the session")
+                    setupResult = .configurationFailed
+                    session.commitConfiguration()
+                    return
+                }
+
             outputSynchronizer = nil
+                // AVCaptureDataOutputSynchronizer( // needed for audio/video sync??
 
             session.commitConfiguration()
 
