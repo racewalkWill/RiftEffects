@@ -34,9 +34,9 @@ class PGLVideoCameraFilter: PGLSourceFilter {
         switch cameraInterface?.statusBarOrientation {
                 
             case .landscapeRight:
-                orientedTarget = .down
+                orientedTarget = .downMirrored
             default:
-                orientedTarget = .up
+                orientedTarget = .upMirrored
             // other cases but .up works for all these as
                 // app is landscape right or left only..
 //            case .landscapeLeft:

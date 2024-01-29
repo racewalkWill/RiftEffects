@@ -56,7 +56,9 @@ class PGLScaleDownFrame: PGLSourceFilter {
         return newVectorAttribute!
     }
     override func outputImageBasic() -> CIImage? {
-        guard let scaledImage = localFilter.outputImage else { return CIImage.empty() }
+//        guard let scaledImage = localFilter.outputImage else { return CIImage.empty() }
+        guard let scaledImage = super.outputImageBasic()
+        else { return CIImage.empty() }
         return positionOutput(ciOutput: scaledImage, inFrame: fullScreenRect, newCenterPoint: centerPoint)
     }
 
