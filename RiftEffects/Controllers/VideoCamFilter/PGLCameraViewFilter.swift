@@ -24,6 +24,7 @@ class PGLVideoCameraFilter: PGLSourceFilter {
         super .init(filter: filter, position: position)
         cameraInterface = PGLCameraInterface(myCameraViewFilter: self)
         cameraInterface?.setUpInterface()
+        postTransitionFilterAdd()
     }
 
     override func outputImage() -> CIImage? {
@@ -48,6 +49,16 @@ class PGLVideoCameraFilter: PGLSourceFilter {
         return videoImageFrame?.oriented(orientedTarget)
     }
 
+    func postTransitionFilterAdd() {
+        let updateNotification = Notification(name:PGLTransitionFilterExists)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : +1 ])
+    }
+
+    func postTransitionFilterRemove() {
+        let updateNotification = Notification(name:PGLTransitionFilterExists)
+        NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["transitionFilterAdd" : -1 ])
+    }
+
 func viewWillDisappear(_ animated: Bool) {
     // MARK: Release
     // should be used in release chain.
@@ -58,6 +69,7 @@ func viewWillDisappear(_ animated: Bool) {
    override func releaseVars() {
         cameraInterface?.releaseOnViewDisappear()
         cameraInterface = nil
+        postTransitionFilterRemove()
         super.releaseVars()
 
     }
