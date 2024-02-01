@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="1.3">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23D56" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="1.3">
     <entity name="CDAttributeAffine" representedClassName="CDAttributeAffine" parentEntity="CDParmValue" syncable="YES" codeGenerationType="class">
         <attribute name="vectorAngle" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="vectorLength" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -87,7 +87,7 @@
         <relationship name="storedFilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDStoredFilter" inverseName="values" inverseEntity="CDStoredFilter"/>
     </entity>
     <entity name="CDStoredFilter" representedClassName="CDStoredFilter" syncable="YES">
-        <attribute name="ciFilter" optional="YES" attributeType="Transformable" valueTransformerName="PGLFilterCDDataTransformer" customClassName="CIFilter"/>
+        <attribute name="ciFilter" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="CIFilter"/>
         <attribute name="ciFilterName" optional="YES" attributeType="String"/>
         <attribute name="pglSourceFilterClass" attributeType="String" defaultValueString="PGLSourceFilter"/>
         <attribute name="stackPosition" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
