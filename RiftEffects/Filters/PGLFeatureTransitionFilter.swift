@@ -230,8 +230,8 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
 
     //       NSLog("PGLTransitionFilter #addStepTime ")
 
-            if (stepTime > 1.0)   {
-                stepTime = 1.0 // make it go down
+            if (transitionFilterStepTime >= 1.0)   {
+                transitionFilterStepTime = 1.0 // make it go down
                 dt = dt * -1 // past end so toggle
                 // this has animation
                 // get the input collection
@@ -240,8 +240,8 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
                      self.setImageValue(newValue: newTargetInput, keyName: kCIInputImageKey)
                 }
             }
-            else if (stepTime < 0.0) {
-                stepTime = 0.0 // make it go up
+            else if (transitionFilterStepTime <= 0.0) {
+                transitionFilterStepTime = 0.0 // make it go up
                 dt = dt * -1 // past end so toggle
                 // update the targetImage now showing the input
                 if let newInput = detectorFilter?.nextImage() {
@@ -250,8 +250,8 @@ class PGLDissolveWrapperFilter: PGLFeatureTransitionFilter {
             }
             // go back and forth between 0 and 1.0
             // toggle dt either neg or positive
-            stepTime += dt
-            let inputTime = simd_smoothstep(0, 1, stepTime)
+         transitionFilterStepTime += dt
+            let inputTime = simd_smoothstep(0, 1, transitionFilterStepTime)
 
             // dissolve specific localFilter
             localFilter.setValue(inputTime, forKey: kCIInputTimeKey)

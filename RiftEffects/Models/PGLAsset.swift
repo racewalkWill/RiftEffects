@@ -111,14 +111,15 @@ class PGLAsset: Hashable, Equatable  {
             NotificationCenter.default.removeObserver(stopVideoToken!)
         }
         if videoPlayer != nil {
-//            NSLog("PGLAsset releaseVars video")
-            displayLink?.invalidate()
-            displayLink = nil
+            NSLog("PGLAsset releaseVars video")
+
             videoPlayer!.pause()
             playerLooper?.disableLooping()
             playerLooper = nil 
             videoPlayer!.removeAllItems()
             videoPlayer = nil
+            displayLink?.invalidate()
+            displayLink = nil
             if statusObserver != nil {
                 statusObserver?.invalidate()
                 statusObserver = nil

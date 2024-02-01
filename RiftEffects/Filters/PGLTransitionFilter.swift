@@ -23,7 +23,8 @@ class PGLTransitionFilter: PGLRectangleFilter {
 //      the CIFilter works with this PGLSourceFilter to trigger
     // PGLFilterCategory static func getFilterDescriptor
 
-    
+    var transitionFilterStepTime = 0.0
+
     required init?(filter: String, position: PGLFilterCategoryIndex) {
         super.init(filter: filter, position: position)
         hasAnimation = true }
@@ -46,8 +47,8 @@ class PGLTransitionFilter: PGLRectangleFilter {
 //       NSLog("PGLTransitionFilter #addFilterStepTime ")
         var nextAttribute: PGLFilterAttribute?
         var doIncrement = false
-        if (stepTime > 1.0)   {
-            stepTime = 1.0 // bring it back in range
+        if (transitionFilterStepTime >= 1.0)   {
+            transitionFilterStepTime = 1.0 // bring it back in range
             doIncrement = true
             dt = dt * -1 // past end so toggle
             // this has animation
@@ -56,8 +57,8 @@ class PGLTransitionFilter: PGLRectangleFilter {
 
 
         }
-        else if (stepTime < 0.0) {
-            stepTime = 0.0 // bring it back in range
+        else if (transitionFilterStepTime <= 0.0) {
+            transitionFilterStepTime = 0.0 // bring it back in range
             doIncrement = true
             dt = dt * -1 // past end so toggle
             nextAttribute = attribute(nameKey: kCIInputTargetImageKey  ) //kCIInputImageKey
@@ -69,12 +70,20 @@ class PGLTransitionFilter: PGLRectangleFilter {
 
         // go back and forth between 0 and 1.0
         // toggle dt either neg or positive
-        stepTime += dt
-        let inputTime = simd_smoothstep(0, 1, stepTime)
+        transitionFilterStepTime += dt
+        let inputTime = simd_smoothstep(0, 1, transitionFilterStepTime)
 
         // dissolve specific
         localFilter.setValue(inputTime, forKey: kCIInputTimeKey)
-        //        NSLog("PGLTransitionFilter stepTime now = \(inputTime)" )
+
+        /// call super for other vary attributes
+        guard let myImageParms = imageParms() else
+            {return}
+        for anImageParm in myImageParms {
+            /// if there is video then set the current image for animation
+            anImageParm.addAnimationStepTime()
+        }
+
     }
         /// set the dt (deltaTime) for use by addStepTime() on each frame
     override func setTimerDt(lengthSeconds: Float) {

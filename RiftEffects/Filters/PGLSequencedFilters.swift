@@ -171,11 +171,13 @@ class PGLSequencedFilters: PGLSourceFilter {
         return sequenceStack
     }
 
+    ///  adds stepTime for the vary..
+    ///   does not use the transitionFilterStepTime var in the PGLTransitionFilter
     override func addFilterStepTime() {
         // in this overridden method
         // just advance the SequenceStack on the hidden dissolve parm
         // see also  PGLSequenceStack#setInputToStack() for alternation of target/input
-
+        
 
         guard let theSequenceStack = filterSequence()
             else { return }
@@ -198,7 +200,7 @@ class PGLSequencedFilters: PGLSourceFilter {
             let inputTime = simd_smoothstep(0, 1, stepTime)
             dissolve.setDissolveTime(inputTime: inputTime)
         }
-        if (stepTime > 1.0)   {
+        if (stepTime >= 1.0)   {
             stepTime = 1.0 // bring it back in range
 
                 // when current filter is odd
@@ -211,7 +213,7 @@ class PGLSequencedFilters: PGLSourceFilter {
 
 
         }
-        else if (stepTime < 0.0) {
+        else if (stepTime <= 0.0) {
             stepTime = 0.0 // bring it back in range
             theSequenceStack.increment(hidden: .target )
             dissolveDT = dissolveDT * -1 // past end so toggle
