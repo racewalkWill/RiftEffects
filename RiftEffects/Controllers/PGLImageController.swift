@@ -711,6 +711,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                     NSLog("PGLVideoLoaded notification but videoInputExists is FALSE")
                 }
             }
+            else {
+                NSLog("PGLVideoLoaded fails to add controls - failed appStack.targetAttribute")
+            }
         }
         notifications[PGLVideoLoaded] = aNotification
 

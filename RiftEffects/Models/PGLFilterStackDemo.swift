@@ -103,6 +103,12 @@ extension PGLFilterStack {
         if let startingFilter = demoLoadFilter(ciFilterString: "Images") {
             append(startingFilter)
             let imageAttribute = startingFilter.getInputImageAttribute()
+            guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
+                else { Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSplitViewController viewDidLoad fatalError(AppDelegate not loaded")
+                fatalError("PGLSplitViewController could not access the AppDelegate")
+            }
+
+            myAppDelegate.appStack.targetAttribute = imageAttribute
             imageAttribute?.setImageCollectionInput(cycleStack:userStartupImageList)
             postStackChange()
             postTransitionFilterAdd() // makes the redraws run

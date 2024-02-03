@@ -58,9 +58,9 @@ class PGLAsset: Hashable, Equatable  {
     var playVideoToken: NSObjectProtocol?
     var stopVideoToken: NSObjectProtocol?
 
-    lazy var displayLink: CADisplayLink?
-                = CADisplayLink(target: self,
-                    selector: #selector(displayLinkCopyPixelBuffers(link:)))
+//    lazy var displayLink: CADisplayLink?
+//                = CADisplayLink(target: self,
+//                    selector: #selector(displayLinkCopyPixelBuffers(link:)))
 
     let options: PHImageRequestOptions?
 
@@ -118,8 +118,8 @@ class PGLAsset: Hashable, Equatable  {
             playerLooper = nil 
             videoPlayer!.removeAllItems()
             videoPlayer = nil
-            displayLink?.invalidate()
-            displayLink = nil
+//            displayLink?.invalidate()
+//            displayLink = nil
             if statusObserver != nil {
                 statusObserver?.invalidate()
                 statusObserver = nil
@@ -194,6 +194,7 @@ class PGLAsset: Hashable, Equatable  {
         if isVideo() {
             if videoPlayer != nil
                 { if videoPlayer?.status ==  .readyToPlay  {
+                    displayLinkCopyPixelBuffers()
                     return videoCIFrame
                     }
                 }
@@ -243,6 +244,7 @@ class PGLAsset: Hashable, Equatable  {
           )
         if isVideo() {
             /// cache the still image until user clicks play
+
             videoCIFrame = pickedCIImage
         }
         return pickedCIImage
@@ -352,13 +354,10 @@ class PGLAsset: Hashable, Equatable  {
                             let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
                             myAppDelegate.closeWaitingIndicator()
                         }
-                    // display first frame
-//                    self.displayLinkCopyPixelBuffers(link: nil)
-
                   }
 
                  })
-//        NSLog("PGLAsset createDisplayLink statusObserver created")
+        NSLog("PGLAsset createDisplayLink statusObserver created")
 
     }
 
@@ -405,7 +404,8 @@ class PGLAsset: Hashable, Equatable  {
             }
     }
 
-    @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
+//    @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
+    func displayLinkCopyPixelBuffers()
        {
 //           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
                // really need to get the current item in the videoPlayer
@@ -424,7 +424,7 @@ class PGLAsset: Hashable, Equatable  {
              if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
                                                      itemTimeForDisplay: nil)
                  {
-                  NSLog("PGLAsset #displayLinkCopyPixelBuffers videoOutput new buffer ")
+//                  NSLog("PGLAsset #displayLinkCopyPixelBuffers videoOutput new buffer ")
                      ///cache the video frame for the next Renderer image request
                      videoCIFrame = CIImage(cvPixelBuffer: buffer)
 //                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
@@ -438,14 +438,14 @@ class PGLAsset: Hashable, Equatable  {
         // move this.. video may be started again !!
         // only set up once !
         /// displayLink is lazy var.. init first
-        if let myDisplayLink = self.displayLink {
-            myDisplayLink.add(to: .main, forMode: .common)
-        }
+//        if let myDisplayLink = self.displayLink {
+//            myDisplayLink.add(to: .main, forMode: .common)
+//        }
             // starts processing frames..
 
         let runningNotification = Notification(name:PGLVideoRunning)
         NotificationCenter.default.post(name: runningNotification.name, object: self, userInfo: [ : ])
-        NSLog("PGLAsset notify PGLVideoRunning displayLink added")
+        NSLog("PGLAsset notify PGLVideoRunning sent")
 
     }
         ///  notify the imageController to show the play  button.
