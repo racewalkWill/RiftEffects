@@ -86,7 +86,7 @@ extension PGLLibraryController {
 
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<PGLLibraryCell, CDFilterStack> { [weak self] cell, indexPath, aCDFilterStack in
-            guard let self = self else { return }
+            guard self != nil else { return }
 
             cell.configureFor(aCDFilterStack)
         }

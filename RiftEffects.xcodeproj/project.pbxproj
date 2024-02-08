@@ -66,6 +66,7 @@
 		A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A1402922753B003DBE92 /* AAPLShaders.metal */; };
 		A3B785162B224E6F00F3DA68 /* PGLCameraViewFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */; };
 		A3B785182B224FC300F3DA68 /* PGLCopyOutCIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785172B224FC300F3DA68 /* PGLCopyOutCIFilter.swift */; };
+		A3BB9E092B73ED4D0041F914 /* AVAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */; };
 		A3BF503224D3299100CD5114 /* SurrealityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF503124D3299100CD5114 /* SurrealityUITests.swift */; };
 		A3BF50D224D32A3400CD5114 /* PGLResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504124D32A3400CD5114 /* PGLResultsController.swift */; };
 		A3BF50DB24D32A3400CD5114 /* PGL-CDFilterStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF504B24D32A3400CD5114 /* PGL-CDFilterStack.swift */; };
@@ -230,6 +231,7 @@
 		A3B5A1402922753B003DBE92 /* AAPLShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLShaders.metal; sourceTree = "<group>"; };
 		A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCameraViewFilter.swift; sourceTree = "<group>"; };
 		A3B785172B224FC300F3DA68 /* PGLCopyOutCIFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCopyOutCIFilter.swift; sourceTree = "<group>"; };
+		A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAssetExtension.swift; sourceTree = "<group>"; };
 		A3BDD3CC290D95D000842B51 /* RiftEffects 2.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RiftEffects 2.2.xcdatamodel"; sourceTree = "<group>"; };
 		A3BF500924D3298F00CD5114 /* RiftEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiftEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BF502224D3299100CD5114 /* RiftEffectsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiftEffectsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -549,6 +551,7 @@
 				A3EF3EF3294AA3A900AD0B10 /* PGLAttributeVectorExpand.swift */,
 				A34BB8BD295E4834007BFBA7 /* PGLAttributeWeightsVector.swift */,
 				A3BF50A524D32A3400CD5114 /* PGLAsset.swift */,
+				A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */,
 				A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */,
 			);
 			path = Models;
@@ -822,6 +825,7 @@
 				A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */,
 				A33C441D28E8D4E50096E7EE /* PGLSequencedFilters.swift in Sources */,
 				A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */,
+				A3BB9E092B73ED4D0041F914 /* AVAssetExtension.swift in Sources */,
 				A320F6262669550E008F6090 /* PGLInfoPrivacyController.swift in Sources */,
 				A3BF50EB24D32A3400CD5114 /* PGLVisionDetection.swift in Sources */,
 				A3BF511324D32A3400CD5114 /* PGLFilterAttributeAttributedString.swift in Sources */,

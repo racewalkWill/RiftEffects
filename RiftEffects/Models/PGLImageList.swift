@@ -512,9 +512,10 @@ class PGLImageList: CustomStringConvertible {
 
        fileprivate func scaleToFrame(ciImage: CIImage, newSize: CGSize) -> CIImage {
            // make all the images scale to the same size and origin
+
            if !doResize {
                return ciImage }
-           
+//           NSLog("PGLImageList #scaleToFrame ")
            let xTransform:CGFloat = 0.0 - ciImage.extent.origin.x
            let yTransform:CGFloat = 0.0  - ciImage.extent.origin.y
            //move to zero
