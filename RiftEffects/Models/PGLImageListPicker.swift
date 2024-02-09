@@ -156,18 +156,18 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
                 try FileManager.default.copyItem(at: url, to: localURL!)
 
                 DispatchQueue.main.async {
-                    self?.handleCompletion(asset: thisAsset, object: localURL!)
+                    self?.handleVideoCompletion(asset: thisAsset, object: localURL!)
                 }
             } catch let caughtError {
                 DispatchQueue.main.async {
-                    self?.handleCompletion(asset: thisAsset, object: nil, error: caughtError)
+                    self?.handleVideoCompletion(asset: thisAsset, object: nil, error: caughtError)
                 }
             }
     }
     displayProgress(progress)
   }
 
-    func handleCompletion(asset: PGLAsset, object: Any?, error: Error? = nil) {
+    func handleVideoCompletion(asset: PGLAsset, object: Any?, error: Error? = nil) {
         //based on sample app PHPickerDemo same  method
 
 //        if let livePhoto = object as? PHLivePhoto {
@@ -177,8 +177,7 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
 //        } else
 
         if let url = object as? URL {
-            asset.videoLocalURL = url
-            asset.requestVideo()
+            asset.requestVideo(videoURL: url)
         } else if let error = error {
             NSLog("Couldn't display \(asset.localIdentifier) with error: \(error)")
 

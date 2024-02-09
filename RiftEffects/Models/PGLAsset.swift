@@ -12,20 +12,7 @@ import Photos
 import CoreImage
 import os
 
-let PGLVideoAnimationToggle = NSNotification.Name(rawValue: "PGLVideoAnimationToggle")
-let PGLVideoLoaded = NSNotification.Name(rawValue: "PGLVideoLoaded")
-let PGLVideoReadyToPlay = NSNotification.Name(rawValue: "PGLVideoReadyToPlay")
-let PGLPlayVideo =  NSNotification.Name(rawValue: "PGLPlayVideo")
-let PGLVideoRunning = NSNotification.Name(rawValue: "PGLVideoRunning")
-let PGLStopVideo = NSNotification.Name(rawValue: "PGLStopVideo")
 
-enum VideoSourceState: Int {
-    case None
-    case Ready
-    case Running
-    case Pause
-
-}
 
 struct PGLDevicePosition {
     var orientation: UIInterfaceOrientation = .unknown
@@ -50,23 +37,10 @@ class PGLAsset: Hashable, Equatable  {
     var collectionTitle = String()
 //       var hasDepthData = false  // set in PGLImageList #imageFrom(target)
 
-    // Video
-    var videoLocalURL: URL?
-    var videoPlayer: AVQueuePlayer? // AVPlayer?
-    var avPlayerItem: AVPlayerItem!
-
-    var playerLooper: AVPlayerLooper?
-    /// current video frame from the displayLinkCopyPixelBuffer
-    var videoCIFrame: CIImage?
-    var statusObserver: NSKeyValueObservation?
-
-    var playVideoToken: NSObjectProtocol?
-    var stopVideoToken: NSObjectProtocol?
-
-    var imageOrientation = PGLDevicePosition()
-    lazy var videoPropertyOrientation =  propertyOrientation()
-
     let options: PHImageRequestOptions?
+
+    // video
+    var assetVideo: PGLAssetVideoPlayer?
 
     // MARK: Hash, Equatable
     static func == (lhs: PGLAsset, rhs: PGLAsset) -> Bool {
@@ -111,36 +85,10 @@ class PGLAsset: Hashable, Equatable  {
     func releaseVars() {
 
         sourceInfo = nil
-        if playVideoToken != nil {
-            NotificationCenter.default.removeObserver(playVideoToken!)
-        }
-        if stopVideoToken != nil {
-            NotificationCenter.default.removeObserver(stopVideoToken!)
-        }
-        if videoPlayer != nil {
-            NSLog("PGLAsset releaseVars video")
-
-            videoPlayer!.pause()
-            playerLooper?.disableLooping()
-            playerLooper = nil 
-            videoPlayer!.removeAllItems()
-            videoPlayer = nil
-            if statusObserver != nil {
-                statusObserver?.invalidate()
-                statusObserver = nil
-            }
-            avPlayerItem = nil
-            videoCIFrame = nil
+        assetVideo?.releaseVars()
 
         }
 
-        if videoLocalURL != nil {
-            try? FileManager.default.removeItem(at: videoLocalURL!)
-//            NSLog("PGLAsset releaseVars removedItem at \(String(describing: videoLocalURL))")
-            videoLocalURL = nil
-        }
-
-    }
 
     var localIdentifier: String { get {
         return asset.localIdentifier
@@ -187,30 +135,18 @@ class PGLAsset: Hashable, Equatable  {
     /// moved from the PGLImageList
     func imageFrom() -> CIImage? {
         if isVideo() {
-            if videoPlayer != nil
-                { if videoPlayer?.status ==  .readyToPlay  {
-                    displayLinkCopyPixelBuffers()
-                    return videoCIFrame
-                    }
-            } else {
-                if videoCIFrame != nil {
-                    return videoCIFrame
-                }
-            }
-            /// continues to get the normal image while videoPlayer is setup
-        }
-          // READS the CIImage
-       //            options = PHImageRequestOptions()
-       //            options.deliveryMode = .highQualityFormat
-       //            options.isNetworkAccessAllowed = true  download from the cloud
-       //            options.isSynchronous = true
+            if assetVideo != nil {
 
-       //            For an asynchronous request, Photos may call your result handler block more than once.
-       //            Photos first calls the block to provide a low-quality image suitable for displaying temporarily
-       //             while it prepares a high-quality image. (If low-quality image data is immediately available, the first call may occur before the method returns.)
-       //            When the high-quality image is ready, Photos calls your result handler again to provide it.
-       //            If the image manager has already cached the requested image at full quality, Photos calls your result handler only once.
-       //            The PHImageResultIsDegradedKey key in the result handler’s info parameter indicates when Photos is providing a temporary low-quality image.
+                if let answerFrame = assetVideo?.imageFrom() {
+                    return answerFrame
+                } // else continue to read the PHImageManager still frame
+            }
+
+            else {
+                assetVideo = PGLAssetVideoPlayer.init(parentAsset: self)
+                /// continues to get the normal image while videoPlayer is setup
+            }
+        }
 
           var pickedCIImage: CIImage?
 //         let matchingSize = CGSize(width: selectedAsset.asset.pixelWidth, height: selectedAsset.asset.pixelHeight)
@@ -228,7 +164,7 @@ class PGLAsset: Hashable, Equatable  {
                 NSLog("\(resource.originalFilename)  \(String(describing: thePHAsset.location))")
             }
         }
-
+            /// see PHImageManager docs on callback behavior
           PHImageManager.default().requestImage(for: self.asset, targetSize: matchingSize, contentMode: .aspectFit, options: options, resultHandler: { image, info in
               if let error =  info?[PHImageErrorKey]
                { NSLog( "PGLImageList imageFrom error = \(error)")
@@ -240,10 +176,7 @@ class PGLAsset: Hashable, Equatable  {
               }
            }
           )
-        if isVideo() {
-            /// cache the still image until user clicks play
-            videoCIFrame = pickedCIImage
-        }
+
         return pickedCIImage
                // may be nil if not set in the result handler block
       }
@@ -270,212 +203,9 @@ class PGLAsset: Hashable, Equatable  {
         return asset.mediaType == .video
     }
 
-    func createAVPlayerOptions() -> PHVideoRequestOptions? {
-        let videoColorProperties = [
-            AVVideoColorPrimariesKey: AVVideoColorPrimaries_P3_D65,
-            AVVideoTransferFunctionKey: AVVideoTransferFunction_Linear,
-            AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_2020
-        ]
-        let outPutSettings = [
-            AVVideoAllowWideColorKey: true,
-            AVVideoColorPropertiesKey: videoColorProperties,
-            kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_64RGBAHalf)
-        ] as? PHVideoRequestOptions
-        outPutSettings?.isNetworkAccessAllowed = true
-
-        return outPutSettings
-
-    }
-
-    fileprivate func createPlayerItemVideoOutput() -> AVPlayerItemVideoOutput{
-        /*
-         A dictionary providing information about the status of the request. See Image Result Info Keys for possible keys and values
-         */
-        
-        let videoColorProperties = [
-            AVVideoColorPrimariesKey: AVVideoColorPrimaries_P3_D65,
-            AVVideoTransferFunctionKey: AVVideoTransferFunction_Linear,
-            AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_2020
-        ]
-        let outPutSettings = [
-            AVVideoAllowWideColorKey: true,
-            AVVideoColorPropertiesKey: videoColorProperties,
-            kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_64RGBAHalf),
-            kCVPixelBufferWidthKey as String: NSNumber(value: asset.pixelWidth),
-            kCVPixelBufferHeightKey as String: NSNumber(value: asset.pixelHeight)
-        ] as [String : Any]
-        
-        return AVPlayerItemVideoOutput(outputSettings: outPutSettings)
-    }
-    
-    /// PickerController calls from completion
-    ///  handleCompletion(asset: PGLAsset, object: Any?, error: Error? = nil)
-    func requestVideo() {
-
-//        NSLog("PGLAsset #requestVideo requestPlayerItem")
-        if videoLocalURL != nil {
-            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-            myAppDelegate.showWaiting()
-            createDisplayLink()
-        }
-    }
-
-    func createDisplayLink(){
-            // Create a display link
-            // automaticallyLoadedAssetKeys - array
-            // An NSArray of NSStrings, each representing a property key defined by
-            //   AVAsset. See AVAsset.h for property keys, e.g. duration
-        avPlayerItem = AVPlayerItem(url: videoLocalURL!)
-        self.videoPlayer = AVQueuePlayer.init(items: [avPlayerItem])
-        self.playerLooper = AVPlayerLooper(player: self.videoPlayer! , templateItem: avPlayerItem)
-        self.getVideoPreferredTransform(callBack: { myDevice in
-            self.imageOrientation = myDevice})
-        statusObserver =  avPlayerItem!.observe(\.status,
-                  options: [.new, .old],
-                  changeHandler: { myPlayerItem, change in
-
-                if myPlayerItem.status == .readyToPlay {
-//                        NSLog("PGLAsset createDisplayLink changeHandler = .readyToPlay")
-                    for aRepeatingItem in self.videoPlayer!.items() {
-                        aRepeatingItem.add( self.createPlayerItemVideoOutput() )
-                    }
-                        // move displayLink
-                    self.setUpReadyToPlay()
-                    DispatchQueue.main.async {
-                            let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-                            myAppDelegate.closeWaitingIndicator()
-                        }
-                  }
-                 })
-//        NSLog("PGLAsset createDisplayLink statusObserver created")
-    }
-
-    func setUpReadyToPlay() {
-
-        let center = NotificationCenter.default
-        let mainQueue = OperationQueue.main
-
-        // now listen for the play command
-        playVideoToken = center.addObserver(
-            forName: PGLPlayVideo,
-            object: nil,
-            queue: mainQueue) { notification in
-//                NSLog("PGLAsset setUpReadyToPlay notification PGLPlayVideo handler triggered")
-
-                self.videoPlayer?.play()
-                    self.notifyVideoStarted()
-//                    NSLog("PGLAsset setUpReadyToPlay  videoPlayer?.play")
-            }
-
-        postVideoLoaded()
-            // center.removeObserver(observer)
-        setupStopVideoListener()
-    }
-
-    func getVideoPreferredTransform(callBack: @escaping (PGLDevicePosition) -> Void ) {
-
-        Task {
-            let devicePosition = await avPlayerItem.asset.videoOrientation()
-            callBack(devicePosition)
-        }
-    }
-
-    func setupStopVideoListener() {
-        let center = NotificationCenter.default
-        let mainQueue = OperationQueue.main
-
-        stopVideoToken = center.addObserver(
-            forName: PGLStopVideo,
-            object: nil,
-            queue: mainQueue) { notification in
-                self.videoPlayer?.pause()
-
-                 // stop the triggers  -
-//                NSLog("PGLAsset setupStopVideoListener notification PGLStopVideo triggered")
-
-            }
-    }
-
-//    @objc func displayLinkCopyPixelBuffers(link: CADisplayLink)
-    func displayLinkCopyPixelBuffers()
-       {
-//           NSLog("PGLAsset #displayLinkCopyPixelBuffers start")
-               // really need to get the current item in the videoPlayer
-               // ask for it's videoOutput
-           guard let currentVideoOutputs = videoPlayer?.currentItem?.outputs
-           else { return }
-
-           guard let theVideoOutput = currentVideoOutputs.first as? AVPlayerItemVideoOutput
-           else { return }
-
-           let currentTime = theVideoOutput.itemTime(forHostTime: CACurrentMediaTime())
-
-           if theVideoOutput.hasNewPixelBuffer(forItemTime: currentTime) 
-            {
-
-             if let buffer  = theVideoOutput.copyPixelBuffer(forItemTime: currentTime,
-                                                     itemTimeForDisplay: nil)
-                 {
-//                  NSLog("PGLAsset #displayLinkCopyPixelBuffers videoOutput new buffer ")
-                     ///cache the video frame for the next Renderer image request
-                let sourceFrame = CIImage(cvPixelBuffer: buffer)
-
-                 let neededTransform = sourceFrame.orientationTransform(for: videoPropertyOrientation)
-                 videoCIFrame = sourceFrame.transformed(by: neededTransform)
-//                     NSLog("PGLAsset #displayLinkCopyPixelBuffers videoCIFrame set")
-
-                }
-         }
-       }
-
-        /// convert the UIDeviceOrientation to a CGImagePropertyOrientation
-    func propertyOrientation()-> CGImagePropertyOrientation {
-        var result = CGImagePropertyOrientation.up
-            // default
-        switch (imageOrientation.orientation, imageOrientation.device) {
-            case (.unknown,.unspecified) :
-                result = CGImagePropertyOrientation.up
-                
-            case (.portrait, .front) :
-                result = CGImagePropertyOrientation.right
-            case (.portraitUpsideDown, .front):
-                result = CGImagePropertyOrientation.right
-            case (.landscapeLeft, .front) :
-                result = CGImagePropertyOrientation.up
-            case (.landscapeRight, .front) :
-                result = CGImagePropertyOrientation.up
-
-            case (.portrait, .back) :
-                result = CGImagePropertyOrientation.right
-            case (.portraitUpsideDown, .back):
-                result = CGImagePropertyOrientation.left
-            case (.landscapeLeft, .back) :
-                result = CGImagePropertyOrientation.down
-            case (.landscapeRight, .back) :
-                result = CGImagePropertyOrientation.up
-
-            default:
-                return result // default .up
-        }
-        return result
-    }
-    func notifyVideoStarted() {
-
-        let runningNotification = Notification(name:PGLVideoRunning)
-        NotificationCenter.default.post(name: runningNotification.name, object: self, userInfo: [ : ])
-        NSLog("PGLAsset notify PGLVideoRunning sent")
-
-    }
-        ///  notify the imageController to show the play  button.
-    func postVideoLoaded() {
-
-        let updateNotification = Notification(name:PGLVideoAnimationToggle)
-        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
-
-        // imageController needs to show the play button
-//        NSLog("PGLAsset notify PGLVideoLoaded")
-        let loadButtonNotification = Notification(name:PGLVideoLoaded)
-        NotificationCenter.default.post(name: loadButtonNotification.name, object: self, userInfo: [ : ])
+    func requestVideo(videoURL: URL) {
+        assetVideo = PGLAssetVideoPlayer(parentAsset: self)
+        assetVideo?.setUpVideoPlayAssets(videoURL: videoURL)
 
     }
 
