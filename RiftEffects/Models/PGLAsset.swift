@@ -432,15 +432,28 @@ class PGLAsset: Hashable, Equatable  {
     func propertyOrientation()-> CGImagePropertyOrientation {
         var result = CGImagePropertyOrientation.up
             // default
-        switch imageOrientation.orientation {
-            case .unknown:
+        switch (imageOrientation.orientation, imageOrientation.device) {
+            case (.unknown,.unspecified) :
                 result = CGImagePropertyOrientation.up
-            case .portrait , .portraitUpsideDown:
+                
+            case (.portrait, .front) :
                 result = CGImagePropertyOrientation.right
-            case .landscapeLeft, .landscapeRight:
+            case (.portraitUpsideDown, .front):
+                result = CGImagePropertyOrientation.right
+            case (.landscapeLeft, .front) :
+                result = CGImagePropertyOrientation.up
+            case (.landscapeRight, .front) :
                 result = CGImagePropertyOrientation.up
 
-          
+            case (.portrait, .back) :
+                result = CGImagePropertyOrientation.right
+            case (.portraitUpsideDown, .back):
+                result = CGImagePropertyOrientation.left
+            case (.landscapeLeft, .back) :
+                result = CGImagePropertyOrientation.down
+            case (.landscapeRight, .back) :
+                result = CGImagePropertyOrientation.up
+
             default:
                 return result // default .up
         }

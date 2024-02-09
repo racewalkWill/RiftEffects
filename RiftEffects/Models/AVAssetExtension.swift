@@ -22,19 +22,14 @@ extension AVAsset {
              myVideoTracks =  try await loadTracks(withMediaType: .video)
         }
         catch {
-//            Logger("no video tracks loaded for AVAsset #videoOrientation")
             /// return init values of .unknown and .unspecificed
                 return PGLDevicePosition(orientation: orientation, device: device)
             }
-
-
         if let videoTrack = myVideoTracks?.first {
-
             do {
                  t = try await videoTrack.load(.preferredTransform)
             }
             catch {
-//                fatalError("preferredTransform failed for AVAsset #videoOrientation")
                 /// return init values of .unknown and .unspecificed
                 return PGLDevicePosition(orientation: orientation, device: device)
             }
