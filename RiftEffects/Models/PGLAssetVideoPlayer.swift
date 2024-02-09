@@ -39,7 +39,7 @@ class PGLAssetVideoPlayer {
     }
 
     var videoLocalURL: URL?
-    var videoPlayer: AVQueuePlayer? // AVPlayer?
+    var videoPlayer: AVQueuePlayer? // subclass of AVPlayer
     var avPlayerItem: AVPlayerItem!
 
     var playerLooper: AVPlayerLooper?
@@ -57,6 +57,7 @@ class PGLAssetVideoPlayer {
 // MARK: Create/Release
 
     func releaseVars() {
+
         if playVideoToken != nil {
             NotificationCenter.default.removeObserver(playVideoToken!)
         }
@@ -69,7 +70,7 @@ class PGLAssetVideoPlayer {
             videoPlayer!.pause()
             playerLooper?.disableLooping()
             playerLooper = nil
-            videoPlayer!.removeAllItems()
+            videoPlayer!.removeAllItems() // should stop all playback
             videoPlayer = nil
             if statusObserver != nil {
                 statusObserver?.invalidate()
@@ -251,16 +252,6 @@ class PGLAssetVideoPlayer {
     }
 
     //MARK: Notifications
-        /// PickerController calls from completion
-        ///  handleCompletion(asset: PGLAsset, object: Any?, error: Error? = nil)
-//        func requestVideo() {
-//
-//    //        NSLog("PGLAssetVideoPlayer #requestVideo requestPlayerItem")
-//            if videoLocalURL != nil {
-//
-//                setUpVideoPlayAssets()
-//            }
-//        }
 
     func setUpReadyToPlay() {
 
@@ -273,8 +264,9 @@ class PGLAssetVideoPlayer {
             object: nil,
             queue: mainQueue) { notification in
 //                NSLog("PGLAssetVideoPlayer setUpReadyToPlay notification PGLPlayVideo handler triggered")
-
+                self.videoPlayer?.isMuted = false
                 self.videoPlayer?.play()
+
                     self.notifyVideoStarted()
 //                    NSLog("PGLAssetVideoPlayer setUpReadyToPlay  videoPlayer?.play")
             }
@@ -293,6 +285,8 @@ class PGLAssetVideoPlayer {
             object: nil,
             queue: mainQueue) { notification in
                 self.videoPlayer?.pause()
+                self.videoPlayer?.isMuted = true
+
 
                  // stop the triggers  -
 //                NSLog("PGLAssetVideoPlayer setupStopVideoListener notification PGLStopVideo triggered")

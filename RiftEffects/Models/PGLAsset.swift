@@ -142,10 +142,10 @@ class PGLAsset: Hashable, Equatable  {
                 } // else continue to read the PHImageManager still frame
             }
 
-            else {
-                assetVideo = PGLAssetVideoPlayer.init(parentAsset: self)
-                /// continues to get the normal image while videoPlayer is setup
-            }
+//            else {
+//                assetVideo = PGLAssetVideoPlayer.init(parentAsset: self)
+//                /// continues to get the normal image while videoPlayer is setup
+//            }
         }
 
           var pickedCIImage: CIImage?

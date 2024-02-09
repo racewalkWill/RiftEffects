@@ -826,6 +826,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLAssetVideoPlayer.releaseVars():PGLAssetVideoPlayer.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "videoPlayer.items()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PGLImageList.imageFrom(selectedAsset:):PGLImageList.swift">
          <PersistentStrings>
             <PersistentString
@@ -969,6 +977,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PGLImageList.releaseVars():PGLImageList.swift">
+      </ContextState>
+      <ContextState
          contextName = "PGLStackImageContainerController.containerAddFilter(_:):PGLStackImageContainerController.swift">
       </ContextState>
       <ContextState
@@ -1104,6 +1115,9 @@
       </ContextState>
       <ContextState
          contextName = "PGLFilterAttribute.performAction(_:):PGLFilterAttribute.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PGLAssetVideoPlayer.imageFrom():PGLAssetVideoPlayer.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in PGLColumnController.configureDataSource():PGLColumnController.swift">
