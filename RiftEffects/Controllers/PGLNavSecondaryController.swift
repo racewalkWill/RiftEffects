@@ -18,6 +18,14 @@ class PGLNavSecondaryController: UINavigationController {
         // Do any additional setup after loading the view.
     }
 
+    func navigationController(_ navigationController: UINavigationController,
+                              willShow viewController: UIViewController,
+                              animated: Bool) {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("    willShow \(viewController) " )
+
+    }
+    
     override func popViewController(animated: Bool) -> UIViewController? {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self)) + \(self.viewControllers)")
         return super.popViewController(animated: animated)

@@ -49,7 +49,7 @@
 		A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */; };
 		A375F25F26DFE47E00721D3A /* PGLStackProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */; };
-		A37D23AE2825C27D00EE3723 /* PGLTwoContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37D23AD2825C27D00EE3723 /* PGLTwoContainerController.swift */; };
+		A37D23AE2825C27D00EE3723 /* PGLParmImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */; };
 		A38F9D76250442B800B58F6B /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */; };
 		A392D5EE26C3EBDA00688952 /* PGLRandomFilterMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392D5ED26C3EBDA00688952 /* PGLRandomFilterMaker.swift */; };
 		A39466802832DFDD00A67319 /* PGLStackImageContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */; };
@@ -214,7 +214,7 @@
 		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCommonParmController.swift; sourceTree = "<group>"; };
 		A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackProvider.swift; sourceTree = "<group>"; };
-		A37D23AD2825C27D00EE3723 /* PGLTwoContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLTwoContainerController.swift; sourceTree = "<group>"; };
+		A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLParmImageController.swift; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A392D5ED26C3EBDA00688952 /* PGLRandomFilterMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterMaker.swift; sourceTree = "<group>"; };
 		A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackImageContainerController.swift; sourceTree = "<group>"; };
@@ -577,7 +577,7 @@
 				A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */,
 				A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */,
 				A32F213C283BBF3A006C026F /* PGLFilterImageContainerController.swift */,
-				A37D23AD2825C27D00EE3723 /* PGLTwoContainerController.swift */,
+				A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */,
 				A39466812832E30A00A67319 /* PGLSupplementNavController.swift */,
 				A32F2136283BB93C006C026F /* PGLNavStackImageController.swift */,
 				A32F2138283BBA83006C026F /* PGLNavSecondaryController.swift */,
@@ -886,7 +886,7 @@
 				A35D412D294B678B00EDEB4E /* PGLVectorBasedFilter.swift in Sources */,
 				A3552BEA29463170002FBC72 /* PGLColorVectorNumeric.swift in Sources */,
 				A3BF511224D32A3400CD5114 /* PGLFeatureTransitionFilter.swift in Sources */,
-				A37D23AE2825C27D00EE3723 /* PGLTwoContainerController.swift in Sources */,
+				A37D23AE2825C27D00EE3723 /* PGLParmImageController.swift in Sources */,
 				A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */,
 				A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */,
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,

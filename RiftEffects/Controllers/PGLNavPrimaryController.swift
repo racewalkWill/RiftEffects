@@ -22,6 +22,14 @@ class PGLNavPrimaryController: UINavigationController {
         return super.popViewController(animated: animated)
     }
 
+    func navigationController(_ navigationController: UINavigationController,
+                              willShow viewController: UIViewController,
+                              animated: Bool) {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("    willShow \(viewController) " )
+
+    }
+
     /*
     // MARK: - Navigation
 

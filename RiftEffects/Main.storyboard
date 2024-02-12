@@ -14,20 +14,7 @@
                 <tableViewController storyboardIdentifier="FilterTable" modalPresentationStyle="currentContext" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VNd-gL-KQM" customClass="PGLMainFilterController" customModule="RiftEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="BDq-9C-Um2">
-                        <leftBarButtonItems>
-                            <barButtonItem title="&lt; Back" style="done" id="SCi-rx-bEi" userLabel="BackBtn">
-                                <connections>
-                                    <action selector="backButtonAction:" destination="VNd-gL-KQM" id="fr2-4s-NBF"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" image="photo" catalog="system" id="wN4-M4-iXU" userLabel="ShowImageController">
-                                <connections>
-                                    <action selector="showImageController:" destination="VNd-gL-KQM" id="dGy-8Q-QeH"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="BDq-9C-Um2"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </tableViewController>
@@ -145,7 +132,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="690"/>
+                        <rect key="frame" x="0.0" y="0.0" width="239" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
@@ -670,20 +657,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Fj4-1g-a62">
-                        <leftBarButtonItems>
-                            <barButtonItem title="&lt; Back" style="done" id="fcl-yV-Qos" userLabel="BackBtn">
-                                <connections>
-                                    <action selector="backButtonAction:" destination="VjG-Q1-3mN" id="WIQ-9g-1vt"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" image="photo" catalog="system" id="I7O-i5-Th9" userLabel="ShowImageController">
-                                <connections>
-                                    <action selector="showImageController:" destination="VjG-Q1-3mN" id="Gal-5o-yie"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Fj4-1g-a62"/>
                     <connections>
                         <outlet property="downChevron" destination="arH-zW-cxm" id="Pnm-kK-yk2"/>
                         <outlet property="filterLabel" destination="sEW-y3-MfP" id="mTz-Ab-b1Y"/>
@@ -727,11 +701,11 @@
                         <viewControllerLayoutGuide type="bottom" id="j3d-oc-3aS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vua-Lu-kpo">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="760"/>
+                        <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
-                                <rect key="frame" x="-7" y="714" width="1192" height="46"/>
+                                <rect key="frame" x="-7" y="714" width="237" height="46"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="rij-Pi-lzb"/>
@@ -744,19 +718,6 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="jtF-en-p9N">
-                        <leftBarButtonItems>
-                            <barButtonItem title="&lt; Back" id="Oh7-g5-CYC">
-                                <connections>
-                                    <action selector="addFilterBtn:" destination="rQx-tc-9ix" id="ce8-lC-dXb"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="u2b-W4-QJo" userLabel="ShowImageController">
-                                <connections>
-                                    <action selector="showImageControllerBtn:" destination="rQx-tc-9ix" id="s94-Nw-L8B"/>
-                                    <segue destination="Cot-0o-SSg" kind="show" id="zWl-eA-30q"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="New" image="trash" catalog="system" id="kGD-tX-jU3">
                                 <connections>
@@ -768,15 +729,21 @@
                                     <action selector="helpBtnClick:" destination="rQx-tc-9ix" id="mLh-7n-ij6"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="recordBtn" image="recordingtape" catalog="system" id="23q-Si-nMo">
+                                <connections>
+                                    <action selector="recordBtnAction:" destination="rQx-tc-9ix" id="xWx-vc-bnc"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Random" image="chart.dots.scatter" catalog="system" id="yo5-KQ-1xv">
                                 <connections>
                                     <action selector="randomBtnClick:" destination="rQx-tc-9ix" id="ikc-WC-rpU"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="HAf-fe-yaR"/>
-                            <barButtonItem title="recordBtn" image="recordingtape" catalog="system" id="23q-Si-nMo">
+                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="u2b-W4-QJo" userLabel="ShowImageController">
                                 <connections>
-                                    <action selector="recordBtnAction:" destination="rQx-tc-9ix" id="xWx-vc-bnc"/>
+                                    <action selector="showImageControllerBtn:" destination="rQx-tc-9ix" id="s94-Nw-L8B"/>
+                                    <segue destination="Cot-0o-SSg" kind="show" id="zWl-eA-30q"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -826,24 +793,17 @@
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="KJJ-kt-Vuh">
-                        <leftBarButtonItems>
-                            <barButtonItem systemItem="add" id="nc0-tH-Wbu">
-                                <connections>
-                                    <action selector="addFilter:" destination="dDm-tJ-e98" id="s8d-dr-G0S"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="xwJ-3p-zRb" userLabel="ShowImageController">
-                                <connections>
-                                    <action selector="showImageControllerAction:" destination="dDm-tJ-e98" id="00Q-00-Ebb"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nc0-tH-Wbu">
+                            <connections>
+                                <action selector="addFilter:" destination="dDm-tJ-e98" id="s8d-dr-G0S"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="VjG-Q1-3mN" kind="show" identifier="ParmSettings" id="7je-js-ORP"/>
-                        <segue destination="j8f-0k-czJ" kind="show" identifier="twoContainers" id="JWJ-cy-nyZ"/>
                         <segue destination="VNd-gL-KQM" kind="show" identifier="showFilterController" id="Xyz-2Z-Q4q"/>
                         <segue destination="rQx-tc-9ix" kind="show" identifier="showFilterImageContainer" id="cxI-vr-Pxp"/>
+                        <segue destination="j8f-0k-czJ" kind="show" identifier="twoContainers" id="Zrd-6b-Z8z"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htE-YV-6eQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -859,6 +819,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="2xo-Qn-0Om">
                         <rect key="frame" x="0.0" y="24" width="239" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <navigationBarAppearance key="standardAppearance"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -964,18 +925,6 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="Mxb-eC-ZvV">
-                        <leftBarButtonItems>
-                            <barButtonItem systemItem="add" id="18U-Y9-D7X">
-                                <connections>
-                                    <action selector="containerAddFilter:" destination="z1U-K0-aGb" id="A68-QN-stT"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="epI-IV-YbQ" userLabel="ShowImageController">
-                                <connections>
-                                    <segue destination="Cot-0o-SSg" kind="show" id="HUk-NN-bR8"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="New" image="trash" catalog="system" id="pEQ-Uh-ooY">
                                 <connections>
@@ -987,15 +936,25 @@
                                     <action selector="helpBtnClick:" destination="z1U-K0-aGb" id="jIY-uB-cJ5"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="Record Btn" image="recordingtape" catalog="system" id="GQ9-os-Nsh">
+                                <connections>
+                                    <action selector="recordBtnAction:" destination="z1U-K0-aGb" id="U25-R0-a4y"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Random" image="chart.dots.scatter" catalog="system" id="0Zt-QC-w2E">
                                 <connections>
                                     <action selector="randomBtnClick:" destination="z1U-K0-aGb" id="phg-u0-ed9"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More Btn" image="ellipsis.circle" catalog="system" id="X6h-Dm-yVE"/>
-                            <barButtonItem title="Record Btn" image="recordingtape" catalog="system" id="GQ9-os-Nsh">
+                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="epI-IV-YbQ" userLabel="ShowImageController">
                                 <connections>
-                                    <action selector="recordBtnAction:" destination="z1U-K0-aGb" id="U25-R0-a4y"/>
+                                    <segue destination="Cot-0o-SSg" kind="show" id="HUk-NN-bR8"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="add" id="18U-Y9-D7X">
+                                <connections>
+                                    <action selector="containerAddFilter:" destination="z1U-K0-aGb" id="A68-QN-stT"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -1014,9 +973,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="4FJ-we-3bf"/>
-        <segue reference="HUk-NN-bR8"/>
-        <segue reference="Xyz-2Z-Q4q"/>
+        <segue reference="cxI-vr-Pxp"/>
+        <segue reference="zWl-eA-30q"/>
+        <segue reference="q90-Vk-s0q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>

@@ -147,7 +147,7 @@ class PGLMainFilterController:  UIViewController,
         loadSearchController()
         selectCurrentFilterRow()
 
-    //        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         _ = UINib(nibName: PGLMainFilterController.nibName, bundle: nil)
 
         splitViewController?.delegate = self
