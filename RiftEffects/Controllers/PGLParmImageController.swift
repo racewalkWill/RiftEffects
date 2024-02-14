@@ -17,6 +17,11 @@ class PGLParmImageController: UIViewController {
     var containerImageController: PGLImageController?
     var containerParmController: PGLSelectParmController?
 
+    deinit {
+//        releaseVars()
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
+    
     override func viewDidLoad() {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         super.viewDidLoad()
@@ -65,6 +70,15 @@ class PGLParmImageController: UIViewController {
         containerImageController?.didMove(toParent: self)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        containerImageController?.releaseVars()
+        containerImageController?.removeFromParent()
+
+        containerImageController = nil
+
+        containerParmController?.removeFromParent()
+        containerParmController = nil
+    }
 
 
     // MARK: - Navigation

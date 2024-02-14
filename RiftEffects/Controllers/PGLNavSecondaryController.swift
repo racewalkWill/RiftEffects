@@ -28,9 +28,12 @@ class PGLNavSecondaryController: UINavigationController {
     
     override func popViewController(animated: Bool) -> UIViewController? {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self)) + \(self.viewControllers)")
-        return super.popViewController(animated: animated)
+
+        let myPoppedController =  super.popViewController(animated: animated)
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#removed " + String(describing: self)) + \(myPoppedController)")
+        return myPoppedController
     }
-    
+
 
     /*
     // MARK: - Navigation

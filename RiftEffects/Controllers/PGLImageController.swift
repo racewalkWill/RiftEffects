@@ -114,7 +114,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     var taggedSliders = [Int:UISlider]()
 
+    deinit {
+        releaseVars()
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
 
+    }
 
     @IBOutlet weak var helpBtn: UIBarButtonItem!
     
@@ -826,20 +830,37 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
     }
+    func releaseVars() {
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+        parmController = nil
+        metalController = nil
+        selectedParmControlView = nil
+        releaseNotifications() // reset
+        metalController?.view.removeFromSuperview()
+        metalController?.removeFromParent()
+        metalController = nil
+        moreBtn.menu = nil // reset in the load.
 
+    }
+    func releaseNotifications() {
+        for (name , observer) in  notifications {
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
+            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+            
+        }
+        notifications = [:]
+    }
+    
     func viewDidDisappear(animated: Bool) {
         appStack.isImageControllerOpen = false // selection of new image or image list is started
         removeGestureRecogniziers()
+        releaseVars()
         super.viewDidDisappear(animated)
 
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
-        for (name , observer) in  notifications {
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
-                       NotificationCenter.default.removeObserver(observer, name: name, object: nil)
 
-                   }
-        notifications = [:] // reset
+
     }
 
         // MARK: RPPreviewViewControllerDelegate

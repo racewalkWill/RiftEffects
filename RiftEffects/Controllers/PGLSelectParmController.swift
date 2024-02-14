@@ -87,6 +87,20 @@ class PGLSelectParmController: PGLCommonController,
     
     var scaleFactor: CGFloat = 2.0
 
+    deinit {
+//        releaseVars()
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+        releaseNotifications()
+    }
+    
+    func releaseNotifications() {
+        for (name , observer) in  notifications {
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
+            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+
+        }
+        notifications = [:]
+    }
 //    let arrowRightCirclFill = UIImage(systemName: "arrow.right.circle.fill")
 //    let shiftBtnDown = UIImage(systemName: "arrow.right.circle")
 
@@ -334,10 +348,8 @@ class PGLSelectParmController: PGLCommonController,
         // remove the parm views and the gesture recogniziers
 
         imageController?.hideParmControls() // just hides the UI controls
-        for (name , observer) in  notifications {
-                       NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-                   }
-        notifications = [:] // reset
+        releaseNotifications()
+
 //        navigationController?.isToolbarHidden = false
 
     }

@@ -28,7 +28,9 @@ class PGLNavStackImageController: UINavigationController, UINavigationController
 
     override func popViewController(animated: Bool) -> UIViewController? {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self)) + \(self.viewControllers)")
+
         let myPoppedController =  super.popViewController(animated: animated)
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#removed " + String(describing: self)) + \(myPoppedController)")
         return myPoppedController
     }
 

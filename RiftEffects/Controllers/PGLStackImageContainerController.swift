@@ -12,6 +12,11 @@ class PGLStackImageContainerController: UIViewController {
 
     var containerImageController: PGLCompactImageController?
     var containerStackController: PGLStackController?
+    
+    deinit {
+//        releaseVars()
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

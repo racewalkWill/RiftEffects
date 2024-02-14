@@ -18,6 +18,10 @@ class PGLFilterImageContainerController: UIViewController {
         // an opaque type is returned from addObservor
     var notifications: [NSNotification.Name : Any] = [:]
 
+    deinit {
+//        releaseVars()
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+    }
 
     override func viewDidLoad() {
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
@@ -77,6 +81,7 @@ class PGLFilterImageContainerController: UIViewController {
     }
 
     override func viewDidDisappear(_ animated: Bool) {
+        containerImageController?.releaseVars()
         containerImageController?.removeFromParent()
 
         containerImageController = nil

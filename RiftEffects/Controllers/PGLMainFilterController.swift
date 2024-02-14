@@ -59,6 +59,20 @@ class PGLMainFilterController:  UIViewController,
     static let tableViewCellIdentifier = "cellID"
     private static let nibName = "TableCell"
 
+    deinit {
+//        releaseVars()
+        Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
+        releaseNotifications()
+    }
+
+    func releaseNotifications() {
+        for (name , observer) in  notifications {
+            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
+            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+
+        }
+        notifications = [:]
+    }
 
         // MARK: from PGLMainFilterController
         @IBOutlet weak var addToFrequentBtn: UIBarButtonItem!
@@ -197,11 +211,7 @@ class PGLMainFilterController:  UIViewController,
         super .viewDidDisappear(animated)
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController #viewDidDisappear removing notification observor")
 
-        for (name , observer) in  notifications {
-                       NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-
-                   }
-        notifications = [:] // reset
+       releaseNotifications()
     }
 
         // MARK: SplitView
