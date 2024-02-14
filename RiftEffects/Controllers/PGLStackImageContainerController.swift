@@ -8,7 +8,7 @@
 
 import UIKit
 import os
-class PGLStackImageContainerController: UIViewController {
+class PGLStackImageContainerController: PGLTwoColumnSplitController {
 
     var containerImageController: PGLCompactImageController?
     var containerStackController: PGLStackController?
@@ -35,47 +35,7 @@ class PGLStackImageContainerController: UIViewController {
             return // give up no controller
         }
 
-        addChild(containerImageController!)
-        addChild(containerStackController!)
-
-        guard let stackContainerView = containerStackController!.view else
-            {return     }
-        guard let imageContainerView = containerImageController!.view else
-            {return     }
-
-        stackContainerView.translatesAutoresizingMaskIntoConstraints = false
-        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(imageContainerView)
-        view.addSubview(stackContainerView)
-
-
-//        let spacer = -5.0
-        // for iPad and iPhone Plus.. with three column split view
-
-        let iPhoneCompact =  splitViewController?.isCollapsed ?? false
-        var imageWidthFactor: Double = 5/3
-        if iPhoneCompact {
-            imageWidthFactor = 1.2
-        }
-        NSLayoutConstraint.activate([
-            imageContainerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            imageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: imageWidthFactor),
-            // width to height 4:3 ratio
-            stackContainerView.rightAnchor.constraint(equalTo:imageContainerView.leftAnchor, constant:  -30.0),
-            //            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
-            stackContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            stackContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            //            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
-        ] )
-
-
-            // Notify the child view controller that the move is complete.
-        containerStackController?.didMove(toParent: self)
-        containerImageController?.didMove(toParent: self)
+        loadViewColumns(controller: containerStackController!, imageViewer: containerImageController!)
 
         containerStackController?.addToolBarButtons(toController: self)
 

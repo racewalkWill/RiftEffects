@@ -10,7 +10,7 @@ import UIKit
 import os
 
 /// container for Filter and Image controllers side by side
-class PGLFilterImageContainerController: UIViewController {
+class PGLFilterImageContainerController: PGLTwoColumnSplitController {
 
     var containerImageController: PGLCompactImageController?
     var containerFilterController: PGLMainFilterController?
@@ -34,45 +34,9 @@ class PGLFilterImageContainerController: UIViewController {
         if (containerImageController == nil) || (containerFilterController == nil) {
             return // give up no controller
         }
-
-        addChild(containerImageController!)
-        addChild(containerFilterController!)
-
-        guard let filterContainerView = containerFilterController!.view else
-            {return     }
-        guard let imageContainerView = containerImageController!.view else
-            {return     }
-
-        filterContainerView.translatesAutoresizingMaskIntoConstraints = false
-        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(imageContainerView)
-        view.addSubview(filterContainerView)
-
-//        let spacer = -5.0
-        NSLayoutConstraint.activate([
-            imageContainerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            imageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3),
-                // width to height 4:3 ratio
-            filterContainerView.rightAnchor.constraint(equalTo:imageContainerView.leftAnchor, constant:  -30.0),
-//            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
-            filterContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            filterContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30.0),
-                // -30 to make room for the bottom toolbar
-            filterContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-//            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
-            ] )
-
-            // Notify the child view controller that the move is complete.
-        containerFilterController?.didMove(toParent: self)
-        containerImageController?.didMove(toParent: self)
-
+        loadViewColumns(controller: containerFilterController!, imageViewer: containerImageController! )
 
         setMoreBtnMenu()
-
-//        navigationItem.title = "Filters"//viewerStack.stackName
 
         navigationController?.isToolbarHidden = true
         // should make the buttons on the filter controller toolbar visible

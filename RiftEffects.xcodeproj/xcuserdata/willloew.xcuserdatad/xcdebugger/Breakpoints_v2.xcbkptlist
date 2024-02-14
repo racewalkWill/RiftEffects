@@ -746,8 +746,8 @@
             filePath = "RiftEffects/Controllers/PGLFilterImageContainerController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "addFilterBtn(_:)"
             landmarkType = "7">
             <Locations>
@@ -969,8 +969,8 @@
             filePath = "RiftEffects/Controllers/PGLFilterImageContainerController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "viewDidDisappear(_:)"
             landmarkType = "7">
             <Locations>

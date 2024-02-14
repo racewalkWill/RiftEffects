@@ -63,6 +63,7 @@
 		A39F88082A4C7FF2000AE342 /* PGLAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F88072A4C7FF2000AE342 /* PGLAppearance.swift */; };
 		A39F880B2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F880A2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift */; };
 		A3ABF28E2B194DD3006286B2 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = A3ABF28D2B194DD3006286B2 /* Documentation.docc */; };
+		A3AD94762B7CF96E00125E74 /* PGLTwoColumnSplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AD94752B7CF96E00125E74 /* PGLTwoColumnSplitController.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
 		A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A1402922753B003DBE92 /* AAPLShaders.metal */; };
 		A3B785162B224E6F00F3DA68 /* PGLCameraViewFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */; };
@@ -228,6 +229,7 @@
 		A39F88072A4C7FF2000AE342 /* PGLAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLAppearance.swift; sourceTree = "<group>"; };
 		A39F880A2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSectionBackgroundDecorationView.swift; sourceTree = "<group>"; };
 		A3ABF28D2B194DD3006286B2 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
+		A3AD94752B7CF96E00125E74 /* PGLTwoColumnSplitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLTwoColumnSplitController.swift; sourceTree = "<group>"; };
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
 		A3B5A13F2922753B003DBE92 /* AAPLShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLShaderTypes.h; sourceTree = "<group>"; };
 		A3B5A1402922753B003DBE92 /* AAPLShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLShaders.metal; sourceTree = "<group>"; };
@@ -575,6 +577,7 @@
 				A3BF505224D32A3400CD5114 /* PGLRectangleController.swift */,
 				A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */,
 				A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */,
+				A3AD94752B7CF96E00125E74 /* PGLTwoColumnSplitController.swift */,
 				A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */,
 				A32F213C283BBF3A006C026F /* PGLFilterImageContainerController.swift */,
 				A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */,
@@ -890,6 +893,7 @@
 				A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */,
 				A3BF50F324D32A3400CD5114 /* BadgeSupplementrayView.swift in Sources */,
 				A3BF510824D32A3400CD5114 /* PGLFilterClasses.swift in Sources */,
+				A3AD94762B7CF96E00125E74 /* PGLTwoColumnSplitController.swift in Sources */,
 				A39A42972B768C3D00D553B1 /* PGLAssetVideoPlayer.swift in Sources */,
 				A3BF513624D32A3400CD5114 /* PGLAssetCollection.swift in Sources */,
 				A3FB765C28D7AF6500595461 /* PGLWindowSceneDelegate.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 import os
 
-class PGLParmImageController: UIViewController {
+class PGLParmImageController: PGLTwoColumnSplitController {
     // handles segues for iPad/iPhone segue paths
     // iPad does not use the two container view
     // iPhone shows parm and image controlls inside the two containers of the view
@@ -35,39 +35,13 @@ class PGLParmImageController: UIViewController {
             return // give up no controller
         }
 
-        addChild(containerImageController!)
-        addChild(containerParmController!)
+        loadViewColumns(controller: containerParmController!, imageViewer: containerImageController! )
 
-        guard let parmContainerView = containerParmController!.view else
-            {return     }
-        guard let imageContainerView = containerImageController!.view else
-            {return     }
+        // notice Missing filterImageController calls to
+        //   setMoreBtnMenu()
+        //  AND navigationController?.isToolbarHidden = true
+        // stackImageController has a setUpdateEditButton()
 
-        parmContainerView.translatesAutoresizingMaskIntoConstraints = false
-        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(imageContainerView)
-        view.addSubview(parmContainerView)
-
-
-//        let spacer = -5.0
-        NSLayoutConstraint.activate([
-            imageContainerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            imageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            imageContainerView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3),
-                // width to height 4:3 ratio
-            parmContainerView.rightAnchor.constraint(equalTo:imageContainerView.leftAnchor, constant:  -30.0),
-//            stackContainerView.rightAnchor.constraint(lessThanOrEqualTo: imageContainerView.leftAnchor, constant: -20.0 ),
-            parmContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            parmContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            parmContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-//            stackContainerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 4/3)
-            ] )
-
-            // Notify the child view controller that the move is complete.
-        containerParmController?.didMove(toParent: self)
-        containerImageController?.didMove(toParent: self)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
