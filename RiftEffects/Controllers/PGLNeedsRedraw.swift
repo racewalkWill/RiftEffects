@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Combine
+
 let PGLRedrawParmControllerOpenNotification = NSNotification.Name(rawValue: "PGLRedrawParmControllerOpenNotification")
 let PGLRedrawFilterChange = NSNotification.Name(rawValue: "PGLRedrawFilterChange")
 let PGLTransitionFilterExists = NSNotification.Name(rawValue: "PGLTransitionFilterExists")
@@ -31,21 +33,27 @@ class PGLRedraw {
     private var varyTimerCount = 0
 
     let myCenter =  NotificationCenter.default
-    let queue = OperationQueue.main
 
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
     init(){
         // register for changes
-        _ = myCenter.addObserver(forName: PGLRedrawParmControllerOpenNotification , object: nil, queue: queue ) {
-            [weak self]
-            myUpdate in
-            if let userDataDict = myUpdate.userInfo {
-                if let parmOpenFlag = userDataDict["parmControllerIsOpen"]  as? Bool {
-                    self?.parmController(isOpen: parmOpenFlag)
+
+        cancellable = myCenter.publisher(for: PGLRedrawParmControllerOpenNotification)
+            .sink() {   [weak self]
+                myUpdate in
+                if let userDataDict = myUpdate.userInfo {
+                    if let parmOpenFlag = userDataDict["parmControllerIsOpen"]  as? Bool {
+                        self?.parmController(isOpen: parmOpenFlag)
+                    }
                 }
             }
-        }
 
-        _ = myCenter.addObserver(forName: PGLRedrawFilterChange , object: nil, queue: queue ) {
+        publishers.append(cancellable!)
+
+
+        cancellable = myCenter.publisher(for: PGLRedrawFilterChange )
+            .sink() {
             [weak self]
             myUpdate in
             if let userDataDict = myUpdate.userInfo {
@@ -54,8 +62,10 @@ class PGLRedraw {
                 }
             }
         }
+        publishers.append(cancellable!)
 
-        _ = myCenter.addObserver(forName: PGLTransitionFilterExists , object: nil, queue: queue ) {
+        cancellable = myCenter.publisher(for: PGLTransitionFilterExists)
+            .sink() {
             [weak self]
             myUpdate in
             if let userDataDict = myUpdate.userInfo {
@@ -64,7 +74,10 @@ class PGLRedraw {
                 }
             }
         }
-        _ = myCenter.addObserver(forName: PGLVaryTimerRunning , object: nil, queue: queue ) {
+        publishers.append(cancellable!)
+
+        cancellable = myCenter.publisher(for:  PGLVaryTimerRunning  )
+            .sink() {
             [weak self]
             myUpdate in
             if let userDataDict = myUpdate.userInfo {
@@ -73,17 +86,20 @@ class PGLRedraw {
                 }
             }
         }
+        publishers.append(cancellable!)
 
-        _ = myCenter.addObserver(forName: PGLPauseAnimation , object: nil, queue: queue ) {
+        cancellable = myCenter.publisher(for:  PGLPauseAnimation )
+            .sink() {
             [weak self]
             myUpdate in
             self?.pauseAnimation = !(self?.pauseAnimation ?? true)
                 // defaults to !true  ie false
-
         }
+        publishers.append(cancellable!)
 
         //PGLResetNeedsRedraw
-        _ = myCenter.addObserver(forName: PGLResetNeedsRedraw , object: nil, queue: queue ) {
+        cancellable = myCenter.publisher(for: PGLResetNeedsRedraw )
+            .sink() {
             [weak self]
             myUpdate in
             self?.parmControllerIsOpen = false
@@ -96,6 +112,7 @@ class PGLRedraw {
             self?.viewWillAppear = false
             self?.viewWillAppearCounter = 0
         }
+        publishers.append(cancellable!)
 
     } // end init
     

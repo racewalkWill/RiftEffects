@@ -11,6 +11,7 @@ import CoreImage
 import simd
 import UIKit
 import os
+import Combine
 
 enum OffScreen {
     case input
@@ -34,9 +35,8 @@ class PGLSequencedFilters: PGLSourceFilter {
             // initial 3 secs * 60 fps
         Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " pauseForFramesCount set to \(pauseForFramesCount)" )")
     }}
-
-
-
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
 
 
     required init?(filter: String, position: PGLFilterCategoryIndex) {
@@ -48,8 +48,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         setDissolveWrapper(onStack: sequenceStack)
 
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-        myCenter.addObserver(forName: PGLStartSequenceDissolve, object: nil , queue: queue) { [weak self]
+
+        cancellable = myCenter.publisher(for:  PGLStartSequenceDissolve)
+            .sink() { [weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
@@ -65,10 +66,9 @@ class PGLSequencedFilters: PGLSourceFilter {
                     }
                 }
             }
-
-
         }
-        }
+        publishers.append(cancellable!)
+    }
 
     fileprivate func setDissolveWrapper(onStack: PGLSequenceStack) {
 

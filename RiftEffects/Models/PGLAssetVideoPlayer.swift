@@ -262,12 +262,12 @@ class PGLAssetVideoPlayer {
         playVideoToken = center.addObserver(
             forName: PGLPlayVideo,
             object: nil,
-            queue: mainQueue) { notification in
+            queue: mainQueue) {[weak self] notification in
 //                NSLog("PGLAssetVideoPlayer setUpReadyToPlay notification PGLPlayVideo handler triggered")
-                self.videoPlayer?.isMuted = false
-                self.videoPlayer?.play()
+                self?.videoPlayer?.isMuted = false
+                self?.videoPlayer?.play()
 
-                    self.notifyVideoStarted()
+                self?.notifyVideoStarted()
 //                    NSLog("PGLAssetVideoPlayer setUpReadyToPlay  videoPlayer?.play")
             }
 

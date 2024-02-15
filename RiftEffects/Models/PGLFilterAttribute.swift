@@ -12,6 +12,8 @@ import Photos
 import CoreImage
 import Accelerate
 import os
+import Combine
+
 
 enum AttrClass: String {
     case Color = "CIColor"
@@ -1002,15 +1004,16 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     var videoInputCount: Int = 0
 
-    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
+//    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
 
     required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
         super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
 
 
-        notifications[PGLVideoAnimationToggle] = NotificationCenter.default.addObserver(forName: PGLVideoAnimationToggle ,
-                                                                  object: inputCollection ,
-                                                                  queue: OperationQueue.main ) {
+        cancellable = NotificationCenter.default.publisher(for: PGLVideoAnimationToggle)
+            .sink() {
             [weak self]
             myUpdate in
 
@@ -1023,10 +1026,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
                     } else {
                         self?.aSourceFilter.attribute(removeAnimationTarget: self!)
                     }
-
                 }
             }
         }
+        publishers.append(cancellable!)
     }
     override func releaseVars() {
         storedParmImage = nil
@@ -1034,10 +1037,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
             aSourceFilter.attribute(removeAnimationTarget: self)
         }
 
-        for (name , observer) in  notifications {
-            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-                   }
-        notifications = [:] // reset
+      publishers = [Cancellable]()
 
         super.releaseVars()
         

@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import os
+import Combine
 
 let  PGLLoadedDataStack = NSNotification.Name(rawValue: "PGLLoadedDataStack")
 let PGLStackHasSavedNotification = NSNotification.Name(rawValue: "PGLStackHasSavedNotification")
@@ -34,6 +35,9 @@ class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableVie
         provider.fetchedResultsController.delegate = self
         return provider
     }()
+
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
 
 //    lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = setFetchController()
 //    lazy var moContext: NSManagedObjectContext = PersistentContainer.viewContext
@@ -79,9 +83,10 @@ class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableVie
 //         NSLog("PGLOpenStackViewControler viewDidLoad completed")
 
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
+
         
-        let stackSaveObservor = myCenter.addObserver(forName: PGLStackHasSavedNotification , object: nil , queue: queue) { [weak self ]
+        cancellable = myCenter.publisher(for:  PGLStackHasSavedNotification )
+            .sink() { [weak self ]
             myUpdate in
             guard let self = self else { return}
 //             commented out.. this causes a UIDiffableDataSource crash on
@@ -92,17 +97,15 @@ class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableVie
                     // read the stack and insert into the data source
                     if let theCDStack = self.dataProvider.persistentContainer.viewContext.object(with: newStackId) as? CDFilterStack {
                         self.dataSource.insertStack(self, theCDStack: theCDStack)
-
                     }
                 }
             }
 
-
         }
-        notifications.append(stackSaveObservor)
+        publishers.append(cancellable!)
 
-
-        let updateLibraryObservor = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
+        cancellable = myCenter.publisher(for:  PGLUpdateLibraryMenu )
+            .sink() { [weak self ]
             myUpdate in
             guard let self = self else { return}
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLOpenStackViewController  notificationBlock PGLUpdateLibraryMenu")
@@ -116,56 +119,25 @@ class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableVie
                                 }
                         }
 
-         }
-        notifications.append(updateLibraryObservor)
-
-
-
-        let remoteChangeObservor = myCenter.addObserver(forName: PGLRemoteChange , object: nil , queue: queue) { [weak self ]
-        myUpdate in
-        guard let self = self else { return}
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLOpenStackViewController  notificationBlock PGLRemoteChange")
-        let snapshot = self.initialSnapShot()
-        self.dataSource.apply(snapshot, animatingDifferences: false)
-     }
-        notifications.append(remoteChangeObservor)
-
-
-
-
-
-        // check for zero rows in compact mode and trigger segue  compactOpenToStackView
-        let deviceIdom = traitCollection.userInterfaceIdiom
-        if deviceIdom == .phone {
-            if let mySplitView = splitViewController as? PGLSplitViewController {
-                if !mySplitView.stackProviderHasRows() {
-                    // no stacks .. just go to the stackView for a new one.
-                    //  init(identifier: NSStoryboardSegue.Identifier,
-//                    source sourceController: Any,
-//               destination destinationController: Any,
-//            performHandler: @escaping () -> Void)
-
-//                    performSegue(withIdentifier: "compactOpenToStackView", sender: self)
-//                    performSegue(withIdentifier: "openStackView", sender: self)
-//                    mySplitView.show(.supplementary) // should go to the stackView
-
-//                    mySplitView.setViewController(PGLStackController(), for: .compact)
-                            // or secondary?
-
             }
-            }
-        }
+        publishers.append(cancellable!)
+
+        cancellable = myCenter.publisher(for: PGLRemoteChange )
+            .sink() { [weak self ]
+                myUpdate in
+                guard let self = self else { return}
+                    Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLOpenStackViewController  notificationBlock PGLRemoteChange")
+                let snapshot = self.initialSnapShot()
+                self.dataSource.apply(snapshot, animatingDifferences: false)
+             }
+        publishers.append(cancellable!)
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
-//        let snapshot = initialSnapShot()
-//        dataSource.apply(snapshot, animatingDifferences: false)
-//        dataSource.dataProvider = dataProvider
-//        tableView.reloadData()
 
        dataSource.performNewFetch(self)
         // need to check if the underlying data has changed and update the display
-
 
     }
     override func viewWillLayoutSubviews() {
@@ -180,13 +152,9 @@ class PGLOpenStackController: UIViewController , UITableViewDelegate, UITableVie
         }
     }
 
-//    override func viewWillDisappear(_ animated: Bool) {
-//        for anObserver in  notifications {
-//            NotificationCenter.default.removeObserver(anObserver)
-//        }
-//        notifications = [Any]() // reset
-//
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        publishers = [Cancellable]()
+    }
 
 
     // MARK: - Table view data source

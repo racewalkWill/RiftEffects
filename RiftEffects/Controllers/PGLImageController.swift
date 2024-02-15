@@ -14,6 +14,7 @@ import Photos
 import os
 import StoreKit
 import ReplayKit
+import Combine
 
 enum PGLFilterPick: Int {
     case category = 0, filter
@@ -553,14 +554,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     fileprivate func registerImageControllerNotifications() {
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
+
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
         
-        var aNotification = myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) {[weak self]
+        cancellable = myCenter.publisher(for: PGLStackChange)
+            .sink() {[weak self]
             myUpdate in
-//            guard let self = self else { return }
-                // a released object sometimes receives the notification
-                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
 
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackChange") ")
 
@@ -569,10 +568,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 self?.hideParmControls()
             }
         }
-        notifications[PGLStackChange] = aNotification
-        
+        publishers.append(cancellable!)
+
         // PGLStackNameChange
-        aNotification = myCenter.addObserver(forName: PGLStackNameChange, object: nil , queue: queue) {[weak self]
+        cancellable = myCenter.publisher(for: PGLStackNameChange)
+            .sink() {[weak self]
             myUpdate in
 //            guard let self = self else { return }
                 // a released object sometimes receives the notification
@@ -580,33 +580,24 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLStackNameChange") ")
             self?.updateStackNameToNavigationBar()
         }
+        publishers.append(cancellable!)
 
-        notifications[PGLStackNameChange] = aNotification
 
-
-        aNotification = myCenter.addObserver(forName: PGLCurrentSequenceFilterName, object: nil , queue: queue) {[weak self]
+        cancellable = myCenter.publisher(for: PGLCurrentSequenceFilterName)
+            .sink() {[weak self]
             myUpdate in
             if let userDataDict = myUpdate.userInfo {
                 if let newFilterName = userDataDict["newFilterName"] {
                     self?.updateSequenceCurrentFilterToBar(filterName: newFilterName as! String)
                 }
-
             }
         }
+        publishers.append(cancellable!)
 
-        notifications[PGLStackNameChange] = aNotification
-
-        aNotification =  myCenter.addObserver(forName: PGLCurrentFilterChange , object: nil , queue: queue) { [weak self]
+        cancellable = myCenter.publisher(for: PGLCurrentFilterChange)
+            .sink() { [weak self]
             myUpdate in
-//            guard let self = self else { return }
-                // a released object sometimes receives the notification
-                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "notificationBlock PGLCurrentFilterChange") " )
-                //            self.filterValuesHaveChanged = true
-
             if !(self?.keepParmSlidersVisible ?? false) {
                 self?.hideParmControls()
             }
@@ -615,19 +606,16 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             }
             // needed to refresh the view after the trash creates a new stack.
         }
-        notifications[PGLCurrentFilterChange] = aNotification
+        publishers.append(cancellable!)
 
-        aNotification = myCenter.addObserver(forName: PGLAttributeAnimationChange , object: nil , queue: queue) { [weak self ]
-            myUpdate in
-            guard self != nil else { return } // a released object sometimes receives the notification
-                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLAttributeAnimationChange")
-                //            self.filterValuesHaveChanged = true
+//        cancellable = myCenter.publisher(for: PGLAttributeAnimationChange )
+//            .sink() { [weak self ]
+//            myUpdate in
+//        }
+//        publishers.append(cancellable!)
 
-        }
-        notifications[PGLAttributeAnimationChange] = aNotification
-
-        aNotification = myCenter.addObserver(forName: PGLUserAlertNotice, object: nil , queue: queue) {[weak self]
+        cancellable = myCenter.publisher(for: PGLUserAlertNotice)
+            .sink() {[weak self]
             myUpdate in
 //            guard let self = self else { return } // a released object sometimes receives the notification
 //            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
@@ -640,66 +628,39 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 }
             }
         }
-        notifications[PGLUserAlertNotice] = aNotification
+        publishers.append(cancellable!)
 
-       
-
-        aNotification = myCenter.addObserver(forName: PGLUpdateLibraryMenu , object: nil , queue: queue) { [weak self ]
+        cancellable = myCenter.publisher(for: PGLUpdateLibraryMenu)
+            .sink() { [weak self ]
             myUpdate in
-//            guard let self = self else { return}
-
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUpdateLibraryMenu")
-            // if the popup openStackController called a delete
-
             self?.updateLibraryMenu()
-
-
         }
-        notifications[PGLUpdateLibraryMenu] = aNotification
+        publishers.append(cancellable!)
 
-        aNotification = myCenter.addObserver(forName: PGLHideImageViewReleaseStack , object: nil , queue: queue) { [weak self ]
+        cancellable = myCenter.publisher(for: PGLHideImageViewReleaseStack )
+            .sink() { [weak self ]
             myUpdate in
-//            guard let self = self else { return}
-
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLHideImageViewReleaseStack")
-            // if the popup openStackController called a delete
             self?.hideViewReleaseStack()
-
-
         }
-        notifications[PGLHideImageViewReleaseStack] = aNotification
+        publishers.append(cancellable!)
 
 
 //        aNotification = myCenter.addObserver(forName: PGLImageCollectionOpen, object: nil , queue: OperationQueue.main) { [weak self]
 //            myUpdate in
-////            guard let self = self else { return }
-//                // a released object sometimes receives the notification
-//                                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-////            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-////                return
-////            }
-//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLImageCollectionOpen")" )
-//            if ((self?.view.isHidden) != nil)
-//                {self?.view.isHidden = false }
-//                // needed to refresh the view after the trash creates a new stack.
-//            if let assetInfo = ( myUpdate.userInfo?["assetInfo"]) as? PGLAlbumSource {
-//                self?.doImageCollectionOpen(assetInfo: assetInfo) }
-//        }
-//        notifications[PGLImageCollectionOpen] = aNotification
 
-        aNotification = myCenter.addObserver(forName: PGLHideParmUIControls, object: nil , queue: OperationQueue.main) { [weak self]
+        cancellable = myCenter.publisher(for: PGLHideParmUIControls)
+            .sink() { [weak self]
             myUpdate in
-//            guard let self = self else { return }
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
+
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLHideParmUIControls") " )
             self?.hideParmControls()
         }
-        notifications[PGLHideParmUIControls] = aNotification
+        publishers.append(cancellable!)
 
-
-        aNotification = myCenter.addObserver(forName: PGLVideoLoaded, object: nil , queue: OperationQueue.main) { [weak self]
+        cancellable = myCenter.publisher(for: PGLVideoLoaded )
+            .sink() { [weak self]
             myUpdate in
             // could use the image attribute in the update dict
             
@@ -719,9 +680,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 NSLog("PGLVideoLoaded fails to add controls - failed appStack.targetAttribute")
             }
         }
-        notifications[PGLVideoLoaded] = aNotification
+        publishers.append(cancellable!)
 
-        aNotification = myCenter.addObserver(forName: PGLVideoRunning, object: nil , queue: OperationQueue.main) { [weak self]
+        cancellable = myCenter.publisher(for: PGLVideoRunning)
+            .sink() { [weak self]
             myUpdate in
             // could use the image attribute in the update dict
 
@@ -734,7 +696,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 }
             }
         }
-        notifications[PGLVideoRunning] = aNotification
+        publishers.append(cancellable!)
 
     }
 
@@ -843,12 +805,13 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
     }
     func releaseNotifications() {
-        for (name , observer) in  notifications {
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
-            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-            
-        }
-        notifications = [:]
+//        for (name , observer) in  notifications {
+//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
+//            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
+//            
+//        }
+//        notifications = [:]
+        publishers = [Cancellable]()
     }
     
     func viewDidDisappear(animated: Bool) {

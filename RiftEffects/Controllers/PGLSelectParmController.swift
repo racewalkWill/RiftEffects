@@ -10,6 +10,7 @@ import UIKit
 import simd
 import PhotosUI
 import os
+import Combine
 
 
 enum ImageParm: Int {
@@ -94,12 +95,7 @@ class PGLSelectParmController: PGLCommonController,
     }
     
     func releaseNotifications() {
-        for (name , observer) in  notifications {
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
-            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-
-        }
-        notifications = [:]
+        publishers = [Cancellable]()
     }
 //    let arrowRightCirclFill = UIImage(systemName: "arrow.right.circle.fill")
 //    let shiftBtnDown = UIImage(systemName: "arrow.right.circle")
@@ -278,33 +274,33 @@ class PGLSelectParmController: PGLCommonController,
 //            Logger(subsystem: LogSubsystem, category: LogCategory).fault("PGLSelectParmController viewWillAppear imageController.view not set")
 //        }
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-        var aNotification = myCenter.addObserver(forName: PGLCurrentFilterChange, object: nil , queue: queue) {[weak self]
+
+        cancellable = myCenter.publisher(for: PGLCurrentFilterChange)
+            .sink() {[weak self]
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
                                   // the guard is based upon the apple sample app 'Conference-Diffable'
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLCurrentFilterChange")
                     self.updateDisplay()
                 }
-        notifications[PGLCurrentFilterChange] = aNotification
+        publishers.append(cancellable!)
 
-        aNotification = myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
+        cancellable = myCenter.publisher(for: PGLLoadedDataStack)
+            .sink() {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLLoadedDataStack")
             self.navigationController?.popViewController(animated: true)
-
         }
-        
-        notifications[PGLLoadedDataStack] = aNotification
+        publishers.append(cancellable!)
 
                 //PGLAttributeAnimationChange
-              aNotification =  myCenter.addObserver(forName: PGLAttributeAnimationChange, object: nil, queue: queue) { [weak self]
+        cancellable = myCenter.publisher(for:PGLAttributeAnimationChange)
+            .sink() { [weak self]
                     myUpdate in
                     guard let self = self else { return } // a released object sometimes receives the notification
-                                  // the guard is based upon the apple sample app 'Conference-Diffable'
-//                  Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
+// LogNavigation).info("PGLSelectParmController  notificationBlock PGLAttributeAnimationChange")
                     if let attribute = myUpdate.object as? PGLFilterAttribute {
                         // find the cell for the attribute and update the display
                         // is the attribute for the current filter?
@@ -318,9 +314,10 @@ class PGLSelectParmController: PGLCommonController,
                         }
                     }
                 }
-            notifications[PGLAttributeAnimationChange] = aNotification
+        publishers.append(cancellable!)
 
-        aNotification = myCenter.addObserver(forName: PGLReloadParmCell, object: nil , queue: queue) {[weak self]
+        cancellable = myCenter.publisher(for: PGLReloadParmCell)
+            .sink() {[weak self]
             myUpdate in
             guard let self = self else { return } // a released object sometimes receives the notification
                           // the guard is based upon the apple sample app 'Conference-Diffable'
@@ -331,7 +328,7 @@ class PGLSelectParmController: PGLCommonController,
                     }
             }
         }
-        notifications[PGLReloadParmCell] = aNotification
+        publishers.append(cancellable!)
 
         updateDisplay()
         setChevronState()
@@ -362,6 +359,7 @@ class PGLSelectParmController: PGLCommonController,
         // don't update the model targetAttribute.. the imageController needs it.
         let updateNotification = Notification(name:PGLRedrawParmControllerOpenNotification)
         NotificationCenter.default.post(name: updateNotification.name, object: nil, userInfo: ["parmControllerIsOpen" : false as AnyObject])
+        publishers = [Cancellable]()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

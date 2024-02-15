@@ -8,6 +8,7 @@
 
 import UIKit
 import os
+import Combine
 
 enum FilterChangeMode{
     case replace
@@ -59,6 +60,9 @@ class PGLMainFilterController:  UIViewController,
     static let tableViewCellIdentifier = "cellID"
     private static let nibName = "TableCell"
 
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
+
     deinit {
 //        releaseVars()
         Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - deinit" )")
@@ -66,12 +70,7 @@ class PGLMainFilterController:  UIViewController,
     }
 
     func releaseNotifications() {
-        for (name , observer) in  notifications {
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
-            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-
-        }
-        notifications = [:]
+        publishers = [Cancellable]()
     }
 
         // MARK: from PGLMainFilterController
@@ -175,8 +174,9 @@ class PGLMainFilterController:  UIViewController,
         navigationItem.title = "Filters" //thisStack.stackName
 
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-        let aNotification =  myCenter.addObserver(forName: PGLLoadedDataStack, object: nil , queue: queue) {[weak self]
+
+        cancellable = myCenter.publisher(for: PGLLoadedDataStack )
+            .sink() {[weak self]
                 myUpdate in
                Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLFilterTableController  notificationBlock PGLLoadedDataStack")
                 guard let self = self else { return } // a released object sometimes receives the notification
@@ -184,7 +184,7 @@ class PGLMainFilterController:  UIViewController,
               Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
                 self.navigationController?.popViewController(animated: true)
             }
-        notifications[PGLLoadedDataStack] = aNotification
+        publishers.append(cancellable!)
 
 
         setLongPressGesture()

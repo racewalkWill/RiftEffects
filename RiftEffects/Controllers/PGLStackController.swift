@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import os
+import Combine
 
 let PGLShowStackImageContainer = NSNotification.Name(rawValue: "PGLShowStackImageContainer")
 
@@ -32,6 +33,8 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
     var existingStackTypes: [String]!
     var albumUserTextCell: UITextField?
 
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
 
     enum StackSections: Int {
         case header = 0
@@ -63,21 +66,19 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
 
 
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
-        myCenter.addObserver(forName: PGLCurrentFilterChange, object: nil , queue: queue) { [weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLCurrentFilterChange")
+        cancellable = myCenter.publisher(for:  PGLCurrentFilterChange)
+            .sink() { [weak self]
+                myUpdate in
+                guard let self = self else { return } // a released object sometimes receives the
 
-            self.updateDisplay()
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLCurrentFilterChange")
 
-        }
+                self.updateDisplay()
+            }
+        publishers.append(cancellable!)
 
-        myCenter.addObserver(forName: PGLStackChange, object: nil , queue: queue) { [weak self]
+        cancellable = myCenter.publisher(for: PGLStackChange)
+            .sink() { [weak self]
             myUpdate in
             Logger(subsystem: LogSubsystem, category: LogNavigation).info( "PGLStackController  notificationBlock PGLStackChange")
 
@@ -87,28 +88,21 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
             self.appStack = myAppDelegate.appStack
             self.updateDisplay()
         }
+        publishers.append(cancellable!)
 
 
-
-        myCenter.addObserver(forName: PGLSelectActiveStackRow, object: nil , queue: queue) { [weak self]
+        cancellable = myCenter.publisher(for:  PGLSelectActiveStackRow)
+            .sink() { [weak self]
             myUpdate in
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLStackController  notificationBlock PGLSelectActiveStackRow")
             guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
+
             self.selectActiveFilterRow()
         }
 
         setUpdateEditButton()
         updateNavigationBar()
         setLongPressGesture()
-
-//        if appStack.viewerStack.isEmptyStack() {
-//                // just skip ahead to the filter controller since there is no filter now
-//            appStack.createDemoStack(view: view)
-//        }
 
         if !(splitViewController?.isCollapsed ?? false) {
             navigationController?.isToolbarHidden = false

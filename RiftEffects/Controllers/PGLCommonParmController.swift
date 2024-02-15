@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Combine
 import os
 
 
@@ -24,8 +25,8 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
        return  myAppDelegate.appStack
     }
 
-    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
-
+    var publishers = [Cancellable]()
+    var cancellable: Cancellable?
 
         // MARK:  UIFontPickerViewControllerDelegate
     func showFontPicker(_ sender: Any) {
@@ -96,27 +97,22 @@ class PGLCommonController: UIViewController, UIAdaptivePresentationControllerDel
 
 //        NSLog("PGLSelectParmController addTextChangeNotification for \(textAttributeName)")
         let myCenter =  NotificationCenter.default
-        let queue = OperationQueue.main
         guard let textField = appStack.parmControls[ textAttributeName ] as? UITextField else
             {return }
 
-        let textNotifier = myCenter.addObserver(forName: UITextField.textDidChangeNotification, object: textField , queue: queue) {[weak self]
-            myUpdate in
-            guard let self = self else { return } // a released object sometimes receives the notification
-                          // the guard is based upon the apple sample app 'Conference-Diffable'
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLCommonController  notificationBlock UITextField.textDidChangeNotification")
-            if let target = self.appStack.targetAttribute {
-                if target.isTextInputUI()  {
-                    // shows changes as they are typed.. no commit reason
-                // put the new value into the parm
-                    target.set(textField.text as Any)
-
+       cancellable = myCenter.publisher(for: UITextField.textDidChangeNotification)
+            .sink() {[weak self]
+                myUpdate in
+                Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLCommonController  notificationBlock UITextField.textDidChangeNotification")
+                if let target = self?.appStack.targetAttribute {
+                    if target.isTextInputUI()  {
+                        // shows changes as they are typed.. no commit reason
+                    // put the new value into the parm
+                        target.set(textField.text as Any)
+                    }
+                }
             }
-        }
-
-        }
-        notifications[UITextField.textDidChangeNotification] = textNotifier
-        // this notification is removed with all the notifications in viewWillDisappear
+        publishers.append(cancellable!)
 
     }
 
