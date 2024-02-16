@@ -31,6 +31,9 @@ class PGLNavStackImageController: UINavigationController, UINavigationController
 
         let myPoppedController =  super.popViewController(animated: animated)
         Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#removed " + String(describing: self)) + \(myPoppedController)")
+        if let pglController = myPoppedController as? PGLTwoColumnSplitController {
+            pglController.viewControllerRelease()
+        }
         return myPoppedController
     }
 

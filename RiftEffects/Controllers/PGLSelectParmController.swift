@@ -94,9 +94,22 @@ class PGLSelectParmController: PGLCommonController,
         releaseNotifications()
     }
     
-    func releaseNotifications() {
+  override  func releaseNotifications() {
+      for aCancel in publishers {
+          aCancel.cancel()
+      }
         publishers = [Cancellable]()
     }
+
+        ///empty method   does not need to release
+   override func resetVars() {
+        //sure about not releasing??
+//       currentFilter = nil
+       filterParms = [[PGLFilterAttribute](), [PGLFilterAttribute]()]
+       imageController = nil
+       imagePicker = nil
+    }
+
 //    let arrowRightCirclFill = UIImage(systemName: "arrow.right.circle.fill")
 //    let shiftBtnDown = UIImage(systemName: "arrow.right.circle")
 

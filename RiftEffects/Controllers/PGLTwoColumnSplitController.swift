@@ -63,4 +63,16 @@ class PGLTwoColumnSplitController: UIViewController {
         imageViewer.didMove(toParent: self)
 
     }
+
+    func viewControllerRelease() {
+        viewControllerReleaseBasic(aPGLController: columns.control)
+        viewControllerReleaseBasic(aPGLController: columns.imageViewer)
+    }
+
+    func viewControllerReleaseBasic(aPGLController: UIViewController) {
+        aPGLController.removeFromParent()
+        aPGLController.view.removeFromSuperview()
+        aPGLController.releaseNotifications()
+        aPGLController.resetVars()
+    }
 }

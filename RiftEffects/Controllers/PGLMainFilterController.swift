@@ -49,7 +49,7 @@ class PGLMainFilterController:  UIViewController,
 
     var matchFilters = [PGLFilterDescriptor]()
 
-    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
+
 
     let frequentCategoryPath = IndexPath(row:0,section: 0)
 
@@ -69,15 +69,23 @@ class PGLMainFilterController:  UIViewController,
         releaseNotifications()
     }
 
-    func releaseNotifications() {
+   override func releaseNotifications() {
+        for aCancel in publishers {
+            aCancel.cancel()
+        }
         publishers = [Cancellable]()
     }
 
-        // MARK: from PGLMainFilterController
-        @IBOutlet weak var addToFrequentBtn: UIBarButtonItem!
+        ///empty method   does not need to release
+   override func resetVars() {
+        //sure about not releasing??
 
 
-        @IBOutlet weak var bookmarkRemove: UIBarButtonItem!
+    }
+
+
+
+
 
     // MARK: Filter Navigator Modes
 

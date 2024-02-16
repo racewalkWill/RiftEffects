@@ -804,13 +804,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         moreBtn.menu = nil // reset in the load.
 
     }
-    func releaseNotifications() {
-//        for (name , observer) in  notifications {
-//            Logger(subsystem: LogSubsystem, category: LogNavigation).info("Remove notification \( String(describing: name) )")
-//            NotificationCenter.default.removeObserver(observer, name: name, object: nil)
-//            
-//        }
-//        notifications = [:]
+   override func releaseNotifications() {
+       for aCancel in publishers {
+           aCancel.cancel()
+       }
         publishers = [Cancellable]()
     }
     

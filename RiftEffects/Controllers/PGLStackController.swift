@@ -177,10 +177,20 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         tableView.reloadData()
         setShiftBtnState()
 
+    }
+
+    override func releaseNotifications() {
+        for aCancel in publishers {
+            aCancel.cancel()
+        }
+        publishers = [Cancellable]()
+    }
+
+        ///empty method PGLStackController  does not need to release
+   override func resetVars() {
 
 
     }
-
 
 
     // MARK: ToolBar
