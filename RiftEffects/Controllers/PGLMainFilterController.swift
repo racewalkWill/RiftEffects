@@ -49,8 +49,6 @@ class PGLMainFilterController:  UIViewController,
 
     var matchFilters = [PGLFilterDescriptor]()
 
-
-
     let frequentCategoryPath = IndexPath(row:0,section: 0)
 
     var longPressGesture: UILongPressGestureRecognizer!
@@ -70,6 +68,7 @@ class PGLMainFilterController:  UIViewController,
     }
 
    override func releaseNotifications() {
+       Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - releaseNotifications" )")
         for aCancel in publishers {
             aCancel.cancel()
         }
@@ -79,13 +78,7 @@ class PGLMainFilterController:  UIViewController,
         ///empty method   does not need to release
    override func resetVars() {
         //sure about not releasing??
-
-
     }
-
-
-
-
 
     // MARK: Filter Navigator Modes
 
@@ -168,8 +161,7 @@ class PGLMainFilterController:  UIViewController,
         loadSearchController()
         selectCurrentFilterRow()
 
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
-        _ = UINib(nibName: PGLMainFilterController.nibName, bundle: nil)
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
         splitViewController?.delegate = self
         guard let myAppDelegate =  UIApplication.shared.delegate as? AppDelegate
@@ -193,8 +185,6 @@ class PGLMainFilterController:  UIViewController,
                 self.navigationController?.popViewController(animated: true)
             }
         publishers.append(cancellable!)
-
-
         setLongPressGesture()
 
     }
@@ -213,6 +203,18 @@ class PGLMainFilterController:  UIViewController,
             }
         }
 
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        removeGestureRecogniziers(targetView: filterCollectionView)
+        if searchBar != nil {
+            searchBar.removeFromSuperview()
+        }
+        searchController.viewIfLoaded?.removeFromSuperview()
+        searchController.removeFromParent()
+        searchController = nil
+
+        filterCollectionView = nil
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -391,23 +393,11 @@ class PGLMainFilterController:  UIViewController,
 
 extension PGLMainFilterController: UISearchControllerDelegate {
 
-        func presentSearchController(_ searchController: UISearchController) {
-            Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
-        }
-
-        func willPresentSearchController(_ searchController: UISearchController) {
-            Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
-        }
-
         func didPresentSearchController(_ searchController: UISearchController) {
-//            selectCurrentFilterRow()
+
             searchController.searchBar.becomeFirstResponder()
             Logger(subsystem: LogSubsystem, category: LogCategory).info("UISearchControllerDelegate invoked method: \(#function).")
         }
-
-//        func willDismissSearchController(_ searchController: UISearchController) {
-//            Logger(subsystem: LogSubsystem, category: LogCategory).debug("UISearchControllerDelegate invoked method: \(#function).")
-//        }
 
         func didDismissSearchController(_ searchController: UISearchController) {
             initalFilterList()
@@ -417,151 +407,121 @@ extension PGLMainFilterController: UISearchControllerDelegate {
 }
 
 
-    extension PGLMainFilterController: UISearchResultsUpdating {
+extension PGLMainFilterController: UISearchResultsUpdating {
             //MARK: SearchController setup
-        fileprivate func loadSearchController() {
+    fileprivate func loadSearchController() {
 
-            // called by viewDidLoad()
-            searchController = UISearchController(searchResultsController: nil)
-
-
-            searchController.searchResultsUpdater = self
-            searchController.delegate = self
-
-            searchController.automaticallyShowsCancelButton = true
-
-                // IF iPhone then PGLNavStackImageController has the navigation item
-
-            navigationItem.searchController = searchController
-
-            searchController.searchBar.delegate = self
-            navigationController?.isToolbarHidden = false
-            searchController.hidesNavigationBarDuringPresentation = false
+        // called by viewDidLoad()
+        searchController = UISearchController(searchResultsController: nil)
 
 
-            /** Specify that this view controller determines how the search controller is presented.
-             The search controller should be presented modally and match the physical size of this view controller.
-             */
-            definesPresentationContext = false
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
 
-//            let iPhoneCompact =   (traitCollection.userInterfaceIdiom) == .phone
-//                                    && (traitCollection.horizontalSizeClass == .compact)
-//            if iPhoneCompact {
-//                searchBar =  searchController.searchBar  //
-//                searchBar.translatesAutoresizingMaskIntoConstraints = false
-//    //            searchBar.translatesAutoresizingMaskIntoConstraints = true
-//                view.addSubview(searchBar)
-//                searchBar.delegate = self
-//                searchBar.isHidden = false
-//                searchBar.searchTextField.autocapitalizationType = .none
-//
-//
-//
-//                    NSLayoutConstraint.activate([
-//                        searchBar.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
-//                        searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//                        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//                        searchBar.heightAnchor.constraint(equalToConstant: 40),
-//
-//                        filterCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
-//                        // (equalTo: view.safeAreaLayoutGuide.topAnchor),
-//                        filterCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//                        filterCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//                        filterCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
-//                        // -50 allow room for the toolbar
-//                    ])
-//
-//
-//            }
+        searchController.automaticallyShowsCancelButton = true
 
-        }
+            // IF iPhone then PGLNavStackImageController has the navigation item
+
+        navigationItem.searchController = searchController
+
+        searchController.searchBar.delegate = self
+        navigationController?.isToolbarHidden = false
+        searchController.hidesNavigationBarDuringPresentation = false
 
 
-        private func findMatches(searchString: String) -> NSCompoundPredicate {
-            /** Each searchString creates an OR predicate for: name, yearIntroduced, introPrice.
-             Example if searchItems contains "Gladiolus 51.99 2001":
-             name CONTAINS[c] "gladiolus"
-             name CONTAINS[c] "gladiolus", yearIntroduced ==[c] 2001, introPrice ==[c] 51.99
-             name CONTAINS[c] "ginger", yearIntroduced ==[c] 2007, introPrice ==[c] 49.98
-             */
-            var searchItemsPredicate = [NSPredicate]()
+        /** Specify that this view controller determines how the search controller is presented.
+         The search controller should be presented modally and match the physical size of this view controller.
+         */
+        definesPresentationContext = false
 
-            /** Below we use NSExpression represent expressions in our predicates.
-             NSPredicate is made up of smaller, atomic parts:
-             two NSExpressions (a left-hand value and a right-hand value).
-             */
+    }
 
-            // Name field matching.
-            let titleExpression = NSExpression(forKeyPath: ExpressionKeys.displayName.rawValue)
-            let searchStringExpression = NSExpression(forConstantValue: searchString)
 
-            let titleSearchComparisonPredicate =
-                NSComparisonPredicate(leftExpression: titleExpression,
-                                      rightExpression: searchStringExpression,
-                                      modifier: .direct,
-                                      type: .contains,
-                                      options: [.caseInsensitive, .diacriticInsensitive])
+    private func findMatches(searchString: String) -> NSCompoundPredicate {
+        /** Each searchString creates an OR predicate for: name, yearIntroduced, introPrice.
+         Example if searchItems contains "Gladiolus 51.99 2001":
+         name CONTAINS[c] "gladiolus"
+         name CONTAINS[c] "gladiolus", yearIntroduced ==[c] 2001, introPrice ==[c] 51.99
+         name CONTAINS[c] "ginger", yearIntroduced ==[c] 2007, introPrice ==[c] 49.98
+         */
+        var searchItemsPredicate = [NSPredicate]()
 
-            searchItemsPredicate.append(titleSearchComparisonPredicate)
+        /** Below we use NSExpression represent expressions in our predicates.
+         NSPredicate is made up of smaller, atomic parts:
+         two NSExpressions (a left-hand value and a right-hand value).
+         */
+
+        // Name field matching.
+        let titleExpression = NSExpression(forKeyPath: ExpressionKeys.displayName.rawValue)
+        let searchStringExpression = NSExpression(forConstantValue: searchString)
+
+        let titleSearchComparisonPredicate =
+            NSComparisonPredicate(leftExpression: titleExpression,
+                                  rightExpression: searchStringExpression,
+                                  modifier: .direct,
+                                  type: .contains,
+                                  options: [.caseInsensitive, .diacriticInsensitive])
+
+        searchItemsPredicate.append(titleSearchComparisonPredicate)
 
 
 
-            let orMatchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: searchItemsPredicate)
+        let orMatchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: searchItemsPredicate)
 
-            Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) orMatchPredicate = \(orMatchPredicate)")
-            return orMatchPredicate
-        }
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController \(#function) orMatchPredicate = \(orMatchPredicate)")
+        return orMatchPredicate
+    }
 
-        func updateSearchResults(for searchController: UISearchController) {
-            // Update the filtered array based on the search text.
-            let searchResults = filters
+    func updateSearchResults(for searchController: UISearchController) {
+        // Update the filtered array based on the search text.
+        let searchResults = filters
 //            mode = .Flat // change later to support search in the grouped mode
 
-            // Strip out all the leading and trailing spaces.
-            let whitespaceCharacterSet = CharacterSet.whitespaces
-            let strippedString =
-                searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
-            if !strippedString.isEmpty {
-                let searchItems = strippedString.components(separatedBy: " ") as [String]
+        // Strip out all the leading and trailing spaces.
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let strippedString =
+            searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
+        if !strippedString.isEmpty {
+            let searchItems = strippedString.components(separatedBy: " ") as [String]
 
-                    // Build all the "AND" expressions for each value in searchString.
-                let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
-                    findMatches(searchString: searchString)
-                }
-
-                    // Match up the fields of the Product object.
-                let finalCompoundPredicate =
-                NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
-
-                let resultSet = Set(searchResults.filter { finalCompoundPredicate.evaluate(with: $0) } )
-                let filteredResults = Array(resultSet)
-                    // Apply the filtered results to the search results table.
-                displaySearchResults(matchingFilters: filteredResults)
-            } else
-            {  // empty search string.. show everything
-                displaySearchResults(matchingFilters: searchResults)
+                // Build all the "AND" expressions for each value in searchString.
+            let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
+                findMatches(searchString: searchString)
             }
 
+                // Match up the fields of the Product object.
+            let finalCompoundPredicate =
+            NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
+
+            let resultSet = Set(searchResults.filter { finalCompoundPredicate.evaluate(with: $0) } )
+            let filteredResults = Array(resultSet)
+                // Apply the filtered results to the search results table.
+            displaySearchResults(matchingFilters: filteredResults)
+        } else
+        {  // empty search string.. show everything
+            displaySearchResults(matchingFilters: searchResults)
         }
 
-        func displaySearchResults(matchingFilters: [PGLFilterDescriptor]) {
+    }
 
-            // depends on the mode of Grouped or Flat for the headers
+    func displaySearchResults(matchingFilters: [PGLFilterDescriptor]) {
 
-            let filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
+        // depends on the mode of Grouped or Flat for the headers
 
-            // get dataSource snapshot
-            var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+        let filterItems = matchingFilters.map { Item(title: $0.displayName, descriptor: $0)}
 
-            snapshot.appendSections([Header.AllFilter.rawValue])
+        // get dataSource snapshot
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+
+        snapshot.appendSections([Header.AllFilter.rawValue])
 //            snapshot.insertSections([0], beforeSection: 0)
 
-            let allHeaderItem = Item(title: "Categories", descriptor: nil)
-            snapshot.appendItems([allHeaderItem], toSection: Header.AllFilter.rawValue)
+        let allHeaderItem = Item(title: "Categories", descriptor: nil)
+        snapshot.appendItems([allHeaderItem], toSection: Header.AllFilter.rawValue)
 
-            snapshot.appendItems(filterItems, toSection: Header.AllFilter.rawValue)
-            dataSource.apply(snapshot, animatingDifferences: true)
-        }
+        snapshot.appendItems(filterItems, toSection: Header.AllFilter.rawValue)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
 
 }
 // MARK: - UIStateRestoration
@@ -629,16 +589,12 @@ extension PGLMainFilterController {
     private func configureHierarchy() {
         // called by viewDidLoad
 
-
-
         filterCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         filterCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         filterCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterCollectionView)
         filterCollectionView.delegate = self
 
-
-        
     }
 
     private func configureDataSource() {
@@ -701,9 +657,6 @@ extension PGLMainFilterController {
 
         }
         initalFilterList()
-
-
-
     }
 
     func initalFilterList() {

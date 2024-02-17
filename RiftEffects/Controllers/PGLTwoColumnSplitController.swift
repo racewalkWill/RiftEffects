@@ -70,8 +70,10 @@ class PGLTwoColumnSplitController: UIViewController {
     }
 
     func viewControllerReleaseBasic(aPGLController: UIViewController) {
-        aPGLController.removeFromParent()
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#viewControllerReleaseBasic " + String(describing: self)) +  \(aPGLController)")
         aPGLController.view.removeFromSuperview()
+        aPGLController.removeFromParent()
+
         aPGLController.releaseNotifications()
         aPGLController.resetVars()
     }
