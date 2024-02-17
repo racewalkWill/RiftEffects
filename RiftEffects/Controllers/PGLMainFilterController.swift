@@ -78,6 +78,13 @@ class PGLMainFilterController:  UIViewController,
         ///empty method   does not need to release
    override func resetVars() {
         //sure about not releasing??
+       Logger(subsystem: LogSubsystem, category: LogMemoryRelease).info("\( String(describing: self) + " - resetVars" )")
+       releaseNotifications()
+//       if filterCollectionView != nil {
+//        filterCollectionView.removeFromSuperview()
+//       }
+//       dataSource = nil
+//       filterCollectionView = nil
     }
 
     // MARK: Filter Navigator Modes
@@ -207,19 +214,11 @@ class PGLMainFilterController:  UIViewController,
 
     override func viewWillDisappear(_ animated: Bool) {
         removeGestureRecogniziers(targetView: filterCollectionView)
-        if searchBar != nil {
-            searchBar.removeFromSuperview()
-        }
-        searchController.viewIfLoaded?.removeFromSuperview()
-        searchController.removeFromParent()
-        searchController = nil
-
-        filterCollectionView = nil
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
-        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController #viewDidDisappear removing notification observor")
+        Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLMainFilterController #viewDidDisappear releaseNotifications")
 
        releaseNotifications()
     }
