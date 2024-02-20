@@ -108,6 +108,46 @@ class PGLAppStack {
         }
     }
 
+    //MARK: Video
+
+    var videoState: VideoSourceState = .None
+
+    func setVideoBtnIsHidden(hide: Bool) {
+        // video buttons have kBtnVideoPlay prefix in string name
+        // make all of them the same state of visible
+
+        for (controlKey, control) in parmControls {
+            if controlKey.hasPrefix(kBtnVideoPlay) {
+                control.isHidden = hide
+            }
+        }
+    }
+
+    func removeVideoButtons() {
+        var keysToRemove = [String]()
+        for (controlKey, control) in parmControls {
+            if controlKey.hasPrefix(kBtnVideoPlay) {
+                control.removeFromSuperview()
+                keysToRemove.append(controlKey)
+            }
+        }
+        for aKey in keysToRemove {
+            parmControls.removeValue(forKey: aKey)
+        }
+
+    }
+    func hasVideoBtn()-> Bool {
+        var videoBtnExists = false
+        for controlName in parmControls.keys {
+            if controlName.hasPrefix(kBtnVideoPlay) {
+                videoBtnExists = true
+                break
+            }
+        }
+        return videoBtnExists
+    }
+
+
     // MARK: Master Data Object Stacks
     func postStackChange() {
         

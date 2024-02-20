@@ -43,8 +43,7 @@ let ExportAlbum = "ExportAlbum"
 
 let ShowHelpPageAtStartupKey = "DisplayStartHelp"
 let kBtnVideoPlay = "VideoPlayBtn"
-let kBtnVideoRepeat = "VideoRepeatBtn"
-let kBtnVideoPause = "VideoPauseBtn"
+
 
 class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavigationBarDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
 
@@ -77,7 +76,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     weak var previewControllerDelegate: RPPreviewViewControllerDelegate?
      var controlsWindow: UIWindow?
 //    var cameraView: UIView?
-    var videoState: VideoSourceState = .None
+   
 
     // MARK: control Vars
 
@@ -368,7 +367,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 // parmController in the master section of the splitView has a different navigation stack
                 // from the PGLImageController
             }
-            self.videoState = .None
+            self.appStack.videoState = .None
 
 
 
@@ -669,8 +668,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
                 else { return }
                 if targetImageAttribute.videoInputExists() {
-                    self?.addVideoControls(imageAttribute: targetImageAttribute)
-                    NSLog("PGLImageController PGLVideoLoaded observor addVideoControls")
+                    self?.appStack.videoState = .Ready
+                    self?.addVideoControls()
+
+                    NSLog("\(String(describing: self?.description)) PGLVideoLoaded ran addVideoControls")
                 }
                 else {
                     NSLog("PGLVideoLoaded notification but videoInputExists is FALSE")
@@ -685,17 +686,12 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         cancellable = myCenter.publisher(for: PGLVideoRunning)
             .sink() { [weak self]
             myUpdate in
-            // could use the image attribute in the update dict
+                self?.appStack.videoState = .Running
+                self?.hideVideoPlayBtn()
 
-            if let theTargetAttribute = self?.appStack.targetAttribute {
-                guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
-                else { return }
-                if targetImageAttribute.videoInputExists() {
-                    self?.hideVideoControls(imageAttribute: targetImageAttribute)
-                    self?.videoState = .Running
-                }
+
             }
-        }
+
         publishers.append(cancellable!)
 
     }
@@ -778,7 +774,11 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         
         // Video
         RPScreenRecorder.shared().delegate = self
-
+        if  appStack.hasVideoBtn() {
+            // video buttons exist
+            // add one here too
+            addVideoControls()
+        }
 
         // end video
     }
@@ -790,6 +790,8 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
          appStack.isImageControllerOpen = true
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
+//        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( self.appStack.parmControls)")
+
 
     }
     func releaseVars() {
@@ -916,8 +918,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         //  R83.07 removed blank toolbar after filter pick on the iPhone. Storyboard changes: Main Filter Controller setting hidesBottomBarWhenPushed="YES". Same on ParmSettingsViewController, Parm Image Controller, Filter Image Controller, Stack Image Container Controller. Logging changes to track navigation
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
         hideSliders()
-        if videoState != .None
-            { hideVideoPlayBtn() }
+        // leave video button alone.. maybe hidden or visible
+//        if appStack.videoState != .None
+//            { hideVideoPlayBtn() }
         panner?.isEnabled = false
         toggleViewControls(hide: true, uiTypeToShow: nil )
             // toggle all view controls to hide
@@ -967,10 +970,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                         }
                 }
             }
-            if parmAttribute.videoInputExists() {
-                let parmVideoName = parmAttribute.attributeName! + kBtnVideoPlay
-                appStack.parmControls[parmVideoName]?.isHidden = hide
-            }
+
+            // leave video buttons in current state hidden or visible
+//            appStack.setVideoBtnIsHidden(hide: hide)
+
 //        Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
 
         } // end for appStack.parms
@@ -1009,13 +1012,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 //                    parmView?.removeFromSuperview()
 //                    parmTextControls.removeValue(forKey: nameAttribute.key)
 //                }
-            if parmAttribute.videoInputExists() {
-                let parmVideoName = parmAttribute.attributeName! + kBtnVideoPlay
-                if let videoBtn =  appStack.parmControls[parmVideoName] {
-                    videoBtn.removeFromSuperview()
-                    appStack.parmControls.removeValue(forKey: parmVideoName)
-                }
-            }
+//                appStack.removeVideoButtons()
 
         }
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLImageController removeParmControls completed")
@@ -1525,8 +1522,8 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     }
 
 // MARK: Video Controls
-    /// add Play and Repeat buttons - initially hidden
-    func addVideoControls(imageAttribute: PGLFilterAttributeImage) {
+    /// add Play button - initially hidden
+    func addVideoControls() {
         // similar to addPositionControl(attribute:
         // assumes that imageAttribute has video input
 
@@ -1545,15 +1542,28 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         
 //        NSLog("\(String(describing: self)) \(String(describing: view)) \(playButton)")
 
-            /// refactor parmVidoeName logic to method
-            /// self.description answers in form <RiftEffects.PGLCompactImageController: 0x1050a4600>
-            ///  there are two imageControllers on the iPhone
-        let parmVideoName = self.description + imageAttribute.attributeName! + kBtnVideoPlay
-            //may be multiple videos playing - for same attribute in an imageList
-            // or multiple attributes with video input
+        // all videos will share the same video prefix
+        let videoParmKey = kBtnVideoPlay + self.description
 
-        appStack.parmControls[parmVideoName] = playButton
-        // newView.isHidden = true
+        var newHideState: Bool!
+        switch appStack.videoState {
+            case .None:
+                newHideState = true
+            case .Pause:
+                newHideState = false
+            case .Ready:
+                newHideState = false
+            case .Running:
+                newHideState = true
+            default:
+                newHideState = false
+        }
+        // set existing buttons to newHideState
+        appStack.setVideoBtnIsHidden(hide: newHideState)
+
+        // set the new button to same state & add to parmControls
+        playButton.isHidden = newHideState
+        appStack.parmControls[videoParmKey] = playButton
 
         NSLayoutConstraint.activate([
 
@@ -1573,23 +1583,10 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         // resize and center
         // button frame, center = ??
 
-        videoState = .Ready
+
 
     }
 
-    func hideVideoControls(imageAttribute: PGLFilterAttributeImage) {
-        // similar to addPositionControl(attribute:
-        // assumes that imageAttribute has video input
-
-            /// refactor parmVidoeName logic to method
-//        let parmVideoName = imageAttribute.attributeName! + kBtnVideoPlay
-        let parmVideoName = self.description + imageAttribute.attributeName! + kBtnVideoPlay
-            //may be multiple videos playing - for same attribute in an imageList
-            // or multiple attributes with video input
-
-        appStack.parmControls[parmVideoName]?.isHidden = true
-
-    }
 
     @objc func playVideoBtnClick() {
         NSLog("PGLImageController notify playVideoBtnClick ")
@@ -1598,43 +1595,27 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     }
 
     fileprivate func hideVideoPlayBtn() {
-            // show the play button now
-            // find the control
-        for (controlName, control) in appStack.parmControls {
-            if controlName.hasSuffix(kBtnVideoPlay) {
-                
-                    // add the following with pause symbol is set as the image
-                    //                let playSymbol = UIImage(systemName: "play")
-                    //                playButton.setImage(playSymbol, for: .normal)
-                control.isHidden = true
-//                break // end the for loop
-            }
-        }
+            // hide the play button now after clicking to run
+        appStack.setVideoBtnIsHidden(hide: true)
+        appStack.videoState = .Running
+
     }
     
     func stopVideoAction() {
         
         let notification = Notification(name: PGLStopVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
-        videoState = .Pause
+        appStack.videoState = .Pause
         // show the play button now
         // find the control
-        for (controlName, control) in appStack.parmControls {
-            if controlName.hasSuffix(kBtnVideoPlay) {
 
-                // add the following with pause symbol is set as the image
-//                let playSymbol = UIImage(systemName: "play")
-//                playButton.setImage(playSymbol, for: .normal)
-                control.isHidden = false
-                break // end the for loop
-            }
-        }
+        appStack.setVideoBtnIsHidden(hide: false)
 
 
     }
 
     @objc func userTapAction(sender: UITapGestureRecognizer) {
-        switch videoState {
+        switch appStack.videoState {
             case .Running :
                 // stop the video
                 stopVideoAction()
