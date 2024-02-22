@@ -45,6 +45,7 @@
 		A36324E825B247F7003F4C0F /* PGLExcludeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */; };
 		A3651FA32A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3651FA12A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift */; };
 		A3651FA42A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3651FA22A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib */; };
+		A36BBAFF2B87CFC40080F149 /* PGLVideoMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36BBAFE2B87CFC40080F149 /* PGLVideoMgr.swift */; };
 		A3712BFD2908628400993C5E /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */; };
 		A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */; };
@@ -211,6 +212,7 @@
 		A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLExcludeFilters.swift; sourceTree = "<group>"; };
 		A3651FA12A9BD4E1006F50F6 /* PGLStackAlbumHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PGLStackAlbumHeader.swift; path = "cell xib/PGLStackAlbumHeader.swift"; sourceTree = "<group>"; };
 		A3651FA22A9BD4E1006F50F6 /* PGLStackAlbumHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGLStackAlbumHeader.xib; sourceTree = "<group>"; };
+		A36BBAFE2B87CFC40080F149 /* PGLVideoMgr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLVideoMgr.swift; sourceTree = "<group>"; };
 		A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCommonParmController.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				A313B1E12AE3298B007AE850 /* PGLVideo.swift */,
+				A36BBAFE2B87CFC40080F149 /* PGLVideoMgr.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -832,6 +835,7 @@
 				A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */,
 				A33C441D28E8D4E50096E7EE /* PGLSequencedFilters.swift in Sources */,
 				A3BF510524D32A3400CD5114 /* PGLDynamicDragBehavior.swift in Sources */,
+				A36BBAFF2B87CFC40080F149 /* PGLVideoMgr.swift in Sources */,
 				A3BB9E092B73ED4D0041F914 /* AVAssetExtension.swift in Sources */,
 				A320F6262669550E008F6090 /* PGLInfoPrivacyController.swift in Sources */,
 				A3BF50EB24D32A3400CD5114 /* PGLVisionDetection.swift in Sources */,

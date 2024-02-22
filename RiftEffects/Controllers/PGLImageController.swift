@@ -503,6 +503,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         super.viewWillAppear(animated)
         setGestureRecogniziers()
 //        toggleViewControls(hide: false ) // restore removed position & text controls
+        if appStack.videoState != .None {
+            appStack.videoMgr.addStartStopButton(imageController: self)
+            // if controller already has video button, then nothing added
+        }
     }
 
     func setMoreBtnMenu() {
@@ -668,8 +672,9 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
                 else { return }
                 if targetImageAttribute.videoInputExists() {
-                    self?.appStack.videoState = .Ready
-                    self?.addVideoControls()
+                    if let theAssetPlayer = myUpdate.object as? PGLAssetVideoPlayer {
+                        self?.appStack.setupVideoPlayer(newVideo: theAssetPlayer, controller: self)
+                    }
 
                     NSLog("\(String(describing: self?.description)) PGLVideoLoaded ran addVideoControls")
                 }
@@ -774,11 +779,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         
         // Video
         RPScreenRecorder.shared().delegate = self
-        if  appStack.hasVideoBtn() {
-            // video buttons exist
-            // add one here too
-            addVideoControls()
-        }
+
 
         // end video
     }
@@ -1523,7 +1524,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
 // MARK: Video Controls
     /// add Play button - initially hidden
-    func addVideoControls() {
+    func addVideoControls() -> UIButton {
         // similar to addPositionControl(attribute:
         // assumes that imageAttribute has video input
 
@@ -1543,7 +1544,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 //        NSLog("\(String(describing: self)) \(String(describing: view)) \(playButton)")
 
         // all videos will share the same video prefix
-        let videoParmKey = kBtnVideoPlay + self.description
+//        let videoParmKey = kBtnVideoPlay + self.description
 
         var newHideState: Bool!
         switch appStack.videoState {
@@ -1555,15 +1556,15 @@ extension PGLImageController: UIGestureRecognizerDelegate {
                 newHideState = false
             case .Running:
                 newHideState = true
-            default:
-                newHideState = false
+//            default:
+//                newHideState = false
         }
         // set existing buttons to newHideState
-        appStack.setVideoBtnIsHidden(hide: newHideState)
+//        appStack.setVideoBtnIsHidden(hide: newHideState)
 
         // set the new button to same state & add to parmControls
         playButton.isHidden = newHideState
-        appStack.parmControls[videoParmKey] = playButton
+
 
         NSLayoutConstraint.activate([
 
@@ -1582,7 +1583,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
         // resize and center
         // button frame, center = ??
-
+        return playButton
 
 
     }

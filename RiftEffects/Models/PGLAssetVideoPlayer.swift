@@ -37,6 +37,8 @@ class PGLAssetVideoPlayer {
         self.parentAsset = parentAsset
         
     }
+    
+    weak var videoMgr: PGLVideoMgr?
 
     var videoLocalURL: URL?
     var videoPlayer: AVQueuePlayer? // subclass of AVPlayer
@@ -58,6 +60,8 @@ class PGLAssetVideoPlayer {
 
     func releaseVars() {
 
+        videoMgr?.removeVideoAsset(oldVideo: self)
+        
         if playVideoToken != nil {
             NotificationCenter.default.removeObserver(playVideoToken!)
         }
@@ -310,10 +314,21 @@ class PGLAssetVideoPlayer {
 
         // imageController needs to show the play button
 //        NSLog("PGLAssetVideoPlayer notify PGLVideoLoaded")
+
         let loadButtonNotification = Notification(name:PGLVideoLoaded)
         NotificationCenter.default.post(name: loadButtonNotification.name, object: self, userInfo: [ : ])
 
     }
 
 
+}
+
+extension PGLAssetVideoPlayer: Hashable {
+    static func == (lhs: PGLAssetVideoPlayer, rhs: PGLAssetVideoPlayer) -> Bool {
+            return lhs.parentAsset == rhs.parentAsset
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(parentAsset)
+        }
 }

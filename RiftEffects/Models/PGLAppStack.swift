@@ -31,7 +31,7 @@ class PGLAppStack {
 
     lazy var appRenderer: Renderer = Renderer(globalAppStack: self)
 
-
+    lazy var videoMgr: PGLVideoMgr = PGLVideoMgr()
 
     lazy var cellFilters = self.flattenFilters()
         // flat array of filters in the stack trees
@@ -112,40 +112,33 @@ class PGLAppStack {
 
     var videoState: VideoSourceState = .None
 
+    func setupVideoPlayer(newVideo: PGLAssetVideoPlayer, controller: PGLImageController?) {
+        guard let theImageController = controller
+            else { return }
+        addVideoAsset(newVideo: newVideo)
+        addVideoBtn(toController: theImageController)
+        if videoState == .None {
+            // maybe another video is already running or loaded
+            videoState = .Ready
+        }
+    }
+    func addVideoBtn(toController: PGLImageController?) {
+        guard let newImageController = toController
+        else { return }
+        videoMgr.addStartStopButton(imageController: newImageController)
+    }
+
+    func addVideoAsset(newVideo:PGLAssetVideoPlayer) {
+        videoMgr.addVideoAsset(newVideo: newVideo)
+    }
+
     func setVideoBtnIsHidden(hide: Bool) {
-        // video buttons have kBtnVideoPlay prefix in string name
+
         // make all of them the same state of visible
-
-        for (controlKey, control) in parmControls {
-            if controlKey.hasPrefix(kBtnVideoPlay) {
-                control.isHidden = hide
-            }
-        }
-    }
-
-    func removeVideoButtons() {
-        var keysToRemove = [String]()
-        for (controlKey, control) in parmControls {
-            if controlKey.hasPrefix(kBtnVideoPlay) {
-                control.removeFromSuperview()
-                keysToRemove.append(controlKey)
-            }
-        }
-        for aKey in keysToRemove {
-            parmControls.removeValue(forKey: aKey)
-        }
+        videoMgr.setVideoBtnIsHidden(hide: hide)
 
     }
-    func hasVideoBtn()-> Bool {
-        var videoBtnExists = false
-        for controlName in parmControls.keys {
-            if controlName.hasPrefix(kBtnVideoPlay) {
-                videoBtnExists = true
-                break
-            }
-        }
-        return videoBtnExists
-    }
+
 
 
     // MARK: Master Data Object Stacks
