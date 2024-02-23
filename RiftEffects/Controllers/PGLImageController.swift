@@ -367,7 +367,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 // parmController in the master section of the splitView has a different navigation stack
                 // from the PGLImageController
             }
-            self.appStack.videoState = .None
+            self.appStack.videoMgr.videoState = .None
 
 
 
@@ -503,7 +503,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         super.viewWillAppear(animated)
         setGestureRecogniziers()
 //        toggleViewControls(hide: false ) // restore removed position & text controls
-        if appStack.videoState != .None {
+        if appStack.videoMgr.videoState != .None {
             appStack.videoMgr.addStartStopButton(imageController: self)
             // if controller already has video button, then nothing added
         }
@@ -668,30 +668,18 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             // could use the image attribute in the update dict
             
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + " notificationBlock PGLVideoLoaded") " )
-            if let theTargetAttribute = self?.appStack.targetAttribute {
-                guard let targetImageAttribute = theTargetAttribute as? PGLFilterAttributeImage
-                else { return }
-                if targetImageAttribute.videoInputExists() {
+
                     if let theAssetPlayer = myUpdate.object as? PGLAssetVideoPlayer {
                         self?.appStack.setupVideoPlayer(newVideo: theAssetPlayer, controller: self)
-                    }
-
                     NSLog("\(String(describing: self?.description)) PGLVideoLoaded ran addVideoControls")
                 }
-                else {
-                    NSLog("PGLVideoLoaded notification but videoInputExists is FALSE")
-                }
-            }
-            else {
-                NSLog("PGLVideoLoaded fails to add controls - failed appStack.targetAttribute")
-            }
         }
         publishers.append(cancellable!)
 
         cancellable = myCenter.publisher(for: PGLVideoRunning)
             .sink() { [weak self]
             myUpdate in
-                self?.appStack.videoState = .Running
+                self?.appStack.videoMgr.videoState = .Running
                 self?.hideVideoPlayBtn()
 
 
@@ -920,7 +908,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         Logger(subsystem: LogSubsystem, category: LogCategory).debug("\( String(describing: self) + "-" + #function)")
         hideSliders()
         // leave video button alone.. maybe hidden or visible
-//        if appStack.videoState != .None
+//        if appStack.videoMgr.videoState != .None
 //            { hideVideoPlayBtn() }
         panner?.isEnabled = false
         toggleViewControls(hide: true, uiTypeToShow: nil )
@@ -1547,7 +1535,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 //        let videoParmKey = kBtnVideoPlay + self.description
 
         var newHideState: Bool!
-        switch appStack.videoState {
+        switch appStack.videoMgr.videoState {
             case .None:
                 newHideState = true
             case .Pause:
@@ -1598,7 +1586,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     fileprivate func hideVideoPlayBtn() {
             // hide the play button now after clicking to run
         appStack.setVideoBtnIsHidden(hide: true)
-        appStack.videoState = .Running
+        appStack.videoMgr.videoState = .Running
 
     }
     
@@ -1606,7 +1594,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         
         let notification = Notification(name: PGLStopVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
-        appStack.videoState = .Pause
+        appStack.videoMgr.videoState = .Pause
         // show the play button now
         // find the control
 
@@ -1616,7 +1604,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
     }
 
     @objc func userTapAction(sender: UITapGestureRecognizer) {
-        switch appStack.videoState {
+        switch appStack.videoMgr.videoState {
             case .Running :
                 // stop the video
                 stopVideoAction()

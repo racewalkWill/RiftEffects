@@ -309,8 +309,8 @@ class PGLAssetVideoPlayer {
         ///  notify the imageController to show the play  button.
     func postVideoLoaded() {
 
-        let updateNotification = Notification(name:PGLVideoAnimationToggle)
-        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
+//        let updateNotification = Notification(name:PGLVideoAnimationToggle)
+//        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
 
         // imageController needs to show the play button
 //        NSLog("PGLAssetVideoPlayer notify PGLVideoLoaded")

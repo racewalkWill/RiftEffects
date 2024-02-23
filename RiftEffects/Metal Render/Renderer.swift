@@ -129,6 +129,7 @@ class Renderer: NSObject, MTKViewDelegate {
         self.init()
         appStack = globalAppStack
         filterStack = { self.appStack.outputOrViewFilterStack() }
+        needsRedraw.appStackVideoMgr = appStack.videoMgr
     }
 
     func set(metalView: MTKView) {

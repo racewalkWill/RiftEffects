@@ -14,7 +14,8 @@ import UIKit
 class PGLVideoMgr {
     var videoAssets =  Set<PGLAssetVideoPlayer>()
     var startStopButtons =  [PGLImageController : UIButton]()
-
+    var videoState: VideoSourceState = .None
+    
     func resetVars() {
         for anAsset in videoAssets {
             removeVideoAsset(oldVideo: anAsset)
@@ -23,9 +24,14 @@ class PGLVideoMgr {
         startStopButtons =  [PGLImageController : UIButton]()
     }
 
+    func videoExists() -> Bool {
+        return !videoAssets.isEmpty
+    }
+
     func addVideoAsset(newVideo: PGLAssetVideoPlayer) {
-        videoAssets.insert(newVideo)
-        newVideo.videoMgr = self
+        let (isNewSetMember, _ ) = videoAssets.insert(newVideo)
+        if isNewSetMember {newVideo.videoMgr = self }
+
     }
 
     func removeVideoAsset(oldVideo: PGLAssetVideoPlayer) {
@@ -36,16 +42,15 @@ class PGLVideoMgr {
             // remove all startStopButtons
             for (aController, button) in startStopButtons {
                 button.removeFromSuperview()
-                aController.appStack.videoState = .None
+                videoState = .None
                 // imageController
             }
             startStopButtons =  [PGLImageController : UIButton]()
-
-
         }
     }
 
     func addStartStopButton(imageController: PGLImageController) {
+//        videoState = .Ready
         if startStopButtons[imageController] == nil {
             let newButton = imageController.addVideoControls()
             startStopButtons[imageController] = newButton

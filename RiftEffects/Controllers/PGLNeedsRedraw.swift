@@ -26,6 +26,8 @@ class PGLRedraw {
     var varyTimerIsRunning = false
     var filterChanged = false
     var pauseAnimation = false
+    var appStackVideoMgr: PGLVideoMgr?
+
     private var viewWillAppear = false
     private var viewWillAppearCounter = 0
 
@@ -118,7 +120,7 @@ class PGLRedraw {
     
     func redrawNow() -> Bool {
         // answer true if any condition is true
-        return viewWillAppear || parmControllerIsOpen || transitionFilterExists || varyTimerIsRunning || filterChanged
+        return viewWillAppear || parmControllerIsOpen || transitionFilterExists || varyTimerIsRunning || filterChanged || videoExists()
     }
 
     func toggleViewWillAppear() {
@@ -131,6 +133,10 @@ class PGLRedraw {
             viewWillAppear = false
         }
 
+    }
+
+    func videoExists() -> Bool {
+        return appStackVideoMgr?.videoExists() ?? false
     }
 
     func shouldPauseAnimation() -> Bool {

@@ -110,17 +110,20 @@ class PGLAppStack {
 
     //MARK: Video
 
-    var videoState: VideoSourceState = .None
+//    var videoState: VideoSourceState = .None
 
     func setupVideoPlayer(newVideo: PGLAssetVideoPlayer, controller: PGLImageController?) {
         guard let theImageController = controller
             else { return }
+
         addVideoAsset(newVideo: newVideo)
+        videoMgr.videoState = .Ready
+        // state needs to be set before adding the button in the correct state
         addVideoBtn(toController: theImageController)
-        if videoState == .None {
+
             // maybe another video is already running or loaded
-            videoState = .Ready
-        }
+
+
     }
     func addVideoBtn(toController: PGLImageController?) {
         guard let newImageController = toController
