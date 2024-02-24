@@ -624,7 +624,10 @@ class PGLImageList: CustomStringConvertible {
 
     // MARK: Video
     func currentImageIsVideo() -> Bool {
-        return imageAssets[position].isVideo()
+        if imageAssets.count >= position + 1 // zero based check
+            { return imageAssets[position].isVideo()  }
+        else
+            { return false }
     }
 
     
