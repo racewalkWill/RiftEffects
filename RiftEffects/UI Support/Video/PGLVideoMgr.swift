@@ -41,9 +41,11 @@ class PGLVideoMgr {
         if videoAssets.isEmpty {
             // remove all startStopButtons
             for (aController, button) in startStopButtons {
+
                 button.removeFromSuperview()
                 videoState = .None
-                // imageController
+                aController.view.setNeedsDisplay()
+                
             }
             startStopButtons =  [PGLImageController : UIButton]()
         }
@@ -60,6 +62,7 @@ class PGLVideoMgr {
     func setVideoBtnIsHidden(hide: Bool){
         for (_, videoBtn ) in startStopButtons {
             videoBtn.isHidden = hide
+            videoBtn.setNeedsDisplay()
 //            imageController needs update event?
         }
     }

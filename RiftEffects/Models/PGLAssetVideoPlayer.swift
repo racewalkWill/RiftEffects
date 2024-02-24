@@ -13,7 +13,7 @@ import Photos
 import CoreImage
 import os
 
-let PGLVideoAnimationToggle = NSNotification.Name(rawValue: "PGLVideoAnimationToggle")
+
 let PGLVideoLoaded = NSNotification.Name(rawValue: "PGLVideoLoaded")
 let PGLVideoReadyToPlay = NSNotification.Name(rawValue: "PGLVideoReadyToPlay")
 let PGLPlayVideo =  NSNotification.Name(rawValue: "PGLPlayVideo")
@@ -268,8 +268,13 @@ class PGLAssetVideoPlayer {
             object: nil,
             queue: mainQueue) {[weak self] notification in
 //                NSLog("PGLAssetVideoPlayer setUpReadyToPlay notification PGLPlayVideo handler triggered")
-                self?.videoPlayer?.isMuted = false
-                self?.videoPlayer?.play()
+                if self?.videoPlayer?.status == .readyToPlay {
+                        // one player may be starting while a current one is running
+
+                    self?.videoPlayer?.isMuted = false
+                    self?.videoPlayer?.play()
+                    Logger(subsystem: LogSubsystem, category: LogNavigation).info(("\( String(describing: self.debugDescription) + " PLAYING") "))
+                }
 
                 self?.notifyVideoStarted()
 //                    NSLog("PGLAssetVideoPlayer setUpReadyToPlay  videoPlayer?.play")
@@ -290,10 +295,7 @@ class PGLAssetVideoPlayer {
             queue: mainQueue) { notification in
                 self.videoPlayer?.pause()
                 self.videoPlayer?.isMuted = true
-
-
-                 // stop the triggers  -
-//                NSLog("PGLAssetVideoPlayer setupStopVideoListener notification PGLStopVideo triggered")
+               NSLog("\(self) PAUSED")
 
             }
     }
@@ -302,18 +304,12 @@ class PGLAssetVideoPlayer {
 
         let runningNotification = Notification(name:PGLVideoRunning)
         NotificationCenter.default.post(name: runningNotification.name, object: self, userInfo: [ : ])
-        NSLog("PGLAssetVideoPlayer notify PGLVideoRunning sent")
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info(("\( String(describing: self) + " Notify PGLVideoRunning") "))
 
     }
     
         ///  notify the imageController to show the play  button.
     func postVideoLoaded() {
-
-//        let updateNotification = Notification(name:PGLVideoAnimationToggle)
-//        NotificationCenter.default.post(name: updateNotification.name, object: self, userInfo: ["VideoImageSource" : +1 ])
-
-        // imageController needs to show the play button
-//        NSLog("PGLAssetVideoPlayer notify PGLVideoLoaded")
 
         let loadButtonNotification = Notification(name:PGLVideoLoaded)
         NotificationCenter.default.post(name: loadButtonNotification.name, object: self, userInfo: [ : ])

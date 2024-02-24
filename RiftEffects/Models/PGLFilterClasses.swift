@@ -354,6 +354,8 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
         // wrapper may call this to produce wrapper effects on the basicImage
         addFilterStepTime()  // if animation then move time forward
+        updateImageVideoFrames()
+
         for anAttribute in attributes {
                     anAttribute.updateFromInputStack()
                 }
@@ -742,13 +744,21 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         removeAnimationTarget.postVaryTimerOff() 
     }
 
+    fileprivate func updateImageVideoFrames() {
+        if let existingImageParms = imageParms() {
+            for anImageParm in existingImageParms {
+                anImageParm.updateVideoFrame()
+            }
+        }
+    }
+    
     func addFilterStepTime() {
         // called on every frame
         // this does not send the increment message to the inputImage parm.
         // use PGLTransitionFilter for imageList image increment .
         
 //        wrapper?.addStepTime() // usually nil so not sent
-
+        
         if hasAnimation {
             if (stepTime > 1.0) || (stepTime < -1.0) {
                 dt = dt * -1
@@ -772,9 +782,11 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
             }
             for parm in animationAttributes {
                 parm.addAnimationStepTime()
-
+                }
         }
-    }
+        updateImageVideoFrames()
+
+
     }
 
     func setTimerDt(lengthSeconds: Float) {
@@ -1105,7 +1117,7 @@ class PGLRectangleFilter : PGLSourceFilter {
     }
 
    override func scaleOutput(ciOutput: CIImage, stackCropRect: CGRect) -> CIImage {
-       let skipScaling = true
+       let skipScaling = false
         // RectangleFilter needs to crop then scale to full size
         // Most filters do not need this. Parnent PGLSourceFilter has empty implementation
           //ciOutputImage.extent    CGRect    (origin = (x = 592, y = 491), size = (width = 729, height = 742))

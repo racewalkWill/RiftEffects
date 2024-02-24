@@ -44,7 +44,11 @@ class PGLImageList: CustomStringConvertible {
     var inputStack: PGLFilterStack? // remove this var? imageParms will have an inputStack.. not the imageList
 
 
-    var position = 0
+    var position = 0 {
+        didSet {
+            NSLog("PGLImageList position set to  \(position)")
+        }
+    }
     var targetSize: CGSize { get {
         return TargetSize
         }
@@ -578,14 +582,16 @@ class PGLImageList: CustomStringConvertible {
                     position = 0
                     
                 case  NextElement.odd :
-                    if position.isEven() {
-                        position = 0
-                    } else { position = 1 }
+                    position = 1
+//                    if position.isEven() {
+//                        position = 0
+//                    } else { position = 1 }
 
                 case NextElement.even :
-                    if !position.isEven() {
-                        position = 0
-                    } else { position = 1 }
+                    position = 0
+//                    if !position.isEven() {
+//                        position = 0
+//                    } else { position = 1 }
 
 
             }
@@ -624,14 +630,15 @@ class PGLImageList: CustomStringConvertible {
 
     // MARK: Video
     func currentImageIsVideo() -> Bool {
-        if imageAssets.count >= position + 1 // zero based check
-            { return imageAssets[position].isVideo()  }
-        else
-            { return false }
+        // position in zero based array needs offset
+        if imageAssets.isEmpty  {
+            return false }
+        else {
+            return imageAssets[position ].isVideo() }
     }
 
     
-    // does not toggle off.. a whole new imageList is created
+//     does not toggle off.. a whole new imageList is created
 //    func postVideoAnimationToggleOff(imageAsset: PGLAsset) {
 //        let updateNotification = Notification(name:PGLVideoAnimationToggle)
 //        NotificationCenter.default.post(name: updateNotification.name, object: imageAsset, userInfo: ["VideoImageSource" : -1 ])

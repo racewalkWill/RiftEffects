@@ -1529,7 +1529,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         playButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(playButton)
         
-//        NSLog("\(String(describing: self)) \(String(describing: view)) \(playButton)")
+        NSLog("\(String(describing: self)) \(String(describing: view)) \(playButton)")
 
         // all videos will share the same video prefix
 //        let videoParmKey = kBtnVideoPlay + self.description
@@ -1578,7 +1578,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
 
     @objc func playVideoBtnClick() {
-        NSLog("PGLImageController notify playVideoBtnClick ")
+        NSLog("\(String(describing: self.description)) notify playVideoBtnClick ")
         let notification = Notification(name: PGLPlayVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
     }
@@ -1597,7 +1597,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         appStack.videoMgr.videoState = .Pause
         // show the play button now
         // find the control
-
+        NSLog("\(String(describing: self.description)) notify stopVideoAction ")
         appStack.setVideoBtnIsHidden(hide: false)
 
 

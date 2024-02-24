@@ -77,12 +77,7 @@ class PGLTransitionFilter: PGLRectangleFilter {
         localFilter.setValue(inputTime, forKey: kCIInputTimeKey)
 
         /// call super for other vary attributes
-        guard let myImageParms = imageParms() else
-            {return}
-        for anImageParm in myImageParms {
-            /// if there is video then set the current image for animation
-            anImageParm.addAnimationStepTime()
-        }
+        
 
     }
         /// set the dt (deltaTime) for use by addStepTime() on each frame

@@ -1005,40 +1005,15 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     var videoInputCount: Int = 0
 
 //    var notifications: [NSNotification.Name : Any] = [:] // an opaque type is returned from addObservor
-    var publishers = [Cancellable]()
-    var cancellable: Cancellable?
+//    var publishers = [Cancellable]()
+//    var cancellable: Cancellable?
 
-    required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
-        super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
-
-
-        cancellable = NotificationCenter.default.publisher(for: PGLVideoAnimationToggle)
-            .sink() {
-            [weak self]
-            myUpdate in
-
-            if let userDataDict = myUpdate.userInfo {
-                if let changeCount = userDataDict["VideoImageSource"]   {
-                    self?.changeVideoInputCount(count: changeCount as! Int)
-                    if self?.videoInputExists() ?? false {
-                        self?.aSourceFilter.animate(attributeTarget: self!)
-
-                    } else {
-                        self?.aSourceFilter.attribute(removeAnimationTarget: self!)
-                    }
-                }
-            }
-        }
-        publishers.append(cancellable!)
-    }
+//    required init?(pglFilter: PGLSourceFilter, attributeDict: [String : Any], inputKey: String) {
+//        super.init(pglFilter: pglFilter, attributeDict: attributeDict, inputKey: inputKey)
+//    }
+    
     override func releaseVars() {
         storedParmImage = nil
-        if self.videoInputExists()  {
-            aSourceFilter.attribute(removeAnimationTarget: self)
-        }
-
-      publishers = [Cancellable]()
-
         super.releaseVars()
         
     }
@@ -1193,7 +1168,7 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
 
     // MARK: Video
 /// videoFrameChange
-    override func addAnimationStepTime() {
+     func updateVideoFrame() {
         // set the current video frame into the parm
         if inputCollection?.currentImageIsVideo() ?? false {
             if let ciVideoFrame =  inputCollection?.getCurrentImage() {
