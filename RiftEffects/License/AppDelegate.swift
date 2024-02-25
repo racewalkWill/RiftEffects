@@ -176,19 +176,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     /// show spinning wait indicator on left side of front view controller. Otherwise disappears on black Right side 
-    func showWaiting() {
-        guard let frontViewController = frontViewController()
-        else { return }
+    func showWaiting(onController: UIViewController) {
 
-         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 70, 70))
+        NSLog("AppDelegate #showWaiting onController \(onController)")
+         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 100, 100))
          guard let thisIndicator = activityIndicator
             else { return }
-        // put on the left side where the indicator is visible. Image area is black 
-        let center = CGPoint(x: frontViewController.view.frame.minX + 100, y: frontViewController.view.frame.midY)
+
+//         put on the left side where the indicator is visible. Image area is black
+        let center = CGPoint(x: onController.view.frame.minX + 100, y: onController.view.frame.midY)
         thisIndicator.center = center
         thisIndicator.hidesWhenStopped = true
-        thisIndicator.style = UIActivityIndicatorView.Style.medium
-        frontViewController.view.addSubview(thisIndicator)
+        thisIndicator.style = UIActivityIndicatorView.Style.large
+        thisIndicator.color = .systemBlue
+        onController.view.addSubview(thisIndicator)
+        onController.view.bringSubviewToFront(thisIndicator)
 
         thisIndicator.startAnimating()
 
@@ -196,8 +198,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func closeWaitingIndicator() {
-        activityIndicator?.stopAnimating()
-        activityIndicator?.removeFromSuperview()
+        NSLog("AppDelegate #closeWaitingIndicator \(String(describing: activityIndicator))")
+        guard let theWaitIndicator = activityIndicator
+        else { return }
+
+        theWaitIndicator.stopAnimating()
+        theWaitIndicator.removeFromSuperview()
         activityIndicator = nil
     }
 

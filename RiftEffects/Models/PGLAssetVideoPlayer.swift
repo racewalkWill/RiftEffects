@@ -140,8 +140,7 @@ class PGLAssetVideoPlayer {
             // automaticallyLoadedAssetKeys - array
             // An NSArray of NSStrings, each representing a property key defined by
             //   AVAsset. See AVAsset.h for property keys, e.g. duration
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        myAppDelegate.showWaiting()
+      
 
         videoLocalURL = videoURL
         avPlayerItem = AVPlayerItem(url: videoURL)
@@ -160,7 +159,7 @@ class PGLAssetVideoPlayer {
                     }
                         // move displayLink
                     self.setUpReadyToPlay()
-                    self.closeWaitingIndicator()
+
                   }
             else { if myPlayerItem.status == .failed {
                     self.closeWaitingIndicator()

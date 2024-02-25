@@ -102,7 +102,6 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     var selectedParmControlView: UIView?
     var tappedControl: UIView?
 
-    @IBOutlet weak var progressView: UIProgressView!
     
         // MARK: Navigation Buttons
 
@@ -671,8 +670,13 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
 
                     if let theAssetPlayer = myUpdate.object as? PGLAssetVideoPlayer {
                         self?.appStack.setupVideoPlayer(newVideo: theAssetPlayer, controller: self)
+
                     NSLog("\(String(describing: self?.description)) PGLVideoLoaded ran addVideoControls")
+                } 
+                if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                    appDelegate.closeWaitingIndicator()
                 }
+
         }
         publishers.append(cancellable!)
 

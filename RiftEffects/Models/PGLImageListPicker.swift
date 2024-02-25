@@ -66,6 +66,9 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
+        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+        myAppDelegate.showWaiting(onController: controller)
+
         picker.dismiss(animated: true)
 
         loadImageListFromPicker(results: results)
@@ -116,6 +119,7 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
             // if video then cache into local file and assign localURL to asset
             if let thisResultProvider = selection[fetchAsset.localIdentifier] {
                 if thisResultProvider.itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+
                     loadLocalVideoURL(thisAsset: anNewPGLAsset, pickerResult: selection[fetchAsset.localIdentifier]!)
                 }
                 }
@@ -141,9 +145,9 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
     }
 
     func loadLocalVideoURL(thisAsset: PGLAsset, pickerResult: PHPickerResult ) {
-        let progress: Progress?
+//        let progress: Progress?
         var localURL: URL?
-        progress = pickerResult.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { [weak self] url, error in
+        pickerResult.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { [weak self] url, error in
             do {
                 guard let url = url, error == nil else {
                     throw error ?? NSError(domain: NSFileProviderErrorDomain, code: -1, userInfo: nil)
@@ -164,7 +168,7 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
                 }
             }
     }
-    displayProgress(progress)
+
   }
 
     func handleVideoCompletion(asset: PGLAsset, object: Any?, error: Error? = nil) {
@@ -184,16 +188,6 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
 //            displayErrorImage()
 //        } else {
 //            displayUnknownImage()
-        }
-    }
-    
-
-    func displayProgress(_ progress: Progress?) {
-        if let myParmController = controller as? PGLSelectParmController {
-            if let myProgressView = myParmController.progressView {
-                myProgressView.observedProgress = progress
-                myProgressView.isHidden = progress == nil
-            }
         }
     }
 

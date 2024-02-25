@@ -436,10 +436,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6sR-8f-pwb">
-                                <rect key="frame" x="44.5" y="378" width="150" height="4"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </progressView>
                             <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="OEz-3T-9Rf">
                                 <rect key="frame" x="-4" y="705" width="237" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -663,7 +659,6 @@
                         <outlet property="filterLabel" destination="sEW-y3-MfP" id="mTz-Ab-b1Y"/>
                         <outlet property="filterShiftLabel" destination="c9Y-Ed-ZeW" id="jK5-m2-B5b"/>
                         <outlet property="parmsTableView" destination="qzX-VM-dr8" id="J9S-87-VTd"/>
-                        <outlet property="progressView" destination="6sR-8f-pwb" id="TCD-ZY-bex"/>
                         <outlet property="shiftBtn" destination="3ph-yx-nVM" id="EtB-y3-a8c"/>
                         <outlet property="upChevron" destination="A6h-K5-gwp" id="gCa-S8-4Fc"/>
                     </connections>
@@ -975,7 +970,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="4FJ-we-3bf"/>
         <segue reference="HUk-NN-bR8"/>
-        <segue reference="Xyz-2Z-Q4q"/>
+        <segue reference="q90-Vk-s0q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>

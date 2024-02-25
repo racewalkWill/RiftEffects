@@ -125,8 +125,6 @@ class PGLSelectParmController: PGLCommonController,
 
     var selectedCellIndexPath: IndexPath?
 
-    @IBOutlet weak var progressView: UIProgressView!
-    
 
     @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
 //        let actionAccepted = Notification(name: PGLImageNavigationBack )
