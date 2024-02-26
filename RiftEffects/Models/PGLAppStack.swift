@@ -116,12 +116,16 @@ class PGLAppStack {
         guard let theImageController = controller
             else { return }
 
+        videoMgr.stopForLoad()
+
         addVideoAsset(newVideo: newVideo)
+            // maybe another video is already running or loaded
+
         videoMgr.videoState = .Ready
         // state needs to be set before adding the button in the correct state
         addVideoBtn(toController: theImageController)
 
-            // maybe another video is already running or loaded
+
 
 
     }
@@ -205,7 +209,8 @@ class PGLAppStack {
          //  release the old pglStack
  //        outputStack.storedStack = nil
          // 2022-07-23  the line to set to nil did not fix memory
-         outputStack.releaseVars()
+        videoMgr.resetVars()
+        outputStack.releaseVars()
         dataProvider.reset()
         resetNeedsRedraw()
 

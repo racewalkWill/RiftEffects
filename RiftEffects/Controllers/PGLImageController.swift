@@ -1538,24 +1538,12 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         // all videos will share the same video prefix
 //        let videoParmKey = kBtnVideoPlay + self.description
 
-        var newHideState: Bool!
-        switch appStack.videoMgr.videoState {
-            case .None:
-                newHideState = true
-            case .Pause:
-                newHideState = false
-            case .Ready:
-                newHideState = false
-            case .Running:
-                newHideState = true
-//            default:
-//                newHideState = false
-        }
+
         // set existing buttons to newHideState
 //        appStack.setVideoBtnIsHidden(hide: newHideState)
 
         // set the new button to same state & add to parmControls
-        playButton.isHidden = newHideState
+        playButton.isHidden = appStack.videoMgr.hideBtnState()
 
 
         NSLayoutConstraint.activate([

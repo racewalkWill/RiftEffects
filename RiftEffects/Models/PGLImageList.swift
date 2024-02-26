@@ -631,10 +631,20 @@ class PGLImageList: CustomStringConvertible {
     // MARK: Video
     func currentImageIsVideo() -> Bool {
         // position in zero based array needs offset
-        if imageAssets.isEmpty  {
-            return false }
-        else {
-            return imageAssets[position ].isVideo() }
+        var thisImageAsset: PGLAsset
+        switch imageAssets.count {
+            case 0:
+                return false
+            case 1:
+                // in this case the PGLImageList position is 1
+                // but zero based array
+                thisImageAsset = imageAssets.first!
+            default:
+                // now position is correct for more than one imageAsset
+                thisImageAsset = imageAssets[position]
+        }
+        return thisImageAsset.isVideo()
+
     }
 
     

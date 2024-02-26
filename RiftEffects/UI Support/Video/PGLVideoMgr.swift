@@ -34,6 +34,23 @@ class PGLVideoMgr {
 
     }
 
+    func stopForLoad() {
+        // if videos are running stop until new video
+        // adds the video btn and user clicks play
+        // then all players will be in sync of same state
+        // assumes new video is not yet in the
+        // videoAssets
+        // caller removed.. does not affect the common start stop for a 2nd video
+        // see AppStack.setUpVideoPlayer caller
+        for aVideoAsset  in videoAssets {
+            if let thePlayer = aVideoAsset.videoPlayer {
+                thePlayer.pause()
+                thePlayer.isMuted = true
+            }
+        }
+        videoState = .Pause
+    }
+
     func removeVideoAsset(oldVideo: PGLAssetVideoPlayer) {
         videoAssets.remove(oldVideo)
         oldVideo.videoMgr = nil
@@ -48,17 +65,36 @@ class PGLVideoMgr {
                 
             }
             startStopButtons =  [PGLImageController : UIButton]()
+            videoState = .None
         }
     }
 
     func addStartStopButton(imageController: PGLImageController) {
-//        videoState = .Ready
+//
         if startStopButtons[imageController] == nil {
             let newButton = imageController.addVideoControls()
             startStopButtons[imageController] = newButton
         }
+        videoState = .Ready
+        setVideoBtnIsHidden(hide: hideBtnState())
     }
 
+    func hideBtnState() -> Bool {
+        var newHideState: Bool!
+        switch videoState {
+            case .None:
+                newHideState = true
+            case .Pause:
+                newHideState = false
+            case .Ready:
+                newHideState = false
+            case .Running:
+                newHideState = true
+//            default:
+//                newHideState = false
+        }
+        return newHideState
+    }
     func setVideoBtnIsHidden(hide: Bool){
         for (_, videoBtn ) in startStopButtons {
             videoBtn.isHidden = hide
