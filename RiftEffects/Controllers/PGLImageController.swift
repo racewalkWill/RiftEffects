@@ -366,7 +366,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 // parmController in the master section of the splitView has a different navigation stack
                 // from the PGLImageController
             }
-            self.appStack.videoMgr.videoState = .None
+           // videoMgr gets resetVars
 
 
 
@@ -683,8 +683,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         cancellable = myCenter.publisher(for: PGLVideoRunning)
             .sink() { [weak self]
             myUpdate in
-                self?.appStack.videoMgr.videoState = .Running
-                self?.hideVideoPlayBtn()
+                self?.appStack.videoMgr.setStartStop(newState: .Running)
 
 
             }
@@ -1582,8 +1581,8 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
     fileprivate func hideVideoPlayBtn() {
             // hide the play button now after clicking to run
-        appStack.setVideoBtnIsHidden(hide: true)
-        appStack.videoMgr.videoState = .Running
+//        appStack.videoMgr.setStartStop(newState: .Running)
+
 
     }
     
@@ -1591,11 +1590,10 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         
         let notification = Notification(name: PGLStopVideo)
         NotificationCenter.default.post(name: notification.name, object: self, userInfo: [ : ])
-        appStack.videoMgr.videoState = .Pause
-        // show the play button now
-        // find the control
+        appStack.videoMgr.setStartStop(newState: .Pause)
+
         NSLog("\(String(describing: self.description)) notify stopVideoAction ")
-        appStack.setVideoBtnIsHidden(hide: false)
+
 
 
     }

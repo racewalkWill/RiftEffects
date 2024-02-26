@@ -15,14 +15,19 @@ class PGLVideoMgr {
     var videoAssets =  Set<PGLAssetVideoPlayer>()
     var startStopButtons =  [PGLImageController : UIButton]()
     var videoState: VideoSourceState = .None
-    
+//        {
+//            didSet {
+//                NSLog("PGLVideoMgr videoState old \(oldValue) now \(videoState)")
+//            }
+//        }
+
     func resetVars() {
         for anAsset in videoAssets {
             removeVideoAsset(oldVideo: anAsset)
         }
         videoAssets =  Set<PGLAssetVideoPlayer>()
-        for aButton in startStopButtons {
-            aButton.key.removeVideoControl(aVideoButton: aButton.value)
+        for (aPGLImageController, aButton) in startStopButtons {
+            aPGLImageController.removeVideoControl(aVideoButton: aButton)
         }
         startStopButtons =  [PGLImageController : UIButton]()
 
@@ -55,7 +60,8 @@ class PGLVideoMgr {
                 thePlayer.isMuted = true
             }
         }
-        videoState = .Pause
+        setStartStop(newState: .Pause)
+
     }
 
     func removeVideoAsset(oldVideo: PGLAssetVideoPlayer) {
@@ -79,12 +85,17 @@ class PGLVideoMgr {
     }
 
     func addStartStopButton(imageController: PGLImageController) {
-//
+//        videoState = .Ready
         if startStopButtons[imageController] == nil {
             let newButton = imageController.addVideoControls()
             startStopButtons[imageController] = newButton
         }
-        videoState = .Ready
+
+        setVideoBtnIsHidden(hide: hideBtnState())
+    }
+
+    func setStartStop(newState: VideoSourceState) {
+        videoState = newState
         setVideoBtnIsHidden(hide: hideBtnState())
     }
 

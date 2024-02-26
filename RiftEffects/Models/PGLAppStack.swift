@@ -121,8 +121,6 @@ class PGLAppStack {
         addVideoAsset(newVideo: newVideo)
             // maybe another video is already running or loaded
 
-        videoMgr.videoState = .Ready
-        // state needs to be set before adding the button in the correct state
         addVideoBtn(toController: theImageController)
 
 
