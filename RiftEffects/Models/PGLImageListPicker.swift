@@ -66,19 +66,18 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
-        let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
-        myAppDelegate.showWaiting(onController: controller)
+
 
         picker.dismiss(animated: true)
 
-        loadImageListFromPicker(results: results)
+        loadImageListFromPicker(results: results, theController: controller)
         if let parmController = controller as? PGLSelectParmController {
             parmController.pickerCompletion(pickerController:picker, pickedImageList: pickingImageList)
         }
 
     }
 
-    func loadImageListFromPicker(results: [PHPickerResult]){
+    func loadImageListFromPicker(results: [PHPickerResult], theController: UIViewController){
             //PHPickerResult has
             //var assetIdentifier: String? and var itemProvider: NSItemProvider
 
@@ -119,6 +118,8 @@ class PGLImageListPicker:  PHPickerViewControllerDelegate {
             // if video then cache into local file and assign localURL to asset
             if let thisResultProvider = selection[fetchAsset.localIdentifier] {
                 if thisResultProvider.itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                    let myAppDelegate =  UIApplication.shared.delegate as! AppDelegate
+                    myAppDelegate.showWaiting(onController: theController)
 
                     loadLocalVideoURL(thisAsset: anNewPGLAsset, pickerResult: selection[fetchAsset.localIdentifier]!)
                 }

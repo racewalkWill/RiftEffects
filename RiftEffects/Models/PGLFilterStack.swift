@@ -381,6 +381,7 @@ class PGLFilterStack  {
             if aFilter.hasAnimation {
                 aFilter.stopAllAnimation()
             }
+            aFilter.releaseVars()
         }
         activeFilters = [PGLSourceFilter]()
         activeFilterIndex = -1 // nothing
@@ -451,6 +452,7 @@ class PGLFilterStack  {
                 returnValue = oldFilter
         }
         postFilterChangeRedraw()
+        returnValue?.releaseVars()
         return returnValue
     }
 

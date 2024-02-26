@@ -210,6 +210,7 @@ class PGLAppStack {
  //        outputStack.storedStack = nil
          // 2022-07-23  the line to set to nil did not fix memory
         videoMgr.resetVars()
+
         outputStack.releaseVars()
         dataProvider.reset()
         resetNeedsRedraw()

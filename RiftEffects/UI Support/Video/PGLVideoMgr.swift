@@ -21,7 +21,14 @@ class PGLVideoMgr {
             removeVideoAsset(oldVideo: anAsset)
         }
         videoAssets =  Set<PGLAssetVideoPlayer>()
+        for aButton in startStopButtons {
+            aButton.key.removeVideoControl(aVideoButton: aButton.value)
+        }
         startStopButtons =  [PGLImageController : UIButton]()
+
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.closeWaitingIndicator()
+        }
     }
 
     func videoExists() -> Bool {
@@ -54,12 +61,14 @@ class PGLVideoMgr {
     func removeVideoAsset(oldVideo: PGLAssetVideoPlayer) {
         videoAssets.remove(oldVideo)
         oldVideo.videoMgr = nil
+        //startStopButtons not removed here.. controller
+        // may have multiple videoAssets
 
         if videoAssets.isEmpty {
             // remove all startStopButtons
             for (aController, button) in startStopButtons {
 
-                button.removeFromSuperview()
+                aController.removeVideoControl(aVideoButton: button)
                 videoState = .None
                 aController.view.setNeedsDisplay()
                 

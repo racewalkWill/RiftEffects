@@ -128,6 +128,7 @@ class PGLFilterAttribute {
     // more general either ImageList or FilterList  why not incrment a set of filters too?
         didSet {
             if oldValue != nil {
+                oldValue?.releaseVars()
                 // delete the old stored imageList
 //                aSourceFilter.removeOldImageList(imageParmName: attributeName!)
 //                if let oldStoredList = aSourceFilter.getImageList(imageParmName: attributeName!) {

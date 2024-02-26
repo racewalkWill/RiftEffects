@@ -70,7 +70,7 @@ class PGLAssetVideoPlayer {
         }
         if videoPlayer != nil {
             NSLog("PGLAssetVideoPlayer releaseVars video")
-
+            videoPlayer?.isMuted = true
             videoPlayer!.pause()
             playerLooper?.disableLooping()
             playerLooper = nil

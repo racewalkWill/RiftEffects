@@ -1568,6 +1568,11 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
     }
 
+    func removeVideoControl(aVideoButton: UIButton) {
+
+        aVideoButton.removeTarget(self, action: #selector(playVideoBtnClick), for: .touchUpInside)
+        aVideoButton.removeFromSuperview()
+    }
 
     @objc func playVideoBtnClick() {
         NSLog("\(String(describing: self.description)) notify playVideoBtnClick ")
