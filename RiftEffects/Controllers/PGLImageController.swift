@@ -99,6 +99,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
     var endPoint = CGPoint.zero
     var panner: UIPanGestureRecognizer?
     var tapGesture: UITapGestureRecognizer?
+    var tap2Gesture: UITapGestureRecognizer?
     var selectedParmControlView: UIView?
     var tappedControl: UIView?
 
@@ -1374,12 +1375,23 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
         func setGestureRecogniziers() {
             if tapGesture == nil {
-                tapGesture = UITapGestureRecognizer(target: self, action: #selector(PGLImageController.userTapAction ))
+                tapGesture = UITapGestureRecognizer(target: self, action: #selector(PGLImageController.userSingleTapAction ))
+                if tapGesture != nil {
+                    tapGesture?.numberOfTapsRequired = 1
+                    view.addGestureRecognizer(tapGesture!)
+                }
+            }
+            if tap2Gesture == nil {
+                tapGesture = UITapGestureRecognizer(target: self, action: #selector(PGLImageController.userDoubleTapAction ))
                 if tapGesture != nil {
                     tapGesture?.numberOfTapsRequired = 2
                     view.addGestureRecognizer(tapGesture!)
                 }
             }
+            if (tap2Gesture != nil) && (tapGesture != nil) {
+                tapGesture!.shouldRequireFailure(of: tap2Gesture!)
+            }
+
             if panner != nil {
                 NSLog("PGLImageController  SKIP #setGestureRecogniziers, panner exists")
                 return
@@ -1405,9 +1417,15 @@ extension PGLImageController: UIGestureRecognizerDelegate {
             }
             if tapGesture != nil {
                 view.removeGestureRecognizer(tapGesture!)
-                tapGesture!.removeTarget(self, action: #selector(PGLImageController.userTapAction ))
+                tapGesture!.removeTarget(self, action: #selector(PGLImageController.userSingleTapAction ))
                 tapGesture = nil
             }
+            if tap2Gesture != nil {
+                view.removeGestureRecognizer(tap2Gesture!)
+                tap2Gesture!.removeTarget(self, action: #selector(PGLImageController.userDoubleTapAction ))
+                tap2Gesture = nil
+            }
+
 
         }
     func panMoveChange( endingPoint: CGPoint, parm: PGLFilterAttribute) {
@@ -1599,7 +1617,26 @@ extension PGLImageController: UIGestureRecognizerDelegate {
 
     }
 
-    @objc func userTapAction(sender: UITapGestureRecognizer) {
+    @objc func userSingleTapAction(sender: UITapGestureRecognizer) {
+            // double tap is required to fail before the single tap is tested
+            // single tap in the button area will stop the video
+        switch appStack.videoMgr.videoState {
+            case .Running :
+                // stop the video
+                let theTapPoint =  sender.location(in: view)
+                if let theVideoButton = appStack.videoMgr.startStopButtons[self] {
+                    if theVideoButton.frame.contains(theTapPoint) {
+                        stopVideoAction()
+                    }
+                }
+            default:
+                return
+        }
+    }
+
+    @objc func userDoubleTapAction(sender: UITapGestureRecognizer) {
+        // double tap is required to fail before the single tap is tested
+        // a double tap in the button will still stop the video
         switch appStack.videoMgr.videoState {
             case .Running :
                 // stop the video
@@ -1622,6 +1659,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
                 return
         }
     }
+
 
 }
 
