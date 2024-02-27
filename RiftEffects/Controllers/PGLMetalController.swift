@@ -19,11 +19,18 @@ class PGLMetalController: UIViewController {
 
     var filterStack: () -> PGLFilterStack?  = { PGLFilterStack() } // a function is assigned to this var that answers the filterStack
     var metalRender: Renderer!
+        // Metal View setup for Core Image Rendering
+        // see listing 1-7 in
+        // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreImaging/ci_tasks/ci_tasks.html#//apple_ref/doc/uid/TP30001185-CH3-SW5
 
-    // Metal View setup for Core Image Rendering
-    // see listing 1-7 in
-    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/CoreImaging/ci_tasks/ci_tasks.html#//apple_ref/doc/uid/TP30001185-CH3-SW5
-
+        /// in full screen mode the MetalController uses GestureRecogniziers
+    var isFullScreen = false
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return true
+        }
+    }
+    var tapGesture: UITapGestureRecognizer?
 
 
     //MARK: View Load/Unload
@@ -51,8 +58,44 @@ class PGLMetalController: UIViewController {
             // draw once so that the view has the current stack output image
             // then normal 60 fps drawing is controlled by the PGLNeedsRedraw
 
+        if isFullScreen {
+            // add dismiss tap recognizier
+            setGestureRecogniziers()
+
+        }
+
+    }
+
+    func setGestureRecogniziers() {
+        if tapGesture == nil {
+            tapGesture = UITapGestureRecognizer(target: self, action: #selector(PGLMetalController.userTapAction ))
+            if tapGesture != nil {
+                tapGesture?.numberOfTapsRequired = 2
+                view.addGestureRecognizer(tapGesture!)
+            }
+        }
+    }
+
+    func removeGestureRecogniziers() {
+
+//        if panner != nil {
+////                NSLog("PGLImageController #removeGestureRecogniziers")
+//            view.removeGestureRecognizer(panner!)
+//            panner?.removeTarget(self, action: #selector(PGLImageController.panAction(_:)) )
+//            panner = nil
+//        }
+        if tapGesture != nil {
+            view.removeGestureRecognizer(tapGesture!)
+            tapGesture!.removeTarget(self, action: #selector(PGLMetalController.userTapAction ))
+            tapGesture = nil
+        }
+
+    }
 
 
+    @objc func userTapAction(sender: UITapGestureRecognizer) {
+        // two taps dismiss
+        self.dismiss(animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -1376,6 +1376,7 @@ extension PGLImageController: UIGestureRecognizerDelegate {
             if tapGesture == nil {
                 tapGesture = UITapGestureRecognizer(target: self, action: #selector(PGLImageController.userTapAction ))
                 if tapGesture != nil {
+                    tapGesture?.numberOfTapsRequired = 2
                     view.addGestureRecognizer(tapGesture!)
                 }
             }
@@ -1604,11 +1605,30 @@ extension PGLImageController: UIGestureRecognizerDelegate {
                 // stop the video
                 stopVideoAction()
             default:
-                // assume window expand or shrink
+                // two taps and no video running
+                // open a dialog full screen on the imageController
+                fullScreenImage()
                 return
         }
     }
 
+}
+
+extension PGLImageController {
+    // fullScreen code
+
+    func fullScreenImage() {
+        guard let newImageController = storyboard?.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController
+        else {return }
+        newImageController.isFullScreen = true
+        // turns on gesture recogniziers to dismiss, zoom, pan
+
+        let nav = UINavigationController(rootViewController: newImageController)
+                nav.modalPresentationStyle = .fullScreen
+        
+        self.navigationController?.present(nav, animated: true)
+//       present(newImageController, animated: true )
+    }
 }
 
 extension UIImage {
