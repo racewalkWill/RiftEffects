@@ -1603,7 +1603,18 @@ extension PGLImageController: UIGestureRecognizerDelegate {
         switch appStack.videoMgr.videoState {
             case .Running :
                 // stop the video
-                stopVideoAction()
+                let theTapPoint =  sender.location(in: view)
+                if let theVideoButton = appStack.videoMgr.startStopButtons[self] {
+                    if theVideoButton.frame.contains(theTapPoint) {
+                        stopVideoAction()
+                    }
+                    else {
+                        // double tap not on the button
+                        fullScreenImage()
+                    }
+                } else {
+                    fullScreenImage()
+                }
             default:
                 // two taps and no video running
                 // open a dialog full screen on the imageController
