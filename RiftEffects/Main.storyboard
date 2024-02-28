@@ -132,7 +132,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CVu-JS-I30"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FIa-oA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="690"/>
+                        <rect key="frame" x="0.0" y="0.0" width="954.5" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zCg-lU-rqI" userLabel="Alpha">
@@ -163,7 +163,7 @@
                                 </connections>
                             </slider>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIG-ES-l8C" userLabel="topTintView">
-                                <rect key="frame" x="20" y="8" width="1154" height="54"/>
+                                <rect key="frame" x="20" y="8" width="914.5" height="54"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <accessibility key="accessibilityConfiguration" identifier="topCroppingArea" label="topCroppingArea"/>
                             </view>
@@ -178,7 +178,7 @@
                                 <accessibility key="accessibilityConfiguration" identifier="rightCroppingArea" label="rightCroppingArea"/>
                             </view>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sNy-RU-13Z" userLabel="bottomTintView">
-                                <rect key="frame" x="20" y="224" width="1154" height="60"/>
+                                <rect key="frame" x="20" y="224" width="914.5" height="60"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bottomCroppingArea" label="bottomCroppingArea"/>
                             </view>
@@ -735,12 +735,6 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More" image="ellipsis.circle" catalog="system" id="HAf-fe-yaR"/>
-                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="u2b-W4-QJo" userLabel="ShowImageController">
-                                <connections>
-                                    <action selector="showImageControllerBtn:" destination="rQx-tc-9ix" id="s94-Nw-L8B"/>
-                                    <segue destination="Cot-0o-SSg" kind="show" id="zWl-eA-30q"/>
-                                </connections>
-                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -942,11 +936,6 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="More Btn" image="ellipsis.circle" catalog="system" id="X6h-Dm-yVE"/>
-                            <barButtonItem image="photo" catalog="system" landscapeImage="photo.artframe" id="epI-IV-YbQ" userLabel="ShowImageController">
-                                <connections>
-                                    <segue destination="Cot-0o-SSg" kind="show" id="HUk-NN-bR8"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem systemItem="add" id="18U-Y9-D7X">
                                 <connections>
                                     <action selector="containerAddFilter:" destination="z1U-K0-aGb" id="A68-QN-stT"/>
@@ -969,7 +958,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4FJ-we-3bf"/>
-        <segue reference="HUk-NN-bR8"/>
         <segue reference="q90-Vk-s0q"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -978,8 +966,6 @@
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="chevron.up" catalog="system" width="128" height="70"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
-        <image name="photo" catalog="system" width="128" height="93"/>
-        <image name="photo.artframe" catalog="system" width="128" height="93"/>
         <image name="playpause" catalog="system" width="128" height="79"/>
         <image name="questionmark.square.dashed" catalog="system" width="128" height="114"/>
         <image name="recordingtape" catalog="system" width="128" height="60"/>

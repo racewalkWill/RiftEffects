@@ -46,8 +46,11 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
 
 
         presentsWithGesture = true
-        showsSecondaryOnlyButton = true
+        showsSecondaryOnlyButton = false
             // this button shows on the navigation of the secondary controller - the imageController
+            // it goes to full screen secondaryOnly column
+            // NOT needed now that doubletap to full screen is implemented
+
         let horizontalSize = traitCollection.horizontalSizeClass
         if horizontalSize == .compact {
 
@@ -143,14 +146,15 @@ class PGLSplitViewController: UISplitViewController, UISplitViewControllerDelega
         // mode is controlled by targetDisplayModeForAction(in svc: UISplitViewController) -> UISplitViewController.DisplayMode
 
         let deviceIdom = traitCollection.userInterfaceIdiom
+        navigationItem.leftItemsSupplementBackButton = true
+
         if deviceIdom == .phone {
-            navigationItem.leftItemsSupplementBackButton = true
             navigationItem.hidesBackButton = false
-            showsSecondaryOnlyButton = true
+            showsSecondaryOnlyButton = false
+                // showsSecondaryOnlyButton  not needed for full screen of the PGLImageController
+                // now doubleTap on the PGLImageController opens full screen of the PGLMetalController
             }
-        else {
-            navigationItem.leftItemsSupplementBackButton = true
-        }
+
     }
 
     func stackProviderHasRows() -> Bool {
