@@ -100,7 +100,6 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
             self.selectActiveFilterRow()
         }
 
-        setUpdateEditButton()
         updateNavigationBar()
         setLongPressGesture()
 
@@ -176,6 +175,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         appStack.resetCellFilters() // updates the flattened cell filter array
         tableView.reloadData()
         setShiftBtnState()
+        updateNavigationBar()
 
     }
 
@@ -502,7 +502,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
 
     
     }
-// MARK: Bar Buttons
+
 
     func isLimitedPhotoLibAccess() -> Bool {
         let accessLevel: PHAccessLevel = .readWrite // or .addOnly
@@ -517,7 +517,14 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         }
     }
 
+        // MARK: Bar Buttons
 
+    @IBOutlet weak var editStackBtn: UIBarButtonItem!
+    
+    @IBAction func editStack(_ sender: Any) {
+        toggleEditing()
+    }
+    
     @IBAction func addFilter(_ sender: UIBarButtonItem) {
         // hideParmControls()
         self.appStack.setFilterChangeModeToAdd()
@@ -639,6 +646,8 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
     func updateNavigationBar() {
 //        self.navigationItem.title = self.appStack.firstStack()?.stackName
 //        self.navigationItem.title = "Effects"
+
+        editStackBtn.isHidden = appStack.viewerStack.isEmptyStack()
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -813,30 +822,15 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
         // MARK: - Navigation
 
     func setUpdateEditButton() {
-        var currentLeftButtons = navigationItem.leftBarButtonItems
-        let editButton = currentLeftButtons?.first(where: {$0.action == #selector(toggleEditing)})
 
-       if editButton == nil {
-
-                let editingItem = UIBarButtonItem(title: tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
-                currentLeftButtons?.append(editingItem)
-                navigationItem.leftBarButtonItems = currentLeftButtons
-
-                navigationController?.isToolbarHidden = false
-       } else {
-                if (tableView.isEditing) {
-                    // change to "Done"
-                    editButton!.title = "Done"
-                } else {
-                    editButton!.title = "Edit"
-
-                }
-       }
-
+            if (tableView.isEditing) {
+                // change to "Done"
+                editStackBtn.title = "Done"
+            } else {
+                editStackBtn.title = "Edit" }
     }
 
-    @objc
-    func toggleEditing() {
+    @objc func toggleEditing() {
         tableView.setEditing(!tableView.isEditing, animated: true)
         setUpdateEditButton()
     }

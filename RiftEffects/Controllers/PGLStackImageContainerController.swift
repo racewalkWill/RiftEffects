@@ -37,27 +37,25 @@ class PGLStackImageContainerController: PGLTwoColumnSplitController {
 
         loadViewColumns(controller: containerStackController!, imageViewer: containerImageController!)
 
-        containerStackController?.addToolBarButtons(toController: self)
+        // no toolbar on the stackImageContainerController so  toolbar buttons don't show
+//        containerStackController?.addToolBarButtons(toController: self)
 
         setUpdateEditButton()
+        updateNavigationBar()
 //        setNeedsStatusBarAppearanceUpdate()
 
         // if the stack is empty go to the addFilter directly
         if containerStackController?.appStack.viewerStack.isEmptyStack() ?? true {
-            containerAddFilter(UIBarButtonItem())
+            addFilterBtn(UIBarButtonItem())
         }
 
     }
 
-
-    @IBAction func containerAddFilter(_ sender: UIBarButtonItem) {
-
-        containerStackController?.appStack.setFilterChangeModeToAdd()
-        containerStackController?.postFilterNavigationChange()
-        performSegue(withIdentifier: "showFilterImageContainer", sender: self)
-        // chooses new filter
-
+    override func viewWillAppear(_ animated: Bool) {
+        updateNavigationBar()
     }
+
+
 
     @IBAction func helpBtnClick(_ sender: UIBarButtonItem) {
         containerImageController?.helpBtnAction(sender)
@@ -68,6 +66,7 @@ class PGLStackImageContainerController: PGLTwoColumnSplitController {
     @IBAction func randomBtnClick(_ sender: UIBarButtonItem) {
         containerImageController?.randomBtnAction(sender)
         containerStackController?.updateDisplay()
+        updateNavigationBar()
     }
 
     @IBOutlet weak var moreBtn: UIBarButtonItem!
@@ -76,6 +75,7 @@ class PGLStackImageContainerController: PGLTwoColumnSplitController {
 
     @IBAction func newTrashBtnAction(_ sender: UIBarButtonItem) {
         containerImageController?.newStackActionBtn(sender)
+        updateNavigationBar()
     }
 
     @IBOutlet weak var recordBtyn: UIBarButtonItem!
@@ -134,31 +134,24 @@ class PGLStackImageContainerController: PGLTwoColumnSplitController {
         guard let stackTarget = containerStackController else {
             return
         }
-        var currentLeftButtons = navigationItem.leftBarButtonItems
-        let editButton = currentLeftButtons?.first(where: {$0.action == #selector(toggleEditing)})
-
-       if editButton == nil {
-           // add the editButton
-           let editingItem = UIBarButtonItem(title: stackTarget.tableView.isEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(toggleEditing))
-                currentLeftButtons?.append(editingItem)
-                navigationItem.leftBarButtonItems = currentLeftButtons
-
-                navigationController?.isToolbarHidden = false
-       } else {
            // update the edit button
            if (stackTarget.tableView.isEditing) {
                     // change to "Done"
-                    editButton!.title = "Done"
-                } else {
-                    editButton!.title = "Edit"
-
-                }
-       }
-
+                    stackEditBtn!.title = "Done"
+           } else {
+               stackEditBtn!.title = "Edit" }
     }
 
-    @objc
-    func toggleEditing() {
+    func updateNavigationBar() {
+//        self.navigationItem.title = self.appStack.firstStack()?.stackName
+//        self.navigationItem.title = "Effects"
+
+        stackEditBtn.isHidden = containerStackController?.appStack.viewerStack.isEmptyStack() ?? true
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+
+    @objc func toggleEditing() {
         guard let myStackTarget = containerStackController else {
             return
         }
@@ -168,6 +161,19 @@ class PGLStackImageContainerController: PGLTwoColumnSplitController {
         myTableView.setEditing(!myTableView.isEditing, animated: true)
         setUpdateEditButton()
     }
+
+    @IBAction func addFilterBtn(_ sender: Any) {
+        containerStackController?.appStack.setFilterChangeModeToAdd()
+        containerStackController?.postFilterNavigationChange()
+        performSegue(withIdentifier: "showFilterImageContainer", sender: self)
+    }
+
+    @IBAction func stackEditBtn(_ sender: UIBarButtonItem) {
+        toggleEditing()
+    }
+    
+    @IBOutlet weak var stackEditBtn: UIBarButtonItem!
+    
 
     /*
     // MARK: - Navigation

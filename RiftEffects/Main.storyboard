@@ -782,13 +782,21 @@
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="KJJ-kt-Vuh">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nc0-tH-Wbu">
-                            <connections>
-                                <action selector="addFilter:" destination="dDm-tJ-e98" id="s8d-dr-G0S"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="nc0-tH-Wbu">
+                                <connections>
+                                    <action selector="addFilter:" destination="dDm-tJ-e98" id="s8d-dr-G0S"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Edit" id="Hs1-5M-SgW" userLabel="Edit">
+                                <connections>
+                                    <action selector="editStack:" destination="dDm-tJ-e98" id="eKP-4i-Ca0"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="editStackBtn" destination="Hs1-5M-SgW" id="urD-jJ-GFe"/>
                         <segue destination="VjG-Q1-3mN" kind="show" identifier="ParmSettings" id="7je-js-ORP"/>
                         <segue destination="VNd-gL-KQM" kind="show" identifier="showFilterController" id="Xyz-2Z-Q4q"/>
                         <segue destination="rQx-tc-9ix" kind="show" identifier="showFilterImageContainer" id="cxI-vr-Pxp"/>
@@ -938,7 +946,12 @@
                             <barButtonItem title="More Btn" image="ellipsis.circle" catalog="system" id="X6h-Dm-yVE"/>
                             <barButtonItem systemItem="add" id="18U-Y9-D7X">
                                 <connections>
-                                    <action selector="containerAddFilter:" destination="z1U-K0-aGb" id="A68-QN-stT"/>
+                                    <action selector="addFilterBtn:" destination="z1U-K0-aGb" id="zi7-F9-C9b"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Edit" id="rM6-5G-qx6" userLabel="Edit">
+                                <connections>
+                                    <action selector="stackEditBtn:" destination="z1U-K0-aGb" id="Jz8-fv-3WT"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -948,6 +961,7 @@
                         <outlet property="newTrashBtn" destination="pEQ-Uh-ooY" id="LYx-ax-Q7i"/>
                         <outlet property="randomBtn" destination="0Zt-QC-w2E" id="VFd-iB-3sL"/>
                         <outlet property="recordBtyn" destination="GQ9-os-Nsh" id="SBE-Vt-R7S"/>
+                        <outlet property="stackEditBtn" destination="rM6-5G-qx6" id="epe-bP-fU0"/>
                         <segue destination="rQx-tc-9ix" kind="show" identifier="showFilterImageContainer" id="4FJ-we-3bf"/>
                     </connections>
                 </viewController>
@@ -958,7 +972,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4FJ-we-3bf"/>
-        <segue reference="q90-Vk-s0q"/>
+        <segue reference="Xyz-2Z-Q4q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>
