@@ -126,34 +126,7 @@ class PGLSelectParmController: PGLCommonController,
     var selectedCellIndexPath: IndexPath?
 
 
-    @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
-//        let actionAccepted = Notification(name: PGLImageNavigationBack )
-//               NotificationCenter.default.post(actionAccepted)
-        if (traitCollection.horizontalSizeClass == .compact)
-        { // now in the twoContainer mode on the iphone
-            // navigation pop needs to trigger the parent popViewController
-            // so that it moves back to the stack controller
-            guard let myNav = self.navigationController else { return }
 
-            guard myNav.topViewController is PGLParmImageController
-                else { Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
-                    myNav.popViewController(animated: true )
-                        return
-            }
-            guard let myStackController = myNav.viewControllers[1] as? PGLStackController else {
-                Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
-                myNav.popViewController(animated: true )
-                return
-            }
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: myStackController))")
-            self.navigationController?.popToViewController(myStackController, animated: true)
-        }
-        else {
-            // move back to the stack controller
-            Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#popViewController " + String(describing: self))")
-            self.navigationController?.popViewController(animated: true) }
-
-    }
     @IBOutlet weak var shiftBtn: UIBarButtonItem!
 
     @IBOutlet weak var filterShiftLabel: UIBarButtonItem!

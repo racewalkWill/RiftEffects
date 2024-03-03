@@ -54,7 +54,17 @@ class PGLParmImageController: PGLTwoColumnSplitController {
         containerParmController = nil
     }
 
+    @IBAction func parmImageBackBtn(_ sender: UIBarButtonItem) {
+        // now in the twoContainer mode on the iphone
+            // navigation pop needs to trigger the parent popViewController
+            // so that it moves back to the stack controller
+        guard let myNav = self.navigationController else { return }
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info( "\("#parmImageBackBtn " + String(describing: self))")
 
+        myNav.popViewController(animated: true )
+
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

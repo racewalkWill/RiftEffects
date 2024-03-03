@@ -757,7 +757,7 @@ extension PGLMainFilterController {
 
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function)")
 
-        let iPhoneCompact =  splitViewController?.isCollapsed ?? false
+        let iPhoneCompact = traitCollection.userInterfaceIdiom == .phone
 
         if iPhoneCompact {
             if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLParmImageController") as? PGLParmImageController

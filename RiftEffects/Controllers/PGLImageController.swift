@@ -620,10 +620,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
         cancellable = myCenter.publisher(for: PGLUserAlertNotice)
             .sink() {[weak self]
             myUpdate in
-//            guard let self = self else { return } // a released object sometimes receives the notification
-//            if  (!self.isBeingPresented) && (self.splitViewController?.isCollapsed ?? false) {
-//                return
-//            }
+
             Logger(subsystem: LogSubsystem, category: LogNavigation).info("PGLImageController  notificationBlock PGLUserAlertNotice")
             if let userDataDict = myUpdate.userInfo {
                 if let anAlertController = userDataDict["alertController"] as? UIAlertController {
