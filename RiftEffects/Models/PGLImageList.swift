@@ -368,22 +368,25 @@ class PGLImageList: CustomStringConvertible {
     func image(atIndex: Int) -> CIImage? {
         var answerImage: CIImage?
 
-        let imageAsset = imageAssets[atIndex]
-        if imageAsset.isVideo() {
-            answerImage =  imageAsset.imageFrom()
-            if answerImage != nil {
-                return scaleToFrame(ciImage: answerImage!, newSize: TargetSize)
-            }
-            else {
-                return CIImage.empty()
-            }
-        }
-
         if !isAssetList {
                 // has image in the private cache
+                // NO asset to load
             answerImage = images[atIndex]
         }
+
+
         else { 
+            let imageAsset = imageAssets[atIndex]
+            if imageAsset.isVideo() {
+                answerImage =  imageAsset.imageFrom()
+                if answerImage != nil {
+                    return scaleToFrame(ciImage: answerImage!, newSize: TargetSize)
+                }
+                else {
+                    return CIImage.empty()
+                }
+            }
+
             if let imageFromAsset = imageAsset.imageFrom() {
                 answerImage = imageFromAsset
                 if (( images.count - 1 ) < atIndex ) {

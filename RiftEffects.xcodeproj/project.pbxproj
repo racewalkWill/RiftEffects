@@ -204,7 +204,6 @@
 		A3552BED2946AA7D002FBC72 /* PGLAttributeVectorNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLAttributeVectorNumeric.swift; sourceTree = "<group>"; };
 		A357B17B2950F60D00331980 /* CGAffineTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGAffineTransform.swift; sourceTree = "<group>"; };
 		A35BADAB2614C8FF00C8B2AA /* PGLPopUpFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPopUpFilterInfo.swift; sourceTree = "<group>"; };
-		A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		A35D412C294B678B00EDEB4E /* PGLVectorBasedFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLVectorBasedFilter.swift; sourceTree = "<group>"; };
 		A35FF77826DC316400D78252 /* PGLCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCoreDataStack.swift; sourceTree = "<group>"; };
 		A35FF77B26DC324E00D78252 /* CoreDataSampleLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoreDataSampleLicense.txt; sourceTree = "<group>"; };
@@ -219,6 +218,7 @@
 		A37426BA2B7FD5AB001A5EC7 /* PGLViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLViewControllerExtension.swift; sourceTree = "<group>"; };
 		A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackProvider.swift; sourceTree = "<group>"; };
 		A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLParmImageController.swift; sourceTree = "<group>"; };
+		A384CF912B968DA300ACC220 /* iPad3.0.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = iPad3.0.xctestplan; sourceTree = "<group>"; };
 		A38F9D75250442B800B58F6B /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		A392D5ED26C3EBDA00688952 /* PGLRandomFilterMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLRandomFilterMaker.swift; sourceTree = "<group>"; };
 		A394667F2832DFDD00A67319 /* PGLStackImageContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackImageContainerController.swift; sourceTree = "<group>"; };
@@ -459,7 +459,7 @@
 		A3BF502524D3299100CD5114 /* RiftEffectsTests */ = {
 			isa = PBXGroup;
 			children = (
-				A35C39A025DD61F500ADC02D /* TestPlan.xctestplan */,
+				A384CF912B968DA300ACC220 /* iPad3.0.xctestplan */,
 				A316B9E325D9AD25000C8299 /* PGLDataStoreTests.swift */,
 				A3BF514A24D32D3400CD5114 /* PGLSourceFilterTests.swift */,
 				A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */,
@@ -1186,7 +1186,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1209,7 +1209,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEffects/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1231,7 +1231,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEfffectsUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1253,7 +1253,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CZQPZ85AZ;
 				INFOPLIST_FILE = RiftEfffectsUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

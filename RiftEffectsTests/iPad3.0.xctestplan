@@ -1,0 +1,53 @@
+{
+  "configurations" : [
+    {
+      "id" : "C8B9D3C2-DB34-4184-9DC9-916579ADF957",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.CoreData.Logging.stderr 0"
+      },
+      {
+        "argument" : "-com.apple.CoreData.SQLDebug 0"
+      }
+    ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "DeviceIsSimulator",
+        "value" : "false"
+      },
+      {
+        "key" : "IDELogRedirectionPolicy",
+        "value" : "oslogToStdio "
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:RiftEffects.xcodeproj",
+      "identifier" : "A3BF500824D3298F00CD5114",
+      "name" : "RiftEffects"
+    }
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "GlanceTests",
+        "PGLCategorySurvey",
+        "PGLFilterDescriptorTests",
+        "PGLFilterStackTests"
+      ],
+      "target" : {
+        "containerPath" : "container:RiftEffects.xcodeproj",
+        "identifier" : "A3BF502124D3299100CD5114",
+        "name" : "RiftEffectsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

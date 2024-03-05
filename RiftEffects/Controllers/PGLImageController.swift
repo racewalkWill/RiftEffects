@@ -759,10 +759,10 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
                 //                if traitCollection.userInterfaceIdiom == .pad {
                 //                    libraryMenu.attributes = [.disabled] // always disabled on iPad
                 //                } else {
-            if !mySplitView.stackProviderHasRows() {
+//            if !mySplitView.stackProviderHasRows() {
                 // empty stacks.. still newbie
-                appStack.createDemoStack(view: view)
-            }
+//                appStack.createDemoStack(view: view)
+//            }
         }
         updateStackNameToNavigationBar()
         
