@@ -74,8 +74,9 @@ class PGLParmImageController: PGLTwoColumnSplitController {
         let segueId = segue.identifier
         
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
+        /// dispatch back to child parm controller 
+        containerParmController?.prepare(for: segue, sender: sender)
 
-        
 
     }
 

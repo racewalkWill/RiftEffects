@@ -156,7 +156,7 @@ class PGLStackController: UITableViewController, UITextFieldDelegate,  UINavigat
     
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
-//        NSLog("PGLSelectFilterController #viewDidDisappear removing notification observor")
+        NSLog("PGLStackController #viewDidDisappear removing notification observor")
 
         NotificationCenter.default.removeObserver(self, name: PGLCurrentFilterChange, object: self)
         NotificationCenter.default.removeObserver(self, name: PGLStackChange, object: self)

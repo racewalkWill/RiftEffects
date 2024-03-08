@@ -760,13 +760,18 @@ extension PGLMainFilterController {
         let iPhoneCompact = traitCollection.userInterfaceIdiom == .phone
 
         if iPhoneCompact {
-            if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLParmImageController") as? PGLParmImageController
-            {
-                navigationController?.pushViewController(twoContainerController, animated: true)
-            }
-            else {
-                return
-            }
+//            if let  twoContainerController = storyboard?.instantiateViewController(withIdentifier: "PGLParmImageController") as? PGLParmImageController
+//            {
+//                navigationController?.pushViewController(twoContainerController, animated: true)
+//            }
+
+                let filterSegue = "filterImageToParmImage"
+                if let myTwoController = navigationController?.viewControllers.first(where: {$0 is PGLFilterImageContainerController}) {
+                    myTwoController.performSegue(withIdentifier: filterSegue, sender: self)
+                        //  on iPhone goes to filterImageContainer.
+                }
+
+
         } else {
             if let iPadParmController = storyboard?.instantiateViewController(withIdentifier: "ParmSettingsViewController") as? PGLSelectParmController
             {

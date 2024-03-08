@@ -44,6 +44,12 @@ class PGLFilterImageContainerController: PGLTwoColumnSplitController {
 
     }
 
+    override func viewIsAppearing(_ animated: Bool) {
+
+        layoutViews( columns.imageViewer.view, columns.control.view)
+        super.viewIsAppearing(animated)
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         containerImageController?.releaseVars()
         containerImageController?.removeFromParent()
@@ -54,15 +60,11 @@ class PGLFilterImageContainerController: PGLTwoColumnSplitController {
         containerFilterController = nil
     }
 
-    @IBAction func addFilterBtn(_ sender: UIBarButtonItem) {
-        // Segue back to the stackController
-        self.navigationController?.popViewController(animated: true)
-    }
+//    @IBAction func addFilterBtn(_ sender: UIBarButtonItem) {
+//        // Segue back to the stackController
+//        self.navigationController?.popViewController(animated: true)
+//    }
 
-    @IBAction func showImageControllerBtn(_ sender: UIBarButtonItem) {
-        // go full screen with the ImageController
-        // segue to imageController does the work
-    }
 
     @IBAction func newStackBtnClick(_ sender: UIBarButtonItem) {
         // trash icon to start a new stack

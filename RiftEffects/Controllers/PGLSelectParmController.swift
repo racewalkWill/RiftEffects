@@ -874,8 +874,16 @@ class PGLSelectParmController: PGLCommonController,
                         self.tappedAttribute?.setChildStackMode(inAppStack: self.appStack)
                     }
 
-                    self.performSegue(withIdentifier: cellDataAttribute.segueName() ?? "NoSegue", sender: cellDataAttribute)
-                    // this will segue to the filter Stack...should go stackControler.
+                    let cellSegue = cellDataAttribute.segueName()  ?? "NoSegue"
+                    let iPhoneCompact = traitCollection.userInterfaceIdiom == .phone
+                    if iPhoneCompact {
+                        self.iPhoneSegueToFilterImage(cellSegue: cellSegue)
+                                //  on iPhone goes to filterImageContainer.
+                        }
+                     else {
+                        self.performSegue(withIdentifier: cellSegue, sender: cellDataAttribute) }
+                    // this will segue to the filter Stack on iPad
+
 
                     completion(true)
                 }
@@ -967,6 +975,13 @@ class PGLSelectParmController: PGLCommonController,
         return UISwipeActionsConfiguration(actions: contextActions)
     }
 
+    func iPhoneSegueToFilterImage(cellSegue: String) {
+        let filterSegue = "parmImageToFilterImage"
+        if let myTwoController = navigationController?.viewControllers.first(where: {$0 is PGLParmImageController}) {
+                myTwoController.performSegue(withIdentifier: filterSegue, sender: self)
+            }
+
+    }
     func cropAction(rectAttribute: PGLAttributeRectangle) {
         imageController?.cropAction(rectAttribute: rectAttribute)
     }
@@ -1001,57 +1016,44 @@ class PGLSelectParmController: PGLCommonController,
         let segueId = segue.identifier
         Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: segueId))")
 
-//        if segueId == "goToImageCollection" {
-//            guard let targetImageParm = sender as? PGLFilterAttributeImage
-//            else {return}
-//            tappedAttribute = targetImageParm
-//            if let imageCollectionController = segue.destination as? PGLImageCollectionMasterController {
-//                imageCollectionController.inputFilterAttribute = (tappedAttribute as! PGLFilterAttributeImage) // model object
-//                imageCollectionController.fetchTopLevel()
-//                if(!(tappedAttribute?.inputCollection?.isEmpty() ?? false) ) {
-//                    // if the inputCollection has images then
-//                    // imageCollectionController should select them
-//                    // inputCollection may have multiple albums as input.. highlight all
-//
-//                }
-//            }
-//
-//        }
-        if segueId == "goToFilterViewBranchStack" {
-//            if let nextFilterController = (segue.destination as? UINavigationController)?.visibleViewController  as? PGLFilterViewManager
-            if segue.destination is PGLMainFilterController
-                {
-                if tappedAttribute == nil { Logger(subsystem: LogSubsystem, category: LogCategory).error ("tappedAttribute is NIL")}
-                else{
-                    if tappedAttribute!.hasFilterStackInput() {
-                        Logger(subsystem: LogSubsystem, category: LogCategory).info ("pushChildStack - has input")
+        switch segueId {
+            case "goToFilterViewBranchStack", "showFilterImageContainer", "parmImageToFilterImage" :
+//                if segue.destination is PGLMainFilterController
+                // on the iphone the destination is the FilterImageController
+                    if tappedAttribute == nil { Logger(subsystem: LogSubsystem, category: LogCategory).error ("tappedAttribute is NIL")}
+                    else{
+                        if tappedAttribute!.hasFilterStackInput() {
+                            Logger(subsystem: LogSubsystem, category: LogCategory).info ("pushChildStack - has input")
+                            appStack.pushChildStack(tappedAttribute!.inputStack!)
+                        }
+                        else {
+                            Logger(subsystem: LogSubsystem, category: LogCategory).info ("addChildStack - no input")
+                            appStack.addChildStackTo(parm: tappedAttribute!) }
+                            // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
 
-                        appStack.pushChildStack(tappedAttribute!.inputStack!)
                     }
-                    else {
-                        Logger(subsystem: LogSubsystem, category: LogCategory).info ("addChildStack - no input")
-                        appStack.addChildStackTo(parm: tappedAttribute!) }
-                    // Notice the didSet in inputStack: it hooks output of stack to input of the attribute
-
-
-
-                }
-            }
-        return // new
+                return // new
+            case "goToParentParmStack":
+                if segue.destination is PGLSelectParmController { 
+                    appStack.popToParentStack()
+                    postCurrentFilterChange() }
+                return
+            case "goToParentFilterStack" :
+                if segue.destination is PGLMainFilterController { 
+                    appStack.popToParentStack()
+                    postCurrentFilterChange() }
+                return
+            default:
+                return
         }
-
-        if segue.identifier == "goToParentParmStack" {
-            if segue.destination is PGLSelectParmController { appStack.popToParentStack() }
-            postCurrentFilterChange()
-        }
-
-        if segue.identifier == "goToParentFilterStack" {
-            if segue.destination is PGLMainFilterController { appStack.popToParentStack() }
-            postCurrentFilterChange()
-        }
-
     }
 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        // debugging check on the segue
+        
+        Logger(subsystem: LogSubsystem, category: LogNavigation).info("\( String(describing: self) + "-" + #function) + \(String(describing: identifier))")
+        return true
+    }
 
     // MARK: Pick Image
 

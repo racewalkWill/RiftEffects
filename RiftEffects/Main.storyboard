@@ -688,10 +688,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="rQx-tc-9ix" kind="show" identifier="parmImageToFilterImage" id="kpj-DB-ZL1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bkL-n9-ln5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-120" y="2710"/>
+            <point key="canvasLocation" x="45" y="2780"/>
         </scene>
         <!--Filter Image Container Controller-->
         <scene sceneID="Dvs-Ry-Zbi">
@@ -702,11 +705,11 @@
                         <viewControllerLayoutGuide type="bottom" id="j3d-oc-3aS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vua-Lu-kpo">
-                        <rect key="frame" x="0.0" y="0.0" width="239" height="760"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1194" height="760"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTi-AT-siZ">
-                                <rect key="frame" x="-7" y="714" width="237" height="46"/>
+                                <rect key="frame" x="-7" y="712" width="1190" height="47"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="rij-Pi-lzb"/>
@@ -748,11 +751,12 @@
                         <outlet property="newTrashBtn" destination="kGD-tX-jU3" id="pOc-pZ-a39"/>
                         <outlet property="randomBtn" destination="yo5-KQ-1xv" id="jIp-Do-44Z"/>
                         <outlet property="recordBtn" destination="23q-Si-nMo" id="QNL-ug-1B1"/>
+                        <segue destination="j8f-0k-czJ" kind="show" identifier="filterImageToParmImage" id="Stf-Ip-3lm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dWz-4E-TcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-527" y="1614"/>
+            <point key="canvasLocation" x="-364" y="1614"/>
         </scene>
         <!--Stack-->
         <scene sceneID="dfj-In-sbB">
@@ -851,7 +855,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="25f-yV-jFr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-527" y="-724"/>
+            <point key="canvasLocation" x="-401" y="-1048"/>
         </scene>
         <!--Open Stack Controller-->
         <scene sceneID="PT0-Sc-XF9">
@@ -977,8 +981,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cxI-vr-Pxp"/>
-        <segue reference="q90-Vk-s0q"/>
+        <segue reference="4FJ-we-3bf"/>
+        <segue reference="Zrd-6b-Z8z"/>
+        <segue reference="Xyz-2Z-Q4q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chart.bar.doc.horizontal" catalog="system" width="115" height="128"/>
