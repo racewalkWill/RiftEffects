@@ -188,42 +188,44 @@ class PGLSequencedFilters: PGLSourceFilter {
             return
         }
         frameCount += 1
+            //incremented on every outputImage draw
 
         if frameCount == pauseForFramesCount {
             Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STARTS dissolve " )
         }
 
-        if frameCount > pauseForFramesCount {
+        if frameCount >= pauseForFramesCount {
 
             // dissolve is now running
             stepTime += dissolveDT
+                //incremented on every outputImage draw
             let inputTime = simd_smoothstep(0, 1, stepTime)
             dissolve.setDissolveTime(inputTime: inputTime)
-        }
-        if (stepTime >= 1.0)   {
-            stepTime = 1.0 // bring it back in range
 
-                // when current filter is odd
-                // and dissolve = one then the currentTarget is nextFilter
-            theSequenceStack.increment(hidden: .input )
-            dissolveDT = dissolveDT * -1 // past end so toggle
-            frameCount = 0
-                // stops the dissolve timer
-                Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
+            if (stepTime >= 1.0)   {
+                stepTime = 1.0 // bring it back in range
 
-
-        }
-        else if (stepTime <= 0.0) {
-            stepTime = 0.0 // bring it back in range
-            theSequenceStack.increment(hidden: .target )
-            dissolveDT = dissolveDT * -1 // past end so toggle
-            frameCount = 0
-                // stops the dissolve timer
+                    // when current filter is odd
+                    // and dissolve = one then the currentTarget is nextFilter
+                theSequenceStack.increment(hidden: .input )
+                dissolveDT = dissolveDT * -1 // past end so toggle
+                frameCount = 0
+                    // stops the dissolve timer
                     Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
 
-            // filters get their own increment during outputBasic
+            }
+            else if (stepTime <= 0.0) {
+                stepTime = 0.0 // bring it back in range
+                theSequenceStack.increment(hidden: .target )
+                dissolveDT = dissolveDT * -1 // past end so toggle
+                frameCount = 0
+                    // stops the dissolve timer
+                        Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
 
-            // see also  PGLSequenceStack#setInputToStack()
+                // filters get their own increment during outputBasic
+
+                // see also  PGLSequenceStack#setInputToStack()
+            }
         }
 
 

@@ -23,12 +23,13 @@ extension PGLFilterStack {
             // load filters into stack with demoImages
 
         let topFilterName = "CIBlendWithRedMask"
-        let maskInputName = "CIPersonSegmentation"   // blend mask child input
-                                                     //        let backgroundInput = "Sequenced Filters"  // blend background input
+        let maskInputName = "CIPersonSegmentation"   
+            // blend mask child input
+            //  let backgroundInput = "Sequenced Filters"  // blend background input
         stackName = "Demo"
 
         let sequenceFilters = [
-            "CIBlendWithMask", // sequenceStack child
+            "CIBlendWithRedMask", // sequenceStack child
             "CIToneCurve",
             "CIKaleidoscope",
             "CIDifferenceBlendMode",
@@ -50,31 +51,33 @@ extension PGLFilterStack {
             "WL-B" ] )
 
 
-        if let startingFilter =  demoLoadFilter(ciFilterString: topFilterName) {
-            append(startingFilter)
+//        if let startingFilter =  demoLoadFilter(ciFilterString: topFilterName) {
+//            append(startingFilter)
 
-            let imageAttribute = startingFilter.getInputImageAttribute()
-            imageAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
+//            let imageAttribute = startingFilter.getInputImageAttribute()
+//            imageAttribute?.setImageCollectionInput(cycleStack: demoPersonSegmentImage)
+//
+//                /// set up mask
+//
+//            _ = startingFilter.addChildFilter(toAttributeName: kCIInputMaskImageKey, childFilterName: maskInputName, childImageInputs: demoPersonSegmentImage)
+//
+//                /// set up background sequence
+//            let backgrdInputAttribute = startingFilter.attribute(nameKey: kCIInputBackgroundImageKey)
 
-                /// set up mask
-
-            _ = startingFilter.addChildFilter(toAttributeName: kCIInputMaskImageKey, childFilterName: maskInputName, childImageInputs: demoPersonSegmentImage)
-
-                /// set up background sequence
-            let backgrdInputAttribute = startingFilter.attribute(nameKey: kCIInputBackgroundImageKey)
-            let backgrdChildStack = PGLFilterStack()
-            backgrdChildStack.stackName = "Mask"
-            backgrdChildStack.stackType = "input"
-            backgrdChildStack.parentAttribute = backgrdInputAttribute
-
-            backgrdInputAttribute?.inputStack = backgrdChildStack
-            backgrdInputAttribute?.setImageParmState(newState: .inputChildStack)
+//            let backgrdChildStack = PGLFilterStack()
+//            backgrdChildStack.stackName = "Mask"
+//            backgrdChildStack.stackType = "input"
+//            backgrdChildStack.parentAttribute = backgrdInputAttribute
+//
+//            backgrdInputAttribute?.inputStack = backgrdChildStack
+//            backgrdInputAttribute?.setImageParmState(newState: .inputChildStack)
 
             let theDescriptor = PGLFilterDescriptor(kPSequencedFilter, PGLSequencedFilters.self)
 
             guard let seqFilter = theDescriptor?.pglSourceFilter() as? PGLSequencedFilters
             else {   fatalError("Did not create SequencedFilters" ) }
-            backgrdChildStack.append(seqFilter)
+//            backgrdChildStack.append(seqFilter)
+            append(seqFilter)
 
             seqFilter.addChildSequenceStack(appStack: appStack)
                 /// setup sequence input images
@@ -95,7 +98,7 @@ extension PGLFilterStack {
             postStackChange()
             postTransitionFilterAdd() // makes the redraws run
             postCurrentFilterChange() // makes DoNotDraw = false..
-        }
+//        }
 
     }
 
