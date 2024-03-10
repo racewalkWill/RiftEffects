@@ -1664,6 +1664,9 @@ extension PGLImageController {
     // fullScreen code
 
     func fullScreenImage() {
+        if appStack.viewerStack.isEmptyStack() {
+            return
+        }
         guard let newImageController = storyboard?.instantiateViewController(withIdentifier: "MetalController") as? PGLMetalController
         else {return }
         newImageController.isFullScreen = true
