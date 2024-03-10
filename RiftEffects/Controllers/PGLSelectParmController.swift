@@ -1213,54 +1213,6 @@ class PGLSelectParmController: PGLCommonController,
 
         }
 
-//    func loadLimitedImageList(pickerController: PHPickerViewController, results: [PHPickerResult]) -> PGLImageList {
-//            // can not use fetchResults from identifiers in limited library mode
-//            // assets can not be loaded into the PGLImageList
-//            // just load a PGLImageList with the images and the identifiers
-//
-//            // following code based on Apple example app PHPickerDemo
-//        let identifiers = results.compactMap(\.assetIdentifier)
-//        let itemProviders = results.map(\.itemProvider)
-//
-//        Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function)")
-//
-//        var pickedCIImage: CIImage?
-//
-//        let selectedImageList = PGLImageList(localIdentifiers: identifiers)
-//
-//        for item in itemProviders {
-//            pickedCIImage = nil // reset on each loop
-//            if item.canLoadObject(ofClass: UIImage.self)  {
-//                item.loadObject(ofClass: UIImage.self) {[weak self] image, error in
-//                    DispatchQueue.main.sync {
-//                        if let theImage = image as? UIImage {
-//                            if let convertedImage = CoreImage.CIImage(image: theImage ) {
-//                                let theOrientation = CGImagePropertyOrientation(theImage.imageOrientation)
-//                                if PGLImageList.isDeviceASimulator() {
-//                                    pickedCIImage = convertedImage.oriented(CGImagePropertyOrientation.downMirrored)
-//                                } else {
-//
-//                                    pickedCIImage = convertedImage.oriented(theOrientation) }
-//                            }
-//                            if pickedCIImage != nil {
-//                                    // resize to TargetSize same as  imageFrom(selectedAsset:)
-//                                    // and loadImageListFromPicker
-//                                    //                            if let imageSizedToTarget = self?.resizeToTargetSize(image: pickedCIImage!){
-//                                    //                                selectedImageList.appendImage(aCiImage: imageSizedToTarget) }
-//                                    //                            else {
-//                                    //                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
-//                                    //                            }
-//                                selectedImageList.appendImage(aCiImage: pickedCIImage!)
-//                                Logger(subsystem: LogSubsystem, category: LogSubsystem).info("\( String(describing: self) + "-" + #function) appended ciImage to an imageList")
-//                                Logger(subsystem: LogSubsystem, category: LogCategory).debug("pickedCIImage \(pickedCIImage!.debugDescription)")
-//
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     func resizeToTargetSize(image: CIImage) -> CIImage {
             // resize to TargetSize same as  imageFrom(selectedAsset:)

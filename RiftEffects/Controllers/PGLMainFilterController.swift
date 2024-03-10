@@ -198,6 +198,7 @@ class PGLMainFilterController:  UIViewController,
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setLongPressGesture()
 
             // Restore the searchController's active state.
         if restoredState.wasActive {
@@ -300,18 +301,13 @@ class PGLMainFilterController:  UIViewController,
 
     @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
 
-//        let pressLocation = sender.location(in: filterCollectionView)
-        var longPressIndexPath: [IndexPath]?
+        let pressLocation = sender.location(in: filterCollectionView)
 
         if sender.state == .began
         {
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGLFilterTableController longPressAction begin")
-            longPressIndexPath = filterCollectionView.indexPathsForSelectedItems
-            if longPressIndexPath == nil {
-                longPressStart = nil // assign to var
-                return
-            }
-            longPressStart = longPressIndexPath!.first // assign to var
+            longPressStart =  filterCollectionView.indexPathForItem(at: pressLocation)
+
         }
         if sender.state == .recognized || sender.state == .ended {
             if longPressStart != nil {
