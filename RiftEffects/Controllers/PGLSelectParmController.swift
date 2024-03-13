@@ -975,6 +975,38 @@ class PGLSelectParmController: PGLCommonController,
         return UISwipeActionsConfiguration(actions: contextActions)
     }
 
+    func pickLibraryChildStack() {
+        //open the Library pop up menu to pick a saved stack
+        // add it as a child stack on the current imageParm tappedAttribute
+        guard let targetImageParm = tappedAttribute as? PGLFilterAttributeImage
+        else { return }
+
+        let pickStoredStackViewController = PGLLibraryController()
+        pickStoredStackViewController.provideStackAsChild = targetImageParm
+
+        pickStoredStackViewController.modalPresentationStyle = .popover
+
+        guard let popOverPresenter = pickStoredStackViewController.popoverPresentationController
+        else { return }
+        popOverPresenter.canOverlapSourceViewRect = true // or barButtonItem
+        popOverPresenter.delegate = self
+
+        popOverPresenter.sourceView = view
+            // use the whole parm view.
+            // selectedParmControlView is not defined for imageParm
+
+        let sheet = popOverPresenter.adaptiveSheetPresentationController //adaptiveSheetPresentationController
+        sheet.detents = [.medium(), .large()]
+ //        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        sheet.prefersEdgeAttachedInCompactHeight = true
+        sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+
+        present(pickStoredStackViewController, animated: true )
+           
+
+    }
+
+
     func iPhoneSegueToFilterImage(cellSegue: String) {
         let filterSegue = "parmImageToFilterImage"
         if let myTwoController = navigationController?.viewControllers.first(where: {$0 is PGLParmImageController}) {

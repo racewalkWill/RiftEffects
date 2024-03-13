@@ -1124,7 +1124,10 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
             // empty no actions
             //can't change input from prior filter so no cell action swipe cells
         }
-        let newPickAction = PGLTableCellAction(action: "Pick", newAttribute: filterInputActionCell(), canPerformAction: true, targetAttribute: self)
+        let newPickAction = PGLTableCellAction(action: "Library", newAttribute: filterInputActionCell(), canPerformAction: true, targetAttribute: self)
+        newPickAction.performAction2 = true
+        // performAction2 will execute if true and it will not execute performAction
+     
         allActions.append(newPickAction)
     
         if hasFilterStackInput() {
@@ -1143,8 +1146,12 @@ class PGLFilterAttributeImage: PGLFilterAttribute {
     override func performAction(_ controller: PGLSelectParmController?) {
         controller?.pickImage(self)
 
+    }
 
-
+    override func performAction2(_ controller: PGLSelectParmController?) {
+        // choose stack from library as input child stack
+        NSLog("PGLFilterAttributeImage performAction2")
+        controller?.pickLibraryChildStack()
     }
 
     override func segueName() -> String? {

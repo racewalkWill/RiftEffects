@@ -31,6 +31,8 @@ class PGLLibraryController:  UIViewController, NSFetchedResultsControllerDelegat
     }()
 
     var collectionView: UICollectionView!
+    /// selected Library stack is child input OR new topLevel stack
+    var provideStackAsChild: PGLFilterAttributeImage?
 
     fileprivate let sectionHeaderElementKind = "SectionHeader"
     let searchBar = UISearchBar(frame: .zero)
@@ -337,9 +339,16 @@ extension PGLLibraryController: UICollectionViewDelegate {
                 let stackId = object.objectID // managedObjectID
 
                 let theAppStack = myAppDelegate.appStack
+            if provideStackAsChild != nil {
+                theAppStack.loadChildStack(childStackId: stackId, onParm: provideStackAsChild!)
+                dismiss(animated: true)
+            }
+            else {
                 theAppStack.resetToTopStack(newStackId: stackId)
+                // do not dismiss  stay open if the user continues to pick
+            }
 
-                postStackChange()
+            postStackChange()
                     // trigger the image controller to show the stack
 
 

@@ -172,18 +172,28 @@ class PGLAppStack {
         // new stack loaded from the data store
         // replace current data
         // clear persistentContext of the old context - so that it reloads from data in saved state
-        var cdStack: CDFilterStack!
+
+        guard let newCDStack = loadCDStack(stackId: newStackId)
+        else { return }
         releaseTopStack()
         let userPickedStack = PGLFilterStack.init()
+        userPickedStack.on(cdStack: newCDStack)
+
+        resetOutputAppStack(userPickedStack)
+    }
+
+    func loadCDStack(stackId: NSManagedObjectID ) -> CDFilterStack?
+    {
+        var cdStack: CDFilterStack!
         guard let currentBackgroundContext = dataProvider.providerManagedObjectContext
-        else { return }
-        do {  cdStack =  try currentBackgroundContext.existingObject(with: newStackId) as? CDFilterStack
+        else { return nil }
+        do {  cdStack =  try currentBackgroundContext.existingObject(with: stackId) as? CDFilterStack
 
         } catch {
             Logger(subsystem: LogSubsystem, category: LogCategory).error("resetToTopStack error  \(error.localizedDescription)")
             DispatchQueue.main.async {
                 // put back on the main UI loop for the user alert
-                let alert = UIAlertController(title: "Data Error", message: "PGLFilterStack resetToTopStack() \(error.localizedDescription). ", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Data Error", message: "PGLFilterStack loadCDStack() \(error.localizedDescription). ", preferredStyle: .alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
 
@@ -193,11 +203,19 @@ class PGLAppStack {
                 myAppDelegate.displayUser(alert: alert)
 
             }
-            return // on error
+            return nil // on error
         }
-        userPickedStack.on(cdStack: cdStack)
-        
-        resetOutputAppStack(userPickedStack)
+        return cdStack
+    }
+
+    /// load stack from library and assign as child stack of the current imageParm
+    func loadChildStack(childStackId: NSManagedObjectID, onParm: PGLFilterAttributeImage) {
+        guard let newCDStack = loadCDStack(stackId: childStackId)
+        else { return }
+        let userPickedStack = PGLFilterStack.init()
+        userPickedStack.on(cdStack: newCDStack)
+
+        addChildStackBasic(userPickedStack, onParm)
     }
 
     func releaseTopStack() {
