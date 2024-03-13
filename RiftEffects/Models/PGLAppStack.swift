@@ -215,7 +215,7 @@ class PGLAppStack {
         else { return }
         let userPickedStack = PGLFilterStack.init()
         userPickedStack.on(cdStack: newCDStack)
-
+//        NSLog("PGLAppStack loadChildStack onParm \(onParm)")
         addChildStackBasic(userPickedStack, onParm)
     }
 
@@ -290,7 +290,7 @@ class PGLAppStack {
             //        newStack.setStartupDefault() // Images null filter is starting filter
         newStack.stackName = viewerStack.nextStackName()
         newStack.stackType = "input"
-            //        NSLog("addChildStackTo(parm:) newStack.stackName = \(newStack.stackName)")
+                    NSLog("addChildStackBasic newStack.stackName = \(newStack.stackName) , parm \(parm)")
         newStack.parentAttribute = parm
             //        newStack.parentStack = viewerStack
 
