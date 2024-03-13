@@ -173,9 +173,10 @@ class PGLAppStack {
         // replace current data
         // clear persistentContext of the old context - so that it reloads from data in saved state
 
+        releaseTopStack()
         guard let newCDStack = loadCDStack(stackId: newStackId)
         else { return }
-        releaseTopStack()
+
         let userPickedStack = PGLFilterStack.init()
         userPickedStack.on(cdStack: newCDStack)
 

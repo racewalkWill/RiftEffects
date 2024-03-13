@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A6252D2D-AD2F-4F71-9045-C9DB1C0FA099"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Models/PGLFilterAttribute.swift"
@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7F2DBFC8-DC0C-41F2-BE2D-0111F6D33EBF"
-            shouldBeEnabled = "Yes"
+            uuid = "D0C6A961-124E-4F4A-9C12-77C3D76F5995"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RiftEffects/Controllers/PGLSelectParmController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "857"
-            endingLineNumber = "857"
-            landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
+            startingLineNumber = "1221"
+            endingLineNumber = "1221"
+            landmarkName = "pickerCompletion(pickerController:pickedImageList:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

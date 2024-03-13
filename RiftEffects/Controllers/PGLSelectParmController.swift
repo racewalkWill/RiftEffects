@@ -1214,6 +1214,10 @@ class PGLSelectParmController: PGLCommonController,
     func pickerCompletion(pickerController:PHPickerViewController, pickedImageList: PGLImageList) {
         guard let targetAttribute = self.tappedAttribute
             else {  return }
+        if targetAttribute.hasFilterStackInput() {
+            targetAttribute.inputStack = nil
+            appStack.popToParentStack()
+        }
         self.currentFilter?.setUserPick(attribute: targetAttribute, imageList: pickedImageList)
 
 

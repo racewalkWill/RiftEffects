@@ -50,7 +50,10 @@ extension PGLFilterStack {
            exportAlbumIdentifier = cdStack.exportAlbumIdentifier
             exportAlbumName = cdStack.exportAlbumName
             let sortDescription = NSSortDescriptor(key: "stackPosition", ascending: true)
-            let sortedFilter = cdStack.filters!.sortedArray(using: [sortDescription])
+            guard let storedFilters = cdStack.filters else
+                { return }
+            let sortedFilter = storedFilters.sortedArray(using: [sortDescription])
+//            let sortedFilter = cdStack.filters!.sortedArray(using: [sortDescription])
             Logger(subsystem: LogSubsystem, category: LogCategory).debug("PGL-CDFilter PGLFilterStack init storedStack" )
             for aCDFilter in sortedFilter {
                 // load stack to filter relationship
