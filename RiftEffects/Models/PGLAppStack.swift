@@ -215,7 +215,7 @@ class PGLAppStack {
         else { return }
         let userPickedStack = PGLFilterStack.init()
         userPickedStack.on(cdStack: newCDStack)
-//        NSLog("PGLAppStack loadChildStack onParm \(onParm)")
+        NSLog("PGLAppStack loadChildStack onParm \(onParm)")
         addChildStackBasic(userPickedStack, onParm)
     }
 

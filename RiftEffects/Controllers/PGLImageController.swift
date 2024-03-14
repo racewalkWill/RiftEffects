@@ -755,15 +755,7 @@ class PGLImageController: PGLCommonController, UIDynamicAnimatorDelegate, UINavi
             // PGLHelpPageController will set to false after showing help
 
         }
-        if let mySplitView =  splitViewController as? PGLSplitViewController {
-                //                if traitCollection.userInterfaceIdiom == .pad {
-                //                    libraryMenu.attributes = [.disabled] // always disabled on iPad
-                //                } else {
-//            if !mySplitView.stackProviderHasRows() {
-                // empty stacks.. still newbie
-//                appStack.createDemoStack(view: view)
-//            }
-        }
+     
         updateStackNameToNavigationBar()
         
         // Video

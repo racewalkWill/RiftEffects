@@ -631,29 +631,30 @@ class PGLSelectParmController: PGLCommonController,
 
     }
 
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         // 4/18/19 attribute will supply the cell identifier to use
         // 2/24/20  not clear why this is called after seque to the PGLImageCollectionMasterController
 
-//        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
-        tappedAttribute = getTappedAttribute(indexPath: indexPath)
-        appStack.targetAttribute = tappedAttribute
+        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSelectParmController cellForRowAt indexPath = \(indexPath)")
+        let thisCellAttribute = getTappedAttribute(indexPath: indexPath)
+//        appStack.targetAttribute = tappedAttribute
             // pass to the model refectoring
 
-//        NSLog("PGLSelectParmController cellForRowAt tappedAttribute = \(tappedAttribute)")
-        let cellIdentifier = tappedAttribute?.uiCellIdentifier() ??  "parmNoDetailCell"
+        NSLog("PGLSelectParmController cellForRowAt tappedAttribute = \(tappedAttribute)")
+        let cellIdentifier = thisCellAttribute?.uiCellIdentifier() ??  "parmNoDetailCell"
 //      NSLog("PGLSelectParmController cellForRowAt cellIdentifier = \(cellIdentifier)")
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 //        NSLog("PGLSelectParmController cellForRowAt cell = \(cell)")
-        tappedAttribute?.setUICellDescription(cell)
-        tappedAttribute?.uiIndexPath = indexPath
-        if tappedAttribute?.inputParmType() == ImageParm.inputPriorFilter {
+        thisCellAttribute?.setUICellDescription(cell)
+        thisCellAttribute?.uiIndexPath = indexPath
+        if thisCellAttribute?.inputParmType() == ImageParm.inputPriorFilter {
             cell.accessoryType = .none
             // input from prior cell always overrides any other image input
             // can't change or choose image.. remove the disclosure indicator of the cell
         } else {
-            if tappedAttribute?.inputParmType() != ImageParm.notAnImageParm {
+            if thisCellAttribute?.inputParmType() != ImageParm.notAnImageParm {
                 cell.accessoryType = .detailDisclosureButton
             }
         }
@@ -720,8 +721,7 @@ class PGLSelectParmController: PGLCommonController,
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
 //        NSLog("PGLSelectParmController tableView didHighlightRowAt: \(indexPath)")
         selectedCellIndexPath = indexPath
-        tappedAttribute = getTappedAttribute(indexPath: indexPath)
-        appStack.targetAttribute = tappedAttribute
+      
             // pass to the model object refactoring
         if traitCollection.userInterfaceIdiom == .phone {
             imageController?.keepParmSlidersVisible = true
@@ -734,10 +734,12 @@ class PGLSelectParmController: PGLCommonController,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        tappedAttribute = getTappedAttribute(indexPath: indexPath)
+        appStack.targetAttribute = tappedAttribute
 
         // moved to  PGLImageController -
         imageController?.panner?.isEnabled = false
-//         panner?.isEnabled = false // only enable pan gesture on certain cases
+            // only enable pan gesture on certain cases
 
 //        NSLog("PGLSelectParmController # tableView(..didSelectRowAt tappedAttribute = \(tappedAttribute!.attributeDisplayName)")
         if tappedAttribute == nil { return }
@@ -853,6 +855,8 @@ class PGLSelectParmController: PGLCommonController,
 
         var contextActions = [UIContextualAction]()
         let cellDataAttribute =  filterParms[indexPath.section][indexPath.row]
+        tappedAttribute = getTappedAttribute(indexPath: indexPath)
+        appStack.targetAttribute = tappedAttribute
 
         let newActionCells = cellDataAttribute.cellAction()
             // newActionCells may be segue, message command, addCell
@@ -983,7 +987,7 @@ class PGLSelectParmController: PGLCommonController,
 
         let pickStoredStackViewController = PGLLibraryController()
         pickStoredStackViewController.provideStackAsChild = targetImageParm
-        NSLog("PGLSelectParmController pickLibraryChildStack target = \(targetImageParm)")
+        NSLog("PGLSelectParmController pickLibraryChildStack target = \(targetImageParm.description)")
 
         pickStoredStackViewController.modalPresentationStyle = .popover
 

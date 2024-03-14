@@ -22,8 +22,8 @@ extension PGLFilterStack {
             // load images in Assets.xcassets folder 'DemoImages'
             // load filters into stack with demoImages
 
-        let topFilterName = "CIBlendWithRedMask"
-        let maskInputName = "CIPersonSegmentation"   
+//        let topFilterName = "CIBlendWithRedMask"
+//        let maskInputName = "CIPersonSegmentation"   
             // blend mask child input
             //  let backgroundInput = "Sequenced Filters"  // blend background input
         stackName = "Demo"
@@ -47,8 +47,8 @@ extension PGLFilterStack {
         let demoMaskInput = PGLImageList(imageFileNames: [
             "morningMeadow",
             "winterScene" ] )
-        let demoPersonSegmentImage = PGLImageList(imageFileNames: [
-            "WL-B" ] )
+//        let demoPersonSegmentImage = PGLImageList(imageFileNames: [
+//            "WL-B" ] )
 
 
 //        if let startingFilter =  demoLoadFilter(ciFilterString: topFilterName) {

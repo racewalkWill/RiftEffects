@@ -162,14 +162,14 @@ class PGLSequenceStack: PGLFilterStack {
             // || isSingleFilterStack() removed parms need to incrment images
             return
         }
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequenceStack filter before increment \(String(describing: self.currentFilter().filterName))")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).info("PGLSequenceStack filter before increment \(String(describing: self.currentFilter().filterName))")
         if activeFilterIndex >= (activeFilters.count - 1) {
             // zero based array
             // back to the beginning
             activeFilterIndex = 0
         } else {
             moveActiveAhead() }
-        Logger(subsystem: LogSubsystem, category: LogCategory).info( " increment(hidden: activeFilterIndex moved to \(self.activeFilterIndex)")
+//        Logger(subsystem: LogSubsystem, category: LogCategory).info( " increment(hidden: activeFilterIndex moved to \(self.activeFilterIndex)")
 
         // the activeFilterIndex is now the next filter to use
         // assign the currentFilter to the var input or target that is offscreen
@@ -179,10 +179,10 @@ class PGLSequenceStack: PGLFilterStack {
             // currentFilter is now hidden after activeFilterIndex has moved forward
 
             case .input:
-                Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: input")
+//                Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: input")
                 inputFilter = currentFilter()
             case .target:
-                Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: target")
+//                Logger(subsystem: LogSubsystem, category: LogCategory).info(" increment(hidden: target")
                 targetFilter = currentFilter()
         }
 

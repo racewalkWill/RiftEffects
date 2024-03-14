@@ -25,10 +25,11 @@ class PGLSequencedFilters: PGLSourceFilter {
 
     private var dissolve: PGLSequenceDissolve!
     var sequenceStack: PGLSequenceStack!
-    var dissolveDT: Double = (1/60) { didSet {
-            // should be 2 sec dissolve
-        Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " dissolveDT set to \(dissolveDT)" )")
-    }}
+    var dissolveDT: Double = (1/60) 
+//    { didSet {
+//            // should be 2 sec dissolve
+//        Logger(subsystem: LogSubsystem, category: LogCategory).info("\( String(describing: self) + " dissolveDT set to \(dissolveDT)" )")
+//    }}
 
     var frameCount = 0
     var pauseForFramesCount = 180 { didSet {
@@ -190,9 +191,9 @@ class PGLSequencedFilters: PGLSourceFilter {
         frameCount += 1
             //incremented on every outputImage draw
 
-        if frameCount == pauseForFramesCount {
-            Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STARTS dissolve " )
-        }
+//        if frameCount == pauseForFramesCount {
+//            Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STARTS dissolve " )
+//        }
 
         if frameCount >= pauseForFramesCount {
 
@@ -211,7 +212,7 @@ class PGLSequencedFilters: PGLSourceFilter {
                 dissolveDT = dissolveDT * -1 // past end so toggle
                 frameCount = 0
                     // stops the dissolve timer
-                    Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
+//                    Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
 
             }
             else if (stepTime <= 0.0) {
@@ -220,7 +221,7 @@ class PGLSequencedFilters: PGLSourceFilter {
                 dissolveDT = dissolveDT * -1 // past end so toggle
                 frameCount = 0
                     // stops the dissolve timer
-                        Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
+//                        Logger(subsystem: LogSubsystem, category: LogCategory).info(" PGLSequencedFilters #addFilterStepTime STOPS dissolve")
 
                 // filters get their own increment during outputBasic
 
