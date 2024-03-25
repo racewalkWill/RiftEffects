@@ -28,7 +28,7 @@ let kPCopyOut = "VideoCam"
 
 let kCompositeTextPositionFilter = "CompositeTextPositionFilter"
 let kSaliencyBlurFilter = "Saliency Blur"
-
+let kPolygonGradient = "Triangle Gradient"
 /*
  MOVED in  121.05  to CIFilterToPGLFilter.Map
 extension CIFilter {

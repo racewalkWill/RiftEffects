@@ -1022,7 +1022,6 @@ extension PGLFilterAttributeAngle {
         } else {
             cd = storedParmValue as! CDAttributeAngle
         }
-
         cd.doubleValue = Double(truncating: getNumberValue() ?? 0.0)
     }
 

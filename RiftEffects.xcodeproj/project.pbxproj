@@ -68,6 +68,7 @@
 		A3AD94762B7CF96E00125E74 /* PGLTwoColumnSplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AD94752B7CF96E00125E74 /* PGLTwoColumnSplitController.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
 		A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A1402922753B003DBE92 /* AAPLShaders.metal */; };
+		A3B5BCB02BAFA373007606D0 /* PGLGradientAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5BCAF2BAFA373007606D0 /* PGLGradientAttribute.swift */; };
 		A3B785162B224E6F00F3DA68 /* PGLCameraViewFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */; };
 		A3B785182B224FC300F3DA68 /* PGLCopyOutCIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785172B224FC300F3DA68 /* PGLCopyOutCIFilter.swift */; };
 		A3BB9E092B73ED4D0041F914 /* AVAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */; };
@@ -133,12 +134,14 @@
 		A3BF515424D32D3400CD5114 /* GlanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF514E24D32D3400CD5114 /* GlanceTests.swift */; };
 		A3BF515924D32D7400CD5114 /* GlanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BF515724D32D7400CD5114 /* GlanceUITests.swift */; };
 		A3C11A8B29E9D9F5001D0831 /* PGLPersonSegmentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */; };
+		A3C278972BAF071200BE40C1 /* PGLTriangleGradientFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C278962BAF071200BE40C1 /* PGLTriangleGradientFilter.swift */; };
 		A3CA2BFF295A01FD00502A8A /* PGLConvolutionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */; };
 		A3CE5B2E24DB5DA80062A98C /* PGLCategorySurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */; };
 		A3D04B142A8444A300E6DB16 /* PGLStackInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D04B122A8444A300E6DB16 /* PGLStackInfoHeader.swift */; };
 		A3D04B152A8444A300E6DB16 /* PGLStackInfoHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3D04B132A8444A300E6DB16 /* PGLStackInfoHeader.xib */; };
 		A3D9FF09292A9EFE00BAE158 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */; };
 		A3D9FF0B292A9F1400BAE158 /* Quad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D9FF0A292A9F1400BAE158 /* Quad.swift */; };
+		A3DC09292BAE1EDF00A36219 /* PGLPolygonGradientCI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC09282BAE1EDF00A36219 /* PGLPolygonGradientCI.swift */; };
 		A3DC264F2698FD83003E48C2 /* PGLImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC264E2698FD83003E48C2 /* PGLImageController.swift */; };
 		A3DC3DE227B17EF500E4C111 /* PGLCompactImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */; };
 		A3DD2BD82919964700295DF1 /* PGLPopUpOpenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */; };
@@ -236,6 +239,7 @@
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
 		A3B5A13F2922753B003DBE92 /* AAPLShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLShaderTypes.h; sourceTree = "<group>"; };
 		A3B5A1402922753B003DBE92 /* AAPLShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLShaders.metal; sourceTree = "<group>"; };
+		A3B5BCAF2BAFA373007606D0 /* PGLGradientAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLGradientAttribute.swift; sourceTree = "<group>"; };
 		A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCameraViewFilter.swift; sourceTree = "<group>"; };
 		A3B785172B224FC300F3DA68 /* PGLCopyOutCIFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCopyOutCIFilter.swift; sourceTree = "<group>"; };
 		A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAssetExtension.swift; sourceTree = "<group>"; };
@@ -309,12 +313,14 @@
 		A3BF514E24D32D3400CD5114 /* GlanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceTests.swift; sourceTree = "<group>"; };
 		A3BF515724D32D7400CD5114 /* GlanceUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceUITests.swift; sourceTree = "<group>"; };
 		A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPersonSegmentation.swift; sourceTree = "<group>"; };
+		A3C278962BAF071200BE40C1 /* PGLTriangleGradientFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLTriangleGradientFilter.swift; sourceTree = "<group>"; };
 		A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLConvolutionFilter.swift; sourceTree = "<group>"; };
 		A3CE5B2D24DB5DA80062A98C /* PGLCategorySurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCategorySurvey.swift; sourceTree = "<group>"; };
 		A3D04B122A8444A300E6DB16 /* PGLStackInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackInfoHeader.swift; sourceTree = "<group>"; };
 		A3D04B132A8444A300E6DB16 /* PGLStackInfoHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PGLStackInfoHeader.xib; sourceTree = "<group>"; };
 		A3D9FF08292A9EFE00BAE158 /* VertexDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
 		A3D9FF0A292A9F1400BAE158 /* Quad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quad.swift; sourceTree = "<group>"; };
+		A3DC09282BAE1EDF00A36219 /* PGLPolygonGradientCI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPolygonGradientCI.swift; sourceTree = "<group>"; };
 		A3DC264E2698FD83003E48C2 /* PGLImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGLImageController.swift; sourceTree = "<group>"; };
 		A3DC3DE127B17EF500E4C111 /* PGLCompactImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCompactImageController.swift; sourceTree = "<group>"; };
 		A3DD2BD72919964700295DF1 /* PGLPopUpOpenStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLPopUpOpenStack.swift; sourceTree = "<group>"; };
@@ -372,6 +378,27 @@
 				A341186325C300F300587590 /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A35DB4C52BB1C10E007DA35C /* SequenceFilter */ = {
+			isa = PBXGroup;
+			children = (
+				A353130E28E31BD5001F2C87 /* PGLCISequenced.swift */,
+				A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */,
+				A33C441C28E8D4E50096E7EE /* PGLSequencedFilters.swift */,
+				A353131028E37613001F2C87 /* PGLSequenceStack.swift */,
+			);
+			path = SequenceFilter;
+			sourceTree = "<group>";
+		};
+		A35DB4C62BB229E4007DA35C /* GradientPolygonFilters */ = {
+			isa = PBXGroup;
+			children = (
+				A3B5BCAF2BAFA373007606D0 /* PGLGradientAttribute.swift */,
+				A3DC09282BAE1EDF00A36219 /* PGLPolygonGradientCI.swift */,
+				A3C278962BAF071200BE40C1 /* PGLTriangleGradientFilter.swift */,
+			);
+			path = GradientPolygonFilters;
 			sourceTree = "<group>";
 		};
 		A35FF77A26DC320400D78252 /* License */ = {
@@ -539,7 +566,6 @@
 				A3BF505424D32A3400CD5114 /* PGLFilterAttributeNumber.swift */,
 				A3BF50A024D32A3400CD5114 /* PGLFilterStack.swift */,
 				A3E17A1A29F5DBB2006A39A6 /* PGLFilterStackDemo.swift */,
-				A353131028E37613001F2C87 /* PGLSequenceStack.swift */,
 				A3BF508624D32A3400CD5114 /* PGLAppStack.swift */,
 				A3BF509C24D32A3400CD5114 /* PGLImageList.swift */,
 				A39B220D2B558E7C0026C7FE /* PGLImageListPicker.swift */,
@@ -604,9 +630,13 @@
 			isa = PBXGroup;
 			children = (
 				A327122129775C30007DF04A /* MetalFilters.swift */,
-				A389091B2B1E5B3100DAFBA0 /* ScaleDown */,
 				A3EBFB0B29EF2336005E4852 /* CIFilterToPGLFilter.swift */,
 				A3BF50C924D32A3400CD5114 /* PGLFilterCIAbstract.swift */,
+				A3BF508A24D32A3400CD5114 /* CIFilterExtensions.swift */,
+				A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */,
+				A35DB4C52BB1C10E007DA35C /* SequenceFilter */,
+				A35DB4C62BB229E4007DA35C /* GradientPolygonFilters */,
+				A389091B2B1E5B3100DAFBA0 /* ScaleDown */,
 				A3BF505024D32A3400CD5114 /* TiltShift.swift */,
 				A3BF504C24D32A3400CD5114 /* PGLBumpBlend.swift */,
 				A3BF507B24D32A3400CD5114 /* PGLTextFilter.swift */,
@@ -617,18 +647,13 @@
 				A39632D7250049F000F02CEC /* PGLDisparityFilter.swift */,
 				A3C11A8A29E9D9F5001D0831 /* PGLPersonSegmentation.swift */,
 				A3BF508424D32A3400CD5114 /* PGLImageCIFilter.swift */,
-				A353130E28E31BD5001F2C87 /* PGLCISequenced.swift */,
 				A342AE2F26C333BA00D14ECB /* PGLRandomFilterAction.swift */,
 				A3BF508724D32A3400CD5114 /* PGLFaceCIFilter.swift */,
 				A3BF508824D32A3400CD5114 /* PGLFeatureTransitionFilter.swift */,
-				A31FAF9E28F5E619002DCFEA /* PGLSequenceDissolve.swift */,
-				A3BF508A24D32A3400CD5114 /* CIFilterExtensions.swift */,
 				A3BF50A224D32A3400CD5114 /* PGLTransitionFilter.swift */,
 				A3552BE929463170002FBC72 /* PGLColorVectorNumeric.swift */,
 				A35D412C294B678B00EDEB4E /* PGLVectorBasedFilter.swift */,
 				A3CA2BFE295A01FD00502A8A /* PGLConvolutionFilter.swift */,
-				A33C441C28E8D4E50096E7EE /* PGLSequencedFilters.swift */,
-				A36324E725B247F7003F4C0F /* PGLExcludeFilters.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -830,6 +855,7 @@
 				A3BF513424D32A3400CD5114 /* PGLPhotoLists.swift in Sources */,
 				A353130F28E31BD5001F2C87 /* PGLCISequenced.swift in Sources */,
 				A3249AB025BC728D00F7FAC2 /* PGLDemo.swift in Sources */,
+				A3C278972BAF071200BE40C1 /* PGLTriangleGradientFilter.swift in Sources */,
 				A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */,
 				A392D5EE26C3EBDA00688952 /* PGLRandomFilterMaker.swift in Sources */,
 				A34DE10D25D050AF005DC3DD /* PGLHelpSinglePage.swift in Sources */,
@@ -871,6 +897,7 @@
 				A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */,
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3DDDEE729D85EF1003B8545 /* PGLFilterAttrChildStack.swift in Sources */,
+				A3B5BCB02BAFA373007606D0 /* PGLGradientAttribute.swift in Sources */,
 				A39F880B2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift in Sources */,
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
 				A32F213B283BBAF1006C026F /* PGLNavPrimaryController.swift in Sources */,
@@ -921,6 +948,7 @@
 				A342AE3026C333BA00D14ECB /* PGLRandomFilterAction.swift in Sources */,
 				A3CA2BFF295A01FD00502A8A /* PGLConvolutionFilter.swift in Sources */,
 				A3DD2BD82919964700295DF1 /* PGLPopUpOpenStack.swift in Sources */,
+				A3DC09292BAE1EDF00A36219 /* PGLPolygonGradientCI.swift in Sources */,
 				A39F88022A4C7368000AE342 /* PGLLibraryController.swift in Sources */,
 				A33BD1B129626597007D3527 /* PGLButtonCellUI.swift in Sources */,
 				A3BF50EE24D32A3400CD5114 /* PGLFilterDescriptor.swift in Sources */,

@@ -337,12 +337,16 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
 
 //        addFilterStepTime()  // if animation then move time forward
         // increments this filter detectors 
-        if wrapper != nil {
 
-//            addStepTime()  // if animation then move time forward
-            return wrapper!.outputImageBasic()}
-
-        else { return outputImageBasic()}
+        if let myWrapper = wrapper {
+            /// if let form check added for production crash on   if not nil wrapper { wrapper!outputImageBasic()
+            /// not clear how the if not nil check failed - a concurrency memory management issue???
+            ///
+            return myWrapper.outputImageBasic()
+        }
+        else {
+            return outputImageBasic()
+        }
             // notice that addStepTime is called  inside the outputImageBasic
 
     }
@@ -1238,6 +1242,8 @@ class PGLFilterConstructor: NSObject,  CIFilterConstructor {
                 return PGLSaliencyBlurFilter()
 
             case kPCopyOut: return PGLCopyToOutputCIFilter()
+
+            case kPolygonGradient: return PGLPolygonGradientCI()
 
             default:
                 return CIFilter(name: withName)!

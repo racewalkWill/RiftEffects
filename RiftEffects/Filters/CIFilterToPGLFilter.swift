@@ -33,6 +33,7 @@ class CIFilterToPGLFilter {
             "CILanczosScaleTransform" : [ PGLScaleDownFrame.self] ,
             kPCopyOut : [PGLVideoCameraFilter.self],
             kPRandom : [PGLRandomFilterMaker.self ],
+            kPolygonGradient : [PGLTriangleGradientFilter.self],
             kPSequencedFilter : [PGLSequencedFilters.self ] ,
             "CIAccordionFoldTransition" : [PGLTransitionFilter.self ],
             "CIBarsSwipeTransition" : [PGLTransitionFilter.self] ,
