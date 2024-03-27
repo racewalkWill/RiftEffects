@@ -908,7 +908,10 @@ class PGLFilterAttribute {
 
     // MARK: Subclass type
     // these will be moved to subclass as they are created
-
+    func isVector() -> Bool {
+        return attributeClass == AttrClass.Vector.rawValue
+    }
+    
     func attributeUIType() -> AttrUIType {
         // assumes these types do not overlap
         if isPointUI() { return AttrUIType.pointUI}

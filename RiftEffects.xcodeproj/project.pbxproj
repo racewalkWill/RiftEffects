@@ -49,6 +49,7 @@
 		A3712BFD2908628400993C5E /* CDStoredFilter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */; };
 		A3712BFE2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */; };
 		A3719FA628233D5B009A9DBE /* PGLCommonParmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */; };
+		A3728BBD2BB4DEAE0019761A /* PGLGradientVectorAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3728BBC2BB4DEAE0019761A /* PGLGradientVectorAttribute.swift */; };
 		A37426BB2B7FD5AB001A5EC7 /* PGLViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37426BA2B7FD5AB001A5EC7 /* PGLViewControllerExtension.swift */; };
 		A375F25F26DFE47E00721D3A /* PGLStackProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */; };
 		A37D23AE2825C27D00EE3723 /* PGLParmImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */; };
@@ -68,7 +69,7 @@
 		A3AD94762B7CF96E00125E74 /* PGLTwoColumnSplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AD94752B7CF96E00125E74 /* PGLTwoColumnSplitController.swift */; };
 		A3AF392C25B61D850035A5FF /* PGLSaliencyBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */; };
 		A3B5A1412922753B003DBE92 /* AAPLShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A1402922753B003DBE92 /* AAPLShaders.metal */; };
-		A3B5BCB02BAFA373007606D0 /* PGLGradientAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5BCAF2BAFA373007606D0 /* PGLGradientAttribute.swift */; };
+		A3B5BCB02BAFA373007606D0 /* PGLGradientChildFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5BCAF2BAFA373007606D0 /* PGLGradientChildFilter.swift */; };
 		A3B785162B224E6F00F3DA68 /* PGLCameraViewFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */; };
 		A3B785182B224FC300F3DA68 /* PGLCopyOutCIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B785172B224FC300F3DA68 /* PGLCopyOutCIFilter.swift */; };
 		A3BB9E092B73ED4D0041F914 /* AVAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */; };
@@ -218,6 +219,7 @@
 		A3712BFB2908628400993C5E /* CDStoredFilter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A3712BFC2908628400993C5E /* CDStoredFilter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDStoredFilter+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A3719FA528233D5B009A9DBE /* PGLCommonParmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCommonParmController.swift; sourceTree = "<group>"; };
+		A3728BBC2BB4DEAE0019761A /* PGLGradientVectorAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLGradientVectorAttribute.swift; sourceTree = "<group>"; };
 		A37426BA2B7FD5AB001A5EC7 /* PGLViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLViewControllerExtension.swift; sourceTree = "<group>"; };
 		A375F25E26DFE47E00721D3A /* PGLStackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLStackProvider.swift; sourceTree = "<group>"; };
 		A37D23AD2825C27D00EE3723 /* PGLParmImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLParmImageController.swift; sourceTree = "<group>"; };
@@ -239,7 +241,7 @@
 		A3AF392B25B61D850035A5FF /* PGLSaliencyBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLSaliencyBlur.swift; sourceTree = "<group>"; };
 		A3B5A13F2922753B003DBE92 /* AAPLShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLShaderTypes.h; sourceTree = "<group>"; };
 		A3B5A1402922753B003DBE92 /* AAPLShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLShaders.metal; sourceTree = "<group>"; };
-		A3B5BCAF2BAFA373007606D0 /* PGLGradientAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLGradientAttribute.swift; sourceTree = "<group>"; };
+		A3B5BCAF2BAFA373007606D0 /* PGLGradientChildFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLGradientChildFilter.swift; sourceTree = "<group>"; };
 		A3B785152B224E6F00F3DA68 /* PGLCameraViewFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCameraViewFilter.swift; sourceTree = "<group>"; };
 		A3B785172B224FC300F3DA68 /* PGLCopyOutCIFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGLCopyOutCIFilter.swift; sourceTree = "<group>"; };
 		A3BB9E082B73ED4D0041F914 /* AVAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAssetExtension.swift; sourceTree = "<group>"; };
@@ -394,7 +396,8 @@
 		A35DB4C62BB229E4007DA35C /* GradientPolygonFilters */ = {
 			isa = PBXGroup;
 			children = (
-				A3B5BCAF2BAFA373007606D0 /* PGLGradientAttribute.swift */,
+				A3B5BCAF2BAFA373007606D0 /* PGLGradientChildFilter.swift */,
+				A3728BBC2BB4DEAE0019761A /* PGLGradientVectorAttribute.swift */,
 				A3DC09282BAE1EDF00A36219 /* PGLPolygonGradientCI.swift */,
 				A3C278962BAF071200BE40C1 /* PGLTriangleGradientFilter.swift */,
 			);
@@ -886,6 +889,7 @@
 				A3C11A8B29E9D9F5001D0831 /* PGLPersonSegmentation.swift in Sources */,
 				A39466822832E30A00A67319 /* PGLSupplementNavController.swift in Sources */,
 				A3DD328725CC999C00ABEE61 /* PGLHelpPageController.swift in Sources */,
+				A3728BBD2BB4DEAE0019761A /* PGLGradientVectorAttribute.swift in Sources */,
 				A3DC3DE227B17EF500E4C111 /* PGLCompactImageController.swift in Sources */,
 				A3BF50E024D32A3400CD5114 /* TiltShift.swift in Sources */,
 				A3BF513124D32A3400CD5114 /* Renderer.swift in Sources */,
@@ -897,7 +901,7 @@
 				A3BF50DC24D32A3400CD5114 /* PGLBumpBlend.swift in Sources */,
 				A3BF510624D32A3400CD5114 /* PGLSplitViewController.swift in Sources */,
 				A3DDDEE729D85EF1003B8545 /* PGLFilterAttrChildStack.swift in Sources */,
-				A3B5BCB02BAFA373007606D0 /* PGLGradientAttribute.swift in Sources */,
+				A3B5BCB02BAFA373007606D0 /* PGLGradientChildFilter.swift in Sources */,
 				A39F880B2A4CA38B000AE342 /* PGLSectionBackgroundDecorationView.swift in Sources */,
 				A3BF50F424D32A3400CD5114 /* TextCell.swift in Sources */,
 				A32F213B283BBAF1006C026F /* PGLNavPrimaryController.swift in Sources */,

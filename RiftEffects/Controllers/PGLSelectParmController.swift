@@ -642,7 +642,7 @@ class PGLSelectParmController: PGLCommonController,
 //        appStack.targetAttribute = tappedAttribute
             // pass to the model refectoring
 
-        NSLog("PGLSelectParmController cellForRowAt tappedAttribute = \(tappedAttribute)")
+//        NSLog("PGLSelectParmController cellForRowAt tappedAttribute = \(tappedAttribute)")
         let cellIdentifier = thisCellAttribute?.uiCellIdentifier() ??  "parmNoDetailCell"
 //      NSLog("PGLSelectParmController cellForRowAt cellIdentifier = \(cellIdentifier)")
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)

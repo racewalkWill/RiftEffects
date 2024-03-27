@@ -496,7 +496,7 @@ required init?(filter: String, position: PGLFilterCategoryIndex) {
         }
     }
 
-    fileprivate func logParm(_ methodString: String, _ newValue: String, _ keyName: String) {
+     func logParm(_ methodString: String, _ newValue: String, _ keyName: String) {
         if PGLSourceFilter.LogParmValues {
             Logger(subsystem: LogSubsystem, category: LogParms).debug("\(self.filterName ?? "noFilterName") \(methodString)( \(newValue) , \(keyName) )")
         }

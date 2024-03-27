@@ -95,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PGLRandomFilterAction.register()
         PGLCISequenced.register()
         PGLCopyToOutputCIFilter.register()
+        PGLPolygonGradientCI.register()
 
 
 
